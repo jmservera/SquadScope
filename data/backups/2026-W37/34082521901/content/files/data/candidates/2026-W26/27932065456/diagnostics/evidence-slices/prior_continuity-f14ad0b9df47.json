@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "f14ad0b9df4730179bd1befe0f921a6753acbb1b0e3dccaccddf79c33d082d12",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8111,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W25-summary.md",
+        "sha256": "85a1d5199d6a55c367b9c58372f404a82fbe9255b8ac8aa3e9a5d8421f39b456"
+      },
+      "raw_json": {
+        "bytes": 310603,
+        "path": "data/raw/2026-W26.json",
+        "sha256": "f0f1547b98816e82c8c858ab988ee6fda8d40d429534e0de31ad36258df5ef93"
+      }
+    },
+    "week": "2026-W26"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Fable Fever Meets Cost Discipline and Supply-Chain Reality\"\ndate: 2026-06-16T21:54:15Z\nweek: \"2026-W25\"\nyear: 2026\ntags: [fable, agent-skills, ai-costs, supply-chain-security, apple-intelligence, local-ai, noise-floor]\ncategories: [weekly]\nrepos_featured: 168\nstars_tracked: 16560000\ntop_repo: \"DietrichGebert/ponytail\"\nquality_score: 82\nsummary: \"Week 25 marks the first real Fable ecosystem eruption on GitHub — a clustered developer response to Anthropic's Fable tier — while the deeper story is practitioners pairing model hype with cost discipline, a live AUR supply-chain attack driving genuine defensive tooling, and Apple Intelligence generating real access-circumvention repos for mainland China.\"\npredictions:\n  - repo: DietrichGebert/ponytail\n    claim_type: signal\n    direction: flat\n    confidence: 0.66\n  - repo: shadcn/improve\n    claim_type: signal\n    direction: up\n    confidence: 0.74\n  - repo: lenucksi/aur-malware-check\n    claim_type: signal\n    direction: up\n    c",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W25-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}

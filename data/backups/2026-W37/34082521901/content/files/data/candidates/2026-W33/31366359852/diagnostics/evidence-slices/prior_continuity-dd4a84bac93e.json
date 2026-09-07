@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "dd4a84bac93ec93b97e8a31fb29913215d291a737f501b5f9baf8cb2423723e4",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8125,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W32-summary.md",
+        "sha256": "c1d4aaefb45a18f9bd44f8dd5411e18a6b1869801e491af72da07a93720dd7b6"
+      },
+      "raw_json": {
+        "bytes": 387561,
+        "path": "data/raw/2026-W33.json",
+        "sha256": "3c6d36b012dc3b6219151fad82a473c56c02dd049f2a2b433832a7c26376e6e0"
+      }
+    },
+    "week": "2026-W33"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agent Harnesses Hit the Trust Wall\"\ndate: 2026-08-03T03:46:47Z\nweek: \"2026-W32\"\nyear: 2026\ntags: [ai-agents, agent-skills, local-llm, supply-chain-security, developer-tools, discovery-noise]\ncategories: [weekly]\nrepos_featured: 50\nstars_tracked: 6095533\ntop_repo: \"yc-software/qm\"\nquality_score: 100\nsummary: \"Agent tools moved deeper into work while security, local inference, and discovery noise exposed the missing trust layer.\"\npredictions:\n  - repo: yc-software/qm\n    claim_type: signal\n    direction: up\n    confidence: 0.74\n  - repo: microsoft/skill-recorder\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: sqliteai/waste\n    claim_type: signal\n    direction: up\n    confidence: 0.67\n  - repo: WilonityDev/WilonityLoader\n    claim_type: noise\n    direction: down\n    confidence: 0.9\n  - repo: lij768423-svg/grok-register-panel\n    claim_type: noise\n    direction: down\n    confidence: 0.82\n---\n\nAugust 2026 opened with agents leaving the chat window and en",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W32-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}

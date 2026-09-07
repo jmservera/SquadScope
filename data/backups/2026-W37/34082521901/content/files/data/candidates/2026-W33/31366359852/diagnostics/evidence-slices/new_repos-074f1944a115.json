@@ -1,0 +1,390 @@
+{
+  "checksum_sha256": "074f1944a11530eef1f6439d730eeb692e53e589f26502df20b0452313c35249",
+  "component": "new_repos",
+  "provenance": {
+    "sources": {
+      "raw_json": {
+        "bytes": 387561,
+        "path": "data/raw/2026-W33.json",
+        "sha256": "3c6d36b012dc3b6219151fad82a473c56c02dd049f2a2b433832a7c26376e6e0"
+      }
+    },
+    "week": "2026-W33"
+  },
+  "records": [
+    {
+      "created_at": "2026-08-05T01:19:41Z",
+      "description": "让 AI 写的中文读起来像一个具体的人在说话。通用创作与改稿 Skill，开箱即用。",
+      "full_name": "KKKKhazix/human-writing",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 2159,
+      "stars_gained": null,
+      "topics": [
+        "agent-skills",
+        "chinese-writing",
+        "creative-writing",
+        "writing-skill"
+      ],
+      "url": "https://github.com/KKKKhazix/human-writing"
+    },
+    {
+      "created_at": "2026-08-05T07:30:56Z",
+      "description": "非官方 Kimi Slides Skill：让 AI Agent 生成可编辑 PPTD + PPTX，并附带本地浏览器编辑器 Unofficial Kimi Slides skill for AI agents — generate editable PPTD + PPTX with a local browser editor",
+      "full_name": "Binaryify/open-kimi-ppt-skill",
+      "language": null,
+      "source": "new_repos",
+      "stars": 1605,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Binaryify/open-kimi-ppt-skill"
+    },
+    {
+      "created_at": "2026-08-07T22:28:53Z",
+      "description": "let your agent control your phone",
+      "full_name": "ShawnPana/phone-harness",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 1043,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/ShawnPana/phone-harness"
+    },
+    {
+      "created_at": "2026-08-04T19:45:15Z",
+      "description": "Find agentic growth hacking skills for Claude, ChatGPT, Manus | by enso.bot",
+      "full_name": "mikiarlo3/awesome-growth-hacking-skills",
+      "language": "Shell",
+      "source": "new_repos",
+      "stars": 803,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/mikiarlo3/awesome-growth-hacking-skills"
+    },
+    {
+      "created_at": "2026-08-05T16:54:36Z",
+      "description": "claude-red is a curated library of offensive security skills designed for the Claude skills system. Each skill is a structured SKILL.md file that primes Claude with expert-level methodology for a specific attack surface — from SQLi to shellcode, EDR evasion to exploit development.",
+      "full_name": "0xwilliamortiz/claude-red",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 719,
+      "stars_gained": null,
+      "topics": [
+        "claude",
+        "claude-code",
+        "claude-code-plugin",
+        "claude-skills",
+        "codex",
+        "codex-skill",
+        "redteam",
+        "redteaming",
+        "skill",
+        "skills"
+      ],
+      "url": "https://github.com/0xwilliamortiz/claude-red"
+    },
+    {
+      "created_at": "2026-08-08T07:05:07Z",
+      "description": "An interactive five-chapter night walk through a Kyoto mountain temple, rendered live in Three.js.",
+      "full_name": "MengTo/kage",
+      "language": "HTML",
+      "source": "new_repos",
+      "stars": 684,
+      "stars_gained": null,
+      "topics": [
+        "creative-coding",
+        "generative-art",
+        "interactive-storytelling",
+        "japanese-design",
+        "threejs",
+        "webgl"
+      ],
+      "url": "https://github.com/MengTo/kage"
+    },
+    {
+      "created_at": "2026-08-06T00:08:06Z",
+      "description": "Racing to the bottom of CPU performance",
+      "full_name": "xoreaxeaxeax/asm-hall-of-shame",
+      "language": "C",
+      "source": "new_repos",
+      "stars": 679,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/xoreaxeaxeax/asm-hall-of-shame"
+    },
+    {
+      "created_at": "2026-08-04T08:22:24Z",
+      "description": "[Official Repo] JoyAI-Video-Edit: Real-Time Open-Ended Video Editing with Autoregressive Diffusion",
+      "full_name": "jd-opensource/JoyAI-Video-Edit",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 655,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/jd-opensource/JoyAI-Video-Edit"
+    },
+    {
+      "created_at": "2026-08-07T12:36:33Z",
+      "description": "Create smooth, responsive interactive web animations.",
+      "full_name": "oil-oil/oil-motion",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 653,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/oil-oil/oil-motion"
+    },
+    {
+      "created_at": "2026-08-06T10:38:49Z",
+      "description": "给 AI 编码 agent 用的 skill 集合，Claude Code 和 codex 都能跑。novel-characters：把小说拆成角色设定集——人物画像、卡通形象提示词、音色提示词、三视图。 | Skills for AI coding agents, working in both Claude Code and codex. novel-characters turns a novel into a character bible: profiles, cartoon-design prompts, voice prompts and turnaround sheets.",
+      "full_name": "eternityspring/shuohao-skills",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 575,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/eternityspring/shuohao-skills"
+    },
+    {
+      "created_at": "2026-08-04T04:30:58Z",
+      "description": "The long-horizon computer-use harness. Run AI agents across desktop apps and the CLI for extended periods while preserving task state and making reliable progress on complex workflows. Features fresh-context execution, durable verified state, independent auditing, recoverable progress, and native Claude Code / Codex / OpenClaw integration.",
+      "full_name": "AMAP-ML/LongHorizon-Harness",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 527,
+      "stars_gained": null,
+      "topics": [
+        "agent",
+        "claude",
+        "claude-code",
+        "claude-plugin",
+        "cli",
+        "codex",
+        "codex-desktop",
+        "codex-plugin",
+        "cua",
+        "gui",
+        "harness",
+        "long-horizon",
+        "long-horizon-agents",
+        "longhorizon-harness",
+        "loop",
+        "loop-engineering"
+      ],
+      "url": "https://github.com/AMAP-ML/LongHorizon-Harness"
+    },
+    {
+      "created_at": "2026-08-04T10:39:02Z",
+      "description": "ComfyUI MiniMax H3 Director workflow",
+      "full_name": "huangserva/ComfyUI_MiniMaxH3_Director",
+      "language": null,
+      "source": "new_repos",
+      "stars": 459,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/huangserva/ComfyUI_MiniMaxH3_Director"
+    },
+    {
+      "created_at": "2026-08-04T07:32:11Z",
+      "description": "FuXi is a fast, self-contained AI developer terminal",
+      "full_name": "fuxicodex/Fuxi",
+      "language": null,
+      "source": "new_repos",
+      "stars": 455,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/fuxicodex/Fuxi"
+    },
+    {
+      "created_at": "2026-08-04T12:47:38Z",
+      "description": "MAGI-2-preview: Scaling Video Generation Models Efficiently",
+      "full_name": "SandAI-org/MAGI-2-preview",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 435,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/SandAI-org/MAGI-2-preview"
+    },
+    {
+      "created_at": "2026-08-04T15:55:03Z",
+      "description": "HermesOffice — AI-native office suite forked from GenOffice (Apache-2.0), with native Hermes Agent AI",
+      "full_name": "criptogus/HermesOffice",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 425,
+      "stars_gained": null,
+      "topics": [
+        "ai-native",
+        "docx",
+        "electron",
+        "fork",
+        "genoffice",
+        "hermes",
+        "macos",
+        "office-suite",
+        "open-source",
+        "pptx"
+      ],
+      "url": "https://github.com/criptogus/HermesOffice"
+    },
+    {
+      "created_at": "2026-08-07T11:13:26Z",
+      "description": "MCP server for AI agents that need a phone number: order a private number in any country, read the SMS verification code, hand it back.",
+      "full_name": "sv-number/mcp-server",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 381,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "claude-code",
+        "mcp",
+        "model-context-protocol",
+        "otp",
+        "phone-verification",
+        "sms",
+        "typescript"
+      ],
+      "url": "https://github.com/sv-number/mcp-server"
+    },
+    {
+      "created_at": "2026-08-05T12:48:03Z",
+      "description": "CVE-2026-63030 & CVE-2026-60137 RCE chain proof-of-concept",
+      "full_name": "sowarma/wp2shell-PoC",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 351,
+      "stars_gained": null,
+      "topics": [
+        "cve",
+        "cve-2026-60137",
+        "cve-2026-63030",
+        "data-analysis",
+        "wp2shell",
+        "wp2shell-poc"
+      ],
+      "url": "https://github.com/sowarma/wp2shell-PoC"
+    },
+    {
+      "created_at": "2026-08-09T06:57:08Z",
+      "description": "Image generation (gpt-image-2) and GPT-5 subagents for Claude Code — through the Codex CLI login you already have. No OpenAI API key.",
+      "full_name": "Sateezg/codex-bridge",
+      "language": "Shell",
+      "source": "new_repos",
+      "stars": 351,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "claude-code",
+        "claude-code-plugin",
+        "codex",
+        "gpt-5",
+        "gpt-image-2",
+        "image-generation",
+        "openai"
+      ],
+      "url": "https://github.com/Sateezg/codex-bridge"
+    },
+    {
+      "created_at": "2026-08-07T07:10:40Z",
+      "description": "我的AI小镇",
+      "full_name": "mewamew/my_ai_town",
+      "language": "GDScript",
+      "source": "new_repos",
+      "stars": 308,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/mewamew/my_ai_town"
+    },
+    {
+      "created_at": "2026-08-08T12:44:52Z",
+      "description": "How top iOS apps say hello | 10 animated welcome screens inspired by top-earning apps. Rebuilt in React Native + Expo.",
+      "full_name": "Appllama/top-welcome-screens",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 307,
+      "stars_gained": null,
+      "topics": [
+        "design",
+        "design-patterns",
+        "expo",
+        "ios",
+        "ios-app",
+        "motion",
+        "react",
+        "react-native",
+        "uiux-design"
+      ],
+      "url": "https://github.com/Appllama/top-welcome-screens"
+    },
+    {
+      "created_at": "2026-08-04T09:19:13Z",
+      "description": "Configure DeepSeek as a native Codex subagent with automated setup and verified routing.",
+      "full_name": "oil-oil/codex-deepseek-subagent",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 291,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/oil-oil/codex-deepseek-subagent"
+    },
+    {
+      "created_at": "2026-08-05T06:05:38Z",
+      "description": "塔台 — 原生 SwiftUI iOS App，在本机管理机场订阅与自有节点，生成 Surge / Clash / Shadowrocket / Loon / Quantumult X 配置",
+      "full_name": "pengchujin/tower",
+      "language": "Swift",
+      "source": "new_repos",
+      "stars": 281,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/pengchujin/tower"
+    },
+    {
+      "created_at": "2026-08-04T14:52:33Z",
+      "description": "召唤一个大将怪兽帮你删除文件的桌面宠物",
+      "full_name": "531149627/MonsterDeleter",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 275,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/531149627/MonsterDeleter"
+    },
+    {
+      "created_at": "2026-08-07T01:18:37Z",
+      "description": "Clip chaining for MiniMax H3 in ComfyUI - motion and audio genuinely continue across joins",
+      "full_name": "NikoDemon80/ComfyUI-H3-Motion-Context",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 255,
+      "stars_gained": null,
+      "topics": [
+        "comfyui",
+        "comfyui-nodes",
+        "minimax",
+        "video-generation"
+      ],
+      "url": "https://github.com/NikoDemon80/ComfyUI-H3-Motion-Context"
+    },
+    {
+      "created_at": "2026-08-04T07:20:22Z",
+      "description": "WAI Play - AI web game testing and quality evaluation platform",
+      "full_name": "waiterve/wai-play",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 251,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "ai-agents",
+        "game",
+        "game-testing",
+        "python"
+      ],
+      "url": "https://github.com/waiterve/wai-play"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "new_repos"
+}

@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "6b8cf8205555b58bba9388935994b324bbd82c181d9c613cca96df53f0b1ac05",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8107,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W35-summary.md",
+        "sha256": "084928a3553be0b2824923b61d5b4e4aeb28806a027f545a97033e440867e4f7"
+      },
+      "raw_json": {
+        "bytes": 412229,
+        "path": "data/raw/2026-W36.json",
+        "sha256": "f6fead0324cb5e2b603313b6cb189eebf246ae22b9911baea25b05b63365693f"
+      }
+    },
+    "week": "2026-W36"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agent Skills Hit the Trust Wall\"\ndate: 2026-08-24T01:49:42Z\nweek: \"2026-W35\"\nyear: 2026\ntags: [ai-agents, agent-skills, mcp, developer-tools, ai-safety, provenance, self-hosting]\ncategories: [weekly]\nrepos_featured: 50\nstars_tracked: 6824699\ntop_repo: \"wang2122/sprix-sage-router\"\nquality_score: 100\nsummary: \"Agent skills spread into design, security, and devices while trust, provenance, and review boundaries became the real bottleneck.\"\npredictions:\n  - repo: wang2122/sprix-sage-router\n    claim_type: signal\n    direction: up\n    confidence: 0.74\n  - repo: duty1g/x64dbg-mcp-server\n    claim_type: signal\n    direction: up\n    confidence: 0.69\n  - repo: ShadowAqueduct/watermark-remover\n    claim_type: noise\n    direction: down\n    confidence: 0.78\n  - repo: PentagonConure42/youtube-downloader-zen\n    claim_type: noise\n    direction: down\n    confidence: 0.72\n  - repo: Forsy-AI/biosecurity-agent\n    claim_type: gap\n    direction: flat\n    confidence: 0.63\n---\n\nAugust 2026's ag",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W35-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}

@@ -1,0 +1,10 @@
+{
+  "analysis_file": "data/candidates/2026-W23/27056632166/2026-W23-summary.md",
+  "errors_after_repair": [],
+  "errors_before_repair": [],
+  "failure_class": "passed",
+  "passed": true,
+  "repair_actions": [],
+  "source": "copilot-cli",
+  "word_count": 1942
+}

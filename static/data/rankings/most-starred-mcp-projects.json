@@ -1,17 +1,17 @@
 {
   "artifact_type": "ranking",
   "covered_period": {
-    "end": "2026-08-31",
-    "label": "2026-W36",
+    "end": "2026-09-07",
+    "label": "2026-W37",
     "start": "2026-05-18"
   },
-  "generated_at": "2026-08-31T05:15:02Z",
+  "generated_at": "2026-09-07T04:17:20Z",
   "metric_definition": "Latest absolute GitHub stars for repositories with MCP or Model Context Protocol signals.",
   "metric_label": "Stars",
   "provenance": {
     "generator": "scripts/generate_ranking_artifacts.py",
     "methodology_url": "/methodology/",
-    "source_checksum": "f2e4ad87cb4907ab3d64788beb436e2fbad1e1cde0402433cadd1907643c71f9",
+    "source_checksum": "15dc6437d7fa1ad1b61b7c3416ece2c422eacf0e8035a83873f9309f7ec90aca",
     "source_paths": [
       "data/archive/recovered-W23-W29/2026-W23/2026-W23.json",
       "data/archive/recovered-W23-W29/2026-W24/2026-W24.json",
@@ -28,7 +28,8 @@
       "data/raw/2026-W33.json",
       "data/raw/2026-W34.json",
       "data/raw/2026-W35.json",
-      "data/raw/2026-W36.json"
+      "data/raw/2026-W36.json",
+      "data/raw/2026-W37.json"
     ]
   },
   "ranking_id": "most-starred-mcp-projects",
@@ -42,8 +43,8 @@
       "github_url": "https://github.com/affaan-m/ECC",
       "language": "JavaScript",
       "metric_key": "stars",
-      "metric_label": "244,807 stars",
-      "metric_value": 244807,
+      "metric_label": "251,639 stars",
+      "metric_value": 251639,
       "rank": 1,
       "repository_id": "affaan-m-ecc"
     },
@@ -56,8 +57,8 @@
       "github_url": "https://github.com/n8n-io/n8n",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "202,915 stars",
-      "metric_value": 202915,
+      "metric_label": "203,582 stars",
+      "metric_value": 203582,
       "rank": 2,
       "repository_id": "n8n-io-n8n"
     },
@@ -84,8 +85,8 @@
       "github_url": "https://github.com/Snailclimb/JavaGuide",
       "language": "JavaScript",
       "metric_key": "stars",
-      "metric_label": "158,140 stars",
-      "metric_value": 158140,
+      "metric_label": "158,327 stars",
+      "metric_value": 158327,
       "rank": 4,
       "repository_id": "snailclimb-javaguide"
     },
@@ -98,8 +99,8 @@
       "github_url": "https://github.com/langgenius/dify",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "153,942 stars",
-      "metric_value": 153942,
+      "metric_label": "154,668 stars",
+      "metric_value": 154668,
       "rank": 5,
       "repository_id": "langgenius-dify"
     },
@@ -112,8 +113,8 @@
       "github_url": "https://github.com/open-webui/open-webui",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "150,453 stars",
-      "metric_value": 150453,
+      "metric_label": "151,156 stars",
+      "metric_value": 151156,
       "rank": 6,
       "repository_id": "open-webui-open-webui"
     },
@@ -126,8 +127,8 @@
       "github_url": "https://github.com/farion1231/cc-switch",
       "language": "Rust",
       "metric_key": "stars",
-      "metric_label": "130,269 stars",
-      "metric_value": 130269,
+      "metric_label": "131,410 stars",
+      "metric_value": 131410,
       "rank": 7,
       "repository_id": "farion1231-cc-switch"
     },
@@ -140,8 +141,8 @@
       "github_url": "https://github.com/Graphify-Labs/graphify",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "112,729 stars",
-      "metric_value": 112729,
+      "metric_label": "115,397 stars",
+      "metric_value": 115397,
       "rank": 8,
       "repository_id": "graphify-labs-graphify"
     },
@@ -154,8 +155,8 @@
       "github_url": "https://github.com/punkpeye/awesome-mcp-servers",
       "language": "Unknown",
       "metric_key": "stars",
-      "metric_label": "93,442 stars",
-      "metric_value": 93442,
+      "metric_label": "94,502 stars",
+      "metric_value": 94502,
       "rank": 9,
       "repository_id": "punkpeye-awesome-mcp-servers"
     },
@@ -168,8 +169,8 @@
       "github_url": "https://github.com/modelcontextprotocol/servers",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "89,980 stars",
-      "metric_value": 89980,
+      "metric_label": "90,117 stars",
+      "metric_value": 90117,
       "rank": 10,
       "repository_id": "modelcontextprotocol-servers"
     },
@@ -182,8 +183,8 @@
       "github_url": "https://github.com/koala73/worldmonitor",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "85,090 stars",
-      "metric_value": 85090,
+      "metric_label": "85,721 stars",
+      "metric_value": 85721,
       "rank": 11,
       "repository_id": "koala73-worldmonitor"
     },
@@ -196,8 +197,8 @@
       "github_url": "https://github.com/lobehub/lobehub",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "82,113 stars",
-      "metric_value": 82113,
+      "metric_label": "82,279 stars",
+      "metric_value": 82279,
       "rank": 12,
       "repository_id": "lobehub-lobehub"
     },
@@ -210,8 +211,8 @@
       "github_url": "https://github.com/netdata/netdata",
       "language": "Go",
       "metric_key": "stars",
-      "metric_label": "80,362 stars",
-      "metric_value": 80362,
+      "metric_label": "80,445 stars",
+      "metric_value": 80445,
       "rank": 13,
       "repository_id": "netdata-netdata"
     },
@@ -224,8 +225,8 @@
       "github_url": "https://github.com/D4Vinci/Scrapling",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "77,408 stars",
-      "metric_value": 77408,
+      "metric_label": "78,815 stars",
+      "metric_value": 78815,
       "rank": 14,
       "repository_id": "d4vinci-scrapling"
     },
@@ -238,8 +239,8 @@
       "github_url": "https://github.com/Panniantong/Agent-Reach",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "76,845 stars",
-      "metric_value": 76845,
+      "metric_label": "78,468 stars",
+      "metric_value": 78468,
       "rank": 15,
       "repository_id": "panniantong-agent-reach"
     },
@@ -266,10 +267,24 @@
       "github_url": "https://github.com/headroomlabs-ai/headroom",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "68,127 stars",
-      "metric_value": 68127,
+      "metric_label": "69,164 stars",
+      "metric_value": 69164,
       "rank": 17,
       "repository_id": "headroomlabs-ai-headroom"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Never stop coding. Free MIT AI gateway: one endpoint, 352 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline & Copilot. Quota-aware auto-fallback, RTK+Caveman compression saves 15-95% tokens, MCP/A2A, Desktop/PWA. Built by 550+ contributors",
+      "context_summary": "Never stop coding. Free MIT AI gateway: one endpoint, 352 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with\u2026",
+      "full_name": "diegosouzapw/OmniRoute",
+      "github_url": "https://github.com/diegosouzapw/OmniRoute",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "62,096 stars",
+      "metric_value": 62096,
+      "rank": 18,
+      "repository_id": "diegosouzapw-omniroute"
     },
     {
       "comparison_label": null,
@@ -280,24 +295,10 @@
       "github_url": "https://github.com/upstash/context7",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "61,431 stars",
-      "metric_value": 61431,
-      "rank": 18,
-      "repository_id": "upstash-context7"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Never stop coding. Free MIT AI gateway: one endpoint, 350 providers (90+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline & Copilot. Quota-aware auto-fallback, RTK+Caveman compression saves 15-95% tokens, MCP/A2A, Desktop/PWA. Built by 450+ contributors",
-      "context_summary": "Never stop coding. Free MIT AI gateway: one endpoint, 350 providers (90+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with\u2026",
-      "full_name": "diegosouzapw/OmniRoute",
-      "github_url": "https://github.com/diegosouzapw/OmniRoute",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "58,772 stars",
-      "metric_value": 58772,
+      "metric_label": "61,715 stars",
+      "metric_value": 61715,
       "rank": 19,
-      "repository_id": "diegosouzapw-omniroute"
+      "repository_id": "upstash-context7"
     },
     {
       "comparison_label": null,
@@ -498,6 +499,20 @@
     {
       "comparison_label": null,
       "comparison_value": null,
+      "context_accessible_text": "Git-native persistent memory for AI coding agents. Implements Google OKF v0.2 with sub-300\u00b5s in-memory BM25 search, embedded MCP server, and progressive disclosure. Slashes token bloat by 80% with zero external databases or dependencies. Built in pure Go.",
+      "context_summary": "Git-native persistent memory for AI coding agents. Implements Google OKF v0.2 with sub-300\u00b5s in-memory BM25 search, embedded MCP server, and progressive\u2026",
+      "full_name": "okf-memory/okf-agent-memory",
+      "github_url": "https://github.com/okf-memory/okf-agent-memory",
+      "language": "Go",
+      "metric_key": "stars",
+      "metric_label": "377 stars",
+      "metric_value": 377,
+      "rank": 34,
+      "repository_id": "okf-memory-okf-agent-memory"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
       "context_accessible_text": "Website specification \u2014 HTML, accessibility, security, SEO, agent-readiness. Platform-agnostic, sourced, MIT.",
       "context_summary": "Website specification \u2014 HTML, accessibility, security, SEO, agent-readiness. Platform-agnostic, sourced, MIT.",
       "full_name": "jdevalk/specification.website",
@@ -506,7 +521,7 @@
       "metric_key": "stars",
       "metric_label": "342 stars",
       "metric_value": 342,
-      "rank": 34,
+      "rank": 35,
       "repository_id": "jdevalk-specification-website"
     },
     {
@@ -520,8 +535,22 @@
       "metric_key": "stars",
       "metric_label": "312 stars",
       "metric_value": 312,
-      "rank": 35,
+      "rank": 36,
       "repository_id": "testerlingcodo-gemini-antigravity-cli"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "UNIGIT public brand and ecosystem hub \u2014 AI should work for everyone.",
+      "context_summary": "UNIGIT public brand and ecosystem hub \u2014 AI should work for everyone.",
+      "full_name": "adtexterry-lgtm/unigit-ecosystem",
+      "github_url": "https://github.com/adtexterry-lgtm/unigit-ecosystem",
+      "language": "JavaScript",
+      "metric_key": "stars",
+      "metric_label": "305 stars",
+      "metric_value": 305,
+      "rank": 37,
+      "repository_id": "adtexterry-lgtm-unigit-ecosystem"
     },
     {
       "comparison_label": null,
@@ -534,7 +563,7 @@
       "metric_key": "stars",
       "metric_label": "287 stars",
       "metric_value": 287,
-      "rank": 36,
+      "rank": 38,
       "repository_id": "polymomentum-labs-github"
     },
     {
@@ -548,7 +577,7 @@
       "metric_key": "stars",
       "metric_label": "263 stars",
       "metric_value": 263,
-      "rank": 37,
+      "rank": 39,
       "repository_id": "superjj007-csswitch"
     },
     {
@@ -562,7 +591,7 @@
       "metric_key": "stars",
       "metric_label": "246 stars",
       "metric_value": 246,
-      "rank": 38,
+      "rank": 40,
       "repository_id": "placenl2026-best-of-algorithmic-trading"
     },
     {
@@ -576,7 +605,7 @@
       "metric_key": "stars",
       "metric_label": "245 stars",
       "metric_value": 245,
-      "rank": 39,
+      "rank": 41,
       "repository_id": "callous-0923-agent-study"
     },
     {
@@ -590,7 +619,7 @@
       "metric_key": "stars",
       "metric_label": "245 stars",
       "metric_value": 245,
-      "rank": 40,
+      "rank": 42,
       "repository_id": "eli-labz-godcoder"
     },
     {
@@ -604,7 +633,7 @@
       "metric_key": "stars",
       "metric_label": "236 stars",
       "metric_value": 236,
-      "rank": 41,
+      "rank": 43,
       "repository_id": "cristicretu-diri"
     },
     {
@@ -618,7 +647,7 @@
       "metric_key": "stars",
       "metric_label": "230 stars",
       "metric_value": 230,
-      "rank": 42,
+      "rank": 44,
       "repository_id": "dex-original-okx-agent-trade-kit"
     },
     {
@@ -632,7 +661,7 @@
       "metric_key": "stars",
       "metric_label": "221 stars",
       "metric_value": 221,
-      "rank": 43,
+      "rank": 45,
       "repository_id": "aresyn-codex-control-plane-mcp"
     },
     {
@@ -646,7 +675,7 @@
       "metric_key": "stars",
       "metric_label": "221 stars",
       "metric_value": 221,
-      "rank": 44,
+      "rank": 46,
       "repository_id": "zseven-w-dsh-ios"
     },
     {
@@ -660,7 +689,7 @@
       "metric_key": "stars",
       "metric_label": "211 stars",
       "metric_value": 211,
-      "rank": 45,
+      "rank": 47,
       "repository_id": "jordyzomer-lemmalog"
     },
     {
@@ -674,7 +703,7 @@
       "metric_key": "stars",
       "metric_label": "199 stars",
       "metric_value": 199,
-      "rank": 46,
+      "rank": 48,
       "repository_id": "risa-labs-inc-bossconsole"
     },
     {
@@ -688,7 +717,7 @@
       "metric_key": "stars",
       "metric_label": "180 stars",
       "metric_value": 180,
-      "rank": 47,
+      "rank": 49,
       "repository_id": "yolfinance-yolfi-agent"
     },
     {
@@ -702,7 +731,7 @@
       "metric_key": "stars",
       "metric_label": "175 stars",
       "metric_value": 175,
-      "rank": 48,
+      "rank": 50,
       "repository_id": "0xwilliamortiz-openclaude-improved"
     },
     {
@@ -716,7 +745,7 @@
       "metric_key": "stars",
       "metric_label": "172 stars",
       "metric_value": 172,
-      "rank": 49,
+      "rank": 51,
       "repository_id": "sandbaseai-managed-agents"
     },
     {
@@ -730,7 +759,7 @@
       "metric_key": "stars",
       "metric_label": "169 stars",
       "metric_value": 169,
-      "rank": 50,
+      "rank": 52,
       "repository_id": "oft3r-agentic-trading-desk"
     },
     {
@@ -744,7 +773,7 @@
       "metric_key": "stars",
       "metric_label": "168 stars",
       "metric_value": 168,
-      "rank": 51,
+      "rank": 53,
       "repository_id": "squall01337-mixamo-llm-mocap"
     },
     {
@@ -758,7 +787,7 @@
       "metric_key": "stars",
       "metric_label": "165 stars",
       "metric_value": 165,
-      "rank": 52,
+      "rank": 54,
       "repository_id": "kgoedecke-doop"
     },
     {
@@ -772,7 +801,7 @@
       "metric_key": "stars",
       "metric_label": "157 stars",
       "metric_value": 157,
-      "rank": 53,
+      "rank": 55,
       "repository_id": "ai4s-research-open-science"
     },
     {
@@ -786,7 +815,7 @@
       "metric_key": "stars",
       "metric_label": "138 stars",
       "metric_value": 138,
-      "rank": 54,
+      "rank": 56,
       "repository_id": "ronglecat-grok-go"
     },
     {
@@ -800,7 +829,7 @@
       "metric_key": "stars",
       "metric_label": "133 stars",
       "metric_value": 133,
-      "rank": 55,
+      "rank": 57,
       "repository_id": "pueschel88-tradingview-mcp"
     },
     {
@@ -814,7 +843,7 @@
       "metric_key": "stars",
       "metric_label": "132 stars",
       "metric_value": 132,
-      "rank": 56,
+      "rank": 58,
       "repository_id": "opentokenz-mcpx"
     },
     {
@@ -828,7 +857,7 @@
       "metric_key": "stars",
       "metric_label": "132 stars",
       "metric_value": 132,
-      "rank": 57,
+      "rank": 59,
       "repository_id": "penthertz-grimoire"
     },
     {
@@ -842,7 +871,7 @@
       "metric_key": "stars",
       "metric_label": "131 stars",
       "metric_value": 131,
-      "rank": 58,
+      "rank": 60,
       "repository_id": "kitforai-kitforai"
     },
     {
@@ -856,7 +885,7 @@
       "metric_key": "stars",
       "metric_label": "127 stars",
       "metric_value": 127,
-      "rank": 59,
+      "rank": 61,
       "repository_id": "qa10devteam-behive"
     },
     {
@@ -870,7 +899,7 @@
       "metric_key": "stars",
       "metric_label": "126 stars",
       "metric_value": 126,
-      "rank": 60,
+      "rank": 62,
       "repository_id": "placenl2026-okx-agent-trade-kit"
     },
     {
@@ -884,8 +913,22 @@
       "metric_key": "stars",
       "metric_label": "124 stars",
       "metric_value": 124,
-      "rank": 61,
+      "rank": 63,
       "repository_id": "nhevers-project-r0x"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "GojiberryAI Sales OS: a full AI outbound team for Grok Bot, powered by the GojiberryAI MCP.",
+      "context_summary": "GojiberryAI Sales OS: a full AI outbound team for Grok Bot, powered by the GojiberryAI MCP.",
+      "full_name": "romangojiberryAI/gojiberryai-sales-os",
+      "github_url": "https://github.com/romangojiberryAI/gojiberryai-sales-os",
+      "language": "Unknown",
+      "metric_key": "stars",
+      "metric_label": "123 stars",
+      "metric_value": 123,
+      "rank": 64,
+      "repository_id": "romangojiberryai-gojiberryai-sales-os"
     },
     {
       "comparison_label": null,
@@ -898,7 +941,7 @@
       "metric_key": "stars",
       "metric_label": "118 stars",
       "metric_value": 118,
-      "rank": 62,
+      "rank": 65,
       "repository_id": "manavarya09-public-apis-live"
     },
     {
@@ -912,7 +955,7 @@
       "metric_key": "stars",
       "metric_label": "113 stars",
       "metric_value": 113,
-      "rank": 63,
+      "rank": 66,
       "repository_id": "claude-code-ai-anthropic-free-claude-code-ai-desktop-app"
     },
     {
@@ -926,7 +969,7 @@
       "metric_key": "stars",
       "metric_label": "113 stars",
       "metric_value": 113,
-      "rank": 64,
+      "rank": 67,
       "repository_id": "joe960913-jixu"
     },
     {
@@ -940,7 +983,7 @@
       "metric_key": "stars",
       "metric_label": "112 stars",
       "metric_value": 112,
-      "rank": 65,
+      "rank": 68,
       "repository_id": "derpyu520-qq-bridge"
     },
     {
@@ -954,7 +997,7 @@
       "metric_key": "stars",
       "metric_label": "110 stars",
       "metric_value": 110,
-      "rank": 66,
+      "rank": 69,
       "repository_id": "sosoj92-jarvis-assistant-vocal"
     },
     {
@@ -968,7 +1011,7 @@
       "metric_key": "stars",
       "metric_label": "105 stars",
       "metric_value": 105,
-      "rank": 67,
+      "rank": 70,
       "repository_id": "haddenhunter-skillforge"
     },
     {
@@ -982,7 +1025,7 @@
       "metric_key": "stars",
       "metric_label": "104 stars",
       "metric_value": 104,
-      "rank": 68,
+      "rank": 71,
       "repository_id": "cporter202-coreclaw-api-directory"
     },
     {
@@ -996,7 +1039,7 @@
       "metric_key": "stars",
       "metric_label": "102 stars",
       "metric_value": 102,
-      "rank": 69,
+      "rank": 72,
       "repository_id": "aimino-tech-opendocswork-mcp"
     },
     {
@@ -1010,7 +1053,7 @@
       "metric_key": "stars",
       "metric_label": "93 stars",
       "metric_value": 93,
-      "rank": 70,
+      "rank": 73,
       "repository_id": "michaelshimeles-boring-computers"
     },
     {
@@ -1024,7 +1067,7 @@
       "metric_key": "stars",
       "metric_label": "93 stars",
       "metric_value": 93,
-      "rank": 71,
+      "rank": 74,
       "repository_id": "ruvnet-agent-harness-generator"
     },
     {
@@ -1038,7 +1081,7 @@
       "metric_key": "stars",
       "metric_label": "91 stars",
       "metric_value": 91,
-      "rank": 72,
+      "rank": 75,
       "repository_id": "dabberman456-finance-mcp-app"
     },
     {
@@ -1052,7 +1095,7 @@
       "metric_key": "stars",
       "metric_label": "91 stars",
       "metric_value": 91,
-      "rank": 73,
+      "rank": 76,
       "repository_id": "jesusrs1-stock-trade-finance-api"
     },
     {
@@ -1066,8 +1109,22 @@
       "metric_key": "stars",
       "metric_label": "90 stars",
       "metric_value": 90,
-      "rank": 74,
+      "rank": 77,
       "repository_id": "yc-duan-fastctx"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Turn arXiv and LaTeX mathematical papers into theorem dependency graphs for AI agents through MCP.",
+      "context_summary": "Turn arXiv and LaTeX mathematical papers into theorem dependency graphs for AI agents through MCP.",
+      "full_name": "lotchuazzz-crypto/papergraph-mcp",
+      "github_url": "https://github.com/lotchuazzz-crypto/papergraph-mcp",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "89 stars",
+      "metric_value": 89,
+      "rank": 78,
+      "repository_id": "lotchuazzz-crypto-papergraph-mcp"
     },
     {
       "comparison_label": null,
@@ -1080,7 +1137,7 @@
       "metric_key": "stars",
       "metric_label": "87 stars",
       "metric_value": 87,
-      "rank": 75,
+      "rank": 79,
       "repository_id": "icebird1998-scientific-illustrator"
     },
     {
@@ -1094,8 +1151,22 @@
       "metric_key": "stars",
       "metric_label": "87 stars",
       "metric_value": 87,
-      "rank": 76,
+      "rank": 80,
       "repository_id": "marketcaper-mcp"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "A curated list of MCP servers for SEO. Search Console, keywords, backlinks, crawling, SERPs and AI search visibility, verified with install details and auth requirements.",
+      "context_summary": "A curated list of MCP servers for SEO. Search Console, keywords, backlinks, crawling, SERPs and AI search visibility, verified with install details and auth\u2026",
+      "full_name": "RankSpotAI/awesome-seo-mcp",
+      "github_url": "https://github.com/RankSpotAI/awesome-seo-mcp",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "85 stars",
+      "metric_value": 85,
+      "rank": 81,
+      "repository_id": "rankspotai-awesome-seo-mcp"
     },
     {
       "comparison_label": null,
@@ -1108,7 +1179,7 @@
       "metric_key": "stars",
       "metric_label": "80 stars",
       "metric_value": 80,
-      "rank": 77,
+      "rank": 82,
       "repository_id": "alxgntv-substack-api-mcp"
     },
     {
@@ -1122,7 +1193,7 @@
       "metric_key": "stars",
       "metric_label": "80 stars",
       "metric_value": 80,
-      "rank": 78,
+      "rank": 83,
       "repository_id": "lianghsun-open-sheet"
     },
     {
@@ -1136,7 +1207,7 @@
       "metric_key": "stars",
       "metric_label": "79 stars",
       "metric_value": 79,
-      "rank": 79,
+      "rank": 84,
       "repository_id": "dikurdikur-palmier-pro-windows"
     },
     {
@@ -1150,7 +1221,7 @@
       "metric_key": "stars",
       "metric_label": "77 stars",
       "metric_value": 77,
-      "rank": 80,
+      "rank": 85,
       "repository_id": "perfectxm-mcp-db-server"
     },
     {
@@ -1164,7 +1235,7 @@
       "metric_key": "stars",
       "metric_label": "76 stars",
       "metric_value": 76,
-      "rank": 81,
+      "rank": 86,
       "repository_id": "bybit-exchange-kaas"
     },
     {
@@ -1178,7 +1249,7 @@
       "metric_key": "stars",
       "metric_label": "76 stars",
       "metric_value": 76,
-      "rank": 82,
+      "rank": 87,
       "repository_id": "simonlin1212-vibe-research"
     },
     {
@@ -1192,7 +1263,7 @@
       "metric_key": "stars",
       "metric_label": "71 stars",
       "metric_value": 71,
-      "rank": 83,
+      "rank": 88,
       "repository_id": "talivia-group-agent"
     },
     {
@@ -1206,7 +1277,7 @@
       "metric_key": "stars",
       "metric_label": "70 stars",
       "metric_value": 70,
-      "rank": 84,
+      "rank": 89,
       "repository_id": "lacvietanh-aki-mcp-sv"
     },
     {
@@ -1220,8 +1291,22 @@
       "metric_key": "stars",
       "metric_label": "70 stars",
       "metric_value": 70,
-      "rank": 85,
+      "rank": 90,
       "repository_id": "megatroll222-vox-collage-broll"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Catalogo curato dei server MCP (Model Context Protocol) italiani \u2014 dati pubblici, legal-tech, fatturazione, PA e altro.",
+      "context_summary": "Catalogo curato dei server MCP (Model Context Protocol) italiani \u2014 dati pubblici, legal-tech, fatturazione, PA e altro.",
+      "full_name": "bsab/italia-mcp-servers",
+      "github_url": "https://github.com/bsab/italia-mcp-servers",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "69 stars",
+      "metric_value": 69,
+      "rank": 91,
+      "repository_id": "bsab-italia-mcp-servers"
     },
     {
       "comparison_label": null,
@@ -1234,7 +1319,7 @@
       "metric_key": "stars",
       "metric_label": "68 stars",
       "metric_value": 68,
-      "rank": 86,
+      "rank": 92,
       "repository_id": "huolalatech-huolala-figma-mcp"
     },
     {
@@ -1248,7 +1333,7 @@
       "metric_key": "stars",
       "metric_label": "67 stars",
       "metric_value": 67,
-      "rank": 87,
+      "rank": 93,
       "repository_id": "totec448-spec-chat-on-steroids"
     },
     {
@@ -1262,7 +1347,7 @@
       "metric_key": "stars",
       "metric_label": "66 stars",
       "metric_value": 66,
-      "rank": 88,
+      "rank": 94,
       "repository_id": "tonnode-mcp"
     },
     {
@@ -1276,7 +1361,7 @@
       "metric_key": "stars",
       "metric_label": "65 stars",
       "metric_value": 65,
-      "rank": 89,
+      "rank": 95,
       "repository_id": "mintdotgg-mint-threejs-skills"
     },
     {
@@ -1290,7 +1375,7 @@
       "metric_key": "stars",
       "metric_label": "65 stars",
       "metric_value": 65,
-      "rank": 90,
+      "rank": 96,
       "repository_id": "wassermanproductions-wassermans-filmmaker-suite"
     },
     {
@@ -1304,7 +1389,7 @@
       "metric_key": "stars",
       "metric_label": "62 stars",
       "metric_value": 62,
-      "rank": 91,
+      "rank": 97,
       "repository_id": "nextdev-labs-mcp"
     },
     {
@@ -1318,7 +1403,7 @@
       "metric_key": "stars",
       "metric_label": "61 stars",
       "metric_value": 61,
-      "rank": 92,
+      "rank": 98,
       "repository_id": "zmustafa-azuresupportagent"
     },
     {
@@ -1332,7 +1417,7 @@
       "metric_key": "stars",
       "metric_label": "60 stars",
       "metric_value": 60,
-      "rank": 93,
+      "rank": 99,
       "repository_id": "augety121-mcp-state-twin"
     },
     {
@@ -1346,92 +1431,8 @@
       "metric_key": "stars",
       "metric_label": "60 stars",
       "metric_value": 60,
-      "rank": 94,
-      "repository_id": "rokbenko-quackd"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Demonstration codebase for building the AI Layer (CLAUDE.md hierarchy, hooks, skills, LSP, MCP, plugin) \u2014 companion repo for the 'How Claude Code works in large codebases' video.",
-      "context_summary": "Demonstration codebase for building the AI Layer (CLAUDE.md hierarchy, hooks, skills, LSP, MCP, plugin) \u2014 companion repo for the 'How Claude Code works in\u2026",
-      "full_name": "coleam00/helpline",
-      "github_url": "https://github.com/coleam00/helpline",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "59 stars",
-      "metric_value": 59,
-      "rank": 95,
-      "repository_id": "coleam00-helpline"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Open-source SEO + GEO skills for Claude \u2014 keyword research, rank tracking, site audits, backlinks, competitor gaps, AI visibility. Runs on your real Search Console / GA4 / ads data via MCP, with DataForSEO built in. Free, MIT.",
-      "context_summary": "Open-source SEO + GEO skills for Claude \u2014 keyword research, rank tracking, site audits, backlinks, competitor gaps, AI visibility. Runs on your real Search\u2026",
-      "full_name": "Ryze-AI-Adgent/open-seo-mcp-skills",
-      "github_url": "https://github.com/Ryze-AI-Adgent/open-seo-mcp-skills",
-      "language": "Shell",
-      "metric_key": "stars",
-      "metric_label": "56 stars",
-      "metric_value": 56,
-      "rank": 96,
-      "repository_id": "ryze-ai-adgent-open-seo-mcp-skills"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Fast, local speech-to-text MCP server",
-      "context_summary": "Fast, local speech-to-text MCP server",
-      "full_name": "sm18lr88/STT-MCP",
-      "github_url": "https://github.com/sm18lr88/STT-MCP",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "56 stars",
-      "metric_value": 56,
-      "rank": 97,
-      "repository_id": "sm18lr88-stt-mcp"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "AI image and video generation skill for Claude Code and other coding agents \u2014 Gemini, OpenAI and Kie AI behind one CLI and MCP server, with EU AI Act content marking.",
-      "context_summary": "AI image and video generation skill for Claude Code and other coding agents \u2014 Gemini, OpenAI and Kie AI behind one CLI and MCP server, with EU AI Act content\u2026",
-      "full_name": "Cripacx/mediagen",
-      "github_url": "https://github.com/Cripacx/mediagen",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "54 stars",
-      "metric_value": 54,
-      "rank": 98,
-      "repository_id": "cripacx-mediagen"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Desktop AI agent with conversational chat, visual workflows, 100+ tools, skills, MCP, and multi-model support.",
-      "context_summary": "Desktop AI agent with conversational chat, visual workflows, 100+ tools, skills, MCP, and multi-model support.",
-      "full_name": "vixues/LeAgent",
-      "github_url": "https://github.com/vixues/LeAgent",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "53 stars",
-      "metric_value": 53,
-      "rank": 99,
-      "repository_id": "vixues-leagent"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Workflow-as-code orchestration for Codex",
-      "context_summary": "Workflow-as-code orchestration for Codex",
-      "full_name": "robzilla1738/Codex-Workflows",
-      "github_url": "https://github.com/robzilla1738/Codex-Workflows",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "52 stars",
-      "metric_value": 52,
       "rank": 100,
-      "repository_id": "robzilla1738-codex-workflows"
+      "repository_id": "rokbenko-quackd"
     }
   ],
   "schema_version": "1.0.0"

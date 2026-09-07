@@ -1,0 +1,396 @@
+{
+  "checksum_sha256": "075511e1cf6a482183357099b643143fef04d5db41d9db43a7f27ccc8227ade2",
+  "component": "new_repos",
+  "provenance": {
+    "sources": {
+      "raw_json": {
+        "bytes": 385788,
+        "path": "data/raw/2026-W37.json",
+        "sha256": "f4a405fc24cfc9bc1f9181f6d0fb6a9df295fc075e478040671e24e1653cdaed"
+      }
+    },
+    "week": "2026-W37"
+  },
+  "records": [
+    {
+      "created_at": "2026-09-02T04:36:34Z",
+      "description": "Sketch Material 3 Expressive screens in the browser and turn them into vibe-coding prompts.",
+      "full_name": "lnkiai/m3e-canvas",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 4347,
+      "stars_gained": null,
+      "topics": [
+        "design-tool",
+        "material-3-expressive",
+        "material-design",
+        "material3",
+        "nextjs",
+        "prompt",
+        "react",
+        "vibe-coding"
+      ],
+      "url": "https://github.com/lnkiai/m3e-canvas"
+    },
+    {
+      "created_at": "2026-09-05T00:24:43Z",
+      "description": "Open-source 3D anatomy explorer: 2,234 selectable BodyParts3D meshes, system layers, search, and exploded views.",
+      "full_name": "ashemag/human-atlas",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 1449,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/ashemag/human-atlas"
+    },
+    {
+      "created_at": "2026-09-04T15:00:53Z",
+      "description": "Local-first WeChat intelligence system with a read-only CLI, Codex skills, searchable chat history, daily briefings, follow-ups and opportunity tracking.",
+      "full_name": "Rion-Wu-tech/wechat-intelligence-hub",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 1296,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Rion-Wu-tech/wechat-intelligence-hub"
+    },
+    {
+      "created_at": "2026-09-05T11:55:18Z",
+      "description": "Free open-source project designed for turning youtube-viedos into viral short videos. Highlight detection, subtitles, translation, voiceover, all in one for your content.",
+      "full_name": "pierrenade/short-video-generator-AI",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 978,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "ai-video",
+        "python",
+        "short-video-maker",
+        "video-generation"
+      ],
+      "url": "https://github.com/pierrenade/short-video-generator-AI"
+    },
+    {
+      "created_at": "2026-09-01T23:45:27Z",
+      "description": "养成类游戏英语学习",
+      "full_name": "yczz/oc-english",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 839,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/yczz/oc-english"
+    },
+    {
+      "created_at": "2026-09-03T00:42:03Z",
+      "description": "Run DLSS 5 Neural Rendering on your AMD GPU. Magic!",
+      "full_name": "danielblnc/DLSS-NR-on-AMD",
+      "language": null,
+      "source": "new_repos",
+      "stars": 784,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/danielblnc/DLSS-NR-on-AMD"
+    },
+    {
+      "created_at": "2026-09-05T14:55:35Z",
+      "description": "A macOS app that pins usage limits from Claude Code, Cursor, Codex, and Antigravity to a screen edge.",
+      "full_name": "vinzdg/codenotch",
+      "language": "Swift",
+      "source": "new_repos",
+      "stars": 732,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/vinzdg/codenotch"
+    },
+    {
+      "created_at": "2026-09-02T17:00:13Z",
+      "description": "Resumable Polymarket indexer: CLOB market metadata plus on-chain trades from Polygon, in one DuckDB file you can query with SQL",
+      "full_name": "nahrek/polyledger",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 620,
+      "stars_gained": null,
+      "topics": [
+        "data-science",
+        "hypersync",
+        "polymarket",
+        "polymarketprediction-markets",
+        "prediction-market"
+      ],
+      "url": "https://github.com/nahrek/polyledger"
+    },
+    {
+      "created_at": "2026-09-03T15:55:54Z",
+      "description": "Open-source AI brand visibility and competitor reports",
+      "full_name": "Albert-Weasker/niubigeo",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 615,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Albert-Weasker/niubigeo"
+    },
+    {
+      "created_at": "2026-09-02T21:48:23Z",
+      "description": "Fable 5.1 orchestrates. GPT-5.6 Luna and DeepSeek V4 Flash implement.",
+      "full_name": "codejunkie99/fable-orchestrator",
+      "language": "Shell",
+      "source": "new_repos",
+      "stars": 550,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/codejunkie99/fable-orchestrator"
+    },
+    {
+      "created_at": "2026-09-04T01:15:28Z",
+      "description": "基于 Cloudflare WARP / MASQUE 的可视化注册、配置生成与多客户端转换工具。 生成、Clash/Mihomo 智能分流、Shadowrocket、sing-box、本地 VLESS 桥接，以及可选的 WARP 出口检测。",
+      "full_name": "KJGX66F/usque-custom-pro",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 544,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/KJGX66F/usque-custom-pro"
+    },
+    {
+      "created_at": "2026-09-03T02:48:22Z",
+      "description": "Crowdstrike Falcon 0day Privilege Escalation Vulnerability",
+      "full_name": "MSNightmare/FalconFlank",
+      "language": "C",
+      "source": "new_repos",
+      "stars": 530,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/MSNightmare/FalconFlank"
+    },
+    {
+      "created_at": "2026-09-04T20:45:06Z",
+      "description": "Smoother game streaming on Mac. Automatic AWDL boost for Moonlight, GeForce NOW, Punktfunk, Parsec & Steam Link. Native SwiftUI + Liquid Glass. MIT.",
+      "full_name": "burakgon/stop-stutter",
+      "language": "Swift",
+      "source": "new_repos",
+      "stars": 487,
+      "stars_gained": null,
+      "topics": [
+        "awdl",
+        "game-streaming",
+        "geforce-now",
+        "latency",
+        "liquid-glass",
+        "macos",
+        "moonlight",
+        "parsec",
+        "steam-link",
+        "stutter",
+        "swiftui"
+      ],
+      "url": "https://github.com/burakgon/stop-stutter"
+    },
+    {
+      "created_at": "2026-09-03T10:34:30Z",
+      "description": "Take a photo of real objects, and paste them in Blender",
+      "full_name": "ahujasid/camera-to-blender",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 470,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/ahujasid/camera-to-blender"
+    },
+    {
+      "created_at": "2026-09-02T18:19:55Z",
+      "description": "worlds via code, from fable 5.1",
+      "full_name": "PhiloLabs/fable51-worlds",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 455,
+      "stars_gained": null,
+      "topics": [
+        "3d-reconstruction",
+        "ai-agents",
+        "claude",
+        "digital-twin",
+        "openstreetmap",
+        "procedural-generation",
+        "san-francisco",
+        "threejs",
+        "urban-simulation",
+        "webgl"
+      ],
+      "url": "https://github.com/PhiloLabs/fable51-worlds"
+    },
+    {
+      "created_at": "2026-09-02T03:32:02Z",
+      "description": "声云录音卡 Recorder 是一套面向开发者和行业客户的智能录音硬件接入方案。 项目以录音卡片硬件为核心，开放 BLE 协议 SDK 及 Android、iOS、鸿蒙、Flutter 接入示例，同时提供 Windows/macOS 桌面端 Demo，支持设备连接、录音控制、实时音频、文件传输、OTA 升级和语音转写等能力，帮助开发者快速将录音硬件接入自己的 App、桌面软件或行业系统。 如需获取硬件规格、样机、完整协议、SDK 资料或定制服务，请联系安徽声云",
+      "full_name": "sonicloudco/recorder",
+      "language": "HTML",
+      "source": "new_repos",
+      "stars": 444,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/sonicloudco/recorder"
+    },
+    {
+      "created_at": "2026-09-05T21:26:04Z",
+      "description": "Git-native persistent memory for AI coding agents. Implements Google OKF v0.2 with sub-300µs in-memory BM25 search, embedded MCP server, and progressive disclosure. Slashes token bloat by 80% with zero external databases or dependencies. Built in pure Go.",
+      "full_name": "okf-memory/okf-agent-memory",
+      "language": "Go",
+      "source": "new_repos",
+      "stars": 377,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/okf-memory/okf-agent-memory"
+    },
+    {
+      "created_at": "2026-09-04T17:21:26Z",
+      "description": "GitHub Actions 自动生成 Cloudflare WARP (MASQUE) 密钥与 mihomo 配置，产物只存 artifact",
+      "full_name": "byJoey/warp-masque-actions",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 375,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/byJoey/warp-masque-actions"
+    },
+    {
+      "created_at": "2026-09-02T11:54:57Z",
+      "description": "🏯 Claude Code / Codex skill — transform Chinese architecture, cultural places & travel photos into art-directed editorial posters with GPT Image. 中国古建筑与在地文化照片 → 艺术指导海报",
+      "full_name": "op7418/guizang-yingzao-skill",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 363,
+      "stars_gained": null,
+      "topics": [
+        "agent-skill",
+        "ai-agent",
+        "anthropic",
+        "chinese-architecture",
+        "chinese-culture",
+        "claude-code",
+        "claude-skill",
+        "codex",
+        "cultural-heritage",
+        "editorial-design",
+        "gpt-image",
+        "image-generation",
+        "openai",
+        "photography",
+        "poster-design",
+        "skill",
+        "skills",
+        "travel-photography",
+        "visual-design",
+        "xiaohongshu"
+      ],
+      "url": "https://github.com/op7418/guizang-yingzao-skill"
+    },
+    {
+      "created_at": "2026-09-02T02:46:14Z",
+      "description": "A fast, keyboard-first file manager for Omarchy: Quickshell front end, Rust backend.",
+      "full_name": "thisisgm/flea",
+      "language": "Shell",
+      "source": "new_repos",
+      "stars": 332,
+      "stars_gained": null,
+      "topics": [
+        "file-manager",
+        "hyprland",
+        "linux",
+        "omarchy",
+        "qml",
+        "quickshell",
+        "rust",
+        "wayland"
+      ],
+      "url": "https://github.com/thisisgm/flea"
+    },
+    {
+      "created_at": "2026-09-01T02:30:25Z",
+      "description": "598 live x.ai/bot shares for Grok Bot — every link status-checked, every row attributed. Bilingual EN/中文 catalog with a JSON schema, CI, and a searchable site.",
+      "full_name": "kydlikebtc/awesome-grokbot",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 331,
+      "stars_gained": null,
+      "topics": [
+        "agents",
+        "ai-agents",
+        "ai-tools",
+        "awesome",
+        "awesome-list",
+        "bot-templates",
+        "catalog",
+        "cursor",
+        "directory",
+        "grok",
+        "grok-bot",
+        "grokbot",
+        "llm",
+        "prompt-engineering",
+        "xai"
+      ],
+      "url": "https://github.com/kydlikebtc/awesome-grokbot"
+    },
+    {
+      "created_at": "2026-09-02T04:52:07Z",
+      "description": "VideoDeltaNet-H3: Live T2VA / I2VA / FL2VA generation based on Minimax H3.",
+      "full_name": "OpenVDN/vdn-minimax-h3",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 316,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/OpenVDN/vdn-minimax-h3"
+    },
+    {
+      "created_at": "2026-09-01T17:36:22Z",
+      "description": "High-fidelity AI image prompt reverse-engineering skill for Codex",
+      "full_name": "LunarXuan/image-prompt-reverse",
+      "language": null,
+      "source": "new_repos",
+      "stars": 308,
+      "stars_gained": null,
+      "topics": [
+        "codex",
+        "skill",
+        "skill-md",
+        "skills"
+      ],
+      "url": "https://github.com/LunarXuan/image-prompt-reverse"
+    },
+    {
+      "created_at": "2026-09-02T10:08:01Z",
+      "description": "UNIGIT public brand and ecosystem hub — AI should work for everyone.",
+      "full_name": "adtexterry-lgtm/unigit-ecosystem",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 305,
+      "stars_gained": null,
+      "topics": [
+        "agentic-ai",
+        "ai-tools",
+        "ai-workbench",
+        "ecosystem",
+        "mcp",
+        "productivity",
+        "unigit"
+      ],
+      "url": "https://github.com/adtexterry-lgtm/unigit-ecosystem"
+    },
+    {
+      "created_at": "2026-09-02T06:38:31Z",
+      "description": "Reconstruct 3D meshes from images with several open-source models and score which did it best.",
+      "full_name": "dreamers-laboratory/image-to-3d-pipeline",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 302,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/dreamers-laboratory/image-to-3d-pipeline"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "new_repos"
+}

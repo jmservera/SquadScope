@@ -1,0 +1,383 @@
+{
+  "checksum_sha256": "7e9852793ab005ee9d5a07606aca7044106f75f8c3c94fc8eb1b67e1a9c4df0a",
+  "component": "new_repos",
+  "provenance": {
+    "sources": {
+      "raw_json": {
+        "bytes": 296902,
+        "path": "data/raw/2026-W27.json",
+        "sha256": "a1694754079801ee8b67630cf3f5128729c6003f25f2b7ce640e66806293d02f"
+      }
+    },
+    "week": "2026-W27"
+  },
+  "records": [
+    {
+      "created_at": "2026-06-26T12:36:05Z",
+      "description": "DeepSpec: a full-stack codebase for training and evaluating speculative decoding algorithms",
+      "full_name": "deepseek-ai/DeepSpec",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 2470,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/deepseek-ai/DeepSpec"
+    },
+    {
+      "created_at": "2026-06-23T05:14:11Z",
+      "description": "A single archive of public exploit PoCs and vulnerability research writeups. At the time I post these, none have been reported. Feel free to report them yourself and take credit for the CVE if handed out lulz. Please do not abuse these. I do this so to allure people into the field, and I've always found this is the most efficient way.",
+      "full_name": "bikini/exploitarium",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 2418,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/bikini/exploitarium"
+    },
+    {
+      "created_at": "2026-06-23T02:36:54Z",
+      "description": "Codex 橙皮书：从安装到实战案例的全链路 Codex 使用指南（非官方开源，含可下载 PDF）",
+      "full_name": "bozhouDev/codex-orange-book",
+      "language": "HTML",
+      "source": "new_repos",
+      "stars": 2299,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/bozhouDev/codex-orange-book"
+    },
+    {
+      "created_at": "2026-06-24T06:15:30Z",
+      "description": "修改 Apple 网络定位（gs-loc）返回坐标 · 支持 Surge / Quantumult X / Loon / Stash · 快捷指令一键设置/恢复定位",
+      "full_name": "Yu9191/wloc",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 1175,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Yu9191/wloc"
+    },
+    {
+      "created_at": "2026-06-25T07:42:50Z",
+      "description": "Eleven autonomous AI agents open live football prop markets on X Layer — custom Uniswap v4 hook, gasless USDT0 staking.",
+      "full_name": "winsznx/theeleven",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 702,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "defi",
+        "eip-3009",
+        "erc-8257",
+        "football",
+        "foundry",
+        "gasless",
+        "mcp",
+        "nextjs",
+        "okx",
+        "prediction-markets",
+        "solidity",
+        "uniswap-hooks",
+        "uniswap-v4",
+        "usdt0",
+        "web3",
+        "x-layer"
+      ],
+      "url": "https://github.com/winsznx/theeleven"
+    },
+    {
+      "created_at": "2026-06-24T08:10:33Z",
+      "description": "A curated, non-BS library of the best resources for building and evaluating AI agents — papers, blogs, talks, tools, benchmarks. Maintained by BenchFlow.",
+      "full_name": "benchflow-ai/awesome-evals",
+      "language": null,
+      "source": "new_repos",
+      "stars": 567,
+      "stars_gained": null,
+      "topics": [
+        "agent-evaluation",
+        "ai-agents",
+        "awesome",
+        "awesome-list",
+        "benchmarks",
+        "evals",
+        "llm",
+        "llm-evaluation",
+        "rl-environments"
+      ],
+      "url": "https://github.com/benchflow-ai/awesome-evals"
+    },
+    {
+      "created_at": "2026-06-24T12:34:36Z",
+      "description": "An extension of the traditional PDF standard, allowing multiple files to be stored in a single file via metadata",
+      "full_name": "AlexandrosGounis/pdfx",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 498,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/AlexandrosGounis/pdfx"
+    },
+    {
+      "created_at": "2026-06-23T03:37:12Z",
+      "description": "这是一个基于tabbit的研究包，可以转化成OAI格式出来，同时增加了会员认证功能和一键提取cookie的浏览器拓展，方便快速本地快速使用claude gpt等模型",
+      "full_name": "goehou/tabbit-toy",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 383,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/goehou/tabbit-toy"
+    },
+    {
+      "created_at": "2026-06-26T05:50:51Z",
+      "description": "Reusable AI video production skills library for creation, recreation, motion design, openers, and QA.",
+      "full_name": "Pluviobyte/video-production-skills",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 369,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Pluviobyte/video-production-skills"
+    },
+    {
+      "created_at": "2026-06-26T22:59:46Z",
+      "description": "The cozy life-sim that pays. Build a home, master skills, climb careers — earn $PLUM and cash out real SOL. Free to play in your browser.",
+      "full_name": "playPlumtown/Plumtown",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 358,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/playPlumtown/Plumtown"
+    },
+    {
+      "created_at": "2026-06-24T08:05:12Z",
+      "description": "Open-source @agent mentions for Slack and GitHub. OpenTag routes tagged requests to Codex, Claude Code, then returns results in thread.",
+      "full_name": "amplifthq/opentag",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 356,
+      "stars_gained": null,
+      "topics": [
+        "agent-skills",
+        "ai-agents",
+        "claude",
+        "codex",
+        "github",
+        "slack"
+      ],
+      "url": "https://github.com/amplifthq/opentag"
+    },
+    {
+      "created_at": "2026-06-26T04:34:01Z",
+      "description": "OpenTag",
+      "full_name": "CopilotKit/OpenTag",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 332,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/CopilotKit/OpenTag"
+    },
+    {
+      "created_at": "2026-06-23T12:17:48Z",
+      "description": "Conditioning optimizer nodes offering IP-Adapter-like features for Krea 2 image reference editing along with bypassing the built in quality diluation from the trained safety filter and also works as a means to unfilter the model.",
+      "full_name": "nova452/ComfyUI-Conditioning-Rebalance",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 302,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/nova452/ComfyUI-Conditioning-Rebalance"
+    },
+    {
+      "created_at": "2026-06-26T09:29:51Z",
+      "description": "Premium hand-drawn animated architecture diagram Codex skill",
+      "full_name": "cclank/lanshu-animated-architecture-diagram",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 295,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/cclank/lanshu-animated-architecture-diagram"
+    },
+    {
+      "created_at": "2026-06-24T02:20:56Z",
+      "description": "Browser-native side panel for Hermes Agent — connect web context to your local Hermes runtime.",
+      "full_name": "abundantbeing/hermes-browser-extension",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 291,
+      "stars_gained": null,
+      "topics": [
+        "ai-agent",
+        "browser-extension",
+        "chrome-extension",
+        "edge-extension",
+        "hermes-agent",
+        "local-first",
+        "nous-research",
+        "sidepanel"
+      ],
+      "url": "https://github.com/abundantbeing/hermes-browser-extension"
+    },
+    {
+      "created_at": "2026-06-26T11:52:40Z",
+      "description": "A full-stack, peer-to-peer coinflip betting casino game on Solana. Players connect a wallet, create or join on-chain game rooms, and compete head-to-head for 2× the stake. The UI updates in real time over WebSockets, outcomes are resolved on-chain with Orao VRF, and the backend tracks rooms, chat, and match history in MongoDB. ",
+      "full_name": "xxniiinxx/coinflip-casino-game",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 290,
+      "stars_gained": null,
+      "topics": [
+        "anchor",
+        "betting",
+        "blockchain-game",
+        "casino",
+        "coinflip",
+        "cryptocurrency",
+        "defi",
+        "fullstack",
+        "gambling",
+        "mongodb"
+      ],
+      "url": "https://github.com/xxniiinxx/coinflip-casino-game"
+    },
+    {
+      "created_at": "2026-06-24T04:33:55Z",
+      "description": "🎣 给 AI 玩的确定性文字钓鱼小游戏 · 单文件零依赖 · 让你的 AI 伴侣来钓鱼",
+      "full_name": "tutusagi/ai-fishing-game",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 275,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/tutusagi/ai-fishing-game"
+    },
+    {
+      "created_at": "2026-06-24T18:19:06Z",
+      "description": "144 offensive security skills for recon and pentest. Field-validated techniques from 600+ targets across 45+ sectors. Updated with web enum, email sec, google dorks, cloud IAM, WordPress full compromise chains.",
+      "full_name": "uphiago/recon-skills",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 262,
+      "stars_gained": null,
+      "topics": [
+        "bug-bounty",
+        "cloud-security",
+        "cors-exploitation",
+        "firebase-hacking",
+        "hermes-agent",
+        "jwt-attacks",
+        "offensive-security",
+        "penetration-testing",
+        "reconnaissance",
+        "red-team",
+        "security-automation",
+        "ssrf",
+        "subdomain-enumeration",
+        "supabase",
+        "wordpress-security"
+      ],
+      "url": "https://github.com/uphiago/recon-skills"
+    },
+    {
+      "created_at": "2026-06-27T00:56:36Z",
+      "description": "A local-first, open-source coding agent for your desktop. Bring your own LLM key; your code stays on your machine and only ever leaves to the model provider. The AI Agent builds its own Harnes.",
+      "full_name": "eli-labz/Godcoder",
+      "language": "Rust",
+      "source": "new_repos",
+      "stars": 245,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "coding-agent",
+        "desktop-app",
+        "llm",
+        "local-first",
+        "mcp",
+        "open-source",
+        "openai",
+        "rust",
+        "tauri"
+      ],
+      "url": "https://github.com/eli-labz/Godcoder"
+    },
+    {
+      "created_at": "2026-06-25T01:49:15Z",
+      "description": "Free & Open Source Texture Ripper",
+      "full_name": "maria-rcks/dinorip",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 240,
+      "stars_gained": null,
+      "topics": [
+        "game-development",
+        "ps1",
+        "psx",
+        "ripper",
+        "texture-rip",
+        "texture-ripper",
+        "textures"
+      ],
+      "url": "https://github.com/maria-rcks/dinorip"
+    },
+    {
+      "created_at": "2026-06-28T07:08:15Z",
+      "description": "Curated CS fundamentals for placement prep: DSA,Computer Networks, DBMS & SQL, OOPs, Operating Systems, System Design & Software Engineering",
+      "full_name": "Krishnagangwal/CS-Fundamentals",
+      "language": null,
+      "source": "new_repos",
+      "stars": 235,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Krishnagangwal/CS-Fundamentals"
+    },
+    {
+      "created_at": "2026-06-26T03:26:03Z",
+      "description": "Slam the controller into the magnetic puck until it charges",
+      "full_name": "FossPrime/Steam-Controller-Auto-Charge",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 229,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/FossPrime/Steam-Controller-Auto-Charge"
+    },
+    {
+      "created_at": "2026-06-23T15:40:46Z",
+      "description": "An all-in-one, pure C++ inference engine for audio models, powered by ggml. Supports TTS, STT, VAD, voice conversion, music generation, and more, with highly optimized performance. No Python dependency.",
+      "full_name": "0xShug0/audio.cpp",
+      "language": "C++",
+      "source": "new_repos",
+      "stars": 224,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/0xShug0/audio.cpp"
+    },
+    {
+      "created_at": "2026-06-26T14:37:26Z",
+      "description": "Agent behavior clone for browser using, targeting general GUI using and distributed trajectory collecting.",
+      "full_name": "Einsia/Browser-BC",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 215,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Einsia/Browser-BC"
+    },
+    {
+      "created_at": "2026-06-23T12:54:29Z",
+      "description": "Desktop dashboard and Codex-powered assistant for Fitbit data",
+      "full_name": "FlavioAdamo/openfit",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 214,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/FlavioAdamo/openfit"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "new_repos"
+}

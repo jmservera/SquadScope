@@ -1,0 +1,1771 @@
+{
+  "checksum_sha256": "8d0e992540550c0e08370e1c207cd4a772b292d32656193f262b77fbdbad9588",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 173745,
+        "path": "data/analyzed/2026-W24-correlations.json",
+        "sha256": "06e8cb07971e2ae111343a669aa7dd921131fc65081ae1d6e9b81c501cc537f8"
+      },
+      "external_news": {
+        "bytes": 56188,
+        "path": "data/raw/2026-W24-external-news.json",
+        "sha256": "466caf4d326c23e2d414bcb6e9739311511fefb8b16577b02d7282779cb7bfee"
+      },
+      "press_context": {
+        "bytes": 32786,
+        "path": "data/analyzed/2026-W24-press-context.md",
+        "sha256": "eb8f9c8f85bdbc533857ff55591610cd0e6ef6fd0c28ef66c993a414b22ddec5"
+      },
+      "raw_json": {
+        "bytes": 248375,
+        "path": "data/raw/2026-W24.json",
+        "sha256": "f506c3382163a28c0504bb7cf098648c5d36830952a770a0c50c94a81e40d448"
+      }
+    },
+    "week": "2026-W24"
+  },
+  "records": [
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-04T16:00:00Z",
+          "relevance_score": 0.4,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Universe is back: All together now, in the agentic era",
+          "url": "https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/"
+        },
+        {
+          "published_at": "2026-06-02T17:30:03Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot app: The agent-native desktop experience",
+          "url": "https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/",
+        "https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T22:35:01Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Reid Hoffman is leaving Microsoft’s board to go ‘founder mode’ with  startup Manus",
+          "url": "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "microsoft/ML-For-Beginners"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T22:35:01Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Reid Hoffman is leaving Microsoft’s board to go ‘founder mode’ with  startup Manus",
+          "url": "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "microsoft/PowerToys"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T22:35:01Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Reid Hoffman is leaving Microsoft’s board to go ‘founder mode’ with  startup Manus",
+          "url": "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "microsoft/TypeScript"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T22:35:01Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Reid Hoffman is leaving Microsoft’s board to go ‘founder mode’ with  startup Manus",
+          "url": "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "microsoft/generative-ai-for-beginners"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T22:35:01Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Reid Hoffman is leaving Microsoft’s board to go ‘founder mode’ with  startup Manus",
+          "url": "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "microsoft/playwright"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T22:35:01Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Reid Hoffman is leaving Microsoft’s board to go ‘founder mode’ with  startup Manus",
+          "url": "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "microsoft/terminal"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T22:35:01Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Reid Hoffman is leaving Microsoft’s board to go ‘founder mode’ with  startup Manus",
+          "url": "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "microsoft/vscode"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T16:23:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI is still working on that ‘super app’",
+          "url": "https://techcrunch.com/2026/06/07/openai-is-still-working-on-that-super-app/"
+        },
+        {
+          "published_at": "2026-06-06T20:32:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI unveils Lockdown Mode to protect sensitive data from prompt injection attacks",
+          "url": "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/"
+        },
+        {
+          "published_at": "2026-06-06T16:17:21Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The Trump administration might take an equity stake in OpenAI",
+          "url": "https://techcrunch.com/2026/06/06/the-trump-administration-might-take-an-equity-stake-in-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/07/openai-is-still-working-on-that-super-app/",
+        "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/",
+        "https://techcrunch.com/2026/06/06/the-trump-administration-might-take-an-equity-stake-in-openai/"
+      ],
+      "repo": "openai/codex"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T16:23:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI is still working on that ‘super app’",
+          "url": "https://techcrunch.com/2026/06/07/openai-is-still-working-on-that-super-app/"
+        },
+        {
+          "published_at": "2026-06-06T20:32:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI unveils Lockdown Mode to protect sensitive data from prompt injection attacks",
+          "url": "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/"
+        },
+        {
+          "published_at": "2026-06-06T16:17:21Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The Trump administration might take an equity stake in OpenAI",
+          "url": "https://techcrunch.com/2026/06/06/the-trump-administration-might-take-an-equity-stake-in-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/07/openai-is-still-working-on-that-super-app/",
+        "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/",
+        "https://techcrunch.com/2026/06/06/the-trump-administration-might-take-an-equity-stake-in-openai/"
+      ],
+      "repo": "openai/role-specific-plugins"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-02T06:00:36Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Why Financial Institutions Are Converging on Transaction Foundation Models to Build Their Own Intelligence",
+          "url": "https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/"
+      ],
+      "repo": "12britz/awesome-free-models"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-02T02:00:40Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Jetson Brings Agentic AI to the Physical World",
+          "url": "https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/"
+        },
+        {
+          "published_at": "2026-06-01T05:00:56Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA AI Cloud Ecosystem Expands Worldwide to Meet Global AI Compute Demand",
+          "url": "https://blogs.nvidia.com/blog/ai-cloud-ecosystem/"
+        },
+        {
+          "published_at": "2026-06-01T05:00:41Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Taiwan’s Industry Titans Turbocharge World’s AI Infrastructure Buildout With NVIDIA",
+          "url": "https://blogs.nvidia.com/blog/taiwan-ecosystem-ai-infrastructure/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/",
+        "https://blogs.nvidia.com/blog/ai-cloud-ecosystem/",
+        "https://blogs.nvidia.com/blog/taiwan-ecosystem-ai-infrastructure/"
+      ],
+      "repo": "2417467487-hub/WorldCupROI"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T07:00:15Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA, KRAFTON, NC and Reigning ‘League of Legends’ Champions T1 Celebrate RTX Spark at Korea’s PC Bangs",
+          "url": "https://blogs.nvidia.com/blog/krafton-nc-t1-korea-gaming-pc-bang-rtx-spark/"
+        },
+        {
+          "published_at": "2026-06-01T04:30:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Levels Up Local AI Agents Across RTX PCs and DGX Spark",
+          "url": "https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/krafton-nc-t1-korea-gaming-pc-bang-rtx-spark/",
+        "https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/"
+      ],
+      "repo": "AI272/speaker"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T07:00:15Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA, KRAFTON, NC and Reigning ‘League of Legends’ Champions T1 Celebrate RTX Spark at Korea’s PC Bangs",
+          "url": "https://blogs.nvidia.com/blog/krafton-nc-t1-korea-gaming-pc-bang-rtx-spark/"
+        },
+        {
+          "published_at": "2026-06-05T05:38:37Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Seoul Purpose: How NVIDIA and South Korea Are Building the Future of AI",
+          "url": "https://blogs.nvidia.com/blog/korea-ecosystem-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/krafton-nc-t1-korea-gaming-pc-bang-rtx-spark/",
+        "https://blogs.nvidia.com/blog/korea-ecosystem-2026/"
+      ],
+      "repo": "AlemTuzlak/kiira"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-06T18:13:36Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "What to expect from WWDC 2026: Siri’s highly anticipated revamp and Apple Intelligence updates",
+          "url": "https://techcrunch.com/2026/06/06/what-to-expect-from-wwdc-2026-siris-highly-anticipated-revamp-and-apple-intelligence-updates/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/06/what-to-expect-from-wwdc-2026-siris-highly-anticipated-revamp-and-apple-intelligence-updates/"
+      ],
+      "repo": "AppFlowy-IO/AppFlowy"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T23:00:36Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Doosan Group Collaborate to Advance Physical AI and AI Factory Infrastructure",
+          "url": "https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/"
+        },
+        {
+          "published_at": "2026-06-06T17:42:15Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sriram Krishnan is leaving his role as White House AI advisor",
+          "url": "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+        },
+        {
+          "published_at": "2026-06-05T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: AI hacking beyond Mythos, and chatbots’ impact on our brains",
+          "url": "https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/"
+        },
+        {
+          "published_at": "2026-06-05T09:00:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Meta hack shows there’s more to AI security than Mythos",
+          "url": "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/"
+        },
+        {
+          "published_at": "2026-06-05T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Are AI chatbots making us lose control of our brains?",
+          "url": "https://www.technologyreview.com/2026/06/05/1138427/are-ai-chatbots-making-us-lose-control-of-our-brains/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/",
+        "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/",
+        "https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/",
+        "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/",
+        "https://www.technologyreview.com/2026/06/05/1138427/are-ai-chatbots-making-us-lose-control-of-our-brains/"
+      ],
+      "repo": "CWS6206/Lucerne-Geo-AI-Searching"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-02T22:00:58Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw",
+          "url": "https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/"
+      ],
+      "repo": "ChrisTitusTech/winutil"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-03T15:00:57Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Research Unlocks Advanced Grasping, Smarter Autonomous Driving and Agent Training at Scale",
+          "url": "https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/"
+      ],
+      "repo": "D4Vinci/Scrapling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "Flavian2222/lunarclientminecraft-windows-installer"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T23:00:36Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Doosan Group Collaborate to Advance Physical AI and AI Factory Infrastructure",
+          "url": "https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/"
+        },
+        {
+          "published_at": "2026-06-06T17:42:15Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sriram Krishnan is leaving his role as White House AI advisor",
+          "url": "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+        },
+        {
+          "published_at": "2026-06-05T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: AI hacking beyond Mythos, and chatbots’ impact on our brains",
+          "url": "https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/"
+        },
+        {
+          "published_at": "2026-06-05T09:00:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Meta hack shows there’s more to AI security than Mythos",
+          "url": "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/"
+        },
+        {
+          "published_at": "2026-06-05T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Are AI chatbots making us lose control of our brains?",
+          "url": "https://www.technologyreview.com/2026/06/05/1138427/are-ai-chatbots-making-us-lose-control-of-our-brains/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/",
+        "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/",
+        "https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/",
+        "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/",
+        "https://www.technologyreview.com/2026/06/05/1138427/are-ai-chatbots-making-us-lose-control-of-our-brains/"
+      ],
+      "repo": "Forlives/cloudsight-ai"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-04T18:57:45Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Nemotron 3.5 Content Safety: Customizable Multimodal Safety for Global Enterprise AI",
+          "url": "https://huggingface.co/blog/nvidia/nemotron-3-5-content-safety"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/nvidia/nemotron-3-5-content-safety"
+      ],
+      "repo": "FuelLabs/sway"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-02T22:00:58Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw",
+          "url": "https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/"
+      ],
+      "repo": "IvanSobolev/Neo3dEngine"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-03T15:00:35Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI",
+          "url": "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/"
+      ],
+      "repo": "Liuxiangjian-ai/cet-skill"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-04T12:24:58Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "EVA-Bench Data 2.0: 3 Domains, 121 Tools, 213 Scenarios",
+          "url": "https://huggingface.co/blog/ServiceNow-AI/eva-bench-data"
+        },
+        {
+          "published_at": "2026-06-03T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Adding MCP Tools to Reachy Mini",
+          "url": "https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ServiceNow-AI/eva-bench-data",
+        "https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini"
+      ],
+      "repo": "Matt-Hulme/claude-power-tools"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-04T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Designing the hf CLI as an agent-optimized way to work with the Hub",
+          "url": "https://huggingface.co/blog/hf-cli-for-agents"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        },
+        {
+          "published_at": "2026-06-01T13:51:18Z",
+          "relevance_score": 0.6,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic",
+          "url": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+        },
+        {
+          "published_at": "2026-06-01T05:00:56Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA AI Cloud Ecosystem Expands Worldwide to Meet Global AI Compute Demand",
+          "url": "https://blogs.nvidia.com/blog/ai-cloud-ecosystem/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/hf-cli-for-agents",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/",
+        "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption",
+        "https://blogs.nvidia.com/blog/ai-cloud-ecosystem/"
+      ],
+      "repo": "MengMengCode/CLICD"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-02T22:00:58Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw",
+          "url": "https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/"
+      ],
+      "repo": "Multiphysics-Imaging-Shenzhen/Level-Set-Gravity-Inversion-Software"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T17:56:22Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Notion restores access to Anthropic after service disruption",
+          "url": "https://techcrunch.com/2026/06/07/notion-restores-access-to-anthropic-after-service-disruption/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/07/notion-restores-access-to-anthropic-after-service-disruption/"
+      ],
+      "repo": "NoopApp/noop"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-03T15:00:57Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Research Unlocks Advanced Grasping, Smarter Autonomous Driving and Agent Training at Scale",
+          "url": "https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/"
+        },
+        {
+          "published_at": "2026-06-03T15:00:35Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI",
+          "url": "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/"
+        },
+        {
+          "published_at": "2026-06-01T13:51:18Z",
+          "relevance_score": 0.6,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic",
+          "url": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/",
+        "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/",
+        "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+      ],
+      "repo": "NousResearch/hermes-agent"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T16:23:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI is still working on that ‘super app’",
+          "url": "https://techcrunch.com/2026/06/07/openai-is-still-working-on-that-super-app/"
+        },
+        {
+          "published_at": "2026-06-06T20:32:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI unveils Lockdown Mode to protect sensitive data from prompt injection attacks",
+          "url": "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/"
+        },
+        {
+          "published_at": "2026-06-06T16:17:21Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The Trump administration might take an equity stake in OpenAI",
+          "url": "https://techcrunch.com/2026/06/06/the-trump-administration-might-take-an-equity-stake-in-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/07/openai-is-still-working-on-that-super-app/",
+        "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/",
+        "https://techcrunch.com/2026/06/06/the-trump-administration-might-take-an-equity-stake-in-openai/"
+      ],
+      "repo": "OpenBB-finance/OpenBB"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T16:23:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI is still working on that ‘super app’",
+          "url": "https://techcrunch.com/2026/06/07/openai-is-still-working-on-that-super-app/"
+        },
+        {
+          "published_at": "2026-06-06T20:32:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI unveils Lockdown Mode to protect sensitive data from prompt injection attacks",
+          "url": "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/"
+        },
+        {
+          "published_at": "2026-06-06T16:17:21Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The Trump administration might take an equity stake in OpenAI",
+          "url": "https://techcrunch.com/2026/06/06/the-trump-administration-might-take-an-equity-stake-in-openai/"
+        },
+        {
+          "published_at": "2026-06-01T13:51:18Z",
+          "relevance_score": 0.6,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic",
+          "url": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+        },
+        {
+          "published_at": "2026-06-01T05:00:56Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA AI Cloud Ecosystem Expands Worldwide to Meet Global AI Compute Demand",
+          "url": "https://blogs.nvidia.com/blog/ai-cloud-ecosystem/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/07/openai-is-still-working-on-that-super-app/",
+        "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/",
+        "https://techcrunch.com/2026/06/06/the-trump-administration-might-take-an-equity-stake-in-openai/",
+        "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption",
+        "https://blogs.nvidia.com/blog/ai-cloud-ecosystem/"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        },
+        {
+          "published_at": "2026-06-02T14:13:23Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Holo3.1: Fast & Local Computer Use Agents",
+          "url": "https://huggingface.co/blog/Hcompany/holo31"
+        },
+        {
+          "published_at": "2026-06-01T15:45:17Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains",
+          "url": "https://huggingface.co/blog/JetBrains/mellum2-launch"
+        },
+        {
+          "published_at": "2026-06-01T04:30:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Levels Up Local AI Agents Across RTX PCs and DGX Spark",
+          "url": "https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/",
+        "https://huggingface.co/blog/Hcompany/holo31",
+        "https://huggingface.co/blog/JetBrains/mellum2-launch",
+        "https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/"
+      ],
+      "repo": "RobiMez/loadcell"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-01T13:51:18Z",
+          "relevance_score": 0.6,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic",
+          "url": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+      ],
+      "repo": "SenhorH/tab-labeler"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T23:00:36Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Doosan Group Collaborate to Advance Physical AI and AI Factory Infrastructure",
+          "url": "https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/"
+        },
+        {
+          "published_at": "2026-06-06T17:42:15Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sriram Krishnan is leaving his role as White House AI advisor",
+          "url": "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+        },
+        {
+          "published_at": "2026-06-05T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: AI hacking beyond Mythos, and chatbots’ impact on our brains",
+          "url": "https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/"
+        },
+        {
+          "published_at": "2026-06-05T09:00:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Meta hack shows there’s more to AI security than Mythos",
+          "url": "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/"
+        },
+        {
+          "published_at": "2026-06-05T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Are AI chatbots making us lose control of our brains?",
+          "url": "https://www.technologyreview.com/2026/06/05/1138427/are-ai-chatbots-making-us-lose-control-of-our-brains/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/",
+        "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/",
+        "https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/",
+        "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/",
+        "https://www.technologyreview.com/2026/06/05/1138427/are-ai-chatbots-making-us-lose-control-of-our-brains/"
+      ],
+      "repo": "Tools2U/AI-Website-Audit-CLI"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-06T17:42:15Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sriram Krishnan is leaving his role as White House AI advisor",
+          "url": "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+      ],
+      "repo": "TryGhost/Ghost"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T22:35:01Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Reid Hoffman is leaving Microsoft’s board to go ‘founder mode’ with  startup Manus",
+          "url": "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/"
+        },
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/reid-hoffman-is-leaving-microsofts-board-to-go-founder-mode-with-startup-manus/",
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "Unicornronote/Microsoft-Office-Activated"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T07:00:15Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA, KRAFTON, NC and Reigning ‘League of Legends’ Champions T1 Celebrate RTX Spark at Korea’s PC Bangs",
+          "url": "https://blogs.nvidia.com/blog/krafton-nc-t1-korea-gaming-pc-bang-rtx-spark/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/krafton-nc-t1-korea-gaming-pc-bang-rtx-spark/"
+      ],
+      "repo": "Ymsniper/KTO"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T17:38:06Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "As VC-backed e-bike startups went bankrupt, bootstrapped Lectric grew",
+          "url": "https://techcrunch.com/2026/06/05/as-vc-backed-e-bike-startups-went-bankrupt-bootstrapped-lectric-grew/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/as-vc-backed-e-bike-startups-went-bankrupt-bootstrapped-lectric-grew/"
+      ],
+      "repo": "affaan-m/ECC"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-02T19:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local",
+          "url": "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/"
+      ],
+      "repo": "alfhamdy515-svg/monkemodmanager-windows-installer-2"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-03T15:00:35Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI",
+          "url": "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/"
+      ],
+      "repo": "amElnagdy/guard-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T16:05:00Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "TechCrunch Mobility: Inside GM’s $900M EV battery gamble",
+          "url": "https://techcrunch.com/2026/06/07/inside-gms-900m-ev-battery-gamble/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/07/inside-gms-900m-ev-battery-gamble/"
+      ],
+      "repo": "ansible/ansible"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-04T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Designing the hf CLI as an agent-optimized way to work with the Hub",
+          "url": "https://huggingface.co/blog/hf-cli-for-agents"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/hf-cli-for-agents"
+      ],
+      "repo": "ant-design/ant-design"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-03T15:00:35Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI",
+          "url": "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/"
+        },
+        {
+          "published_at": "2026-06-01T13:51:18Z",
+          "relevance_score": 0.6,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic",
+          "url": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/",
+        "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+      ],
+      "repo": "anthropics/skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T07:00:15Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA, KRAFTON, NC and Reigning ‘League of Legends’ Champions T1 Celebrate RTX Spark at Korea’s PC Bangs",
+          "url": "https://blogs.nvidia.com/blog/krafton-nc-t1-korea-gaming-pc-bang-rtx-spark/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/krafton-nc-t1-korea-gaming-pc-bang-rtx-spark/"
+      ],
+      "repo": "anvia-hq/lexa"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-03T12:55:11Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Direct Preference Optimization Beyond Chatbots",
+          "url": "https://huggingface.co/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots"
+      ],
+      "repo": "apache/echarts"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-05T16:32:27Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Supabase doubles valuation to $10B in 8 months",
+          "url": "https://techcrunch.com/2026/06/05/supabase-doubles-valuation-to-10b-in-8-months/"
+        },
+        {
+          "published_at": "2026-06-04T16:00:00Z",
+          "relevance_score": 0.4,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Universe is back: All together now, in the agentic era",
+          "url": "https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/05/supabase-doubles-valuation-to-10b-in-8-months/",
+        "https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/"
+      ],
+      "repo": "apache/superset"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-06T18:13:36Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "What to expect from WWDC 2026: Siri’s highly anticipated revamp and Apple Intelligence updates",
+          "url": "https://techcrunch.com/2026/06/06/what-to-expect-from-wwdc-2026-siris-highly-anticipated-revamp-and-apple-intelligence-updates/"
+        },
+        {
+          "published_at": "2026-06-06T17:42:15Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sriram Krishnan is leaving his role as White House AI advisor",
+          "url": "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/06/what-to-expect-from-wwdc-2026-siris-highly-anticipated-revamp-and-apple-intelligence-updates/",
+        "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+      ],
+      "repo": "appwrite/appwrite"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-06T17:42:15Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sriram Krishnan is leaving his role as White House AI advisor",
+          "url": "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+        },
+        {
+          "published_at": "2026-06-05T18:57:20Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Google will pay SpaceX $920M per month for compute",
+          "url": "https://techcrunch.com/2026/06/05/google-will-pay-spacex-920m-per-month-for-compute/"
+        },
+        {
+          "published_at": "2026-06-04T12:24:58Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "EVA-Bench Data 2.0: 3 Domains, 121 Tools, 213 Scenarios",
+          "url": "https://huggingface.co/blog/ServiceNow-AI/eva-bench-data"
+        },
+        {
+          "published_at": "2026-06-03T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Adding MCP Tools to Reachy Mini",
+          "url": "https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/",
+        "https://techcrunch.com/2026/06/05/google-will-pay-spacex-920m-per-month-for-compute/",
+        "https://huggingface.co/blog/ServiceNow-AI/eva-bench-data",
+        "https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini"
+      ],
+      "repo": "b-nnett/goose"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-04T12:24:58Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "EVA-Bench Data 2.0: 3 Domains, 121 Tools, 213 Scenarios",
+          "url": "https://huggingface.co/blog/ServiceNow-AI/eva-bench-data"
+        },
+        {
+          "published_at": "2026-06-03T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Adding MCP Tools to Reachy Mini",
+          "url": "https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ServiceNow-AI/eva-bench-data",
+        "https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini"
+      ],
+      "repo": "baidu/nettools"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T16:05:00Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "TechCrunch Mobility: Inside GM’s $900M EV battery gamble",
+          "url": "https://techcrunch.com/2026/06/07/inside-gms-900m-ev-battery-gamble/"
+        },
+        {
+          "published_at": "2026-06-06T20:32:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI unveils Lockdown Mode to protect sensitive data from prompt injection attacks",
+          "url": "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/"
+        },
+        {
+          "published_at": "2026-06-02T06:00:36Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Why Financial Institutions Are Converging on Transaction Foundation Models to Build Their Own Intelligence",
+          "url": "https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/"
+        },
+        {
+          "published_at": "2026-06-01T15:45:17Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains",
+          "url": "https://huggingface.co/blog/JetBrains/mellum2-launch"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/07/inside-gms-900m-ev-battery-gamble/",
+        "https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/",
+        "https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/",
+        "https://huggingface.co/blog/JetBrains/mellum2-launch"
+      ],
+      "repo": "base/node"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-07T23:00:36Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Doosan Group Collaborate to Advance Physical AI and AI Factory Infrastructure",
+          "url": "https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/"
+        },
+        {
+          "published_at": "2026-06-06T17:42:15Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sriram Krishnan is leaving his role as White House AI advisor",
+          "url": "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/"
+        },
+        {
+          "published_at": "2026-06-05T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: AI hacking beyond Mythos, and chatbots’ impact on our brains",
+          "url": "https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/"
+        },
+        {
+          "published_at": "2026-06-05T09:00:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Meta hack shows there’s more to AI security than Mythos",
+          "url": "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/"
+        },
+        {
+          "published_at": "2026-06-05T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Are AI chatbots making us lose control of our brains?",
+          "url": "https://www.technologyreview.com/2026/06/05/1138427/are-ai-chatbots-making-us-lose-control-of-our-brains/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/",
+        "https://techcrunch.com/2026/06/06/sriram-krishnan-is-leaving-his-role-as-white-house-ai-advisor/",
+        "https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/",
+        "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/",
+        "https://www.technologyreview.com/2026/06/05/1138427/are-ai-chatbots-making-us-lose-control-of-our-brains/"
+      ],
+      "repo": "best-spicy-ai/ai-naughty-tools"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}

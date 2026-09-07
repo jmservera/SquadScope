@@ -1,0 +1,1683 @@
+{
+  "checksum_sha256": "a9f674e7aae8385e8af58e1c83428a31d4aa3f67b4a901f9b9cee290bf7071d8",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 163107,
+        "path": "data/analyzed/2026-W31-correlations.json",
+        "sha256": "fc0f0283fadc95bd6f2fdac4e46a394d21f1ad3501494a3e3f9a1bfe679a0c29"
+      },
+      "external_news": {
+        "bytes": 50977,
+        "path": "data/raw/2026-W31-external-news.json",
+        "sha256": "3fc7666ffbb4070ec4e361e960b02bc04fb256e443ce0911813693203d0998ef"
+      },
+      "press_context": {
+        "bytes": 14278,
+        "path": "data/analyzed/2026-W31-press-context.md",
+        "sha256": "25b0e94489b9a2ec2b4241edaff17b20d395c7ef2e16acaaa91b63ac0ea4a55d"
+      },
+      "raw_json": {
+        "bytes": 225864,
+        "path": "data/raw/2026-W31.json",
+        "sha256": "88fa723e44aab8788f338d765e3f9fe50457dc8a09a6c64033c03c760f9a2585"
+      }
+    },
+    "week": "2026-W31"
+  },
+  "records": [
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T16:00:00Z",
+          "relevance_score": 0.2,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Next chapter: Restructuring GitHub’s bug bounty program",
+          "url": "https://github.blog/security/next-chapter-restructuring-githubs-bug-bounty-program/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/security/next-chapter-restructuring-githubs-bug-bounty-program/"
+      ],
+      "repo": "github/gitignore"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T16:00:00Z",
+          "relevance_score": 0.2,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Next chapter: Restructuring GitHub’s bug bounty program",
+          "url": "https://github.blog/security/next-chapter-restructuring-githubs-bug-bounty-program/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/security/next-chapter-restructuring-githubs-bug-bounty-program/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T16:33:13Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+          "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/"
+        },
+        {
+          "published_at": "2026-07-25T00:23:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "I tried out OpenAI’s new AI keypad — which will be fun for some coders and slightly mystifying to everyone else",
+          "url": "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+        },
+        {
+          "published_at": "2026-07-22T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: NASA’s new space telescope and OpenAI’s autonomous hacker",
+          "url": "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+        "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/",
+        "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+      ],
+      "repo": "openai/codex"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The power line that could reshape New York’s grid is hitting snags",
+          "url": "https://www.technologyreview.com/2026/07/23/1140739/power-line-grid-chpe/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/23/1140739/power-line-grid-chpe/"
+      ],
+      "repo": "0xwilliamortiz/yoinks"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T19:40:57Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Making sense of the panic over Chinese AI",
+          "url": "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/"
+        },
+        {
+          "published_at": "2026-07-24T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: an organ transplant breakthrough, and homegrown Chinese chips",
+          "url": "https://www.technologyreview.com/2026/07/24/1140776/the-download-organ-transplant-breakthrough-chinese-chips/"
+        },
+        {
+          "published_at": "2026-07-23T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: energy transmission and US threats against Chinese AI",
+          "url": "https://www.technologyreview.com/2026/07/23/1140753/the-download-energy-transmission-and-us-threats-chinese-ai/"
+        },
+        {
+          "published_at": "2026-07-21T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Chinese AI divides the White House, and a record copyright payout",
+          "url": "https://www.technologyreview.com/2026/07/21/1140685/the-download-chinese-ai-divides-white-house-anthropic-copyright-settlement/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/",
+        "https://www.technologyreview.com/2026/07/24/1140776/the-download-organ-transplant-breakthrough-chinese-chips/",
+        "https://www.technologyreview.com/2026/07/23/1140753/the-download-energy-transmission-and-us-threats-chinese-ai/",
+        "https://www.technologyreview.com/2026/07/21/1140685/the-download-chinese-ai-divides-white-house-anthropic-copyright-settlement/"
+      ],
+      "repo": "1c7/chinese-independent-developer"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-21T15:36:43Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera Rubin Driving Performance Per Watt, Lowest Token Cost for Partners Worldwide",
+          "url": "https://blogs.nvidia.com/blog/vera-rubin/"
+        },
+        {
+          "published_at": "2026-07-21T15:00:20Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Built for Vera Rubin, NVIDIA Spectrum-6 Arrives in Gigascale AI Factories",
+          "url": "https://blogs.nvidia.com/blog/nvidia-spectrum-six-arrives-in-gigascale-ai-factories/"
+        },
+        {
+          "published_at": "2026-07-20T10:59:23Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Bristol Myers Squibb Building Life Science Industry’s Most Advanced AI Factory on NVIDIA Vera Rubin",
+          "url": "https://blogs.nvidia.com/blog/bristol-myers-squibb-building-life-science-industrys-most-advanced-ai-factory-on-nvidia-vera-rubin/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/vera-rubin/",
+        "https://blogs.nvidia.com/blog/nvidia-spectrum-six-arrives-in-gigascale-ai-factories/",
+        "https://blogs.nvidia.com/blog/bristol-myers-squibb-building-life-science-industrys-most-advanced-ai-factory-on-nvidia-vera-rubin/"
+      ],
+      "repo": "2dust/v2rayN"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        },
+        {
+          "published_at": "2026-07-21T20:00:27Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "The State of Simulation for Physical AI: An Overview",
+          "url": "https://huggingface.co/blog/nvidia/state-of-simulation-for-physical-ai"
+        },
+        {
+          "published_at": "2026-07-20T15:00:53Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At SIGGRAPH, NVIDIA Advances Graphics and Simulation With Agentic and Physical AI",
+          "url": "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/",
+        "https://huggingface.co/blog/nvidia/state-of-simulation-for-physical-ai",
+        "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+      ],
+      "repo": "AARomanov1985/Audio-Cassette-Simulation"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-20T10:59:23Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Bristol Myers Squibb Building Life Science Industry’s Most Advanced AI Factory on NVIDIA Vera Rubin",
+          "url": "https://blogs.nvidia.com/blog/bristol-myers-squibb-building-life-science-industrys-most-advanced-ai-factory-on-nvidia-vera-rubin/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/bristol-myers-squibb-building-life-science-industrys-most-advanced-ai-factory-on-nvidia-vera-rubin/"
+      ],
+      "repo": "AngelOnFira/weblings"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T21:06:44Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Can Apple make smart glasses that aren’t a constant privacy threat?",
+          "url": "https://techcrunch.com/2026/07/26/can-apple-make-smart-glasses-that-arent-a-constant-privacy-threat/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/can-apple-make-smart-glasses-that-arent-a-constant-privacy-threat/"
+      ],
+      "repo": "AppFlowy-IO/AppFlowy"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T13:00:16Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "GeForce NOW Sets Sail With ‘Path of Exile: Curse of the Allflame’ Joining the Cloud",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+      ],
+      "repo": "CaliCastle/skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-21T15:36:43Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera Rubin Driving Performance Per Watt, Lowest Token Cost for Partners Worldwide",
+          "url": "https://blogs.nvidia.com/blog/vera-rubin/"
+        },
+        {
+          "published_at": "2026-07-20T10:59:23Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Bristol Myers Squibb Building Life Science Industry’s Most Advanced AI Factory on NVIDIA Vera Rubin",
+          "url": "https://blogs.nvidia.com/blog/bristol-myers-squibb-building-life-science-industrys-most-advanced-ai-factory-on-nvidia-vera-rubin/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/vera-rubin/",
+        "https://blogs.nvidia.com/blog/bristol-myers-squibb-building-life-science-industrys-most-advanced-ai-factory-on-nvidia-vera-rubin/"
+      ],
+      "repo": "Evanli21/token-factory"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        },
+        {
+          "published_at": "2026-07-21T22:35:45Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Built in Fort Worth: Wistron Opens Advanced Manufacturing Plant to Produce NVIDIA AI Systems",
+          "url": "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/",
+        "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+      ],
+      "repo": "Fission-AI/OpenSpec"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-24T20:43:35Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Waymo reportedly mulling a breakup with Uber",
+          "url": "https://techcrunch.com/2026/07/24/waymo-reportedly-mulling-a-breakup-with-uber/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/24/waymo-reportedly-mulling-a-breakup-with-uber/"
+      ],
+      "repo": "FuelLabs/sway"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-20T15:00:53Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At SIGGRAPH, NVIDIA Advances Graphics and Simulation With Agentic and Physical AI",
+          "url": "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+      ],
+      "repo": "Graphify-Labs/graphify"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T16:33:13Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+          "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/"
+        },
+        {
+          "published_at": "2026-07-25T00:23:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "I tried out OpenAI’s new AI keypad — which will be fun for some coders and slightly mystifying to everyone else",
+          "url": "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+        },
+        {
+          "published_at": "2026-07-22T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: NASA’s new space telescope and OpenAI’s autonomous hacker",
+          "url": "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+        "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/",
+        "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+      ],
+      "repo": "Invaro/opentax-engine"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-25T20:55:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Warner Bros. lawsuit accuses Amazon of illegally poaching executives",
+          "url": "https://techcrunch.com/2026/07/25/warner-bros-lawsuit-accuses-amazon-of-illegally-poaching-executives/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/25/warner-bros-lawsuit-accuses-amazon-of-illegally-poaching-executives/"
+      ],
+      "repo": "JuliusBrussee/caveman"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T19:40:57Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Making sense of the panic over Chinese AI",
+          "url": "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/"
+        },
+        {
+          "published_at": "2026-07-26T01:30:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Monday.com is the latest tech company to blame AI for layoffs — here are 20 others",
+          "url": "https://techcrunch.com/2026/07/25/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/"
+        },
+        {
+          "published_at": "2026-07-25T16:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Librarians are hosting viral ‘Avoiding AI’ workshops for people who are fed up with Big Tech",
+          "url": "https://techcrunch.com/2026/07/25/librarians-are-hosting-viral-avoiding-ai-workshops-for-people-who-are-fed-up-with-big-tech/"
+        },
+        {
+          "published_at": "2026-07-25T13:05:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "One fallen power line exposed a growing AI data center problem. Here’s how to fix it.",
+          "url": "https://techcrunch.com/2026/07/25/one-fallen-power-line-exposed-a-growing-ai-data-center-problem-heres-how-to-fix-it/"
+        },
+        {
+          "published_at": "2026-07-25T00:23:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "I tried out OpenAI’s new AI keypad — which will be fun for some coders and slightly mystifying to everyone else",
+          "url": "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/",
+        "https://techcrunch.com/2026/07/25/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/",
+        "https://techcrunch.com/2026/07/25/librarians-are-hosting-viral-avoiding-ai-workshops-for-people-who-are-fed-up-with-big-tech/",
+        "https://techcrunch.com/2026/07/25/one-fallen-power-line-exposed-a-growing-ai-data-center-problem-heres-how-to-fix-it/",
+        "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+      ],
+      "repo": "MarcosSete/awesome-free-ai-books"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+      ],
+      "repo": "NanmiCoder/MediaCrawler"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+      ],
+      "repo": "NanmiCoder/open-image-prompts"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T19:40:57Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Making sense of the panic over Chinese AI",
+          "url": "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/"
+        },
+        {
+          "published_at": "2026-07-26T01:30:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Monday.com is the latest tech company to blame AI for layoffs — here are 20 others",
+          "url": "https://techcrunch.com/2026/07/25/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/"
+        },
+        {
+          "published_at": "2026-07-25T16:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Librarians are hosting viral ‘Avoiding AI’ workshops for people who are fed up with Big Tech",
+          "url": "https://techcrunch.com/2026/07/25/librarians-are-hosting-viral-avoiding-ai-workshops-for-people-who-are-fed-up-with-big-tech/"
+        },
+        {
+          "published_at": "2026-07-25T13:05:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "One fallen power line exposed a growing AI data center problem. Here’s how to fix it.",
+          "url": "https://techcrunch.com/2026/07/25/one-fallen-power-line-exposed-a-growing-ai-data-center-problem-heres-how-to-fix-it/"
+        },
+        {
+          "published_at": "2026-07-25T00:23:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "I tried out OpenAI’s new AI keypad — which will be fun for some coders and slightly mystifying to everyone else",
+          "url": "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/",
+        "https://techcrunch.com/2026/07/25/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/",
+        "https://techcrunch.com/2026/07/25/librarians-are-hosting-viral-avoiding-ai-workshops-for-people-who-are-fed-up-with-big-tech/",
+        "https://techcrunch.com/2026/07/25/one-fallen-power-line-exposed-a-growing-ai-data-center-problem-heres-how-to-fix-it/",
+        "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+      ],
+      "repo": "NextWeb4/official-document-ai-assistant"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T16:33:13Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+          "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/"
+        },
+        {
+          "published_at": "2026-07-25T00:23:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "I tried out OpenAI’s new AI keypad — which will be fun for some coders and slightly mystifying to everyone else",
+          "url": "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+        },
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        },
+        {
+          "published_at": "2026-07-22T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: NASA’s new space telescope and OpenAI’s autonomous hacker",
+          "url": "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+        },
+        {
+          "published_at": "2026-07-21T22:35:45Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Built in Fort Worth: Wistron Opens Advanced Manufacturing Plant to Produce NVIDIA AI Systems",
+          "url": "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+        "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/",
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/",
+        "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/",
+        "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+      ],
+      "repo": "OpenBB-finance/OpenBB"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T16:33:13Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+          "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/"
+        },
+        {
+          "published_at": "2026-07-25T00:23:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "I tried out OpenAI’s new AI keypad — which will be fun for some coders and slightly mystifying to everyone else",
+          "url": "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+        },
+        {
+          "published_at": "2026-07-24T22:25:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Prentis, new AI lab co-founded by Reid Hoffman, Mark Pincus in talks to raise $100M",
+          "url": "https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m/"
+        },
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        },
+        {
+          "published_at": "2026-07-22T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: NASA’s new space telescope and OpenAI’s autonomous hacker",
+          "url": "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+        "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/",
+        "https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m/",
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/",
+        "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+      ],
+      "repo": "OpenCut-app/OpenCut"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T16:33:13Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+          "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/"
+        },
+        {
+          "published_at": "2026-07-25T00:23:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "I tried out OpenAI’s new AI keypad — which will be fun for some coders and slightly mystifying to everyone else",
+          "url": "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+        },
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        },
+        {
+          "published_at": "2026-07-22T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: NASA’s new space telescope and OpenAI’s autonomous hacker",
+          "url": "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+        },
+        {
+          "published_at": "2026-07-21T22:35:45Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Built in Fort Worth: Wistron Opens Advanced Manufacturing Plant to Produce NVIDIA AI Systems",
+          "url": "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+        "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/",
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/",
+        "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/",
+        "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-20T15:00:53Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At SIGGRAPH, NVIDIA Advances Graphics and Simulation With Agentic and Physical AI",
+          "url": "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+      ],
+      "repo": "Panniantong/Agent-Reach"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-24T22:25:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Prentis, new AI lab co-founded by Reid Hoffman, Mark Pincus in talks to raise $100M",
+          "url": "https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m/"
+      ],
+      "repo": "R44VC0RP/hark"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-25T19:23:32Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Elon Musk’s Boring Company reportedly raising funding at a $20 billion valuation",
+          "url": "https://techcrunch.com/2026/07/25/elon-musks-boring-company-reportedly-raising-funding-at-a-20-billion-valuation/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/25/elon-musks-boring-company-reportedly-raising-funding-at-a-20-billion-valuation/"
+      ],
+      "repo": "Role1776/netmon"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-24T23:25:47Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "SpaceX launches new V3 Starlink satellites but suffers another booster failure",
+          "url": "https://techcrunch.com/2026/07/24/spacex-launches-new-v3-starlink-satellites-but-suffers-another-booster-failure/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/24/spacex-launches-new-v3-starlink-satellites-but-suffers-another-booster-failure/"
+      ],
+      "repo": "Stirling-Tools/Stirling-PDF"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T02:00:46Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA AI Supercomputer Comes Online at Naval Postgraduate School",
+          "url": "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+      ],
+      "repo": "TheAlgorithms/Java"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T13:00:16Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "GeForce NOW Sets Sail With ‘Path of Exile: Curse of the Allflame’ Joining the Cloud",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+      ],
+      "repo": "TheAlgorithms/Python"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+      ],
+      "repo": "VictorTaelin/OptMem"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-20T15:00:53Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At SIGGRAPH, NVIDIA Advances Graphics and Simulation With Agentic and Physical AI",
+          "url": "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+      ],
+      "repo": "XYZ-AI-Lab/AxisAgentic"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-20T15:00:53Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At SIGGRAPH, NVIDIA Advances Graphics and Simulation With Agentic and Physical AI",
+          "url": "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/siggraph-news-2026/"
+      ],
+      "repo": "addyosmani/agent-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T19:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Copilot vs. raw API access: What are you actually paying for?",
+          "url": "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for/"
+      ],
+      "repo": "ahmadzakiyox/gopay-api-gateaway"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        },
+        {
+          "published_at": "2026-07-21T22:35:45Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Built in Fort Worth: Wistron Opens Advanced Manufacturing Plant to Produce NVIDIA AI Systems",
+          "url": "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/",
+        "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+      ],
+      "repo": "anomalyco/opencode"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T17:03:19Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Inside one London founder house rewriting the founder-house rules",
+          "url": "https://techcrunch.com/2026/07/26/inside-one-london-founder-house-rewriting-the-founder-house-rules/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/inside-one-london-founder-house-rewriting-the-founder-house-rules/"
+      ],
+      "repo": "ansible/ansible"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T13:00:16Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "GeForce NOW Sets Sail With ‘Path of Exile: Curse of the Allflame’ Joining the Cloud",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+      ],
+      "repo": "anthropics/skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T16:58:28Z",
+          "relevance_score": 0.0,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Supercooled kidneys have been transplanted into pigs in a “landmark achievement”",
+          "url": "https://www.technologyreview.com/2026/07/23/1140765/supercooled-kidneys-have-been-transplanted-into-pigs-in-a-landmark-achievement/"
+        },
+        {
+          "published_at": "2026-07-23T13:00:16Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "GeForce NOW Sets Sail With ‘Path of Exile: Curse of the Allflame’ Joining the Cloud",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+        },
+        {
+          "published_at": "2026-07-22T09:00:00Z",
+          "relevance_score": 0.0,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Shape-shifting mirrors on NASA’s new space telescope could unveil Jupiters like our own",
+          "url": "https://www.technologyreview.com/2026/07/22/1140701/shape-shifting-mirrors-roman-space-telescope/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/23/1140765/supercooled-kidneys-have-been-transplanted-into-pigs-in-a-landmark-achievement/",
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/",
+        "https://www.technologyreview.com/2026/07/22/1140701/shape-shifting-mirrors-roman-space-telescope/"
+      ],
+      "repo": "apache/superset"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T17:03:19Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Inside one London founder house rewriting the founder-house rules",
+          "url": "https://techcrunch.com/2026/07/26/inside-one-london-founder-house-rewriting-the-founder-house-rules/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/inside-one-london-founder-house-rewriting-the-founder-house-rules/"
+      ],
+      "repo": "base/node"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-25T19:23:32Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Elon Musk’s Boring Company reportedly raising funding at a $20 billion valuation",
+          "url": "https://techcrunch.com/2026/07/25/elon-musks-boring-company-reportedly-raising-funding-at-a-20-billion-valuation/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/25/elon-musks-boring-company-reportedly-raising-funding-at-a-20-billion-valuation/"
+      ],
+      "repo": "bitcoin/bitcoin"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T19:40:57Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Making sense of the panic over Chinese AI",
+          "url": "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/"
+        },
+        {
+          "published_at": "2026-07-24T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: an organ transplant breakthrough, and homegrown Chinese chips",
+          "url": "https://www.technologyreview.com/2026/07/24/1140776/the-download-organ-transplant-breakthrough-chinese-chips/"
+        },
+        {
+          "published_at": "2026-07-24T04:34:27Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At AI Summit, South Korea Outlines Its AI Future With NVIDIA and Partners",
+          "url": "https://blogs.nvidia.com/blog/ai-summit-korea-partners-and-nvidia/"
+        },
+        {
+          "published_at": "2026-07-23T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: energy transmission and US threats against Chinese AI",
+          "url": "https://www.technologyreview.com/2026/07/23/1140753/the-download-energy-transmission-and-us-threats-chinese-ai/"
+        },
+        {
+          "published_at": "2026-07-23T02:00:46Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA AI Supercomputer Comes Online at Naval Postgraduate School",
+          "url": "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/",
+        "https://www.technologyreview.com/2026/07/24/1140776/the-download-organ-transplant-breakthrough-chinese-chips/",
+        "https://blogs.nvidia.com/blog/ai-summit-korea-partners-and-nvidia/",
+        "https://www.technologyreview.com/2026/07/23/1140753/the-download-energy-transmission-and-us-threats-chinese-ai/",
+        "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+      ],
+      "repo": "cline/cline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-21T15:36:43Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera Rubin Driving Performance Per Watt, Lowest Token Cost for Partners Worldwide",
+          "url": "https://blogs.nvidia.com/blog/vera-rubin/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/vera-rubin/"
+      ],
+      "repo": "cocofhu/approving"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T16:33:13Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+          "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/"
+        },
+        {
+          "published_at": "2026-07-25T00:23:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "I tried out OpenAI’s new AI keypad — which will be fun for some coders and slightly mystifying to everyone else",
+          "url": "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/"
+        },
+        {
+          "published_at": "2026-07-22T19:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Copilot vs. raw API access: What are you actually paying for?",
+          "url": "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for/"
+        },
+        {
+          "published_at": "2026-07-22T13:00:11Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Open Sources First GPU-Accelerated Medical Physics Simulation Framework",
+          "url": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+        },
+        {
+          "published_at": "2026-07-22T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: NASA’s new space telescope and OpenAI’s autonomous hacker",
+          "url": "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+        "https://techcrunch.com/2026/07/24/i-tried-out-openais-new-ai-keypad-which-will-be-fun-for-coders-and-slightly-mystifying-to-everyone-else/",
+        "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for/",
+        "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/",
+        "https://www.technologyreview.com/2026/07/22/1140717/the-download-nasa-space-telescope-openai-hugging-face-hack/"
+      ],
+      "repo": "commaai/openpilot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T02:00:46Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA AI Supercomputer Comes Online at Naval Postgraduate School",
+          "url": "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+      ],
+      "repo": "coollabsio/coolify"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-22T19:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Copilot vs. raw API access: What are you actually paying for?",
+          "url": "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for/"
+      ],
+      "repo": "cporter202/coreclaw-api-directory"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T13:00:16Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "GeForce NOW Sets Sail With ‘Path of Exile: Curse of the Allflame’ Joining the Cloud",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+      ],
+      "repo": "danielmiessler/SecLists"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T19:40:57Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Making sense of the panic over Chinese AI",
+          "url": "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/"
+        },
+        {
+          "published_at": "2026-07-26T16:33:13Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+          "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/"
+        },
+        {
+          "published_at": "2026-07-26T01:30:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Monday.com is the latest tech company to blame AI for layoffs — here are 20 others",
+          "url": "https://techcrunch.com/2026/07/25/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/"
+        },
+        {
+          "published_at": "2026-07-25T16:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Librarians are hosting viral ‘Avoiding AI’ workshops for people who are fed up with Big Tech",
+          "url": "https://techcrunch.com/2026/07/25/librarians-are-hosting-viral-avoiding-ai-workshops-for-people-who-are-fed-up-with-big-tech/"
+        },
+        {
+          "published_at": "2026-07-25T13:05:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "One fallen power line exposed a growing AI data center problem. Here’s how to fix it.",
+          "url": "https://techcrunch.com/2026/07/25/one-fallen-power-line-exposed-a-growing-ai-data-center-problem-heres-how-to-fix-it/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/making-sense-of-the-panic-over-chinese-ai/",
+        "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+        "https://techcrunch.com/2026/07/25/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/",
+        "https://techcrunch.com/2026/07/25/librarians-are-hosting-viral-avoiding-ai-workshops-for-people-who-are-fed-up-with-big-tech/",
+        "https://techcrunch.com/2026/07/25/one-fallen-power-line-exposed-a-growing-ai-data-center-problem-heres-how-to-fix-it/"
+      ],
+      "repo": "ddcat-ai/open-ai-canvas"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-23T13:00:16Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "GeForce NOW Sets Sail With ‘Path of Exile: Curse of the Allflame’ Joining the Cloud",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+      ],
+      "repo": "didriksg/Crisp"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-25T19:23:32Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Elon Musk’s Boring Company reportedly raising funding at a $20 billion valuation",
+          "url": "https://techcrunch.com/2026/07/25/elon-musks-boring-company-reportedly-raising-funding-at-a-20-billion-valuation/"
+        },
+        {
+          "published_at": "2026-07-23T02:00:46Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA AI Supercomputer Comes Online at Naval Postgraduate School",
+          "url": "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+        },
+        {
+          "published_at": "2026-07-21T10:37:34Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Advancing next-gen AI with materials science innovation",
+          "url": "https://www.technologyreview.com/2026/07/21/1140602/advancing-next-gen-ai-with-materials-science-innovation/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/25/elon-musks-boring-company-reportedly-raising-funding-at-a-20-billion-valuation/",
+        "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/",
+        "https://www.technologyreview.com/2026/07/21/1140602/advancing-next-gen-ai-with-materials-science-innovation/"
+      ],
+      "repo": "docling-project/docling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-26T17:03:19Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Inside one London founder house rewriting the founder-house rules",
+          "url": "https://techcrunch.com/2026/07/26/inside-one-london-founder-house-rewriting-the-founder-house-rules/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/26/inside-one-london-founder-house-rewriting-the-founder-house-rules/"
+      ],
+      "repo": "edaywalid/undo"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-25T19:23:32Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Elon Musk’s Boring Company reportedly raising funding at a $20 billion valuation",
+          "url": "https://techcrunch.com/2026/07/25/elon-musks-boring-company-reportedly-raising-funding-at-a-20-billion-valuation/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/25/elon-musks-boring-company-reportedly-raising-funding-at-a-20-billion-valuation/"
+      ],
+      "repo": "electron/electron"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}

@@ -1,0 +1,6109 @@
+{
+  "week": "2026-W26",
+  "correlations": [
+    {
+      "repo": "github/spec-kit",
+      "repo_key": "github/spec-kit",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "org_name",
+      "correlation_strength": "strong",
+      "confidence_label": "strong",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "0xSero/glm-5.2-sm120",
+      "repo_key": "0xSero/glm-5.2-sm120",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/zai-org/glm-52-blog"
+      ],
+      "matched_article_details": [
+        {
+          "title": "GLM-5.2: Built for Long-Horizon Tasks",
+          "url": "https://huggingface.co/blog/zai-org/glm-52-blog",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T09:01:25Z",
+          "relevance_score": 0.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "BurntSushi/ripgrep",
+      "repo_key": "BurntSushi/ripgrep",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "From PGP to Mythos: a brief history of export controls that didn’t stop anyone",
+          "url": "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T22:40:14Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "CWS6206/EasySSDTester",
+      "repo_key": "CWS6206/EasySSDTester",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/blackwell-mlperf-training-6-0/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Fastest, Largest, Strongest: NVIDIA Blackwell Sweeps MLPerf Training 6.0",
+          "url": "https://blogs.nvidia.com/blog/blackwell-mlperf-training-6-0/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T15:00:36Z",
+          "relevance_score": 0.8
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "D4Vinci/Scrapling",
+      "repo_key": "D4Vinci/Scrapling",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "EURICO55/download-tor-browser",
+      "repo_key": "EURICO55/download-tor-browser",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/19/1139327/the-download-llms-bottleneck-breakthrough-bci-trials-take-off/",
+        "https://www.technologyreview.com/2026/06/18/1139261/the-download-dark-matter-hunt-kenya-solar-power/",
+        "https://www.technologyreview.com/2026/06/17/1139200/the-download-solar-geoengineering-interoception/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "The Download: AI bottleneck debates, and BCI trials take off",
+          "url": "https://www.technologyreview.com/2026/06/19/1139327/the-download-llms-bottleneck-breakthrough-bci-trials-take-off/",
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "published_at": "2026-06-19T12:10:00Z",
+          "relevance_score": 0.6
+        },
+        {
+          "title": "The Download: a new hunt for dark matter and Kenya’s case for going solar",
+          "url": "https://www.technologyreview.com/2026/06/18/1139261/the-download-dark-matter-hunt-kenya-solar-power/",
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "published_at": "2026-06-18T12:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The Download: a reality check for geoengineering and the science of interoception",
+          "url": "https://www.technologyreview.com/2026/06/17/1139200/the-download-solar-geoengineering-interoception/",
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "published_at": "2026-06-17T12:10:00Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "EbookFoundation/free-programming-books",
+      "repo_key": "EbookFoundation/free-programming-books",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Gach0ng/AgentStalker",
+      "repo_key": "Gach0ng/AgentStalker",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+        "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0
+        },
+        {
+          "title": "HPE AI Factory With NVIDIA Expands for the Era of Agents",
+          "url": "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T16:30:27Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Kato-Shoko705/Phoebe-Hub",
+      "repo_key": "Kato-Shoko705/Phoebe-Hub",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+      ],
+      "matched_article_details": [
+        {
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Kaushal-Parmar/CrosshairX",
+      "repo_key": "Kaushal-Parmar/CrosshairX",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-game-stores/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Sync and Stream: GeForce NOW Connects to Members’ Game Libraries Across Devices",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-game-stores/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T13:00:32Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "LadybirdBrowser/ladybird",
+      "repo_key": "LadybirdBrowser/ladybird",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "MstKail/polymarket-trading-bot-services-polyedge365",
+      "repo_key": "MstKail/polymarket-trading-bot-services-polyedge365",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/polymarket-reportedly-paid-creators-to-post-deceptive-videos-about-fake-bets/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Polymarket reportedly paid creators to post deceptive videos about fake bets",
+          "url": "https://techcrunch.com/2026/06/21/polymarket-reportedly-paid-creators-to-post-deceptive-videos-about-fake-bets/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T16:35:00Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "NationalSecurityAgency/ghidra",
+      "repo_key": "NationalSecurityAgency/ghidra",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "How FERC’s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+          "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T20:00:27Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Noumena-Network/code",
+      "repo_key": "Noumena-Network/code",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "NousResearch/hermes-agent",
+      "repo_key": "NousResearch/hermes-agent",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "repo_key": "OpenHands/OpenHands",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+        "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0
+        },
+        {
+          "title": "HPE AI Factory With NVIDIA Expands for the Era of Agents",
+          "url": "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T16:30:27Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "PieroSierra/SecondBrain",
+      "repo_key": "PieroSierra/SecondBrain",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/19/1139270/brain-computer-interface-trials-are-taking-off/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Brain-computer interface trials are taking off",
+          "url": "https://www.technologyreview.com/2026/06/19/1139270/brain-computer-interface-trials-are-taking-off/",
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "published_at": "2026-06-19T09:00:00Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Plaer1/junction",
+      "repo_key": "Plaer1/junction",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "How FERC’s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+          "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T20:00:27Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Schmobi85/Redz-Hub-2026-Keyless-Undetected",
+      "repo_key": "Schmobi85/Redz-Hub-2026-Keyless-Undetected",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+      ],
+      "matched_article_details": [
+        {
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Sorathiya123/claude-ai-free-desktop-app",
+      "repo_key": "Sorathiya123/claude-ai-free-desktop-app",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "TauricResearch/TradingAgents",
+      "repo_key": "TauricResearch/TradingAgents",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+        "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0
+        },
+        {
+          "title": "HPE AI Factory With NVIDIA Expands for the Era of Agents",
+          "url": "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T16:30:27Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "TheAlgorithms/Java",
+      "repo_key": "TheAlgorithms/Java",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/go-eyes-robotaxis-and-acquisitions-after-japans-biggest-ipo-of-2026-heres-why-it-matters/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Go eyes robotaxis and acquisitions after Japan’s biggest IPO of 2026 — here’s why it matters",
+          "url": "https://techcrunch.com/2026/06/19/go-eyes-robotaxis-and-acquisitions-after-japans-biggest-ipo-of-2026-heres-why-it-matters/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T21:45:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "TheAlgorithms/Python",
+      "repo_key": "TheAlgorithms/Python",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "From PGP to Mythos: a brief history of export controls that didn’t stop anyone",
+          "url": "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T22:40:14Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "TrenchesofChirac/claude-fable-5-free-desktop-app",
+      "repo_key": "TrenchesofChirac/claude-fable-5-free-desktop-app",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "VisionForge-OU/foreman",
+      "repo_key": "VisionForge-OU/foreman",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "France Advances Europe’s AI Future With NVIDIA Technologies",
+          "url": "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T06:00:59Z",
+          "relevance_score": 0.8
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "WilonityProject/Wilonity",
+      "repo_key": "WilonityProject/Wilonity",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/techcrunch-mobility-a-new-robotaxi-scorecard-shows-chinas-dominance/",
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "TechCrunch Mobility: A new robotaxi scorecard shows China’s dominance",
+          "url": "https://techcrunch.com/2026/06/21/techcrunch-mobility-a-new-robotaxi-scorecard-shows-chinas-dominance/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T16:05:00Z",
+          "relevance_score": 0.0
+        },
+        {
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "YangSiYv/valo-ai-assistant-2026",
+      "repo_key": "YangSiYv/valo-ai-assistant-2026",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "repo_key": "addyosmani/agent-skills",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+        "https://huggingface.co/blog/agentic-resource-discovery-launch",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+        "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Agentic Resource Discovery: Let agents search",
+          "url": "https://huggingface.co/blog/agentic-resource-discovery-launch",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T00:00:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0
+        },
+        {
+          "title": "HPE AI Factory With NVIDIA Expands for the Era of Agents",
+          "url": "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T16:30:27Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "aidenybai/cnfast",
+      "repo_key": "aidenybai/cnfast",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/blackwell-mlperf-training-6-0/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Fastest, Largest, Strongest: NVIDIA Blackwell Sweeps MLPerf Training 6.0",
+          "url": "https://blogs.nvidia.com/blog/blackwell-mlperf-training-6-0/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T15:00:36Z",
+          "relevance_score": 0.8
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "angular/angular",
+      "repo_key": "angular/angular",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/allenai/molmomotion"
+      ],
+      "matched_article_details": [
+        {
+          "title": "MolmoMotion: Language-guided 3D motion forecasting",
+          "url": "https://huggingface.co/blog/allenai/molmomotion",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T15:26:44Z",
+          "relevance_score": 0.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "anthropics/claude-code",
+      "repo_key": "anthropics/claude-code",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "anthropics/launch-your-agent",
+      "repo_key": "anthropics/launch-your-agent",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/ServiceNow/mosaicleaks"
+      ],
+      "matched_article_details": [
+        {
+          "title": "MosaicLeaks: Can your research agent keep a secret?",
+          "url": "https://huggingface.co/blog/ServiceNow/mosaicleaks",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-18T18:13:13Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "avelino/awesome-go",
+      "repo_key": "avelino/awesome-go",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/go-eyes-robotaxis-and-acquisitions-after-japans-biggest-ipo-of-2026-heres-why-it-matters/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Go eyes robotaxis and acquisitions after Japan’s biggest IPO of 2026 — here’s why it matters",
+          "url": "https://techcrunch.com/2026/06/19/go-eyes-robotaxis-and-acquisitions-after-japans-biggest-ipo-of-2026-heres-why-it-matters/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T21:45:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "axios/axios",
+      "repo_key": "axios/axios",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/",
+        "https://blogs.nvidia.com/blog/nvidia-ai-marketing-advertising-cannes-lions/",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "How FERC’s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+          "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T20:00:27Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "At Cannes Lions, NVIDIA Partners Reshape Advertising and Marketing With AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-ai-marketing-advertising-cannes-lions/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T13:00:43Z",
+          "relevance_score": 0.6
+        },
+        {
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "axisvoiceupgrade/Topaz-Photo-AI-2026",
+      "repo_key": "axisvoiceupgrade/Topaz-Photo-AI-2026",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "base/node",
+      "repo_key": "base/node",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/20/nobel-laureate-john-jumper-is-leaving-deepmind-for-rival-anthropic/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Nobel laureate John Jumper is leaving DeepMind for rival Anthropic",
+          "url": "https://techcrunch.com/2026/06/20/nobel-laureate-john-jumper-is-leaving-deepmind-for-rival-anthropic/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T16:39:57Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "binghe1980/AI-Canvas",
+      "repo_key": "binghe1980/AI-Canvas",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "briliwar0/glm-5.2-free-desktop-app",
+      "repo_key": "briliwar0/glm-5.2-free-desktop-app",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/zai-org/glm-52-blog",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "GLM-5.2: Built for Long-Horizon Tasks",
+          "url": "https://huggingface.co/blog/zai-org/glm-52-blog",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T09:01:25Z",
+          "relevance_score": 0.0
+        },
+        {
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "cline/cline",
+      "repo_key": "cline/cline",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/techcrunch-mobility-a-new-robotaxi-scorecard-shows-chinas-dominance/",
+        "https://techcrunch.com/2026/06/19/the-us-says-asmls-top-chip-tool-may-be-in-china-asml-says-it-isnt/",
+        "https://blogs.nvidia.com/blog/nvidia-ai-marketing-advertising-cannes-lions/",
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "TechCrunch Mobility: A new robotaxi scorecard shows China’s dominance",
+          "url": "https://techcrunch.com/2026/06/21/techcrunch-mobility-a-new-robotaxi-scorecard-shows-chinas-dominance/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T16:05:00Z",
+          "relevance_score": 0.0
+        },
+        {
+          "title": "The US says ASML’s top chip tool may be in China, but how?",
+          "url": "https://techcrunch.com/2026/06/19/the-us-says-asmls-top-chip-tool-may-be-in-china-asml-says-it-isnt/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T07:59:12Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "At Cannes Lions, NVIDIA Partners Reshape Advertising and Marketing With AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-ai-marketing-advertising-cannes-lions/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T13:00:43Z",
+          "relevance_score": 0.6
+        },
+        {
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "commaai/openpilot",
+      "repo_key": "commaai/openpilot",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Getting more from each token: How Copilot improves context handling and model routing",
+          "url": "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-17T19:41:46Z",
+          "relevance_score": 1.0
+        },
+        {
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "coollabsio/coolify",
+      "repo_key": "coollabsio/coolify",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "docling-project/docling",
+      "repo_key": "docling-project/docling",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "dwertipy412/Claude-AI-2026",
+      "repo_key": "dwertipy412/Claude-AI-2026",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "expressjs/express",
+      "repo_key": "expressjs/express",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "How FERC’s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+          "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T20:00:27Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "faizhameed/Redz-Hub-2026-Keyless-Undetected",
+      "repo_key": "faizhameed/Redz-Hub-2026-Keyless-Undetected",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+      ],
+      "matched_article_details": [
+        {
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "flutter/flutter",
+      "repo_key": "flutter/flutter",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "France Advances Europe’s AI Future With NVIDIA Technologies",
+          "url": "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-18T06:00:59Z",
+          "relevance_score": 0.8
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "frtghyujkiolsas-lab/ai-sdd",
+      "repo_key": "frtghyujkiolsas-lab/ai-sdd",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "gin-gonic/gin",
+      "repo_key": "gin-gonic/gin",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/",
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Getting more from each token: How Copilot improves context handling and model routing",
+          "url": "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-17T19:41:46Z",
+          "relevance_score": 1.0
+        },
+        {
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "git/git",
+      "repo_key": "git/git",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/what-are-git-worktrees-and-why-should-i-use-them/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "What are git worktrees, and why should I use them?",
+          "url": "https://github.blog/ai-and-ml/github-copilot/what-are-git-worktrees-and-why-should-i-use-them/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-16T20:58:54Z",
+          "relevance_score": 0.8
+        },
+        {
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "go-gitea/gitea",
+      "repo_key": "go-gitea/gitea",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2
+        }
+      ],
+      "match_type": "project_name",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "medium"
+    }
+  ],
+  "divergences": {
+    "uncovered_tech_trends": [
+      {
+        "topic": "Climate change and energy",
+        "news_articles": [
+          {
+            "title": "Geoengineering still faces major practical challenges",
+            "url": "https://www.technologyreview.com/2026/06/18/1139227/geoengineering-engineering-challenges/"
+          },
+          {
+            "title": "Hacking the atmosphere: Geoengineering gets a reality check",
+            "url": "https://www.technologyreview.com/2026/06/17/1138743/hacking-atmosphere-geoengineering-reality-check/"
+          },
+          {
+            "title": "Entrepreneurs in Nairobi make the case for going solar",
+            "url": "https://www.technologyreview.com/2026/06/17/1138600/entrepreneurs-nairobi-case-for-going-solar/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "Geoengineering still faces major practical challenges",
+            "url": "https://www.technologyreview.com/2026/06/18/1139227/geoengineering-engineering-challenges/"
+          },
+          {
+            "title": "Hacking the atmosphere: Geoengineering gets a reality check",
+            "url": "https://www.technologyreview.com/2026/06/17/1138743/hacking-atmosphere-geoengineering-reality-check/"
+          },
+          {
+            "title": "Entrepreneurs in Nairobi make the case for going solar",
+            "url": "https://www.technologyreview.com/2026/06/17/1138600/entrepreneurs-nairobi-case-for-going-solar/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "AI",
+        "news_articles": [
+          {
+            "title": "When the Trump administration cracks down on Anthropic, who benefits?",
+            "url": "https://techcrunch.com/2026/06/21/when-the-trump-administration-cracks-down-on-anthropic-who-benefits/"
+          },
+          {
+            "title": "Is the US government’s Anthropic ban accidentally helping the brand?",
+            "url": "https://techcrunch.com/video/is-the-us-governments-anthropic-ban-accidentally-helping-the-brand/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "When the Trump administration cracks down on Anthropic, who benefits?",
+            "url": "https://techcrunch.com/2026/06/21/when-the-trump-administration-cracks-down-on-anthropic-who-benefits/"
+          },
+          {
+            "title": "Is the US government’s Anthropic ban accidentally helping the brand?",
+            "url": "https://techcrunch.com/video/is-the-us-governments-anthropic-ban-accidentally-helping-the-brand/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Hardware",
+        "news_articles": [
+          {
+            "title": "Every new iOS 27 feature that’s worth knowing about",
+            "url": "https://techcrunch.com/2026/06/20/every-new-ios-27-feature-thats-worth-knowing-about/"
+          },
+          {
+            "title": "Aura’s impressive e-ink photo frame doesn’t even look digital",
+            "url": "https://techcrunch.com/2026/06/19/auras-impressive-e-ink-photo-frame-doesnt-even-look-digital/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "Every new iOS 27 feature that’s worth knowing about",
+            "url": "https://techcrunch.com/2026/06/20/every-new-ios-27-feature-thats-worth-knowing-about/"
+          },
+          {
+            "title": "Aura’s impressive e-ink photo frame doesn’t even look digital",
+            "url": "https://techcrunch.com/2026/06/19/auras-impressive-e-ink-photo-frame-doesnt-even-look-digital/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "AI & ML",
+        "news_articles": [
+          {
+            "title": "How we built an internal data analytics agent",
+            "url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/"
+          },
+          {
+            "title": "Accelerating researchers and developers building multilingual AI with a new open dataset",
+            "url": "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "How we built an internal data analytics agent",
+            "url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/"
+          },
+          {
+            "title": "Accelerating researchers and developers building multilingual AI with a new open dataset",
+            "url": "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "TC",
+        "news_articles": [
+          {
+            "title": "Founders Fund’s outlier bet on humanely killed fish",
+            "url": "https://techcrunch.com/2026/06/20/founders-funds-outlier-bet-on-humanely-killed-fish/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "Founders Fund’s outlier bet on humanely killed fish",
+            "url": "https://techcrunch.com/2026/06/20/founders-funds-outlier-bet-on-humanely-killed-fish/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Startups",
+        "news_articles": [
+          {
+            "title": "He made your free video player run smoothly. Now he’s doing that for robots.",
+            "url": "https://techcrunch.com/2026/06/19/he-made-your-free-video-player-run-smoothly-now-hes-doing-that-for-robots/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "He made your free video player run smoothly. Now he’s doing that for robots.",
+            "url": "https://techcrunch.com/2026/06/19/he-made-your-free-video-player-run-smoothly-now-hes-doing-that-for-robots/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Climate",
+        "news_articles": [
+          {
+            "title": "Every fusion startup that has raised over $100M",
+            "url": "https://techcrunch.com/2026/06/19/every-fusion-startup-that-has-raised-over-100m/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "Every fusion startup that has raised over $100M",
+            "url": "https://techcrunch.com/2026/06/19/every-fusion-startup-that-has-raised-over-100m/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Artificial intelligence",
+        "news_articles": [
+          {
+            "title": "A startup claims it broke through a bottleneck that’s holding back LLMs",
+            "url": "https://www.technologyreview.com/2026/06/19/1139313/a-startup-claims-it-broke-through-a-bottleneck-thats-holding-back-llms/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "A startup claims it broke through a bottleneck that’s holding back LLMs",
+            "url": "https://www.technologyreview.com/2026/06/19/1139313/a-startup-claims-it-broke-through-a-bottleneck-thats-holding-back-llms/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Culture",
+        "news_articles": [
+          {
+            "title": "The inevitable weakness of metrics",
+            "url": "https://www.technologyreview.com/2026/06/19/1138778/inevitable-weakness-metrics-quantified-life-book-review/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "The inevitable weakness of metrics",
+            "url": "https://www.technologyreview.com/2026/06/19/1138778/inevitable-weakness-metrics-quantified-life-book-review/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Maintainers",
+        "news_articles": [
+          {
+            "title": "How pull request limits are cutting down the noise",
+            "url": "https://github.blog/open-source/maintainers/how-pull-request-limits-are-cutting-down-the-noise/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "How pull request limits are cutting down the noise",
+            "url": "https://github.blog/open-source/maintainers/how-pull-request-limits-are-cutting-down-the-noise/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Space",
+        "news_articles": [
+          {
+            "title": "The search for dark matter has been blown wide open",
+            "url": "https://www.technologyreview.com/2026/06/18/1138755/search-for-dark-matter-blown-wide-open/"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "The search for dark matter has been blown wide open",
+            "url": "https://www.technologyreview.com/2026/06/18/1138755/search-for-dark-matter-blown-wide-open/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Beyond",
+        "news_articles": [
+          {
+            "title": "Beyond LoRA: Can you beat the most popular fine-tuning technique?",
+            "url": "https://huggingface.co/blog/peft-beyond-lora"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "Beyond LoRA: Can you beat the most popular fine-tuning technique?",
+            "url": "https://huggingface.co/blog/peft-beyond-lora"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Benchmarking",
+        "news_articles": [
+          {
+            "title": "Is it agentic enough? Benchmarking open models on your own tooling",
+            "url": "https://huggingface.co/blog/is-it-agentic-enough"
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "Is it agentic enough? Benchmarking open models on your own tooling",
+            "url": "https://huggingface.co/blog/is-it-agentic-enough"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      }
+    ],
+    "unpublicized_dev_activity": [
+      {
+        "topic": "ai",
+        "github_repos": [
+          {
+            "full_name": "sums001/Windows-Copilot-API",
+            "stars": 140,
+            "stars_gained": null
+          },
+          {
+            "full_name": "raiyanyahya/recall",
+            "stars": 140,
+            "stars_gained": null
+          },
+          {
+            "full_name": "PerfectXM/mcp-db-server",
+            "stars": 77,
+            "stars_gained": null
+          },
+          {
+            "full_name": "databufflabs/databuff",
+            "stars": 71,
+            "stars_gained": null
+          },
+          {
+            "full_name": "anasu1/text-humanizer",
+            "stars": 62,
+            "stars_gained": null
+          },
+          {
+            "full_name": "openclaw/openclaw",
+            "stars": 379852,
+            "stars_gained": null
+          },
+          {
+            "full_name": "obra/superpowers",
+            "stars": 235251,
+            "stars_gained": null
+          },
+          {
+            "full_name": "n8n-io/n8n",
+            "stars": 193546,
+            "stars_gained": null
+          },
+          {
+            "full_name": "f/prompts.chat",
+            "stars": 164062,
+            "stars_gained": null
+          },
+          {
+            "full_name": "open-webui/open-webui",
+            "stars": 142560,
+            "stars_gained": null
+          },
+          {
+            "full_name": "firecrawl/firecrawl",
+            "stars": 136439,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Comfy-Org/ComfyUI",
+            "stars": 117855,
+            "stars_gained": null
+          },
+          {
+            "full_name": "microsoft/generative-ai-for-beginners",
+            "stars": 112196,
+            "stars_gained": null
+          },
+          {
+            "full_name": "google-gemini/gemini-cli",
+            "stars": 105478,
+            "stars_gained": null
+          },
+          {
+            "full_name": "harry0703/MoneyPrinterTurbo",
+            "stars": 90910,
+            "stars_gained": null
+          },
+          {
+            "full_name": "punkpeye/awesome-mcp-servers",
+            "stars": 89572,
+            "stars_gained": null
+          },
+          {
+            "full_name": "thedotmack/claude-mem",
+            "stars": 83616,
+            "stars_gained": null
+          },
+          {
+            "full_name": "netdata/netdata",
+            "stars": 79345,
+            "stars_gained": null
+          },
+          {
+            "full_name": "OpenBB-finance/OpenBB",
+            "stars": 69525,
+            "stars_gained": null
+          },
+          {
+            "full_name": "code-yeongyu/oh-my-openagent",
+            "stars": 63178,
+            "stars_gained": null
+          },
+          {
+            "full_name": "koala73/worldmonitor",
+            "stars": 58254,
+            "stars_gained": null
+          },
+          {
+            "full_name": "meilisearch/meilisearch",
+            "stars": 58224,
+            "stars_gained": null
+          },
+          {
+            "full_name": "zylon-ai/private-gpt",
+            "stars": 57283,
+            "stars_gained": null
+          },
+          {
+            "full_name": "MemPalace/mempalace",
+            "stars": 56119,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Advanced trainer performance",
+        "github_repos": [
+          {
+            "full_name": "faizhameed/007-First-Light-Trainer-And-Optimizer",
+            "stars": 61,
+            "stars_gained": null
+          },
+          {
+            "full_name": "helena-maia/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "EstebanGitPro/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ugbeh/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Memomostafakamel/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nguyendang0106/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Schmobi85/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "yheun03/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "efefirda/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "githublsy/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "abhishek-dungen/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Captain236/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Edouard-LARROCHE/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Finneyd16/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Jackchen-code/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "muneeb1097m/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Harsukh21/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Zkarape/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "iam7cn/007-First-Light-Trainer-And-Optimizer",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "2026",
+        "github_repos": [
+          {
+            "full_name": "jay0078-gif/Paralives-Ultimate-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "faizhameed/Gothic-1-Remake-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nguyendang0106/Redz-Hub-2026-Keyless-Undetected",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nguyendang0106/Paralives-Ultimate-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "githublsy/Arbitrum-Arbitrage-Bot-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "iam7cn/Paralives-Ultimate-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "jay0078-gif/Gothic-1-Remake-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Schmobi85/Gothic-1-Remake-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "faizhameed/Paralives-Ultimate-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "helena-maia/Arbitrum-Arbitrage-Bot-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Edouard-LARROCHE/Arbitrum-Arbitrage-Bot-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Jackchen-code/Arbitrum-Arbitrage-Bot-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "jay0078-gif/Redz-Hub-2026-Keyless-Undetected",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent",
+        "github_repos": [
+          {
+            "full_name": "vercel/eve",
+            "stars": 2119,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Snailclimb/JavaGuide",
+            "stars": 156516,
+            "stars_gained": null
+          },
+          {
+            "full_name": "langgenius/dify",
+            "stars": 146091,
+            "stars_gained": null
+          },
+          {
+            "full_name": "lobehub/lobehub",
+            "stars": 78945,
+            "stars_gained": null
+          },
+          {
+            "full_name": "bytedance/deer-flow",
+            "stars": 72748,
+            "stars_gained": null
+          },
+          {
+            "full_name": "hiyouga/LlamaFactory",
+            "stars": 72328,
+            "stars_gained": null
+          },
+          {
+            "full_name": "unslothai/unsloth",
+            "stars": 67053,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "api",
+        "github_repos": [
+          {
+            "full_name": "Manavarya09/public-apis-live",
+            "stars": 118,
+            "stars_gained": null
+          },
+          {
+            "full_name": "public-apis/public-apis",
+            "stars": 443388,
+            "stars_gained": null
+          },
+          {
+            "full_name": "neovim/neovim",
+            "stars": 100602,
+            "stars_gained": null
+          },
+          {
+            "full_name": "fastapi/fastapi",
+            "stars": 99493,
+            "stars_gained": null
+          },
+          {
+            "full_name": "hoppscotch/hoppscotch",
+            "stars": 79603,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ocornut/imgui",
+            "stars": 74022,
+            "stars_gained": null
+          },
+          {
+            "full_name": "strapi/strapi",
+            "stars": 72422,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "android",
+        "github_repos": [
+          {
+            "full_name": "JassiSingh08/react-native-collapsible-tab",
+            "stars": 93,
+            "stars_gained": null
+          },
+          {
+            "full_name": "react/react-native",
+            "stars": 126049,
+            "stars_gained": null
+          },
+          {
+            "full_name": "rustdesk/rustdesk",
+            "stars": 116640,
+            "stars_gained": null
+          },
+          {
+            "full_name": "2dust/v2rayNG",
+            "stars": 58444,
+            "stars_gained": null
+          },
+          {
+            "full_name": "appwrite/appwrite",
+            "stars": 56377,
+            "stars_gained": null
+          },
+          {
+            "full_name": "laurent22/joplin",
+            "stars": 55304,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "cli",
+        "github_repos": [
+          {
+            "full_name": "ohmyzsh/ohmyzsh",
+            "stars": 188182,
+            "stars_gained": null
+          },
+          {
+            "full_name": "yt-dlp/yt-dlp",
+            "stars": 172453,
+            "stars_gained": null
+          },
+          {
+            "full_name": "sherlock-project/sherlock",
+            "stars": 85274,
+            "stars_gained": null
+          },
+          {
+            "full_name": "jesseduffield/lazygit",
+            "stars": 79506,
+            "stars_gained": null
+          },
+          {
+            "full_name": "sharkdp/bat",
+            "stars": 59350,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ultralytics/ultralytics",
+            "stars": 58640,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agents",
+        "github_repos": [
+          {
+            "full_name": "umacloud/umadev",
+            "stars": 78,
+            "stars_gained": null
+          },
+          {
+            "full_name": "langflow-ai/langflow",
+            "stars": 149917,
+            "stars_gained": null
+          },
+          {
+            "full_name": "langchain-ai/langchain",
+            "stars": 139840,
+            "stars_gained": null
+          },
+          {
+            "full_name": "mem0ai/mem0",
+            "stars": 59079,
+            "stars_gained": null
+          },
+          {
+            "full_name": "crewAIInc/crewAI",
+            "stars": 54103,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agentic-ai",
+        "github_repos": [
+          {
+            "full_name": "Significant-Gravitas/AutoGPT",
+            "stars": 185065,
+            "stars_gained": null
+          },
+          {
+            "full_name": "infiniflow/ragflow",
+            "stars": 83315,
+            "stars_gained": null
+          },
+          {
+            "full_name": "microsoft/ai-agents-for-beginners",
+            "stars": 67686,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ruvnet/ruflo",
+            "stars": 60797,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FlowiseAI/Flowise",
+            "stars": 53884,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-agent",
+        "github_repos": [
+          {
+            "full_name": "hbddevos/PumpFun-Trainer_V1",
+            "stars": 121,
+            "stars_gained": null
+          },
+          {
+            "full_name": "alkhudarigroupuae/PumpFun-Trainer_V1",
+            "stars": 121,
+            "stars_gained": null
+          },
+          {
+            "full_name": "thedaviddias/Front-End-Checklist",
+            "stars": 72996,
+            "stars_gained": null
+          },
+          {
+            "full_name": "santifer/career-ops",
+            "stars": 55092,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Ultimate trainer survival",
+        "github_repos": [
+          {
+            "full_name": "EstebanGitPro/Gothic1Remake_Trainer_v1",
+            "stars": 74,
+            "stars_gained": null
+          },
+          {
+            "full_name": "EstebanGitPro/Gothic1Remake_Trainer",
+            "stars": 72,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Schmobi85/Gothic1Remake_Trainer",
+            "stars": 72,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Schmobi85/Gothic1Remake_Trainer_v1",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Ultimate trainer Resident",
+        "github_repos": [
+          {
+            "full_name": "iam7cn/Resident-Evil-Requiem-Ultimate-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "jay0078-gif/Resident-Evil-Requiem-Ultimate-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Schmobi85/Resident-Evil-Requiem-Ultimate-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nguyendang0106/Resident-Evil-Requiem-Ultimate-Trainer-2026",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "framework",
+        "github_repos": [
+          {
+            "full_name": "laravel/laravel",
+            "stars": 84547,
+            "stars_gained": null
+          },
+          {
+            "full_name": "spring-projects/spring-boot",
+            "stars": 81010,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nestjs/nest",
+            "stars": 75933,
+            "stars_gained": null
+          },
+          {
+            "full_name": "spring-projects/spring-framework",
+            "stars": 60052,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "go",
+        "github_repos": [
+          {
+            "full_name": "overflowy/make-look-scanned",
+            "stars": 267,
+            "stars_gained": null
+          },
+          {
+            "full_name": "golang/go",
+            "stars": 134873,
+            "stars_gained": null
+          },
+          {
+            "full_name": "syncthing/syncthing",
+            "stars": 85650,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-agents",
+        "github_repos": [
+          {
+            "full_name": "yolfinance/yolfi-agent",
+            "stars": 180,
+            "stars_gained": null
+          },
+          {
+            "full_name": "affaan-m/ECC",
+            "stars": 219445,
+            "stars_gained": null
+          },
+          {
+            "full_name": "browser-use/browser-use",
+            "stars": 99985,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent-skills",
+        "github_repos": [
+          {
+            "full_name": "Shopee-Eng/functional-skill-creator",
+            "stars": 85,
+            "stars_gained": null
+          },
+          {
+            "full_name": "alpacahq/alpaca-skills",
+            "stars": 85,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nexu-io/open-design",
+            "stars": 68741,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "data-analysis",
+        "github_repos": [
+          {
+            "full_name": "Blazezorsave/Microsoft-Excel-2026",
+            "stars": 82,
+            "stars_gained": null
+          },
+          {
+            "full_name": "pondwalrusretort/MATLAB-2026",
+            "stars": 82,
+            "stars_gained": null
+          },
+          {
+            "full_name": "scikit-learn/scikit-learn",
+            "stars": 66391,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "audio",
+        "github_repos": [
+          {
+            "full_name": "Quantumeaplunder/Serato-DJ-Pro-2026",
+            "stars": 81,
+            "stars_gained": null
+          },
+          {
+            "full_name": "huggingface/transformers",
+            "stars": 161785,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FFmpeg/FFmpeg",
+            "stars": 61328,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "awesome",
+        "github_repos": [
+          {
+            "full_name": "awesome-selfhosted/awesome-selfhosted",
+            "stars": 300508,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ruvnet/RuView",
+            "stars": 75000,
+            "stars_gained": null
+          },
+          {
+            "full_name": "rust-unofficial/awesome-rust",
+            "stars": 57973,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "blog",
+        "github_repos": [
+          {
+            "full_name": "vercel/next.js",
+            "stars": 140129,
+            "stars_gained": null
+          },
+          {
+            "full_name": "AppFlowy-IO/AppFlowy",
+            "stars": 72789,
+            "stars_gained": null
+          },
+          {
+            "full_name": "gatsbyjs/gatsby",
+            "stars": 55942,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "astro",
+        "github_repos": [
+          {
+            "full_name": "Chalarangelo/30-seconds-of-code",
+            "stars": 128164,
+            "stars_gained": null
+          },
+          {
+            "full_name": "unionlabs/union",
+            "stars": 73950,
+            "stars_gained": null
+          },
+          {
+            "full_name": "withastro/astro",
+            "stars": 60347,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "javascript",
+        "github_repos": [
+          {
+            "full_name": "nodejs/node",
+            "stars": 117908,
+            "stars_gained": null
+          },
+          {
+            "full_name": "microsoft/TypeScript",
+            "stars": 109359,
+            "stars_gained": null
+          },
+          {
+            "full_name": "socketio/socket.io",
+            "stars": 63186,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "compiler",
+        "github_repos": [
+          {
+            "full_name": "rust-lang/rust",
+            "stars": 114034,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FuelLabs/sway",
+            "stars": 61603,
+            "stars_gained": null
+          },
+          {
+            "full_name": "typst/typst",
+            "stars": 54477,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "docker",
+        "github_repos": [
+          {
+            "full_name": "louislam/uptime-kuma",
+            "stars": 88293,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Stirling-Tools/Stirling-PDF",
+            "stars": 82197,
+            "stars_gained": null
+          },
+          {
+            "full_name": "usememos/memos",
+            "stars": 60972,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bash",
+        "github_repos": [
+          {
+            "full_name": "junegunn/fzf",
+            "stars": 81110,
+            "stars_gained": null
+          },
+          {
+            "full_name": "warpdotdev/warp",
+            "stars": 62152,
+            "stars_gained": null
+          },
+          {
+            "full_name": "starship/starship",
+            "stars": 58422,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "island-life",
+        "github_repos": [
+          {
+            "full_name": "roppik/tomodachi-pc",
+            "stars": 151,
+            "stars_gained": null
+          },
+          {
+            "full_name": "d-samaun/Tomodachi-Share-Mii",
+            "stars": 151,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "adopt-me-script-spawn-pets",
+        "github_repos": [
+          {
+            "full_name": "andralien/Synapse-Exec",
+            "stars": 115,
+            "stars_gained": null
+          },
+          {
+            "full_name": "aresleboss2005/Solara-Exec",
+            "stars": 115,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "copy-trading",
+        "github_repos": [
+          {
+            "full_name": "lescasinos/solana-copy-trading-bot",
+            "stars": 93,
+            "stars_gained": null
+          },
+          {
+            "full_name": "lathanFreeApp/solana-sniper-bot",
+            "stars": 93,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "antivirus",
+        "github_repos": [
+          {
+            "full_name": "BanEngineerLabel/Malwarebytes-Premium-2026",
+            "stars": 83,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Forwardmetier57/Bitdefender-Total-Security-2026",
+            "stars": 65,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "1hack",
+        "github_repos": [
+          {
+            "full_name": "qumariswinchester3/fortnite-version-26",
+            "stars": 70,
+            "stars_gained": null
+          },
+          {
+            "full_name": "demonninjafoyer/Arcane-Fortnite",
+            "stars": 63,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "editor",
+        "github_repos": [
+          {
+            "full_name": "microsoft/vscode",
+            "stars": 186621,
+            "stars_gained": null
+          },
+          {
+            "full_name": "OpenCut-app/OpenCut",
+            "stars": 58711,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "awesome-list",
+        "github_repos": [
+          {
+            "full_name": "ripienaar/free-for-dev",
+            "stars": 123294,
+            "stars_gained": null
+          },
+          {
+            "full_name": "VoltAgent/awesome-design-md",
+            "stars": 92098,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "c-plus-plus",
+        "github_repos": [
+          {
+            "full_name": "electron/electron",
+            "stars": 121716,
+            "stars_gained": null
+          },
+          {
+            "full_name": "opencv/opencv",
+            "stars": 89301,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "app",
+        "github_repos": [
+          {
+            "full_name": "jaywcjlove/awesome-mac",
+            "stars": 106112,
+            "stars_gained": null
+          },
+          {
+            "full_name": "toeverything/AFFiNE",
+            "stars": 69644,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "automation",
+        "github_repos": [
+          {
+            "full_name": "puppeteer/puppeteer",
+            "stars": 95185,
+            "stars_gained": null
+          },
+          {
+            "full_name": "microsoft/playwright",
+            "stars": 91365,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "amd",
+        "github_repos": [
+          {
+            "full_name": "vllm-project/vllm",
+            "stars": 83514,
+            "stars_gained": null
+          },
+          {
+            "full_name": "webpack/webpack",
+            "stars": 65856,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai4science",
+        "github_repos": [
+          {
+            "full_name": "PaddlePaddle/PaddleOCR",
+            "stars": 83217,
+            "stars_gained": null
+          },
+          {
+            "full_name": "opendatalab/MinerU",
+            "stars": 68260,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "hacktoberfest",
+        "github_repos": [
+          {
+            "full_name": "tesseract-ocr/tesseract",
+            "stars": 74873,
+            "stars_gained": null
+          },
+          {
+            "full_name": "pmndrs/zustand",
+            "stars": 58363,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "alerting",
+        "github_repos": [
+          {
+            "full_name": "grafana/grafana",
+            "stars": 74588,
+            "stars_gained": null
+          },
+          {
+            "full_name": "prometheus/prometheus",
+            "stars": 64683,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "analyzer",
+        "github_repos": [
+          {
+            "full_name": "tw93/Mole",
+            "stars": 56727,
+            "stars_gained": null
+          },
+          {
+            "full_name": "WerWolv/ImHex",
+            "stars": 53964,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "apps-sdk",
+        "github_repos": [
+          {
+            "full_name": "rebel0789/codexpro",
+            "stars": 639,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent-apprenticeship",
+        "github_repos": [
+          {
+            "full_name": "Forsy-AI/agent-apprenticeship",
+            "stars": 616,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Kubernetes browser.",
+        "github_repos": [
+          {
+            "full_name": "ngrok/webernetes",
+            "stars": 490,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Boogu-Image-0.1 Apache-2.0 open-source",
+        "github_repos": [
+          {
+            "full_name": "boogu-project/Boogu-Image",
+            "stars": 406,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "list back-end related",
+        "github_repos": [
+          {
+            "full_name": "ReulgeApmpetty0O/Back-End-Developer-Interview-Questions",
+            "stars": 368,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Agent: Open-source headless",
+        "github_repos": [
+          {
+            "full_name": "nnecrkvenuOX/formcms",
+            "stars": 365,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "betting-platform",
+        "github_repos": [
+          {
+            "full_name": "MstKail/wc2026-crypto-sportsbook",
+            "stars": 330,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent-skill",
+        "github_repos": [
+          {
+            "full_name": "lyra81604/zhengxi-views",
+            "stars": 327,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "coding-agent skill multi-phase",
+        "github_repos": [
+          {
+            "full_name": "cloudflare/security-audit-skill",
+            "stars": 255,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Cloudflare Worker adapter",
+        "github_repos": [
+          {
+            "full_name": "eooce/transfer-api",
+            "stars": 244,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent-tools",
+        "github_repos": [
+          {
+            "full_name": "aresyn/codex-control-plane-mcp",
+            "stars": 221,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Activation Context Hijacking",
+        "github_repos": [
+          {
+            "full_name": "r3xmax/PhantomCtx",
+            "stars": 216,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "chinese-culture",
+        "github_repos": [
+          {
+            "full_name": "dososo/chinese-traditional-patterns",
+            "stars": 183,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-mining",
+        "github_repos": [
+          {
+            "full_name": "Verdi38/Silent-Crypto-Miner",
+            "stars": 183,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ebpf",
+        "github_repos": [
+          {
+            "full_name": "yeet-src/httpinspect",
+            "stars": 170,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Using Gemini Nano",
+        "github_repos": [
+          {
+            "full_name": "Ar9av/gemini-nano-chrome",
+            "stars": 158,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "audio-dsp",
+        "github_repos": [
+          {
+            "full_name": "bonhs1983/Peace-Equalizer-Apo",
+            "stars": 153,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "3d-cad-software",
+        "github_repos": [
+          {
+            "full_name": "SamAun1234/auto-2026",
+            "stars": 151,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent-friendly",
+        "github_repos": [
+          {
+            "full_name": "sneakers-the-rat/ImportantCode",
+            "stars": 151,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "cslol",
+        "github_repos": [
+          {
+            "full_name": "PhamHongPhucs/LeagueToolKit-Manager",
+            "stars": 150,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ad-creative",
+        "github_repos": [
+          {
+            "full_name": "LichAmnesia/awesome-ad-video-prompts",
+            "stars": 149,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "brute-force-tool",
+        "github_repos": [
+          {
+            "full_name": "kelleylenc/Seed-Generator",
+            "stars": 146,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "shadcn/ui, building agents.",
+        "github_repos": [
+          {
+            "full_name": "shadcn-labs/agentcn",
+            "stars": 141,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "利用Team 空间域名free 账号跳过手机号登录",
+        "github_repos": [
+          {
+            "full_name": "cryingcheems/codex-team-oauth",
+            "stars": 134,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Twitter Trend Radar",
+        "github_repos": [
+          {
+            "full_name": "qiayue/Twitter-Trend-Radar",
+            "stars": 133,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "2fa",
+        "github_repos": [
+          {
+            "full_name": "zeropl/2FA",
+            "stars": 132,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "esp32-s3",
+        "github_repos": [
+          {
+            "full_name": "MichalZaniewicz/esphome-guition-jc3636k718c-va",
+            "stars": 132,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Code Data paper",
+        "github_repos": [
+          {
+            "full_name": "tongxuluo/gamecraft-bench",
+            "stars": 129,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "geolibre",
+        "github_repos": [
+          {
+            "full_name": "opengeos/geolibre-rust",
+            "stars": 124,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Badminton Hawk-Eye System",
+        "github_repos": [
+          {
+            "full_name": "yo-WASSUP/Good-Badminton",
+            "stars": 121,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "clipper",
+        "github_repos": [
+          {
+            "full_name": "darialebedev8/Crypto-Clipper",
+            "stars": 113,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "life-sim",
+        "github_repos": [
+          {
+            "full_name": "wring-hellcar/Tomadach-PC-2026-M2",
+            "stars": 113,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Design visual, review-gated",
+        "github_repos": [
+          {
+            "full_name": "ksimback/looper",
+            "stars": 111,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-app",
+        "github_repos": [
+          {
+            "full_name": "zyn26/minimax-m3-desktop-app-free-api",
+            "stars": 111,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "2-sat",
+        "github_repos": [
+          {
+            "full_name": "Firewalkeroffear/satisfactory-mod-manager",
+            "stars": 109,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "breath-of-the-wild",
+        "github_repos": [
+          {
+            "full_name": "catsing/oot-pc-port",
+            "stars": 109,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "crimson-desert-lsfg",
+        "github_repos": [
+          {
+            "full_name": "Fahim-SS/lsfg-git",
+            "stars": 109,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "hosting",
+        "github_repos": [
+          {
+            "full_name": "qwer-xyz/incudal",
+            "stars": 106,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "affordable-ai",
+        "github_repos": [
+          {
+            "full_name": "flatkey-ai/awesome-images",
+            "stars": 104,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Yonghsi Agent Skill",
+        "github_repos": [
+          {
+            "full_name": "twhsi/skills",
+            "stars": 104,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "[ECCV 2026] Moebius:",
+        "github_repos": [
+          {
+            "full_name": "hustvl/Moebius",
+            "stars": 102,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Reddit-mined data ranking",
+        "github_repos": [
+          {
+            "full_name": "JCarterJohnson/vibecoded-design-tells",
+            "stars": 101,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "amego",
+        "github_repos": [
+          {
+            "full_name": "paid-tw/einvoice",
+            "stars": 100,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "simple SwiftUI that",
+        "github_repos": [
+          {
+            "full_name": "StephenDev0/StikPair",
+            "stars": 99,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "image-generation",
+        "github_repos": [
+          {
+            "full_name": "techjarves/Portable-Diffusion",
+            "stars": 97,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "azure",
+        "github_repos": [
+          {
+            "full_name": "sameerk27/vigil365",
+            "stars": 96,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bitcoin-recovery",
+        "github_repos": [
+          {
+            "full_name": "regi1r/Crypto-Recovery",
+            "stars": 94,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "jupiter",
+        "github_repos": [
+          {
+            "full_name": "lathanFreeApp/solana-rug-checker-bot",
+            "stars": 93,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bonkfun",
+        "github_repos": [
+          {
+            "full_name": "signaltechorg/solana-trading-sniper-bot",
+            "stars": 93,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "随音乐产生交互的棋盘式海浪，支持网易云搜索",
+        "github_repos": [
+          {
+            "full_name": "yin-yizhen/sonic-topography",
+            "stars": 92,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "accessibility",
+        "github_repos": [
+          {
+            "full_name": "DatanoiseTV/ember-hackernews",
+            "stars": 92,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Terminal-based Telegram OSINT",
+        "github_repos": [
+          {
+            "full_name": "DarkWebInformer/telegram_osint",
+            "stars": 90,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "accounting",
+        "github_repos": [
+          {
+            "full_name": "ManacleBat38/QuickBooks-Desktop-2026",
+            "stars": 89,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "advanced-settings",
+        "github_repos": [
+          {
+            "full_name": "kenneth2222/fh6menu",
+            "stars": 89,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ocr",
+        "github_repos": [
+          {
+            "full_name": "helloxz/zocr",
+            "stars": 89,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "document-editing",
+        "github_repos": [
+          {
+            "full_name": "ScoutKhanStack/Microsoft-Word-2026",
+            "stars": 86,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "简短要点总结 基于PP-OCRv6（Tiny/Small/Medium三版本）搭建本地OCR工作台 苹果硅芯片支持CoreML硬件加速",
+        "github_repos": [
+          {
+            "full_name": "andyhuo520/ppocrv6-studio",
+            "stars": 86,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "device-repair",
+        "github_repos": [
+          {
+            "full_name": "ProsecutorLadle/Tenorshare-ReiBoot-2026",
+            "stars": 86,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "3d-modeling",
+        "github_repos": [
+          {
+            "full_name": "gasguardianarouse/SketchUp-Pro-2026",
+            "stars": 85,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "device-backup",
+        "github_repos": [
+          {
+            "full_name": "sparkassassinpush/iMazing-2026",
+            "stars": 85,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Warashi free, open-source",
+        "github_repos": [
+          {
+            "full_name": "inni918/warashi",
+            "stars": 85,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "autocad",
+        "github_repos": [
+          {
+            "full_name": "orbitpyromancerport/AutoCAD-2026",
+            "stars": 85,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "acronis",
+        "github_repos": [
+          {
+            "full_name": "Pillartatrough/Acronis-True-Image-2026",
+            "stars": 85,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "network-security",
+        "github_repos": [
+          {
+            "full_name": "ComponentGlazier/NordVPN-2026",
+            "stars": 85,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "exitlag",
+        "github_repos": [
+          {
+            "full_name": "KeeperDefine/ExitLag-2026",
+            "stars": 84,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "anti-bot-detection",
+        "github_repos": [
+          {
+            "full_name": "remsi24blue/AD-Browser-Free",
+            "stars": 84,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "business-presentations",
+        "github_repos": [
+          {
+            "full_name": "SnailWedge89/Microsoft-PowerPoint-2026",
+            "stars": 84,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "expressvpn",
+        "github_repos": [
+          {
+            "full_name": "ProhibitionCzarCure/ExpressVPN-2026",
+            "stars": 83,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "audio-production",
+        "github_repos": [
+          {
+            "full_name": "StuccoMareSack/Cubase-2026",
+            "stars": 83,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ableton",
+        "github_repos": [
+          {
+            "full_name": "RiverPremierCupola/Ableton-Live-2026",
+            "stars": 82,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "helpdesk",
+        "github_repos": [
+          {
+            "full_name": "TwilightCrabHose/TeamViewer-2026",
+            "stars": 81,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "game-booster",
+        "github_repos": [
+          {
+            "full_name": "Trueuechisel/LagoFast-2026",
+            "stars": 81,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Markdown 转微信公众号文章排版工具，支持本地排版和 智能排版双模式。",
+        "github_repos": [
+          {
+            "full_name": "moduwusuowei/geshifang",
+            "stars": 81,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "cleverfiles",
+        "github_repos": [
+          {
+            "full_name": "beigecaptaintrip/Disk-Drill-2026",
+            "stars": 81,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ccleaner",
+        "github_repos": [
+          {
+            "full_name": "OutpostSmash/CCleaner-Professional-2026",
+            "stars": 81,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "blackmagic",
+        "github_repos": [
+          {
+            "full_name": "AdvocateArouse/DaVinci-Resolve-Studio-2026",
+            "stars": 81,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "gaming",
+        "github_repos": [
+          {
+            "full_name": "FletcherCondense/WTFast-2026",
+            "stars": 80,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "zcode客户端账号切换工具，支持国内、国际账号添加，一键式切换",
+        "github_repos": [
+          {
+            "full_name": "smartlizi/zcode-account-switcher",
+            "stars": 80,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "personal collection notes",
+        "github_repos": [
+          {
+            "full_name": "JINO-ROHIT/ml-systems-notes",
+            "stars": 80,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "champions",
+        "github_repos": [
+          {
+            "full_name": "kontaktinfob-popeb-music-glitch/pokemon-champions-pc",
+            "stars": 79,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-video",
+        "github_repos": [
+          {
+            "full_name": "dikurdikur/palmier-pro-windows",
+            "stars": 79,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "devops-lab",
+        "github_repos": [
+          {
+            "full_name": "LieutenantRepair/VMware-Workstation-Pro-2026",
+            "stars": 79,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Autonomous squads compete",
+        "github_repos": [
+          {
+            "full_name": "lucasfishh/vanta",
+            "stars": 78,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bandicam",
+        "github_repos": [
+          {
+            "full_name": "CycleOverpass/Bandicam-2026",
+            "stars": 78,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "architecture",
+        "github_repos": [
+          {
+            "full_name": "Thorntrorefinery/Autodesk-Revit-2026",
+            "stars": 78,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "community-module",
+        "github_repos": [
+          {
+            "full_name": "pixelgridhub-coder/Gothic-Remake-Lockpick-Solver",
+            "stars": 78,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Universal provider proxy",
+        "github_repos": [
+          {
+            "full_name": "lidge-jun/opencodex",
+            "stars": 77,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Unlimited Works: Welcome",
+        "github_repos": [
+          {
+            "full_name": "baidu/Unlimited-OCR",
+            "stars": 77,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "aimassist",
+        "github_repos": [
+          {
+            "full_name": "WilonityInc/WilonityLoader",
+            "stars": 75,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "archive-extraction",
+        "github_repos": [
+          {
+            "full_name": "Wavenovawhisper/WinZip-Pro-2026",
+            "stars": 75,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "给每一个产品经理的demo开发技能，帮助你对齐需求，完成demo的开发",
+        "github_repos": [
+          {
+            "full_name": "Junliu1066/-Skill",
+            "stars": 75,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "dialog.org website plain",
+        "github_repos": [
+          {
+            "full_name": "nzaki-dev/dialog",
+            "stars": 72,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-chatbot",
+        "github_repos": [
+          {
+            "full_name": "miIciaq/GirlChat-AdultCompanion-2026",
+            "stars": 71,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "curseforge-jenny-mod",
+        "github_repos": [
+          {
+            "full_name": "pris40danielrus/Jenny-Mine-MOD-2026-MoreGirls",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "a4tech-im-magician-driver-download",
+        "github_repos": [
+          {
+            "full_name": "mainkrafter-0224/Samsung-Magician-Driver",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "file-hosting",
+        "github_repos": [
+          {
+            "full_name": "south-lopd/sharex-screen-V26",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "telegram-gift-buyer",
+        "github_repos": [
+          {
+            "full_name": "meztinos68/TG-AB-2026",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "activation-fix",
+        "github_repos": [
+          {
+            "full_name": "hotzarzimbade/activator-windows-10-11",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "file-archiver",
+        "github_repos": [
+          {
+            "full_name": "dreamsmoke-qwenty/Winrar-FullVersion",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "antivirus-tools",
+        "github_repos": [
+          {
+            "full_name": "weeqeetol306/CCL-Latest",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "将zcode的免费额度反代使用",
+        "github_repos": [
+          {
+            "full_name": "liu5269/zcode2api",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "auto-create-gmail",
+        "github_repos": [
+          {
+            "full_name": "madeon-went/Gmail-AutoReg-and-Check",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "microsoft-word-editor",
+        "github_repos": [
+          {
+            "full_name": "hellbird905/Word-Full-version",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "deepfake",
+        "github_repos": [
+          {
+            "full_name": "moneymaker681/DeepFake-AI-RealTime",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "crosshair",
+        "github_repos": [
+          {
+            "full_name": "signrhinomagnify/Crosshair-X",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "纯协议层 ChatGPT 账号自动注册工具。不开浏览器、不用",
+        "github_repos": [
+          {
+            "full_name": "xiaoguzuiniu/gpt-free-register",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-image-generation",
+        "github_repos": [
+          {
+            "full_name": "muchel-stoke/AI-Image-Generator",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-gateway",
+        "github_repos": [
+          {
+            "full_name": "agiwhitelist/tokdiet",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "camtasia",
+        "github_repos": [
+          {
+            "full_name": "belka-3923/Filmora-2026-UPD",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Easy-to-use utility installer",
+        "github_repos": [
+          {
+            "full_name": "hop68blackwolf/Crimson-Desert-2026-Wq",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "defense-in-depth",
+        "github_repos": [
+          {
+            "full_name": "kil-ktovwarfuce/Panel2-collection-27",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "battleye",
+        "github_repos": [
+          {
+            "full_name": "bubblegumglen782/E-f-T-D-M-A-2026",
+            "stars": 68,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Cobalt Strike that",
+        "github_repos": [
+          {
+            "full_name": "nmht3t/RawHive",
+            "stars": 67,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "WasmForge compile programs",
+        "github_repos": [
+          {
+            "full_name": "praetorian-inc/wasmforge",
+            "stars": 67,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "asm",
+        "github_repos": [
+          {
+            "full_name": "HHT0rro/JavaShroud",
+            "stars": 66,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "device-spoofing",
+        "github_repos": [
+          {
+            "full_name": "liuzhyian158/HWID-Spoof-Cleaner-2",
+            "stars": 65,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "apex-fps-booster-setup",
+        "github_repos": [
+          {
+            "full_name": "aliencodingjava/universal-fps-tweak-26",
+            "stars": 65,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "apps",
+        "github_repos": [
+          {
+            "full_name": "ahmednasser04/honkaistarrailexternal-2",
+            "stars": 65,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "content-downloader",
+        "github_repos": [
+          {
+            "full_name": "mrtwister40hotness/OF-Content-DWNLR",
+            "stars": 64,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Claude Code가 합성·유지하는",
+        "github_repos": [
+          {
+            "full_name": "fivetaku/llm-wiki",
+            "stars": 64,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "nicechunk-guardian split from",
+        "github_repos": [
+          {
+            "full_name": "nicechunk/nicechunk-guardian",
+            "stars": 64,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent-memory",
+        "github_repos": [
+          {
+            "full_name": "rzhub/GateMem",
+            "stars": 63,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "audio-visual-generation",
+        "github_repos": [
+          {
+            "full_name": "catnip-ai-tech/MaineCoon",
+            "stars": 62,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "cpanel",
+        "github_repos": [
+          {
+            "full_name": "clsmight/CVE-2026-41940-PoC",
+            "stars": 62,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Skill Claude Code:",
+        "github_repos": [
+          {
+            "full_name": "Lelemon-studio/compliance-cl",
+            "stars": 61,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ESP32 firmware that",
+        "github_repos": [
+          {
+            "full_name": "0xXyc/splinter",
+            "stars": 61,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Obsidian brain smart",
+        "github_repos": [
+          {
+            "full_name": "Auditware/AuditVault",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "careers",
+        "github_repos": [
+          {
+            "full_name": "freeCodeCamp/freeCodeCamp",
+            "stars": 450112,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "angular-roadmap",
+        "github_repos": [
+          {
+            "full_name": "nilbuild/developer-roadmap",
+            "stars": 357950,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "declarative",
+        "github_repos": [
+          {
+            "full_name": "react/react",
+            "stars": 245995,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Linux kernel source",
+        "github_repos": [
+          {
+            "full_name": "torvalds/linux",
+            "stars": 237198,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "algorithm",
+        "github_repos": [
+          {
+            "full_name": "trekhleb/javascript-algorithms",
+            "stars": 196116,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "deep-learning",
+        "github_repos": [
+          {
+            "full_name": "tensorflow/tensorflow",
+            "stars": 195813,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "open source coding",
+        "github_repos": [
+          {
+            "full_name": "anomalyco/opencode",
+            "stars": 177081,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "deepseek",
+        "github_repos": [
+          {
+            "full_name": "ollama/ollama",
+            "stars": 174698,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bootstrap",
+        "github_repos": [
+          {
+            "full_name": "twbs/bootstrap",
+            "stars": 174373,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Skills Real Engineers.",
+        "github_repos": [
+          {
+            "full_name": "mattpocock/skills",
+            "stars": 140194,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "advanced-paste",
+        "github_repos": [
+          {
+            "full_name": "microsoft/PowerToys",
+            "stars": 135377,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "iptv",
+        "github_repos": [
+          {
+            "full_name": "iptv-org/iptv",
+            "stars": 127215,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "clash",
+        "github_repos": [
+          {
+            "full_name": "clash-verge-rev/clash-verge-rev",
+            "stars": 127047,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "canvas",
+        "github_repos": [
+          {
+            "full_name": "excalidraw/excalidraw",
+            "stars": 125920,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "cncf",
+        "github_repos": [
+          {
+            "full_name": "kubernetes/kubernetes",
+            "stars": 123182,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ggml",
+        "github_repos": [
+          {
+            "full_name": "ggml-org/llama.cpp",
+            "stars": 117607,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "base-ui",
+        "github_repos": [
+          {
+            "full_name": "shadcn-ui/ui",
+            "stars": 117109,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "complete agency your",
+        "github_repos": [
+          {
+            "full_name": "msitarzewski/agency-agents",
+            "stars": 114968,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "3d",
+        "github_repos": [
+          {
+            "full_name": "mrdoob/three.js",
+            "stars": 113225,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "game-development",
+        "github_repos": [
+          {
+            "full_name": "godotengine/godot",
+            "stars": 112890,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Garry Tan's exact",
+        "github_repos": [
+          {
+            "full_name": "garrytan/gstack",
+            "stars": 112466,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "proxy",
+        "github_repos": [
+          {
+            "full_name": "2dust/v2rayN",
+            "stars": 109615,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "desktop-app",
+        "github_repos": [
+          {
+            "full_name": "tauri-apps/tauri",
+            "stars": 108185,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "deno",
+        "github_repos": [
+          {
+            "full_name": "denoland/deno",
+            "stars": 107191,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-tools",
+        "github_repos": [
+          {
+            "full_name": "farion1231/cc-switch",
+            "stars": 105884,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "backup-tool",
+        "github_repos": [
+          {
+            "full_name": "immich-app/immich",
+            "stars": 104106,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "cmd",
+        "github_repos": [
+          {
+            "full_name": "microsoft/terminal",
+            "stars": 103670,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "autograd",
+        "github_repos": [
+          {
+            "full_name": "pytorch/pytorch",
+            "stars": 100943,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "chinese",
+        "github_repos": [
+          {
+            "full_name": "Anduin2017/HowToCook",
+            "stars": 100872,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "design-system",
+        "github_repos": [
+          {
+            "full_name": "mui/material-ui",
+            "stars": 98453,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ant-design",
+        "github_repos": [
+          {
+            "full_name": "ant-design/ant-design",
+            "stars": 98421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "css",
+        "github_repos": [
+          {
+            "full_name": "tailwindlabs/tailwindcss",
+            "stars": 95687,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ai-skills",
+        "github_repos": [
+          {
+            "full_name": "nextlevelbuilder/ui-ux-pro-max-skill",
+            "stars": 94814,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bun",
+        "github_repos": [
+          {
+            "full_name": "oven-sh/bun",
+            "stars": 93357,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Lightweight coding agent",
+        "github_repos": [
+          {
+            "full_name": "openai/codex",
+            "stars": 92572,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bitcoin",
+        "github_repos": [
+          {
+            "full_name": "bitcoin/bitcoin",
+            "stars": 89510,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "diagrams",
+        "github_repos": [
+          {
+            "full_name": "mermaid-js/mermaid",
+            "stars": 88769,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "blog-engine",
+        "github_repos": [
+          {
+            "full_name": "gohugoio/hugo",
+            "stars": 88682,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "asyncio",
+        "github_repos": [
+          {
+            "full_name": "home-assistant/core",
+            "stars": 87910,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Model Context Protocol",
+        "github_repos": [
+          {
+            "full_name": "modelcontextprotocol/servers",
+            "stars": 87534,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "packaging",
+        "github_repos": [
+          {
+            "full_name": "astral-sh/uv",
+            "stars": 86630,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "gpui",
+        "github_repos": [
+          {
+            "full_name": "zed-industries/zed",
+            "stars": 85711,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "dart",
+        "github_repos": [
+          {
+            "full_name": "localsend/localsend",
+            "stars": 83922,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "build-tool",
+        "github_repos": [
+          {
+            "full_name": "vitejs/vite",
+            "stars": 81588,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bounty",
+        "github_repos": [
+          {
+            "full_name": "swisskyrepo/PayloadsAllTheThings",
+            "stars": 78573,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "browser-ide",
+        "github_repos": [
+          {
+            "full_name": "coder/code-server",
+            "stars": 78003,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "elasticsearch",
+        "github_repos": [
+          {
+            "full_name": "elastic/elasticsearch",
+            "stars": 77103,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "aaron-swartz",
+        "github_repos": [
+          {
+            "full_name": "awesomedata/awesome-public-datasets",
+            "stars": 76032,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Self-hosted workspace.",
+        "github_repos": [
+          {
+            "full_name": "pewdiepie-archdaemon/odysseus",
+            "stars": 75837,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "cache",
+        "github_repos": [
+          {
+            "full_name": "redis/redis",
+            "stars": 75030,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "acme",
+        "github_repos": [
+          {
+            "full_name": "caddyserver/caddy",
+            "stars": 73485,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "analytics",
+        "github_repos": [
+          {
+            "full_name": "apache/superset",
+            "stars": 73422,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Python programming language",
+        "github_repos": [
+          {
+            "full_name": "python/cpython",
+            "stars": 73358,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "c",
+        "github_repos": [
+          {
+            "full_name": "obsproject/obs-studio",
+            "stars": 73353,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Drop screenshot convert",
+        "github_repos": [
+          {
+            "full_name": "abi/screenshot-to-code",
+            "stars": 73020,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "curated list awesome",
+        "github_repos": [
+          {
+            "full_name": "josephmisiti/awesome-machine-learning",
+            "stars": 72983,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agentic-workflow",
+        "github_repos": [
+          {
+            "full_name": "daytonaio/daytona",
+            "stars": 72363,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "serial",
+        "github_repos": [
+          {
+            "full_name": "Eugeny/tabby",
+            "stars": 72267,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "containers",
+        "github_repos": [
+          {
+            "full_name": "moby/moby",
+            "stars": 71725,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "SecLists security tester's",
+        "github_repos": [
+          {
+            "full_name": "danielmiessler/SecLists",
+            "stars": 71676,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "marshalling",
+        "github_repos": [
+          {
+            "full_name": "protocolbuffers/protobuf",
+            "stars": 71375,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "open-source everyone uses",
+        "github_repos": [
+          {
+            "full_name": "paperclipai/paperclip",
+            "stars": 71162,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "antigravity",
+        "github_repos": [
+          {
+            "full_name": "safishamsi/graphify",
+            "stars": 70386,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Swift Programming Language",
+        "github_repos": [
+          {
+            "full_name": "swiftlang/swift",
+            "stars": 70096,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Crawl4AI: Open-source Friendly",
+        "github_repos": [
+          {
+            "full_name": "unclecode/crawl4ai",
+            "stars": 69161,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ansible",
+        "github_repos": [
+          {
+            "full_name": "ansible/ansible",
+            "stars": 69020,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "chatbot",
+        "github_repos": [
+          {
+            "full_name": "xtekky/gpt4free",
+            "stars": 66407,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "blocker",
+        "github_repos": [
+          {
+            "full_name": "gorhill/uBlock",
+            "stars": 65674,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "antigravity-skills",
+        "github_repos": [
+          {
+            "full_name": "Egonex-AI/Understand-Anything",
+            "stars": 65577,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "documentation",
+        "github_repos": [
+          {
+            "full_name": "facebook/docusaurus",
+            "stars": 65321,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agentic-coding",
+        "github_repos": [
+          {
+            "full_name": "rtk-ai/rtk",
+            "stars": 64677,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bsd",
+        "github_repos": [
+          {
+            "full_name": "alacritty/alacritty",
+            "stars": 64650,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent toolkit: unified",
+        "github_repos": [
+          {
+            "full_name": "earendil-works/pi",
+            "stars": 64521,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "data-science",
+        "github_repos": [
+          {
+            "full_name": "keras-team/keras",
+            "stars": 64099,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "coding-agent",
+        "github_repos": [
+          {
+            "full_name": "openinterpreter/openinterpreter",
+            "stars": 64079,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "consul",
+        "github_repos": [
+          {
+            "full_name": "traefik/traefik",
+            "stars": 63713,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "airtable",
+        "github_repos": [
+          {
+            "full_name": "nocodb/nocodb",
+            "stars": 63519,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "batch-processing",
+        "github_repos": [
+          {
+            "full_name": "pathwaycom/pathway",
+            "stars": 62883,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "crawler",
+        "github_repos": [
+          {
+            "full_name": "scrapy/scrapy",
+            "stars": 62416,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent-harness",
+        "github_repos": [
+          {
+            "full_name": "Mintplex-Labs/anything-llm",
+            "stars": 61905,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "diagram-editor",
+        "github_repos": [
+          {
+            "full_name": "jgraph/drawio-desktop",
+            "stars": 61735,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "css-questions",
+        "github_repos": [
+          {
+            "full_name": "h5bp/Front-end-Developer-Interview-Questions",
+            "stars": 60880,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "csr",
+        "github_repos": [
+          {
+            "full_name": "nuxt/nuxt",
+            "stars": 60515,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Hedge Fund Team",
+        "github_repos": [
+          {
+            "full_name": "virattt/ai-hedge-fund",
+            "stars": 60414,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "jquery",
+        "github_repos": [
+          {
+            "full_name": "jquery/jquery",
+            "stars": 59820,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "ad-blocker",
+        "github_repos": [
+          {
+            "full_name": "pi-hole/pi-hole",
+            "stars": 59396,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "authentication",
+        "github_repos": [
+          {
+            "full_name": "pocketbase/pocketbase",
+            "stars": 59221,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "text-to-speech",
+        "github_repos": [
+          {
+            "full_name": "RVC-Boss/GPT-SoVITS",
+            "stars": 58921,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "activejob",
+        "github_repos": [
+          {
+            "full_name": "rails/rails",
+            "stars": 58713,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "azure-blob",
+        "github_repos": [
+          {
+            "full_name": "rclone/rclone",
+            "stars": 57962,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "llm",
+        "github_repos": [
+          {
+            "full_name": "upstash/context7",
+            "stars": 57830,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "dark-mode",
+        "github_repos": [
+          {
+            "full_name": "marktext/marktext",
+            "stars": 57657,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "coreml",
+        "github_repos": [
+          {
+            "full_name": "ultralytics/yolov5",
+            "stars": 57538,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "blockchain",
+        "github_repos": [
+          {
+            "full_name": "FuelLabs/fuel-core",
+            "stars": 56996,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Ghostty fast, feature-rich,",
+        "github_repos": [
+          {
+            "full_name": "ghostty-org/ghostty",
+            "stars": 56847,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Declarative routing React",
+        "github_repos": [
+          {
+            "full_name": "remix-run/react-router",
+            "stars": 56461,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "chatgpt",
+        "github_repos": [
+          {
+            "full_name": "tw93/Pake",
+            "stars": 56406,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Chris Titus Tech's",
+        "github_repos": [
+          {
+            "full_name": "ChrisTitusTech/winutil",
+            "stars": 56205,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "bittorrent",
+        "github_repos": [
+          {
+            "full_name": "ngosang/trackerslist",
+            "stars": 54236,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "blogging",
+        "github_repos": [
+          {
+            "full_name": "TryGhost/Ghost",
+            "stars": 54072,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "command-line",
+        "github_repos": [
+          {
+            "full_name": "PowerShell/PowerShell",
+            "stars": 54043,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "Vue.js progressive, incrementally-adoptable",
+        "github_repos": [
+          {
+            "full_name": "vuejs/core",
+            "stars": 53855,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      }
+    ]
+  },
+  "uncorrelated_repos": [
+    "rebel0789/codexpro",
+    "Forsy-AI/agent-apprenticeship",
+    "ngrok/webernetes",
+    "boogu-project/Boogu-Image",
+    "ReulgeApmpetty0O/Back-End-Developer-Interview-Questions",
+    "nnecrkvenuOX/formcms",
+    "MstKail/wc2026-crypto-sportsbook",
+    "lyra81604/zhengxi-views",
+    "cloudflare/security-audit-skill",
+    "eooce/transfer-api",
+    "aresyn/codex-control-plane-mcp",
+    "r3xmax/PhantomCtx",
+    "dososo/chinese-traditional-patterns",
+    "Verdi38/Silent-Crypto-Miner",
+    "yolfinance/yolfi-agent",
+    "yeet-src/httpinspect",
+    "Ar9av/gemini-nano-chrome",
+    "bonhs1983/Peace-Equalizer-Apo",
+    "roppik/tomodachi-pc",
+    "SamAun1234/auto-2026",
+    "d-samaun/Tomodachi-Share-Mii",
+    "PhamHongPhucs/LeagueToolKit-Manager",
+    "LichAmnesia/awesome-ad-video-prompts",
+    "kelleylenc/Seed-Generator",
+    "cryingcheems/codex-team-oauth",
+    "qiayue/Twitter-Trend-Radar",
+    "zeropl/2FA",
+    "MichalZaniewicz/esphome-guition-jc3636k718c-va",
+    "tongxuluo/gamecraft-bench",
+    "opengeos/geolibre-rust",
+    "yo-WASSUP/Good-Badminton",
+    "hbddevos/PumpFun-Trainer_V1",
+    "alkhudarigroupuae/PumpFun-Trainer_V1",
+    "Manavarya09/public-apis-live",
+    "andralien/Synapse-Exec",
+    "aresleboss2005/Solara-Exec",
+    "darialebedev8/Crypto-Clipper",
+    "wring-hellcar/Tomadach-PC-2026-M2",
+    "Firewalkeroffear/satisfactory-mod-manager",
+    "catsing/oot-pc-port",
+    "Fahim-SS/lsfg-git",
+    "flatkey-ai/awesome-images",
+    "hustvl/Moebius",
+    "JCarterJohnson/vibecoded-design-tells",
+    "StephenDev0/StikPair",
+    "techjarves/Portable-Diffusion",
+    "regi1r/Crypto-Recovery",
+    "lathanFreeApp/solana-rug-checker-bot",
+    "lescasinos/solana-copy-trading-bot",
+    "signaltechorg/solana-trading-sniper-bot",
+    "JassiSingh08/react-native-collapsible-tab",
+    "lathanFreeApp/solana-sniper-bot",
+    "yin-yizhen/sonic-topography",
+    "DatanoiseTV/ember-hackernews",
+    "DarkWebInformer/telegram_osint",
+    "ManacleBat38/QuickBooks-Desktop-2026",
+    "kenneth2222/fh6menu",
+    "helloxz/zocr",
+    "ScoutKhanStack/Microsoft-Word-2026",
+    "andyhuo520/ppocrv6-studio",
+    "ProsecutorLadle/Tenorshare-ReiBoot-2026",
+    "Shopee-Eng/functional-skill-creator",
+    "alpacahq/alpaca-skills",
+    "gasguardianarouse/SketchUp-Pro-2026",
+    "sparkassassinpush/iMazing-2026",
+    "inni918/warashi",
+    "orbitpyromancerport/AutoCAD-2026",
+    "Pillartatrough/Acronis-True-Image-2026",
+    "ComponentGlazier/NordVPN-2026",
+    "SnailWedge89/Microsoft-PowerPoint-2026",
+    "BanEngineerLabel/Malwarebytes-Premium-2026",
+    "ProhibitionCzarCure/ExpressVPN-2026",
+    "StuccoMareSack/Cubase-2026",
+    "Blazezorsave/Microsoft-Excel-2026",
+    "pondwalrusretort/MATLAB-2026",
+    "RiverPremierCupola/Ableton-Live-2026",
+    "TwilightCrabHose/TeamViewer-2026",
+    "beigecaptaintrip/Disk-Drill-2026",
+    "Quantumeaplunder/Serato-DJ-Pro-2026",
+    "OutpostSmash/CCleaner-Professional-2026",
+    "AdvocateArouse/DaVinci-Resolve-Studio-2026",
+    "smartlizi/zcode-account-switcher",
+    "JINO-ROHIT/ml-systems-notes",
+    "kontaktinfob-popeb-music-glitch/pokemon-champions-pc",
+    "dikurdikur/palmier-pro-windows",
+    "LieutenantRepair/VMware-Workstation-Pro-2026",
+    "lucasfishh/vanta",
+    "CycleOverpass/Bandicam-2026",
+    "Thorntrorefinery/Autodesk-Revit-2026",
+    "pixelgridhub-coder/Gothic-Remake-Lockpick-Solver",
+    "lidge-jun/opencodex",
+    "baidu/Unlimited-OCR",
+    "WilonityInc/WilonityLoader",
+    "Wavenovawhisper/WinZip-Pro-2026",
+    "Junliu1066/-Skill",
+    "EstebanGitPro/Gothic1Remake_Trainer_v1",
+    "EstebanGitPro/Gothic1Remake_Trainer",
+    "Schmobi85/Gothic1Remake_Trainer",
+    "miIciaq/GirlChat-AdultCompanion-2026",
+    "qumariswinchester3/fortnite-version-26",
+    "pris40danielrus/Jenny-Mine-MOD-2026-MoreGirls",
+    "mainkrafter-0224/Samsung-Magician-Driver",
+    "south-lopd/sharex-screen-V26",
+    "meztinos68/TG-AB-2026",
+    "hotzarzimbade/activator-windows-10-11",
+    "Schmobi85/Gothic1Remake_Trainer_v1",
+    "dreamsmoke-qwenty/Winrar-FullVersion",
+    "weeqeetol306/CCL-Latest",
+    "liu5269/zcode2api",
+    "madeon-went/Gmail-AutoReg-and-Check",
+    "hellbird905/Word-Full-version",
+    "signrhinomagnify/Crosshair-X",
+    "belka-3923/Filmora-2026-UPD",
+    "hop68blackwolf/Crimson-Desert-2026-Wq",
+    "kil-ktovwarfuce/Panel2-collection-27",
+    "bubblegumglen782/E-f-T-D-M-A-2026",
+    "nmht3t/RawHive",
+    "praetorian-inc/wasmforge",
+    "HHT0rro/JavaShroud",
+    "liuzhyian158/HWID-Spoof-Cleaner-2",
+    "Forwardmetier57/Bitdefender-Total-Security-2026",
+    "aliencodingjava/universal-fps-tweak-26",
+    "mrtwister40hotness/OF-Content-DWNLR",
+    "fivetaku/llm-wiki",
+    "nicechunk/nicechunk-guardian",
+    "demonninjafoyer/Arcane-Fortnite",
+    "catnip-ai-tech/MaineCoon",
+    "clsmight/CVE-2026-41940-PoC",
+    "Lelemon-studio/compliance-cl",
+    "faizhameed/007-First-Light-Trainer-And-Optimizer",
+    "0xXyc/splinter",
+    "helena-maia/007-First-Light-Trainer-And-Optimizer",
+    "EstebanGitPro/007-First-Light-Trainer-And-Optimizer",
+    "iam7cn/Resident-Evil-Requiem-Ultimate-Trainer-2026",
+    "ugbeh/007-First-Light-Trainer-And-Optimizer",
+    "jay0078-gif/Paralives-Ultimate-Trainer-2026",
+    "faizhameed/Gothic-1-Remake-Trainer-2026",
+    "Memomostafakamel/007-First-Light-Trainer-And-Optimizer",
+    "nguyendang0106/007-First-Light-Trainer-And-Optimizer",
+    "Schmobi85/007-First-Light-Trainer-And-Optimizer",
+    "jay0078-gif/Resident-Evil-Requiem-Ultimate-Trainer-2026",
+    "yheun03/007-First-Light-Trainer-And-Optimizer",
+    "efefirda/007-First-Light-Trainer-And-Optimizer",
+    "githublsy/007-First-Light-Trainer-And-Optimizer",
+    "Schmobi85/Resident-Evil-Requiem-Ultimate-Trainer-2026",
+    "nguyendang0106/Paralives-Ultimate-Trainer-2026",
+    "abhishek-dungen/007-First-Light-Trainer-And-Optimizer",
+    "Captain236/007-First-Light-Trainer-And-Optimizer",
+    "Edouard-LARROCHE/007-First-Light-Trainer-And-Optimizer",
+    "Finneyd16/007-First-Light-Trainer-And-Optimizer",
+    "iam7cn/Paralives-Ultimate-Trainer-2026",
+    "jay0078-gif/Gothic-1-Remake-Trainer-2026",
+    "Schmobi85/Gothic-1-Remake-Trainer-2026",
+    "nguyendang0106/Resident-Evil-Requiem-Ultimate-Trainer-2026",
+    "Jackchen-code/007-First-Light-Trainer-And-Optimizer",
+    "muneeb1097m/007-First-Light-Trainer-And-Optimizer",
+    "faizhameed/Paralives-Ultimate-Trainer-2026",
+    "Harsukh21/007-First-Light-Trainer-And-Optimizer",
+    "Auditware/AuditVault",
+    "Zkarape/007-First-Light-Trainer-And-Optimizer",
+    "iam7cn/007-First-Light-Trainer-And-Optimizer",
+    "freeCodeCamp/freeCodeCamp",
+    "nilbuild/developer-roadmap",
+    "awesome-selfhosted/awesome-selfhosted",
+    "react/react",
+    "trekhleb/javascript-algorithms",
+    "tensorflow/tensorflow",
+    "ohmyzsh/ohmyzsh",
+    "microsoft/vscode",
+    "anomalyco/opencode",
+    "twbs/bootstrap",
+    "yt-dlp/yt-dlp",
+    "huggingface/transformers",
+    "langflow-ai/langflow",
+    "vercel/next.js",
+    "microsoft/PowerToys",
+    "iptv-org/iptv",
+    "clash-verge-rev/clash-verge-rev",
+    "react/react-native",
+    "excalidraw/excalidraw",
+    "electron/electron",
+    "ggml-org/llama.cpp",
+    "shadcn-ui/ui",
+    "rustdesk/rustdesk",
+    "mrdoob/three.js",
+    "godotengine/godot",
+    "garrytan/gstack",
+    "2dust/v2rayN",
+    "microsoft/TypeScript",
+    "denoland/deno",
+    "farion1231/cc-switch",
+    "immich-app/immich",
+    "microsoft/terminal",
+    "pytorch/pytorch",
+    "Anduin2017/HowToCook",
+    "neovim/neovim",
+    "browser-use/browser-use",
+    "fastapi/fastapi",
+    "mui/material-ui",
+    "ant-design/ant-design",
+    "tailwindlabs/tailwindcss",
+    "puppeteer/puppeteer",
+    "nextlevelbuilder/ui-ux-pro-max-skill",
+    "oven-sh/bun",
+    "openai/codex",
+    "VoltAgent/awesome-design-md",
+    "microsoft/playwright",
+    "bitcoin/bitcoin",
+    "opencv/opencv",
+    "louislam/uptime-kuma",
+    "astral-sh/uv",
+    "zed-industries/zed",
+    "PaddlePaddle/PaddleOCR",
+    "Stirling-Tools/Stirling-PDF",
+    "vitejs/vite",
+    "spring-projects/spring-boot",
+    "hoppscotch/hoppscotch",
+    "coder/code-server",
+    "elastic/elasticsearch",
+    "awesomedata/awesome-public-datasets",
+    "pewdiepie-archdaemon/odysseus",
+    "tesseract-ocr/tesseract",
+    "ocornut/imgui",
+    "apache/superset",
+    "obsproject/obs-studio",
+    "abi/screenshot-to-code",
+    "thedaviddias/Front-End-Checklist",
+    "josephmisiti/awesome-machine-learning",
+    "AppFlowy-IO/AppFlowy",
+    "Eugeny/tabby",
+    "danielmiessler/SecLists",
+    "protocolbuffers/protobuf",
+    "paperclipai/paperclip",
+    "safishamsi/graphify",
+    "swiftlang/swift",
+    "unclecode/crawl4ai",
+    "ansible/ansible",
+    "nexu-io/open-design",
+    "opendatalab/MinerU",
+    "scikit-learn/scikit-learn",
+    "webpack/webpack",
+    "gorhill/uBlock",
+    "Egonex-AI/Understand-Anything",
+    "facebook/docusaurus",
+    "prometheus/prometheus",
+    "alacritty/alacritty",
+    "earendil-works/pi",
+    "nocodb/nocodb",
+    "socketio/socket.io",
+    "pathwaycom/pathway",
+    "scrapy/scrapy",
+    "Mintplex-Labs/anything-llm",
+    "jgraph/drawio-desktop",
+    "FuelLabs/sway",
+    "FFmpeg/FFmpeg",
+    "h5bp/Front-end-Developer-Interview-Questions",
+    "ruvnet/ruflo",
+    "nuxt/nuxt",
+    "withastro/astro",
+    "spring-projects/spring-framework",
+    "pi-hole/pi-hole",
+    "pocketbase/pocketbase",
+    "RVC-Boss/GPT-SoVITS",
+    "OpenCut-app/OpenCut",
+    "ultralytics/ultralytics",
+    "2dust/v2rayNG",
+    "starship/starship",
+    "rust-unofficial/awesome-rust",
+    "upstash/context7",
+    "marktext/marktext",
+    "ultralytics/yolov5",
+    "FuelLabs/fuel-core",
+    "ghostty-org/ghostty",
+    "remix-run/react-router",
+    "tw93/Pake",
+    "appwrite/appwrite",
+    "ChrisTitusTech/winutil",
+    "gatsbyjs/gatsby",
+    "typst/typst",
+    "ngosang/trackerslist",
+    "TryGhost/Ghost",
+    "PowerShell/PowerShell",
+    "FlowiseAI/Flowise"
+  ],
+  "metadata": {
+    "repos_analyzed": 453,
+    "articles_analyzed": 50,
+    "correlations_found": 50,
+    "strong_correlations": 1,
+    "weak_correlations": 49,
+    "articles_matched": 32,
+    "dedupe_count": 0,
+    "limits": {
+      "max_articles": 80,
+      "max_correlations": 50,
+      "max_matched_articles_per_repo": 5
+    },
+    "uncovered_tech_trends": 13,
+    "unpublicized_dev_activity": 269,
+    "news_sources": {
+      "schema_version": 2,
+      "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+      "sources_requested": [
+        "github_blog",
+        "hugging_face_blog",
+        "mit_technology_review",
+        "nvidia_blog",
+        "techcrunch"
+      ],
+      "sources_succeeded": [
+        "github_blog",
+        "hugging_face_blog",
+        "mit_technology_review",
+        "nvidia_blog",
+        "techcrunch"
+      ],
+      "sources_failed": [],
+      "source_status": [
+        {
+          "source": "github_blog",
+          "host": "github.blog",
+          "started_at": "2026-06-22T05:45:43.241288Z",
+          "timeout_seconds": 15,
+          "attempts": 1,
+          "total_articles": 6,
+          "relevant_articles": 6,
+          "github_links_found": 6,
+          "success": true,
+          "error_class": "",
+          "error_message": "",
+          "ended_at": "2026-06-22T05:45:43.431681Z",
+          "duration_seconds": 0.19,
+          "reused": true
+        },
+        {
+          "source": "hugging_face_blog",
+          "host": "huggingface.co",
+          "started_at": "2026-06-22T05:45:43.237286Z",
+          "timeout_seconds": 15,
+          "attempts": 1,
+          "total_articles": 7,
+          "relevant_articles": 2,
+          "github_links_found": 0,
+          "success": true,
+          "error_class": "",
+          "error_message": "",
+          "ended_at": "2026-06-22T05:45:43.615904Z",
+          "duration_seconds": 0.379,
+          "reused": true
+        },
+        {
+          "source": "mit_technology_review",
+          "host": "www.technologyreview.com",
+          "started_at": "2026-06-22T05:45:43.237824Z",
+          "timeout_seconds": 15,
+          "attempts": 1,
+          "total_articles": 10,
+          "relevant_articles": 2,
+          "github_links_found": 0,
+          "success": true,
+          "error_class": "",
+          "error_message": "",
+          "ended_at": "2026-06-22T05:45:43.489578Z",
+          "duration_seconds": 0.252,
+          "reused": true
+        },
+        {
+          "source": "nvidia_blog",
+          "host": "blogs.nvidia.com",
+          "started_at": "2026-06-22T05:45:43.236768Z",
+          "timeout_seconds": 15,
+          "attempts": 1,
+          "total_articles": 8,
+          "relevant_articles": 6,
+          "github_links_found": 1,
+          "success": true,
+          "error_class": "",
+          "error_message": "",
+          "ended_at": "2026-06-22T05:45:43.885659Z",
+          "duration_seconds": 0.649,
+          "reused": true
+        },
+        {
+          "source": "techcrunch",
+          "host": "techcrunch.com",
+          "started_at": "2026-06-22T05:45:43.235691Z",
+          "timeout_seconds": 15,
+          "attempts": 1,
+          "total_articles": 19,
+          "relevant_articles": 9,
+          "github_links_found": 0,
+          "success": true,
+          "error_class": "",
+          "error_message": "",
+          "ended_at": "2026-06-22T05:45:43.399372Z",
+          "duration_seconds": 0.164,
+          "reused": true
+        }
+      ],
+      "errors": [],
+      "artifact_checksum": "6bce4d57080315de9628c9950eb18a21a43b17a747289dd4916c055c0f402ee8"
+    }
+  }
+}

@@ -1,0 +1,374 @@
+## Press Context (TechCrunch, week of 2026-W21)
+12 articles published relevant to tech/open-source.
+
+Notable coverage:
+- [Beauty booking startup Fresha hits $1 billion valuation with KKR backing](https://techcrunch.com/2026/05/21/booking-platform-fresha-announces-80m-investment-unicorn-valuation/) [Startups, Venture, SaaS]
+- [General Catalyst just led a $63M bet on India’s travel payments market](https://techcrunch.com/2026/05/20/indian-travel-fintech-scapia-more-than-doubles-valuation-to-over-500m-in-a-year/) [Fintech, Startups, General Catalyst, Peak XV Partners, Scapia, Z47]
+- [Imperagen raises £5 million to use quantum physics, AI on enzyme engineering](https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/) [Startups, Biotech & Health, Venture, biotech]
+- [Jensen Huang says he’s found a ‘brand new’ $200B market for Nvidia](https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/) [AI, Enterprise, TC, cpus, nvidia]
+- [Clouted wants to take the guesswork out of making short videos go viral](https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/) [AI, Media & Entertainment, Startups, Clouted, Marketing, slow ventures, social media]
+- [Nvidia posts another record quarter, reveals $43B of holdings in startups](https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/) [AI, earnings, Jensen Huang, nvidia]
+- [Anthropic will pay xAI $1.25B per month for compute](https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/) [AI, Anthropic, colossus, data centers, SpaceX, xAI]
+- [Sam Altman makes ‘mic drop’ offer to every Y Combinator startup](https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/) [Startups, Venture, OpenAI, sam altman, Y Combinator]
+- [You don’t need to be an AI startup to raise. Lucra has $20M to prove it.](https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/) [Startups, AI startup, ark invest, Cathie Wood, Equity podcast, Lucra, startup fundraising, venture capital]
+- [OpenAI claims it solved an 80-year-old math problem — for real this time](https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/) [AI, ChatGPT, erdos problems, OpenAI, reasoning models]
+- [IrisGo, a startup backed by Andrew Ng, looks to become the AI desktop buddy you never knew you needed](https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/) [AI, andrew ng, google brain, IrisGo]
+- [Airbnb gets into hotels, expands AI for host onboarding and customer support](https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/) [Apps, Airbnb, customer support, hotel bookings]
+
+### Correlation Summary
+87 repos have press correlation:
+- microsoft/vscode — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/PowerToys — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/generative-ai-for-beginners — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/TypeScript — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/terminal — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/playwright — match: org_name, confidence: 0.8, hype_risk: medium
+- openai/codex — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/ai-agents-for-beginners — match: org_name, confidence: 0.8, hype_risk: medium
+- starship/starship — match: org_name, confidence: 0.8, hype_risk: medium
+- AbhishekK130804/Claude-Mythos-AI-Anthropic-App — match: project_name, confidence: 0.6, hype_risk: medium
+- suyancc/openai-plus-vxt — match: project_name, confidence: 0.6, hype_risk: medium
+- ip-arch/NESLab — match: project_name, confidence: 0.6, hype_risk: medium
+- deepakness/google-ai-search-optimization — match: project_name, confidence: 0.6, hype_risk: medium
+- aqua5230/usage — match: project_name, confidence: 0.6, hype_risk: medium
+- OpenYSMDev/OpenYSM — match: project_name, confidence: 0.6, hype_risk: medium
+- wanshuiyin/ARIS-in-AI-Offer — match: project_name, confidence: 0.6, hype_risk: medium
+- Pythonation/AI-Text-Humanizer-Protocol — match: project_name, confidence: 0.6, hype_risk: medium
+- Yuvan-x/Pneumonia-Detection-With-Explainable-AI — match: project_name, confidence: 0.6, hype_risk: medium
+- openclaw/openclaw — match: project_name, confidence: 0.6, hype_risk: medium
+- open-webui/open-webui — match: project_name, confidence: 0.6, hype_risk: medium
+- x1xhlol/system-prompts-and-models-of-ai-tools — match: project_name, confidence: 0.6, hype_risk: medium
+- electron/electron — match: project_name, confidence: 0.6, hype_risk: medium
+- nodejs/node — match: project_name, confidence: 0.6, hype_risk: medium
+- tauri-apps/tauri — match: project_name, confidence: 0.6, hype_risk: medium
+- gohugoio/hugo — match: project_name, confidence: 0.6, hype_risk: medium
+- opencv/opencv — match: project_name, confidence: 0.6, hype_risk: medium
+- OpenHands/OpenHands — match: project_name, confidence: 0.6, hype_risk: medium
+- base/node — match: project_name, confidence: 0.6, hype_risk: medium
+- OpenBB-finance/OpenBB — match: project_name, confidence: 0.6, hype_risk: medium
+- JuliusBrussee/caveman — match: project_name, confidence: 0.6, hype_risk: medium
+- commaai/openpilot — match: project_name, confidence: 0.6, hype_risk: medium
+- virattt/ai-hedge-fund — match: project_name, confidence: 0.6, hype_risk: medium
+- sharkdp/bat — match: project_name, confidence: 0.6, hype_risk: medium
+- rclone/rclone — match: project_name, confidence: 0.6, hype_risk: medium
+- go-gitea/gitea — match: project_name, confidence: 0.6, hype_risk: medium
+- typst/typst — match: project_name, confidence: 0.6, hype_risk: medium
+- DenisSergeevitch/agents-best-practices — match: category, confidence: 0.4, hype_risk: low
+- LiuMengxuan04/shushu-internship-tool — match: category, confidence: 0.4, hype_risk: low
+- agent-quality-controls/slopless — match: category, confidence: 0.4, hype_risk: low
+- Klotzkette/claude-fuer-deutsches-recht — match: category, confidence: 0.4, hype_risk: low
+- basionwang-bot/HermesPet — match: category, confidence: 0.4, hype_risk: low
+- gazelleandrewrasmussenmouj2/Windows-Activator — match: category, confidence: 0.4, hype_risk: low
+- jigripokri/POHA — match: category, confidence: 0.4, hype_risk: low
+- Helvesec/rmux — match: category, confidence: 0.4, hype_risk: low
+- JSingletonAI/dejavu — match: category, confidence: 0.4, hype_risk: low
+- joeseesun/qiaomu-userscripts — match: category, confidence: 0.4, hype_risk: low
+- not-manu/filemention.nvim — match: category, confidence: 0.4, hype_risk: low
+- n8n-io/n8n — match: category, confidence: 0.4, hype_risk: low
+- affaan-m/ECC — match: category, confidence: 0.4, hype_risk: low
+- Significant-Gravitas/AutoGPT — match: category, confidence: 0.4, hype_risk: low
+- f/prompts.chat — match: category, confidence: 0.4, hype_risk: low
+- NousResearch/hermes-agent — match: category, confidence: 0.4, hype_risk: low
+- langflow-ai/langflow — match: category, confidence: 0.4, hype_risk: low
+- langgenius/dify — match: category, confidence: 0.4, hype_risk: low
+- langchain-ai/langchain — match: category, confidence: 0.4, hype_risk: low
+- firecrawl/firecrawl — match: category, confidence: 0.4, hype_risk: low
+- Comfy-Org/ComfyUI — match: category, confidence: 0.4, hype_risk: low
+- jaywcjlove/awesome-mac — match: category, confidence: 0.4, hype_risk: low
+- google-gemini/gemini-cli — match: category, confidence: 0.4, hype_risk: low
+- github/spec-kit — match: category, confidence: 0.4, hype_risk: low
+- hacksider/Deep-Live-Cam — match: category, confidence: 0.4, hype_risk: low
+- ChatGPTNextWeb/NextChat — match: category, confidence: 0.4, hype_risk: low
+- sherlock-project/sherlock — match: category, confidence: 0.4, hype_risk: low
+- infiniflow/ragflow — match: category, confidence: 0.4, hype_risk: low
+- vllm-project/vllm — match: category, confidence: 0.4, hype_risk: low
+- netdata/netdata — match: category, confidence: 0.4, hype_risk: low
+- lobehub/lobehub — match: category, confidence: 0.4, hype_risk: low
+- thedotmack/claude-mem — match: category, confidence: 0.4, hype_risk: low
+- caddyserver/caddy — match: category, confidence: 0.4, hype_risk: low
+- daytonaio/daytona — match: category, confidence: 0.4, hype_risk: low
+- hiyouga/LlamaFactory — match: category, confidence: 0.4, hype_risk: low
+- bytedance/deer-flow — match: category, confidence: 0.4, hype_risk: low
+- xtekky/gpt4free — match: category, confidence: 0.4, hype_risk: low
+- unslothai/unsloth — match: category, confidence: 0.4, hype_risk: low
+- openinterpreter/open-interpreter — match: category, confidence: 0.4, hype_risk: low
+- ComposioHQ/awesome-claude-skills — match: category, confidence: 0.4, hype_risk: low
+- docling-project/docling — match: category, confidence: 0.4, hype_risk: low
+- code-yeongyu/oh-my-openagent — match: category, confidence: 0.4, hype_risk: low
+- meilisearch/meilisearch — match: category, confidence: 0.4, hype_risk: low
+- harry0703/MoneyPrinterTurbo — match: category, confidence: 0.4, hype_risk: low
+- mem0ai/mem0 — match: category, confidence: 0.4, hype_risk: low
+- koala73/worldmonitor — match: category, confidence: 0.4, hype_risk: low
+- WerWolv/ImHex — match: category, confidence: 0.4, hype_risk: low
+- FlowiseAI/Flowise — match: category, confidence: 0.4, hype_risk: low
+- MemPalace/mempalace — match: category, confidence: 0.4, hype_risk: low
+- D4Vinci/Scrapling — match: category, confidence: 0.4, hype_risk: low
+- rtk-ai/rtk — match: category, confidence: 0.4, hype_risk: low
+
+### Instructions
+For each trending repo, note if press coverage preceded the star surge.
+Label repos as:
+- '📰 Press-correlated' — stars gained after/during press coverage
+- '🌱 Organic growth' — stars gained without press coverage
+- '⚠️ Hype risk: {level}' — when hype_risk is medium or high
+
+Include a "Press vs Reality" subsection in your analysis highlighting:
+1. Press-hyped repos that are losing steam (high hype_risk)
+2. Organic gems without any press coverage
+3. Disconnects between press narrative and actual GitHub activity
+
+
+### Divergence Analysis
+
+#### 🚀 Dev Activity Without Press Coverage
+GitHub repos/trends with no matching TechCrunch coverage:
+
+- **android**: flutter/flutter (⭐176405), Genymobile/scrcpy (⭐142100), facebook/react-native (⭐125859)
+- **api**: public-apis/public-apis (⭐436214), neovim/neovim (⭐99782), fastapi/fastapi (⭐98387)
+- **awesome**: vinta/awesome-python (⭐298793), awesome-selfhosted/awesome-selfhosted (⭐294205), avelino/awesome-go (⭐173202)
+- **bot**: openclaw/clawpatch (⭐610), sachmalan/kalshi-trading-bot (⭐153), VAENPP/solana-trading-bot (⭐152)
+- **cli**: ohmyzsh/ohmyzsh (⭐187156), yt-dlp/yt-dlp (⭐163468), jesseduffield/lazygit (⭐78238)
+- **framework**: laravel/laravel (⭐84309), spring-projects/spring-boot (⭐80679), nestjs/nest (⭐75564)
+- **agent**: agentic-in/elephant-agent (⭐373), Snailclimb/JavaGuide (⭐155795), TauricResearch/TradingAgents (⭐77954)
+- **algorithm**: TheAlgorithms/Python (⭐221272), trekhleb/javascript-algorithms (⭐195980), TheAlgorithms/Java (⭐65686)
+- **compiler**: rust-lang/rust (⭐112958), FuelLabs/sway (⭐61687), JetBrains/kotlin (⭐52748)
+- **angular**: angular/angular (⭐100127), ionic-team/ionic-framework (⭐52507), prettier/prettier (⭐51877)
+- **bash**: nvm-sh/nvm (⭐93468), junegunn/fzf (⭐80391), warpdotdev/warp (⭐59373)
+- **docker**: louislam/uptime-kuma (⭐87050), Stirling-Tools/Stirling-PDF (⭐79055), usememos/memos (⭐59852)
+- **cpp**: trong776/gta-5-mod-menu (⭐458), MediatorSpeak/Valorant-External-Framework (⭐86)
+- **agent-skills**: shenli/distributed-system-testing (⭐130), anthropics/skills (⭐138516)
+- **audio**: huggingface/transformers (⭐160828), FFmpeg/FFmpeg (⭐60348)
+- **blog**: vercel/next.js (⭐139549), gatsbyjs/gatsby (⭐55946)
+- **go**: golang/go (⭐133992), syncthing/syncthing (⭐84253)
+- **awesome-list**: ripienaar/free-for-dev (⭐122513), VoltAgent/awesome-design-md (⭐81995)
+- **hacktoberfest**: axios/axios (⭐109070), pmndrs/zustand (⭐58078)
+- **ai-agents**: browser-use/browser-use (⭐94918), Mintplex-Labs/anything-llm (⭐60398)
+- **ai4science**: PaddlePaddle/PaddleOCR (⭐78267), opendatalab/MinerU (⭐64290)
+- **astro**: unionlabs/union (⭐74056), withastro/astro (⭐59442)
+- **alerting**: grafana/grafana (⭐73905), prometheus/prometheus (⭐64108)
+- **c**: obsproject/obs-studio (⭐72569), git/git (⭐61077)
+- **agentic-ai**: ruvnet/RuView (⭐62391), ruvnet/ruflo (⭐53701)
+- **programming language agents**: vercel-labs/zerolang (⭐4076)
+- **coding agent optimized**: Doorman11991/smallcode (⭐916)
+- **Codex skill safe**: Kappaemme-git/codex-complexity-optimizer (⭐808)
+- **emulator**: Flizorules05/ROM-MGBA-Pokemon-Emulator-PC (⭐632)
+- **ai-image-generator**: BasZ4ll/Stable-Diffusion-WebUI (⭐632)
+- **epic-games**: arnabchoudhury404/hydra-launcher (⭐630)
+- **aimlock**: Sunislazi/rbxfpsunlocker-boost-More-240FPS (⭐626)
+- **adaptive-triggers-pc**: ZoyaMalhotra/DualSenseX-DSX-Steam-Edition (⭐616)
+- **lua-steam-tools**: haiddrrs/Steam-Tools (⭐591)
+- **hierarchical-reasoning-model**: sapientinc/HRM-Text (⭐590)
+- **image-editing**: bytedance/Lance (⭐586)
+- **Automated data broker**: stephenlthorn/auto-identity-remove (⭐572)
+- **anydesk-integration**: tritano/ultraviewer (⭐556)
+- **hyperliquid-whale-alert**: Glazenovatag/hyperliquid-whale-order-tracking (⭐533)
+- **early-access-subnautica-2**: littlefrogyq/UE4SS-Subnautica-2 (⭐512)
+- **anti-detect**: SalhaNabil/CloakBrowser (⭐507)
+- **lua**: RastProxy88/Zephyr-Executor-Free-Roblox-Executor-PC-No-Key-Required-2026 (⭐480)
+- **bypassing**: Alkih/Nightlight-Game-Launcher (⭐447)
+- **gameenhancement**: SubamanojJ-2004/gta-5-mod-menu (⭐445)
+- **1-12-2-mod**: Harshit-pruthi/sklauncher-minecraft (⭐418)
+- **fast local diff**: nkzw-tech/codiff (⭐416)
+- **forza**: dannyhsueh2/Forza-Horizon-6-Premium (⭐412)
+- **crimson-desert-lsfg**: uktrash/LSFG-Desktop (⭐411)
+- **aida64**: CylinderChairman/aida64 (⭐396)
+- **8-stage vulnerability-discovery agent.**: evilsocket/audit (⭐384)
+- **bitlocker**: rahul03524/YellowKey-Bitlocker (⭐380)
+- **ai-app**: MFS9628/Deepseek-v4-pro-app (⭐380)
+- **activator**: ZettPW/KMSTools (⭐379)
+- **all-the-mods-modpack**: AppleOnFire/JennyMod-All-Versions (⭐360)
+- **一个写接口文档的AI Agent。支持使用Vibe coding**: husu/loom (⭐339)
+- **3x-ui**: internetkafe/vpnhostinglist (⭐330)
+- **data-visualization**: MediatorSpeak/dota2-gameplay-tools (⭐324)
+- **most productive engineer**: dtnewman/burn-baby-burn (⭐323)
+- **video wallpaper engine**: kageroumado/phosphene (⭐295)
+- **ai-agent**: texsellix/polymarket-trading-bot (⭐289)
+- **cpp17**: RastProxy88/Vivid-R6-Cracked-2026 (⭐286)
+- **面向AI创作的开源无限画布工作台，集成 生图、参考图编辑、画布编排、对话助手、提示词库和素材管理等功能。**: basketikun/infinite-canvas (⭐273)
+- **ai-humanize**: lynote-ai/humanize-text (⭐255)
+- **skills Android testing:**: skydoves/android-testing-skills (⭐205)
+- **polymarket-arbitrage-bot**: Multichain-Bot-Lab/polymarket-trading-bot (⭐202)
+- **polymarket-copy-bot**: Multichain-Bot-Lab/polymarket-copy-trading-bot (⭐196)
+- **agent-skill**: luoling8192/technical-writing (⭐176)
+- **Agent 学习路线与资料库收集**: datawhalechina/Agent-Learning-Hub (⭐164)
+- **byovd**: redteamfortress/PhantomKiller (⭐163)
+- **Smooth motion tabs**: rit3zh/expo-motion-tabs (⭐162)
+- **Largest World Download**: 2b2tplace/1m_release (⭐161)
+- **mcp-server**: japp-fi/polymarket-mcp-server (⭐152)
+- **axiom**: Alchemz/solana-pumpfun-token-bundler (⭐152)
+- **Architecture wiki open-sourced**: cclank/x-algorithm-wiki (⭐144)
+- **game-assets**: Nieobie/Game-Icon-Pack (⭐143)
+- **Reproducible recipe running**: sander110419/lightroom-cc-on-linux (⭐139)
+- **PaperSpine motivation-driven Codex**: WUBING2023/PaperSpine (⭐134)
+- **codebase Cola**: ByteDance-Seed/Cola-DLM (⭐134)
+- **Snap video audio**: kouhxp/yapsnap (⭐129)
+- **QuantumFlow Distributed inference**: zimingttkx/QuantumFlow (⭐126)
+- **finder ShirOKhorshid domain**: hossein8360/cdn-ip-finder (⭐122)
+- **iphone-screen-recordings**: ronaldo-avalos/Maya (⭐120)
+- **Free VLESS proxy**: nikvpn-iran/nikvpn-codespace (⭐117)
+- **benchmark**: ahammadmejbah/Awesome-Datasets-Hub (⭐117)
+- **PowerShell tool export**: disintegr8te/teams-policy-export (⭐116)
+- **Anthropic《The Founder's Playbook:**: yangliu2060/founders-playbook-zh (⭐115)
+- **Claude Code Tracer**: AIchovy/vibe-observer (⭐115)
+- **OpenHarmony Android**: harmony-on-android/HOA (⭐110)
+- **Skills writing tilelang**: sablin39/tilelang-cuda-skills (⭐108)
+- **Material Expressive clock**: amrdoh/ClockMaster (⭐102)
+- **Markov regime detection**: jackson-video-resources/markov-hedge-fund-method (⭐102)
+- **OpenCodex是一个轻量级Codex运行环境，可以让你的任意设备通过Web使用你的电脑上的Codex。/ OpenCodex lightweight**: RyensX/OpenCodex (⭐102)
+- **comfyui**: shootthesound/comfyui-mesh (⭐98)
+- **terminal**: qewer33/ratscad (⭐96)
+- **auto-register**: huey1in/WindsurfX (⭐95)
+- **Vinyl Painter Import**: bvzrays/forza-painter-fh6 (⭐95)
+- **guia honesto sobre**: julianommartins/tech-interview-handbook (⭐94)
+- **antivirus**: AdvDebug/Brovan (⭐92)
+- **Delta precision-engineered executor**: akuma815/WindowsDelta (⭐90)
+- **arbitrage-bot**: yenjenchen/trading-bot (⭐87)
+- **list useful feeds**: mr-r3b00t/cyber_rss (⭐86)
+- **animation**: noppefoxwolf/MergeableView (⭐83)
+- **omarchy**: bjarneo/quickshell (⭐83)
+- **TYPE adaptive typing**: xiaolai/type-review (⭐82)
+- **一个由AI运维的网络安全Skill知识库**: Hi-FullHouse/CyberSecurity-Skills (⭐82)
+- **fully decentralized Windsurf**: zhouyoukang1234-spec/windsurf-assistant (⭐81)
+- **微信读书高阶顾问 weread skill**: alchaincyf/huashu-weread (⭐77)
+- **Official Code What**: HumanMLLM/SWIM (⭐75)
+- **OpenWRT Windows Theme**: fffonion/openwrt-win98-theme (⭐75)
+- **api-client**: stainlu/stainful (⭐75)
+- **Webapp framing video**: mrdoob/reframe (⭐74)
+- **Glass fast free**: azw413/Glass (⭐73)
+- **cheatfree**: RastProxy88/Fortnite-External-Cheat-2026 (⭐72)
+- **snipe-bot**: DeFiCryptoBots/CryptoBots-Solana-Sniper-PumpFun-Free (⭐70)
+- **bitsandbytes**: DaoyuanLi2816/can-i-finetune-this (⭐70)
+- **NextSSRF CVE-2026-44578 Scanner**: ynsmroztas/nextssrf (⭐70)
+- **Self-hosted subscription tracker**: zhiyingzzhou/renewlet (⭐69)
+- **roblox**: thaddeuswilkersonqbaj13/The-Delta-Executor (⭐69)
+- **terminal coding agent**: p0systems/peezy-cli (⭐68)
+- **downloader**: ZethRise/PlayDL (⭐63)
+- **メモリ機能が強力なhermes-agentと、日本語検索に強い外部メモリvecmemoriを活かし、長文に耐える小説を企画/プロッティング/執筆するためのskills.md**: kgmkm/novel2hermes_jp (⭐63)
+- **Re-enable BC-250 (gfx1013**: duggasco/bc250-40cu-unlock (⭐63)
+- **结构体校验器**: kamalyes/go-argus (⭐63)
+- **video-spec-builder 把我想做个视频逼成一份精确到秒的分镜脚本 video-spec.md,交给**: feicaiclub/video-spec-builder (⭐61)
+- **arp-spoofing**: frayude/throttnux (⭐60)
+- **PuTTY 0.83 fork**: chillymasterio/puttyalt (⭐59)
+- **browser-automation**: Ayyouboss0011/SherlockMaps (⭐58)
+- **developer-tools**: Ballwictb/besur-themes (⭐58)
+- **Lossless EPUB/CBZ tools**: 0xH4KU/manga-pdf-to-epub (⭐58)
+- **Codex workflow Grok**: Rion-Wu-tech/grok-video-workflow (⭐57)
+- **Official Implemenation RAEv2:**: nanovisionx/RAEv2 (⭐57)
+- **desktop-app**: l0ng-ai/papr (⭐57)
+- **Kiro Pro/Pro+ 批量订阅自动化工具，支持**: guowang23333/kiro-pro-batch (⭐57)
+- **Create Remotion video**: leosssvip-dot/remotion-ad-video-skill (⭐55)
+- **Classification Machine Learning**: rajchandran006-ops/RFD-Classification-Machine-Learning-Project (⭐55)
+- **基于DQN的无人机GPS欺骗攻击检测系统 随机攻击、重放攻击、隐蔽攻击**: zhw040803-glitch/UAV-GPS-DQN-Detection (⭐54)
+- **dev-server**: Avijit07x/git-switch (⭐54)
+- **Explainable deep learning**: Stevia-S/MultiClass-LungDisease-Detection-Using-XAI (⭐54)
+- **Single-host, read-only disk**: matthart1983/diskwatch (⭐53)
+- **Int4-quantized inference runtime**: kizuna-intelligence/Irodori-TTS-Lite (⭐53)
+- **deep learning project**: sanjanaprasath01-hue/handwritten-digit-recognition-cnn (⭐52)
+- **Local-first interview recording**: K1XE/InterviewForge (⭐52)
+- **Xbox Emulation**: MaftyManicEMU/DukeX (⭐51)
+- **careers**: freeCodeCamp/freeCodeCamp (⭐445213)
+- **books**: EbookFoundation/free-programming-books (⭐388668)
+- **angular-roadmap**: nilbuild/developer-roadmap (⭐355168)
+- **declarative**: facebook/react (⭐245154)
+- **Linux kernel source**: torvalds/linux (⭐233918)
+- **deep-learning**: tensorflow/tensorflow (⭐195211)
+- **repo finally unlocked.**: ultraworkers/claw-code (⭐192126)
+- **bootstrap**: twbs/bootstrap (⭐174262)
+- **git**: github/gitignore (⭐174024)
+- **deepseek**: ollama/ollama (⭐171844)
+- **open source coding**: anomalyco/opencode (⭐163324)
+- **Claude Code agentic**: anthropics/claude-code (⭐125370)
+- **cncf**: kubernetes/kubernetes (⭐122379)
+- **clash**: clash-verge-rev/clash-verge-rev (⭐119791)
+- **iptv**: iptv-org/iptv (⭐116384)
+- **base-ui**: shadcn-ui/ui (⭐114784)
+- **3d**: mrdoob/three.js (⭐112587)
+- **ggml**: ggml-org/llama.cpp (⭐111992)
+- **game-development**: godotengine/godot (⭐110979)
+- **deno**: denoland/deno (⭐106794)
+- **expose**: fatedier/frp (⭐106702)
+- **proxy**: 2dust/v2rayN (⭐106308)
+- **backup-tool**: immich-app/immich (⭐101207)
+- **chinese**: Anduin2017/HowToCook (⭐100221)
+- **Garry Tan's exact**: garrytan/gstack (⭐100187)
+- **autograd**: pytorch/pytorch (⭐100043)
+- **design-system**: mui/material-ui (⭐98361)
+- **ant-design**: ant-design/ant-design (⭐98094)
+- **Skills Real Engineers.**: mattpocock/skills (⭐97709)
+- **css**: tailwindlabs/tailwindcss (⭐95080)
+- **automation**: puppeteer/puppeteer (⭐94350)
+- **bun**: oven-sh/bun (⭐92165)
+- **科技爱好者周刊，每周五发布**: ruanyf/weekly (⭐91608)
+- **bitcoin**: bitcoin/bitcoin (⭐89154)
+- **diagrams**: mermaid-js/mermaid (⭐88192)
+- **asyncio**: home-assistant/core (⭐87162)
+- **Model Context Protocol**: modelcontextprotocol/servers (⭐86028)
+- **packaging**: astral-sh/uv (⭐85270)
+- **"The mother demo**: realworld-apps/realworld (⭐83459)
+- **gpui**: zed-industries/zed (⭐83406)
+- **font**: tonsky/FiraCode (⭐81634)
+- **build-tool**: vitejs/vite (⭐80743)
+- **browser-ide**: coder/code-server (⭐77633)
+- **ai-tools**: farion1231/cc-switch (⭐76863)
+- **elasticsearch**: elastic/elasticsearch (⭐76738)
+- **aaron-swartz**: awesomedata/awesome-public-datasets (⭐75573)
+- **cache**: redis/redis (⭐74474)
+- **analytics**: apache/superset (⭐72922)
+- **Python programming language**: python/cpython (⭐72786)
+- **Drop screenshot convert**: abi/screenshot-to-code (⭐72642)
+- **containers**: moby/moby (⭐71580)
+- **flask**: pallets/flask (⭐71566)
+- **serial**: Eugeny/tabby (⭐71483)
+- **marshalling**: protocolbuffers/protobuf (⭐71253)
+- **SecLists security tester's**: danielmiessler/SecLists (⭐71055)
+- **ci**: nektos/act (⭐70431)
+- **Swift Programming Language**: swiftlang/swift (⭐70005)
+- **express**: expressjs/express (⭐69047)
+- **disassembler**: NationalSecurityAgency/ghidra (⭐68702)
+- **ansible**: ansible/ansible (⭐68616)
+- **app**: toeverything/AFFiNE (⭐68590)
+- **open-source everyone uses**: paperclipai/paperclip (⭐66894)
+- **apache**: apache/echarts (⭐66392)
+- **data-analysis**: scikit-learn/scikit-learn (⭐66128)
+- **amd**: webpack/webpack (⭐65765)
+- **documentation**: facebook/docusaurus (⭐64969)
+- **blocker**: gorhill/uBlock (⭐64831)
+- **data-science**: keras-team/keras (⭐64074)
+- **browser**: LadybirdBrowser/ladybird (⭐63458)
+- **claude-code**: gsd-build/get-shit-done (⭐63412)
+- **batch-processing**: pathwaycom/pathway (⭐63252)
+- **consul**: traefik/traefik (⭐63250)
+- **javascript**: socketio/socket.io (⭐63089)
+- **airtable**: nocodb/nocodb (⭐63076)
+- **Autonomous coding agent**: cline/cline (⭐62129)
+- **crawler**: scrapy/scrapy (⭐61754)
+- **redux**: reduxjs/redux (⭐61446)
+- **diagram-editor**: jgraph/drawio-desktop (⭐61215)
+- **bitwarden**: dani-garcia/vaultwarden (⭐60823)
+- **csr**: nuxt/nuxt (⭐60264)
+- **jquery**: jquery/jquery (⭐59844)
+- **ad-blocker**: pi-hole/pi-hole (⭐58865)
+- **authentication**: pocketbase/pocketbase (⭐58452)
+- **activejob**: rails/rails (⭐58443)
+- **blockchain**: FuelLabs/fuel-core (⭐57061)
+- **Declarative routing React**: remix-run/react-router (⭐56425)
+- **dark-mode**: marktext/marktext (⭐56280)
+- **llm**: upstash/context7 (⭐55773)
+- **coolify**: coollabsio/coolify (⭐55682)
+- **deep-face-swap**: deepfakes/faceswap (⭐55229)
+- **Ghostty fast, feature-rich,**: ghostty-org/ghostty (⭐54971)
+- **Chris Titus Tech's**: ChrisTitusTech/winutil (⭐54803)
+- **client**: psf/requests (⭐54007)
+- **bittorrent**: ngosang/trackerslist (⭐53929)
+- **Vue.js progressive, incrementally-adoptable**: vuejs/core (⭐53695)
+- **blogging**: TryGhost/Ghost (⭐53576)
+- **command-line**: PowerShell/PowerShell (⭐53527)
+- **Reader JavaScript**: mozilla/pdf.js (⭐53351)
+- **agent toolkit: coding**: earendil-works/pi (⭐52302)
+- **analyzer**: tw93/Mole (⭐52204)
+
+#### Divergence Instructions
+Use divergences to identify:
+- 🔮 Where industry is moving but devs haven't caught up
+- 💡 Where devs are innovating ahead of media attention
+- 📊 Opportunity gaps between narrative and reality

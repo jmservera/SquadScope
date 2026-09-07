@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "d45066faf03d3f3cb75b0519b2012e3971e1d536d95f199ad3e23f4a20e2ac5f",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8106,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W36-summary.md",
+        "sha256": "e6f6996c4b1be687a5f040b2adfe189b2218bcacf7516ef27294f10d8e21162a"
+      },
+      "raw_json": {
+        "bytes": 385788,
+        "path": "data/raw/2026-W37.json",
+        "sha256": "f4a405fc24cfc9bc1f9181f6d0fb6a9df295fc075e478040671e24e1653cdaed"
+      }
+    },
+    "week": "2026-W37"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agents Become Work Systems, Not Chatbots\"\ndate: 2026-08-31T05:19:53Z\nweek: \"2026-W36\"\nyear: 2026\ntags: [ai-agents, agent-skills, mcp, developer-tools, ai-infrastructure, trust-safety]\ncategories: [weekly]\nrepos_featured: 50\nstars_tracked: 6300087\ntop_repo: \"sapientinc/PRAXIST\"\nquality_score: 100\nsummary: \"Agent tooling shifted toward executable research, skills, and control surfaces while infrastructure and trust gaps sharpened.\"\npredictions:\n  - repo: sapientinc/PRAXIST\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: XiaoDuoYa/codex-with-chatgpt\n    claim_type: signal\n    direction: up\n    confidence: 0.68\n  - repo: cbrock84/headcount\n    claim_type: signal\n    direction: up\n    confidence: 0.66\n  - repo: MetaMask-AI/metamask-desktop\n    claim_type: noise\n    direction: down\n    confidence: 0.73\n  - repo: DavidCarliez/trustmebro\n    claim_type: gap\n    direction: flat\n    confidence: 0.7\n---\n\nAugust 2026's agent story stopped being about whether dev",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W36-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}

@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "61e27c5e3c13197346b615961307596f3cd12857c167c88449e09db5bc29e2e1",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 13760,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W30-summary.md",
+        "sha256": "4d2ee446b94233dd4aff32b0910e90696bf6be5ca910dcdbd6107b3adf26fce4"
+      },
+      "raw_json": {
+        "bytes": 225864,
+        "path": "data/raw/2026-W31.json",
+        "sha256": "88fa723e44aab8788f338d765e3f9fe50457dc8a09a6c64033c03c760f9a2585"
+      }
+    },
+    "week": "2026-W31"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agents Got Interfaces, Memory, and Abuse\"\ndate: 2026-07-20T13:07:38Z\nweek: \"2026-W30\"\nyear: 2026\ntags: [ai-agents, agent-skills, local-ai, security, robotics, discovery-noise]\ncategories: [weekly]\nrepos_featured: 433\nstars_tracked: 24800000\ntop_repo: \"xai-org/grok-build\"\nquality_score: 100\nsummary: \"Agent tooling kept hardening into products while security, robotics, media skills, and coordinated discovery spam accelerated.\"\npredictions:\n  - repo: xai-org/grok-build\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: vshulcz/deja-vu\n    claim_type: signal\n    direction: up\n    confidence: 0.7\n  - repo: OpenBMB/MiniCPM-Robot\n    claim_type: signal\n    direction: up\n    confidence: 0.62\n  - repo: robinhood-ape/robinhood-sniper-bot\n    claim_type: noise\n    direction: down\n    confidence: 0.86\n  - repo: floorspinnerrevive/MecchaVertex\n    claim_type: noise\n    direction: down\n    confidence: 0.88\n---\n\nJuly 2026's agent story moved from \"agents can code\" to ",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W30-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}

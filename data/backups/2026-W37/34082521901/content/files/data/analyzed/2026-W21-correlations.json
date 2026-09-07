@@ -1,0 +1,4426 @@
+{
+  "week": "2026-W21",
+  "correlations": [
+    {
+      "repo": "microsoft/vscode",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/PowerToys",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/generative-ai-for-beginners",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/TypeScript",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/terminal",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/playwright",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "openai/codex",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/ai-agents-for-beginners",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "starship/starship",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "AbhishekK130804/Claude-Mythos-AI-Anthropic-App",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
+        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "suyancc/openai-plus-vxt",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "ip-arch/NESLab",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/teslas-full-self-driving-software-is-creeping-into-europe/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "deepakness/google-ai-search-optimization",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/",
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+        "https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
+        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "aqua5230/usage",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "OpenYSMDev/OpenYSM",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "wanshuiyin/ARIS-in-AI-Offer",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/",
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+        "https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
+        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Pythonation/AI-Text-Humanizer-Protocol",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/",
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+        "https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
+        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Yuvan-x/Pneumonia-Detection-With-Explainable-AI",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/",
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+        "https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
+        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "openclaw/openclaw",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "open-webui/open-webui",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/",
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+        "https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
+        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "electron/electron",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "nodejs/node",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "tauri-apps/tauri",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "gohugoio/hugo",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "opencv/opencv",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "base/node",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "OpenBB-finance/OpenBB",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "JuliusBrussee/caveman",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "commaai/openpilot",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "virattt/ai-hedge-fund",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/",
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+        "https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
+        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "sharkdp/bat",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/booking-platform-fresha-announces-80m-investment-unicorn-valuation/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "rclone/rclone",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "go-gitea/gitea",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/teslas-full-self-driving-software-is-creeping-into-europe/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "typst/typst",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/indian-travel-fintech-scapia-more-than-doubles-valuation-to-over-500m-in-a-year/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "DenisSergeevitch/agents-best-practices",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "LiuMengxuan04/shushu-internship-tool",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "agent-quality-controls/slopless",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Klotzkette/claude-fuer-deutsches-recht",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "basionwang-bot/HermesPet",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "gazelleandrewrasmussenmouj2/Windows-Activator",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "jigripokri/POHA",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Helvesec/rmux",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "JSingletonAI/dejavu",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "joeseesun/qiaomu-userscripts",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "not-manu/filemention.nvim",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "n8n-io/n8n",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "affaan-m/ECC",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Significant-Gravitas/AutoGPT",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "f/prompts.chat",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "NousResearch/hermes-agent",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "langflow-ai/langflow",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "langgenius/dify",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "firecrawl/firecrawl",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Comfy-Org/ComfyUI",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "jaywcjlove/awesome-mac",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/truecaller-gets-into-the-esim-business-to-diversify-its-revenue-streams/",
+        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "github/spec-kit",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "hacksider/Deep-Live-Cam",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "ChatGPTNextWeb/NextChat",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "sherlock-project/sherlock",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "infiniflow/ragflow",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "vllm-project/vllm",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "netdata/netdata",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "lobehub/lobehub",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "thedotmack/claude-mem",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "caddyserver/caddy",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "daytonaio/daytona",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "hiyouga/LlamaFactory",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "bytedance/deer-flow",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "xtekky/gpt4free",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "unslothai/unsloth",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "openinterpreter/open-interpreter",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/booking-platform-fresha-announces-80m-investment-unicorn-valuation/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "docling-project/docling",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "code-yeongyu/oh-my-openagent",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "meilisearch/meilisearch",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "harry0703/MoneyPrinterTurbo",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "mem0ai/mem0",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "koala73/worldmonitor",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "WerWolv/ImHex",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "FlowiseAI/Flowise",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "MemPalace/mempalace",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "D4Vinci/Scrapling",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+        "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+        "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+        "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "rtk-ai/rtk",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+        "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    }
+  ],
+  "divergences": {
+    "uncovered_tech_trends": [],
+    "unpublicized_dev_activity": [
+      {
+        "topic": "android",
+        "github_repos": [
+          {
+            "full_name": "flutter/flutter",
+            "stars": 176405,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Genymobile/scrcpy",
+            "stars": 142100,
+            "stars_gained": null
+          },
+          {
+            "full_name": "facebook/react-native",
+            "stars": 125859,
+            "stars_gained": null
+          },
+          {
+            "full_name": "rustdesk/rustdesk",
+            "stars": 114692,
+            "stars_gained": null
+          },
+          {
+            "full_name": "2dust/v2rayNG",
+            "stars": 56502,
+            "stars_gained": null
+          },
+          {
+            "full_name": "appwrite/appwrite",
+            "stars": 56112,
+            "stars_gained": null
+          },
+          {
+            "full_name": "laurent22/joplin",
+            "stars": 54881,
+            "stars_gained": null
+          },
+          {
+            "full_name": "google/material-design-icons",
+            "stars": 53312,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "api",
+        "github_repos": [
+          {
+            "full_name": "public-apis/public-apis",
+            "stars": 436214,
+            "stars_gained": null
+          },
+          {
+            "full_name": "neovim/neovim",
+            "stars": 99782,
+            "stars_gained": null
+          },
+          {
+            "full_name": "fastapi/fastapi",
+            "stars": 98387,
+            "stars_gained": null
+          },
+          {
+            "full_name": "hoppscotch/hoppscotch",
+            "stars": 79244,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ocornut/imgui",
+            "stars": 73326,
+            "stars_gained": null
+          },
+          {
+            "full_name": "strapi/strapi",
+            "stars": 72215,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "awesome",
+        "github_repos": [
+          {
+            "full_name": "vinta/awesome-python",
+            "stars": 298793,
+            "stars_gained": null
+          },
+          {
+            "full_name": "awesome-selfhosted/awesome-selfhosted",
+            "stars": 294205,
+            "stars_gained": null
+          },
+          {
+            "full_name": "avelino/awesome-go",
+            "stars": 173202,
+            "stars_gained": null
+          },
+          {
+            "full_name": "papers-we-love/papers-we-love",
+            "stars": 106368,
+            "stars_gained": null
+          },
+          {
+            "full_name": "fffaraz/awesome-cpp",
+            "stars": 71369,
+            "stars_gained": null
+          },
+          {
+            "full_name": "rust-unofficial/awesome-rust",
+            "stars": 57435,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bot",
+        "github_repos": [
+          {
+            "full_name": "openclaw/clawpatch",
+            "stars": 610,
+            "stars_gained": null
+          },
+          {
+            "full_name": "sachmalan/kalshi-trading-bot",
+            "stars": 153,
+            "stars_gained": null
+          },
+          {
+            "full_name": "VAENPP/solana-trading-bot",
+            "stars": 152,
+            "stars_gained": null
+          },
+          {
+            "full_name": "OpenPatchLab/polymarket-weather-trading-bot",
+            "stars": 152,
+            "stars_gained": null
+          },
+          {
+            "full_name": "fristork/hyperliquid-trading-bot",
+            "stars": 151,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cli",
+        "github_repos": [
+          {
+            "full_name": "ohmyzsh/ohmyzsh",
+            "stars": 187156,
+            "stars_gained": null
+          },
+          {
+            "full_name": "yt-dlp/yt-dlp",
+            "stars": 163468,
+            "stars_gained": null
+          },
+          {
+            "full_name": "jesseduffield/lazygit",
+            "stars": 78238,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ultralytics/ultralytics",
+            "stars": 57392,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "framework",
+        "github_repos": [
+          {
+            "full_name": "laravel/laravel",
+            "stars": 84309,
+            "stars_gained": null
+          },
+          {
+            "full_name": "spring-projects/spring-boot",
+            "stars": 80679,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nestjs/nest",
+            "stars": 75564,
+            "stars_gained": null
+          },
+          {
+            "full_name": "spring-projects/spring-framework",
+            "stars": 59960,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent",
+        "github_repos": [
+          {
+            "full_name": "agentic-in/elephant-agent",
+            "stars": 373,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Snailclimb/JavaGuide",
+            "stars": 155795,
+            "stars_gained": null
+          },
+          {
+            "full_name": "TauricResearch/TradingAgents",
+            "stars": 77954,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "algorithm",
+        "github_repos": [
+          {
+            "full_name": "TheAlgorithms/Python",
+            "stars": 221272,
+            "stars_gained": null
+          },
+          {
+            "full_name": "trekhleb/javascript-algorithms",
+            "stars": 195980,
+            "stars_gained": null
+          },
+          {
+            "full_name": "TheAlgorithms/Java",
+            "stars": 65686,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "compiler",
+        "github_repos": [
+          {
+            "full_name": "rust-lang/rust",
+            "stars": 112958,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FuelLabs/sway",
+            "stars": 61687,
+            "stars_gained": null
+          },
+          {
+            "full_name": "JetBrains/kotlin",
+            "stars": 52748,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "angular",
+        "github_repos": [
+          {
+            "full_name": "angular/angular",
+            "stars": 100127,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ionic-team/ionic-framework",
+            "stars": 52507,
+            "stars_gained": null
+          },
+          {
+            "full_name": "prettier/prettier",
+            "stars": 51877,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bash",
+        "github_repos": [
+          {
+            "full_name": "nvm-sh/nvm",
+            "stars": 93468,
+            "stars_gained": null
+          },
+          {
+            "full_name": "junegunn/fzf",
+            "stars": 80391,
+            "stars_gained": null
+          },
+          {
+            "full_name": "warpdotdev/warp",
+            "stars": 59373,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "docker",
+        "github_repos": [
+          {
+            "full_name": "louislam/uptime-kuma",
+            "stars": 87050,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Stirling-Tools/Stirling-PDF",
+            "stars": 79055,
+            "stars_gained": null
+          },
+          {
+            "full_name": "usememos/memos",
+            "stars": 59852,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cpp",
+        "github_repos": [
+          {
+            "full_name": "trong776/gta-5-mod-menu",
+            "stars": 458,
+            "stars_gained": null
+          },
+          {
+            "full_name": "MediatorSpeak/Valorant-External-Framework",
+            "stars": 86,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent-skills",
+        "github_repos": [
+          {
+            "full_name": "shenli/distributed-system-testing",
+            "stars": 130,
+            "stars_gained": null
+          },
+          {
+            "full_name": "anthropics/skills",
+            "stars": 138516,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "audio",
+        "github_repos": [
+          {
+            "full_name": "huggingface/transformers",
+            "stars": 160828,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FFmpeg/FFmpeg",
+            "stars": 60348,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blog",
+        "github_repos": [
+          {
+            "full_name": "vercel/next.js",
+            "stars": 139549,
+            "stars_gained": null
+          },
+          {
+            "full_name": "gatsbyjs/gatsby",
+            "stars": 55946,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "go",
+        "github_repos": [
+          {
+            "full_name": "golang/go",
+            "stars": 133992,
+            "stars_gained": null
+          },
+          {
+            "full_name": "syncthing/syncthing",
+            "stars": 84253,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "awesome-list",
+        "github_repos": [
+          {
+            "full_name": "ripienaar/free-for-dev",
+            "stars": 122513,
+            "stars_gained": null
+          },
+          {
+            "full_name": "VoltAgent/awesome-design-md",
+            "stars": 81995,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "hacktoberfest",
+        "github_repos": [
+          {
+            "full_name": "axios/axios",
+            "stars": 109070,
+            "stars_gained": null
+          },
+          {
+            "full_name": "pmndrs/zustand",
+            "stars": 58078,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-agents",
+        "github_repos": [
+          {
+            "full_name": "browser-use/browser-use",
+            "stars": 94918,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Mintplex-Labs/anything-llm",
+            "stars": 60398,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai4science",
+        "github_repos": [
+          {
+            "full_name": "PaddlePaddle/PaddleOCR",
+            "stars": 78267,
+            "stars_gained": null
+          },
+          {
+            "full_name": "opendatalab/MinerU",
+            "stars": 64290,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "astro",
+        "github_repos": [
+          {
+            "full_name": "unionlabs/union",
+            "stars": 74056,
+            "stars_gained": null
+          },
+          {
+            "full_name": "withastro/astro",
+            "stars": 59442,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "alerting",
+        "github_repos": [
+          {
+            "full_name": "grafana/grafana",
+            "stars": 73905,
+            "stars_gained": null
+          },
+          {
+            "full_name": "prometheus/prometheus",
+            "stars": 64108,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "c",
+        "github_repos": [
+          {
+            "full_name": "obsproject/obs-studio",
+            "stars": 72569,
+            "stars_gained": null
+          },
+          {
+            "full_name": "git/git",
+            "stars": 61077,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agentic-ai",
+        "github_repos": [
+          {
+            "full_name": "ruvnet/RuView",
+            "stars": 62391,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ruvnet/ruflo",
+            "stars": 53701,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "programming language agents",
+        "github_repos": [
+          {
+            "full_name": "vercel-labs/zerolang",
+            "stars": 4076,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "coding agent optimized",
+        "github_repos": [
+          {
+            "full_name": "Doorman11991/smallcode",
+            "stars": 916,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Codex skill safe",
+        "github_repos": [
+          {
+            "full_name": "Kappaemme-git/codex-complexity-optimizer",
+            "stars": 808,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "emulator",
+        "github_repos": [
+          {
+            "full_name": "Flizorules05/ROM-MGBA-Pokemon-Emulator-PC",
+            "stars": 632,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-image-generator",
+        "github_repos": [
+          {
+            "full_name": "BasZ4ll/Stable-Diffusion-WebUI",
+            "stars": 632,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "epic-games",
+        "github_repos": [
+          {
+            "full_name": "arnabchoudhury404/hydra-launcher",
+            "stars": 630,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "aimlock",
+        "github_repos": [
+          {
+            "full_name": "Sunislazi/rbxfpsunlocker-boost-More-240FPS",
+            "stars": 626,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "adaptive-triggers-pc",
+        "github_repos": [
+          {
+            "full_name": "ZoyaMalhotra/DualSenseX-DSX-Steam-Edition",
+            "stars": 616,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "lua-steam-tools",
+        "github_repos": [
+          {
+            "full_name": "haiddrrs/Steam-Tools",
+            "stars": 591,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "hierarchical-reasoning-model",
+        "github_repos": [
+          {
+            "full_name": "sapientinc/HRM-Text",
+            "stars": 590,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "image-editing",
+        "github_repos": [
+          {
+            "full_name": "bytedance/Lance",
+            "stars": 586,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Automated data broker",
+        "github_repos": [
+          {
+            "full_name": "stephenlthorn/auto-identity-remove",
+            "stars": 572,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "anydesk-integration",
+        "github_repos": [
+          {
+            "full_name": "tritano/ultraviewer",
+            "stars": 556,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "hyperliquid-whale-alert",
+        "github_repos": [
+          {
+            "full_name": "Glazenovatag/hyperliquid-whale-order-tracking",
+            "stars": 533,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "early-access-subnautica-2",
+        "github_repos": [
+          {
+            "full_name": "littlefrogyq/UE4SS-Subnautica-2",
+            "stars": 512,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "anti-detect",
+        "github_repos": [
+          {
+            "full_name": "SalhaNabil/CloakBrowser",
+            "stars": 507,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "lua",
+        "github_repos": [
+          {
+            "full_name": "RastProxy88/Zephyr-Executor-Free-Roblox-Executor-PC-No-Key-Required-2026",
+            "stars": 480,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bypassing",
+        "github_repos": [
+          {
+            "full_name": "Alkih/Nightlight-Game-Launcher",
+            "stars": 447,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "gameenhancement",
+        "github_repos": [
+          {
+            "full_name": "SubamanojJ-2004/gta-5-mod-menu",
+            "stars": 445,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "1-12-2-mod",
+        "github_repos": [
+          {
+            "full_name": "Harshit-pruthi/sklauncher-minecraft",
+            "stars": 418,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "fast local diff",
+        "github_repos": [
+          {
+            "full_name": "nkzw-tech/codiff",
+            "stars": 416,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "forza",
+        "github_repos": [
+          {
+            "full_name": "dannyhsueh2/Forza-Horizon-6-Premium",
+            "stars": 412,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "crimson-desert-lsfg",
+        "github_repos": [
+          {
+            "full_name": "uktrash/LSFG-Desktop",
+            "stars": 411,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "aida64",
+        "github_repos": [
+          {
+            "full_name": "CylinderChairman/aida64",
+            "stars": 396,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "8-stage vulnerability-discovery agent.",
+        "github_repos": [
+          {
+            "full_name": "evilsocket/audit",
+            "stars": 384,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bitlocker",
+        "github_repos": [
+          {
+            "full_name": "rahul03524/YellowKey-Bitlocker",
+            "stars": 380,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-app",
+        "github_repos": [
+          {
+            "full_name": "MFS9628/Deepseek-v4-pro-app",
+            "stars": 380,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "activator",
+        "github_repos": [
+          {
+            "full_name": "ZettPW/KMSTools",
+            "stars": 379,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "all-the-mods-modpack",
+        "github_repos": [
+          {
+            "full_name": "AppleOnFire/JennyMod-All-Versions",
+            "stars": 360,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "一个写接口文档的AI Agent。支持使用Vibe coding",
+        "github_repos": [
+          {
+            "full_name": "husu/loom",
+            "stars": 339,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "3x-ui",
+        "github_repos": [
+          {
+            "full_name": "internetkafe/vpnhostinglist",
+            "stars": 330,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "data-visualization",
+        "github_repos": [
+          {
+            "full_name": "MediatorSpeak/dota2-gameplay-tools",
+            "stars": 324,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "most productive engineer",
+        "github_repos": [
+          {
+            "full_name": "dtnewman/burn-baby-burn",
+            "stars": 323,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "video wallpaper engine",
+        "github_repos": [
+          {
+            "full_name": "kageroumado/phosphene",
+            "stars": 295,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-agent",
+        "github_repos": [
+          {
+            "full_name": "texsellix/polymarket-trading-bot",
+            "stars": 289,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cpp17",
+        "github_repos": [
+          {
+            "full_name": "RastProxy88/Vivid-R6-Cracked-2026",
+            "stars": 286,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "面向AI创作的开源无限画布工作台，集成 生图、参考图编辑、画布编排、对话助手、提示词库和素材管理等功能。",
+        "github_repos": [
+          {
+            "full_name": "basketikun/infinite-canvas",
+            "stars": 273,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-humanize",
+        "github_repos": [
+          {
+            "full_name": "lynote-ai/humanize-text",
+            "stars": 255,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "skills Android testing:",
+        "github_repos": [
+          {
+            "full_name": "skydoves/android-testing-skills",
+            "stars": 205,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "polymarket-arbitrage-bot",
+        "github_repos": [
+          {
+            "full_name": "Multichain-Bot-Lab/polymarket-trading-bot",
+            "stars": 202,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "polymarket-copy-bot",
+        "github_repos": [
+          {
+            "full_name": "Multichain-Bot-Lab/polymarket-copy-trading-bot",
+            "stars": 196,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent-skill",
+        "github_repos": [
+          {
+            "full_name": "luoling8192/technical-writing",
+            "stars": 176,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Agent 学习路线与资料库收集",
+        "github_repos": [
+          {
+            "full_name": "datawhalechina/Agent-Learning-Hub",
+            "stars": 164,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "byovd",
+        "github_repos": [
+          {
+            "full_name": "redteamfortress/PhantomKiller",
+            "stars": 163,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Smooth motion tabs",
+        "github_repos": [
+          {
+            "full_name": "rit3zh/expo-motion-tabs",
+            "stars": 162,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Largest World Download",
+        "github_repos": [
+          {
+            "full_name": "2b2tplace/1m_release",
+            "stars": 161,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "mcp-server",
+        "github_repos": [
+          {
+            "full_name": "japp-fi/polymarket-mcp-server",
+            "stars": 152,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "axiom",
+        "github_repos": [
+          {
+            "full_name": "Alchemz/solana-pumpfun-token-bundler",
+            "stars": 152,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Architecture wiki open-sourced",
+        "github_repos": [
+          {
+            "full_name": "cclank/x-algorithm-wiki",
+            "stars": 144,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "game-assets",
+        "github_repos": [
+          {
+            "full_name": "Nieobie/Game-Icon-Pack",
+            "stars": 143,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Reproducible recipe running",
+        "github_repos": [
+          {
+            "full_name": "sander110419/lightroom-cc-on-linux",
+            "stars": 139,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "PaperSpine motivation-driven Codex",
+        "github_repos": [
+          {
+            "full_name": "WUBING2023/PaperSpine",
+            "stars": 134,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "codebase Cola",
+        "github_repos": [
+          {
+            "full_name": "ByteDance-Seed/Cola-DLM",
+            "stars": 134,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Snap video audio",
+        "github_repos": [
+          {
+            "full_name": "kouhxp/yapsnap",
+            "stars": 129,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "QuantumFlow Distributed inference",
+        "github_repos": [
+          {
+            "full_name": "zimingttkx/QuantumFlow",
+            "stars": 126,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "finder ShirOKhorshid domain",
+        "github_repos": [
+          {
+            "full_name": "hossein8360/cdn-ip-finder",
+            "stars": 122,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "iphone-screen-recordings",
+        "github_repos": [
+          {
+            "full_name": "ronaldo-avalos/Maya",
+            "stars": 120,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Free VLESS proxy",
+        "github_repos": [
+          {
+            "full_name": "nikvpn-iran/nikvpn-codespace",
+            "stars": 117,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "benchmark",
+        "github_repos": [
+          {
+            "full_name": "ahammadmejbah/Awesome-Datasets-Hub",
+            "stars": 117,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "PowerShell tool export",
+        "github_repos": [
+          {
+            "full_name": "disintegr8te/teams-policy-export",
+            "stars": 116,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Anthropic《The Founder's Playbook:",
+        "github_repos": [
+          {
+            "full_name": "yangliu2060/founders-playbook-zh",
+            "stars": 115,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Claude Code Tracer",
+        "github_repos": [
+          {
+            "full_name": "AIchovy/vibe-observer",
+            "stars": 115,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "OpenHarmony Android",
+        "github_repos": [
+          {
+            "full_name": "harmony-on-android/HOA",
+            "stars": 110,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Skills writing tilelang",
+        "github_repos": [
+          {
+            "full_name": "sablin39/tilelang-cuda-skills",
+            "stars": 108,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Material Expressive clock",
+        "github_repos": [
+          {
+            "full_name": "amrdoh/ClockMaster",
+            "stars": 102,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Markov regime detection",
+        "github_repos": [
+          {
+            "full_name": "jackson-video-resources/markov-hedge-fund-method",
+            "stars": 102,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "OpenCodex是一个轻量级Codex运行环境，可以让你的任意设备通过Web使用你的电脑上的Codex。/ OpenCodex lightweight",
+        "github_repos": [
+          {
+            "full_name": "RyensX/OpenCodex",
+            "stars": 102,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "comfyui",
+        "github_repos": [
+          {
+            "full_name": "shootthesound/comfyui-mesh",
+            "stars": 98,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "terminal",
+        "github_repos": [
+          {
+            "full_name": "qewer33/ratscad",
+            "stars": 96,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "auto-register",
+        "github_repos": [
+          {
+            "full_name": "huey1in/WindsurfX",
+            "stars": 95,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Vinyl Painter Import",
+        "github_repos": [
+          {
+            "full_name": "bvzrays/forza-painter-fh6",
+            "stars": 95,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "guia honesto sobre",
+        "github_repos": [
+          {
+            "full_name": "julianommartins/tech-interview-handbook",
+            "stars": 94,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "antivirus",
+        "github_repos": [
+          {
+            "full_name": "AdvDebug/Brovan",
+            "stars": 92,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Delta precision-engineered executor",
+        "github_repos": [
+          {
+            "full_name": "akuma815/WindowsDelta",
+            "stars": 90,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "arbitrage-bot",
+        "github_repos": [
+          {
+            "full_name": "yenjenchen/trading-bot",
+            "stars": 87,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "list useful feeds",
+        "github_repos": [
+          {
+            "full_name": "mr-r3b00t/cyber_rss",
+            "stars": 86,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "animation",
+        "github_repos": [
+          {
+            "full_name": "noppefoxwolf/MergeableView",
+            "stars": 83,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "omarchy",
+        "github_repos": [
+          {
+            "full_name": "bjarneo/quickshell",
+            "stars": 83,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "TYPE adaptive typing",
+        "github_repos": [
+          {
+            "full_name": "xiaolai/type-review",
+            "stars": 82,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "一个由AI运维的网络安全Skill知识库",
+        "github_repos": [
+          {
+            "full_name": "Hi-FullHouse/CyberSecurity-Skills",
+            "stars": 82,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "fully decentralized Windsurf",
+        "github_repos": [
+          {
+            "full_name": "zhouyoukang1234-spec/windsurf-assistant",
+            "stars": 81,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "微信读书高阶顾问 weread skill",
+        "github_repos": [
+          {
+            "full_name": "alchaincyf/huashu-weread",
+            "stars": 77,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Official Code What",
+        "github_repos": [
+          {
+            "full_name": "HumanMLLM/SWIM",
+            "stars": 75,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "OpenWRT Windows Theme",
+        "github_repos": [
+          {
+            "full_name": "fffonion/openwrt-win98-theme",
+            "stars": 75,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "api-client",
+        "github_repos": [
+          {
+            "full_name": "stainlu/stainful",
+            "stars": 75,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Webapp framing video",
+        "github_repos": [
+          {
+            "full_name": "mrdoob/reframe",
+            "stars": 74,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Glass fast free",
+        "github_repos": [
+          {
+            "full_name": "azw413/Glass",
+            "stars": 73,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cheatfree",
+        "github_repos": [
+          {
+            "full_name": "RastProxy88/Fortnite-External-Cheat-2026",
+            "stars": 72,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "snipe-bot",
+        "github_repos": [
+          {
+            "full_name": "DeFiCryptoBots/CryptoBots-Solana-Sniper-PumpFun-Free",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bitsandbytes",
+        "github_repos": [
+          {
+            "full_name": "DaoyuanLi2816/can-i-finetune-this",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "NextSSRF CVE-2026-44578 Scanner",
+        "github_repos": [
+          {
+            "full_name": "ynsmroztas/nextssrf",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Self-hosted subscription tracker",
+        "github_repos": [
+          {
+            "full_name": "zhiyingzzhou/renewlet",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "roblox",
+        "github_repos": [
+          {
+            "full_name": "thaddeuswilkersonqbaj13/The-Delta-Executor",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "terminal coding agent",
+        "github_repos": [
+          {
+            "full_name": "p0systems/peezy-cli",
+            "stars": 68,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "downloader",
+        "github_repos": [
+          {
+            "full_name": "ZethRise/PlayDL",
+            "stars": 63,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "メモリ機能が強力なhermes-agentと、日本語検索に強い外部メモリvecmemoriを活かし、長文に耐える小説を企画/プロッティング/執筆するためのskills.md",
+        "github_repos": [
+          {
+            "full_name": "kgmkm/novel2hermes_jp",
+            "stars": 63,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Re-enable BC-250 (gfx1013",
+        "github_repos": [
+          {
+            "full_name": "duggasco/bc250-40cu-unlock",
+            "stars": 63,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "结构体校验器",
+        "github_repos": [
+          {
+            "full_name": "kamalyes/go-argus",
+            "stars": 63,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "video-spec-builder 把我想做个视频逼成一份精确到秒的分镜脚本 video-spec.md,交给",
+        "github_repos": [
+          {
+            "full_name": "feicaiclub/video-spec-builder",
+            "stars": 61,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "arp-spoofing",
+        "github_repos": [
+          {
+            "full_name": "frayude/throttnux",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "PuTTY 0.83 fork",
+        "github_repos": [
+          {
+            "full_name": "chillymasterio/puttyalt",
+            "stars": 59,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "browser-automation",
+        "github_repos": [
+          {
+            "full_name": "Ayyouboss0011/SherlockMaps",
+            "stars": 58,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "developer-tools",
+        "github_repos": [
+          {
+            "full_name": "Ballwictb/besur-themes",
+            "stars": 58,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Lossless EPUB/CBZ tools",
+        "github_repos": [
+          {
+            "full_name": "0xH4KU/manga-pdf-to-epub",
+            "stars": 58,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Codex workflow Grok",
+        "github_repos": [
+          {
+            "full_name": "Rion-Wu-tech/grok-video-workflow",
+            "stars": 57,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Official Implemenation RAEv2:",
+        "github_repos": [
+          {
+            "full_name": "nanovisionx/RAEv2",
+            "stars": 57,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "desktop-app",
+        "github_repos": [
+          {
+            "full_name": "l0ng-ai/papr",
+            "stars": 57,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Kiro Pro/Pro+ 批量订阅自动化工具，支持",
+        "github_repos": [
+          {
+            "full_name": "guowang23333/kiro-pro-batch",
+            "stars": 57,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Create Remotion video",
+        "github_repos": [
+          {
+            "full_name": "leosssvip-dot/remotion-ad-video-skill",
+            "stars": 55,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Classification Machine Learning",
+        "github_repos": [
+          {
+            "full_name": "rajchandran006-ops/RFD-Classification-Machine-Learning-Project",
+            "stars": 55,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "基于DQN的无人机GPS欺骗攻击检测系统 随机攻击、重放攻击、隐蔽攻击",
+        "github_repos": [
+          {
+            "full_name": "zhw040803-glitch/UAV-GPS-DQN-Detection",
+            "stars": 54,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "dev-server",
+        "github_repos": [
+          {
+            "full_name": "Avijit07x/git-switch",
+            "stars": 54,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Explainable deep learning",
+        "github_repos": [
+          {
+            "full_name": "Stevia-S/MultiClass-LungDisease-Detection-Using-XAI",
+            "stars": 54,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Single-host, read-only disk",
+        "github_repos": [
+          {
+            "full_name": "matthart1983/diskwatch",
+            "stars": 53,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Int4-quantized inference runtime",
+        "github_repos": [
+          {
+            "full_name": "kizuna-intelligence/Irodori-TTS-Lite",
+            "stars": 53,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deep learning project",
+        "github_repos": [
+          {
+            "full_name": "sanjanaprasath01-hue/handwritten-digit-recognition-cnn",
+            "stars": 52,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Local-first interview recording",
+        "github_repos": [
+          {
+            "full_name": "K1XE/InterviewForge",
+            "stars": 52,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Xbox Emulation",
+        "github_repos": [
+          {
+            "full_name": "MaftyManicEMU/DukeX",
+            "stars": 51,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "careers",
+        "github_repos": [
+          {
+            "full_name": "freeCodeCamp/freeCodeCamp",
+            "stars": 445213,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "books",
+        "github_repos": [
+          {
+            "full_name": "EbookFoundation/free-programming-books",
+            "stars": 388668,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "angular-roadmap",
+        "github_repos": [
+          {
+            "full_name": "nilbuild/developer-roadmap",
+            "stars": 355168,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "declarative",
+        "github_repos": [
+          {
+            "full_name": "facebook/react",
+            "stars": 245154,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Linux kernel source",
+        "github_repos": [
+          {
+            "full_name": "torvalds/linux",
+            "stars": 233918,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deep-learning",
+        "github_repos": [
+          {
+            "full_name": "tensorflow/tensorflow",
+            "stars": 195211,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "repo finally unlocked.",
+        "github_repos": [
+          {
+            "full_name": "ultraworkers/claw-code",
+            "stars": 192126,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bootstrap",
+        "github_repos": [
+          {
+            "full_name": "twbs/bootstrap",
+            "stars": 174262,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "git",
+        "github_repos": [
+          {
+            "full_name": "github/gitignore",
+            "stars": 174024,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deepseek",
+        "github_repos": [
+          {
+            "full_name": "ollama/ollama",
+            "stars": 171844,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "open source coding",
+        "github_repos": [
+          {
+            "full_name": "anomalyco/opencode",
+            "stars": 163324,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Claude Code agentic",
+        "github_repos": [
+          {
+            "full_name": "anthropics/claude-code",
+            "stars": 125370,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cncf",
+        "github_repos": [
+          {
+            "full_name": "kubernetes/kubernetes",
+            "stars": 122379,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "clash",
+        "github_repos": [
+          {
+            "full_name": "clash-verge-rev/clash-verge-rev",
+            "stars": 119791,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "iptv",
+        "github_repos": [
+          {
+            "full_name": "iptv-org/iptv",
+            "stars": 116384,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "base-ui",
+        "github_repos": [
+          {
+            "full_name": "shadcn-ui/ui",
+            "stars": 114784,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "3d",
+        "github_repos": [
+          {
+            "full_name": "mrdoob/three.js",
+            "stars": 112587,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ggml",
+        "github_repos": [
+          {
+            "full_name": "ggml-org/llama.cpp",
+            "stars": 111992,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "game-development",
+        "github_repos": [
+          {
+            "full_name": "godotengine/godot",
+            "stars": 110979,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deno",
+        "github_repos": [
+          {
+            "full_name": "denoland/deno",
+            "stars": 106794,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "expose",
+        "github_repos": [
+          {
+            "full_name": "fatedier/frp",
+            "stars": 106702,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "proxy",
+        "github_repos": [
+          {
+            "full_name": "2dust/v2rayN",
+            "stars": 106308,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "backup-tool",
+        "github_repos": [
+          {
+            "full_name": "immich-app/immich",
+            "stars": 101207,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "chinese",
+        "github_repos": [
+          {
+            "full_name": "Anduin2017/HowToCook",
+            "stars": 100221,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Garry Tan's exact",
+        "github_repos": [
+          {
+            "full_name": "garrytan/gstack",
+            "stars": 100187,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "autograd",
+        "github_repos": [
+          {
+            "full_name": "pytorch/pytorch",
+            "stars": 100043,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "design-system",
+        "github_repos": [
+          {
+            "full_name": "mui/material-ui",
+            "stars": 98361,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ant-design",
+        "github_repos": [
+          {
+            "full_name": "ant-design/ant-design",
+            "stars": 98094,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Skills Real Engineers.",
+        "github_repos": [
+          {
+            "full_name": "mattpocock/skills",
+            "stars": 97709,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "css",
+        "github_repos": [
+          {
+            "full_name": "tailwindlabs/tailwindcss",
+            "stars": 95080,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "automation",
+        "github_repos": [
+          {
+            "full_name": "puppeteer/puppeteer",
+            "stars": 94350,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bun",
+        "github_repos": [
+          {
+            "full_name": "oven-sh/bun",
+            "stars": 92165,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "科技爱好者周刊，每周五发布",
+        "github_repos": [
+          {
+            "full_name": "ruanyf/weekly",
+            "stars": 91608,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bitcoin",
+        "github_repos": [
+          {
+            "full_name": "bitcoin/bitcoin",
+            "stars": 89154,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "diagrams",
+        "github_repos": [
+          {
+            "full_name": "mermaid-js/mermaid",
+            "stars": 88192,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "asyncio",
+        "github_repos": [
+          {
+            "full_name": "home-assistant/core",
+            "stars": 87162,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Model Context Protocol",
+        "github_repos": [
+          {
+            "full_name": "modelcontextprotocol/servers",
+            "stars": 86028,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "packaging",
+        "github_repos": [
+          {
+            "full_name": "astral-sh/uv",
+            "stars": 85270,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "\"The mother demo",
+        "github_repos": [
+          {
+            "full_name": "realworld-apps/realworld",
+            "stars": 83459,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "gpui",
+        "github_repos": [
+          {
+            "full_name": "zed-industries/zed",
+            "stars": 83406,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "font",
+        "github_repos": [
+          {
+            "full_name": "tonsky/FiraCode",
+            "stars": 81634,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "build-tool",
+        "github_repos": [
+          {
+            "full_name": "vitejs/vite",
+            "stars": 80743,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "browser-ide",
+        "github_repos": [
+          {
+            "full_name": "coder/code-server",
+            "stars": 77633,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-tools",
+        "github_repos": [
+          {
+            "full_name": "farion1231/cc-switch",
+            "stars": 76863,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "elasticsearch",
+        "github_repos": [
+          {
+            "full_name": "elastic/elasticsearch",
+            "stars": 76738,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "aaron-swartz",
+        "github_repos": [
+          {
+            "full_name": "awesomedata/awesome-public-datasets",
+            "stars": 75573,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cache",
+        "github_repos": [
+          {
+            "full_name": "redis/redis",
+            "stars": 74474,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "analytics",
+        "github_repos": [
+          {
+            "full_name": "apache/superset",
+            "stars": 72922,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Python programming language",
+        "github_repos": [
+          {
+            "full_name": "python/cpython",
+            "stars": 72786,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Drop screenshot convert",
+        "github_repos": [
+          {
+            "full_name": "abi/screenshot-to-code",
+            "stars": 72642,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "containers",
+        "github_repos": [
+          {
+            "full_name": "moby/moby",
+            "stars": 71580,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "flask",
+        "github_repos": [
+          {
+            "full_name": "pallets/flask",
+            "stars": 71566,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "serial",
+        "github_repos": [
+          {
+            "full_name": "Eugeny/tabby",
+            "stars": 71483,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "marshalling",
+        "github_repos": [
+          {
+            "full_name": "protocolbuffers/protobuf",
+            "stars": 71253,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "SecLists security tester's",
+        "github_repos": [
+          {
+            "full_name": "danielmiessler/SecLists",
+            "stars": 71055,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ci",
+        "github_repos": [
+          {
+            "full_name": "nektos/act",
+            "stars": 70431,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Swift Programming Language",
+        "github_repos": [
+          {
+            "full_name": "swiftlang/swift",
+            "stars": 70005,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "express",
+        "github_repos": [
+          {
+            "full_name": "expressjs/express",
+            "stars": 69047,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "disassembler",
+        "github_repos": [
+          {
+            "full_name": "NationalSecurityAgency/ghidra",
+            "stars": 68702,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ansible",
+        "github_repos": [
+          {
+            "full_name": "ansible/ansible",
+            "stars": 68616,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "app",
+        "github_repos": [
+          {
+            "full_name": "toeverything/AFFiNE",
+            "stars": 68590,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "open-source everyone uses",
+        "github_repos": [
+          {
+            "full_name": "paperclipai/paperclip",
+            "stars": 66894,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "apache",
+        "github_repos": [
+          {
+            "full_name": "apache/echarts",
+            "stars": 66392,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "data-analysis",
+        "github_repos": [
+          {
+            "full_name": "scikit-learn/scikit-learn",
+            "stars": 66128,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "amd",
+        "github_repos": [
+          {
+            "full_name": "webpack/webpack",
+            "stars": 65765,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "documentation",
+        "github_repos": [
+          {
+            "full_name": "facebook/docusaurus",
+            "stars": 64969,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blocker",
+        "github_repos": [
+          {
+            "full_name": "gorhill/uBlock",
+            "stars": 64831,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "data-science",
+        "github_repos": [
+          {
+            "full_name": "keras-team/keras",
+            "stars": 64074,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "browser",
+        "github_repos": [
+          {
+            "full_name": "LadybirdBrowser/ladybird",
+            "stars": 63458,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "claude-code",
+        "github_repos": [
+          {
+            "full_name": "gsd-build/get-shit-done",
+            "stars": 63412,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "batch-processing",
+        "github_repos": [
+          {
+            "full_name": "pathwaycom/pathway",
+            "stars": 63252,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "consul",
+        "github_repos": [
+          {
+            "full_name": "traefik/traefik",
+            "stars": 63250,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "javascript",
+        "github_repos": [
+          {
+            "full_name": "socketio/socket.io",
+            "stars": 63089,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "airtable",
+        "github_repos": [
+          {
+            "full_name": "nocodb/nocodb",
+            "stars": 63076,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Autonomous coding agent",
+        "github_repos": [
+          {
+            "full_name": "cline/cline",
+            "stars": 62129,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "crawler",
+        "github_repos": [
+          {
+            "full_name": "scrapy/scrapy",
+            "stars": 61754,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "redux",
+        "github_repos": [
+          {
+            "full_name": "reduxjs/redux",
+            "stars": 61446,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "diagram-editor",
+        "github_repos": [
+          {
+            "full_name": "jgraph/drawio-desktop",
+            "stars": 61215,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bitwarden",
+        "github_repos": [
+          {
+            "full_name": "dani-garcia/vaultwarden",
+            "stars": 60823,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "csr",
+        "github_repos": [
+          {
+            "full_name": "nuxt/nuxt",
+            "stars": 60264,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "jquery",
+        "github_repos": [
+          {
+            "full_name": "jquery/jquery",
+            "stars": 59844,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ad-blocker",
+        "github_repos": [
+          {
+            "full_name": "pi-hole/pi-hole",
+            "stars": 58865,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "authentication",
+        "github_repos": [
+          {
+            "full_name": "pocketbase/pocketbase",
+            "stars": 58452,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "activejob",
+        "github_repos": [
+          {
+            "full_name": "rails/rails",
+            "stars": 58443,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blockchain",
+        "github_repos": [
+          {
+            "full_name": "FuelLabs/fuel-core",
+            "stars": 57061,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Declarative routing React",
+        "github_repos": [
+          {
+            "full_name": "remix-run/react-router",
+            "stars": 56425,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "dark-mode",
+        "github_repos": [
+          {
+            "full_name": "marktext/marktext",
+            "stars": 56280,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "llm",
+        "github_repos": [
+          {
+            "full_name": "upstash/context7",
+            "stars": 55773,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "coolify",
+        "github_repos": [
+          {
+            "full_name": "coollabsio/coolify",
+            "stars": 55682,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deep-face-swap",
+        "github_repos": [
+          {
+            "full_name": "deepfakes/faceswap",
+            "stars": 55229,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Ghostty fast, feature-rich,",
+        "github_repos": [
+          {
+            "full_name": "ghostty-org/ghostty",
+            "stars": 54971,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Chris Titus Tech's",
+        "github_repos": [
+          {
+            "full_name": "ChrisTitusTech/winutil",
+            "stars": 54803,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "client",
+        "github_repos": [
+          {
+            "full_name": "psf/requests",
+            "stars": 54007,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bittorrent",
+        "github_repos": [
+          {
+            "full_name": "ngosang/trackerslist",
+            "stars": 53929,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Vue.js progressive, incrementally-adoptable",
+        "github_repos": [
+          {
+            "full_name": "vuejs/core",
+            "stars": 53695,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blogging",
+        "github_repos": [
+          {
+            "full_name": "TryGhost/Ghost",
+            "stars": 53576,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "command-line",
+        "github_repos": [
+          {
+            "full_name": "PowerShell/PowerShell",
+            "stars": 53527,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Reader JavaScript",
+        "github_repos": [
+          {
+            "full_name": "mozilla/pdf.js",
+            "stars": 53351,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent toolkit: coding",
+        "github_repos": [
+          {
+            "full_name": "earendil-works/pi",
+            "stars": 52302,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "analyzer",
+        "github_repos": [
+          {
+            "full_name": "tw93/Mole",
+            "stars": 52204,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      }
+    ]
+  },
+  "uncorrelated_repos": [
+    "vercel-labs/zerolang",
+    "Doorman11991/smallcode",
+    "Kappaemme-git/codex-complexity-optimizer",
+    "Flizorules05/ROM-MGBA-Pokemon-Emulator-PC",
+    "BasZ4ll/Stable-Diffusion-WebUI",
+    "arnabchoudhury404/hydra-launcher",
+    "Sunislazi/rbxfpsunlocker-boost-More-240FPS",
+    "ZoyaMalhotra/DualSenseX-DSX-Steam-Edition",
+    "openclaw/clawpatch",
+    "haiddrrs/Steam-Tools",
+    "sapientinc/HRM-Text",
+    "bytedance/Lance",
+    "stephenlthorn/auto-identity-remove",
+    "tritano/ultraviewer",
+    "Glazenovatag/hyperliquid-whale-order-tracking",
+    "littlefrogyq/UE4SS-Subnautica-2",
+    "SalhaNabil/CloakBrowser",
+    "RastProxy88/Zephyr-Executor-Free-Roblox-Executor-PC-No-Key-Required-2026",
+    "trong776/gta-5-mod-menu",
+    "Alkih/Nightlight-Game-Launcher",
+    "SubamanojJ-2004/gta-5-mod-menu",
+    "Harshit-pruthi/sklauncher-minecraft",
+    "nkzw-tech/codiff",
+    "dannyhsueh2/Forza-Horizon-6-Premium",
+    "uktrash/LSFG-Desktop",
+    "CylinderChairman/aida64",
+    "evilsocket/audit",
+    "rahul03524/YellowKey-Bitlocker",
+    "MFS9628/Deepseek-v4-pro-app",
+    "ZettPW/KMSTools",
+    "agentic-in/elephant-agent",
+    "AppleOnFire/JennyMod-All-Versions",
+    "husu/loom",
+    "internetkafe/vpnhostinglist",
+    "MediatorSpeak/dota2-gameplay-tools",
+    "dtnewman/burn-baby-burn",
+    "kageroumado/phosphene",
+    "texsellix/polymarket-trading-bot",
+    "RastProxy88/Vivid-R6-Cracked-2026",
+    "basketikun/infinite-canvas",
+    "lynote-ai/humanize-text",
+    "skydoves/android-testing-skills",
+    "Multichain-Bot-Lab/polymarket-trading-bot",
+    "Multichain-Bot-Lab/polymarket-copy-trading-bot",
+    "luoling8192/technical-writing",
+    "datawhalechina/Agent-Learning-Hub",
+    "redteamfortress/PhantomKiller",
+    "rit3zh/expo-motion-tabs",
+    "2b2tplace/1m_release",
+    "sachmalan/kalshi-trading-bot",
+    "VAENPP/solana-trading-bot",
+    "japp-fi/polymarket-mcp-server",
+    "Alchemz/solana-pumpfun-token-bundler",
+    "OpenPatchLab/polymarket-weather-trading-bot",
+    "fristork/hyperliquid-trading-bot",
+    "cclank/x-algorithm-wiki",
+    "Nieobie/Game-Icon-Pack",
+    "sander110419/lightroom-cc-on-linux",
+    "WUBING2023/PaperSpine",
+    "ByteDance-Seed/Cola-DLM",
+    "shenli/distributed-system-testing",
+    "kouhxp/yapsnap",
+    "zimingttkx/QuantumFlow",
+    "hossein8360/cdn-ip-finder",
+    "ronaldo-avalos/Maya",
+    "nikvpn-iran/nikvpn-codespace",
+    "ahammadmejbah/Awesome-Datasets-Hub",
+    "disintegr8te/teams-policy-export",
+    "yangliu2060/founders-playbook-zh",
+    "AIchovy/vibe-observer",
+    "harmony-on-android/HOA",
+    "sablin39/tilelang-cuda-skills",
+    "amrdoh/ClockMaster",
+    "jackson-video-resources/markov-hedge-fund-method",
+    "RyensX/OpenCodex",
+    "shootthesound/comfyui-mesh",
+    "qewer33/ratscad",
+    "huey1in/WindsurfX",
+    "bvzrays/forza-painter-fh6",
+    "julianommartins/tech-interview-handbook",
+    "AdvDebug/Brovan",
+    "akuma815/WindowsDelta",
+    "yenjenchen/trading-bot",
+    "MediatorSpeak/Valorant-External-Framework",
+    "mr-r3b00t/cyber_rss",
+    "noppefoxwolf/MergeableView",
+    "bjarneo/quickshell",
+    "xiaolai/type-review",
+    "Hi-FullHouse/CyberSecurity-Skills",
+    "zhouyoukang1234-spec/windsurf-assistant",
+    "alchaincyf/huashu-weread",
+    "HumanMLLM/SWIM",
+    "fffonion/openwrt-win98-theme",
+    "stainlu/stainful",
+    "mrdoob/reframe",
+    "azw413/Glass",
+    "RastProxy88/Fortnite-External-Cheat-2026",
+    "DeFiCryptoBots/CryptoBots-Solana-Sniper-PumpFun-Free",
+    "DaoyuanLi2816/can-i-finetune-this",
+    "ynsmroztas/nextssrf",
+    "zhiyingzzhou/renewlet",
+    "thaddeuswilkersonqbaj13/The-Delta-Executor",
+    "p0systems/peezy-cli",
+    "ZethRise/PlayDL",
+    "kgmkm/novel2hermes_jp",
+    "duggasco/bc250-40cu-unlock",
+    "kamalyes/go-argus",
+    "feicaiclub/video-spec-builder",
+    "frayude/throttnux",
+    "chillymasterio/puttyalt",
+    "Ayyouboss0011/SherlockMaps",
+    "Ballwictb/besur-themes",
+    "0xH4KU/manga-pdf-to-epub",
+    "Rion-Wu-tech/grok-video-workflow",
+    "nanovisionx/RAEv2",
+    "l0ng-ai/papr",
+    "guowang23333/kiro-pro-batch",
+    "leosssvip-dot/remotion-ad-video-skill",
+    "rajchandran006-ops/RFD-Classification-Machine-Learning-Project",
+    "zhw040803-glitch/UAV-GPS-DQN-Detection",
+    "Avijit07x/git-switch",
+    "Stevia-S/MultiClass-LungDisease-Detection-Using-XAI",
+    "matthart1983/diskwatch",
+    "kizuna-intelligence/Irodori-TTS-Lite",
+    "sanjanaprasath01-hue/handwritten-digit-recognition-cnn",
+    "K1XE/InterviewForge",
+    "MaftyManicEMU/DukeX",
+    "freeCodeCamp/freeCodeCamp",
+    "public-apis/public-apis",
+    "EbookFoundation/free-programming-books",
+    "nilbuild/developer-roadmap",
+    "vinta/awesome-python",
+    "awesome-selfhosted/awesome-selfhosted",
+    "facebook/react",
+    "torvalds/linux",
+    "TheAlgorithms/Python",
+    "trekhleb/javascript-algorithms",
+    "tensorflow/tensorflow",
+    "ultraworkers/claw-code",
+    "ohmyzsh/ohmyzsh",
+    "flutter/flutter",
+    "twbs/bootstrap",
+    "github/gitignore",
+    "avelino/awesome-go",
+    "ollama/ollama",
+    "yt-dlp/yt-dlp",
+    "anomalyco/opencode",
+    "huggingface/transformers",
+    "Snailclimb/JavaGuide",
+    "Genymobile/scrcpy",
+    "vercel/next.js",
+    "anthropics/skills",
+    "golang/go",
+    "facebook/react-native",
+    "anthropics/claude-code",
+    "ripienaar/free-for-dev",
+    "kubernetes/kubernetes",
+    "clash-verge-rev/clash-verge-rev",
+    "iptv-org/iptv",
+    "shadcn-ui/ui",
+    "rustdesk/rustdesk",
+    "rust-lang/rust",
+    "mrdoob/three.js",
+    "ggml-org/llama.cpp",
+    "godotengine/godot",
+    "axios/axios",
+    "denoland/deno",
+    "fatedier/frp",
+    "papers-we-love/papers-we-love",
+    "2dust/v2rayN",
+    "immich-app/immich",
+    "Anduin2017/HowToCook",
+    "garrytan/gstack",
+    "angular/angular",
+    "pytorch/pytorch",
+    "neovim/neovim",
+    "fastapi/fastapi",
+    "mui/material-ui",
+    "ant-design/ant-design",
+    "mattpocock/skills",
+    "tailwindlabs/tailwindcss",
+    "browser-use/browser-use",
+    "puppeteer/puppeteer",
+    "nvm-sh/nvm",
+    "oven-sh/bun",
+    "ruanyf/weekly",
+    "bitcoin/bitcoin",
+    "mermaid-js/mermaid",
+    "home-assistant/core",
+    "louislam/uptime-kuma",
+    "modelcontextprotocol/servers",
+    "astral-sh/uv",
+    "laravel/laravel",
+    "syncthing/syncthing",
+    "realworld-apps/realworld",
+    "zed-industries/zed",
+    "VoltAgent/awesome-design-md",
+    "tonsky/FiraCode",
+    "vitejs/vite",
+    "spring-projects/spring-boot",
+    "junegunn/fzf",
+    "hoppscotch/hoppscotch",
+    "Stirling-Tools/Stirling-PDF",
+    "PaddlePaddle/PaddleOCR",
+    "jesseduffield/lazygit",
+    "TauricResearch/TradingAgents",
+    "coder/code-server",
+    "farion1231/cc-switch",
+    "elastic/elasticsearch",
+    "awesomedata/awesome-public-datasets",
+    "nestjs/nest",
+    "redis/redis",
+    "unionlabs/union",
+    "grafana/grafana",
+    "ocornut/imgui",
+    "apache/superset",
+    "python/cpython",
+    "abi/screenshot-to-code",
+    "obsproject/obs-studio",
+    "strapi/strapi",
+    "moby/moby",
+    "pallets/flask",
+    "Eugeny/tabby",
+    "fffaraz/awesome-cpp",
+    "protocolbuffers/protobuf",
+    "danielmiessler/SecLists",
+    "nektos/act",
+    "swiftlang/swift",
+    "expressjs/express",
+    "NationalSecurityAgency/ghidra",
+    "ansible/ansible",
+    "toeverything/AFFiNE",
+    "paperclipai/paperclip",
+    "apache/echarts",
+    "scikit-learn/scikit-learn",
+    "webpack/webpack",
+    "TheAlgorithms/Java",
+    "facebook/docusaurus",
+    "gorhill/uBlock",
+    "opendatalab/MinerU",
+    "prometheus/prometheus",
+    "keras-team/keras",
+    "LadybirdBrowser/ladybird",
+    "gsd-build/get-shit-done",
+    "pathwaycom/pathway",
+    "traefik/traefik",
+    "socketio/socket.io",
+    "nocodb/nocodb",
+    "ruvnet/RuView",
+    "cline/cline",
+    "scrapy/scrapy",
+    "FuelLabs/sway",
+    "reduxjs/redux",
+    "jgraph/drawio-desktop",
+    "git/git",
+    "dani-garcia/vaultwarden",
+    "Mintplex-Labs/anything-llm",
+    "FFmpeg/FFmpeg",
+    "nuxt/nuxt",
+    "spring-projects/spring-framework",
+    "usememos/memos",
+    "jquery/jquery",
+    "withastro/astro",
+    "warpdotdev/warp",
+    "pi-hole/pi-hole",
+    "pocketbase/pocketbase",
+    "rails/rails",
+    "pmndrs/zustand",
+    "rust-unofficial/awesome-rust",
+    "ultralytics/ultralytics",
+    "FuelLabs/fuel-core",
+    "2dust/v2rayNG",
+    "remix-run/react-router",
+    "marktext/marktext",
+    "appwrite/appwrite",
+    "gatsbyjs/gatsby",
+    "upstash/context7",
+    "coollabsio/coolify",
+    "deepfakes/faceswap",
+    "ghostty-org/ghostty",
+    "laurent22/joplin",
+    "ChrisTitusTech/winutil",
+    "psf/requests",
+    "ngosang/trackerslist",
+    "ruvnet/ruflo",
+    "vuejs/core",
+    "TryGhost/Ghost",
+    "PowerShell/PowerShell",
+    "mozilla/pdf.js",
+    "google/material-design-icons",
+    "JetBrains/kotlin",
+    "ionic-team/ionic-framework",
+    "earendil-works/pi",
+    "tw93/Mole",
+    "prettier/prettier"
+  ],
+  "metadata": {
+    "repos_analyzed": 382,
+    "correlations_found": 87,
+    "articles_matched": 20,
+    "uncovered_tech_trends": 0,
+    "unpublicized_dev_activity": 243
+  }
+}

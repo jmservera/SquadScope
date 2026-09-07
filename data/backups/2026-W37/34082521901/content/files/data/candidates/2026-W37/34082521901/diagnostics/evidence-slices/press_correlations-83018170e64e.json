@@ -1,0 +1,1518 @@
+{
+  "checksum_sha256": "83018170e64e28c2de8d6b1d7c03f1db2434c430ea9306abd95f17a97d40697f",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 176612,
+        "path": "data/analyzed/2026-W37-correlations.json",
+        "sha256": "3e8a47d6b6a804b55a963e4ca7ab98ce762dfda0fd0be3bfecdfe8589aaa65ed"
+      },
+      "external_news": {
+        "bytes": 46196,
+        "path": "data/raw/2026-W37-external-news.json",
+        "sha256": "1462f28b8915a3ba03a552e02edc4521213779bd7c788638b933227d98cf38d0"
+      },
+      "press_context": {
+        "bytes": 14244,
+        "path": "data/analyzed/2026-W37-press-context.md",
+        "sha256": "69c2577c8f5bf5a4cc3197e7a498e5fd1b2d678ed3d3714777309ad8303e1ef3"
+      },
+      "raw_json": {
+        "bytes": 385788,
+        "path": "data/raw/2026-W37.json",
+        "sha256": "f4a405fc24cfc9bc1f9181f6d0fb6a9df295fc075e478040671e24e1653cdaed"
+      }
+    },
+    "week": "2026-W37"
+  },
+  "records": [
+    {
+      "correlation_confidence": 1.0,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "direct_link",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T16:00:59Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sparks Fly: NVIDIA Accelerates Local AI at IFA 2026",
+          "url": "https://blogs.nvidia.com/blog/local-ai-ifa-next-gen-agents-nv-pair-rtx-spark/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/local-ai-ifa-next-gen-agents-nv-pair-rtx-spark/"
+      ],
+      "repo": "deepseek-ai/deepseek-harness"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot app for Beginners: Run several agents at once",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-run-several-agents-at-once/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-run-several-agents-at-once/"
+      ],
+      "repo": "github/gitignore"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot app for Beginners: Run several agents at once",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-run-several-agents-at-once/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-run-several-agents-at-once/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/AI-For-Beginners"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/ML-For-Beginners"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/PowerToys"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/TypeScript"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/generative-ai-for-beginners"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/markitdown"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/playwright"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/terminal"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+      ],
+      "repo": "microsoft/vscode"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        },
+        {
+          "published_at": "2026-09-05T18:05:27Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI confirms ‘wiki incident,’ says it’s ‘working on a framework’ for more disclosure",
+          "url": "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/"
+        },
+        {
+          "published_at": "2026-09-04T23:15:11Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI’s rogue agents keep escaping, with no formal process to investigate them",
+          "url": "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/"
+        },
+        {
+          "published_at": "2026-09-04T16:21:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Another swarm of OpenAI agents reached the open internet without the frontier lab’s knowledge",
+          "url": "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/",
+        "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/",
+        "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/",
+        "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/"
+      ],
+      "repo": "openai/PrimeGaps186"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        },
+        {
+          "published_at": "2026-09-05T18:05:27Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI confirms ‘wiki incident,’ says it’s ‘working on a framework’ for more disclosure",
+          "url": "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/"
+        },
+        {
+          "published_at": "2026-09-04T23:15:11Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI’s rogue agents keep escaping, with no formal process to investigate them",
+          "url": "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/"
+        },
+        {
+          "published_at": "2026-09-04T16:21:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Another swarm of OpenAI agents reached the open internet without the frontier lab’s knowledge",
+          "url": "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/",
+        "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/",
+        "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/",
+        "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/"
+      ],
+      "repo": "openai/codex"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-04T21:12:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "AI compute provider Nscale is looking for $3.5B in pre-IPO financing",
+          "url": "https://techcrunch.com/2026/09/04/ai-compute-provider-nscale-is-looking-for-3-5b-in-pre-ipo-financing/"
+        },
+        {
+          "published_at": "2026-09-04T18:39:19Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Architecting memory and storage in the AI era",
+          "url": "https://www.technologyreview.com/2026/09/04/1140872/architecting-memory-and-storage-in-the-ai-era/"
+        },
+        {
+          "published_at": "2026-09-04T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: selling battlefield drone data and AI reshaping language",
+          "url": "https://www.technologyreview.com/2026/09/04/1143457/the-download-ukraine-selling-drone-data-ai-reshaping-language/"
+        },
+        {
+          "published_at": "2026-09-03T16:00:59Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sparks Fly: NVIDIA Accelerates Local AI at IFA 2026",
+          "url": "https://blogs.nvidia.com/blog/local-ai-ifa-next-gen-agents-nv-pair-rtx-spark/"
+        },
+        {
+          "published_at": "2026-09-03T09:30:32Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Scaling agentic AI pilots across the enterprise",
+          "url": "https://www.technologyreview.com/2026/09/03/1142868/scaling-agentic-ai-pilots-across-the-enterprise/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/04/ai-compute-provider-nscale-is-looking-for-3-5b-in-pre-ipo-financing/",
+        "https://www.technologyreview.com/2026/09/04/1140872/architecting-memory-and-storage-in-the-ai-era/",
+        "https://www.technologyreview.com/2026/09/04/1143457/the-download-ukraine-selling-drone-data-ai-reshaping-language/",
+        "https://blogs.nvidia.com/blog/local-ai-ifa-next-gen-agents-nv-pair-rtx-spark/",
+        "https://www.technologyreview.com/2026/09/03/1142868/scaling-agentic-ai-pilots-across-the-enterprise/"
+      ],
+      "repo": "Agenta-AI/awesome-ai-agent-platforms"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-04T17:18:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "What will Apple’s John Ternus era look like?",
+          "url": "https://techcrunch.com/video/what-will-apples-john-ternus-era-look-like/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/video/what-will-apples-john-ternus-era-look-like/"
+      ],
+      "repo": "AppFlowy-IO/AppFlowy"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T17:00:00Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Clucky’s new alarm app wakes you up with a crowing rooster",
+          "url": "https://techcrunch.com/2026/09/05/cluckys-new-alarm-app-wakes-you-up-with-a-crowing-rooster/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/cluckys-new-alarm-app-wakes-you-up-with-a-crowing-rooster/"
+      ],
+      "repo": "Btluo1/cck"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T13:00:35Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "‘NBA 2K27’ With NVIDIA DLSS 5 Leads 28 New Games Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+      ],
+      "repo": "Comfy-Org/ComfyUI"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T09:30:32Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Scaling agentic AI pilots across the enterprise",
+          "url": "https://www.technologyreview.com/2026/09/03/1142868/scaling-agentic-ai-pilots-across-the-enterprise/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/09/03/1142868/scaling-agentic-ai-pilots-across-the-enterprise/"
+      ],
+      "repo": "D4Vinci/Scrapling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-06T16:45:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Travis Kalanick’s Atoms might be getting into the robotaxi business",
+          "url": "https://techcrunch.com/2026/09/06/travis-kalanicks-atoms-might-be-getting-into-the-robotaxi-business/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/06/travis-kalanicks-atoms-might-be-getting-into-the-robotaxi-business/"
+      ],
+      "repo": "DannyMac180/astra-advisor"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-02T13:49:14Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Real-Time Intelligence with IBM Time Series Models on Confluent",
+          "url": "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+      ],
+      "repo": "FeiZhuLulu/real-api-pricing"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Training a coding model to paint watercolours with TRL and OpenEnv",
+          "url": "https://huggingface.co/blog/train-to-paint-with-code"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/train-to-paint-with-code"
+      ],
+      "repo": "Fission-AI/OpenSpec"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-02T13:49:14Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Real-Time Intelligence with IBM Time Series Models on Confluent",
+          "url": "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+      ],
+      "repo": "MSNightmare/FalconFlank"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-04T14:47:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Google’s Gemini Spark can now manage your Google Photos library",
+          "url": "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/"
+      ],
+      "repo": "MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-01T21:39:07Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "BenchMIRT: What are LLM benchmarks actually measuring?",
+          "url": "https://huggingface.co/blog/allenai/benchmirt"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/allenai/benchmirt"
+      ],
+      "repo": "Mintplex-Labs/anything-llm"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        },
+        {
+          "published_at": "2026-09-05T18:05:27Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI confirms ‘wiki incident,’ says it’s ‘working on a framework’ for more disclosure",
+          "url": "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/"
+        },
+        {
+          "published_at": "2026-09-04T23:15:11Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI’s rogue agents keep escaping, with no formal process to investigate them",
+          "url": "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/"
+        },
+        {
+          "published_at": "2026-09-04T16:21:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Another swarm of OpenAI agents reached the open internet without the frontier lab’s knowledge",
+          "url": "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/"
+        },
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Training a coding model to paint watercolours with TRL and OpenEnv",
+          "url": "https://huggingface.co/blog/train-to-paint-with-code"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/",
+        "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/",
+        "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/",
+        "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/",
+        "https://huggingface.co/blog/train-to-paint-with-code"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-01T21:19:20Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and CrowdStrike Strengthen Agentic Cybersecurity Frontier",
+          "url": "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/"
+      ],
+      "repo": "Panniantong/Agent-Reach"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T16:00:59Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sparks Fly: NVIDIA Accelerates Local AI at IFA 2026",
+          "url": "https://blogs.nvidia.com/blog/local-ai-ifa-next-gen-agents-nv-pair-rtx-spark/"
+        },
+        {
+          "published_at": "2026-09-01T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Introducing @huggingface/kernels: 200+ WebGPU Kernels for Local AI",
+          "url": "https://huggingface.co/blog/webgpu-kernels"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/local-ai-ifa-next-gen-agents-nv-pair-rtx-spark/",
+        "https://huggingface.co/blog/webgpu-kernels"
+      ],
+      "repo": "R44VC0RP/superlocal"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T19:35:24Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Hikers rescued after using Google Gemini for planning",
+          "url": "https://techcrunch.com/2026/09/05/hikers-rescued-after-using-google-gemini-for-planning/"
+        },
+        {
+          "published_at": "2026-09-04T14:47:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Google’s Gemini Spark can now manage your Google Photos library",
+          "url": "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/"
+        },
+        {
+          "published_at": "2026-09-04T09:25:19Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Data from drones in Ukraine is fueling a new Wild West marketplace",
+          "url": "https://www.technologyreview.com/2026/09/04/1143452/drone-data-wild-west/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/hikers-rescued-after-using-google-gemini-for-planning/",
+        "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/",
+        "https://www.technologyreview.com/2026/09/04/1143452/drone-data-wild-west/"
+      ],
+      "repo": "Razshy/Wiggle"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-02T13:49:14Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Real-Time Intelligence with IBM Time Series Models on Confluent",
+          "url": "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+      ],
+      "repo": "Rion-Wu-tech/wechat-intelligence-hub"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-01T21:39:07Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "BenchMIRT: What are LLM benchmarks actually measuring?",
+          "url": "https://huggingface.co/blog/allenai/benchmirt"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/allenai/benchmirt"
+      ],
+      "repo": "Shubhamsaboo/awesome-llm-apps"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T13:00:35Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "‘NBA 2K27’ With NVIDIA DLSS 5 Leads 28 New Games Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+      ],
+      "repo": "ShyVortex/dlss-unlocked"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Give Your Coding Agents a Memory You Own",
+          "url": "https://huggingface.co/blog/funes"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/funes"
+      ],
+      "repo": "TauricResearch/TradingAgents"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Give Your Coding Agents a Memory You Own",
+          "url": "https://huggingface.co/blog/funes"
+        },
+        {
+          "published_at": "2026-09-01T21:19:20Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and CrowdStrike Strengthen Agentic Cybersecurity Frontier",
+          "url": "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/funes",
+        "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/"
+      ],
+      "repo": "aaravshah1311/Agent-2"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Give Your Coding Agents a Memory You Own",
+          "url": "https://huggingface.co/blog/funes"
+        },
+        {
+          "published_at": "2026-09-01T21:19:20Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and CrowdStrike Strengthen Agentic Cybersecurity Frontier",
+          "url": "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/funes",
+        "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/"
+      ],
+      "repo": "addyosmani/agent-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Give Your Coding Agents a Memory You Own",
+          "url": "https://huggingface.co/blog/funes"
+        },
+        {
+          "published_at": "2026-09-01T21:19:20Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and CrowdStrike Strengthen Agentic Cybersecurity Frontier",
+          "url": "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/funes",
+        "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/"
+      ],
+      "repo": "agfnow/agentflow"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T13:13:48Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "NeoMME: an efficient Multimodal-native and Multilingual Encoder",
+          "url": "https://huggingface.co/blog/Hcompany/neomme"
+        },
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Training a coding model to paint watercolours with TRL and OpenEnv",
+          "url": "https://huggingface.co/blog/train-to-paint-with-code"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/Hcompany/neomme",
+        "https://huggingface.co/blog/train-to-paint-with-code"
+      ],
+      "repo": "anomalyco/opencode"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-04T21:12:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "AI compute provider Nscale is looking for $3.5B in pre-IPO financing",
+          "url": "https://techcrunch.com/2026/09/04/ai-compute-provider-nscale-is-looking-for-3-5b-in-pre-ipo-financing/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/04/ai-compute-provider-nscale-is-looking-for-3-5b-in-pre-ipo-financing/"
+      ],
+      "repo": "ansible/ansible"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-01T21:39:07Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "BenchMIRT: What are LLM benchmarks actually measuring?",
+          "url": "https://huggingface.co/blog/allenai/benchmirt"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/allenai/benchmirt"
+      ],
+      "repo": "apache/echarts"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Fine-tuning a 350M Model for Better Structured Outputs in 100 GRPO Steps",
+          "url": "https://huggingface.co/blog/grpo-with-trl-ifstruct"
+        },
+        {
+          "published_at": "2026-09-02T13:49:14Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Real-Time Intelligence with IBM Time Series Models on Confluent",
+          "url": "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/grpo-with-trl-ifstruct",
+        "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+      ],
+      "repo": "ashemag/model-x-studio"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-06T16:45:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Travis Kalanick’s Atoms might be getting into the robotaxi business",
+          "url": "https://techcrunch.com/2026/09/06/travis-kalanicks-atoms-might-be-getting-into-the-robotaxi-business/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/06/travis-kalanicks-atoms-might-be-getting-into-the-robotaxi-business/"
+      ],
+      "repo": "axios/axios"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T13:00:35Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "‘NBA 2K27’ With NVIDIA DLSS 5 Leads 28 New Games Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+        },
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Give Your Coding Agents a Memory You Own",
+          "url": "https://huggingface.co/blog/funes"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/",
+        "https://huggingface.co/blog/funes"
+      ],
+      "repo": "bitcoin/bitcoin"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-02T13:49:14Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Real-Time Intelligence with IBM Time Series Models on Confluent",
+          "url": "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ibm-research/real-time-intelligence"
+      ],
+      "repo": "blendi-remade/unreel"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-04T16:21:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Another swarm of OpenAI agents reached the open internet without the frontier lab’s knowledge",
+          "url": "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/"
+      ],
+      "repo": "c22dev/badnotes"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T11:56:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA to Acquire Hugging Face",
+          "url": "https://blogs.nvidia.com/blog/nvidia-to-acquire-hugging-face/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-to-acquire-hugging-face/"
+      ],
+      "repo": "chrisgreg/glance"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T09:30:32Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Scaling agentic AI pilots across the enterprise",
+          "url": "https://www.technologyreview.com/2026/09/03/1142868/scaling-agentic-ai-pilots-across-the-enterprise/"
+        },
+        {
+          "published_at": "2026-09-03T00:00:00Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Fine-tuning a 350M Model for Better Structured Outputs in 100 GRPO Steps",
+          "url": "https://huggingface.co/blog/grpo-with-trl-ifstruct"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/09/03/1142868/scaling-agentic-ai-pilots-across-the-enterprise/",
+        "https://huggingface.co/blog/grpo-with-trl-ifstruct"
+      ],
+      "repo": "cline/cline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-04T21:12:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "AI compute provider Nscale is looking for $3.5B in pre-IPO financing",
+          "url": "https://techcrunch.com/2026/09/04/ai-compute-provider-nscale-is-looking-for-3-5b-in-pre-ipo-financing/"
+        },
+        {
+          "published_at": "2026-09-04T18:39:19Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Architecting memory and storage in the AI era",
+          "url": "https://www.technologyreview.com/2026/09/04/1140872/architecting-memory-and-storage-in-the-ai-era/"
+        },
+        {
+          "published_at": "2026-09-04T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: selling battlefield drone data and AI reshaping language",
+          "url": "https://www.technologyreview.com/2026/09/04/1143457/the-download-ukraine-selling-drone-data-ai-reshaping-language/"
+        },
+        {
+          "published_at": "2026-09-03T16:00:59Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sparks Fly: NVIDIA Accelerates Local AI at IFA 2026",
+          "url": "https://blogs.nvidia.com/blog/local-ai-ifa-next-gen-agents-nv-pair-rtx-spark/"
+        },
+        {
+          "published_at": "2026-09-03T09:30:32Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Scaling agentic AI pilots across the enterprise",
+          "url": "https://www.technologyreview.com/2026/09/03/1142868/scaling-agentic-ai-pilots-across-the-enterprise/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/04/ai-compute-provider-nscale-is-looking-for-3-5b-in-pre-ipo-financing/",
+        "https://www.technologyreview.com/2026/09/04/1140872/architecting-memory-and-storage-in-the-ai-era/",
+        "https://www.technologyreview.com/2026/09/04/1143457/the-download-ukraine-selling-drone-data-ai-reshaping-language/",
+        "https://blogs.nvidia.com/blog/local-ai-ifa-next-gen-agents-nv-pair-rtx-spark/",
+        "https://www.technologyreview.com/2026/09/03/1142868/scaling-agentic-ai-pilots-across-the-enterprise/"
+      ],
+      "repo": "coleam00/ai-software-factory"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        },
+        {
+          "published_at": "2026-09-05T18:05:27Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI confirms ‘wiki incident,’ says it’s ‘working on a framework’ for more disclosure",
+          "url": "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/"
+        },
+        {
+          "published_at": "2026-09-04T23:15:11Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI’s rogue agents keep escaping, with no formal process to investigate them",
+          "url": "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/"
+        },
+        {
+          "published_at": "2026-09-04T16:21:11Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Another swarm of OpenAI agents reached the open internet without the frontier lab’s knowledge",
+          "url": "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/"
+        },
+        {
+          "published_at": "2026-09-03T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot app for Beginners: Run several agents at once",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-run-several-agents-at-once/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/",
+        "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/",
+        "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/",
+        "https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-run-several-agents-at-once/"
+      ],
+      "repo": "commaai/openpilot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-06T20:47:37Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Authors push back as publishers and agents make claims on Anthropic settlement",
+          "url": "https://techcrunch.com/2026/09/06/authors-push-back-as-publishers-and-agents-seek-share-of-anthropic-settlement/"
+        },
+        {
+          "published_at": "2026-09-06T16:45:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Travis Kalanick’s Atoms might be getting into the robotaxi business",
+          "url": "https://techcrunch.com/2026/09/06/travis-kalanicks-atoms-might-be-getting-into-the-robotaxi-business/"
+        },
+        {
+          "published_at": "2026-09-05T22:49:55Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft",
+          "url": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/"
+        },
+        {
+          "published_at": "2026-09-03T13:00:35Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "‘NBA 2K27’ With NVIDIA DLSS 5 Leads 28 New Games Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/09/06/authors-push-back-as-publishers-and-agents-seek-share-of-anthropic-settlement/",
+        "https://techcrunch.com/2026/09/06/travis-kalanicks-atoms-might-be-getting-into-the-robotaxi-business/",
+        "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/",
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+      ],
+      "repo": "csfh/atmos"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-09-03T13:00:35Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "‘NBA 2K27’ With NVIDIA DLSS 5 Leads 28 New Games Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-september-2026-games-list/"
+      ],
+      "repo": "danielblnc/DLSS-NR-on-AMD"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}

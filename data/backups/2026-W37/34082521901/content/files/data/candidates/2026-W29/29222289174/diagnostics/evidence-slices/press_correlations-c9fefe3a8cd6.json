@@ -1,0 +1,1925 @@
+{
+  "checksum_sha256": "c9fefe3a8cd6066aff42598565ee6c07da335c0f1d3986947793f8033a3c8880",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 180865,
+        "path": "data/analyzed/2026-W29-correlations.json",
+        "sha256": "28ddd84269f613ceebc0ccec3e00804cee1824f6c722849cd02302f7d7dc12df"
+      },
+      "external_news": {
+        "bytes": 52121,
+        "path": "data/raw/2026-W29-external-news.json",
+        "sha256": "ea7b3de7d44d90e8c4f2219985aa5b90c9f2eb06b2f28eab49e2dfcf7a967921"
+      },
+      "press_context": {
+        "bytes": 32566,
+        "path": "data/analyzed/2026-W29-press-context.md",
+        "sha256": "6a5d587b6d6d0e716313b53c3fd1a89e27d1e0c08e22775405e6cba93a6f9741"
+      },
+      "raw_json": {
+        "bytes": 242782,
+        "path": "data/raw/2026-W29.json",
+        "sha256": "afd8180690e932492c09c57cd68989fa310af62674a50cc2c26e296e9f8597a2"
+      }
+    },
+    "week": "2026-W29"
+  },
+  "records": [
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T14:19:40Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "EU threatens Meta with fines over addictive features on Facebook and Instagram",
+          "url": "https://techcrunch.com/2026/07/10/eu-threatens-meta-with-fines-over-addictive-features-on-facebook-and-instagram/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/eu-threatens-meta-with-fines-over-addictive-features-on-facebook-and-instagram/"
+      ],
+      "repo": "facebook/docusaurus"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-09T16:29:37Z",
+          "relevance_score": 0.4,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How GitHub gave every repository a durable owner",
+          "url": "https://github.blog/security/application-security/how-github-gave-every-repository-a-durable-owner/"
+        },
+        {
+          "published_at": "2026-07-08T21:11:56Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Automating cross-repo documentation with GitHub Agentic Workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/"
+        },
+        {
+          "published_at": "2026-07-08T19:35:51Z",
+          "relevance_score": 0.6,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub availability report: June 2026",
+          "url": "https://github.blog/news-insights/company-news/github-availability-report-june-2026/"
+        },
+        {
+          "published_at": "2026-07-08T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How GitHub Copilot enables zero DNS configuration for GitHub Pages",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/security/application-security/how-github-gave-every-repository-a-durable-owner/",
+        "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/",
+        "https://github.blog/news-insights/company-news/github-availability-report-june-2026/",
+        "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T14:13:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI bets on families as ChatGPT goes deeper into households",
+          "url": "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/"
+        },
+        {
+          "published_at": "2026-07-10T21:00:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple sues OpenAI over alleged trade secret theft",
+          "url": "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+        },
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-07T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: your stake in OpenAI, and the Treasury’s AI warning",
+          "url": "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/",
+        "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/",
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+      ],
+      "repo": "openai/codex"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Profiling in PyTorch (Part 3): Attention is all you profile",
+          "url": "https://huggingface.co/blog/torch-attention-profile"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/torch-attention-profile"
+      ],
+      "repo": "pytorch/pytorch"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T15:00:52Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+      ],
+      "repo": "2dust/v2rayN"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T16:06:49Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Dumb Co dared me to trade my iPhone for a hacked flip phone",
+          "url": "https://techcrunch.com/2026/07/10/dumb-co-dared-me-to-trade-my-iphone-for-a-hacked-flip-phone/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/dumb-co-dared-me-to-trade-my-iphone-for-a-hacked-flip-phone/"
+      ],
+      "repo": "BryanLunduke/LCOS"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T15:20:06Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Hugging Face Models on Foundry Managed Compute",
+          "url": "https://huggingface.co/blog/microsoft/foundry-managed-compute"
+        },
+        {
+          "published_at": "2026-07-07T06:00:26Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Hugging Face Bring New Models and Frameworks to LeRobot for the Open Robotics Community",
+          "url": "https://blogs.nvidia.com/blog/hugging-face-lerobot-models-frameworks-open-robotics/"
+        },
+        {
+          "published_at": "2026-07-06T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How Open Models Are Driving AI Research",
+          "url": "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/microsoft/foundry-managed-compute",
+        "https://blogs.nvidia.com/blog/hugging-face-lerobot-models-frameworks-open-robotics/",
+        "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+      ],
+      "repo": "DerekH-233/AMDL"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Q1 2026 Innovation Graph update: Open source collaboration is accelerating worldwide",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+        },
+        {
+          "published_at": "2026-07-07T06:00:26Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Hugging Face Bring New Models and Frameworks to LeRobot for the Open Robotics Community",
+          "url": "https://blogs.nvidia.com/blog/hugging-face-lerobot-models-frameworks-open-robotics/"
+        },
+        {
+          "published_at": "2026-07-06T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How Open Models Are Driving AI Research",
+          "url": "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/",
+        "https://blogs.nvidia.com/blog/hugging-face-lerobot-models-frameworks-open-robotics/",
+        "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+      ],
+      "repo": "Fission-AI/OpenSpec"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T17:30:00Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Smart glasses without a camera? Even Realities bets productivity beats recording everyone",
+          "url": "https://techcrunch.com/2026/07/11/smart-glasses-without-a-camera-even-realities-bets-productivity-beats-recording-everyone/"
+        },
+        {
+          "published_at": "2026-07-10T23:55:07Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta removes controversial AI feature on Instagram after backlash",
+          "url": "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/"
+        },
+        {
+          "published_at": "2026-07-08T16:26:10Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "EmTech AI 2026: The Rise of the AI Platform",
+          "url": "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/"
+        },
+        {
+          "published_at": "2026-07-07T15:00:52Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+        },
+        {
+          "published_at": "2026-07-07T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: your stake in OpenAI, and the Treasury’s AI warning",
+          "url": "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/smart-glasses-without-a-camera-even-realities-bets-productivity-beats-recording-everyone/",
+        "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/",
+        "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/",
+        "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/",
+        "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+      ],
+      "repo": "FuelMagistrateLead/photoshop-ai-smart-enhance"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Q1 2026 Innovation Graph update: Open source collaboration is accelerating worldwide",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+      ],
+      "repo": "Graphify-Labs/graphify"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T15:57:47Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Better tools made Copilot code review worse. Here’s how we actually improved it.",
+          "url": "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/"
+        },
+        {
+          "published_at": "2026-07-08T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How GitHub Copilot enables zero DNS configuration for GitHub Pages",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/",
+        "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+      ],
+      "repo": "JWM0203/MeetingCopilot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T15:57:47Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Better tools made Copilot code review worse. Here’s how we actually improved it.",
+          "url": "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/"
+        },
+        {
+          "published_at": "2026-07-08T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How GitHub Copilot enables zero DNS configuration for GitHub Pages",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+        },
+        {
+          "published_at": "2026-07-06T15:00:25Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How Nations Are Deploying AI for Strategic Priorities",
+          "url": "https://blogs.nvidia.com/blog/nations-deploy-ai-strategic-priorities/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/",
+        "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/",
+        "https://blogs.nvidia.com/blog/nations-deploy-ai-strategic-priorities/"
+      ],
+      "repo": "Nanako0129/pilotfish"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T00:29:25Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Phia accused of ‘cookie stuffing,’ taking affiliate credit on purchases it didn’t earn",
+          "url": "https://techcrunch.com/2026/07/10/phia-accused-of-cookie-stuffing-taking-affiliate-credit-on-purchases-it-didnt-earn/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/phia-accused-of-cookie-stuffing-taking-affiliate-credit-on-purchases-it-didnt-earn/"
+      ],
+      "repo": "NationalSecurityAgency/ghidra"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T14:13:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI bets on families as ChatGPT goes deeper into households",
+          "url": "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/"
+        },
+        {
+          "published_at": "2026-07-10T21:00:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple sues OpenAI over alleged trade secret theft",
+          "url": "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+        },
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-07T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Q1 2026 Innovation Graph update: Open source collaboration is accelerating worldwide",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+        },
+        {
+          "published_at": "2026-07-07T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: your stake in OpenAI, and the Treasury’s AI warning",
+          "url": "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/",
+        "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/",
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/",
+        "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+      ],
+      "repo": "OpenBB-finance/OpenBB"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T14:13:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI bets on families as ChatGPT goes deeper into households",
+          "url": "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/"
+        },
+        {
+          "published_at": "2026-07-10T21:00:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple sues OpenAI over alleged trade secret theft",
+          "url": "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+        },
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-07T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Q1 2026 Innovation Graph update: Open source collaboration is accelerating worldwide",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+        },
+        {
+          "published_at": "2026-07-07T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: your stake in OpenAI, and the Treasury’s AI warning",
+          "url": "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/",
+        "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/",
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/",
+        "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+      ],
+      "repo": "OpenCut-app/OpenCut"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T15:20:06Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Hugging Face Models on Foundry Managed Compute",
+          "url": "https://huggingface.co/blog/microsoft/foundry-managed-compute"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/microsoft/foundry-managed-compute"
+      ],
+      "repo": "OpenEnvision/WorldFoundry"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T14:13:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI bets on families as ChatGPT goes deeper into households",
+          "url": "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/"
+        },
+        {
+          "published_at": "2026-07-10T21:00:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple sues OpenAI over alleged trade secret theft",
+          "url": "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+        },
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-07T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Q1 2026 Innovation Graph update: Open source collaboration is accelerating worldwide",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+        },
+        {
+          "published_at": "2026-07-07T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: your stake in OpenAI, and the Treasury’s AI warning",
+          "url": "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/",
+        "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/",
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/",
+        "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-08T21:11:56Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Automating cross-repo documentation with GitHub Agentic Workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/"
+      ],
+      "repo": "Panniantong/Agent-Reach"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T14:13:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI bets on families as ChatGPT goes deeper into households",
+          "url": "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/"
+        },
+        {
+          "published_at": "2026-07-10T23:55:07Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta removes controversial AI feature on Instagram after backlash",
+          "url": "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/"
+        },
+        {
+          "published_at": "2026-07-10T21:00:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple sues OpenAI over alleged trade secret theft",
+          "url": "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+        },
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-08T16:26:10Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "EmTech AI 2026: The Rise of the AI Platform",
+          "url": "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/",
+        "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/",
+        "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/",
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/"
+      ],
+      "repo": "Paresh-Maheshwari/morphe-ai"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T23:55:07Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta removes controversial AI feature on Instagram after backlash",
+          "url": "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/"
+        },
+        {
+          "published_at": "2026-07-08T16:26:10Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "EmTech AI 2026: The Rise of the AI Platform",
+          "url": "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/"
+        },
+        {
+          "published_at": "2026-07-07T15:00:52Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+        },
+        {
+          "published_at": "2026-07-07T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: your stake in OpenAI, and the Treasury’s AI warning",
+          "url": "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+        },
+        {
+          "published_at": "2026-07-07T11:10:52Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The foundational elements of AI architecture that IT leaders need to scale",
+          "url": "https://www.technologyreview.com/2026/07/07/1139413/the-foundational-elements-of-ai-architecture-that-it-leaders-need-to-scale/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/",
+        "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/",
+        "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/",
+        "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/",
+        "https://www.technologyreview.com/2026/07/07/1139413/the-foundational-elements-of-ai-architecture-that-it-leaders-need-to-scale/"
+      ],
+      "repo": "PeterPanSwift/fox-ai-roundtable"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-09T13:00:55Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "GeForce NOW Turns Up the Heat With New GeForce RTX 5080-Powered Toronto Server",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-toronto-expansion/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-toronto-expansion/"
+      ],
+      "repo": "PowerShell/PowerShell"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T14:13:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI bets on families as ChatGPT goes deeper into households",
+          "url": "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/"
+        },
+        {
+          "published_at": "2026-07-10T23:55:07Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta removes controversial AI feature on Instagram after backlash",
+          "url": "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/"
+        },
+        {
+          "published_at": "2026-07-10T21:00:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple sues OpenAI over alleged trade secret theft",
+          "url": "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+        },
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-08T16:26:10Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "EmTech AI 2026: The Rise of the AI Platform",
+          "url": "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/",
+        "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/",
+        "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/",
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/"
+      ],
+      "repo": "Shpaldik/OpenIELTS-AI"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T14:13:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI bets on families as ChatGPT goes deeper into households",
+          "url": "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/"
+        },
+        {
+          "published_at": "2026-07-07T15:00:52Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/",
+        "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+      ],
+      "repo": "Significant-Gravitas/AutoGPT"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T23:55:07Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta removes controversial AI feature on Instagram after backlash",
+          "url": "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/"
+        },
+        {
+          "published_at": "2026-07-08T16:26:10Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "EmTech AI 2026: The Rise of the AI Platform",
+          "url": "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/"
+        },
+        {
+          "published_at": "2026-07-07T15:00:52Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+        },
+        {
+          "published_at": "2026-07-07T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: your stake in OpenAI, and the Treasury’s AI warning",
+          "url": "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/"
+        },
+        {
+          "published_at": "2026-07-07T11:10:52Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The foundational elements of AI architecture that IT leaders need to scale",
+          "url": "https://www.technologyreview.com/2026/07/07/1139413/the-foundational-elements-of-ai-architecture-that-it-leaders-need-to-scale/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/",
+        "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/",
+        "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/",
+        "https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/",
+        "https://www.technologyreview.com/2026/07/07/1139413/the-foundational-elements-of-ai-architecture-that-it-leaders-need-to-scale/"
+      ],
+      "repo": "SilentFleetKK/ai-market-pulse"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T21:51:55Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Bluesky’s interim CEO, Toni Schneider, drops the ‘interim’",
+          "url": "https://techcrunch.com/2026/07/10/blueskys-interim-ceo-toni-schneider-drops-the-interim/"
+        },
+        {
+          "published_at": "2026-07-10T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Profiling in PyTorch (Part 3): Attention is all you profile",
+          "url": "https://huggingface.co/blog/torch-attention-profile"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/blueskys-interim-ceo-toni-schneider-drops-the-interim/",
+        "https://huggingface.co/blog/torch-attention-profile"
+      ],
+      "repo": "TheAlgorithms/Python"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-08T21:11:56Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Automating cross-repo documentation with GitHub Agentic Workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/"
+        },
+        {
+          "published_at": "2026-07-08T17:16:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Data for Agents",
+          "url": "https://huggingface.co/blog/nvidia/open-data-for-agents"
+        },
+        {
+          "published_at": "2026-07-08T15:00:27Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Nemotron Achieves Benchmark-Leading Performance With LangChain Deep Agents Harness",
+          "url": "https://blogs.nvidia.com/blog/nemotron-langchain-agents-open-stack/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/",
+        "https://huggingface.co/blog/nvidia/open-data-for-agents",
+        "https://blogs.nvidia.com/blog/nemotron-langchain-agents-open-stack/"
+      ],
+      "repo": "addyosmani/agent-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-09T20:22:28Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Anthropic found a hidden space where Claude puzzles over concepts",
+          "url": "https://www.technologyreview.com/2026/07/09/1140293/anthropic-found-a-hidden-space-where-claude-puzzles-over-concepts/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://www.technologyreview.com/2026/07/09/1140293/anthropic-found-a-hidden-space-where-claude-puzzles-over-concepts/"
+      ],
+      "repo": "angieruiz17/claude-fintech-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T15:20:06Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Hugging Face Models on Foundry Managed Compute",
+          "url": "https://huggingface.co/blog/microsoft/foundry-managed-compute"
+        },
+        {
+          "published_at": "2026-07-07T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "LeRobot v0.6.0: Imagine, Evaluate, Improve",
+          "url": "https://huggingface.co/blog/lerobot-release-v060"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/microsoft/foundry-managed-compute",
+        "https://huggingface.co/blog/lerobot-release-v060"
+      ],
+      "repo": "animede/image-3d"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Q1 2026 Innovation Graph update: Open source collaboration is accelerating worldwide",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+        },
+        {
+          "published_at": "2026-07-07T06:00:26Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Hugging Face Bring New Models and Frameworks to LeRobot for the Open Robotics Community",
+          "url": "https://blogs.nvidia.com/blog/hugging-face-lerobot-models-frameworks-open-robotics/"
+        },
+        {
+          "published_at": "2026-07-06T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How Open Models Are Driving AI Research",
+          "url": "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/",
+        "https://blogs.nvidia.com/blog/hugging-face-lerobot-models-frameworks-open-robotics/",
+        "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+      ],
+      "repo": "anomalyco/opencode"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T15:00:52Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+      ],
+      "repo": "ansible/ansible"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-09T20:22:28Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Anthropic found a hidden space where Claude puzzles over concepts",
+          "url": "https://www.technologyreview.com/2026/07/09/1140293/anthropic-found-a-hidden-space-where-claude-puzzles-over-concepts/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://www.technologyreview.com/2026/07/09/1140293/anthropic-found-a-hidden-space-where-claude-puzzles-over-concepts/"
+      ],
+      "repo": "anthropics/claude-code"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T09:00:00Z",
+          "relevance_score": 0.0,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Sperm donors need limits, says a European fertility group",
+          "url": "https://www.technologyreview.com/2026/07/10/1140289/sperm-donors-need-limits-says-a-european-fertility-group/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/10/1140289/sperm-donors-need-limits-says-a-european-fertility-group/"
+      ],
+      "repo": "apache/superset"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T21:00:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple sues OpenAI over alleged trade secret theft",
+          "url": "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+      ],
+      "repo": "appwrite/appwrite"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T21:15:33Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From Hugging Face to Amazon SageMaker Studio in one click",
+          "url": "https://huggingface.co/blog/amazon/one-click-to-sagemaker-studio"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/one-click-to-sagemaker-studio"
+      ],
+      "repo": "biheto/DevAgent-Studio"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T16:51:07Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "China is catching up to Elon Musk’s reusable rockets",
+          "url": "https://techcrunch.com/2026/07/10/china-is-catching-up-to-elon-musks-reusable-rockets/"
+        },
+        {
+          "published_at": "2026-07-09T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: a nuclear landmark, and China eyes Nvidia chips",
+          "url": "https://www.technologyreview.com/2026/07/09/1140283/the-download-nuclear-power-milestone-nvidia-china-ai-chips/"
+        },
+        {
+          "published_at": "2026-07-07T15:00:52Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/china-is-catching-up-to-elon-musks-reusable-rockets/",
+        "https://www.technologyreview.com/2026/07/09/1140283/the-download-nuclear-power-milestone-nvidia-china-ai-chips/",
+        "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+      ],
+      "repo": "cline/cline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-09T13:00:55Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "GeForce NOW Turns Up the Heat With New GeForce RTX 5080-Powered Toronto Server",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-toronto-expansion/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-toronto-expansion/"
+      ],
+      "repo": "coder/code-server"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Q1 2026 Innovation Graph update: Open source collaboration is accelerating worldwide",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/news-insights/policy-news-and-insights/q1-2026-innovation-graph-update-open-source-collaboration-is-accelerating-worldwide/"
+      ],
+      "repo": "colbymchenry/codegraph"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-11T14:13:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI bets on families as ChatGPT goes deeper into households",
+          "url": "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/"
+        },
+        {
+          "published_at": "2026-07-10T21:00:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple sues OpenAI over alleged trade secret theft",
+          "url": "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/"
+        },
+        {
+          "published_at": "2026-07-10T15:57:47Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Better tools made Copilot code review worse. Here’s how we actually improved it.",
+          "url": "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/"
+        },
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-08T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How GitHub Copilot enables zero DNS configuration for GitHub Pages",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/11/openai-bets-on-families-as-chatgpt-goes-deeper-into-households/",
+        "https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/",
+        "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/",
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+      ],
+      "repo": "commaai/openpilot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-08T17:16:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Data for Agents",
+          "url": "https://huggingface.co/blog/nvidia/open-data-for-agents"
+        },
+        {
+          "published_at": "2026-07-06T15:30:55Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "PRX Part 4: Our Data Strategy",
+          "url": "https://huggingface.co/blog/Photoroom/prx-part4-data"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/nvidia/open-data-for-agents",
+        "https://huggingface.co/blog/Photoroom/prx-part4-data"
+      ],
+      "repo": "daytonaio/daytona"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T23:55:07Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta removes controversial AI feature on Instagram after backlash",
+          "url": "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/"
+        },
+        {
+          "published_at": "2026-07-08T21:11:56Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Automating cross-repo documentation with GitHub Agentic Workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/"
+        },
+        {
+          "published_at": "2026-07-08T16:26:10Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "EmTech AI 2026: The Rise of the AI Platform",
+          "url": "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/"
+        },
+        {
+          "published_at": "2026-07-07T21:15:33Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From Hugging Face to Amazon SageMaker Studio in one click",
+          "url": "https://huggingface.co/blog/amazon/one-click-to-sagemaker-studio"
+        },
+        {
+          "published_at": "2026-07-07T15:00:52Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/meta-removes-controversial-ai-feature-on-instagram-after-backlash/",
+        "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/",
+        "https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/",
+        "https://huggingface.co/blog/amazon/one-click-to-sagemaker-studio",
+        "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+      ],
+      "repo": "dboudreau00/Countersign-RFP-RFI-RFQ-Studio-for-AI-assisted-Workflows"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings and OpenAI’s “super app”",
+          "url": "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/"
+        },
+        {
+          "published_at": "2026-07-09T20:22:28Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Anthropic found a hidden space where Claude puzzles over concepts",
+          "url": "https://www.technologyreview.com/2026/07/09/1140293/anthropic-found-a-hidden-space-where-claude-puzzles-over-concepts/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/10/1140316/the-download-anthropic-claude-hidden-space-openai-super-app/",
+        "https://www.technologyreview.com/2026/07/09/1140293/anthropic-found-a-hidden-space-where-claude-puzzles-over-concepts/"
+      ],
+      "repo": "dennykim123/claude-codex-battery"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T15:57:47Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Better tools made Copilot code review worse. Here’s how we actually improved it.",
+          "url": "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/"
+      ],
+      "repo": "dicord-better/Better-Discord"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-06T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How Open Models Are Driving AI Research",
+          "url": "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+      ],
+      "repo": "djfksjd/ir-search"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T17:42:36Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Filing: College app Fizz accuses VC of sharing confidential startup information with rival Sidechat",
+          "url": "https://techcrunch.com/2026/07/10/filing-college-app-fizz-accuses-vc-of-sharing-confidential-startup-information-with-rival-sidechat/"
+        },
+        {
+          "published_at": "2026-07-10T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Profiling in PyTorch (Part 3): Attention is all you profile",
+          "url": "https://huggingface.co/blog/torch-attention-profile"
+        },
+        {
+          "published_at": "2026-07-06T15:00:25Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How Nations Are Deploying AI for Strategic Priorities",
+          "url": "https://blogs.nvidia.com/blog/nations-deploy-ai-strategic-priorities/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/filing-college-app-fizz-accuses-vc-of-sharing-confidential-startup-information-with-rival-sidechat/",
+        "https://huggingface.co/blog/torch-attention-profile",
+        "https://blogs.nvidia.com/blog/nations-deploy-ai-strategic-priorities/"
+      ],
+      "repo": "docling-project/docling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-06T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How Open Models Are Driving AI Research",
+          "url": "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/open-models-icml-2026/"
+      ],
+      "repo": "elastic/elasticsearch"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T16:51:07Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "China is catching up to Elon Musk’s reusable rockets",
+          "url": "https://techcrunch.com/2026/07/10/china-is-catching-up-to-elon-musks-reusable-rockets/"
+        },
+        {
+          "published_at": "2026-07-08T15:00:27Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Nemotron Achieves Benchmark-Leading Performance With LangChain Deep Agents Harness",
+          "url": "https://blogs.nvidia.com/blog/nemotron-langchain-agents-open-stack/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/10/china-is-catching-up-to-elon-musks-reusable-rockets/",
+        "https://blogs.nvidia.com/blog/nemotron-langchain-agents-open-stack/"
+      ],
+      "repo": "electron/electron"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-07T21:15:33Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From Hugging Face to Amazon SageMaker Studio in one click",
+          "url": "https://huggingface.co/blog/amazon/one-click-to-sagemaker-studio"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/one-click-to-sagemaker-studio"
+      ],
+      "repo": "fayazara/pdfstudio"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-10T15:57:47Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Better tools made Copilot code review worse. Here’s how we actually improved it.",
+          "url": "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/"
+      ],
+      "repo": "flutter/flutter"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-08T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How GitHub Copilot enables zero DNS configuration for GitHub Pages",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+      ],
+      "repo": "frenzymath/Danus"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-09T16:29:37Z",
+          "relevance_score": 0.4,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How GitHub gave every repository a durable owner",
+          "url": "https://github.blog/security/application-security/how-github-gave-every-repository-a-durable-owner/"
+        },
+        {
+          "published_at": "2026-07-08T21:11:56Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Automating cross-repo documentation with GitHub Agentic Workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/"
+        },
+        {
+          "published_at": "2026-07-08T19:35:51Z",
+          "relevance_score": 0.6,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub availability report: June 2026",
+          "url": "https://github.blog/news-insights/company-news/github-availability-report-june-2026/"
+        },
+        {
+          "published_at": "2026-07-08T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How GitHub Copilot enables zero DNS configuration for GitHub Pages",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/security/application-security/how-github-gave-every-repository-a-durable-owner/",
+        "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/",
+        "https://github.blog/news-insights/company-news/github-availability-report-june-2026/",
+        "https://github.blog/ai-and-ml/github-copilot/how-github-copilot-enables-zero-dns-configuration-for-github-pages/"
+      ],
+      "repo": "git/git"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}

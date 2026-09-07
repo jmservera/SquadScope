@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "f823ec6cdd52df8823f68d0cd76c404de5b2558487b04d1a2a93d00de2cc304a",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 17121,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W24-summary.md",
+        "sha256": "31b7620b46aca36329ff252464ff13e57747b4bf106dbcdf66251284374ea50c"
+      },
+      "raw_json": {
+        "bytes": 262150,
+        "path": "data/raw/2026-W25.json",
+        "sha256": "0d2eea25b482ab2e0185f326c4ff285c59429f58a6f3bdaa372014a9d665f827"
+      }
+    },
+    "week": "2026-W25"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Skills Go Vertical, Hardware Gets Smart, and the Spam Floor Gets Louder\"\ndate: 2026-06-08T12:40:47Z\nweek: \"2026-W24\"\nyear: 2026\ntags: [agent-skills, coding-agents, hardware-adjacent, local-first, noise-floor, chinese-developer-ecosystem, ai-security]\ncategories: [weekly]\nrepos_featured: 390\nstars_tracked: 16480000\ntop_repo: \"cpaczek/skylight\"\nquality_score: 73\nsummary: \"Week 24 deepens two W23 patterns — agent skills verticalization and local-sovereignty tooling — while a high-star hardware-crossover project (skylight) anchors the week's legitimate creativity and a heavier-than-usual noise floor of coordinated spam, activator repos, and crypto fraud tools demands editorial filtering.\"\npredictions:\n  - repo: amElnagdy/guard-skills\n    claim_type: signal\n    direction: up\n    confidence: 0.74\n  - repo: razr001/align-dev\n    claim_type: signal\n    direction: up\n    confidence: 0.70\n  - repo: tastyeffectco/sandboxd\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n ",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W24-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}
