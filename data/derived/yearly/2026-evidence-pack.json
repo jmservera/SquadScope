@@ -455,17 +455,46 @@
       "source_id": "SRC-2026-W36",
       "status": "resolved",
       "text": "Watch whether organizational agent projects keep gaining forks and real integrations after launch-week attention fades. The next useful signal will be less about another skill pack and more about interoperability: shared registries, permissioned MCP surfaces, evaluation harnesses, and cost observability. If projects like [sapientinc/PRAXIST](https://github.com/sapientinc/PRAXIST), [cbrock84/headcount](https://github.com/cbrock84/headcount), and [damejan80/tokentab](https://github.com/damejan80/tokentab) sustain, September's story may be agent operations rather than agent demos."
+    },
+    {
+      "claim_id": "CLM-2026-W37-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W37",
+      "status": "resolved",
+      "text": "Agent tooling moved deeper into memory, skills, and orchestration while security churn and fork-heavy WARP repos distorted the signal."
+    },
+    {
+      "claim_id": "CLM-2026-W37-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W37",
+      "status": "resolved",
+      "text": "The durable signal sits where multiple independent projects solve operational problems: persistent memory in [okf-memory/okf-agent-memory](https://github.com/okf-memory/okf-agent-memory), agent budget visibility in [vinzdg/codenotch](https://github.com/vinzdg/codenotch), skills packaging in [op7418/guizang-yingzao-skill](https://github.com/op7418/guizang-yingzao-skill), and practical automation anchors like [n8n-io/n8n](https://github.com/n8n-io/n8n) and [anomalyco/opencode](https://github.com/anomalyco/opencode). [lnkiai/m3e-canvas](https://github.com/lnkiai/m3e-canvas) also looks more substantial than a prompt wrapper because it bridges an explicit design system, visual editing, and downstream code-generation workflows. The noise is concentrated in security spectacle, fork-heavy networking automation, and launch-week media tooling. [MSNightmare/FalconFlank](https://github.com/MSNightmare/FalconFlank) may reflect security interest, but its \"0day privilege escalation\" framing makes it more risk marker than constructive ecosystem signal. [byJoey/warp-masque-actions](https://github.com/byJoey/warp-masque-actions) has 375 stars against 1,529 forks, and [KJGX66F/usque-custom-pro](https://github.com/KJGX66F/usque-custom-pro) also has more forks than stars; both deserve caution as indicators of real developer adoption. [pierrenade/short-video-generator-AI](https://github.com/pierrenade/short-video-generator-AI) and [OpenVDN/vdn-minimax-h3](https://github.com/OpenVDN/vdn-minimax-h3) sit in a crowded AI-video lane where retention and working demos will matter more than early attention."
+    },
+    {
+      "claim_id": "CLM-2026-W37-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W37",
+      "status": "resolved",
+      "text": "The biggest missing category is agent incident response. The press is full of disclosure and containment problems, yet the new repos do not show much tooling for agent audit logs, post-incident forensics, policy replay, or evidence preservation. Memory is appearing, but accountability around memory is still thin. Robotics is another gap. XDOF, robotaxis, drone data, and local-AI hardware all appeared in industry coverage, but the visible GitHub set is mostly web, workflow, media, and agent harnesses. There is also limited evidence of rights-management tooling despite the Anthropic settlement coverage, and little serious benchmark or evaluation infrastructure among the new repos beyond the standing harness projects."
+    },
+    {
+      "claim_id": "CLM-2026-W37-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W37",
+      "status": "resolved",
+      "text": "Watch whether agent memory turns into a cluster rather than a one-off. If [okf-memory/okf-agent-memory](https://github.com/okf-memory/okf-agent-memory) attracts adjacent tools for audit, migration, or evaluation, September's agent story will move from orchestration into governance infrastructure. Also watch whether [lnkiai/m3e-canvas](https://github.com/lnkiai/m3e-canvas) sustains past novelty; design-to-code tools are useful, but only durable if they survive real product iteration."
     }
   ],
   "counts": {
-    "claims": 65,
-    "sources": 16
+    "claims": 69,
+    "sources": 17
   },
   "months_covered": [
     "2026-05",
     "2026-06",
     "2026-07",
-    "2026-08"
+    "2026-08",
+    "2026-09"
   ],
   "schema_version": "1.0.0",
   "sources": [
@@ -713,6 +742,21 @@
       "title": "Agents Become Work Systems, Not Chatbots",
       "top_repo": "sapientinc/PRAXIST",
       "week": "2026-W36"
+    },
+    {
+      "month": "2026-09",
+      "source_id": "SRC-2026-W37",
+      "tags": [
+        "ai-agents",
+        "agent-memory",
+        "orchestration",
+        "developer-tools",
+        "security",
+        "local-ai"
+      ],
+      "title": "Agent Memory Meets the Governance Gap",
+      "top_repo": "okf-memory/okf-agent-memory",
+      "week": "2026-W37"
     }
   ],
   "year": 2026
