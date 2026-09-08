@@ -18,6 +18,7 @@ import hashlib
 import io
 import json
 import os
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -33,6 +34,7 @@ KNOWN_ARTICLE_CONTENT = b"# W37 AI Weekly\n\nContent for week 37 of 2026.\n"
 KNOWN_SHA256 = hashlib.sha256(KNOWN_ARTICLE_CONTENT).hexdigest()
 WEEK = "2026-W37"
 RUN_ID = "34082521901"
+TEST_WORKSPACES_ROOT = Path(__file__).resolve().parents[1] / ".test-workspaces"
 
 
 # ---------------------------------------------------------------------------
@@ -79,6 +81,45 @@ class _FakeHTTPResponse(io.BytesIO):
 def _gh_runs_response(runs: list) -> _FakeHTTPResponse:
     payload = json.dumps({"workflow_runs": runs}).encode()
     return _FakeHTTPResponse(payload)
+
+
+class _TempGitRepo:
+    """Real git repository fixture rooted under the repo-local test workspace."""
+
+    def __init__(self) -> None:
+        TEST_WORKSPACES_ROOT.mkdir(parents=True, exist_ok=True)
+        self._tmp = tempfile.TemporaryDirectory(
+            prefix="auto-dispatch-detect-",
+            dir=TEST_WORKSPACES_ROOT,
+        )
+        self.root = Path(self._tmp.name)
+        self._run("git", "init", "-q", "-b", "main")
+        self._run("git", "config", "user.name", "Fry Tester")
+        self._run("git", "config", "user.email", "fry@example.com")
+
+    def cleanup(self) -> None:
+        self._tmp.cleanup()
+
+    def _run(self, *args: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            list(args),
+            cwd=self.root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+
+    def write(self, relative_path: str, content: str) -> None:
+        path = self.root / relative_path
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+
+    def commit(self, message: str, updates: dict[str, str]) -> str:
+        for relative_path, content in updates.items():
+            self.write(relative_path, content)
+        self._run("git", "add", "-A")
+        self._run("git", "commit", "-q", "-m", message)
+        return self._run("git", "rev-parse", "HEAD").stdout.strip()
 
 
 # ---------------------------------------------------------------------------
@@ -346,6 +387,77 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertFalse(is_dup)
 
 
+class TestDuplicateCheckRegressions(unittest.TestCase):
+    """Regression coverage for observe-only and real dispatch dedup semantics."""
+
+    _GH_TOKEN = "ghp_faketoken"
+    _REPO = "example/squadscope"
+    _OBSERVE_URL = "https://github.com/example/squadscope/actions/runs/11111"
+    _REAL_URL = "https://github.com/example/squadscope/actions/runs/22222"
+
+    def test_observe_only_run_does_not_block_real_dispatch(self):
+        with mock.patch("urllib.request.urlopen") as mock_urlopen:
+            mock_urlopen.return_value = _gh_runs_response(
+                [
+                    {
+                        "name": "Auto-dispatch (observe-only): 2026-W37",
+                        "display_title": f"Auto-dispatch: {WEEK} ({RUN_ID})",
+                        "html_url": self._OBSERVE_URL,
+                        "status": "completed",
+                        "conclusion": "success",
+                    }
+                ]
+            )
+
+            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
+
+        self.assertFalse(is_dup)
+        self.assertIsNone(url)
+
+    def test_real_run_blocks_duplicate_dispatch(self):
+        with mock.patch("urllib.request.urlopen") as mock_urlopen:
+            mock_urlopen.return_value = _gh_runs_response(
+                [
+                    {
+                        "name": "Auto-dispatch: 2026-W37",
+                        "html_url": self._REAL_URL,
+                        "status": "completed",
+                        "conclusion": "success",
+                    }
+                ]
+            )
+
+            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
+
+        self.assertTrue(is_dup)
+        self.assertEqual(url, self._REAL_URL)
+
+    def test_observe_only_then_real_sequence(self):
+        with mock.patch("urllib.request.urlopen") as mock_urlopen:
+            mock_urlopen.return_value = _gh_runs_response(
+                [
+                    {
+                        "name": "Auto-dispatch (observe-only): 2026-W37",
+                        "display_title": f"Auto-dispatch: {WEEK} ({RUN_ID})",
+                        "html_url": self._OBSERVE_URL,
+                        "status": "completed",
+                        "conclusion": "success",
+                    },
+                    {
+                        "name": "Auto-dispatch: 2026-W37",
+                        "html_url": self._REAL_URL,
+                        "status": "completed",
+                        "conclusion": "success",
+                    },
+                ]
+            )
+
+            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
+
+        self.assertTrue(is_dup)
+        self.assertEqual(url, self._REAL_URL)
+
+
 # ---------------------------------------------------------------------------
 # TestWeekExtraction
 # ---------------------------------------------------------------------------
@@ -372,6 +484,115 @@ class TestWeekExtraction(unittest.TestCase):
         """Non-weekly path → extract_week returns None (no ValueError; fails closed downstream)."""
         result = detect.extract_week("content/blog/2026/some-post.md")
         self.assertIsNone(result)
+
+
+class TestFindSyncCommitRegression(unittest.TestCase):
+    """Regression tests for sync-commit correlation anchored to pre_sync_sha."""
+
+    def _new_repo(self) -> _TempGitRepo:
+        return _TempGitRepo()
+
+    def test_find_sync_commit_finds_correct_commit(self):
+        repo = self._new_repo()
+        try:
+            sha_a = repo.commit("chore: baseline", {"README.md": "baseline\n"})
+            sha_b = repo.commit(
+                "sync: publish data → main (#1)",
+                {"content/weekly/2026/W37.md": "# W37\n"},
+            )
+            repo.commit("chore: pricing update", {"data/pricing.json": '{"usd": 42}\n'})
+
+            result = detect.find_sync_commit(sha_a, repo.root)
+
+            self.assertEqual(result, sha_b)
+        finally:
+            repo.cleanup()
+
+    def test_find_sync_commit_ignores_later_sync(self):
+        repo = self._new_repo()
+        try:
+            sha_a = repo.commit("chore: baseline", {"README.md": "baseline\n"})
+            sha_b = repo.commit(
+                "sync: publish data → main (#1)",
+                {"content/weekly/2026/W37.md": "# W37\n"},
+            )
+            repo.commit(
+                "sync: publish data → main (#2)",
+                {"data/metrics/w37.json": '{"articles": 1}\n'},
+            )
+
+            result = detect.find_sync_commit(sha_a, repo.root)
+
+            self.assertEqual(result, sha_b)
+        finally:
+            repo.cleanup()
+
+    def test_data_only_sync_has_no_article(self):
+        repo = self._new_repo()
+        try:
+            repo.commit(
+                "chore: seed prior article",
+                {"content/weekly/2026/W36.md": "# W36\n"},
+            )
+            sha_a = repo.commit("chore: baseline", {"README.md": "baseline\n"})
+            sha_b = repo.commit(
+                "sync: publish data → main (#2)",
+                {"data/metrics/w37.json": '{"articles": 0}\n'},
+            )
+
+            result = detect.find_sync_commit(sha_a, repo.root)
+
+            self.assertEqual(result, sha_b)
+            diff = subprocess.run(
+                [
+                    "git",
+                    "diff",
+                    "--name-only",
+                    "--diff-filter=A",
+                    f"{sha_b}^1",
+                    sha_b,
+                    "--",
+                    "content/weekly/**/*.md",
+                ],
+                cwd=repo.root,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(diff.stdout.strip(), "")
+        finally:
+            repo.cleanup()
+
+    def test_find_sync_commit_absent_when_no_sync_after_anchor(self):
+        repo = self._new_repo()
+        try:
+            repo.commit("chore: baseline", {"README.md": "baseline\n"})
+            sha_head = repo.commit("chore: later change", {"notes.txt": "no sync yet\n"})
+
+            result = detect.find_sync_commit(sha_head, repo.root)
+
+            self.assertIsNone(result)
+        finally:
+            repo.cleanup()
+
+    def test_find_sync_commit_absent_anchor_fails_closed(self):
+        repo = self._new_repo()
+        try:
+            repo.commit("chore: baseline", {"README.md": "baseline\n"})
+            repo.commit(
+                "sync: publish data → main (#1)",
+                {"content/weekly/2026/W37.md": "# W37\n"},
+            )
+
+            for pre_sync_sha in ("", None):
+                with self.subTest(pre_sync_sha=pre_sync_sha):
+                    try:
+                        result = detect.find_sync_commit(pre_sync_sha, repo.root)
+                    except ValueError:
+                        continue
+                    self.assertIsNone(result)
+        finally:
+            repo.cleanup()
 
 
 # ---------------------------------------------------------------------------

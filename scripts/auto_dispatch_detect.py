@@ -24,6 +24,10 @@ Duplicate-check mode:
         --week 2026-W37 \
         --publish-run-id 34082521901
 
+Sync-correlation mode:
+    python3 scripts/auto_dispatch_detect.py \
+        --find-sync-commit <pre-sync-sha>
+
 Outputs written to $GITHUB_OUTPUT (when set) and printed to stdout.
 
 Security notes:
@@ -87,6 +91,35 @@ def fetch_publish_branch() -> None:
         msg = result.stderr.strip()
         print(f"::error::Could not fetch origin/publish: {msg}", file=sys.stderr)
         sys.exit(1)
+
+
+def find_sync_commit(pre_sync_sha: str | None, repo_root: Path | str) -> str | None:
+    """Return the first matching sync commit after pre_sync_sha, if any."""
+    if not pre_sync_sha:
+        raise ValueError("pre_sync_sha must be a non-empty commit SHA")
+
+    result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell, git is a controlled tool
+        [
+            "git",
+            "log",
+            "--grep=^sync: publish data",
+            "--ancestry-path",
+            "--format=%H",
+            f"{pre_sync_sha}..HEAD",
+        ],
+        cwd=str(repo_root),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"git log failed (exit {result.returncode}): {result.stderr.strip()[:200]}"
+        )
+    lines = [line.strip() for line in result.stdout.strip().splitlines() if line.strip()]
+    if not lines:
+        return None
+    return lines[-1]
 
 
 def read_manifest_from_publish(path: str) -> dict:
@@ -345,41 +378,38 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
     env["GH_TOKEN"] = gh_token
 
     # Query recent successful runs of auto-podcast-dispatch.yml.
-    # Match by run name containing the week slug, excluding observe-only runs
-    # (which have "observe" in their name and should not count as real dispatches).
+    # Match by run-name containing the week slug, excluding observe-only runs.
     # This is best-effort; Podcaster idempotency is the final safety net.
-    for field in ("display_title", "name"):
-        result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell; gh is a controlled tool
-            [
-                "gh",
-                "api",
-                f"repos/{repo}/actions/workflows/auto-podcast-dispatch.yml/runs",
-                "--method",
-                "GET",
-                "-F",
-                "status=success",
-                "-F",
-                "per_page=20",
-                "--jq",
-                f'.workflow_runs[] | select(.{field} | contains("{week}")) | select(.{field} | ascii_downcase | contains("observe") | not) | .html_url',
-            ],
-            capture_output=True,
-            text=True,
-            check=False,
-            env=env,
+    result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell; gh is a controlled tool
+        [
+            "gh",
+            "api",
+            f"repos/{repo}/actions/workflows/auto-podcast-dispatch.yml/runs",
+            "--method",
+            "GET",
+            "-F",
+            "status=success",
+            "-F",
+            "per_page=20",
+            "--jq",
+            f'.workflow_runs[] | select(.name | contains("{week}")) | select(.name | ascii_downcase | contains("observe") | not) | .html_url',
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+        env=env,
+    )
+    if result.returncode != 0:
+        print(
+            f"::warning::gh api dedup check failed: {result.stderr.strip() or 'no error output'}",
+            file=sys.stderr,
         )
-        if result.returncode != 0:
-            print(
-                f"::warning::gh api dedup check failed (field={field}): {result.stderr.strip() or 'no error output'}",
-                file=sys.stderr,
-            )
-            continue
-        if result.returncode == 0 and result.stdout.strip():
-            prior_url = result.stdout.strip().splitlines()[0]
-            print(f"::warning::Possible prior auto-dispatch for {week} found: {prior_url}")
-            set_output("is_duplicate", "true")
-            set_output("prior_run_url", prior_url)
-            return
+    elif result.stdout.strip():
+        prior_url = result.stdout.strip().splitlines()[0]
+        print(f"::warning::Possible prior auto-dispatch for {week} found: {prior_url}")
+        set_output("is_duplicate", "true")
+        set_output("prior_run_url", prior_url)
+        return
 
     print(f"  No prior successful auto-dispatch runs found for week={week}.")
     print("  Note: trigger-podcast.yml manual dispatches are not detectable via runs API.")
@@ -388,6 +418,11 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
     )
     set_output("is_duplicate", "false")
     set_output("prior_run_url", "")
+
+
+def _find_sync_commit_cli(args: argparse.Namespace) -> None:
+    sync_sha = find_sync_commit(args.find_sync_commit, Path("."))
+    print(sync_sha or "")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -400,6 +435,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--check-duplicate",
         action="store_true",
         help="Run in duplicate-check mode (requires --week and --publish-run-id).",
+    )
+    parser.add_argument(
+        "--find-sync-commit",
+        default="",
+        help="Print the first sync: publish data commit descending from the given anchor SHA.",
     )
     parser.add_argument(
         "--article-path",
@@ -450,7 +490,9 @@ def main(argv: list[str] | None = None) -> None:
             year, short = week_override.split("-")
             args.article_path = f"content/weekly/{year}/{short}.md"
 
-    if args.check_duplicate:
+    if args.find_sync_commit:
+        _find_sync_commit_cli(args)
+    elif args.check_duplicate:
         _check_duplicate_cli(args)
     else:
         detect(args)
@@ -593,9 +635,12 @@ def check_duplicate_api(
         return False, None
 
     for run in data.get("workflow_runs", []):
-        title = run.get("display_title", "") or run.get("name", "") or ""
-        if week in title and run_id in title:
-            return True, run.get("html_url")
+        name = run.get("name", "") or ""
+        if week not in name:
+            continue
+        if "observe" in name.lower():
+            continue
+        return True, run.get("html_url")
     return False, None
 
 
