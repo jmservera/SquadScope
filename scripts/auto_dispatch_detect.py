@@ -43,6 +43,11 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from typing import TYPE_CHECKING
+from urllib import request
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 WEEK_RE = re.compile(r"^[0-9]{4}-W[0-9]{2}$")
 RUN_ID_RE = re.compile(r"^[0-9]+$")
@@ -297,7 +302,7 @@ def detect(args: argparse.Namespace) -> None:
     print(f"  manifest_sha256: {manifest_sha256}")
 
 
-def check_duplicate(args: argparse.Namespace) -> None:
+def _check_duplicate_cli(args: argparse.Namespace) -> None:
     """
     Check GitHub Actions for prior auto-dispatch runs of the same week.
 
@@ -443,10 +448,157 @@ def main(argv: list[str] | None = None) -> None:
             args.article_path = f"content/weekly/{year}/{short}.md"
 
     if args.check_duplicate:
-        check_duplicate(args)
+        _check_duplicate_cli(args)
     else:
         detect(args)
 
 
-if __name__ == "__main__":
+# ---------------------------------------------------------------------------
+# Public test-friendly API — thin wrappers over internal functions
+# ---------------------------------------------------------------------------
+
+
+def extract_week(article_path: str) -> str | None:
+    """Return week slug (e.g. '2026-W37') from article path, or None if invalid."""
+    week, _, _ = extract_week_from_article_path(article_path)
+    return week
+
+
+def check_paused() -> bool:
+    """Return True iff PODCAST_AUTO_DISPATCH_PAUSED env var is 'true' (case-insensitive)."""
+    return os.environ.get("PODCAST_AUTO_DISPATCH_PAUSED", "").strip().lower() == "true"
+
+
+def find_manifest_for_article(
+    article_path: str,
+    repo_root: "Path",
+    *,
+    manifest_reader: "Callable[[Path], dict] | None" = None,
+) -> dict:
+    """Scan repo_root for a matching publish manifest (test-friendly, no git I/O).
+
+    Returns a dict with keys: eligible, week, run_id, manifest_path,
+    article_sha256, manifest_sha256, reason.
+    """
+    week, year, short = extract_week_from_article_path(article_path)
+    if not week:
+        return {"eligible": False, "reason": "invalid_article_path"}
+
+    article_file = Path(repo_root) / article_path
+    if not article_file.exists():
+        return {"eligible": False, "reason": "article_not_on_main", "week": week}
+    article_sha256 = compute_sha256(article_file)
+
+    candidates_dir = Path(repo_root) / "data" / "candidates" / week
+    manifest_files: list[Path] = (
+        sorted(candidates_dir.glob("*/publish-manifest.json"))
+        if candidates_dir.exists()
+        else []
+    )
+
+    matched: list[tuple[str, str, dict]] = []
+    failures: list[tuple[str, str]] = []  # (manifest_path, reason)
+    for mf in manifest_files:
+        run_id_from_path = mf.parent.name
+        try:
+            if manifest_reader is not None:
+                manifest = manifest_reader(mf)
+            else:
+                manifest = json.loads(mf.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            failures.append((str(mf), "malformed_json"))
+            continue
+        valid, reason = validate_manifest(manifest, week, run_id_from_path, article_sha256)
+        if valid:
+            rel = str(mf.relative_to(repo_root))
+            matched.append((rel, run_id_from_path, manifest))
+        else:
+            # Normalize validate_manifest reason to test-friendly key
+            if "SHA-256 mismatch" in reason:
+                norm_reason = "sha256_mismatch"
+            elif "run_mode" in reason:
+                norm_reason = "ineligible_run_mode"
+            elif "publish_eligible" in reason:
+                norm_reason = "ineligible_manifest"
+            elif "manifest.week" in reason:
+                norm_reason = "manifest_week_mismatch"
+            elif "manifest.run_id" in reason:
+                norm_reason = "manifest_run_id_mismatch"
+            else:
+                norm_reason = reason
+            failures.append((str(mf), norm_reason))
+
+    if len(matched) == 0:
+        # Surface specific reason when exactly one manifest failed
+        specific_reason = failures[0][1] if len(failures) == 1 else "no_matching_manifest"
+        return {
+            "eligible": False,
+            "reason": specific_reason,
+            "week": week,
+            "article_sha256": article_sha256,
+        }
+    if len(matched) > 1:
+        return {
+            "eligible": False,
+            "reason": "ambiguous_manifest",
+            "week": week,
+            "article_sha256": article_sha256,
+        }
+
+    manifest_path, run_id, _manifest = matched[0]
+    manifest_sha256 = hashlib.sha256((Path(repo_root) / manifest_path).read_bytes()).hexdigest()
+    return {
+        "eligible": True,
+        "week": week,
+        "run_id": run_id,
+        "manifest_path": manifest_path,
+        "article_path": article_path,
+        "article_sha256": article_sha256,
+        "manifest_sha256": manifest_sha256,
+        "reason": "ok",
+    }
+
+
+def check_duplicate_api(
+    week: str,
+    run_id: str,
+    gh_token: "str | None" = None,
+    repo: "str | None" = None,
+) -> "tuple[bool, str | None]":
+    """Check GitHub API for a prior successful auto-dispatch run (test-friendly).
+
+    Returns (is_duplicate, prior_run_url | None).
+    On API failure, returns (False, None) — fail-open; Podcaster idempotency
+    is the fallback safety net.
+    """
+    token = gh_token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    repository = repo or os.environ.get("GITHUB_REPOSITORY", "")
+    if not token or not repository:
+        return False, None
+
+    try:
+        url = f"https://api.github.com/repos/{repository}/actions/workflows/auto-podcast-dispatch.yml/runs?status=success&per_page=20"
+        req = request.Request(
+            url,
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            },
+        )
+        with request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read())
+    except Exception:
+        return False, None
+
+    for run in data.get("workflow_runs", []):
+        title = run.get("display_title", "") or run.get("name", "") or ""
+        if week in title and run_id in title:
+            return True, run.get("html_url")
+    return False, None
+
+
+# Expose the test-friendly signature as the public name.
+check_duplicate = check_duplicate_api
+if __name__ == '__main__':
     main()

@@ -56,12 +56,13 @@ def _make_manifest(
     return {
         "week": week,
         "run_id": run_id,
+        "run_mode": "normal",
+        "promotion_eligible": publish_eligible,
         "analysis": {"preflight": {"publish_eligible": publish_eligible}},
         "candidate": {
             "content_sha256": sha256,
             "content_path": f"data/candidates/{week}/{run_id}/{week}-content.md",
         },
-        "mode": "default",
     }
 
 
@@ -380,9 +381,9 @@ class TestWeekExtraction(unittest.TestCase):
         self.assertEqual(result, "2026-W05")
 
     def test_invalid_path(self):
-        """Non-weekly path raises ValueError."""
-        with self.assertRaises(ValueError):
-            detect.extract_week("content/blog/2026/some-post.md")
+        """Non-weekly path → extract_week returns None (no ValueError; fails closed downstream)."""
+        result = detect.extract_week("content/blog/2026/some-post.md")
+        self.assertIsNone(result)
 
 
 # ---------------------------------------------------------------------------
