@@ -25,7 +25,7 @@ on:
         type: boolean
         default: false
 
-run-name: "Auto-dispatch: ${{ inputs.week || github.ref_name }}"
+run-name: "Auto-dispatch${{ inputs.observe_only == true && ' (observe-only)' || '' }}: ${{ inputs.week || github.ref_name }}"
 
 permissions:
   contents: read
@@ -77,6 +77,7 @@ jobs:
         id: detect
         env:
           GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+          WORKFLOW_RUN_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
           # GITHUB_SHA for workflow_run is the triggering workflow's SHA, not post-merge HEAD.
           # Always use git rev-parse HEAD (resolved after checkout ref: main above).
           GITHUB_SHA: ''
@@ -109,15 +110,19 @@ jobs:
               --current-sha "$GITHUB_SHA" \
               ${OBSERVE_ONLY_FLAG}
           else
-            # workflow_run path: event.before is empty; do NOT use HEAD~1.
-            # If any commit lands on main after the sync merge but before this
-            # workflow starts, HEAD~1 would point to that later commit — not the
-            # sync merge — and we'd miss the article. Instead locate the sync
-            # commit explicitly by its stable message prefix, then diff from its
-            # parent. This is race-condition-safe.
-            SYNC_SHA=$(git log --grep="^sync: publish data" --format="%H" -1 HEAD)
+            # For workflow_run path: use the triggering run's head_sha as anchor.
+            # This durable binding prevents picking up a later unrelated sync commit.
+            if [ -n "$WORKFLOW_RUN_HEAD_SHA" ]; then
+              SYNC_SHA=$(python3 scripts/auto_dispatch_detect.py --find-sync-commit "$WORKFLOW_RUN_HEAD_SHA")
+            else
+              # workflow_dispatch without week: fail-closed (no safe anchor)
+              echo "::error::No WORKFLOW_RUN_HEAD_SHA and no WEEK_OVERRIDE; cannot safely determine sync commit. Use workflow_dispatch with week= input for manual recovery."
+              echo "eligible=false" >> "$GITHUB_OUTPUT"
+              echo "status=no_anchor" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
             if [ -z "$SYNC_SHA" ]; then
-              echo "::notice::No 'sync: publish data' commit found in history; nothing to dispatch."
+              echo "::notice::No 'sync: publish data' commit found after workflow_run anchor; nothing to dispatch."
               echo "eligible=false" >> "$GITHUB_OUTPUT"
               echo "status=no_new_article" >> "$GITHUB_OUTPUT"
               exit 0
