@@ -276,33 +276,35 @@ class WorkflowConfigTests(unittest.TestCase):
 
     def test_production_browser_gate_is_blocking_and_chromium_aligned(self) -> None:
         workflow = yaml.safe_load(Path(".github/workflows/ci.yml").read_text(encoding="utf-8"))
-        production = workflow["jobs"]["production-site"]
+        # After parallelisation (#693), env lives in production-site-build;
+        # steps live in the production-site-checks matrix job.
+        build_job = workflow["jobs"]["production-site-build"]
+        checks_job = workflow["jobs"]["production-site-checks"]
         self.assertEqual(
-            production["env"]["HUGO_PARAMS_GA_MEASUREMENT_ID"],
+            build_job["env"]["HUGO_PARAMS_GA_MEASUREMENT_ID"],
             "G-TEST-OBSERVATORY",
         )
 
-        steps = production["steps"]
+        steps = checks_job["steps"]
         install = next(
-            step for step in steps if step.get("name") == "Install production test dependencies"
+            step for step in steps if step.get("name") == "Install production check dependencies"
         )
         self.assertIn("playwright install --with-deps chromium", install["run"])
-        browser_index = next(
-            index
-            for index, step in enumerate(steps)
-            if step.get("name") == "Run axe and responsive browser gates"
-        )
-        lighthouse_index = next(
-            index for index, step in enumerate(steps) if step.get("name") == "Run Lighthouse gates"
-        )
-        browser_command = steps[browser_index]["run"]
+
+        # After parallelisation, axe/responsive and Lighthouse run in separate
+        # matrix slots (same "Run production site check" step, different matrix.id).
+        # Verify both matrix entries exist rather than asserting sequential order.
+        matrix_names = [entry["name"] for entry in checks_job["strategy"]["matrix"]["include"]]
+        self.assertIn("Axe and responsive browser gates", matrix_names)
+        self.assertIn("Lighthouse gates", matrix_names)
+
+        run_step = next(step for step in steps if step.get("name") == "Run production site check")
         for spec in (
             "tests/visual/a11y-perf.spec.mjs",
             "tests/visual/observatory-a11y.spec.mjs",
             "tests/visual/observatory-analytics.spec.mjs",
         ):
-            self.assertIn(spec, browser_command)
-        self.assertLess(browser_index, lighthouse_index)
+            self.assertIn(spec, run_step["run"])
 
         config = Path("tests/visual/playwright.config.mjs").read_text(encoding="utf-8")
         self.assertEqual(config.count("devices['Desktop Chrome']"), 2)
@@ -624,16 +626,19 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow_path = Path(".github/workflows/ci.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
-        production_job = workflow["jobs"]["production-site"]
-        self.assertEqual(production_job["env"]["BASE_URL"], "http://127.0.0.1:1313")
+        # After parallelisation (#693): build env lives in production-site-build,
+        # serve step lives in production-site-checks.
+        build_job = workflow["jobs"]["production-site-build"]
+        checks_job = workflow["jobs"]["production-site-checks"]
+        self.assertEqual(build_job["env"]["BASE_URL"], "http://127.0.0.1:1313")
         build_step = next(
             step
-            for step in production_job["steps"]
+            for step in build_job["steps"]
             if step.get("name") == "Build site and capture Hugo duration"
         )
         self.assertIn('hugo --minify --baseURL "${BASE_URL}/"', build_step["run"])
         serve_step = next(
-            step for step in production_job["steps"] if step.get("name") == "Serve production build"
+            step for step in checks_job["steps"] if step.get("name") == "Serve production build"
         )
         self.assertIn("scripts/serve_static.py", serve_step["run"])
         self.assertNotIn("http.server", serve_step["run"])
@@ -1109,7 +1114,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("Receipt state:", evidence["run"])
         self.assertIn("pre_submit_failed", evidence["run"])
 
-    def test_auto_dispatch_workflow_uses_exact_identity_receipts_and_shared_dispatch_lock(self) -> None:
+    def test_auto_dispatch_workflow_uses_exact_identity_receipts_and_shared_dispatch_lock(
+        self,
+    ) -> None:
         workflow_path = Path(".github/workflows/auto-podcast-dispatch.yml")
         workflow_text = workflow_path.read_text(encoding="utf-8")
         workflow = yaml.safe_load(workflow_text)
@@ -1118,8 +1125,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("(observe-only)", workflow_text)
 
         detect_job = workflow["jobs"]["detect"]
-        self.assertEqual(detect_job["outputs"]["article_sha256"], "${{ steps.detect.outputs.article_sha256 }}")
-        self.assertEqual(detect_job["outputs"]["dedup_status"], "${{ steps.dedup.outputs.dedup_status }}")
+        self.assertEqual(
+            detect_job["outputs"]["article_sha256"], "${{ steps.detect.outputs.article_sha256 }}"
+        )
+        self.assertEqual(
+            detect_job["outputs"]["dedup_status"], "${{ steps.dedup.outputs.dedup_status }}"
+        )
 
         dedup = next(step for step in detect_job["steps"] if step.get("id") == "dedup")
         self.assertIn("ARTICLE_SHA256", dedup["env"])

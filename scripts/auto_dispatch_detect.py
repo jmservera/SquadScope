@@ -207,11 +207,7 @@ def _extract_dispatch_identity_from_log_outputs(log_text: str) -> DispatchIdenti
     week = values.get("week", "")
     publish_run_id = values.get("publish_run_id", "")
     article_sha256 = values.get("article_sha256", "")
-    if (
-        WEEK_RE.match(week)
-        and RUN_ID_RE.match(publish_run_id)
-        and SHA256_RE.match(article_sha256)
-    ):
+    if WEEK_RE.match(week) and RUN_ID_RE.match(publish_run_id) and SHA256_RE.match(article_sha256):
         return DispatchIdentity(
             week=week,
             publish_run_id=publish_run_id,
@@ -278,13 +274,12 @@ def _identity_from_sync_commit(
 
 
 def _legacy_auto_observe_only(jobs: list[dict[str, Any]]) -> bool:
-    return (
-        _step_conclusion(jobs, "Observe-only summary", "Record observe-only result") == "success"
-        and any(
-            job.get("name") == "Protected podcast dispatch"
-            and str(job.get("conclusion") or "") == "skipped"
-            for job in jobs
-        )
+    return _step_conclusion(
+        jobs, "Observe-only summary", "Record observe-only result"
+    ) == "success" and any(
+        job.get("name") == "Protected podcast dispatch"
+        and str(job.get("conclusion") or "") == "skipped"
+        for job in jobs
     )
 
 
@@ -303,14 +298,25 @@ def _compat_identity_for_run(
         identity = _extract_dispatch_identity_from_log_outputs(log_text)
         if identity is None:
             return "ambiguous", None
-        if _step_conclusion(jobs, "Protected podcast dispatch", "Trigger podcast generation") == "success":
+        if (
+            _step_conclusion(jobs, "Protected podcast dispatch", "Trigger podcast generation")
+            == "success"
+        ):
             return "blocking" if identity == requested_identity else "ignore", identity
-        return "ambiguous", identity if identity.publish_run_id == requested_identity.publish_run_id else None
+        return (
+            "ambiguous",
+            identity if identity.publish_run_id == requested_identity.publish_run_id else None,
+        )
 
     if path != TRIGGER_PODCAST_WORKFLOW_PATH:
         return "ignore", None
 
-    if _step_conclusion(jobs, "trigger-podcast", "Trigger podcast generation with existing manifest") != "success":
+    if (
+        _step_conclusion(
+            jobs, "trigger-podcast", "Trigger podcast generation with existing manifest"
+        )
+        != "success"
+    ):
         return "ignore", None
 
     publish_run_id = _extract_publish_run_id_from_log_text(log_text)
@@ -921,7 +927,11 @@ def check_duplicate_result(
     repository = repo or os.environ.get("GITHUB_REPOSITORY", "")
     if not token or not repository:
         return DuplicateCheckResult(status="clear", is_duplicate=False)
-    if not WEEK_RE.match(week) or not RUN_ID_RE.match(run_id) or not SHA256_RE.match(article_sha256):
+    if (
+        not WEEK_RE.match(week)
+        or not RUN_ID_RE.match(run_id)
+        or not SHA256_RE.match(article_sha256)
+    ):
         raise ValueError("week, run_id, and article_sha256 must be valid exact identity fields")
 
     identity = DispatchIdentity(
