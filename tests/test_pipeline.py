@@ -423,7 +423,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(run_analysis_step)
         run_analysis = run_analysis_step["run"]
         self.assertIn("python3 scripts/track_token_usage.py", run_analysis)
-        self.assertIn('ANALYSIS_MODEL="copilot-default"', run_analysis)
+        self.assertIn('ANALYSIS_MODEL="gpt-5.5"', run_analysis)
+        self.assertNotIn('ANALYSIS_MODEL="copilot-default"', run_analysis)
         self.assertNotIn("--model claude-sonnet-4", run_analysis)
         self.assertIn("mkdir -p data/metrics", run_analysis)
         self.assertIn("run_quality_gate()", run_analysis)
