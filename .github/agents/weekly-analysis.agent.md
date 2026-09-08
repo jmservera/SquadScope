@@ -1,7 +1,7 @@
 ---
 name: Weekly Analysis
 description: "Focused weekly editorial writer for SquadScope. Reads a prepared prompt file and writes exactly one markdown artifact without delegation."
-model: gpt-5.5
+model: gpt-5.6-sol
 tools: ["read", "write"]
 ---
 

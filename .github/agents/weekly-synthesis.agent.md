@@ -1,7 +1,7 @@
 ---
 name: Weekly Synthesis
 description: "Compact industry narrative generator for SquadScope. Synthesizes press and historical context into a brief editorial overview."
-model: gpt-5.5
+model: gpt-5.6-sol
 tools: ["read", "write"]
 ---
 

@@ -773,7 +773,7 @@ jobs:
               fi
             fi
 
-            # Model is configured in .github/agents/weekly-analysis.agent.md (gpt-5.5)
+            # Model is configured in .github/agents/weekly-analysis.agent.md (gpt-5.6-sol)
             set +e
             copilot \
               --agent weekly-analysis \
@@ -828,7 +828,7 @@ jobs:
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
               ANALYSIS_SOURCE="copilot-cli"
-              ANALYSIS_MODEL="copilot-default"
+              ANALYSIS_MODEL="gpt-5.6-sol"
             else
               cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
               CURRENT_GATE_FINGERPRINT=$(python3 -c 'import sys; from pathlib import Path; import scripts.analysis_gate as gate; print(gate.gate_report_fingerprint(Path(sys.argv[1])))' "$GATE_REPORT" 2>/dev/null || true)
