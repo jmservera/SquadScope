@@ -345,7 +345,8 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
     env["GH_TOKEN"] = gh_token
 
     # Query recent successful runs of auto-podcast-dispatch.yml.
-    # Match by display_title (push commit message may contain week slug) or run name.
+    # Match by run name containing the week slug, excluding observe-only runs
+    # (which have "observe" in their name and should not count as real dispatches).
     # This is best-effort; Podcaster idempotency is the final safety net.
     for field in ("display_title", "name"):
         result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell; gh is a controlled tool
@@ -360,7 +361,7 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
                 "-F",
                 "per_page=20",
                 "--jq",
-                f'.workflow_runs[] | select(.{field} | contains("{week}")) | .html_url',
+                f'.workflow_runs[] | select(.{field} | contains("{week}")) | select(.{field} | ascii_downcase | contains("observe") | not) | .html_url',
             ],
             capture_output=True,
             text=True,
