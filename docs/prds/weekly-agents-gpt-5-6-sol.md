@@ -7,7 +7,7 @@ ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 
-Version 1.0 | Status Draft — approval pending | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
+Version 1.1 | Status Draft — **evidence incomplete; upgrade not yet recommended** | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
 
 > **PRD-only. No production changes in this PR.** This document proposes a future
 > change. No agent files, `tier_selector.py`, workflows, pricing code, or tests are
@@ -22,55 +22,81 @@ SquadScope runs a two-step Copilot CLI analysis every week:
 
 Analysis is Copilot-only with no GitHub Models/OpenAI operational fallback, so each
 weekly run consumes AI Credits at a measurable, recurring cost. `gpt-5.6-sol` is now
-GA on the Copilot CLI and is cheaper than `gpt-5.5` while delivering comparable
-quality in a controlled comparison. This PRD asks whether the two weekly agents should
-move from `gpt-5.5` to `gpt-5.6-sol`.
+GA on the Copilot CLI. This PRD records the evidence from a model comparison study
+(Livingston QA, 2026-09-08) and gates the upgrade decision on sufficient evidence.
 
-This aligns with the "cost first, unless code is being produced" governing principle in
-`docs/model-routing-policy.md`: the weekly agents produce editorial analysis, not code,
-so a cheaper model of comparable quality is preferred if quality gates hold.
+**Current evidence verdict: upgrade not yet recommended.** The comparison (2 valid
+runs per model, W33+W34) shows no consistent cost saving (+1.2% average), a +50%
+latency penalty, and inconclusive editorial quality (gate ceiling at 85 across all
+models; blinded review pending). Additional evidence is required before approving.
 
 ## 2. Evidence Summary
 
 Source evidence (Livingston QA model comparison, 2026-09-08), full report:
-`/home/azureuser/.copilot/session-state/e1686c39-fa20-4e79-bd06-f50706616fd3/files/model-comparison/comparison-report.md`
-(single-run comparison on input week 2026-W35; CLI AI-credit billing, not direct API).
+`/home/azureuser/.copilot/session-state/e1686c39-fa20-4e79-bd06-f50706616fd3/files/model-comparison/comparison-report-v2.md`
 
-| Dimension | gpt-5.5 (current) | gpt-5.6-sol (proposed) |
-|-----------|-------------------|------------------------|
-| Availability | GA | GA, accessible via Copilot CLI |
-| First-call cost / weekly run | $0.224 | $0.192 (−14%) |
-| Retry cost (cache hit) | $0.224 | $0.072 (−68%) |
-| Est. annual pipeline cost | ~$14.00 | ~$11.00 (−21%) |
-| Quality gate | Passed (score 85) | Passed (score 82) |
-| Output size | 12,885 bytes | 13,112 bytes |
-| Duration | 53s | 52s |
+⚠️ **W35 comparison voided**: the original W35 runs were invalid — `--model` CLI flag
+does not override an agent's `model:` field; all three W35 runs used gpt-5.5.
+Valid data is W33 + W34 (two runs per model, worktree isolation, confirmed by
+`--usage-output-file` → `currentModel` field).
 
-Pricing verified against GitHub Copilot billing docs (fetched 2026-09-08) and now
-present in `scripts/model_pricing.py` via PR #739 (Sol default rates
-input $4 / cached $0.40 / cache_write $5 / output $20 per 1M tokens). The Sol
-cache-write rate was confirmed live: 22.5K tokens × $5/M = $0.1125.
+### Measured per-run costs (Copilot CLI AI credits; 1 credit = $0.01 USD)
 
-Both models passed all structural, schema, editorial, and provenance gates. No
-hallucinated repositories were detected in any run.
+| Week | gpt-5.5 | gpt-5.6-sol | delta | gpt-6-astra | delta |
+|------|---------|-------------|-------|-------------|-------|
+| W34 | $0.396 | $0.338 | −15% | $1.075 | +171% |
+| W33 | $0.516 | $0.585 | +13% | $1.112 | +115% |
+| **Average** | **$0.456** | **$0.462** | **+1.2%** | **$1.094** | **+140%** |
+
+⚠️ High output-token variance (3.9k–11k) drives cost swings. Sol was cheaper in
+W34 but more expensive in W33. With only 2 samples, cost comparison is inconclusive.
+
+### Latency
+
+| Week | gpt-5.5 | gpt-5.6-sol | delta | gpt-6-astra | delta |
+|------|---------|-------------|-------|-------------|-------|
+| W34 (serial) | 42s | 64s | +52% | 99s | +136% |
+| W33 (concurrent) | 80s | 119s | +49% | 101s | +26% |
+| **Average** | **61s** | **92s** | **+50%** | **100s** | **+64%** |
+
+⚠️ W33 runs were parallel (concurrent processes) — latency values are confounded by
+simultaneous machine load. W34 runs were serial and are more reliable.
+
+### Quality gate scores
+
+All three models scored **85/100** on both W33 and W34 via `scripts/analysis_gate.py`.
+The gate is saturated at 85 (formula: 60+depth+evidence; press not passed). Gate parity
+does not imply editorial quality equivalence — it means the gate cannot differentiate.
+A blinded editorial review is required to assess actual quality differences.
+
+Pricing source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing (fetched 2026-09-08).
+These are Copilot CLI billing rates, NOT direct Azure/OpenAI API prices.
+
+| Dimension | gpt-5.5 (current) | gpt-5.6-sol (proposed) | gpt-6-astra (rejected) |
+|-----------|-------------------|------------------------|------------------------|
+| Availability | GA | GA, Copilot CLI | GA, Copilot CLI |
+| Avg cost / weekly run | $0.456 | $0.462 (+1.2%) | $1.094 (+140%) |
+| Est. annual cost | ~$23.7/yr | ~$24.0/yr | ~$56.9/yr |
+| Quality gate (both weeks) | 85/85 | 85/85 | 85/85 |
+| Avg latency | 61s | 92s (+50%) | 100s (+64%) |
+| Editorial quality | baseline | **inconclusive** | inconclusive |
 
 ## 3. Goals and Non-Goals
 
 ### Goals
 
-- Reduce recurring weekly analysis cost (−14% first call, −68% retries, ~−21% annual)
-  without regressing quality gates.
+- If future evidence (≥3 valid runs + blinded editorial review) supports it: reduce
+  recurring weekly analysis cost without regressing quality gates.
 - Adopt a GA model that is a drop-in `model:` declaration change for the two weekly
   agents.
 - Keep the change auditable and reversible.
 
 ### Non-Goals
 
-- No change to `gpt-6-astra` adoption (2.1× cost, no measured quality lift — rejected).
+- No change to `gpt-6-astra` adoption (average +140% cost, no measured quality lift — rejected).
 - No change to `tier_selector.py` tier definitions, `docs/model-routing-policy.md`,
   or any non-weekly agent.
-- No fix in this PRD to the separately reported cost-tracking bug (analysis logged as
-  `copilot-default` instead of the actual agent model). That is tracked independently.
+- No fix in this PRD to the separately reported cost-tracking bug (tracked in PR #740).
 - No change to prompts, gates, retry logic, or workflow orchestration.
 
 ## 4. Proposed Future Scope (post-approval)
@@ -120,35 +146,42 @@ documentation-only follow-ups and are out of scope unless explicitly approved.
 
 ## 7. Risks and Limitations
 
-- **Single-run evidence.** The comparison is one run per model on one week; stochastic
-  model variance means quality deltas (85 vs 82) are within editorial noise, not a
-  statistically significant ranking. Gate pass/fail is the reliable signal, and both
-  passed.
-- **Editorial variance.** In the single run, Sol omitted a "gap" prediction and chose an
-  anchor repo (`deepseek-harness`) as top repo rather than the sharper W35-specific
-  signal. This is within normal editorial variance but should be watched over the first
-  few live weeks.
+- **Inconclusive cost evidence.** 2 runs per model with high output-token variance (3.9k–11k
+  output tokens). Sol averaged +1.2% more expensive than baseline — not the predicted saving.
+  Minimum 3 valid runs needed before cost claim is reliable.
+- **Inconclusive editorial quality.** All 6 articles scored 85 on the gate (ceiling).
+  Gate saturation ≠ quality equivalence. Blinded editorial review is required.
+- **Latency penalty.** Sol averages +50% slower (61s → 92s). For pipeline timeout
+  budgets, this must be evaluated before upgrade.
+- **Concurrent run confound.** W33 latency measurements used parallel processes —
+  values are not independent and may be inflated by machine load. Only W34 (serial)
+  latency is reliable.
 - **CLI billing basis.** Costs are Copilot CLI AI credits, not direct Azure/OpenAI API
   billing; absolute figures could differ if the pipeline ever migrates providers.
-- **Cache assumptions.** Retry savings assume cache hits on the stable prompt prefix;
-  real savings depend on cache warmth.
-- **Model lifecycle.** A GA model can still change price or availability; the pricing
-  review cadence (`.github/workflows/copilot-pricing-review.yml`, every two months)
-  mitigates drift.
+- **Model lifecycle.** GA status can still change; the pricing review cadence
+  (`.github/workflows/copilot-pricing-review.yml`, every two months) mitigates drift.
 
 ## 8. Approval Gate
 
-This is a PRD-first proposal. No production agent files, `tier_selector.py`, workflows,
-pricing code, or tests are modified by this PR. Implementation (Section 4) begins only
-after **jmservera explicitly approves this PRD**. On approval, the change proceeds on a
-dedicated branch and PR per the repository Branch and Pull Request Workflow, with the
-weekly quality gate as the blocking acceptance check.
+This is a PRD-first proposal. **Current status: upgrade not recommended pending further
+evidence.** No implementation begins until:
+
+1. At least 3 valid cost runs per model (with `--usage-output-file`) show consistent
+   cost advantage for Sol over baseline.
+2. A blinded editorial review of matched source/article pairs confirms no quality
+   regression.
+3. **jmservera explicitly approves this PRD** after reviewing updated evidence.
+
+On approval, the change is limited to the two agent `model:` declarations per Section 4,
+on a dedicated branch/PR, with the weekly quality gate as the blocking acceptance check.
 
 ## 9. Source Evidence Reference
 
-- Livingston model comparison report (primary evidence):
-  `/home/azureuser/.copilot/session-state/e1686c39-fa20-4e79-bd06-f50706616fd3/files/model-comparison/comparison-report.md`
+- Livingston model comparison report v2 (corrected, primary evidence):
+  `/home/azureuser/.copilot/session-state/e1686c39-fa20-4e79-bd06-f50706616fd3/files/model-comparison/comparison-report-v2.md`
+- Blinded editorial review (pending):
+  `/home/azureuser/.copilot/session-state/e1686c39-fa20-4e79-bd06-f50706616fd3/files/model-comparison/blinded-review/editorial-verdict.md`
 - Pricing data (Sol/Astra/Terra/Luna) landed by PR jmservera/SquadScope#739 in
   `scripts/model_pricing.py`.
+- Cost tracking bug fix: PR jmservera/SquadScope#740.
 - Routing principles: `docs/model-routing-policy.md`.
-- Cost model context: `docs/processed/PRD-cost-estimation.md`.
