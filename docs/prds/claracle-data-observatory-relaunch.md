@@ -1,3 +1,10 @@
+> **⚠️ SUPERSEDED — NO-GO**
+> This PRD is superseded by BRD-CLARACLE-003 (`docs/brds/claracle-post-relaunch-consolidation-brd.md`).
+> Status: NO-GO / SUPERSEDED. Do not use this document for new work.
+> See the consolidation BRD for the approved forward-looking baseline.
+
+---
+
 ---
 title: Claracle Data Observatory Relaunch Product Requirements Document
 description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch

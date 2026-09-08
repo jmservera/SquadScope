@@ -1,3 +1,9 @@
+> **⚠️ SUPERSEDED — BRD-CLARACLE-002**
+> This BRD (BRD-CLARACLE-002) is superseded by BRD-CLARACLE-003 (`docs/brds/claracle-post-relaunch-consolidation-brd.md`).
+> Status: Archived. Do not use this document for new work.
+
+---
+
 ---
 title: "Claracle Data Observatory Relaunch — Business Requirements Document"
 description: "BRD for the next version of the Claracle site, repositioning it from weekly AI-generated summaries into a discoverable, linkable public database of GitHub technology trends to solve the discovery/SEO problem."
