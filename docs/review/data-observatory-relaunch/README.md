@@ -52,7 +52,7 @@ observations without granting human acceptance.
 | Hermes security acceptance                                | Pending                     | Security review sign-off table                                              |
 | GA4 and GSC connection                                   | Complete                    | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
 | GA4 and GSC external baseline values                      | Pending                     | Dated baseline external evidence matrix                                     |
-| Product delivery and rollout status                       | Partial acceptance          | [PRD](../../prds/claracle-data-observatory-relaunch.md)                     |
+| Product delivery and rollout status                       | Partial acceptance          | [PRD](../../processed/claracle-data-observatory-relaunch.md)                     |
 | Sponsor rollout decisions                                 | Complete with conditions    | [Owner action register](owner-action-register.md#sponsor-rollout-decision)  |
 | Visual capture requirements                               | Pending                     | [Screenshot capture checklist](screenshots/README.md)                       |
 | Owner-gated acceptance actions                            | Pending                     | [Owner action register](owner-action-register.md)                           |

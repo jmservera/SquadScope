@@ -1,10 +1,3 @@
-> **⚠️ SUPERSEDED — NO-GO**
-> This PRD is superseded by BRD-CLARACLE-003 (`docs/brds/claracle-post-relaunch-consolidation-brd.md`).
-> Status: NO-GO / SUPERSEDED. Do not use this document for new work.
-> See the consolidation BRD for the approved forward-looking baseline.
-
----
-
 ---
 title: Claracle Data Observatory Relaunch Product Requirements Document
 description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch
@@ -12,6 +5,13 @@ author: SquadScope Squad
 ms.date: 2026-08-07
 ms.topic: reference
 ---
+
+> **⚠️ ARCHIVED — NO-GO / SUPERSEDED**
+> This PRD is superseded by **BRD-CLARACLE-003**: [`docs/brds/claracle-post-relaunch-consolidation-brd.md`](../brds/claracle-post-relaunch-consolidation-brd.md).
+> Do not use for new work. Preserved for historical reference only.
+
+---
+
 <!-- markdownlint-disable-file -->
 <!-- markdown-table-prettify-ignore-start -->
 Version 1.6 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
@@ -39,7 +39,7 @@ are not recorded. `dynamic_topic_creation` and `repo_pages` remain off pending t
 recorded technical conditions and separate activation changes. Delivered-versus-pending
 status and the launch-gate register are tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
-Derived from: `docs/brds/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.3).
+Derived from: `docs/processed/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.3).
 
 ## 1. Executive Summary
 ### Context
@@ -305,7 +305,7 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 ## 16. References & Provenance
 | Ref ID | Type | Source | Summary | Conflict Resolution |
 |--------|------|--------|---------|--------------------|
-| REF-1 | BRD | `docs/brds/claracle-data-observatory-relaunch-brd.md` | Business requirements this PRD implements | Source of truth for scope |
+| REF-1 | BRD | `docs/processed/claracle-data-observatory-relaunch-brd.md` | Business requirements this PRD implements | Source of truth for scope |
 | REF-2 | Doc | `architecture.md` | Pipeline, stack, handoff contract | Technical grounding |
 | REF-3 | Doc | `docs/growth/distribution-strategy.md` | Personas, channels, SEO gap audit (1-7) | On-page SEO gaps drive FR-032/033 |
 | REF-4 | Code | `scripts/generate_content.py` | Weekly frontmatter generation | Confirms missing `topics` field (FR-002) |

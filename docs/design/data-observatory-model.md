@@ -15,8 +15,8 @@ repository pages.
 
 The product and business requirements are in:
 
-- `docs/prds/claracle-data-observatory-relaunch.md`
-- `docs/brds/claracle-data-observatory-relaunch-brd.md`
+- `docs/processed/claracle-data-observatory-relaunch.md`
+- `docs/processed/claracle-data-observatory-relaunch-brd.md`
 
 Both documents make the same constraint explicit: weekly crawl output is the
 authoritative source of truth, the static Hugo/GitHub Pages architecture remains,

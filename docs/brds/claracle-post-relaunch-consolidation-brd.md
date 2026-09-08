@@ -28,7 +28,7 @@ estimated_reading_time: 8
 | Sponsor | jmservera (also the human approval authority) |
 | Last updated | 2026-08-08 |
 | Related repositories | SquadScope, SquadScope-Podcaster, SquadScope-Coordinator |
-| Supersedes (context) | [BRD-CLARACLE-002](claracle-data-observatory-relaunch-brd.md), [PRD relaunch](../prds/claracle-data-observatory-relaunch.md) |
+| Supersedes (context) | [BRD-CLARACLE-002](../processed/claracle-data-observatory-relaunch-brd.md), [PRD relaunch](../processed/claracle-data-observatory-relaunch.md) |
 
 ### Change History
 
