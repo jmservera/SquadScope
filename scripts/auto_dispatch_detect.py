@@ -53,7 +53,7 @@ WEEK_RE = re.compile(r"^[0-9]{4}-W[0-9]{2}$")
 RUN_ID_RE = re.compile(r"^[0-9]+$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 MANIFEST_PATH_RE = re.compile(
-    r"^data/candidates/([^/]+)/([^/]+)/publish-manifest\.json$"
+    r"^data/candidates/([0-9]{4}-W[0-9]{2})/([0-9]+)/publish-manifest\.json$"
 )
 ARTICLE_PATH_RE = re.compile(r"^content/weekly/(\d{4})/(W\d{2})\.md$")
 NULL_SHA = "0" * 40
@@ -369,6 +369,12 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
             check=False,
             env=env,
         )
+        if result.returncode != 0:
+            print(
+                f"::warning::gh api dedup check failed (field={field}): {result.stderr.strip() or 'no error output'}",
+                file=sys.stderr,
+            )
+            continue
         if result.returncode == 0 and result.stdout.strip():
             prior_url = result.stdout.strip().splitlines()[0]
             print(f"::warning::Possible prior auto-dispatch for {week} found: {prior_url}")

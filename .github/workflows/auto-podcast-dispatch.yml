@@ -102,7 +102,7 @@ jobs:
               BEFORE_REF="$GITHUB_EVENT_BEFORE"
             fi
 
-            NEW_ARTICLES=$(git diff --diff-filter=A "$BEFORE_REF" "$GITHUB_SHA" \
+            NEW_ARTICLES=$(git diff --name-only --diff-filter=A "$BEFORE_REF" "$GITHUB_SHA" \
               -- 'content/weekly/**/*.md' 2>/dev/null || true)
 
             if [ -z "$NEW_ARTICLES" ]; then
