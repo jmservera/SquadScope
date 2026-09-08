@@ -29,7 +29,7 @@ Outputs written to $GITHUB_OUTPUT (when set) and printed to stdout.
 Security notes:
 - No untrusted text (commit messages, PR titles, article content) is used
   in correlation logic. Correlation is exclusively by SHA-256 of article bytes.
-- PODCAST_AUTO_DISPATCH_PAUSED env var controls pause; must be literal 'true'.
+- PODCAST_AUTO_DISPATCH_PAUSED env var controls pause; 'true' is case-insensitive.
 - Fails closed on any missing, ambiguous, or invalid manifest evidence.
 """
 

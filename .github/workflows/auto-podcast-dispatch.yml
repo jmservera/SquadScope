@@ -74,9 +74,15 @@ jobs:
           GITHUB_EVENT_BEFORE: ${{ github.event.before }}
           GITHUB_SHA: ${{ github.sha }}
           WEEK_OVERRIDE: ${{ inputs.week || '' }}
+          OBSERVE_ONLY: ${{ inputs.observe_only == true && 'true' || '' }}
           PODCAST_AUTO_DISPATCH_PAUSED: ${{ vars.PODCAST_AUTO_DISPATCH_PAUSED || '' }}
         run: |
           set -euo pipefail
+
+          OBSERVE_ONLY_FLAG=""
+          if [ "$OBSERVE_ONLY" = "true" ]; then
+            OBSERVE_ONLY_FLAG="--observe-only"
+          fi
 
           if [ -n "$WEEK_OVERRIDE" ]; then
             # Manual override for observe-only recovery (workflow_dispatch).
@@ -90,7 +96,8 @@ jobs:
             ARTICLE_PATH="content/weekly/${YEAR}/${SHORT}.md"
             python3 scripts/auto_dispatch_detect.py \
               --article-path "$ARTICLE_PATH" \
-              --current-sha "$GITHUB_SHA"
+              --current-sha "$GITHUB_SHA" \
+              ${OBSERVE_ONLY_FLAG}
           else
             # Push event: detect newly ADDED weekly article files only.
             # All-zeros GITHUB_EVENT_BEFORE = first push to branch; fall back to HEAD~1.
@@ -115,13 +122,21 @@ jobs:
             ARTICLE_COUNT=$(echo "$NEW_ARTICLES" | wc -l | tr -d ' ')
             echo "  Detected ${ARTICLE_COUNT} new weekly article(s)."
 
-            # Run detection for each new article (expected: exactly one per weekly publish)
+            # Fail-closed if multiple articles added in one push — each weekly publish
+            # commits exactly one article; multiple is unexpected and could overwrite outputs.
+            if [ "$ARTICLE_COUNT" -gt 1 ]; then
+              echo "::error::Multiple new weekly articles detected in one push (${ARTICLE_COUNT}). Expected exactly one per publish transaction. Commit them separately or dispatch manually."
+              exit 1
+            fi
+
+            # Run detection for the single new article
             while IFS= read -r article_path; do
               [ -z "$article_path" ] && continue
               python3 scripts/auto_dispatch_detect.py \
                 --article-path "$article_path" \
                 --before-sha "$BEFORE_REF" \
-                --current-sha "$GITHUB_SHA"
+                --current-sha "$GITHUB_SHA" \
+                ${OBSERVE_ONLY_FLAG}
             done <<< "$NEW_ARTICLES"
           fi
 
@@ -142,11 +157,10 @@ jobs:
       - name: Record paused/deferred notice
         if: steps.detect.outputs.status == 'paused'
         run: |
-          echo "::notice::Auto-dispatch paused by PODCAST_AUTO_DISPATCH_PAUSED variable. Publication for ${{ steps.detect.outputs.week }} is deferred."
+          echo "::notice::Auto-dispatch paused by PODCAST_AUTO_DISPATCH_PAUSED variable. Publication is deferred."
           {
             echo "## ⏸️ Podcast dispatch deferred"
             echo ""
-            echo "- **Week:** ${{ steps.detect.outputs.week }}"
             echo "- **Reason:** \`PODCAST_AUTO_DISPATCH_PAUSED\` repo variable is set to \`true\`"
             echo "- **Recovery:** Clear the variable and re-run this workflow with \`observe_only=true\` to verify, then with \`observe_only=false\` to dispatch."
           } >> "$GITHUB_STEP_SUMMARY"

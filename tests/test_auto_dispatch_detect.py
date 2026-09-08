@@ -1,22 +1,17 @@
 """Tests for scripts/auto_dispatch_detect.py.
 
-Written test-first (P03). The script does not exist yet; these tests will
-show as errors/failures until Bender completes P01. That is expected.
-
-Design assumptions about the script interface:
+Public API tested:
   - find_manifest_for_article(article_path: str, repo_root: Path) -> dict
     Reads article from repo_root/article_path; scans
     repo_root/data/candidates/<week>/*/publish-manifest.json on disk.
     Returns: {eligible, week, run_id, manifest_path, article_sha256,
               manifest_sha256, reason}
-  - extract_week(article_path: str) -> str
-    Extracts ISO week string (e.g. "2026-W37") from a weekly article path.
+  - extract_week(article_path: str) -> str | None
+    Extracts ISO week string (e.g. "2026-W37") or None for invalid paths.
   - check_paused() -> bool
-    Returns True iff PODCAST_AUTO_DISPATCH_PAUSED env var is truthy.
+    Returns True iff PODCAST_AUTO_DISPATCH_PAUSED env var is 'true' (case-insensitive).
   - check_duplicate(week, run_id, gh_token, repo) -> (bool, str | None)
-    Returns (is_duplicate, prior_run_url).
-
-Specification gaps noted at bottom of this file.
+    Returns (is_duplicate, prior_run_url). Fail-open on API error.
 """
 
 import hashlib
@@ -38,7 +33,6 @@ KNOWN_ARTICLE_CONTENT = b"# W37 AI Weekly\n\nContent for week 37 of 2026.\n"
 KNOWN_SHA256 = hashlib.sha256(KNOWN_ARTICLE_CONTENT).hexdigest()
 WEEK = "2026-W37"
 RUN_ID = "34082521901"
-FIXTURE_DIR = Path(__file__).parent / "fixtures" / "auto_dispatch"
 
 
 # ---------------------------------------------------------------------------
