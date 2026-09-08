@@ -172,9 +172,7 @@ def validate_manifest(
     if not isinstance(content_sha256, str) or not SHA256_RE.match(content_sha256):
         return False, "candidate.content_sha256 is missing or invalid"
     if content_sha256 != article_sha256:
-        return False, (
-            f"SHA-256 mismatch: manifest={content_sha256!r} article={article_sha256!r}"
-        )
+        return False, (f"SHA-256 mismatch: manifest={content_sha256!r} article={article_sha256!r}")
 
     return True, "ok"
 
@@ -383,9 +381,7 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
             return
 
     print(f"  No prior successful auto-dispatch runs found for week={week}.")
-    print(
-        "  Note: trigger-podcast.yml manual dispatches are not detectable via runs API."
-    )
+    print("  Note: trigger-podcast.yml manual dispatches are not detectable via runs API.")
     print(
         "  Deduplication for legacy manual runs relies on Podcaster idempotency + environment gate."
     )
@@ -497,9 +493,7 @@ def find_manifest_for_article(
 
     candidates_dir = Path(repo_root) / "data" / "candidates" / week
     manifest_files: list[Path] = (
-        sorted(candidates_dir.glob("*/publish-manifest.json"))
-        if candidates_dir.exists()
-        else []
+        sorted(candidates_dir.glob("*/publish-manifest.json")) if candidates_dir.exists() else []
     )
 
     matched: list[tuple[str, str, dict]] = []
@@ -606,5 +600,5 @@ def check_duplicate_api(
 
 # Expose the test-friendly signature as the public name.
 check_duplicate = check_duplicate_api
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

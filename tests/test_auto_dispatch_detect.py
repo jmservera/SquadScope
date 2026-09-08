@@ -45,6 +45,7 @@ FIXTURE_DIR = Path(__file__).parent / "fixtures" / "auto_dispatch"
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _make_manifest(
     *,
     sha256: str = KNOWN_SHA256,
@@ -89,6 +90,7 @@ def _gh_runs_response(runs: list) -> _FakeHTTPResponse:
 # ---------------------------------------------------------------------------
 # TestFindManifest
 # ---------------------------------------------------------------------------
+
 
 class TestFindManifest(unittest.TestCase):
     """Tests for find_manifest_for_article()."""
@@ -196,9 +198,7 @@ class TestFindManifest(unittest.TestCase):
             tmp = Path(tmp_str)
             self._setup_article(tmp)
             # directory run_id = RUN_ID, but manifest.run_id = different
-            self._write_manifest(
-                tmp, _make_manifest(run_id="99999999999"), run_id=RUN_ID
-            )
+            self._write_manifest(tmp, _make_manifest(run_id="99999999999"), run_id=RUN_ID)
 
             result = detect.find_manifest_for_article("content/weekly/2026/W37.md", tmp)
 
@@ -222,9 +222,7 @@ class TestFindManifest(unittest.TestCase):
             self._setup_article(tmp)
             manifest_dir = tmp / "data" / "candidates" / WEEK / RUN_ID
             manifest_dir.mkdir(parents=True, exist_ok=True)
-            (manifest_dir / "publish-manifest.json").write_text(
-                "{invalid", encoding="utf-8"
-            )
+            (manifest_dir / "publish-manifest.json").write_text("{invalid", encoding="utf-8")
 
             result = detect.find_manifest_for_article("content/weekly/2026/W37.md", tmp)
 
@@ -266,6 +264,7 @@ class TestFindManifest(unittest.TestCase):
 # TestPausedCheck
 # ---------------------------------------------------------------------------
 
+
 class TestPausedCheck(unittest.TestCase):
     """Tests for check_paused()."""
 
@@ -294,6 +293,7 @@ class TestPausedCheck(unittest.TestCase):
 # ---------------------------------------------------------------------------
 # TestDuplicateCheck
 # ---------------------------------------------------------------------------
+
 
 class TestDuplicateCheck(unittest.TestCase):
     """Tests for check_duplicate().
@@ -330,9 +330,7 @@ class TestDuplicateCheck(unittest.TestCase):
         with mock.patch("urllib.request.urlopen") as mock_urlopen:
             mock_urlopen.return_value = _gh_runs_response([self._matching_run()])
 
-            is_dup, url = detect.check_duplicate(
-                WEEK, RUN_ID, self._GH_TOKEN, self._REPO
-            )
+            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
 
         self.assertTrue(is_dup)
         self.assertIsNotNone(url)
@@ -342,18 +340,14 @@ class TestDuplicateCheck(unittest.TestCase):
         with mock.patch("urllib.request.urlopen") as mock_urlopen:
             mock_urlopen.return_value = _gh_runs_response([self._other_run()])
 
-            is_dup, url = detect.check_duplicate(
-                WEEK, RUN_ID, self._GH_TOKEN, self._REPO
-            )
+            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
 
         self.assertFalse(is_dup)
 
     def test_api_failure_non_blocking(self):
         """GitHub API call fails → is_duplicate=False (fail open; rely on Podcaster idempotency)."""
         with mock.patch("urllib.request.urlopen", side_effect=OSError("network error")):
-            is_dup, url = detect.check_duplicate(
-                WEEK, RUN_ID, self._GH_TOKEN, self._REPO
-            )
+            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
 
         self.assertFalse(is_dup)
 
@@ -361,6 +355,7 @@ class TestDuplicateCheck(unittest.TestCase):
 # ---------------------------------------------------------------------------
 # TestWeekExtraction
 # ---------------------------------------------------------------------------
+
 
 class TestWeekExtraction(unittest.TestCase):
     """Tests for the week-extraction helper (e.g. extract_week()).
