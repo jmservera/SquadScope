@@ -6,6 +6,13 @@ ms.date: 2026-08-07
 ms.topic: reference
 ---
 
+> **⚠️ ARCHIVED — BRD-CLARACLE-002 — SUPERSEDED**
+> This document (BRD-CLARACLE-002) is superseded by **BRD-CLARACLE-003**: [`docs/brds/claracle-post-relaunch-consolidation-brd.md`](../brds/claracle-post-relaunch-consolidation-brd.md).
+> Do not use for new work. Preserved for historical reference only.
+
+---
+
+
 ## Document Control
 
 | Field | Value |

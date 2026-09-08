@@ -21,8 +21,8 @@ It complements the [acceptance evidence index](README.md), which owns the extern
 gate matrix and the acceptance decision.
 
 - Epic: [#594](https://github.com/jmservera/SquadScope/issues/594)
-- PRD: [claracle-data-observatory-relaunch.md](../../prds/claracle-data-observatory-relaunch.md)
-- BRD: [claracle-data-observatory-relaunch-brd.md](../../brds/claracle-data-observatory-relaunch-brd.md)
+- PRD: [claracle-data-observatory-relaunch.md](../../processed/claracle-data-observatory-relaunch.md)
+- BRD: [claracle-data-observatory-relaunch-brd.md](../../processed/claracle-data-observatory-relaunch-brd.md)
 
 Reconciled through 2026-08-08. Sponsor decision: **NO-GO / SUPERSEDED** at the
 immutable visual-review revision `f37b49d`. The feature-complete relaunch did not
