@@ -844,6 +844,11 @@ summary:focus-visible,
   gap: var(--space-5);
 }
 
+.home-rail,
+.home-topic-rail {
+  align-content: start;
+}
+
 .home-tag-strip {
   display: flex;
   flex-wrap: wrap;
