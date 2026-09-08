@@ -822,7 +822,7 @@ jobs:
 
             # Inline quality gate check (suppress step summary to avoid noise).
             # The gate applies deterministic metadata/schema repairs and writes an auditable report.
-            if run_quality_gate copilot-cli copilot-default "$GATE_REPORT"; then
+            if run_quality_gate copilot-cli gpt-5.6-sol "$GATE_REPORT"; then
               cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
               cp "$GATE_REPORT" "$IN_GATE_REPORT_FILE" 2>/dev/null || true
               GATE_PASSED=true
