@@ -40,7 +40,7 @@ import hashlib
 import json
 import os
 import re
-import subprocess
+import subprocess  # nosec B404
 import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -73,7 +73,7 @@ def compute_sha256(path: Path) -> str:
 
 
 def git(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
+    return subprocess.run(  # nosec B603 B607 - fixed argv, no shell, git is a controlled tool
         ["git", *args],
         capture_output=True,
         text=True,
@@ -91,7 +91,7 @@ def fetch_publish_branch() -> None:
 
 def read_manifest_from_publish(path: str) -> dict:
     """Read and parse a manifest JSON from origin/publish without checkout."""
-    result = subprocess.run(
+    result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell; path validated by MANIFEST_PATH_RE
         ["git", "show", f"origin/publish:{path}"],
         capture_output=True,
         text=True,
@@ -103,7 +103,7 @@ def read_manifest_from_publish(path: str) -> dict:
 
 
 def read_manifest_bytes_from_publish(path: str) -> bytes:
-    result = subprocess.run(
+    result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell; path validated by MANIFEST_PATH_RE
         ["git", "show", f"origin/publish:{path}"],
         capture_output=True,
         check=False,
@@ -350,7 +350,7 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
     # Match by display_title (push commit message may contain week slug) or run name.
     # This is best-effort; Podcaster idempotency is the final safety net.
     for field in ("display_title", "name"):
-        result = subprocess.run(
+        result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell; gh is a controlled tool
             [
                 "gh",
                 "api",
@@ -592,7 +592,7 @@ def check_duplicate_api(
                 "X-GitHub-Api-Version": "2022-11-28",
             },
         )
-        with request.urlopen(req, timeout=15) as resp:
+        with request.urlopen(req, timeout=15) as resp:  # nosec B310 - URL is constructed from trusted API endpoint
             data = json.loads(resp.read())
     except Exception:
         return False, None
