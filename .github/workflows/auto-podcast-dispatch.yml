@@ -1,16 +1,18 @@
 name: Auto-dispatch podcast after weekly article
 
-# Trigger: newly added weekly article merged to main.
+# Trigger: sync-publish-to-main workflow completes (articles land on main via
+#   GITHUB_TOKEN squash-merge; the push event is suppressed for that actor so
+#   a push: trigger would never fire in normal operation).
 # Guard: concurrency group prevents overlapping runs.
 # Gate: podcaster-real-generation environment requires human approval.
 # Pause: set PODCAST_AUTO_DISPATCH_PAUSED repo variable to 'true' to defer.
 # Recovery: workflow_dispatch with observe_only=true for rollout validation.
 
 on:
-  push:
+  workflow_run: # zizmor: ignore[dangerous-triggers] chained off sync-publish-to-main; detection is fail-closed on SHA-256 manifest correlation
+    workflows: ["Sync publish data to main"]
+    types: [completed]
     branches: [main]
-    paths:
-      - 'content/weekly/**/*.md'
   workflow_dispatch:
     # checkov:skip=CKV_GHA_7:Auto-dispatch workflow reads trusted machine-generated publish evidence; correlation uses article SHA-256, not user-controlled text.
     inputs:
@@ -39,6 +41,9 @@ jobs:
   detect:
     name: Detect eligible weekly publication
     runs-on: ubuntu-latest
+    # For workflow_run: only proceed when the triggering sync completed successfully.
+    # For workflow_dispatch: always proceed (manual recovery / observe-only validation).
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     permissions:
       contents: read
       actions: read
@@ -59,8 +64,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         with:
-          ref: ${{ github.sha }}
-          fetch-depth: 0
+          ref: main  # always HEAD of main; github.sha for workflow_run is the triggering workflow's SHA, not post-merge HEAD
+          fetch-depth: 2  # HEAD + HEAD~1 for diff; manifests are fetched separately from origin/publish
           persist-credentials: false
 
       - name: Set up Python
@@ -72,12 +77,17 @@ jobs:
         id: detect
         env:
           GITHUB_EVENT_BEFORE: ${{ github.event.before }}
-          GITHUB_SHA: ${{ github.sha }}
+          # GITHUB_SHA for workflow_run is the triggering workflow's SHA, not post-merge HEAD.
+          # Always use git rev-parse HEAD (resolved after checkout ref: main above).
+          GITHUB_SHA: ''
           WEEK_OVERRIDE: ${{ inputs.week || '' }}
           OBSERVE_ONLY: ${{ inputs.observe_only == true && 'true' || '' }}
           PODCAST_AUTO_DISPATCH_PAUSED: ${{ vars.PODCAST_AUTO_DISPATCH_PAUSED || '' }}
         run: |
           set -euo pipefail
+
+          # Resolve HEAD after checkout (correct for both push and workflow_run)
+          GITHUB_SHA=$(git rev-parse HEAD)
 
           OBSERVE_ONLY_FLAG=""
           if [ "$OBSERVE_ONLY" = "true" ]; then
