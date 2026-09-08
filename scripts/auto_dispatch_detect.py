@@ -112,6 +112,10 @@ def find_sync_commit(pre_sync_sha: str | None, repo_root: Path | str) -> str | N
         text=True,
         check=False,
     )
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"git log failed (exit {result.returncode}): {result.stderr.strip()[:200]}"
+        )
     lines = [line.strip() for line in result.stdout.strip().splitlines() if line.strip()]
     if not lines:
         return None
@@ -636,8 +640,7 @@ def check_duplicate_api(
             continue
         if "observe" in name.lower():
             continue
-        if week in name or run_id in name:
-            return True, run.get("html_url")
+        return True, run.get("html_url")
     return False, None
 
 
