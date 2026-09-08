@@ -154,6 +154,9 @@
 <meta name="twitter:site" content="{{ . }}">
 <meta name="twitter:creator" content="{{ . }}">
 {{- end }}
+{{- if .IsPage }}
+<link rel="alternate" type="application/rss+xml" href="{{ site.Home.Permalink }}index.xml" title="{{ printf `%s RSS feed` $siteTitle }}">
+{{- end }}
 
 {{- if not .IsHome }}
 {{- $crumbs := slice -}}
@@ -188,6 +191,46 @@
   "inLanguage" (.Language.Lang | default "en-us")
 -}}
 <script type="application/ld+json">{{ $article | jsonify | safeJS }}</script>
+{{- end }}
+
+{{- if .IsHome }}
+{{- $sameAs := slice -}}
+{{- with .Site.Params.social -}}
+  {{- if reflect.IsMap . -}}
+    {{- with .github }}
+      {{- $sameAs = $sameAs | append . -}}
+    {{- end -}}
+    {{- with .linkedin }}
+      {{- $sameAs = $sameAs | append . -}}
+    {{- end -}}
+    {{- with .twitter }}
+      {{- $handle := printf "%v" . -}}
+      {{- $sameAs = $sameAs | append (cond (or (hasPrefix $handle "http://") (hasPrefix $handle "https://")) $handle (printf "https://x.com/%s" (strings.TrimPrefix "@" $handle))) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $website := dict
+  "@context" "https://schema.org"
+  "@type" "WebSite"
+  "@id" (printf "%s#website" site.Home.Permalink)
+  "name" $siteTitle
+  "url" site.Home.Permalink
+  "description" $description
+  "inLanguage" (.Language.Lang | default "en-us")
+  "publisher" (dict "@id" (printf "%s#organization" site.Home.Permalink))
+-}}
+{{- $organization := dict
+  "@context" "https://schema.org"
+  "@type" "Organization"
+  "@id" (printf "%s#organization" site.Home.Permalink)
+  "name" "Claracle"
+  "url" site.Home.Permalink
+  "description" $description
+  "logo" (dict "@type" "ImageObject" "url" $image)
+  "sameAs" $sameAs
+-}}
+<script type="application/ld+json">{{ $website | jsonify | safeJS }}</script>
+<script type="application/ld+json">{{ $organization | jsonify | safeJS }}</script>
 {{- end }}
 
 {{- if and (eq .Kind "term") (eq .Type "topics") -}}

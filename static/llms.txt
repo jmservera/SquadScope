@@ -1,0 +1,30 @@
+# Claracle
+
+> Claracle is a GitHub trend observatory that publishes weekly, monthly, and yearly analysis of open-source technology signals.
+
+Site: https://claracle.com/
+Primary feed: https://claracle.com/index.xml
+
+## Key sections
+
+- Weekly reports: https://claracle.com/weekly/
+- Monthly rollups: https://claracle.com/monthly/
+- Yearly analysis: https://claracle.com/yearly/
+- Topic hubs: https://claracle.com/topics/
+- Data pages: https://claracle.com/data/
+- Repository explorer: https://claracle.com/repo/
+- Methodology: https://claracle.com/methodology/
+- About: https://claracle.com/about/
+
+## Content notes
+
+- Claracle summarizes public GitHub activity into editorial reports for developers and technology decision-makers.
+- Reports may include AI-generated analysis; methodology and source framing are published on-site.
+- Canonical URLs and RSS feeds should be preferred when citing or indexing site content.
+
+## Feeds
+
+- Main RSS: https://claracle.com/index.xml
+- Weekly RSS: https://claracle.com/weekly/index.xml
+- Monthly RSS: https://claracle.com/monthly/index.xml
+- Yearly RSS: https://claracle.com/yearly/index.xml
