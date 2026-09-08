@@ -938,16 +938,25 @@ def check_duplicate_result(
     except Exception:
         return DuplicateCheckResult(status="clear", is_duplicate=False)
 
+    unreadable_prior_run_url: str | None = None
+
     for run in candidate_runs:
         run_id_value = run.get("id")
         if not isinstance(run_id_value, int):
             continue
 
+        jobs: list[dict[str, Any]] = []
+        log_text = ""
+        jobs_unreadable = False
+        logs_unreadable = False
         try:
             jobs = _run_jobs(repository, token, run_id_value)
+        except Exception:
+            jobs_unreadable = True
+        try:
             log_text = _run_logs(repository, token, run_id_value)
         except Exception:
-            continue
+            logs_unreadable = True
 
         receipts = _parse_dispatch_receipts(log_text)
         matched_receipt = False
@@ -975,6 +984,22 @@ def check_duplicate_result(
         if matched_receipt or receipts:
             continue
 
+        if jobs_unreadable or logs_unreadable:
+            if _legacy_auto_observe_only(jobs):
+                continue
+            if (
+                str(run.get("path") or "") == TRIGGER_PODCAST_WORKFLOW_PATH
+                and _step_conclusion(
+                    jobs,
+                    "trigger-podcast",
+                    "Trigger podcast generation with existing manifest",
+                )
+                != "success"
+            ):
+                continue
+            unreadable_prior_run_url = unreadable_prior_run_url or (_run_url(run) or None)
+            continue
+
         compatibility, compat_identity = _compat_identity_for_run(
             run,
             jobs,
@@ -996,6 +1021,14 @@ def check_duplicate_result(
                 prior_run_url=_run_url(run) or None,
                 reason="legacy_submission_without_canonical_receipt",
             )
+
+    if unreadable_prior_run_url is not None:
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            prior_run_url=unreadable_prior_run_url,
+            reason="prior run log/jobs unreadable",
+        )
 
     return DuplicateCheckResult(status="clear", is_duplicate=False)
 
