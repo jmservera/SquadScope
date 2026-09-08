@@ -1033,5 +1033,11 @@ draft: false
     finally:
         temp_weekly.unlink(missing_ok=True)
 
-    home = (destination / "index.html").read_text(encoding="utf-8")
-    assert "Unpaged Topic" in home
+    # Hugo renders a taxonomy page for every topic term, even without a dedicated content page.
+    # We verify the topic page was built (safe rendering) rather than checking the home page,
+    # because the homepage only shows the top-N topics by count and the fixture's rank depends
+    # on how many real articles exist — making a homepage count assertion fragile.
+    topic_page = destination / "topics" / "unpaged-topic" / "index.html"
+    assert topic_page.exists(), "Hugo must render a taxonomy page for an unpaged topic"
+    topic_html = topic_page.read_text(encoding="utf-8")
+    assert "Unpaged Topic" in topic_html

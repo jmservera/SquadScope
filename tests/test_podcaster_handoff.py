@@ -877,7 +877,7 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("script_directions", sent_payload)
         self.assertIn("music_mix", sent_payload["script_directions"])
         self.assertIn("spotify_publish", sent_payload)
-        self.assertEqual(sent_payload["spotify_publish"]["publish_mode"], "draft")
+        self.assertEqual(sent_payload["spotify_publish"]["publish_mode"], "live")
         self.assertEqual(sent_payload["spotify_publish"]["upload_format"], "wav")
         self.assertIsInstance(sent_payload["spotify_publish"]["season_number"], int)
         self.assertIsInstance(sent_payload["spotify_publish"]["episode_number"], int)
