@@ -785,10 +785,12 @@ class PodcasterHandoffTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             self.assertEqual(
                 output_path.read_text(encoding="utf-8"),
-                "podcaster_job_id=podcast%250Ajob\npodcaster_status=accepted\n",
+                "podcaster_job_id=podcast%250Ajob\n"
+                "podcaster_status=accepted\n"
+                "podcaster_receipt_state=submitted\n",
             )
 
-    def test_failed_handoff_does_not_write_action_outputs(self) -> None:
+    def test_failed_handoff_writes_only_receipt_state(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "outputs"
             with (
@@ -796,7 +798,10 @@ class PodcasterHandoffTests(unittest.TestCase):
                 mock.patch.object(
                     podcaster_handoff,
                     "post_handoff",
-                    side_effect=podcaster_handoff.PodcasterHandoffError("rejected"),
+                    side_effect=podcaster_handoff.PodcasterHandoffError(
+                        "rejected",
+                        receipt_state=podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+                    ),
                 ),
                 mock.patch.dict(
                     podcaster_handoff.os.environ,
@@ -822,13 +827,17 @@ class PodcasterHandoffTests(unittest.TestCase):
                 )
 
             self.assertEqual(exit_code, 1)
-            self.assertFalse(output_path.exists())
+            self.assertEqual(
+                output_path.read_text(encoding="utf-8"),
+                "podcaster_receipt_state=submission_rejected\n",
+            )
 
     def test_action_outputs_are_optional_for_local_cli(self) -> None:
         with mock.patch.dict(podcaster_handoff.os.environ, {}, clear=True):
             podcaster_handoff.write_action_outputs(
                 {"job_id": "podcast-2026-W30-abc12345", "status": "accepted"}
             )
+            podcaster_handoff.write_action_receipt_state(podcaster_handoff.RECEIPT_STATE_SUBMITTED)
 
     def test_post_handoff_sends_auth_header_without_logging_value(self) -> None:
         response = _FakeHTTPResponse(
@@ -1134,7 +1143,7 @@ class PodcasterHandoffTests(unittest.TestCase):
             fp=io.BytesIO(b'{"errors":["boom"]}'),
         )
         with mock.patch.object(podcaster_handoff.request, "urlopen", side_effect=http_err):
-            with self.assertRaisesRegex(podcaster_handoff.PodcasterHandoffError, "HTTP 500"):
+            with self.assertRaisesRegex(podcaster_handoff.PodcasterHandoffError, "HTTP 500") as ctx:
                 podcaster_handoff.post_handoff(
                     "http://localhost:7071/api/generate",
                     "super-secret-value",
@@ -1146,6 +1155,10 @@ class PodcasterHandoffTests(unittest.TestCase):
                         "publish_mode": "normal",
                     },
                 )
+        self.assertEqual(
+            ctx.exception.receipt_state,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+        )
 
     def test_error_body_included_and_sanitized_in_exception(self) -> None:
         """Error body is truncated to 1024 bytes and sanitized (no newlines, no ::)."""
@@ -1182,6 +1195,10 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertNotIn("\n", body_part)
         self.assertNotIn("\r", body_part)
         self.assertNotIn("::", body_part)
+        self.assertEqual(
+            ctx.exception.receipt_state,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+        )
 
     def test_article_url_from_page_path_matches_hugo_weekly_permalink(self) -> None:
         self.assertEqual(

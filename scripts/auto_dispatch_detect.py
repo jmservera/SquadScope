@@ -41,13 +41,16 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 import json
 import os
 import re
 import subprocess  # nosec B404
 import sys
+import zipfile
+from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 from urllib import request
 
 if TYPE_CHECKING:
@@ -61,6 +64,42 @@ MANIFEST_PATH_RE = re.compile(
 )
 ARTICLE_PATH_RE = re.compile(r"^content/weekly/(\d{4})/(W\d{2})\.md$")
 NULL_SHA = "0" * 40
+RECEIPT_PREFIX = "PODCAST_DISPATCH_RECEIPT::"
+RECEIPT_SCHEMA_VERSION = "podcast_dispatch_receipt_v1"
+AUTO_DISPATCH_WORKFLOW = "auto-podcast-dispatch.yml"
+TRIGGER_PODCAST_WORKFLOW = "trigger-podcast.yml"
+AUTO_DISPATCH_WORKFLOW_PATH = f".github/workflows/{AUTO_DISPATCH_WORKFLOW}"
+TRIGGER_PODCAST_WORKFLOW_PATH = f".github/workflows/{TRIGGER_PODCAST_WORKFLOW}"
+WORKFLOW_LOOKBACK_RUNS = 50
+BLOCKING_RECEIPT_STATES = frozenset({"submitted", "submission_rejected"})
+AMBIGUOUS_RECEIPT_STATES = frozenset({"ambiguous_prior_submission", "submission_unknown"})
+NON_BLOCKING_RECEIPT_STATES = frozenset(
+    {
+        "ambiguous_prior_submission",
+        "duplicate_prevented",
+        "no_anchor",
+        "no_matching_manifest",
+        "no_new_article",
+        "observe_only",
+        "paused",
+        "pre_submit_failed",
+    }
+)
+
+
+@dataclass(frozen=True)
+class DispatchIdentity:
+    week: str
+    publish_run_id: str
+    article_sha256: str
+
+
+@dataclass(frozen=True)
+class DuplicateCheckResult:
+    status: str
+    is_duplicate: bool
+    prior_run_url: str | None = None
+    reason: str | None = None
 
 
 def set_output(key: str, value: str) -> None:
@@ -91,6 +130,234 @@ def fetch_publish_branch() -> None:
         msg = result.stderr.strip()
         print(f"::error::Could not fetch origin/publish: {msg}", file=sys.stderr)
         sys.exit(1)
+
+
+def _github_api_headers(token: str) -> dict[str, str]:
+    return {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+
+
+def _github_api_json(url: str, token: str) -> dict[str, Any]:
+    req = request.Request(url, headers=_github_api_headers(token))
+    with request.urlopen(req, timeout=20) as resp:  # nosec B310 - trusted GitHub API endpoint
+        payload = json.loads(resp.read())
+    if not isinstance(payload, dict):
+        raise ValueError(f"GitHub API response was not a JSON object for {url}")
+    return payload
+
+
+def _github_api_bytes(url: str, token: str) -> bytes:
+    req = request.Request(url, headers=_github_api_headers(token))
+    with request.urlopen(req, timeout=20) as resp:  # nosec B310 - trusted GitHub API endpoint
+        return resp.read()
+
+
+def _step_conclusion(jobs: list[dict[str, Any]], job_name: str, step_name: str) -> str:
+    for job in jobs:
+        if job.get("name") != job_name:
+            continue
+        for step in job.get("steps", []):
+            if step.get("name") == step_name:
+                return str(step.get("conclusion") or "")
+    return ""
+
+
+def _run_url(run: dict[str, Any]) -> str:
+    value = run.get("html_url")
+    return value if isinstance(value, str) else ""
+
+
+def _parse_dispatch_receipts(log_text: str) -> list[dict[str, Any]]:
+    receipts: list[dict[str, Any]] = []
+    for line in log_text.splitlines():
+        if RECEIPT_PREFIX not in line:
+            continue
+        _, payload = line.split(RECEIPT_PREFIX, 1)
+        try:
+            parsed = json.loads(payload.strip())
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, dict) and parsed.get("schema_version") == RECEIPT_SCHEMA_VERSION:
+            receipts.append(parsed)
+    return receipts
+
+
+def _receipt_identity_matches(receipt: dict[str, Any], identity: DispatchIdentity) -> bool:
+    return (
+        receipt.get("week") == identity.week
+        and str(receipt.get("publish_run_id") or "") == identity.publish_run_id
+        and receipt.get("article_sha256") == identity.article_sha256
+    )
+
+
+def _extract_dispatch_identity_from_log_outputs(log_text: str) -> DispatchIdentity | None:
+    values: dict[str, str] = {}
+    for line in log_text.splitlines():
+        marker = "output: "
+        if marker not in line:
+            continue
+        key_value = line.split(marker, 1)[1].strip()
+        if "=" not in key_value:
+            continue
+        key, value = key_value.split("=", 1)
+        values[key.strip()] = value.strip()
+    week = values.get("week", "")
+    publish_run_id = values.get("publish_run_id", "")
+    article_sha256 = values.get("article_sha256", "")
+    if (
+        WEEK_RE.match(week)
+        and RUN_ID_RE.match(publish_run_id)
+        and SHA256_RE.match(article_sha256)
+    ):
+        return DispatchIdentity(
+            week=week,
+            publish_run_id=publish_run_id,
+            article_sha256=article_sha256,
+        )
+    return None
+
+
+def _extract_publish_run_id_from_log_text(log_text: str) -> str | None:
+    match = re.search(r"Using manifest from crawl-and-publish run (\d+)", log_text)
+    if not match:
+        return None
+    publish_run_id = match.group(1)
+    return publish_run_id if RUN_ID_RE.match(publish_run_id) else None
+
+
+def _identity_from_sync_commit(
+    *,
+    head_sha: str,
+    publish_run_id: str,
+    repo_root: Path | str,
+) -> DispatchIdentity | None:
+    if not head_sha:
+        return None
+    result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell, git is a controlled tool
+        [
+            "git",
+            "diff",
+            "--name-only",
+            "--diff-filter=A",
+            f"{head_sha}^1",
+            head_sha,
+            "--",
+            "content/weekly/**/*.md",
+        ],
+        cwd=str(repo_root),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    article_paths = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    if len(article_paths) != 1:
+        return None
+    week, _, _ = extract_week_from_article_path(article_paths[0])
+    if not week:
+        return None
+    try:
+        manifest = read_manifest_from_publish(
+            f"data/candidates/{week}/{publish_run_id}/publish-manifest.json"
+        )
+    except (ValueError, json.JSONDecodeError, KeyError):
+        return None
+    candidate = manifest.get("candidate") or {}
+    article_sha256 = candidate.get("content_sha256")
+    if not isinstance(article_sha256, str) or not SHA256_RE.match(article_sha256):
+        return None
+    return DispatchIdentity(
+        week=week,
+        publish_run_id=publish_run_id,
+        article_sha256=article_sha256,
+    )
+
+
+def _legacy_auto_observe_only(jobs: list[dict[str, Any]]) -> bool:
+    return (
+        _step_conclusion(jobs, "Observe-only summary", "Record observe-only result") == "success"
+        and any(
+            job.get("name") == "Protected podcast dispatch"
+            and str(job.get("conclusion") or "") == "skipped"
+            for job in jobs
+        )
+    )
+
+
+def _compat_identity_for_run(
+    run: dict[str, Any],
+    jobs: list[dict[str, Any]],
+    log_text: str,
+    requested_identity: DispatchIdentity,
+    repo_root: Path | str,
+) -> tuple[str, DispatchIdentity | None]:
+    path = str(run.get("path") or "")
+
+    if path == AUTO_DISPATCH_WORKFLOW_PATH:
+        if _legacy_auto_observe_only(jobs):
+            return "ignore", None
+        identity = _extract_dispatch_identity_from_log_outputs(log_text)
+        if identity is None:
+            return "ambiguous", None
+        if _step_conclusion(jobs, "Protected podcast dispatch", "Trigger podcast generation") == "success":
+            return "blocking" if identity == requested_identity else "ignore", identity
+        return "ambiguous", identity if identity.publish_run_id == requested_identity.publish_run_id else None
+
+    if path != TRIGGER_PODCAST_WORKFLOW_PATH:
+        return "ignore", None
+
+    if _step_conclusion(jobs, "trigger-podcast", "Trigger podcast generation with existing manifest") != "success":
+        return "ignore", None
+
+    publish_run_id = _extract_publish_run_id_from_log_text(log_text)
+    if publish_run_id is None:
+        return "ambiguous", None
+    if publish_run_id != requested_identity.publish_run_id:
+        return "ignore", None
+
+    identity = _identity_from_sync_commit(
+        head_sha=str(run.get("head_sha") or ""),
+        publish_run_id=publish_run_id,
+        repo_root=repo_root,
+    )
+    if identity is None:
+        return "ambiguous", None
+    return ("blocking" if identity == requested_identity else "ignore"), identity
+
+
+def _list_workflow_runs(repo: str, token: str, workflow_file: str) -> list[dict[str, Any]]:
+    url = (
+        f"https://api.github.com/repos/{repo}/actions/workflows/{workflow_file}/runs"
+        f"?per_page={WORKFLOW_LOOKBACK_RUNS}"
+    )
+    payload = _github_api_json(url, token)
+    runs = payload.get("workflow_runs", [])
+    return runs if isinstance(runs, list) else []
+
+
+def _run_jobs(repo: str, token: str, run_id: int) -> list[dict[str, Any]]:
+    url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/jobs?per_page=100"
+    payload = _github_api_json(url, token)
+    jobs = payload.get("jobs", [])
+    return jobs if isinstance(jobs, list) else []
+
+
+def _run_logs(repo: str, token: str, run_id: int) -> str:
+    url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/logs"
+    raw = _github_api_bytes(url, token)
+    try:
+        with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+            parts: list[str] = []
+            for name in sorted(archive.namelist()):
+                with archive.open(name) as fh:
+                    parts.append(fh.read().decode("utf-8", errors="replace"))
+            return "\n".join(parts)
+    except zipfile.BadZipFile as exc:
+        raise ValueError(f"Run logs were not a readable zip archive for run {run_id}") from exc
 
 
 def find_sync_commit(pre_sync_sha: str | None, repo_root: Path | str) -> str | None:
@@ -334,20 +601,10 @@ def detect(args: argparse.Namespace) -> None:
 
 
 def _check_duplicate_cli(args: argparse.Namespace) -> None:
-    """
-    Check GitHub Actions for prior auto-dispatch runs of the same week.
-
-    Limitation: trigger-podcast.yml workflow_dispatch inputs (week, publish_run_id)
-    are not surfaced by the GitHub runs API, so manual legacy dispatches (e.g. W37)
-    cannot be detected here. Safety for those runs relies on:
-      - Podcaster idempotency (primary)
-      - Human-gated environment approval (secondary)
-      - Concurrency group preventing parallel auto-dispatch runs (tertiary)
-
-    This check only covers auto-podcast-dispatch.yml runs.
-    """
+    """Check GitHub Actions for prior real dispatches of the same publication."""
     week = args.week
     publish_run_id = args.publish_run_id
+    article_sha256 = args.article_sha256
 
     if not week or not WEEK_RE.match(week):
         print(f"::error::--week must match YYYY-WNN (got: {week!r})", file=sys.stderr)
@@ -358,6 +615,12 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
             file=sys.stderr,
         )
         sys.exit(1)
+    if not article_sha256 or not SHA256_RE.match(article_sha256):
+        print(
+            f"::error::--article-sha256 must be lowercase 64-char hex (got: {article_sha256!r})",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     gh_token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if not gh_token:
@@ -365,6 +628,7 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
         print("  Relying on concurrency group and Podcaster idempotency.")
         set_output("is_duplicate", "false")
         set_output("prior_run_url", "")
+        set_output("dedup_status", "skipped_missing_token")
         return
 
     repo = os.environ.get("GITHUB_REPOSITORY", "")
@@ -372,52 +636,46 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
         print("::warning::GITHUB_REPOSITORY not set; skipping duplicate check.")
         set_output("is_duplicate", "false")
         set_output("prior_run_url", "")
+        set_output("dedup_status", "skipped_missing_repository")
         return
 
-    env = os.environ.copy()
-    env["GH_TOKEN"] = gh_token
-
-    # Query recent successful runs of auto-podcast-dispatch.yml.
-    # Match by run-name containing the week slug, excluding observe-only runs.
-    # This is best-effort; Podcaster idempotency is the final safety net.
-    result = subprocess.run(  # nosec B603 B607 - fixed argv, no shell; gh is a controlled tool
-        [
-            "gh",
-            "api",
-            f"repos/{repo}/actions/workflows/auto-podcast-dispatch.yml/runs",
-            "--method",
-            "GET",
-            "-F",
-            "status=success",
-            "-F",
-            "per_page=20",
-            "--jq",
-            f'.workflow_runs[] | select(.name | contains("{week}")) | select(.name | ascii_downcase | contains("observe") | not) | .html_url',
-        ],
-        capture_output=True,
-        text=True,
-        check=False,
-        env=env,
+    result = check_duplicate_result(
+        week,
+        publish_run_id,
+        article_sha256,
+        gh_token,
+        repo,
     )
-    if result.returncode != 0:
+
+    if result.status == "duplicate":
+        prior_url = result.prior_run_url or ""
         print(
-            f"::warning::gh api dedup check failed: {result.stderr.strip() or 'no error output'}",
-            file=sys.stderr,
+            f"::warning::Prior real podcast dispatch for {week}/{publish_run_id} found: {prior_url}"
         )
-    elif result.stdout.strip():
-        prior_url = result.stdout.strip().splitlines()[0]
-        print(f"::warning::Possible prior auto-dispatch for {week} found: {prior_url}")
         set_output("is_duplicate", "true")
         set_output("prior_run_url", prior_url)
+        set_output("dedup_status", result.status)
         return
+    if result.status == "ambiguous_prior_submission":
+        prior_url = result.prior_run_url or ""
+        reason = result.reason or "ambiguous_prior_submission"
+        print(
+            "::error::Prior podcast dispatch evidence is ambiguous; refusing to assume retry safety. "
+            f"run={prior_url or '<unknown>'} reason={reason}",
+            file=sys.stderr,
+        )
+        set_output("is_duplicate", "false")
+        set_output("prior_run_url", prior_url)
+        set_output("dedup_status", result.status)
+        sys.exit(1)
 
-    print(f"  No prior successful auto-dispatch runs found for week={week}.")
-    print("  Note: trigger-podcast.yml manual dispatches are not detectable via runs API.")
     print(
-        "  Deduplication for legacy manual runs relies on Podcaster idempotency + environment gate."
+        f"  No prior real podcast dispatch found for identity "
+        f"week={week} publish_run_id={publish_run_id} article_sha256={article_sha256}."
     )
     set_output("is_duplicate", "false")
     set_output("prior_run_url", "")
+    set_output("dedup_status", result.status)
 
 
 def _find_sync_commit_cli(args: argparse.Namespace) -> None:
@@ -470,6 +728,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--publish-run-id",
         default="",
         help="Exact publish workflow run ID (required for --check-duplicate).",
+    )
+    parser.add_argument(
+        "--article-sha256",
+        default="",
+        help="Exact article SHA-256 (required for --check-duplicate).",
     )
     return parser.parse_args(argv)
 
@@ -644,7 +907,152 @@ def check_duplicate_api(
     return False, None
 
 
+def check_duplicate_result(
+    week: str,
+    run_id: str,
+    article_sha256: str,
+    gh_token: "str | None" = None,
+    repo: "str | None" = None,
+    *,
+    repo_root: "Path | str" = Path("."),
+) -> DuplicateCheckResult:
+    """Check GitHub history for an existing real or ambiguous prior submission."""
+    token = gh_token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    repository = repo or os.environ.get("GITHUB_REPOSITORY", "")
+    if not token or not repository:
+        return DuplicateCheckResult(status="clear", is_duplicate=False)
+    if not WEEK_RE.match(week) or not RUN_ID_RE.match(run_id) or not SHA256_RE.match(article_sha256):
+        raise ValueError("week, run_id, and article_sha256 must be valid exact identity fields")
+
+    identity = DispatchIdentity(
+        week=week,
+        publish_run_id=run_id,
+        article_sha256=article_sha256,
+    )
+
+    try:
+        fetch_publish_branch()
+        candidate_runs: list[dict[str, Any]] = []
+        for workflow_file in (AUTO_DISPATCH_WORKFLOW, TRIGGER_PODCAST_WORKFLOW):
+            candidate_runs.extend(_list_workflow_runs(repository, token, workflow_file))
+    except Exception:
+        return DuplicateCheckResult(status="clear", is_duplicate=False)
+
+    unreadable_prior_run_url: str | None = None
+
+    for run in candidate_runs:
+        run_id_value = run.get("id")
+        if not isinstance(run_id_value, int):
+            continue
+
+        jobs: list[dict[str, Any]] = []
+        log_text = ""
+        jobs_unreadable = False
+        logs_unreadable = False
+        try:
+            jobs = _run_jobs(repository, token, run_id_value)
+        except Exception:
+            jobs_unreadable = True
+        try:
+            log_text = _run_logs(repository, token, run_id_value)
+        except Exception:
+            logs_unreadable = True
+
+        receipts = _parse_dispatch_receipts(log_text)
+        matched_receipt = False
+        for receipt in receipts:
+            if not _receipt_identity_matches(receipt, identity):
+                continue
+            matched_receipt = True
+            state = str(receipt.get("receipt_state") or "")
+            if state in BLOCKING_RECEIPT_STATES:
+                return DuplicateCheckResult(
+                    status="duplicate",
+                    is_duplicate=True,
+                    prior_run_url=_run_url(run) or None,
+                    reason=state,
+                )
+            if state in AMBIGUOUS_RECEIPT_STATES:
+                return DuplicateCheckResult(
+                    status="ambiguous_prior_submission",
+                    is_duplicate=False,
+                    prior_run_url=_run_url(run) or None,
+                    reason=state,
+                )
+            if state in NON_BLOCKING_RECEIPT_STATES:
+                break
+        if matched_receipt or receipts:
+            continue
+
+        if jobs_unreadable or logs_unreadable:
+            if _legacy_auto_observe_only(jobs):
+                continue
+            if (
+                str(run.get("path") or "") == TRIGGER_PODCAST_WORKFLOW_PATH
+                and _step_conclusion(
+                    jobs,
+                    "trigger-podcast",
+                    "Trigger podcast generation with existing manifest",
+                )
+                != "success"
+            ):
+                continue
+            unreadable_prior_run_url = unreadable_prior_run_url or (_run_url(run) or None)
+            continue
+
+        compatibility, compat_identity = _compat_identity_for_run(
+            run,
+            jobs,
+            log_text,
+            identity,
+            repo_root,
+        )
+        if compatibility == "blocking" and compat_identity == identity:
+            return DuplicateCheckResult(
+                status="duplicate",
+                is_duplicate=True,
+                prior_run_url=_run_url(run) or None,
+                reason="legacy_real_submission",
+            )
+        if compatibility == "ambiguous":
+            return DuplicateCheckResult(
+                status="ambiguous_prior_submission",
+                is_duplicate=False,
+                prior_run_url=_run_url(run) or None,
+                reason="legacy_submission_without_canonical_receipt",
+            )
+
+    if unreadable_prior_run_url is not None:
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            prior_run_url=unreadable_prior_run_url,
+            reason="prior run log/jobs unreadable",
+        )
+
+    return DuplicateCheckResult(status="clear", is_duplicate=False)
+
+
+def check_duplicate(
+    week: str,
+    run_id: str,
+    article_sha256: str,
+    gh_token: "str | None" = None,
+    repo: "str | None" = None,
+    *,
+    repo_root: "Path | str" = Path("."),
+) -> "tuple[bool, str | None]":
+    result = check_duplicate_result(
+        week,
+        run_id,
+        article_sha256,
+        gh_token,
+        repo,
+        repo_root=repo_root,
+    )
+    return result.is_duplicate, result.prior_run_url
+
+
 # Expose the test-friendly signature as the public name.
-check_duplicate = check_duplicate_api
 if __name__ == "__main__":
     main()

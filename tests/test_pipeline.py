@@ -1056,16 +1056,23 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow_path = Path(".github/workflows/trigger-podcast.yml")
         workflow_text = workflow_path.read_text(encoding="utf-8")
         workflow = yaml.safe_load(workflow_text)
+        self.assertIn("Trigger podcast generation:", workflow_text)
 
         triggers = workflow.get("on", workflow.get(True))
         self.assertEqual(set(triggers), {"workflow_dispatch"})
         inputs = triggers["workflow_dispatch"]["inputs"]
         self.assertTrue(inputs["publish_run_id"]["required"])
+        self.assertIn("${{ inputs.week }} / ${{ inputs.publish_run_id }}", workflow["run-name"])
 
         job = workflow["jobs"]["trigger-podcast"]
         self.assertIn("refs/heads/main", job["if"])
         self.assertEqual(job["environment"]["name"], "podcaster-real-generation")
         self.assertNotEqual(job["environment"]["name"], "podcaster-release-smoke")
+        self.assertEqual(
+            job["concurrency"]["group"],
+            "podcast-dispatch-${{ inputs.week }}-${{ inputs.publish_run_id }}",
+        )
+        self.assertFalse(job["concurrency"]["cancel-in-progress"])
         checkout = next(s for s in job["steps"] if _uses_action(s, "actions/checkout"))
         self.assertEqual(checkout["with"]["ref"], "${{ github.event.repository.default_branch }}")
 
@@ -1094,9 +1101,54 @@ class WorkflowConfigTests(unittest.TestCase):
             "MANIFEST_SHA256",
             "ARTICLE_SHA256",
             "PODCASTER_JOB_ID",
+            "PODCASTER_RECEIPT_STATE",
             "PODCASTER_STATUS",
         ):
             self.assertIn(field, evidence["env"])
+        self.assertIn("PODCAST_DISPATCH_RECEIPT::", evidence["run"])
+        self.assertIn("Receipt state:", evidence["run"])
+        self.assertIn("pre_submit_failed", evidence["run"])
+
+    def test_auto_dispatch_workflow_uses_exact_identity_receipts_and_shared_dispatch_lock(self) -> None:
+        workflow_path = Path(".github/workflows/auto-podcast-dispatch.yml")
+        workflow_text = workflow_path.read_text(encoding="utf-8")
+        workflow = yaml.safe_load(workflow_text)
+
+        self.assertIn("run-name:", workflow_text)
+        self.assertIn("(observe-only)", workflow_text)
+
+        detect_job = workflow["jobs"]["detect"]
+        self.assertEqual(detect_job["outputs"]["article_sha256"], "${{ steps.detect.outputs.article_sha256 }}")
+        self.assertEqual(detect_job["outputs"]["dedup_status"], "${{ steps.dedup.outputs.dedup_status }}")
+
+        dedup = next(step for step in detect_job["steps"] if step.get("id") == "dedup")
+        self.assertIn("ARTICLE_SHA256", dedup["env"])
+        self.assertIn("--article-sha256", dedup["run"])
+
+        emit_receipt = next(
+            step for step in detect_job["steps"] if step.get("name") == "Emit detect receipt"
+        )
+        self.assertEqual(emit_receipt["if"], "always()")
+        self.assertIn("DEDUP_STATUS", emit_receipt["env"])
+        self.assertIn("PODCAST_DISPATCH_RECEIPT::", emit_receipt["run"])
+        self.assertIn("duplicate_prevented", emit_receipt["run"])
+        self.assertIn("ambiguous_prior_submission", emit_receipt["run"])
+
+        real_generation = workflow["jobs"]["real-generation"]
+        self.assertEqual(
+            real_generation["concurrency"]["group"],
+            "podcast-dispatch-${{ needs.detect.outputs.week }}-${{ needs.detect.outputs.publish_run_id }}",
+        )
+        self.assertFalse(real_generation["concurrency"]["cancel-in-progress"])
+
+        evidence = next(
+            step
+            for step in real_generation["steps"]
+            if step.get("name") == "Retain real generation evidence"
+        )
+        self.assertIn("PODCASTER_RECEIPT_STATE", evidence["env"])
+        self.assertIn("PODCAST_DISPATCH_RECEIPT::", evidence["run"])
+        self.assertIn("Receipt state:", evidence["run"])
 
     def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")
