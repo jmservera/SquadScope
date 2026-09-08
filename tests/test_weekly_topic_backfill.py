@@ -43,6 +43,7 @@ EXPECTED_TOPICS = {
     "W34.md": ["AI Coding Agents", "MCP Ecosystem", "Developer Tools", "Local First"],
     "W35.md": ["AI Coding Agents", "MCP Ecosystem", "Developer Tools", "Local First"],
     "W36.md": ["AI Coding Agents", "MCP Ecosystem", "Developer Tools", "Local First"],
+    "W37.md": ["AI Coding Agents", "Open-Source LLMs", "Developer Tools", "Local First"],
 }
 
 
