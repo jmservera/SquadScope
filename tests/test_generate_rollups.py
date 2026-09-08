@@ -1119,9 +1119,7 @@ summary: "{summary}"
             ]
 
             synthesis = month_synthesis.ensure_month_synthesis(items, analyzed_dir, content_root)
-            pack = (analyzed_dir / "2026-08-month-synthesis-pack.json").read_text(
-                encoding="utf-8"
-            )
+            pack = (analyzed_dir / "2026-08-month-synthesis-pack.json").read_text(encoding="utf-8")
 
             self.assertIn("Recent monthly conclusions set the baseline:", synthesis.narrative)
             self.assertIn(
@@ -1150,9 +1148,7 @@ summary: "{summary}"
             items = [self._weekly_summary(week="2026-W21")]
 
             synthesis = month_synthesis.ensure_month_synthesis(items, analyzed_dir, content_root)
-            pack = (analyzed_dir / "2026-05-month-synthesis-pack.json").read_text(
-                encoding="utf-8"
-            )
+            pack = (analyzed_dir / "2026-05-month-synthesis-pack.json").read_text(encoding="utf-8")
 
             self.assertNotIn("Recent monthly conclusions set the baseline:", synthesis.narrative)
             self.assertIn(

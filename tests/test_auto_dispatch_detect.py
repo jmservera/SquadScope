@@ -375,7 +375,9 @@ class TestDuplicateCheck(unittest.TestCase):
             "html_url": f"https://github.com/example/squadscope/actions/runs/{run_id}",
         }
 
-    def _receipt_log(self, *, state: str, week: str = WEEK, run_id: str = RUN_ID, sha: str = KNOWN_SHA256) -> str:
+    def _receipt_log(
+        self, *, state: str, week: str = WEEK, run_id: str = RUN_ID, sha: str = KNOWN_SHA256
+    ) -> str:
         payload = {
             "schema_version": detect.RECEIPT_SCHEMA_VERSION,
             "receipt_state": state,
@@ -383,7 +385,9 @@ class TestDuplicateCheck(unittest.TestCase):
             "publish_run_id": run_id,
             "article_sha256": sha,
         }
-        return f"{detect.RECEIPT_PREFIX}{json.dumps(payload, sort_keys=True, separators=(',', ':'))}\n"
+        return (
+            f"{detect.RECEIPT_PREFIX}{json.dumps(payload, sort_keys=True, separators=(',', ':'))}\n"
+        )
 
     def _trigger_jobs(self, handoff_conclusion: str) -> list[dict]:
         return [
@@ -421,7 +425,9 @@ class TestDuplicateCheck(unittest.TestCase):
         logs: dict[int, str] | None = None,
     ):
         routes = {
-            self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW): _gh_runs_response(auto_runs or []),
+            self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW): _gh_runs_response(
+                auto_runs or []
+            ),
             self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW): _gh_runs_response(
                 trigger_runs or []
             ),
@@ -603,7 +609,9 @@ class TestDuplicateCheck(unittest.TestCase):
             )
             with (
                 mock.patch.object(detect, "fetch_publish_branch"),
-                mock.patch.object(detect, "read_manifest_from_publish", return_value=_make_manifest()),
+                mock.patch.object(
+                    detect, "read_manifest_from_publish", return_value=_make_manifest()
+                ),
                 mock.patch(
                     "urllib.request.urlopen",
                     side_effect=self._router(
