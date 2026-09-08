@@ -1,7 +1,7 @@
 """GitHub Copilot model pricing helpers.
 
 Source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing
-Fetched: 2026-06-06. Prices are USD per 1M tokens and must be reviewed every two months.
+Fetched: 2026-09-08. Prices are USD per 1M tokens and must be reviewed every two months.
 """
 
 from __future__ import annotations
@@ -11,7 +11,7 @@ from dataclasses import dataclass
 PRICING_SOURCE_URL = (
     "https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing"
 )
-PRICING_FETCHED_DATE = "2026-06-06"
+PRICING_FETCHED_DATE = "2026-09-08"
 PRICING_REVIEW_INTERVAL_MONTHS = 2
 
 
@@ -88,6 +88,46 @@ MODEL_PRICING: dict[str, ModelRate | TieredModelRate] = {
     "openai/gpt-5.5": TieredModelRate(
         default=ModelRate(input=5.00, cached_input=0.50, output=30.00),
         long_context=ModelRate(input=10.00, cached_input=1.00, output=45.00),
+        long_context_threshold=272_000,
+    ),
+    "gpt-5.6-luna": TieredModelRate(
+        default=ModelRate(input=0.20, cached_input=0.02, cache_write=0.25, output=1.20),
+        long_context=ModelRate(input=0.40, cached_input=0.04, cache_write=0.50, output=1.80),
+        long_context_threshold=200_000,
+    ),
+    "openai/gpt-5.6-luna": TieredModelRate(
+        default=ModelRate(input=0.20, cached_input=0.02, cache_write=0.25, output=1.20),
+        long_context=ModelRate(input=0.40, cached_input=0.04, cache_write=0.50, output=1.80),
+        long_context_threshold=200_000,
+    ),
+    "gpt-5.6-sol": TieredModelRate(
+        default=ModelRate(input=4.00, cached_input=0.40, cache_write=5.00, output=20.00),
+        long_context=ModelRate(input=8.00, cached_input=0.80, cache_write=10.00, output=30.00),
+        long_context_threshold=272_000,
+    ),
+    "openai/gpt-5.6-sol": TieredModelRate(
+        default=ModelRate(input=4.00, cached_input=0.40, cache_write=5.00, output=20.00),
+        long_context=ModelRate(input=8.00, cached_input=0.80, cache_write=10.00, output=30.00),
+        long_context_threshold=272_000,
+    ),
+    "gpt-5.6-terra": TieredModelRate(
+        default=ModelRate(input=2.00, cached_input=0.20, cache_write=2.50, output=12.00),
+        long_context=ModelRate(input=4.00, cached_input=0.40, cache_write=5.00, output=18.00),
+        long_context_threshold=272_000,
+    ),
+    "openai/gpt-5.6-terra": TieredModelRate(
+        default=ModelRate(input=2.00, cached_input=0.20, cache_write=2.50, output=12.00),
+        long_context=ModelRate(input=4.00, cached_input=0.40, cache_write=5.00, output=18.00),
+        long_context_threshold=272_000,
+    ),
+    "gpt-6-astra": TieredModelRate(
+        default=ModelRate(input=10.00, cached_input=1.00, cache_write=12.50, output=50.00),
+        long_context=ModelRate(input=20.00, cached_input=2.00, cache_write=25.00, output=75.00),
+        long_context_threshold=272_000,
+    ),
+    "openai/gpt-6-astra": TieredModelRate(
+        default=ModelRate(input=10.00, cached_input=1.00, cache_write=12.50, output=50.00),
+        long_context=ModelRate(input=20.00, cached_input=2.00, cache_write=25.00, output=75.00),
         long_context_threshold=272_000,
     ),
     "claude-haiku-4.5": ModelRate(input=1.00, cached_input=0.10, cache_write=1.25, output=5.00),

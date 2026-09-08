@@ -11,13 +11,13 @@ import scripts.check_copilot_pricing_review as pricing_review
 
 class CopilotPricingReviewTests(unittest.TestCase):
     def test_review_not_due_before_two_month_interval(self) -> None:
-        status = pricing_review.pricing_status(date(2026, 8, 5))
+        status = pricing_review.pricing_status(date(2026, 11, 7))
         self.assertFalse(status["needs_review"])
         self.assertFalse(status["review_due"])
-        self.assertEqual(status["due_date"], "2026-08-06")
+        self.assertEqual(status["due_date"], "2026-11-08")
 
     def test_review_due_at_two_month_interval(self) -> None:
-        status = pricing_review.pricing_status(date(2026, 8, 6))
+        status = pricing_review.pricing_status(date(2026, 11, 8))
         self.assertTrue(status["needs_review"])
         self.assertTrue(status["review_due"])
 
@@ -54,7 +54,7 @@ class CopilotPricingReviewTests(unittest.TestCase):
             rc = pricing_review.main(
                 [
                     "--current-date",
-                    "2026-08-06",
+                    "2026-11-08",
                     "--output",
                     str(report_path),
                     "--json-output",
