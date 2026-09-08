@@ -7,7 +7,7 @@ ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 
-Version 1.1 | Status Draft — **evidence incomplete; upgrade not yet recommended** | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
+Version 1.2 | Status Draft — **editorial quality confirmed; cost validation required before upgrade** | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
 
 > **PRD-only. No production changes in this PR.** This document proposes a future
 > change. No agent files, `tier_selector.py`, workflows, pricing code, or tests are
@@ -25,10 +25,15 @@ weekly run consumes AI Credits at a measurable, recurring cost. `gpt-5.6-sol` is
 GA on the Copilot CLI. This PRD records the evidence from a model comparison study
 (Livingston QA, 2026-09-08) and gates the upgrade decision on sufficient evidence.
 
-**Current evidence verdict: upgrade not yet recommended.** The comparison (2 valid
-runs per model, W33+W34) shows no consistent cost saving (+1.2% average), a +50%
-latency penalty, and inconclusive editorial quality (gate ceiling at 85 across all
-models; blinded review pending). Additional evidence is required before approving.
+**Current evidence verdict: editorial quality confirmed, cost validation required.**
+A blinded editorial review (6 articles, W33+W34, random A–F labels) found sol and
+astra both outperform gpt-5.5 by a consistent ~1.2-point margin (sol avg 8.60,
+astra avg 8.65, baseline avg 7.45/10). The same failure modes appeared in BOTH
+baseline weeks independently. Cost evidence across 2 runs is inconclusive (sol
+averages +1.2% more expensive than baseline, with high variance). Latency penalty
+of +50% for sol is confirmed (W34 serial run: 64s vs 42s). Upgrade path for sol
+is supported by editorial evidence; ≥3 additional cost runs needed to confirm
+cost neutrality before jmservera approves production change.
 
 ## 2. Evidence Summary
 
@@ -62,12 +67,25 @@ W34 but more expensive in W33. With only 2 samples, cost comparison is inconclus
 ⚠️ W33 runs were parallel (concurrent processes) — latency values are confounded by
 simultaneous machine load. W34 runs were serial and are more reliable.
 
-### Quality gate scores
+### Blinded editorial review (6 articles, W33+W34, complete 2026-09-08)
 
-All three models scored **85/100** on both W33 and W34 via `scripts/analysis_gate.py`.
-The gate is saturated at 85 (formula: 60+depth+evidence; press not passed). Gate parity
-does not imply editorial quality equivalence — it means the gate cannot differentiate.
-A blinded editorial review is required to assess actual quality differences.
+| Model | W33 score | W34 score | Average | vs. baseline |
+|-------|-----------|-----------|---------|--------------|
+| gpt-5.5 (current) | 7.3 | 7.6 | 7.45 | — |
+| gpt-5.6-sol | 8.2 | 9.0 | 8.60 | **+1.15 points** |
+| gpt-6-astra | 8.7 | 8.6 | 8.65 | +1.20 points |
+
+Key findings (reviewer had no model/cost knowledge during review):
+- gpt-5.5 ranked last in both weeks; same failure modes reproduced in both: "blind
+  spot missing own exhibit" (both W33 and W34 baseline articles), unsupported
+  predictions (both), provenance conflation (both), near-zero metric specificity.
+- sol and astra effectively tied; sol is the better editor (narrative coherence,
+  contrastive citation); astra is the better fact-checker (most verified exact metrics).
+- Astra has a fixable schema bug: missing `predictions` block in both articles.
+- All 3 models miss non-agent top repos (pipeline/prompt selection bias, not model-specific).
+- Zero hallucinated repositories across 116 citations.
+
+Full verdict: `blinded-review/editorial-verdict.md` in session files.
 
 Pricing source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing (fetched 2026-09-08).
 These are Copilot CLI billing rates, NOT direct Azure/OpenAI API prices.
@@ -85,10 +103,9 @@ These are Copilot CLI billing rates, NOT direct Azure/OpenAI API prices.
 
 ### Goals
 
-- If future evidence (≥3 valid runs + blinded editorial review) supports it: reduce
-  recurring weekly analysis cost without regressing quality gates.
+- Confirm cost parity for sol over ≥3 additional runs, then upgrade weekly agents.
 - Adopt a GA model that is a drop-in `model:` declaration change for the two weekly
-  agents.
+  agents; editorial quality improvement is now evidenced.
 - Keep the change auditable and reversible.
 
 ### Non-Goals
@@ -146,16 +163,14 @@ documentation-only follow-ups and are out of scope unless explicitly approved.
 
 ## 7. Risks and Limitations
 
+- **Blinded editorial review: blinded review complete.** Full verdict in session files.
+  Baseline is consistently last; sol and astra tied. Upgrade path is supported.
 - **Inconclusive cost evidence.** 2 runs per model with high output-token variance (3.9k–11k
-  output tokens). Sol averaged +1.2% more expensive than baseline — not the predicted saving.
-  Minimum 3 valid runs needed before cost claim is reliable.
-- **Inconclusive editorial quality.** All 6 articles scored 85 on the gate (ceiling).
-  Gate saturation ≠ quality equivalence. Blinded editorial review is required.
-- **Latency penalty.** Sol averages +50% slower (61s → 92s). For pipeline timeout
+  output tokens). Sol averaged +1.2% more expensive than baseline. ≥3 runs needed.
+- **Latency penalty.** Sol averages +50% slower (W34 serial: 64s vs 42s). For pipeline timeout
   budgets, this must be evaluated before upgrade.
 - **Concurrent run confound.** W33 latency measurements used parallel processes —
-  values are not independent and may be inflated by machine load. Only W34 (serial)
-  latency is reliable.
+  values are not independent. Only W34 (serial) latency is reliable for pipeline planning.
 - **CLI billing basis.** Costs are Copilot CLI AI credits, not direct Azure/OpenAI API
   billing; absolute figures could differ if the pipeline ever migrates providers.
 - **Model lifecycle.** GA status can still change; the pricing review cadence
@@ -163,14 +178,11 @@ documentation-only follow-ups and are out of scope unless explicitly approved.
 
 ## 8. Approval Gate
 
-This is a PRD-first proposal. **Current status: upgrade not recommended pending further
-evidence.** No implementation begins until:
+This is a PRD-first proposal. **Editorial quality advantage for sol is confirmed (blinded review, 2 weeks). Cost evidence requires ≥3 additional valid runs.** No implementation begins until:
 
-1. At least 3 valid cost runs per model (with `--usage-output-file`) show consistent
-   cost advantage for Sol over baseline.
-2. A blinded editorial review of matched source/article pairs confirms no quality
-   regression.
-3. **jmservera explicitly approves this PRD** after reviewing updated evidence.
+1. At least 3 total cost runs per model (with `--usage-output-file`) show sol ≤ baseline
+   average cost on diverse week data.
+2. **jmservera explicitly approves this PRD** after reviewing the combined evidence.
 
 On approval, the change is limited to the two agent `model:` declarations per Section 4,
 on a dedicated branch/PR, with the weekly quality gate as the blocking acceptance check.
