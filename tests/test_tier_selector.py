@@ -38,7 +38,7 @@ class TestBuildConfig:
         cfg = build_config("normal")
         assert cfg == {
             "tier": "normal",
-            "model": "claude-sonnet-4",
+            "model": "gpt-5.5",
             "max_repos": None,
             "skip_ai": False,
         }
@@ -67,6 +67,7 @@ class TestMain:
         assert code == 0
         output = json.loads(capsys.readouterr().out)
         assert output["tier"] == "normal"
+        assert output["model"] == "gpt-5.5"
 
     def test_emergency_output(self, capsys):
         code = main(["--estimated-cost", "0.10", "--monthly-spent", "10.00"])
