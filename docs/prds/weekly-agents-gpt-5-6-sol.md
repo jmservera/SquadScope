@@ -7,11 +7,15 @@ ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 
-Version 1.2 | Status Draft — **editorial quality reviewer-assessed; cost validation required before upgrade** | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
+Version 1.2 | Status **User-Approved 2026-09-08T14:29:49Z** — jmservera explicitly approved Sol upgrade for SquadScope weekly analysis/synthesis agents | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
 
-> **PRD-only. No production changes in this PR.** This document proposes a future
-> change. No agent files, `tier_selector.py`, workflows, pricing code, or tests are
-> modified here. Implementation does not begin until jmservera approves this PRD.
+> **User-approved. Implementation in progress on `feat/weekly-agents-gpt-5-6-sol`.** This PRD
+> records evidence and scope. Production changes are limited to the two weekly agent `model:`
+> declarations and matching cost-attribution surfaces per Section 4.
+
+> **PRD evidence preserved.** Prior evidence (2-week comparison, subjective reviewer assessment,
+> cost inconclusive at +1.2% avg) is on record. User approval overrides the ≥3-run cost
+> prerequisite. Preliminary findings remain disclosed.
 
 ## 1. Problem and Context
 
@@ -177,14 +181,10 @@ documentation-only follow-ups and are out of scope unless explicitly approved.
 
 ## 8. Approval Gate
 
-This is a PRD-first proposal. **Editorial quality favoured for sol in a 2-week subjective reviewer assessment (not confirmed population improvement). Cost evidence requires ≥3 additional valid runs.** No implementation begins until:
+**APPROVED by jmservera, 2026-09-08T14:29:49Z.** ("approve Sol for now on")
 
-1. At least 3 total cost runs per model (with `--usage-output-file`) show sol ≤ baseline
-   average cost on diverse week data.
-2. **jmservera explicitly approves this PRD** after reviewing the combined evidence.
-
-On approval, the change is limited to the two agent `model:` declarations per Section 4,
-on a dedicated branch/PR, with the weekly quality gate as the blocking acceptance check.
+Scope: SquadScope weekly-analysis and weekly-synthesis agents only. Not all CLI agents or
+unrelated repos. Implementation branch: `feat/weekly-agents-gpt-5-6-sol`.
 
 ## 9. Source Evidence Reference
 
