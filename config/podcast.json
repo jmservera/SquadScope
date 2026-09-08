@@ -73,7 +73,7 @@
     "description_template": "<p>{article_summary}</p><p>Claracle is your tech weekly for developer trends, AI news, GitHub insights, and software engineering trends—helping you understand what matters and why.</p><p>Read more at <a href=\"https://claracle.com\" target=\"_blank\" rel=\"ugc noopener noreferrer\">Claracle</a></p>",
     "season_number": "{year}",
     "episode_number": "{week}",
-    "publish_mode": "draft",
+    "publish_mode": "live",
     "upload_format": "wav"
   }
 }
