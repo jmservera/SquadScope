@@ -1,0 +1,406 @@
+name: Auto-dispatch podcast after weekly article
+
+# Trigger: newly added weekly article merged to main.
+# Guard: concurrency group prevents overlapping runs.
+# Gate: podcaster-real-generation environment requires human approval.
+# Pause: set PODCAST_AUTO_DISPATCH_PAUSED repo variable to 'true' to defer.
+# Recovery: workflow_dispatch with observe_only=true for rollout validation.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/weekly/**/*.md'
+  workflow_dispatch:
+    # checkov:skip=CKV_GHA_7:Auto-dispatch workflow reads trusted machine-generated publish evidence; correlation uses article SHA-256, not user-controlled text.
+    inputs:
+      week:
+        description: 'Override: week slug for observe-only recovery (e.g. 2026-W37)'
+        required: false
+        type: string
+      observe_only:
+        description: 'Observe only — validate but do not call Podcaster'
+        type: boolean
+        default: false
+
+run-name: "Auto-dispatch: ${{ inputs.week || github.ref_name }}"
+
+permissions:
+  contents: read
+
+# Single global group: only one auto-dispatch runs at a time.
+# cancel-in-progress: false ensures a dispatch is never silently dropped.
+concurrency:
+  group: auto-podcast-dispatch
+  cancel-in-progress: false
+
+jobs:
+
+  detect:
+    name: Detect eligible weekly publication
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      eligible: ${{ steps.detect.outputs.eligible }}
+      week: ${{ steps.detect.outputs.week }}
+      publish_run_id: ${{ steps.detect.outputs.publish_run_id }}
+      manifest_path: ${{ steps.detect.outputs.manifest_path }}
+      article_path: ${{ steps.detect.outputs.article_path }}
+      article_url: ${{ steps.detect.outputs.article_url }}
+      article_sha256: ${{ steps.detect.outputs.article_sha256 }}
+      manifest_sha256: ${{ steps.detect.outputs.manifest_sha256 }}
+      is_duplicate: ${{ steps.dedup.outputs.is_duplicate }}
+      prior_run_url: ${{ steps.dedup.outputs.prior_run_url }}
+      dispatch_status: ${{ steps.detect.outputs.status }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: '3.12'
+
+      - name: Detect eligible manifest
+        id: detect
+        env:
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+          GITHUB_SHA: ${{ github.sha }}
+          WEEK_OVERRIDE: ${{ inputs.week || '' }}
+          OBSERVE_ONLY: ${{ inputs.observe_only == true && 'true' || '' }}
+          PODCAST_AUTO_DISPATCH_PAUSED: ${{ vars.PODCAST_AUTO_DISPATCH_PAUSED || '' }}
+        run: |
+          set -euo pipefail
+
+          OBSERVE_ONLY_FLAG=""
+          if [ "$OBSERVE_ONLY" = "true" ]; then
+            OBSERVE_ONLY_FLAG="--observe-only"
+          fi
+
+          if [ -n "$WEEK_OVERRIDE" ]; then
+            # Manual override for observe-only recovery (workflow_dispatch).
+            # Validate week format before constructing path.
+            if [[ ! "$WEEK_OVERRIDE" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
+              echo "::error::week override must match YYYY-WNN (got: $WEEK_OVERRIDE)"
+              exit 1
+            fi
+            YEAR="${WEEK_OVERRIDE%%-*}"
+            SHORT="${WEEK_OVERRIDE##*-}"
+            ARTICLE_PATH="content/weekly/${YEAR}/${SHORT}.md"
+            python3 scripts/auto_dispatch_detect.py \
+              --article-path "$ARTICLE_PATH" \
+              --current-sha "$GITHUB_SHA" \
+              ${OBSERVE_ONLY_FLAG}
+          else
+            # Push event: detect newly ADDED weekly article files only.
+            # All-zeros GITHUB_EVENT_BEFORE = first push to branch; fall back to HEAD~1.
+            NULL_SHA="0000000000000000000000000000000000000000"
+            if [ "$GITHUB_EVENT_BEFORE" = "$NULL_SHA" ] || [ -z "$GITHUB_EVENT_BEFORE" ]; then
+              echo "::notice::GITHUB_EVENT_BEFORE is null/empty; using HEAD~1 as before-sha."
+              BEFORE_REF="HEAD~1"
+            else
+              BEFORE_REF="$GITHUB_EVENT_BEFORE"
+            fi
+
+            NEW_ARTICLES=$(git diff --name-only --diff-filter=A "$BEFORE_REF" "$GITHUB_SHA" \
+              -- 'content/weekly/**/*.md' 2>/dev/null || true)
+
+            if [ -z "$NEW_ARTICLES" ]; then
+              echo "No new weekly articles detected in this push."
+              echo "eligible=false" >> "$GITHUB_OUTPUT"
+              echo "status=no_new_article" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            ARTICLE_COUNT=$(echo "$NEW_ARTICLES" | wc -l | tr -d ' ')
+            echo "  Detected ${ARTICLE_COUNT} new weekly article(s)."
+
+            # Fail-closed if multiple articles added in one push — each weekly publish
+            # commits exactly one article; multiple is unexpected and could overwrite outputs.
+            if [ "$ARTICLE_COUNT" -gt 1 ]; then
+              echo "::error::Multiple new weekly articles detected in one push (${ARTICLE_COUNT}). Expected exactly one per publish transaction. Commit them separately or dispatch manually."
+              exit 1
+            fi
+
+            # Run detection for the single new article
+            while IFS= read -r article_path; do
+              [ -z "$article_path" ] && continue
+              python3 scripts/auto_dispatch_detect.py \
+                --article-path "$article_path" \
+                --before-sha "$BEFORE_REF" \
+                --current-sha "$GITHUB_SHA" \
+                ${OBSERVE_ONLY_FLAG}
+            done <<< "$NEW_ARTICLES"
+          fi
+
+      - name: Check for duplicate dispatch
+        id: dedup
+        if: steps.detect.outputs.eligible == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          WEEK: ${{ steps.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ steps.detect.outputs.publish_run_id }}
+        run: |
+          python3 scripts/auto_dispatch_detect.py \
+            --check-duplicate \
+            --week "$WEEK" \
+            --publish-run-id "$PUBLISH_RUN_ID"
+
+      - name: Record paused/deferred notice
+        if: steps.detect.outputs.status == 'paused'
+        run: |
+          echo "::notice::Auto-dispatch paused by PODCAST_AUTO_DISPATCH_PAUSED variable. Publication is deferred."
+          {
+            echo "## ⏸️ Podcast dispatch deferred"
+            echo ""
+            echo "- **Reason:** \`PODCAST_AUTO_DISPATCH_PAUSED\` repo variable is set to \`true\`"
+            echo "- **Recovery:** Clear the variable and re-run this workflow with \`observe_only=true\` to verify, then with \`observe_only=false\` to dispatch."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Record no-match notice
+        if: steps.detect.outputs.eligible == 'false' && steps.detect.outputs.status != 'paused' && steps.detect.outputs.status != 'no_new_article'
+        run: |
+          {
+            echo "## ⚠️ Podcast auto-dispatch: no eligible manifest found"
+            echo ""
+            echo "- **Reason:** \`${{ steps.detect.outputs.reason || 'no_matching_manifest' }}\`"
+            echo "- **Push SHA:** \`${{ github.sha }}\`"
+            echo ""
+            echo "If publication should have triggered a podcast, check that:"
+            echo "1. The crawl-and-publish run completed successfully"
+            echo "2. A publish manifest exists on the \`publish\` branch for this week"
+            echo "3. The manifest \`candidate.content_sha256\` matches the merged article"
+            echo ""
+            echo "Use workflow_dispatch with \`observe_only=true\` and a \`week\` override for manual recovery."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  real-generation:
+    name: Protected podcast dispatch
+    needs: detect
+    # Defense-in-depth: only proceed when detection confirmed eligibility,
+    # dedup found no prior dispatch, and this is not an observe-only run.
+    # The github.ref guard mirrors trigger-podcast.yml: environment secrets
+    # are only reachable from a workflow executed on main.
+    if: |
+      github.ref == 'refs/heads/main' &&
+      needs.detect.outputs.eligible == 'true' &&
+      needs.detect.outputs.is_duplicate != 'true' &&
+      inputs.observe_only != true
+    runs-on: ubuntu-latest
+    environment:
+      name: podcaster-real-generation
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: '3.12'
+
+      - name: Derive and validate paths from detection outputs
+        id: derive
+        env:
+          WEEK: ${{ needs.detect.outputs.week }}
+          ARTICLE_PATH: ${{ needs.detect.outputs.article_path }}
+          ARTICLE_URL: ${{ needs.detect.outputs.article_url }}
+        run: |
+          set -euo pipefail
+          # Validate machine-generated week slug before use in shell
+          if [[ ! "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
+            echo "::error::week must match YYYY-WNN (got: $WEEK)"
+            exit 1
+          fi
+          # Validate article path format
+          if [[ ! "$ARTICLE_PATH" =~ ^content/weekly/[0-9]{4}/W[0-9]{2}\.md$ ]]; then
+            echo "::error::article_path has unexpected format (got: $ARTICLE_PATH)"
+            exit 1
+          fi
+          echo "article_path=${ARTICLE_PATH}" >> "$GITHUB_OUTPUT"
+          echo "article_url=${ARTICLE_URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Locate publish manifest from detection
+        id: manifest-locate
+        env:
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          DETECT_MANIFEST_PATH: ${{ needs.detect.outputs.manifest_path }}
+          DETECT_ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
+        run: |
+          set -euo pipefail
+          if ! [[ "$PUBLISH_RUN_ID" =~ ^[0-9]+$ ]]; then
+            echo "::error::publish_run_id must be a numeric workflow run ID (got: $PUBLISH_RUN_ID)"
+            exit 1
+          fi
+          # Validate manifest path format (defense-in-depth; also checked in detect script)
+          if ! echo "$DETECT_MANIFEST_PATH" | grep -qE \
+            '^data/candidates/[^/]+/[^/]+/publish-manifest\.json$'; then
+            echo "::error::manifest_path has unexpected format (got: $DETECT_MANIFEST_PATH)"
+            exit 1
+          fi
+          if ! git fetch origin publish 2>/dev/null; then
+            echo "::error::Could not fetch publish branch. Has crawl-and-publish run yet?"
+            exit 1
+          fi
+          MANIFEST="data/candidates/${WEEK}/${PUBLISH_RUN_ID}/publish-manifest.json"
+          # Verify exact path matches detection output
+          if [ "$MANIFEST" != "$DETECT_MANIFEST_PATH" ]; then
+            echo "::error::manifest path mismatch: expected $DETECT_MANIFEST_PATH got $MANIFEST"
+            exit 1
+          fi
+          if ! git checkout origin/publish -- "$MANIFEST" 2>/dev/null; then
+            echo "::error::Manifest not found at $MANIFEST for exact run $PUBLISH_RUN_ID"
+            exit 1
+          fi
+          # Mirror trigger-podcast.yml validation inline Python
+          python3 - "$MANIFEST" "$WEEK" "$PUBLISH_RUN_ID" "$DETECT_ARTICLE_SHA256" <<'PY'
+          import hashlib
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          manifest_path = Path(sys.argv[1])
+          requested_week = sys.argv[2]
+          requested_run_id = sys.argv[3]
+          expected_article_sha256 = sys.argv[4]
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+          if manifest.get("week") != requested_week:
+              raise SystemExit(f"::error::Manifest week {manifest.get('week')!r} != {requested_week!r}")
+          if str(manifest.get("run_id")) != requested_run_id:
+              raise SystemExit(f"::error::Manifest run_id {manifest.get('run_id')!r} != {requested_run_id!r}")
+          if manifest.get("run_mode") != "normal":
+              raise SystemExit(f"::error::Manifest run_mode is not 'normal': {manifest.get('run_mode')!r}")
+
+          analysis = manifest.get("analysis") or {}
+          preflight = analysis.get("preflight") or {}
+          if not preflight.get("publish_eligible"):
+              raise SystemExit("::error::analysis.preflight.publish_eligible is not true")
+          if not manifest.get("promotion_eligible"):
+              raise SystemExit("::error::promotion_eligible is not true")
+
+          candidate = manifest.get("candidate") or {}
+          article_sha256 = candidate.get("content_sha256")
+          if not isinstance(article_sha256, str) or len(article_sha256) != 64:
+              raise SystemExit("::error::Manifest candidate.content_sha256 is missing or invalid")
+          if article_sha256 != expected_article_sha256:
+              raise SystemExit(
+                  f"::error::SHA-256 mismatch: manifest={article_sha256!r} detect={expected_article_sha256!r}"
+              )
+
+          manifest_sha256 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+
+          with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as out:
+              out.write(f"manifest_path={manifest_path}\n")
+              out.write(f"manifest_sha256={manifest_sha256}\n")
+              out.write(f"article_sha256={article_sha256}\n")
+              out.write(f"publish_run_id={requested_run_id}\n")
+          PY
+
+      - name: Trigger podcast generation
+        id: handoff
+        env:
+          PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          ARTICLE_URL: ${{ steps.derive.outputs.article_url }}
+          ARTICLE_PATH: ${{ steps.derive.outputs.article_path }}
+          MANIFEST_FILE: ${{ steps.manifest-locate.outputs.manifest_path }}
+          PUBLISH_RUN_ID: ${{ steps.manifest-locate.outputs.publish_run_id }}
+          TRIGGER_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
+            echo "::error::Requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
+            exit 1
+          fi
+          if [ ! -f "$ARTICLE_PATH" ]; then
+            echo "::error::Article '$ARTICLE_PATH' is not on the default branch."
+            exit 1
+          fi
+          if [ ! -f "$MANIFEST_FILE" ]; then
+            echo "::error::Manifest file not found: $MANIFEST_FILE"
+            exit 1
+          fi
+
+          python3 scripts/podcaster_handoff.py \
+            --week "$WEEK" \
+            --article-url "$ARTICLE_URL" \
+            --article-path "$ARTICLE_PATH" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --publish-mode normal \
+            --manifest "$MANIFEST_FILE" \
+            --podcast-config config/podcast.json \
+            --require-merged
+
+      - name: Retain real generation evidence
+        if: always()
+        env:
+          HANDOFF_OUTCOME: ${{ steps.handoff.outcome }}
+          PODCASTER_JOB_ID: ${{ steps.handoff.outputs.podcaster_job_id }}
+          PODCASTER_STATUS: ${{ steps.handoff.outputs.podcaster_status }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          MANIFEST_PATH: ${{ steps.manifest-locate.outputs.manifest_path }}
+          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 }}
+          ARTICLE_PATH: ${{ steps.derive.outputs.article_path }}
+          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          DISPATCHER: auto-dispatch
+        run: |
+          {
+            echo "## Podcaster real-generation evidence"
+            echo ""
+            echo "- Workflow conclusion: ${HANDOFF_OUTCOME}"
+            echo "- Dispatcher: ${DISPATCHER}"
+            echo "- Trigger: auto-dispatch (push to main)"
+            echo "- Week: ${WEEK}"
+            echo "- Publish run ID: ${PUBLISH_RUN_ID}"
+            echo "- Manifest: ${MANIFEST_PATH}"
+            echo "- Manifest SHA-256: ${MANIFEST_SHA256}"
+            echo "- Article: ${ARTICLE_PATH}"
+            echo "- Article SHA-256: ${ARTICLE_SHA256}"
+            echo "- Podcaster response status: ${PODCASTER_STATUS}"
+            echo "- Podcaster job ID: ${PODCASTER_JOB_ID}"
+            echo "- Actions run: ${RUN_URL}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  observe-summary:
+    name: Observe-only summary
+    needs: detect
+    if: |
+      needs.detect.outputs.eligible == 'true' &&
+      inputs.observe_only == true
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Record observe-only result
+        run: |
+          {
+            echo "## 👁️ Observe-only: podcast dispatch would have been created"
+            echo ""
+            echo "- **Week:** ${{ needs.detect.outputs.week }}"
+            echo "- **Publish run ID:** ${{ needs.detect.outputs.publish_run_id }}"
+            echo "- **Article:** \`${{ needs.detect.outputs.article_path }}\`"
+            echo "- **Article SHA-256:** \`${{ needs.detect.outputs.article_sha256 }}\`"
+            echo "- **Manifest:** \`${{ needs.detect.outputs.manifest_path }}\`"
+            echo "- **Manifest SHA-256:** \`${{ needs.detect.outputs.manifest_sha256 }}\`"
+            echo "- **Would have dispatched to:** podcaster-real-generation environment"
+            echo ""
+            echo "_No Podcaster request was sent. This is an observe-only run._"
+          } >> "$GITHUB_STEP_SUMMARY"

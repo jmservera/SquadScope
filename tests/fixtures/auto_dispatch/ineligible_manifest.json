@@ -1,0 +1,15 @@
+{
+  "week": "2026-W37",
+  "run_id": "34082521901",
+  "run_mode": "normal",
+  "promotion_eligible": false,
+  "analysis": {
+    "preflight": {
+      "publish_eligible": false
+    }
+  },
+  "candidate": {
+    "content_sha256": "70df498e2c7254ebdf3d057d5d603c59c89f2e2bd60933b91e8982c2ab033db5",
+    "content_path": "data/candidates/2026-W37/34082521901/2026-W37-content.md"
+  }
+}
