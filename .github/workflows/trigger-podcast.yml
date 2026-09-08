@@ -17,6 +17,8 @@ on:
         required: false
         type: string
 
+run-name: "Trigger podcast generation: ${{ inputs.week }} / ${{ inputs.publish_run_id }}"
+
 permissions:
   contents: read
 
@@ -32,6 +34,9 @@ jobs:
     # environment-scoped secrets are only reachable from the reviewed workflow.
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    concurrency:
+      group: podcast-dispatch-${{ inputs.week }}-${{ inputs.publish_run_id }}
+      cancel-in-progress: false
     environment:
       name: podcaster-real-generation
     permissions:
@@ -170,8 +175,12 @@ jobs:
       - name: Retain real generation evidence
         if: always()
         env:
+          DERIVE_CONCLUSION: ${{ steps.derive.conclusion }}
+          MANIFEST_LOCATE_CONCLUSION: ${{ steps.manifest-locate.conclusion }}
           HANDOFF_OUTCOME: ${{ steps.handoff.outcome }}
+          HANDOFF_CONCLUSION: ${{ steps.handoff.conclusion }}
           PODCASTER_JOB_ID: ${{ steps.handoff.outputs.podcaster_job_id }}
+          PODCASTER_RECEIPT_STATE: ${{ steps.handoff.outputs.podcaster_receipt_state }}
           PODCASTER_STATUS: ${{ steps.handoff.outputs.podcaster_status }}
           WEEK: ${{ inputs.week }}
           PUBLISH_RUN_ID: ${{ inputs.publish_run_id }}
@@ -182,9 +191,34 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           DISPATCHER: ${{ github.actor }}
         run: |
+          RECEIPT_STATE="${PODCASTER_RECEIPT_STATE:-}"
+          if [ -z "$RECEIPT_STATE" ]; then
+            RECEIPT_STATE="pre_submit_failed"
+          fi
+          export RECEIPT_STATE
+          python3 - <<'PY'
+          import json
+          import os
+
+          record = {
+              "schema_version": "podcast_dispatch_receipt_v1",
+              "workflow": "trigger-podcast",
+              "dispatcher": os.environ.get("DISPATCHER", "").strip(),
+              "receipt_state": os.environ.get("RECEIPT_STATE", "").strip(),
+              "week": os.environ.get("WEEK", "").strip(),
+              "publish_run_id": os.environ.get("PUBLISH_RUN_ID", "").strip(),
+              "article_sha256": os.environ.get("ARTICLE_SHA256", "").strip(),
+              "manifest_sha256": os.environ.get("MANIFEST_SHA256", "").strip(),
+              "podcaster_status": os.environ.get("PODCASTER_STATUS", "").strip(),
+              "podcaster_job_id": os.environ.get("PODCASTER_JOB_ID", "").strip(),
+              "actions_run_url": os.environ.get("RUN_URL", "").strip(),
+          }
+          print(f"PODCAST_DISPATCH_RECEIPT::{json.dumps(record, sort_keys=True, separators=(',', ':'))}")
+          PY
           {
             echo "## Podcaster real-generation evidence"
             echo ""
+            echo "- Receipt state: ${RECEIPT_STATE}"
             echo "- Workflow conclusion: ${HANDOFF_OUTCOME}"
             echo "- Dispatcher: ${DISPATCHER}"
             echo "- Week: ${WEEK}"

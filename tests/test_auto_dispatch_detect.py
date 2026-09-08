@@ -10,8 +10,9 @@ Public API tested:
     Extracts ISO week string (e.g. "2026-W37") or None for invalid paths.
   - check_paused() -> bool
     Returns True iff PODCAST_AUTO_DISPATCH_PAUSED env var is 'true' (case-insensitive).
-  - check_duplicate(week, run_id, gh_token, repo) -> (bool, str | None)
-    Returns (is_duplicate, prior_run_url). Fail-open on API error.
+  - check_duplicate_result(week, run_id, article_sha256, gh_token, repo) -> DuplicateCheckResult
+    Returns structured duplicate status using exact identity, canonical receipts,
+    and compatibility logic for legacy runs.
 """
 
 import hashlib
@@ -21,6 +22,7 @@ import os
 import subprocess
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 from unittest import mock
 
@@ -81,6 +83,19 @@ class _FakeHTTPResponse(io.BytesIO):
 def _gh_runs_response(runs: list) -> _FakeHTTPResponse:
     payload = json.dumps({"workflow_runs": runs}).encode()
     return _FakeHTTPResponse(payload)
+
+
+def _gh_jobs_response(jobs: list) -> _FakeHTTPResponse:
+    payload = json.dumps({"jobs": jobs}).encode()
+    return _FakeHTTPResponse(payload)
+
+
+def _gh_logs_response(*contents: str) -> _FakeHTTPResponse:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        for index, content in enumerate(contents, start=1):
+            archive.writestr(f"job-{index}.txt", content)
+    return _FakeHTTPResponse(buffer.getvalue())
 
 
 class _TempGitRepo:
@@ -331,131 +346,333 @@ class TestPausedCheck(unittest.TestCase):
 
 
 class TestDuplicateCheck(unittest.TestCase):
-    """Tests for check_duplicate().
-
-    GitHub API calls are mocked at the urllib.request.urlopen level so no
-    real network traffic is made.
-    """
+    """Tests for exact duplicate detection across auto and manual workflows."""
 
     _GH_TOKEN = "ghp_faketoken"
     _REPO = "example/squadscope"
+    _AUTO_RUN_ID = 22222
+    _TRIGGER_RUN_ID = 33333
 
-    def _matching_run(self) -> dict:
+    def _workflow_runs_url(self, workflow: str) -> str:
+        return (
+            f"https://api.github.com/repos/{self._REPO}/actions/workflows/{workflow}/runs"
+            f"?per_page={detect.WORKFLOW_LOOKBACK_RUNS}"
+        )
+
+    def _jobs_url(self, run_id: int) -> str:
+        return f"https://api.github.com/repos/{self._REPO}/actions/runs/{run_id}/jobs?per_page=100"
+
+    def _logs_url(self, run_id: int) -> str:
+        return f"https://api.github.com/repos/{self._REPO}/actions/runs/{run_id}/logs"
+
+    def _run(self, run_id: int, *, workflow_path: str, head_sha: str = "abc123") -> dict:
         return {
-            "id": 99999,
-            "status": "completed",
-            "conclusion": "success",
-            "html_url": "https://github.com/example/squadscope/actions/runs/99999",
-            "inputs": {"week": WEEK, "run_id": RUN_ID},
-            "name": f"podcast-dispatch-{WEEK}-{RUN_ID}",
+            "id": run_id,
+            "path": workflow_path,
+            "name": f"run-{run_id}",
+            "display_title": f"run-{run_id}",
+            "head_sha": head_sha,
+            "html_url": f"https://github.com/example/squadscope/actions/runs/{run_id}",
         }
 
-    def _other_run(self) -> dict:
-        return {
-            "id": 88888,
-            "status": "completed",
-            "conclusion": "success",
-            "html_url": "https://github.com/example/squadscope/actions/runs/88888",
-            "inputs": {"week": "2026-W36", "run_id": "11111111111"},
-            "name": "podcast-dispatch-2026-W36-11111111111",
+    def _receipt_log(self, *, state: str, week: str = WEEK, run_id: str = RUN_ID, sha: str = KNOWN_SHA256) -> str:
+        payload = {
+            "schema_version": detect.RECEIPT_SCHEMA_VERSION,
+            "receipt_state": state,
+            "week": week,
+            "publish_run_id": run_id,
+            "article_sha256": sha,
         }
+        return f"{detect.RECEIPT_PREFIX}{json.dumps(payload, sort_keys=True, separators=(',', ':'))}\n"
 
-    def test_duplicate_detected(self):
-        """GitHub API returns a matching successful run → is_duplicate=True."""
-        with mock.patch("urllib.request.urlopen") as mock_urlopen:
-            mock_urlopen.return_value = _gh_runs_response([self._matching_run()])
+    def _trigger_jobs(self, handoff_conclusion: str) -> list[dict]:
+        return [
+            {
+                "name": "trigger-podcast",
+                "steps": [
+                    {
+                        "name": "Trigger podcast generation with existing manifest",
+                        "conclusion": handoff_conclusion,
+                    }
+                ],
+            }
+        ]
 
-            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
+    def _auto_observe_jobs(self) -> list[dict]:
+        return [
+            {
+                "name": "Observe-only summary",
+                "conclusion": "success",
+                "steps": [{"name": "Record observe-only result", "conclusion": "success"}],
+            },
+            {
+                "name": "Protected podcast dispatch",
+                "conclusion": "skipped",
+                "steps": [],
+            },
+        ]
 
-        self.assertTrue(is_dup)
-        self.assertIsNotNone(url)
+    def _router(
+        self,
+        *,
+        auto_runs: list[dict] | None = None,
+        trigger_runs: list[dict] | None = None,
+        jobs: dict[int, list[dict]] | None = None,
+        logs: dict[int, str] | None = None,
+    ):
+        routes = {
+            self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW): _gh_runs_response(auto_runs or []),
+            self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW): _gh_runs_response(
+                trigger_runs or []
+            ),
+        }
+        for run_id, run_jobs in (jobs or {}).items():
+            routes[self._jobs_url(run_id)] = _gh_jobs_response(run_jobs)
+        for run_id, log_text in (logs or {}).items():
+            routes[self._logs_url(run_id)] = _gh_logs_response(log_text)
 
-    def test_no_duplicate(self):
-        """GitHub API returns runs for a different week → is_duplicate=False."""
-        with mock.patch("urllib.request.urlopen") as mock_urlopen:
-            mock_urlopen.return_value = _gh_runs_response([self._other_run()])
+        def _open(req, timeout=20):
+            url = req.full_url
+            response = routes.get(url)
+            if response is None:
+                raise AssertionError(f"Unexpected URL fetched: {url}")
+            return response
 
-            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
+        return _open
 
-        self.assertFalse(is_dup)
+    def test_dry_run_receipt_allows_first_real_dispatch(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="observe_only")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_real_receipt_blocks_duplicate_dispatch(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="submitted")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "duplicate")
+        self.assertTrue(result.is_duplicate)
+        self.assertEqual(result.prior_run_url, run["html_url"])
+
+    def test_pre_submit_failure_allows_retry(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="pre_submit_failed")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_unknown_submission_fails_closed(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="submission_unknown")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.prior_run_url, run["html_url"])
+
+    def test_submission_rejected_blocks_retry(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="submission_rejected")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "duplicate")
+        self.assertTrue(result.is_duplicate)
+
+    def test_same_week_different_identity_is_not_conflated(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={
+                        self._AUTO_RUN_ID: self._receipt_log(
+                            state="submitted",
+                            run_id=RUN_ID,
+                            sha="a" * 64,
+                        )
+                    },
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_legacy_unmarked_observe_only_run_is_ignored(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: self._auto_observe_jobs()},
+                    logs={self._AUTO_RUN_ID: ""},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_legacy_manual_real_dispatch_blocks_auto_duplicate(self):
+        repo = _TempGitRepo()
+        try:
+            repo.commit("chore: baseline", {"README.md": "base\n"})
+            sync_sha = repo.commit(
+                "sync: publish data → main (#1)",
+                {"content/weekly/2026/W37.md": "# W37\n"},
+            )
+            run = self._run(
+                self._TRIGGER_RUN_ID,
+                workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+                head_sha=sync_sha,
+            )
+            with (
+                mock.patch.object(detect, "fetch_publish_branch"),
+                mock.patch.object(detect, "read_manifest_from_publish", return_value=_make_manifest()),
+                mock.patch(
+                    "urllib.request.urlopen",
+                    side_effect=self._router(
+                        trigger_runs=[run],
+                        jobs={self._TRIGGER_RUN_ID: self._trigger_jobs("success")},
+                        logs={
+                            self._TRIGGER_RUN_ID: (
+                                "##[notice]Using manifest from crawl-and-publish run "
+                                f"{RUN_ID} (2026-09-08 13:30:14)\n"
+                            )
+                        },
+                    ),
+                ),
+            ):
+                result = detect.check_duplicate_result(
+                    WEEK,
+                    RUN_ID,
+                    KNOWN_SHA256,
+                    self._GH_TOKEN,
+                    self._REPO,
+                    repo_root=repo.root,
+                )
+
+            self.assertEqual(result.status, "duplicate")
+            self.assertTrue(result.is_duplicate)
+            self.assertEqual(result.prior_run_url, run["html_url"])
+        finally:
+            repo.cleanup()
+
+    def test_legacy_manual_same_publish_run_without_identity_fails_closed(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+            head_sha="not-a-sync",
+        )
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    trigger_runs=[run],
+                    jobs={self._TRIGGER_RUN_ID: self._trigger_jobs("success")},
+                    logs={
+                        self._TRIGGER_RUN_ID: (
+                            "##[notice]Using manifest from crawl-and-publish run "
+                            f"{RUN_ID} (2026-09-08 13:30:14)\n"
+                        )
+                    },
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
 
     def test_api_failure_non_blocking(self):
-        """GitHub API call fails → is_duplicate=False (fail open; rely on Podcaster idempotency)."""
-        with mock.patch("urllib.request.urlopen", side_effect=OSError("network error")):
-            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
-
-        self.assertFalse(is_dup)
-
-
-class TestDuplicateCheckRegressions(unittest.TestCase):
-    """Regression coverage for observe-only and real dispatch dedup semantics."""
-
-    _GH_TOKEN = "ghp_faketoken"
-    _REPO = "example/squadscope"
-    _OBSERVE_URL = "https://github.com/example/squadscope/actions/runs/11111"
-    _REAL_URL = "https://github.com/example/squadscope/actions/runs/22222"
-
-    def test_observe_only_run_does_not_block_real_dispatch(self):
-        with mock.patch("urllib.request.urlopen") as mock_urlopen:
-            mock_urlopen.return_value = _gh_runs_response(
-                [
-                    {
-                        "name": "Auto-dispatch (observe-only): 2026-W37",
-                        "display_title": f"Auto-dispatch: {WEEK} ({RUN_ID})",
-                        "html_url": self._OBSERVE_URL,
-                        "status": "completed",
-                        "conclusion": "success",
-                    }
-                ]
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch("urllib.request.urlopen", side_effect=OSError("network error")),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
             )
 
-            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
-
-        self.assertFalse(is_dup)
-        self.assertIsNone(url)
-
-    def test_real_run_blocks_duplicate_dispatch(self):
-        with mock.patch("urllib.request.urlopen") as mock_urlopen:
-            mock_urlopen.return_value = _gh_runs_response(
-                [
-                    {
-                        "name": "Auto-dispatch: 2026-W37",
-                        "html_url": self._REAL_URL,
-                        "status": "completed",
-                        "conclusion": "success",
-                    }
-                ]
-            )
-
-            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
-
-        self.assertTrue(is_dup)
-        self.assertEqual(url, self._REAL_URL)
-
-    def test_observe_only_then_real_sequence(self):
-        with mock.patch("urllib.request.urlopen") as mock_urlopen:
-            mock_urlopen.return_value = _gh_runs_response(
-                [
-                    {
-                        "name": "Auto-dispatch (observe-only): 2026-W37",
-                        "display_title": f"Auto-dispatch: {WEEK} ({RUN_ID})",
-                        "html_url": self._OBSERVE_URL,
-                        "status": "completed",
-                        "conclusion": "success",
-                    },
-                    {
-                        "name": "Auto-dispatch: 2026-W37",
-                        "html_url": self._REAL_URL,
-                        "status": "completed",
-                        "conclusion": "success",
-                    },
-                ]
-            )
-
-            is_dup, url = detect.check_duplicate(WEEK, RUN_ID, self._GH_TOKEN, self._REPO)
-
-        self.assertTrue(is_dup)
-        self.assertEqual(url, self._REAL_URL)
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
 
 
 # ---------------------------------------------------------------------------

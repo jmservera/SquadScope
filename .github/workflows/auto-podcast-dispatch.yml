@@ -57,6 +57,7 @@ jobs:
       article_sha256: ${{ steps.detect.outputs.article_sha256 }}
       manifest_sha256: ${{ steps.detect.outputs.manifest_sha256 }}
       is_duplicate: ${{ steps.dedup.outputs.is_duplicate }}
+      dedup_status: ${{ steps.dedup.outputs.dedup_status }}
       prior_run_url: ${{ steps.dedup.outputs.prior_run_url }}
       dispatch_status: ${{ steps.detect.outputs.status }}
 
@@ -171,11 +172,59 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           WEEK: ${{ steps.detect.outputs.week }}
           PUBLISH_RUN_ID: ${{ steps.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ steps.detect.outputs.article_sha256 }}
         run: |
           python3 scripts/auto_dispatch_detect.py \
             --check-duplicate \
             --week "$WEEK" \
-            --publish-run-id "$PUBLISH_RUN_ID"
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256"
+
+      - name: Emit detect receipt
+        if: always()
+        env:
+          DETECT_STATUS: ${{ steps.detect.outputs.status }}
+          ELIGIBLE: ${{ steps.detect.outputs.eligible }}
+          WEEK: ${{ steps.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ steps.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ steps.detect.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ steps.detect.outputs.manifest_sha256 }}
+          DEDUP_STATUS: ${{ steps.dedup.outputs.dedup_status }}
+          PRIOR_RUN_URL: ${{ steps.dedup.outputs.prior_run_url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+
+          detect_status = os.environ.get("DETECT_STATUS", "").strip()
+          dedup_status = os.environ.get("DEDUP_STATUS", "").strip()
+          eligible = os.environ.get("ELIGIBLE", "").strip()
+
+          receipt_state = ""
+          if dedup_status == "duplicate":
+              receipt_state = "duplicate_prevented"
+          elif dedup_status == "ambiguous_prior_submission":
+              receipt_state = "ambiguous_prior_submission"
+          elif detect_status and detect_status != "eligible":
+              receipt_state = detect_status
+
+          if not receipt_state:
+              raise SystemExit(0)
+
+          record = {
+              "schema_version": "podcast_dispatch_receipt_v1",
+              "workflow": "auto-podcast-dispatch",
+              "receipt_state": receipt_state,
+              "week": os.environ.get("WEEK", "").strip(),
+              "publish_run_id": os.environ.get("PUBLISH_RUN_ID", "").strip(),
+              "article_sha256": os.environ.get("ARTICLE_SHA256", "").strip(),
+              "manifest_sha256": os.environ.get("MANIFEST_SHA256", "").strip(),
+              "prior_run_url": os.environ.get("PRIOR_RUN_URL", "").strip(),
+              "actions_run_url": os.environ.get("RUN_URL", "").strip(),
+          }
+          print(f"PODCAST_DISPATCH_RECEIPT::{json.dumps(record, sort_keys=True, separators=(',', ':'))}")
+          PY
 
       - name: Record paused/deferred notice
         if: steps.detect.outputs.status == 'paused'
@@ -186,6 +235,21 @@ jobs:
             echo ""
             echo "- **Reason:** \`PODCAST_AUTO_DISPATCH_PAUSED\` repo variable is set to \`true\`"
             echo "- **Recovery:** Clear the variable and re-run this workflow with \`observe_only=true\` to verify, then with \`observe_only=false\` to dispatch."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Record ambiguous prior dispatch notice
+        if: always() && steps.dedup.outputs.dedup_status == 'ambiguous_prior_submission'
+        run: |
+          {
+            echo "## ⚠️ Podcast dispatch blocked by ambiguous prior submission"
+            echo ""
+            echo "- **Reason:** prior real-dispatch evidence could not be proven safe to retry"
+            echo "- **Prior run:** ${{ steps.dedup.outputs.prior_run_url || 'unknown' }}"
+            echo "- **Week:** ${{ steps.detect.outputs.week }}"
+            echo "- **Publish run ID:** ${{ steps.detect.outputs.publish_run_id }}"
+            echo "- **Article SHA-256:** \`${{ steps.detect.outputs.article_sha256 }}\`"
+            echo ""
+            echo "Manual review is required before any retry."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Record no-match notice
@@ -218,6 +282,9 @@ jobs:
       needs.detect.outputs.is_duplicate != 'true' &&
       inputs.observe_only != true
     runs-on: ubuntu-latest
+    concurrency:
+      group: podcast-dispatch-${{ needs.detect.outputs.week }}-${{ needs.detect.outputs.publish_run_id }}
+      cancel-in-progress: false
     environment:
       name: podcaster-real-generation
     permissions:
@@ -374,8 +441,12 @@ jobs:
       - name: Retain real generation evidence
         if: always()
         env:
+          DERIVE_CONCLUSION: ${{ steps.derive.conclusion }}
+          MANIFEST_LOCATE_CONCLUSION: ${{ steps.manifest-locate.conclusion }}
           HANDOFF_OUTCOME: ${{ steps.handoff.outcome }}
+          HANDOFF_CONCLUSION: ${{ steps.handoff.conclusion }}
           PODCASTER_JOB_ID: ${{ steps.handoff.outputs.podcaster_job_id }}
+          PODCASTER_RECEIPT_STATE: ${{ steps.handoff.outputs.podcaster_receipt_state }}
           PODCASTER_STATUS: ${{ steps.handoff.outputs.podcaster_status }}
           WEEK: ${{ needs.detect.outputs.week }}
           PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
@@ -386,9 +457,34 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           DISPATCHER: auto-dispatch
         run: |
+          RECEIPT_STATE="${PODCASTER_RECEIPT_STATE:-}"
+          if [ -z "$RECEIPT_STATE" ]; then
+            RECEIPT_STATE="pre_submit_failed"
+          fi
+          export RECEIPT_STATE
+          python3 - <<'PY'
+          import json
+          import os
+
+          record = {
+              "schema_version": "podcast_dispatch_receipt_v1",
+              "workflow": "auto-podcast-dispatch",
+              "dispatcher": os.environ.get("DISPATCHER", "").strip(),
+              "receipt_state": os.environ.get("RECEIPT_STATE", "").strip(),
+              "week": os.environ.get("WEEK", "").strip(),
+              "publish_run_id": os.environ.get("PUBLISH_RUN_ID", "").strip(),
+              "article_sha256": os.environ.get("ARTICLE_SHA256", "").strip(),
+              "manifest_sha256": os.environ.get("MANIFEST_SHA256", "").strip(),
+              "podcaster_status": os.environ.get("PODCASTER_STATUS", "").strip(),
+              "podcaster_job_id": os.environ.get("PODCASTER_JOB_ID", "").strip(),
+              "actions_run_url": os.environ.get("RUN_URL", "").strip(),
+          }
+          print(f"PODCAST_DISPATCH_RECEIPT::{json.dumps(record, sort_keys=True, separators=(',', ':'))}")
+          PY
           {
             echo "## Podcaster real-generation evidence"
             echo ""
+            echo "- Receipt state: ${RECEIPT_STATE}"
             echo "- Workflow conclusion: ${HANDOFF_OUTCOME}"
             echo "- Dispatcher: ${DISPATCHER}"
             echo "- Trigger: auto-dispatch (push to main)"

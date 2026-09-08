@@ -43,7 +43,9 @@ _VOID_HTML_TAGS = frozenset(
 
 
 class PodcasterHandoffError(RuntimeError):
-    pass
+    def __init__(self, message: str, *, receipt_state: str = "pre_submit_failed") -> None:
+        super().__init__(message)
+        self.receipt_state = receipt_state
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -958,6 +960,13 @@ def validate_exact_release_payload(
 
 
 SUCCESS_RESPONSE_STATUSES = {"accepted", "dry_run"}
+RECEIPT_STATE_SUBMITTED = "submitted"
+RECEIPT_STATE_SUBMISSION_REJECTED = "submission_rejected"
+RECEIPT_STATE_SUBMISSION_UNKNOWN = "submission_unknown"
+RECEIPT_STATE_PRE_SUBMIT_FAILED = "pre_submit_failed"
+RECEIPT_STATE_SKIPPED_NOT_CONFIGURED = "skipped_not_configured"
+RECEIPT_STATE_SKIPPED_PUBLISH_MODE = "skipped_publish_mode"
+RECEIPT_STATE_SKIPPED_GATED_REPLAY = "skipped_gated_replay"
 
 
 def validate_response(payload: Any) -> dict[str, Any]:
@@ -988,6 +997,14 @@ def write_action_outputs(response: dict[str, Any]) -> None:
         output.write(f"podcaster_status={_escape_gha_data(response['status'])}\n")
 
 
+def write_action_receipt_state(receipt_state: str) -> None:
+    output_path = os.environ.get("GITHUB_OUTPUT")
+    if not output_path:
+        return
+    with Path(output_path).open("a", encoding="utf-8") as output:
+        output.write(f"podcaster_receipt_state={_escape_gha_data(receipt_state)}\n")
+
+
 def post_handoff(
     endpoint: str, api_key: str, payload: dict[str, Any], *, timeout: int = DEFAULT_TIMEOUT_SECONDS
 ) -> dict[str, Any]:
@@ -1016,18 +1033,34 @@ def post_handoff(
         except Exception:
             error_body = "<unreadable>"
         raise PodcasterHandoffError(
-            f"Podcaster handoff failed with HTTP {exc.code}. Response body: {error_body}"
+            f"Podcaster handoff failed with HTTP {exc.code}. Response body: {error_body}",
+            receipt_state=RECEIPT_STATE_SUBMISSION_REJECTED,
         ) from exc
     except error.URLError as exc:
-        raise PodcasterHandoffError(f"Podcaster handoff failed: {exc.reason}") from exc
+        raise PodcasterHandoffError(
+            f"Podcaster handoff failed: {exc.reason}",
+            receipt_state=RECEIPT_STATE_SUBMISSION_UNKNOWN,
+        ) from exc
 
     if status_code < 200 or status_code >= 300:
-        raise PodcasterHandoffError(f"Podcaster handoff failed with HTTP {status_code}.")
+        raise PodcasterHandoffError(
+            f"Podcaster handoff failed with HTTP {status_code}.",
+            receipt_state=RECEIPT_STATE_SUBMISSION_REJECTED,
+        )
     try:
         response_payload = json.loads(response_body)
     except json.JSONDecodeError as exc:
-        raise PodcasterHandoffError("Podcaster response was not valid JSON.") from exc
-    return validate_response(response_payload)
+        raise PodcasterHandoffError(
+            "Podcaster response was not valid JSON.",
+            receipt_state=RECEIPT_STATE_SUBMISSION_UNKNOWN,
+        ) from exc
+    try:
+        return validate_response(response_payload)
+    except PodcasterHandoffError as exc:
+        raise PodcasterHandoffError(
+            str(exc),
+            receipt_state=RECEIPT_STATE_SUBMISSION_UNKNOWN,
+        ) from exc
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -1070,26 +1103,31 @@ def main(argv: list[str] | None = None) -> int:
                 publish_run_id=publish_run_id,
             )
         except PodcasterHandoffError as exc:
+            write_action_receipt_state(exc.receipt_state)
             print(f"::error::Podcaster handoff failed: {exc}")
             return 1
     endpoint = args.endpoint.strip()
     api_key = os.environ.get("PODCASTER_API_KEY", "").strip()
     if not endpoint or not api_key:
+        write_action_receipt_state(RECEIPT_STATE_SKIPPED_NOT_CONFIGURED)
         print(
             "::notice::Podcaster handoff skipped because PODCASTER_ENDPOINT and PODCASTER_API_KEY are not both configured."
         )
         return 0
 
     if args.publish_mode != "normal":
+        write_action_receipt_state(RECEIPT_STATE_SKIPPED_PUBLISH_MODE)
         print(f"::notice::Podcaster handoff skipped for publish mode {args.publish_mode}.")
         return 0
 
     try:
         manifest = exact_manifest if exact_manifest is not None else _load_manifest(args.manifest)
     except PodcasterHandoffError as exc:
+        write_action_receipt_state(exc.receipt_state)
         print(f"::error::Podcaster handoff failed: {exc}")
         return 1
     if _is_gated_replay(manifest, week=args.week):
+        write_action_receipt_state(RECEIPT_STATE_SKIPPED_GATED_REPLAY)
         print(
             "::notice::Podcaster handoff skipped: publish manifest is a non-audited replay "
             "(not eligible for handoff)."
@@ -1117,7 +1155,9 @@ def main(argv: list[str] | None = None) -> int:
             )
         response = post_handoff(endpoint, api_key, payload, timeout=args.timeout)
         write_action_outputs(response)
+        write_action_receipt_state(RECEIPT_STATE_SUBMITTED)
     except PodcasterHandoffError as exc:
+        write_action_receipt_state(exc.receipt_state)
         print(f"::error::Podcaster handoff failed: {exc}")
         return 1
     job_id = _escape_gha_data(str(response.get("job_id", "")))
