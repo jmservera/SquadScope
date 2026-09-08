@@ -1023,5 +1023,143 @@ class MonthSynthesisTrimWordsTests(unittest.TestCase):
             self.assertTrue(sentence.strip())
 
 
+class MonthSynthesisContextTests(unittest.TestCase):
+    def _weekly_summary(
+        self,
+        *,
+        week: str,
+        top_repo: str = "octo/signal-kit",
+        summary: str = "Practical agent tooling led the week.",
+        signal: str = "Teams preferred operational automation over generic hype.",
+        noise: str = "Exploit-heavy projects still added editorial noise.",
+        gaps: str = "Reliable momentum data remained missing.",
+        conclusion: str = "The strongest projects made automation safer to adopt.",
+    ) -> generate_rollups.WeeklySummary:
+        year = int(week[:4])
+        week_number = int(week[-2:])
+        date = datetime.fromisocalendar(year, week_number, 5).replace(tzinfo=UTC)
+        return generate_rollups.WeeklySummary(
+            source_path=Path(f"{week}-summary.md"),
+            title=f"Week {week_number}, {year} Analysis",
+            date=date,
+            week=week,
+            year=year,
+            month=date.month,
+            tags=("ai", "agents"),
+            repos_featured=10,
+            top_repo=top_repo,
+            featured_repos=(top_repo,),
+            summary=summary,
+            signal=signal,
+            noise=noise,
+            gaps=gaps,
+            conclusion=conclusion,
+        )
+
+    def _write_monthly_rollup(
+        self, content_root: Path, year: int, month: int, *, summary: str, narrative: str
+    ) -> None:
+        path = content_root / "monthly" / str(year) / f"{month:02d}.md"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            f"""---
+title: "{generate_rollups.MONTH_NAMES[month]} {year} Rollup"
+date: "{year}-{month:02d}-28T12:00:00+00:00"
+month: {month}
+year: {year}
+summary: "{summary}"
+---
+
+## Month Synthesis
+
+{narrative}
+""",
+            encoding="utf-8",
+        )
+
+    def test_ensure_month_synthesis_injects_prior_month_context(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            content_root = base / "content"
+            analyzed_dir.mkdir(parents=True)
+
+            self._write_monthly_rollup(
+                content_root,
+                2026,
+                5,
+                summary="May 2026 established packaging and distribution as the new baseline.",
+                narrative="May focused on packaging and distribution.",
+            )
+            self._write_monthly_rollup(
+                content_root,
+                2026,
+                6,
+                summary="June 2026 pushed evaluation and workflow fit into the center of the story.",
+                narrative="June focused on evaluation and workflow fit.",
+            )
+            self._write_monthly_rollup(
+                content_root,
+                2026,
+                7,
+                summary="July 2026 highlighted trusted skill distribution and local control gaps.",
+                narrative="July focused on trusted skill distribution.",
+            )
+
+            items = [
+                self._weekly_summary(
+                    week="2026-W32",
+                    summary="Agent tools moved deeper into work while security gaps stayed unresolved.",
+                ),
+                self._weekly_summary(
+                    week="2026-W33",
+                    top_repo="octo/review-kit",
+                    summary="Agent skills spread into real workflows while reviewability became the constraint.",
+                ),
+            ]
+
+            synthesis = month_synthesis.ensure_month_synthesis(items, analyzed_dir, content_root)
+            pack = (analyzed_dir / "2026-08-month-synthesis-pack.json").read_text(
+                encoding="utf-8"
+            )
+
+            self.assertIn("Recent monthly conclusions set the baseline:", synthesis.narrative)
+            self.assertIn(
+                "July 2026: July 2026 highlighted trusted skill distribution and local control gaps",
+                synthesis.narrative,
+            )
+            self.assertIn(
+                "June 2026: June 2026 pushed evaluation and workflow fit into the center of the story",
+                synthesis.narrative,
+            )
+            self.assertIn(
+                "should be read for what advanced, reversed, or newly emerged",
+                synthesis.narrative,
+            )
+            self.assertIn('"prior_month_context": [', pack)
+            self.assertIn('"month": "2026-07"', pack)
+
+    def test_ensure_month_synthesis_handles_missing_prior_month_context(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            content_root = base / "content"
+            analyzed_dir.mkdir(parents=True)
+            content_root.mkdir(parents=True)
+
+            items = [self._weekly_summary(week="2026-W21")]
+
+            synthesis = month_synthesis.ensure_month_synthesis(items, analyzed_dir, content_root)
+            pack = (analyzed_dir / "2026-05-month-synthesis-pack.json").read_text(
+                encoding="utf-8"
+            )
+
+            self.assertNotIn("Recent monthly conclusions set the baseline:", synthesis.narrative)
+            self.assertIn(
+                "May 2026 reads less like three isolated weekly spikes", synthesis.narrative
+            )
+            self.assertIn('"prior_month_context": []', pack)
+
+
 if __name__ == "__main__":
     unittest.main()

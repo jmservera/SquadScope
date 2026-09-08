@@ -37,7 +37,8 @@ MONTH_NAMES = {
 
 SECTION_PATTERN = re.compile(r"(?m)^##\s+(.+?)\s*$")
 WORD_PATTERN = re.compile(r"\S+")
-SYNTHESIS_VERSION = 3
+SYNTHESIS_VERSION = 4
+PRIOR_MONTH_CONTEXT_LIMIT = 3
 
 
 @dataclass(frozen=True)
@@ -68,6 +69,22 @@ class MonthSynthesis:
     @property
     def title(self) -> str:
         return f"{MONTH_NAMES[self.month]} {self.year} Month Synthesis"
+
+
+@dataclass(frozen=True)
+class PriorMonthContext:
+    year: int
+    month: int
+    title: str
+    summary: str
+
+    @property
+    def month_slug(self) -> str:
+        return f"{self.year}-{self.month:02d}"
+
+    @property
+    def month_title(self) -> str:
+        return f"{MONTH_NAMES[self.month]} {self.year}"
 
 
 def yaml_quote(value: str) -> str:
@@ -197,12 +214,18 @@ def compress_week(item: Any) -> dict[str, Any]:
     }
 
 
-def build_month_synthesis_pack(items: list[Any]) -> str:
+def build_month_synthesis_pack(
+    items: list[Any], prior_month_context: tuple[PriorMonthContext, ...] = ()
+) -> str:
     payload = {
         "synthesis_version": SYNTHESIS_VERSION,
         "month": f"{items[0].year}-{items[0].month:02d}",
         "weeks_covered": [item.week for item in items],
         "weeks": [compress_week(item) for item in items],
+        "prior_month_context": [
+            {"month": entry.month_slug, "title": entry.title, "summary": entry.summary}
+            for entry in prior_month_context
+        ],
     }
     return json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
@@ -278,15 +301,67 @@ def _trim_to_range(text: str, *, minimum: int = 200, maximum: int = 350) -> str:
     return cleaned
 
 
+def load_prior_month_contexts(
+    content_root: Path,
+    year: int,
+    month: int,
+    *,
+    limit: int = PRIOR_MONTH_CONTEXT_LIMIT,
+) -> tuple[PriorMonthContext, ...]:
+    monthly_root = content_root / "monthly"
+    if limit <= 0 or not monthly_root.exists():
+        return ()
+
+    candidates: list[tuple[int, int, Path]] = []
+    for year_dir in monthly_root.iterdir():
+        if not year_dir.is_dir() or not year_dir.name.isdigit():
+            continue
+        for path in year_dir.glob("*.md"):
+            if path.stem.startswith("_") or not path.stem.isdigit():
+                continue
+            candidate_year = int(year_dir.name)
+            candidate_month = int(path.stem)
+            if (candidate_year, candidate_month) >= (year, month):
+                continue
+            candidates.append((candidate_year, candidate_month, path))
+
+    contexts: list[PriorMonthContext] = []
+    for candidate_year, candidate_month, path in sorted(candidates, reverse=True)[:limit]:
+        frontmatter, body = analysis_gate.extract_frontmatter(path.read_text(encoding="utf-8"))
+        summary = normalize_text(str(frontmatter.get("summary", "")))
+        if not summary:
+            summary = trim_words(
+                strip_markdown(split_sections(body).get("Month Synthesis", "")), 28
+            )
+        if not summary:
+            continue
+        contexts.append(
+            PriorMonthContext(
+                year=candidate_year,
+                month=candidate_month,
+                title=str(
+                    frontmatter.get(
+                        "title", f"{MONTH_NAMES[candidate_month]} {candidate_year} Rollup"
+                    )
+                ),
+                summary=summary,
+            )
+        )
+    return tuple(contexts)
+
+
 def synthesize_month(
-    items: list[Any], analyzed_dir: Path, checksum: str | None = None
+    items: list[Any],
+    analyzed_dir: Path,
+    checksum: str | None = None,
+    prior_month_context: tuple[PriorMonthContext, ...] = (),
 ) -> MonthSynthesis:
     if not items:
         raise ValueError("Cannot synthesize an empty month")
 
     year = items[0].year
     month = items[0].month
-    pack = build_month_synthesis_pack(items)
+    pack = build_month_synthesis_pack(items, prior_month_context)
     digest = checksum or source_checksum(pack)
     path = synthesis_path(analyzed_dir, year, month)
 
@@ -314,11 +389,26 @@ def synthesize_month(
         summary += " The noise floor kept mutating instead of clearing."
     summary = trim_words(summary, 28)
 
-    opening = (
-        f"{MONTH_NAMES[month]} {year} reads less like three isolated weekly spikes and more like one continuous adjustment in priorities. "
-        f"The month opened with {summaries[0] if summaries else 'a broad platform reset'} and ended with "
-        f"{summaries[-1] if summaries else 'a clearer hierarchy of durable themes'}, which means the center of gravity shifted without abandoning the strongest earlier signals."
-    )
+    opening_parts: list[str] = []
+    if prior_month_context:
+        recent_baseline = "; ".join(
+            f"{entry.month_title}: {entry.summary.rstrip('.')}" for entry in prior_month_context
+        )
+        opening_parts.append(f"Recent monthly conclusions set the baseline: {recent_baseline}.")
+        opening_parts.append(
+            f"Against that backdrop, {MONTH_NAMES[month]} {year} should be read for what advanced, reversed, or newly emerged rather than as a replay of the same monthly storyline."
+        )
+        opening_parts.append(
+            f"It opened with {summaries[0] if summaries else 'a broad platform reset'} and ended with "
+            f"{summaries[-1] if summaries else 'a clearer hierarchy of durable themes'}, which means the center of gravity shifted without abandoning the strongest earlier signals."
+        )
+    else:
+        opening_parts.append(
+            f"{MONTH_NAMES[month]} {year} reads less like three isolated weekly spikes and more like one continuous adjustment in priorities. "
+            f"The month opened with {summaries[0] if summaries else 'a broad platform reset'} and ended with "
+            f"{summaries[-1] if summaries else 'a clearer hierarchy of durable themes'}, which means the center of gravity shifted without abandoning the strongest earlier signals."
+        )
+    opening = " ".join(opening_parts)
 
     theme_sentence_parts: list[str] = []
     if persistent_labels:
@@ -477,10 +567,23 @@ def load_month_synthesis(path: Path) -> MonthSynthesis:
     )
 
 
-def ensure_month_synthesis(items: list[Any], analyzed_dir: Path) -> MonthSynthesis:
+def ensure_month_synthesis(
+    items: list[Any],
+    analyzed_dir: Path,
+    content_root: Path | None = None,
+    *,
+    prior_month_limit: int = PRIOR_MONTH_CONTEXT_LIMIT,
+) -> MonthSynthesis:
     if not items:
         raise ValueError("Cannot synthesize an empty month")
-    pack = build_month_synthesis_pack(items)
+    prior_month_context = (
+        load_prior_month_contexts(
+            content_root, items[0].year, items[0].month, limit=prior_month_limit
+        )
+        if content_root is not None
+        else ()
+    )
+    pack = build_month_synthesis_pack(items, prior_month_context)
     write_month_synthesis_pack(pack, analyzed_dir, items[0].year, items[0].month)
     checksum = source_checksum(pack)
     path = synthesis_path(analyzed_dir, items[0].year, items[0].month)
@@ -491,6 +594,6 @@ def ensure_month_synthesis(items: list[Any], analyzed_dir: Path) -> MonthSynthes
             and cached.source_checksum == checksum
         ):
             return replace(cached, weekly_reports=build_weekly_reports(items))
-    synthesis = synthesize_month(items, analyzed_dir, checksum)
+    synthesis = synthesize_month(items, analyzed_dir, checksum, prior_month_context)
     write_month_synthesis(synthesis)
     return synthesis

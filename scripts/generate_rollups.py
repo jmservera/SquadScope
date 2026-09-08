@@ -391,7 +391,7 @@ def build_monthly_pages(
         tags_counter: Counter[str] = Counter()
         page_entries: dict[str, list[RollupEntry]] = {section: [] for section in MONTHLY_SECTIONS}
 
-        synthesis = ensure_month_synthesis(items, analyzed_dir)
+        synthesis = ensure_month_synthesis(items, analyzed_dir, content_root)
 
         crosslinks = _build_monthly_crosslinks(year, month, items)
         synthesis_text = crosslinks + "\n" + synthesis.narrative
