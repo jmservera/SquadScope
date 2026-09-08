@@ -7,7 +7,7 @@ ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 
-Version 1.2 | Status Draft — **editorial quality confirmed; cost validation required before upgrade** | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
+Version 1.2 | Status Draft — **editorial quality reviewer-assessed; cost validation required before upgrade** | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
 
 > **PRD-only. No production changes in this PR.** This document proposes a future
 > change. No agent files, `tier_selector.py`, workflows, pricing code, or tests are
@@ -25,15 +25,15 @@ weekly run consumes AI Credits at a measurable, recurring cost. `gpt-5.6-sol` is
 GA on the Copilot CLI. This PRD records the evidence from a model comparison study
 (Livingston QA, 2026-09-08) and gates the upgrade decision on sufficient evidence.
 
-**Current evidence verdict: editorial quality confirmed, cost validation required.**
-A blinded editorial review (6 articles, W33+W34, random A–F labels) found sol and
-astra both outperform gpt-5.5 by a consistent ~1.2-point margin (sol avg 8.60,
-astra avg 8.65, baseline avg 7.45/10). The same failure modes appeared in BOTH
-baseline weeks independently. Cost evidence across 2 runs is inconclusive (sol
-averages +1.2% more expensive than baseline, with high variance). Latency penalty
-of +50% for sol is confirmed (W34 serial run: 64s vs 42s). Upgrade path for sol
-is supported by editorial evidence; ≥3 additional cost runs needed to confirm
-cost neutrality before jmservera approves production change.
+**Current evidence verdict: editorial quality reviewer-assessed, cost validation required.**
+A blinded editorial review (6 articles, W33+W34, separate-context Squad child agent,
+label-blinded) found sol and astra both score higher than gpt-5.5 in a subjective
+2-packet assessment (sol avg 8.60, astra avg 8.65, baseline avg 7.45/10). This is
+not a confirmed population improvement — one reviewer, 2 source weeks, coordinator-
+authored brief. Cost evidence across 2 runs is inconclusive (sol averages +1.2% more
+expensive). All latency measurements are confounded (all W33 and W34 runs ran as
+concurrent parallel processes). Upgrade requires ≥3 additional cost runs and
+jmservera review of this updated evidence.
 
 ## 2. Evidence Summary
 
@@ -60,12 +60,12 @@ W34 but more expensive in W33. With only 2 samples, cost comparison is inconclus
 
 | Week | gpt-5.5 | gpt-5.6-sol | delta | gpt-6-astra | delta |
 |------|---------|-------------|-------|-------------|-------|
-| W34 (serial) | 42s | 64s | +52% | 99s | +136% |
+| W34 (concurrent) | 42s | 64s | +52% | 99s | +136% |
 | W33 (concurrent) | 80s | 119s | +49% | 101s | +26% |
 | **Average** | **61s** | **92s** | **+50%** | **100s** | **+64%** |
 
-⚠️ W33 runs were parallel (concurrent processes) — latency values are confounded by
-simultaneous machine load. W34 runs were serial and are more reliable.
+⚠️ **All latency measurements confounded** — all W33 and W34 runs used concurrent
+parallel processes. No latency figure is a reliable serial measurement.
 
 ### Blinded editorial review (6 articles, W33+W34, complete 2026-09-08)
 
@@ -167,10 +167,9 @@ documentation-only follow-ups and are out of scope unless explicitly approved.
   Baseline is consistently last; sol and astra tied. Upgrade path is supported.
 - **Inconclusive cost evidence.** 2 runs per model with high output-token variance (3.9k–11k
   output tokens). Sol averaged +1.2% more expensive than baseline. ≥3 runs needed.
-- **Latency penalty.** Sol averages +50% slower (W34 serial: 64s vs 42s). For pipeline timeout
-  budgets, this must be evaluated before upgrade.
-- **Concurrent run confound.** W33 latency measurements used parallel processes —
-  values are not independent. Only W34 (serial) latency is reliable for pipeline planning.
+- **Latency penalty.** Sol averages +50% in observed measurements, but all runs were concurrent parallel processes — these figures are not reliable serial measurements. Dedicated serial latency benchmarks required before pipeline timeout assessment.
+- **Concurrent run confound.** All W33 and W34 latency measurements used parallel processes —
+  values are not independent. No latency figure from this study is reliable for pipeline planning.
 - **CLI billing basis.** Costs are Copilot CLI AI credits, not direct Azure/OpenAI API
   billing; absolute figures could differ if the pipeline ever migrates providers.
 - **Model lifecycle.** GA status can still change; the pricing review cadence
@@ -178,7 +177,7 @@ documentation-only follow-ups and are out of scope unless explicitly approved.
 
 ## 8. Approval Gate
 
-This is a PRD-first proposal. **Editorial quality advantage for sol is confirmed (blinded review, 2 weeks). Cost evidence requires ≥3 additional valid runs.** No implementation begins until:
+This is a PRD-first proposal. **Editorial quality favoured for sol in a 2-week subjective reviewer assessment (not confirmed population improvement). Cost evidence requires ≥3 additional valid runs.** No implementation begins until:
 
 1. At least 3 total cost runs per model (with `--usage-output-file`) show sol ≤ baseline
    average cost on diverse week data.
