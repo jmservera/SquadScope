@@ -274,7 +274,7 @@ def detect(args: argparse.Namespace) -> None:
         set_output("reason", "ambiguous_manifest")
         sys.exit(1)
 
-    manifest_path, run_id, manifest = matched[0]
+    manifest_path, run_id, _manifest = matched[0]
 
     # Compute manifest SHA-256 from publish branch bytes (for evidence record)
     manifest_bytes = read_manifest_bytes_from_publish(manifest_path)
@@ -482,7 +482,7 @@ def find_manifest_for_article(
     Returns a dict with keys: eligible, week, run_id, manifest_path,
     article_sha256, manifest_sha256, reason.
     """
-    week, year, short = extract_week_from_article_path(article_path)
+    week, _year, _short = extract_week_from_article_path(article_path)
     if not week:
         return {"eligible": False, "reason": "invalid_article_path"}
 
