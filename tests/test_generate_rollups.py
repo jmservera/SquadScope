@@ -1,5 +1,6 @@
 import dataclasses
 import io
+import json
 import tempfile
 import unittest
 from datetime import UTC, datetime
@@ -140,6 +141,52 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn("## Year in Review", yearly)
             self.assertIn("Practical agent tooling led the week.", yearly)
             self.assertNotIn("## Arc", yearly)
+
+    def test_generate_rollups_builds_prior_month_context_in_dependency_order(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            content_root = base / "content"
+            analyzed_dir.mkdir(parents=True)
+
+            for week, date, summary in (
+                (
+                    "2026-W21",
+                    "2026-05-22T12:00:00+00:00",
+                    "May established the first monthly baseline.",
+                ),
+                (
+                    "2026-W23",
+                    "2026-06-05T12:00:00+00:00",
+                    "June extended the operating model.",
+                ),
+            ):
+                (analyzed_dir / f"{week}-summary.md").write_text(
+                    make_summary(
+                        week=week,
+                        date=date,
+                        top_repo=f"octo/{week.lower()}",
+                        summary=summary,
+                        signal="Operational tooling remained the durable signal.",
+                        noise="One noisy launch complicated discovery.",
+                        gaps="Reliable evaluation remained missing.",
+                        conclusion="Teams should watch operational adoption.",
+                    ),
+                    encoding="utf-8",
+                )
+
+            generate_rollups.generate_rollups(analyzed_dir, content_root)
+
+            may_frontmatter, _ = generate_rollups.analysis_gate.extract_frontmatter(
+                (content_root / "monthly/2026/05.md").read_text(encoding="utf-8")
+            )
+            june_pack = json.loads(
+                (analyzed_dir / "2026-06-month-synthesis-pack.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                june_pack["prior_month_context"][0]["summary"],
+                may_frontmatter["summary"],
+            )
 
     def test_yearly_narrative_does_not_clip_long_paragraphs(self) -> None:
         paragraphs = [
@@ -1055,6 +1102,7 @@ class MonthSynthesisTrimWordsTests(unittest.TestCase):
         )
         self.assertIn("the clearest forward-looking reads were:", synthesis.prediction_review)
         self.assertNotIn("forward-looking reads were that", synthesis.prediction_review)
+        self.assertIn("The main counter-signals were:", synthesis.prediction_review)
         for sentence in synthesis.narrative.split(". "):
             self.assertTrue(sentence.strip())
 
@@ -1187,9 +1235,8 @@ summary: "{summary}"
             pack = (analyzed_dir / "2026-05-month-synthesis-pack.json").read_text(encoding="utf-8")
 
             self.assertNotIn("Recent monthly conclusions set the baseline:", synthesis.narrative)
-            self.assertIn(
-                "May 2026 reads less like three isolated weekly spikes", synthesis.narrative
-            )
+            self.assertIn("May 2026 reads less like isolated weekly snapshots", synthesis.narrative)
+            self.assertIn("The main counter-signal was:", synthesis.prediction_review)
             self.assertIn('"prior_month_context": []', pack)
 
 

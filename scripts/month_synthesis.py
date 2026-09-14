@@ -37,7 +37,7 @@ MONTH_NAMES = {
 
 SECTION_PATTERN = re.compile(r"(?m)^##\s+(.+?)\s*$")
 WORD_PATTERN = re.compile(r"\S+")
-SYNTHESIS_VERSION = 7
+SYNTHESIS_VERSION = 8
 PRIOR_MONTH_CONTEXT_LIMIT = 3
 
 
@@ -405,7 +405,7 @@ def synthesize_month(
         )
     else:
         opening_parts.append(
-            f"{MONTH_NAMES[month]} {year} reads less like three isolated weekly spikes and more like one continuous adjustment in priorities. "
+            f"{MONTH_NAMES[month]} {year} reads less like isolated weekly snapshots and more like one continuous adjustment in priorities. "
             f"The opening report found: {summaries[0] if summaries else 'A broad platform reset'}. "
             f"The closing report found: {summaries[-1] if summaries else 'A clearer hierarchy of durable themes'}. "
             "Together, they show that the center of gravity shifted without abandoning the strongest earlier signals."
@@ -459,7 +459,10 @@ def synthesize_month(
         prediction_sentence += "."
 
     if noise:
-        prediction_sentence += f" The main counter-signals were: {'; '.join(noise[:2]) if len(noise) > 1 else noise[0]}."
+        noise_label = "counter-signal was" if len(noise) == 1 else "counter-signals were"
+        prediction_sentence += (
+            f" The main {noise_label}: {'; '.join(noise[:2]) if len(noise) > 1 else noise[0]}."
+        )
 
     narrative = _trim_to_range(
         "\n\n".join([opening, theme_paragraph, signal_paragraph, prediction_sentence])

@@ -531,10 +531,14 @@ def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
         return []
 
     written: list[Path] = []
-    monthly_pages = build_monthly_pages(summaries, content_root, analyzed_dir)
-    for page in monthly_pages:
-        write_rollup(page)
-        written.append(page.path)
+    month_keys = sorted({(summary.year, summary.month) for summary in summaries})
+    for year, month in month_keys:
+        monthly_summaries = [
+            summary for summary in summaries if summary.year == year and summary.month == month
+        ]
+        for page in build_monthly_pages(monthly_summaries, content_root, analyzed_dir):
+            write_rollup(page)
+            written.append(page.path)
 
     write_yearly_evidence_packs(analyzed_dir, analyzed_dir.parent / "derived" / "yearly")
 

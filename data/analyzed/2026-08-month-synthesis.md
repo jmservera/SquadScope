@@ -4,10 +4,10 @@ date: "2026-08-31T05:19:53+00:00"
 month: "2026-08"
 weeks_covered: ["2026-W32", "2026-W33", "2026-W34", "2026-W35", "2026-W36"]
 categories: ["monthly-synthesis"]
-summary: "August 2026 was defined by developer tools, agent skills, and ai agents. Later in the month, mcp, self hosting, and agent governance gathered pace."
+summary: "August 2026 was defined by agent skills, ai agents, and developer tools. Later in the month, mcp, self hosting, and agent governance gathered pace."
 status: "generated"
-source_checksum: "sha256:8be978f9382af9fe21b0db73ef3bf1dbeed7bedb7acaf754bfdabbbf2d1ddd5b"
-themes: ["developer-tools", "agent-skills", "ai-agents", "ai-safety", "mcp"]
+source_checksum: "sha256:a01ea39ef397d20cb87e8f9c250e6e740afceaf7bad3fce479b16c5510b7234b"
+themes: ["agent-skills", "ai-agents", "developer-tools", "ai-safety", "mcp"]
 persistent_themes: ["agent-skills", "ai-agents", "developer-tools", "ai-safety", "mcp", "self-hosting", "supply-chain-security"]
 accelerating_themes: ["mcp", "self-hosting", "agent-governance", "ai-infrastructure", "provenance", "trust-safety", "agent-skills", "ai-agents", "developer-tools", "ai-safety"]
 weakening_themes: ["supply-chain-security", "discovery-noise", "local-llm", "video-generation"]
@@ -17,7 +17,7 @@ top_repos: ["yc-software/qm", "AMAP-ML/LongHorizon-Harness", "CopilotKit/OpenBot
 
 ## Month Synthesis
 
-Recent monthly conclusions set the baseline: July 2026: July 2026 was defined by agent skills, security, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace; June 2026: June 2026 was defined by agent skills, noise floor, and coding agents. Later in the month, security, agent frameworks, and ai agents gathered pace; May 2026: May 2026 was defined by developer tooling, open source, and security. Later in the month, agent skills, ai memory, and coding agents gathered pace. Against that backdrop, August 2026 should be read for what advanced, reversed, or newly emerged rather than as a replay of the same monthly storyline. The opening report found: Agent tools moved deeper into work while security, local inference, and discovery noise exposed the missing trust layer. The closing report found: Agent tooling shifted toward executable research, skills, and control surfaces while infrastructure and trust gaps sharpened. Together, they show that the center of gravity shifted without abandoning the strongest earlier signals.
+Recent monthly conclusions set the baseline: July 2026: July 2026 was defined by security, agent skills, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace; June 2026: June 2026 was defined by agent skills, noise floor, and coding agents. Later in the month, security, agent frameworks, and ai agents gathered pace; May 2026: May 2026 was defined by open source, developer tooling, and ai. Later in the month, agent skills, ai memory, and coding agents gathered pace. Against that backdrop, August 2026 should be read for what advanced, reversed, or newly emerged rather than as a replay of the same monthly storyline. The opening report found: Agent tools moved deeper into work while security, local inference, and discovery noise exposed the missing trust layer. The closing report found: Agent tooling shifted toward executable research, skills, and control surfaces while infrastructure and trust gaps sharpened. Together, they show that the center of gravity shifted without abandoning the strongest earlier signals.
 
 Persistent themes such as agent skills, ai agents, and developer tools stayed present across multiple weeks. Later reports pushed mcp, self hosting, and agent governance from interesting side threads into defining narratives. Early-month concerns around supply chain security, discovery noise, and local llm faded relative to the stronger follow-on trends. The month's anchor repos moved from yc-software/qm, AMAP-ML/LongHorizon-Harness, and CopilotKit/OpenBot toward wang2122/sprix-sage-router, reinforcing that the winning projects were the ones narrowing scope while deepening practical utility.
 
