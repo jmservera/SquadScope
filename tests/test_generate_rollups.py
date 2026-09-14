@@ -1,5 +1,6 @@
 import dataclasses
 import io
+import json
 import tempfile
 import unittest
 from datetime import UTC, datetime
@@ -129,7 +130,7 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn("---\n\n## Month Synthesis", monthly)
             self.assertIn("## Month Overview", monthly)
             self.assertIn("### Week 2026-W21", monthly)
-            self.assertIn("[Week 21, 2026](/weekly/2026/W21/)", monthly)
+            self.assertIn("[Week 21, 2026](/weekly/2026/w21/)", monthly)
             self.assertIn("[octo/signal-kit](https://github.com/octo/signal-kit)", monthly)
 
             yearly = yearly_path.read_text(encoding="utf-8")
@@ -140,6 +141,52 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn("## Year in Review", yearly)
             self.assertIn("Practical agent tooling led the week.", yearly)
             self.assertNotIn("## Arc", yearly)
+
+    def test_generate_rollups_builds_prior_month_context_in_dependency_order(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            content_root = base / "content"
+            analyzed_dir.mkdir(parents=True)
+
+            for week, date, summary in (
+                (
+                    "2026-W21",
+                    "2026-05-22T12:00:00+00:00",
+                    "May established the first monthly baseline.",
+                ),
+                (
+                    "2026-W23",
+                    "2026-06-05T12:00:00+00:00",
+                    "June extended the operating model.",
+                ),
+            ):
+                (analyzed_dir / f"{week}-summary.md").write_text(
+                    make_summary(
+                        week=week,
+                        date=date,
+                        top_repo=f"octo/{week.lower()}",
+                        summary=summary,
+                        signal="Operational tooling remained the durable signal.",
+                        noise="One noisy launch complicated discovery.",
+                        gaps="Reliable evaluation remained missing.",
+                        conclusion="Teams should watch operational adoption.",
+                    ),
+                    encoding="utf-8",
+                )
+
+            generate_rollups.generate_rollups(analyzed_dir, content_root)
+
+            may_frontmatter, _ = generate_rollups.analysis_gate.extract_frontmatter(
+                (content_root / "monthly/2026/05.md").read_text(encoding="utf-8")
+            )
+            june_pack = json.loads(
+                (analyzed_dir / "2026-06-month-synthesis-pack.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                june_pack["prior_month_context"][0]["summary"],
+                may_frontmatter["summary"],
+            )
 
     def test_yearly_narrative_does_not_clip_long_paragraphs(self) -> None:
         paragraphs = [
@@ -464,7 +511,7 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn("total_repos_featured: 4", second_monthly)
             self.assertIn('months_covered: ["2026-05"]', second_yearly)
             for expected in [
-                "### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)",
+                "### Week 2026-W21 — [Week 21, 2026](/weekly/2026/w21/)",
                 "- [octo/signal-kit](https://github.com/octo/signal-kit) led the published weekly analysis for 2026-W21.",
                 "- Signal: Teams preferred operational automation over generic hype.",
                 "- Gap to watch: Reliable momentum data remained missing.",
@@ -481,6 +528,30 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertEqual(second_yearly.count("## Year in Review"), 1)
             self.assertNotEqual(first_monthly, second_monthly)
             self.assertNotEqual(first_yearly, second_yearly)
+
+    def test_merge_sections_normalizes_legacy_uppercase_week_links(self) -> None:
+        with temporary_workspace() as tmpdir:
+            path = Path(tmpdir) / "content" / "monthly" / "2026" / "05.md"
+            path.parent.mkdir(parents=True)
+            path.write_text(
+                "---\ntitle: Legacy\n---\n\n## Month Overview\n\n"
+                "### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)\n\n"
+                "## Prediction Review\n\nLegacy generated prediction text.\n\n"
+                "## Editorial Notes\n\nKeep this note.\n",
+                encoding="utf-8",
+            )
+
+            merged = generate_rollups.merge_sections(
+                path,
+                ["Month Overview"],
+                {"Month Overview": []},
+                replace_sections=frozenset({"Prediction Review"}),
+            )
+
+            self.assertIn("/weekly/2026/w21/", merged)
+            self.assertNotIn("/weekly/2026/W21/", merged)
+            self.assertNotIn("Legacy generated prediction text.", merged)
+            self.assertIn("Keep this note.", merged)
 
     def test_generate_yearly_narrative_standalone_writes_narrative_format(self) -> None:
         with temporary_workspace() as tmpdir:
@@ -1019,6 +1090,19 @@ class MonthSynthesisTrimWordsTests(unittest.TestCase):
         self.assertNotIn("…", synthesis.summary)
         self.assertNotIn("…", synthesis.trend_arc)
         self.assertNotIn("…", synthesis.prediction_review)
+        self.assertIn("The opening report found: Week 21 shows", synthesis.narrative)
+        self.assertIn("The closing report found: Week 22 delivers", synthesis.narrative)
+        self.assertIn(
+            "Across the weekly reports, the clearest signals were: The durable signal",
+            synthesis.narrative,
+        )
+        self.assertIn(
+            "anchor repos moved from vercel-labs/zero toward perplexityai/bumblebee",
+            synthesis.narrative,
+        )
+        self.assertIn("the clearest forward-looking reads were:", synthesis.prediction_review)
+        self.assertNotIn("forward-looking reads were that", synthesis.prediction_review)
+        self.assertIn("The main counter-signals were:", synthesis.prediction_review)
         for sentence in synthesis.narrative.split(". "):
             self.assertTrue(sentence.strip())
 
@@ -1151,9 +1235,8 @@ summary: "{summary}"
             pack = (analyzed_dir / "2026-05-month-synthesis-pack.json").read_text(encoding="utf-8")
 
             self.assertNotIn("Recent monthly conclusions set the baseline:", synthesis.narrative)
-            self.assertIn(
-                "May 2026 reads less like three isolated weekly spikes", synthesis.narrative
-            )
+            self.assertIn("May 2026 reads less like isolated weekly snapshots", synthesis.narrative)
+            self.assertIn("The main counter-signal was:", synthesis.prediction_review)
             self.assertIn('"prior_month_context": []', pack)
 
 

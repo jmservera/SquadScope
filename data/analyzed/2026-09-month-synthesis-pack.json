@@ -3,12 +3,12 @@
   "prior_month_context": [
     {
       "month": "2026-08",
-      "summary": "August 2026 was defined by developer tools, ai agents, and agent skills. Later in the month, mcp, self hosting, and agent governance gathered pace.",
+      "summary": "August 2026 was defined by agent skills, ai agents, and developer tools. Later in the month, mcp, self hosting, and agent governance gathered pace.",
       "title": "MCP and Self Hosting Surge \u2014 August 2026"
     },
     {
       "month": "2026-07",
-      "summary": "July 2026 was defined by security, ai agents, and agent skills. Later in the month, discovery noise, local ai, and robotics gathered pace.",
+      "summary": "July 2026 was defined by security, agent skills, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace.",
       "title": "Discovery Noise and Local AI Surge \u2014 July 2026"
     },
     {
@@ -17,7 +17,7 @@
       "title": "Security and Agent Frameworks Surge \u2014 June 2026"
     }
   ],
-  "synthesis_version": 4,
+  "synthesis_version": 8,
   "weeks": [
     {
       "conclusion": "Watch whether agent memory turns into a cluster rather than a one-off. If [okf-memory/okf-agent-memory](https://github.com/okf-memory/okf-agent-memory) attracts adjacent tools for audit, migration, or evaluation, September's agent story will move from orchestration into governance infrastructure. Also watch whether [lnkiai/m3e-canvas](https://github.com/lnkiai/m3e-canvas) sustains past novelty; design-to-code tools are useful, but only durable if they survive real product iteration.",

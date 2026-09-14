@@ -1,7 +1,7 @@
 {
   "month": "2026-05",
   "prior_month_context": [],
-  "synthesis_version": 4,
+  "synthesis_version": 8,
   "weeks": [
     {
       "conclusion": "Week 21 matters because it shows where the GitHub conversation is maturing: away from generic AI excitement and toward tooling that makes agent workflows usable. But it also shows why the analyzer contract has to be strict. Until the pipeline has real trend baselines and better filtering, the right editorial stance is confident about the signal, skeptical about the noise, and explicit about the gaps.",

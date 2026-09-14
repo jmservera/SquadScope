@@ -3,7 +3,7 @@
   "prior_month_context": [
     {
       "month": "2026-07",
-      "summary": "July 2026 was defined by security, ai agents, and agent skills. Later in the month, discovery noise, local ai, and robotics gathered pace.",
+      "summary": "July 2026 was defined by security, agent skills, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace.",
       "title": "Discovery Noise and Local AI Surge \u2014 July 2026"
     },
     {
@@ -13,11 +13,11 @@
     },
     {
       "month": "2026-05",
-      "summary": "May 2026 was defined by open source, developer tooling, and security. Later in the month, agent skills, ai memory, and coding agents gathered pace.",
+      "summary": "May 2026 was defined by open source, developer tooling, and ai. Later in the month, agent skills, ai memory, and coding agents gathered pace.",
       "title": "Agent Skills and AI Memory Surge \u2014 May 2026"
     }
   ],
-  "synthesis_version": 4,
+  "synthesis_version": 8,
   "weeks": [
     {
       "conclusion": "Watch whether agent harnesses start adding explicit governance instead of more orchestration surfaces. The next credible projects will likely combine skills, session replay, scoped permissions, and local execution into reviewable workflows. Local Kimi-style inference should keep attracting attention if it proves useful for coding agents rather than just benchmark theater. Noise will remain high around AI branding, account automation, and game tooling, so fork quality and substantive code should matter more than stars.",

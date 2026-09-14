@@ -1,17 +1,17 @@
 +++
-title = "Fastest-growing AI repositories this year as of 2026-W37"
-date = "2026-09-07T04:17:20Z"
-lastmod = "2026-09-07T04:17:20Z"
+title = "Fastest-growing AI repositories this year as of 2026-W38"
+date = "2026-09-14T04:38:26Z"
+lastmod = "2026-09-14T04:38:26Z"
 draft = false
 summary = "Top 100 repositories ranked by derived star gain across 2026 observations."
-description = "AI and developer-tool repositories with the largest observed star gains across the current year's checked-in Claracle data, measured as of 2026-W37."
+description = "AI and developer-tool repositories with the largest observed star gains across the current year's checked-in Claracle data, measured as of 2026-W38."
 layout = "single"
 ranking_id = "fastest-growing-ai-repositories-this-year"
 metric_definition = "Derived star gain: latest observed stars minus earliest observed stars in the year."
-as_of = "2026-09-07"
-as_of_week = "2026-W37"
+as_of = "2026-09-14"
+as_of_week = "2026-W38"
 methodology_url = "/methodology/"
-source = "2026-W21 through 2026-W37 (17 weekly raw artifacts from data/archive/recovered-W23-W29 and data/raw)"
+source = "2026-W21 through 2026-W38 (18 weekly raw artifacts from data/archive/recovered-W23-W29 and data/raw)"
 cadence = "Monthly regeneration from checked-in data/raw and recovered archive artifacts."
 categories = ["Data Observatory"]
 tags = ["data-pages", "github-trends", "rankings"]
@@ -56,39 +56,39 @@ comparison_label = "19,341 → 129,684 stars"
 
 [[ranking]]
 rank = 3
-repo = "NousResearch/hermes-agent"
-repo_key = "nousresearch/hermes-agent"
-repo_slug = "nousresearch-hermes-agent"
-url = "https://github.com/NousResearch/hermes-agent"
-github_url = "https://github.com/NousResearch/hermes-agent"
-metric_value = 87134
-metric_label = "+87,134 stars"
-context = "155,505 → 242,639 stars from 2026-W21 to 2026-W37."
-context_summary = "The agent that grows with you"
-context_accessible_text = "The agent that grows with you"
-language = "Python"
-latest_stars = 242639
-last_seen_week = "2026-W37"
-comparison_value = 155505
-comparison_label = "155,505 → 242,639 stars"
-
-[[ranking]]
-rank = 4
 repo = "obra/superpowers"
 repo_key = "obra/superpowers"
 repo_slug = "obra-superpowers"
 url = "https://github.com/obra/superpowers"
 github_url = "https://github.com/obra/superpowers"
-metric_value = 86654
-metric_label = "+86,654 stars"
-context = "195,828 → 282,482 stars from 2026-W21 to 2026-W37."
+metric_value = 90454
+metric_label = "+90,454 stars"
+context = "195,828 → 286,282 stars from 2026-W21 to 2026-W38."
 context_summary = "An agentic skills framework & software development methodology that works."
 context_accessible_text = "An agentic skills framework & software development methodology that works."
 language = "Shell"
-latest_stars = 282482
-last_seen_week = "2026-W37"
+latest_stars = 286282
+last_seen_week = "2026-W38"
 comparison_value = 195828
-comparison_label = "195,828 → 282,482 stars"
+comparison_label = "195,828 → 286,282 stars"
+
+[[ranking]]
+rank = 4
+repo = "NousResearch/hermes-agent"
+repo_key = "nousresearch/hermes-agent"
+repo_slug = "nousresearch-hermes-agent"
+url = "https://github.com/NousResearch/hermes-agent"
+github_url = "https://github.com/NousResearch/hermes-agent"
+metric_value = 89714
+metric_label = "+89,714 stars"
+context = "155,505 → 245,219 stars from 2026-W21 to 2026-W38."
+context_summary = "The agent that grows with you"
+context_accessible_text = "The agent that grows with you"
+language = "Python"
+latest_stars = 245219
+last_seen_week = "2026-W38"
+comparison_value = 155505
+comparison_label = "155,505 → 245,219 stars"
 
 [[ranking]]
 rank = 5
@@ -110,75 +110,75 @@ comparison_label = "13,837 → 80,967 stars"
 
 [[ranking]]
 rank = 6
-repo = "harry0703/MoneyPrinterTurbo"
-repo_key = "harry0703/moneyprinterturbo"
-repo_slug = "harry0703-moneyprinterturbo"
-url = "https://github.com/harry0703/MoneyPrinterTurbo"
-github_url = "https://github.com/harry0703/MoneyPrinterTurbo"
-metric_value = 63856
-metric_label = "+63,856 stars"
-context = "57,343 → 121,199 stars from 2026-W21 to 2026-W37."
-context_summary = "利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short videos from a topic or keyword with an automated AI workflow."
-context_accessible_text = "利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short videos from a topic or keyword with an automated AI workflow."
-language = "Python"
-latest_stars = 121199
-last_seen_week = "2026-W37"
-comparison_value = 57343
-comparison_label = "57,343 → 121,199 stars"
-
-[[ranking]]
-rank = 7
 repo = "affaan-m/ECC"
 repo_key = "affaan-m/ecc"
 repo_slug = "affaan-m-ecc"
 url = "https://github.com/affaan-m/ECC"
 github_url = "https://github.com/affaan-m/ECC"
-metric_value = 60155
-metric_label = "+60,155 stars"
-context = "191,484 → 251,639 stars from 2026-W22 to 2026-W37."
+metric_value = 66364
+metric_label = "+66,364 stars"
+context = "191,484 → 257,848 stars from 2026-W22 to 2026-W38."
 context_summary = "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode…"
 context_accessible_text = "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond."
 language = "JavaScript"
-latest_stars = 251639
-last_seen_week = "2026-W37"
+latest_stars = 257848
+last_seen_week = "2026-W38"
 comparison_value = 191484
-comparison_label = "191,484 → 251,639 stars"
+comparison_label = "191,484 → 257,848 stars"
+
+[[ranking]]
+rank = 7
+repo = "harry0703/MoneyPrinterTurbo"
+repo_key = "harry0703/moneyprinterturbo"
+repo_slug = "harry0703-moneyprinterturbo"
+url = "https://github.com/harry0703/MoneyPrinterTurbo"
+github_url = "https://github.com/harry0703/MoneyPrinterTurbo"
+metric_value = 65975
+metric_label = "+65,975 stars"
+context = "57,343 → 123,318 stars from 2026-W21 to 2026-W38."
+context_summary = "利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short videos from a topic or keyword with an automated AI workflow."
+context_accessible_text = "利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short videos from a topic or keyword with an automated AI workflow."
+language = "Python"
+latest_stars = 123318
+last_seen_week = "2026-W38"
+comparison_value = 57343
+comparison_label = "57,343 → 123,318 stars"
 
 [[ranking]]
 rank = 8
-repo = "farion1231/cc-switch"
-repo_key = "farion1231/cc-switch"
-repo_slug = "farion1231-cc-switch"
-url = "https://github.com/farion1231/cc-switch"
-github_url = "https://github.com/farion1231/cc-switch"
-metric_value = 57366
-metric_label = "+57,366 stars"
-context = "74,044 → 131,410 stars from 2026-W21 to 2026-W37."
-context_summary = "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io"
-context_accessible_text = "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io"
-language = "Rust"
-latest_stars = 131410
-last_seen_week = "2026-W37"
-comparison_value = 74044
-comparison_label = "74,044 → 131,410 stars"
-
-[[ranking]]
-rank = 9
 repo = "firecrawl/firecrawl"
 repo_key = "firecrawl/firecrawl"
 repo_slug = "firecrawl-firecrawl"
 url = "https://github.com/firecrawl/firecrawl"
 github_url = "https://github.com/firecrawl/firecrawl"
-metric_value = 56143
-metric_label = "+56,143 stars"
-context = "121,183 → 177,326 stars from 2026-W21 to 2026-W37."
+metric_value = 58882
+metric_label = "+58,882 stars"
+context = "121,183 → 180,065 stars from 2026-W21 to 2026-W38."
 context_summary = "The context API to search, scrape, and interact with the web at scale. 🔥"
 context_accessible_text = "The context API to search, scrape, and interact with the web at scale. 🔥"
 language = "TypeScript"
-latest_stars = 177326
-last_seen_week = "2026-W37"
+latest_stars = 180065
+last_seen_week = "2026-W38"
 comparison_value = 121183
-comparison_label = "121,183 → 177,326 stars"
+comparison_label = "121,183 → 180,065 stars"
+
+[[ranking]]
+rank = 9
+repo = "farion1231/cc-switch"
+repo_key = "farion1231/cc-switch"
+repo_slug = "farion1231-cc-switch"
+url = "https://github.com/farion1231/cc-switch"
+github_url = "https://github.com/farion1231/cc-switch"
+metric_value = 58657
+metric_label = "+58,657 stars"
+context = "74,044 → 132,701 stars from 2026-W21 to 2026-W38."
+context_summary = "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io"
+context_accessible_text = "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io"
+language = "Rust"
+latest_stars = 132701
+last_seen_week = "2026-W38"
+comparison_value = 74044
+comparison_label = "74,044 → 132,701 stars"
 
 [[ranking]]
 rank = 10
@@ -187,16 +187,16 @@ repo_key = "microsoft/markitdown"
 repo_slug = "microsoft-markitdown"
 url = "https://github.com/microsoft/markitdown"
 github_url = "https://github.com/microsoft/markitdown"
-metric_value = 53884
-metric_label = "+53,884 stars"
-context = "125,043 → 178,927 stars from 2026-W22 to 2026-W37."
+metric_value = 58640
+metric_label = "+58,640 stars"
+context = "125,043 → 183,683 stars from 2026-W22 to 2026-W38."
 context_summary = "Python tool for converting files and office documents to Markdown."
 context_accessible_text = "Python tool for converting files and office documents to Markdown."
 language = "Python"
-latest_stars = 178927
-last_seen_week = "2026-W37"
+latest_stars = 183683
+last_seen_week = "2026-W38"
 comparison_value = 125043
-comparison_label = "125,043 → 178,927 stars"
+comparison_label = "125,043 → 183,683 stars"
 
 [[ranking]]
 rank = 11
@@ -205,16 +205,16 @@ repo_key = "earendil-works/pi"
 repo_slug = "earendil-works-pi"
 url = "https://github.com/earendil-works/pi"
 github_url = "https://github.com/earendil-works/pi"
-metric_value = 48226
-metric_label = "+48,226 stars"
-context = "54,265 → 102,491 stars from 2026-W22 to 2026-W37."
+metric_value = 50516
+metric_label = "+50,516 stars"
+context = "54,265 → 104,781 stars from 2026-W22 to 2026-W38."
 context_summary = "AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI"
 context_accessible_text = "AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI"
 language = "TypeScript"
-latest_stars = 102491
-last_seen_week = "2026-W37"
+latest_stars = 104781
+last_seen_week = "2026-W38"
 comparison_value = 54265
-comparison_label = "54,265 → 102,491 stars"
+comparison_label = "54,265 → 104,781 stars"
 
 [[ranking]]
 rank = 12
@@ -223,16 +223,16 @@ repo_key = "anomalyco/opencode"
 repo_slug = "anomalyco-opencode"
 url = "https://github.com/anomalyco/opencode"
 github_url = "https://github.com/anomalyco/opencode"
-metric_value = 43432
-metric_label = "+43,432 stars"
-context = "161,919 → 205,351 stars from 2026-W21 to 2026-W37."
+metric_value = 45264
+metric_label = "+45,264 stars"
+context = "161,919 → 207,183 stars from 2026-W21 to 2026-W38."
 context_summary = "The open source coding agent."
 context_accessible_text = "The open source coding agent."
 language = "TypeScript"
-latest_stars = 205351
-last_seen_week = "2026-W37"
+latest_stars = 207183
+last_seen_week = "2026-W38"
 comparison_value = 161919
-comparison_label = "161,919 → 205,351 stars"
+comparison_label = "161,919 → 207,183 stars"
 
 [[ranking]]
 rank = 13
@@ -241,16 +241,16 @@ repo_key = "nexu-io/open-design"
 repo_slug = "nexu-io-open-design"
 url = "https://github.com/nexu-io/open-design"
 github_url = "https://github.com/nexu-io/open-design"
-metric_value = 42861
-metric_label = "+42,861 stars"
-context = "51,653 → 94,514 stars from 2026-W22 to 2026-W37."
+metric_value = 44343
+metric_label = "+44,343 stars"
+context = "51,653 → 95,996 stars from 2026-W22 to 2026-W38."
 context_summary = "🎨 Best DeepSeek Harness Design Plugin. The open-source Claude Design alternative. 🖥️ Local-first desktop app. 🖼️ Your coding agent becomes the design engine…"
 context_accessible_text = "🎨 Best DeepSeek Harness Design Plugin. The open-source Claude Design alternative. 🖥️ Local-first desktop app. 🖼️ Your coding agent becomes the design engine: prototypes, landing pages, dashboards, slides, images & video — real files, HTML/PDF/PPTX/MP4 export. 🤖 Claude Code / Codex / Cursor / DeepSeek Harness / OpenCode & 20+ CLIs via BYOK."
 language = "TypeScript"
-latest_stars = 94514
-last_seen_week = "2026-W37"
+latest_stars = 95996
+last_seen_week = "2026-W38"
 comparison_value = 51653
-comparison_label = "51,653 → 94,514 stars"
+comparison_label = "51,653 → 95,996 stars"
 
 [[ranking]]
 rank = 14
@@ -259,16 +259,16 @@ repo_key = "juliusbrussee/caveman"
 repo_slug = "juliusbrussee-caveman"
 url = "https://github.com/JuliusBrussee/caveman"
 github_url = "https://github.com/JuliusBrussee/caveman"
-metric_value = 42458
-metric_label = "+42,458 stars"
-context = "61,512 → 103,970 stars from 2026-W21 to 2026-W37."
+metric_value = 43898
+metric_label = "+43,898 stars"
+context = "61,512 → 105,410 stars from 2026-W21 to 2026-W38."
 context_summary = "🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like caveman"
 context_accessible_text = "🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like caveman"
 language = "Go"
-latest_stars = 103970
-last_seen_week = "2026-W37"
+latest_stars = 105410
+last_seen_week = "2026-W38"
 comparison_value = 61512
-comparison_label = "61,512 → 103,970 stars"
+comparison_label = "61,512 → 105,410 stars"
 
 [[ranking]]
 rank = 15
@@ -277,16 +277,16 @@ repo_key = "msitarzewski/agency-agents"
 repo_slug = "msitarzewski-agency-agents"
 url = "https://github.com/msitarzewski/agency-agents"
 github_url = "https://github.com/msitarzewski/agency-agents"
-metric_value = 42215
-metric_label = "+42,215 stars"
-context = "108,305 → 150,520 stars from 2026-W24 to 2026-W37."
+metric_value = 43874
+metric_label = "+43,874 stars"
+context = "108,305 → 152,179 stars from 2026-W24 to 2026-W38."
 context_summary = "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a…"
 context_accessible_text = "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables."
 language = "Shell"
-latest_stars = 150520
-last_seen_week = "2026-W37"
+latest_stars = 152179
+last_seen_week = "2026-W38"
 comparison_value = 108305
-comparison_label = "108,305 → 150,520 stars"
+comparison_label = "108,305 → 152,179 stars"
 
 [[ranking]]
 rank = 16
@@ -295,16 +295,16 @@ repo_key = "openai/codex"
 repo_slug = "openai-codex"
 url = "https://github.com/openai/codex"
 github_url = "https://github.com/openai/codex"
-metric_value = 38586
-metric_label = "+38,586 stars"
-context = "83,440 → 122,026 stars from 2026-W21 to 2026-W37."
+metric_value = 40468
+metric_label = "+40,468 stars"
+context = "83,440 → 123,908 stars from 2026-W21 to 2026-W38."
 context_summary = "Lightweight coding agent that runs in your terminal"
 context_accessible_text = "Lightweight coding agent that runs in your terminal"
 language = "Rust"
-latest_stars = 122026
-last_seen_week = "2026-W37"
+latest_stars = 123908
+last_seen_week = "2026-W38"
 comparison_value = 83440
-comparison_label = "83,440 → 122,026 stars"
+comparison_label = "83,440 → 123,908 stars"
 
 [[ranking]]
 rank = 17
@@ -313,16 +313,16 @@ repo_key = "anthropics/skills"
 repo_slug = "anthropics-skills"
 url = "https://github.com/anthropics/skills"
 github_url = "https://github.com/anthropics/skills"
-metric_value = 38267
-metric_label = "+38,267 stars"
-context = "136,628 → 174,895 stars from 2026-W21 to 2026-W37."
+metric_value = 39537
+metric_label = "+39,537 stars"
+context = "136,628 → 176,165 stars from 2026-W21 to 2026-W38."
 context_summary = "Public repository for Agent Skills"
 context_accessible_text = "Public repository for Agent Skills"
 language = "Python"
-latest_stars = 174895
-last_seen_week = "2026-W37"
+latest_stars = 176165
+last_seen_week = "2026-W38"
 comparison_value = 136628
-comparison_label = "136,628 → 174,895 stars"
+comparison_label = "136,628 → 176,165 stars"
 
 [[ranking]]
 rank = 18
@@ -331,106 +331,106 @@ repo_key = "graphify-labs/graphify"
 repo_slug = "graphify-labs-graphify"
 url = "https://github.com/Graphify-Labs/graphify"
 github_url = "https://github.com/Graphify-Labs/graphify"
-metric_value = 37163
-metric_label = "+37,163 stars"
-context = "78,234 → 115,397 stars from 2026-W28 to 2026-W37."
+metric_value = 38258
+metric_label = "+38,258 stars"
+context = "78,234 → 116,492 stars from 2026-W28 to 2026-W38."
 context_summary = "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and…"
 context_accessible_text = "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and Gemini CLI: local deterministic AST parsing, every edge explained, no vector store."
 language = "Python"
-latest_stars = 115397
-last_seen_week = "2026-W37"
+latest_stars = 116492
+last_seen_week = "2026-W38"
 comparison_value = 78234
-comparison_label = "78,234 → 115,397 stars"
+comparison_label = "78,234 → 116,492 stars"
 
 [[ranking]]
 rank = 19
-repo = "ruvnet/RuView"
-repo_key = "ruvnet/ruview"
-repo_slug = "ruvnet-ruview"
-url = "https://github.com/ruvnet/RuView"
-github_url = "https://github.com/ruvnet/RuView"
-metric_value = 33222
-metric_label = "+33,222 stars"
-context = "59,429 → 92,651 stars from 2026-W21 to 2026-W37."
-context_summary = "π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video."
-context_accessible_text = "π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video."
-language = "Rust"
-latest_stars = 92651
-last_seen_week = "2026-W37"
-comparison_value = 59429
-comparison_label = "59,429 → 92,651 stars"
+repo = "deepseek-ai/deepseek-harness"
+repo_key = "deepseek-ai/deepseek-harness"
+repo_slug = "deepseek-ai-deepseek-harness"
+url = "https://github.com/deepseek-ai/deepseek-harness"
+github_url = "https://github.com/deepseek-ai/deepseek-harness"
+metric_value = 35307
+metric_label = "+35,307 stars"
+context = "187,574 → 222,881 stars from 2026-W34 to 2026-W38."
+context_summary = "DeepSeek Harness: Everything is a Plugin."
+context_accessible_text = "DeepSeek Harness: Everything is a Plugin."
+language = "TypeScript"
+latest_stars = 222881
+last_seen_week = "2026-W38"
+comparison_value = 187574
+comparison_label = "187,574 → 222,881 stars"
 
 [[ranking]]
 rank = 20
-repo = "garrytan/gstack"
-repo_key = "garrytan/gstack"
-repo_slug = "garrytan-gstack"
-url = "https://github.com/garrytan/gstack"
-github_url = "https://github.com/garrytan/gstack"
-metric_value = 33033
-metric_label = "+33,033 stars"
-context = "98,784 → 131,817 stars from 2026-W21 to 2026-W37."
-context_summary = "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA"
-context_accessible_text = "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA"
-language = "TypeScript"
-latest_stars = 131817
-last_seen_week = "2026-W37"
-comparison_value = 98784
-comparison_label = "98,784 → 131,817 stars"
-
-[[ranking]]
-rank = 21
 repo = "github/spec-kit"
 repo_key = "github/spec-kit"
 repo_slug = "github-spec-kit"
 url = "https://github.com/github/spec-kit"
 github_url = "https://github.com/github/spec-kit"
-metric_value = 32039
-metric_label = "+32,039 stars"
-context = "101,712 → 133,751 stars from 2026-W21 to 2026-W37."
+metric_value = 34780
+metric_label = "+34,780 stars"
+context = "101,712 → 136,492 stars from 2026-W21 to 2026-W38."
 context_summary = "💫 Toolkit to help you get started with Spec-Driven Development"
 context_accessible_text = "💫 Toolkit to help you get started with Spec-Driven Development"
 language = "Python"
-latest_stars = 133751
-last_seen_week = "2026-W37"
+latest_stars = 136492
+last_seen_week = "2026-W38"
 comparison_value = 101712
-comparison_label = "101,712 → 133,751 stars"
+comparison_label = "101,712 → 136,492 stars"
+
+[[ranking]]
+rank = 21
+repo = "garrytan/gstack"
+repo_key = "garrytan/gstack"
+repo_slug = "garrytan-gstack"
+url = "https://github.com/garrytan/gstack"
+github_url = "https://github.com/garrytan/gstack"
+metric_value = 34125
+metric_label = "+34,125 stars"
+context = "98,784 → 132,909 stars from 2026-W21 to 2026-W38."
+context_summary = "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA"
+context_accessible_text = "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA"
+language = "TypeScript"
+latest_stars = 132909
+last_seen_week = "2026-W38"
+comparison_value = 98784
+comparison_label = "98,784 → 132,909 stars"
 
 [[ranking]]
 rank = 22
+repo = "ruvnet/RuView"
+repo_key = "ruvnet/ruview"
+repo_slug = "ruvnet-ruview"
+url = "https://github.com/ruvnet/RuView"
+github_url = "https://github.com/ruvnet/RuView"
+metric_value = 34121
+metric_label = "+34,121 stars"
+context = "59,429 → 93,550 stars from 2026-W21 to 2026-W38."
+context_summary = "π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video."
+context_accessible_text = "π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video."
+language = "Rust"
+latest_stars = 93550
+last_seen_week = "2026-W38"
+comparison_value = 59429
+comparison_label = "59,429 → 93,550 stars"
+
+[[ranking]]
+rank = 23
 repo = "addyosmani/agent-skills"
 repo_key = "addyosmani/agent-skills"
 repo_slug = "addyosmani-agent-skills"
 url = "https://github.com/addyosmani/agent-skills"
 github_url = "https://github.com/addyosmani/agent-skills"
-metric_value = 31960
-metric_label = "+31,960 stars"
-context = "60,659 → 92,619 stars from 2026-W25 to 2026-W37."
+metric_value = 33431
+metric_label = "+33,431 stars"
+context = "60,659 → 94,090 stars from 2026-W25 to 2026-W38."
 context_summary = "Production-grade engineering skills for AI coding agents."
 context_accessible_text = "Production-grade engineering skills for AI coding agents."
 language = "JavaScript"
-latest_stars = 92619
-last_seen_week = "2026-W37"
+latest_stars = 94090
+last_seen_week = "2026-W38"
 comparison_value = 60659
-comparison_label = "60,659 → 92,619 stars"
-
-[[ranking]]
-rank = 23
-repo = "koala73/worldmonitor"
-repo_key = "koala73/worldmonitor"
-repo_slug = "koala73-worldmonitor"
-url = "https://github.com/koala73/worldmonitor"
-github_url = "https://github.com/koala73/worldmonitor"
-metric_value = 31353
-metric_label = "+31,353 stars"
-context = "54,368 → 85,721 stars from 2026-W21 to 2026-W37."
-context_summary = "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness…"
-context_accessible_text = "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface"
-language = "TypeScript"
-latest_stars = 85721
-last_seen_week = "2026-W37"
-comparison_value = 54368
-comparison_label = "54,368 → 85,721 stars"
+comparison_label = "60,659 → 94,090 stars"
 
 [[ranking]]
 rank = 24
@@ -439,37 +439,73 @@ repo_key = "nextlevelbuilder/ui-ux-pro-max-skill"
 repo_slug = "nextlevelbuilder-ui-ux-pro-max-skill"
 url = "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
 github_url = "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
-metric_value = 30758
-metric_label = "+30,758 stars"
-context = "94,814 → 125,572 stars from 2026-W26 to 2026-W37."
+metric_value = 32610
+metric_label = "+32,610 stars"
+context = "94,814 → 127,424 stars from 2026-W26 to 2026-W38."
 context_summary = "An AI skill that provides design intelligence for building professional UI/UX across multiple platforms."
 context_accessible_text = "An AI skill that provides design intelligence for building professional UI/UX across multiple platforms."
 language = "Python"
-latest_stars = 125572
-last_seen_week = "2026-W37"
+latest_stars = 127424
+last_seen_week = "2026-W38"
 comparison_value = 94814
-comparison_label = "94,814 → 125,572 stars"
+comparison_label = "94,814 → 127,424 stars"
 
 [[ranking]]
 rank = 25
-repo = "deepseek-ai/deepseek-harness"
-repo_key = "deepseek-ai/deepseek-harness"
-repo_slug = "deepseek-ai-deepseek-harness"
-url = "https://github.com/deepseek-ai/deepseek-harness"
-github_url = "https://github.com/deepseek-ai/deepseek-harness"
-metric_value = 26675
-metric_label = "+26,675 stars"
-context = "187,574 → 214,249 stars from 2026-W34 to 2026-W37."
-context_summary = "DeepSeek Harness: Everything is a Plugin."
-context_accessible_text = "DeepSeek Harness: Everything is a Plugin."
+repo = "koala73/worldmonitor"
+repo_key = "koala73/worldmonitor"
+repo_slug = "koala73-worldmonitor"
+url = "https://github.com/koala73/worldmonitor"
+github_url = "https://github.com/koala73/worldmonitor"
+metric_value = 31838
+metric_label = "+31,838 stars"
+context = "54,368 → 86,206 stars from 2026-W21 to 2026-W38."
+context_summary = "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness…"
+context_accessible_text = "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface"
 language = "TypeScript"
-latest_stars = 214249
-last_seen_week = "2026-W37"
-comparison_value = 187574
-comparison_label = "187,574 → 214,249 stars"
+latest_stars = 86206
+last_seen_week = "2026-W38"
+comparison_value = 54368
+comparison_label = "54,368 → 86,206 stars"
 
 [[ranking]]
 rank = 26
+repo = "rtk-ai/rtk"
+repo_key = "rtk-ai/rtk"
+repo_slug = "rtk-ai-rtk"
+url = "https://github.com/rtk-ai/rtk"
+github_url = "https://github.com/rtk-ai/rtk"
+metric_value = 26396
+metric_label = "+26,396 stars"
+context = "53,829 → 80,225 stars from 2026-W22 to 2026-W38."
+context_summary = "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies"
+context_accessible_text = "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies"
+language = "Rust"
+latest_stars = 80225
+last_seen_week = "2026-W38"
+comparison_value = 53829
+comparison_label = "53,829 → 80,225 stars"
+
+[[ranking]]
+rank = 27
+repo = "Shubhamsaboo/awesome-llm-apps"
+repo_key = "shubhamsaboo/awesome-llm-apps"
+repo_slug = "shubhamsaboo-awesome-llm-apps"
+url = "https://github.com/Shubhamsaboo/awesome-llm-apps"
+github_url = "https://github.com/Shubhamsaboo/awesome-llm-apps"
+metric_value = 26304
+metric_label = "+26,304 stars"
+context = "111,694 → 137,998 stars from 2026-W22 to 2026-W38."
+context_summary = "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source."
+context_accessible_text = "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source."
+language = "Python"
+latest_stars = 137998
+last_seen_week = "2026-W38"
+comparison_value = 111694
+comparison_label = "111,694 → 137,998 stars"
+
+[[ranking]]
+rank = 28
 repo = "TauricResearch/TradingAgents"
 repo_key = "tauricresearch/tradingagents"
 repo_slug = "tauricresearch-tradingagents"
@@ -487,7 +523,7 @@ comparison_value = 76702
 comparison_label = "76,702 → 102,762 stars"
 
 [[ranking]]
-rank = 27
+rank = 29
 repo = "VoltAgent/awesome-design-md"
 repo_key = "voltagent/awesome-design-md"
 repo_slug = "voltagent-awesome-design-md"
@@ -505,43 +541,25 @@ comparison_value = 80584
 comparison_label = "80,584 → 106,061 stars"
 
 [[ranking]]
-rank = 28
-repo = "rtk-ai/rtk"
-repo_key = "rtk-ai/rtk"
-repo_slug = "rtk-ai-rtk"
-url = "https://github.com/rtk-ai/rtk"
-github_url = "https://github.com/rtk-ai/rtk"
-metric_value = 25307
-metric_label = "+25,307 stars"
-context = "53,829 → 79,136 stars from 2026-W22 to 2026-W37."
-context_summary = "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies"
-context_accessible_text = "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies"
-language = "Rust"
-latest_stars = 79136
-last_seen_week = "2026-W37"
-comparison_value = 53829
-comparison_label = "53,829 → 79,136 stars"
-
-[[ranking]]
-rank = 29
-repo = "Shubhamsaboo/awesome-llm-apps"
-repo_key = "shubhamsaboo/awesome-llm-apps"
-repo_slug = "shubhamsaboo-awesome-llm-apps"
-url = "https://github.com/Shubhamsaboo/awesome-llm-apps"
-github_url = "https://github.com/Shubhamsaboo/awesome-llm-apps"
-metric_value = 24738
-metric_label = "+24,738 stars"
-context = "111,694 → 136,432 stars from 2026-W22 to 2026-W37."
-context_summary = "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source."
-context_accessible_text = "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source."
-language = "Python"
-latest_stars = 136432
-last_seen_week = "2026-W37"
-comparison_value = 111694
-comparison_label = "111,694 → 136,432 stars"
-
-[[ranking]]
 rank = 30
+repo = "D4Vinci/Scrapling"
+repo_key = "d4vinci/scrapling"
+repo_slug = "d4vinci-scrapling"
+url = "https://github.com/D4Vinci/Scrapling"
+github_url = "https://github.com/D4Vinci/Scrapling"
+metric_value = 23270
+metric_label = "+23,270 stars"
+context = "57,507 → 80,777 stars from 2026-W23 to 2026-W38."
+context_summary = "🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!"
+context_accessible_text = "🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!"
+language = "Python"
+latest_stars = 80777
+last_seen_week = "2026-W38"
+comparison_value = 57507
+comparison_label = "57,507 → 80,777 stars"
+
+[[ranking]]
+rank = 31
 repo = "Leonxlnx/taste-skill"
 repo_key = "leonxlnx/taste-skill"
 repo_slug = "leonxlnx-taste-skill"
@@ -559,25 +577,25 @@ comparison_value = 57767
 comparison_label = "57,767 → 79,704 stars"
 
 [[ranking]]
-rank = 31
-repo = "D4Vinci/Scrapling"
-repo_key = "d4vinci/scrapling"
-repo_slug = "d4vinci-scrapling"
-url = "https://github.com/D4Vinci/Scrapling"
-github_url = "https://github.com/D4Vinci/Scrapling"
-metric_value = 21308
-metric_label = "+21,308 stars"
-context = "57,507 → 78,815 stars from 2026-W23 to 2026-W37."
-context_summary = "🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!"
-context_accessible_text = "🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!"
-language = "Python"
-latest_stars = 78815
-last_seen_week = "2026-W37"
-comparison_value = 57507
-comparison_label = "57,507 → 78,815 stars"
+rank = 32
+repo = "Egonex-AI/Understand-Anything"
+repo_key = "egonex-ai/understand-anything"
+repo_slug = "egonex-ai-understand-anything"
+url = "https://github.com/Egonex-AI/Understand-Anything"
+github_url = "https://github.com/Egonex-AI/Understand-Anything"
+metric_value = 21616
+metric_label = "+21,616 stars"
+context = "60,972 → 82,588 stars from 2026-W25 to 2026-W38."
+context_summary = "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with…"
+context_accessible_text = "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more."
+language = "TypeScript"
+latest_stars = 82588
+last_seen_week = "2026-W38"
+comparison_value = 60972
+comparison_label = "60,972 → 82,588 stars"
 
 [[ranking]]
-rank = 32
+rank = 33
 repo = "Panniantong/Agent-Reach"
 repo_key = "panniantong/agent-reach"
 repo_slug = "panniantong-agent-reach"
@@ -593,24 +611,6 @@ latest_stars = 78468
 last_seen_week = "2026-W37"
 comparison_value = 57476
 comparison_label = "57,476 → 78,468 stars"
-
-[[ranking]]
-rank = 33
-repo = "Egonex-AI/Understand-Anything"
-repo_key = "egonex-ai/understand-anything"
-repo_slug = "egonex-ai-understand-anything"
-url = "https://github.com/Egonex-AI/Understand-Anything"
-github_url = "https://github.com/Egonex-AI/Understand-Anything"
-metric_value = 20714
-metric_label = "+20,714 stars"
-context = "60,972 → 81,686 stars from 2026-W25 to 2026-W37."
-context_summary = "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with…"
-context_accessible_text = "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more."
-language = "TypeScript"
-latest_stars = 81686
-last_seen_week = "2026-W37"
-comparison_value = 60972
-comparison_label = "60,972 → 81,686 stars"
 
 [[ranking]]
 rank = 34
@@ -637,88 +637,88 @@ repo_key = "anthropics/claude-code"
 repo_slug = "anthropics-claude-code"
 url = "https://github.com/anthropics/claude-code"
 github_url = "https://github.com/anthropics/claude-code"
-metric_value = 19766
-metric_label = "+19,766 stars"
-context = "124,518 → 144,284 stars from 2026-W21 to 2026-W37."
+metric_value = 20439
+metric_label = "+20,439 stars"
+context = "124,518 → 144,957 stars from 2026-W21 to 2026-W38."
 context_summary = "Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks…"
 context_accessible_text = "Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands."
 language = "Python"
-latest_stars = 144284
-last_seen_week = "2026-W37"
+latest_stars = 144957
+last_seen_week = "2026-W38"
 comparison_value = 124518
-comparison_label = "124,518 → 144,284 stars"
+comparison_label = "124,518 → 144,957 stars"
 
 [[ranking]]
 rank = 36
-repo = "ruvnet/ruflo"
-repo_key = "ruvnet/ruflo"
-repo_slug = "ruvnet-ruflo"
-url = "https://github.com/ruvnet/ruflo"
-github_url = "https://github.com/ruvnet/ruflo"
-metric_value = 18521
-metric_label = "+18,521 stars"
-context = "52,540 → 71,061 stars from 2026-W21 to 2026-W37."
-context_summary = "🌊 The original agent meta-harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features…"
-context_accessible_text = "🌊 The original agent meta-harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning intelligence, RAG integration, and native Claude Code / Codex / Hermes and many more Integrated"
-language = "TypeScript"
-latest_stars = 71061
-last_seen_week = "2026-W37"
-comparison_value = 52540
-comparison_label = "52,540 → 71,061 stars"
-
-[[ranking]]
-rank = 37
-repo = "Comfy-Org/ComfyUI"
-repo_key = "comfy-org/comfyui"
-repo_slug = "comfy-org-comfyui"
-url = "https://github.com/Comfy-Org/ComfyUI"
-github_url = "https://github.com/Comfy-Org/ComfyUI"
-metric_value = 18447
-metric_label = "+18,447 stars"
-context = "113,372 → 131,819 stars from 2026-W21 to 2026-W37."
-context_summary = "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface."
-context_accessible_text = "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface."
-language = "Python"
-latest_stars = 131819
-last_seen_week = "2026-W37"
-comparison_value = 113372
-comparison_label = "113,372 → 131,819 stars"
-
-[[ranking]]
-rank = 38
 repo = "browser-use/browser-use"
 repo_key = "browser-use/browser-use"
 repo_slug = "browser-use-browser-use"
 url = "https://github.com/browser-use/browser-use"
 github_url = "https://github.com/browser-use/browser-use"
-metric_value = 18371
-metric_label = "+18,371 stars"
-context = "94,414 → 112,785 stars from 2026-W21 to 2026-W37."
-context_summary = "🌐 Make websites accessible for AI agents. Automate tasks online with ease."
-context_accessible_text = "🌐 Make websites accessible for AI agents. Automate tasks online with ease."
+metric_value = 20124
+metric_label = "+20,124 stars"
+context = "94,414 → 114,538 stars from 2026-W21 to 2026-W38."
+context_summary = "Agents that use the browser."
+context_accessible_text = "Agents that use the browser."
 language = "Python"
-latest_stars = 112785
-last_seen_week = "2026-W37"
+latest_stars = 114538
+last_seen_week = "2026-W38"
 comparison_value = 94414
-comparison_label = "94,414 → 112,785 stars"
+comparison_label = "94,414 → 114,538 stars"
+
+[[ranking]]
+rank = 37
+repo = "ruvnet/ruflo"
+repo_key = "ruvnet/ruflo"
+repo_slug = "ruvnet-ruflo"
+url = "https://github.com/ruvnet/ruflo"
+github_url = "https://github.com/ruvnet/ruflo"
+metric_value = 19807
+metric_label = "+19,807 stars"
+context = "52,540 → 72,347 stars from 2026-W21 to 2026-W38."
+context_summary = "🌊 The original agent harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive…"
+context_accessible_text = "🌊 The original agent harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning intelligence, federation, vector RAG integration, and native Claude Code / Codex / Hermes and many more Integrated"
+language = "TypeScript"
+latest_stars = 72347
+last_seen_week = "2026-W38"
+comparison_value = 52540
+comparison_label = "52,540 → 72,347 stars"
+
+[[ranking]]
+rank = 38
+repo = "Comfy-Org/ComfyUI"
+repo_key = "comfy-org/comfyui"
+repo_slug = "comfy-org-comfyui"
+url = "https://github.com/Comfy-Org/ComfyUI"
+github_url = "https://github.com/Comfy-Org/ComfyUI"
+metric_value = 19592
+metric_label = "+19,592 stars"
+context = "113,372 → 132,964 stars from 2026-W21 to 2026-W38."
+context_summary = "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface."
+context_accessible_text = "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface."
+language = "Python"
+latest_stars = 132964
+last_seen_week = "2026-W38"
+comparison_value = 113372
+comparison_label = "113,372 → 132,964 stars"
 
 [[ranking]]
 rank = 39
-repo = "thedotmack/claude-mem"
-repo_key = "thedotmack/claude-mem"
-repo_slug = "thedotmack-claude-mem"
-url = "https://github.com/thedotmack/claude-mem"
-github_url = "https://github.com/thedotmack/claude-mem"
-metric_value = 16895
-metric_label = "+16,895 stars"
-context = "76,464 → 93,359 stars from 2026-W21 to 2026-W37."
-context_summary = "Persistent Context Across Sessions for Every Agent – Captures everything your agent does during sessions, compresses it with AI, and injects relevant…"
-context_accessible_text = "Persistent Context Across Sessions for Every Agent – Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode + More"
-language = "JavaScript"
-latest_stars = 93359
-last_seen_week = "2026-W37"
-comparison_value = 76464
-comparison_label = "76,464 → 93,359 stars"
+repo = "unclecode/crawl4ai"
+repo_key = "unclecode/crawl4ai"
+repo_slug = "unclecode-crawl4ai"
+url = "https://github.com/unclecode/crawl4ai"
+github_url = "https://github.com/unclecode/crawl4ai"
+metric_value = 17508
+metric_label = "+17,508 stars"
+context = "65,817 → 83,325 stars from 2026-W21 to 2026-W38."
+context_summary = "🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN"
+context_accessible_text = "🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN"
+language = "Python"
+latest_stars = 83325
+last_seen_week = "2026-W38"
+comparison_value = 65817
+comparison_label = "65,817 → 83,325 stars"
 
 [[ranking]]
 rank = 40
@@ -727,52 +727,52 @@ repo_key = "ggml-org/llama.cpp"
 repo_slug = "ggml-org-llama-cpp"
 url = "https://github.com/ggml-org/llama.cpp"
 github_url = "https://github.com/ggml-org/llama.cpp"
-metric_value = 16577
-metric_label = "+16,577 stars"
-context = "110,714 → 127,291 stars from 2026-W21 to 2026-W37."
+metric_value = 17420
+metric_label = "+17,420 stars"
+context = "110,714 → 128,134 stars from 2026-W21 to 2026-W38."
 context_summary = "LLM inference in C/C++"
 context_accessible_text = "LLM inference in C/C++"
 language = "C++"
-latest_stars = 127291
-last_seen_week = "2026-W37"
+latest_stars = 128134
+last_seen_week = "2026-W38"
 comparison_value = 110714
-comparison_label = "110,714 → 127,291 stars"
+comparison_label = "110,714 → 128,134 stars"
 
 [[ranking]]
 rank = 41
+repo = "thedotmack/claude-mem"
+repo_key = "thedotmack/claude-mem"
+repo_slug = "thedotmack-claude-mem"
+url = "https://github.com/thedotmack/claude-mem"
+github_url = "https://github.com/thedotmack/claude-mem"
+metric_value = 17350
+metric_label = "+17,350 stars"
+context = "76,464 → 93,814 stars from 2026-W21 to 2026-W38."
+context_summary = "Persistent Context Across Sessions for Every Agent – Captures everything your agent does during sessions, compresses it with AI, and injects relevant…"
+context_accessible_text = "Persistent Context Across Sessions for Every Agent – Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode + More"
+language = "TypeScript"
+latest_stars = 93814
+last_seen_week = "2026-W38"
+comparison_value = 76464
+comparison_label = "76,464 → 93,814 stars"
+
+[[ranking]]
+rank = 42
 repo = "openclaw/openclaw"
 repo_key = "openclaw/openclaw"
 repo_slug = "openclaw-openclaw"
 url = "https://github.com/openclaw/openclaw"
 github_url = "https://github.com/openclaw/openclaw"
-metric_value = 16247
-metric_label = "+16,247 stars"
-context = "372,819 → 389,066 stars from 2026-W21 to 2026-W37."
+metric_value = 16809
+metric_label = "+16,809 stars"
+context = "372,819 → 389,628 stars from 2026-W21 to 2026-W38."
 context_summary = "The AI that really does things. Any OS. Any Platform. The lobster way. 🦞"
 context_accessible_text = "The AI that really does things. Any OS. Any Platform. The lobster way. 🦞"
 language = "TypeScript"
-latest_stars = 389066
-last_seen_week = "2026-W37"
+latest_stars = 389628
+last_seen_week = "2026-W38"
 comparison_value = 372819
-comparison_label = "372,819 → 389,066 stars"
-
-[[ranking]]
-rank = 42
-repo = "unclecode/crawl4ai"
-repo_key = "unclecode/crawl4ai"
-repo_slug = "unclecode-crawl4ai"
-url = "https://github.com/unclecode/crawl4ai"
-github_url = "https://github.com/unclecode/crawl4ai"
-metric_value = 16019
-metric_label = "+16,019 stars"
-context = "65,817 → 81,836 stars from 2026-W21 to 2026-W37."
-context_summary = "🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN"
-context_accessible_text = "🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN"
-language = "Python"
-latest_stars = 81836
-last_seen_week = "2026-W37"
-comparison_value = 65817
-comparison_label = "65,817 → 81,836 stars"
+comparison_label = "372,819 → 389,628 stars"
 
 [[ranking]]
 rank = 43
@@ -781,19 +781,37 @@ repo_key = "opendatalab/mineru"
 repo_slug = "opendatalab-mineru"
 url = "https://github.com/opendatalab/MinerU"
 github_url = "https://github.com/opendatalab/MinerU"
-metric_value = 15848
-metric_label = "+15,848 stars"
-context = "63,498 → 79,346 stars from 2026-W21 to 2026-W37."
+metric_value = 16348
+metric_label = "+16,348 stars"
+context = "63,498 → 79,846 stars from 2026-W21 to 2026-W38."
 context_summary = "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows."
 context_accessible_text = "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows."
 language = "Python"
-latest_stars = 79346
-last_seen_week = "2026-W37"
+latest_stars = 79846
+last_seen_week = "2026-W38"
 comparison_value = 63498
-comparison_label = "63,498 → 79,346 stars"
+comparison_label = "63,498 → 79,846 stars"
 
 [[ranking]]
 rank = 44
+repo = "n8n-io/n8n"
+repo_key = "n8n-io/n8n"
+repo_slug = "n8n-io-n8n"
+url = "https://github.com/n8n-io/n8n"
+github_url = "https://github.com/n8n-io/n8n"
+metric_value = 15740
+metric_label = "+15,740 stars"
+context = "188,473 → 204,213 stars from 2026-W21 to 2026-W38."
+context_summary = "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations."
+context_accessible_text = "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations."
+language = "TypeScript"
+latest_stars = 204213
+last_seen_week = "2026-W38"
+comparison_value = 188473
+comparison_label = "188,473 → 204,213 stars"
+
+[[ranking]]
+rank = 45
 repo = "santifer/career-ops"
 repo_key = "santifer/career-ops"
 repo_slug = "santifer-career-ops"
@@ -811,166 +829,148 @@ comparison_value = 54035
 comparison_label = "54,035 → 69,489 stars"
 
 [[ranking]]
-rank = 45
-repo = "n8n-io/n8n"
-repo_key = "n8n-io/n8n"
-repo_slug = "n8n-io-n8n"
-url = "https://github.com/n8n-io/n8n"
-github_url = "https://github.com/n8n-io/n8n"
-metric_value = 15109
-metric_label = "+15,109 stars"
-context = "188,473 → 203,582 stars from 2026-W21 to 2026-W37."
-context_summary = "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations."
-context_accessible_text = "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations."
-language = "TypeScript"
-latest_stars = 203582
-last_seen_week = "2026-W37"
-comparison_value = 188473
-comparison_label = "188,473 → 203,582 stars"
-
-[[ranking]]
 rank = 46
-repo = "paperclipai/paperclip"
-repo_key = "paperclipai/paperclip"
-repo_slug = "paperclipai-paperclip"
-url = "https://github.com/paperclipai/paperclip"
-github_url = "https://github.com/paperclipai/paperclip"
-metric_value = 13934
-metric_label = "+13,934 stars"
-context = "66,196 → 80,130 stars from 2026-W21 to 2026-W37."
-context_summary = "The open-source app everyone uses to manage agents at work"
-context_accessible_text = "The open-source app everyone uses to manage agents at work"
-language = "TypeScript"
-latest_stars = 80130
-last_seen_week = "2026-W37"
-comparison_value = 66196
-comparison_label = "66,196 → 80,130 stars"
-
-[[ranking]]
-rank = 47
-repo = "open-webui/open-webui"
-repo_key = "open-webui/open-webui"
-repo_slug = "open-webui-open-webui"
-url = "https://github.com/open-webui/open-webui"
-github_url = "https://github.com/open-webui/open-webui"
-metric_value = 13595
-metric_label = "+13,595 stars"
-context = "137,561 → 151,156 stars from 2026-W21 to 2026-W37."
-context_summary = "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)"
-context_accessible_text = "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)"
-language = "Python"
-latest_stars = 151156
-last_seen_week = "2026-W37"
-comparison_value = 137561
-comparison_label = "137,561 → 151,156 stars"
-
-[[ranking]]
-rank = 48
-repo = "bytedance/deer-flow"
-repo_key = "bytedance/deer-flow"
-repo_slug = "bytedance-deer-flow"
-url = "https://github.com/bytedance/deer-flow"
-github_url = "https://github.com/bytedance/deer-flow"
-metric_value = 13328
-metric_label = "+13,328 stars"
-context = "68,308 → 81,636 stars from 2026-W21 to 2026-W37."
-context_summary = "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message…"
-context_accessible_text = "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours."
-language = "Python"
-latest_stars = 81636
-last_seen_week = "2026-W37"
-comparison_value = 68308
-comparison_label = "68,308 → 81,636 stars"
-
-[[ranking]]
-rank = 49
-repo = "colbymchenry/codegraph"
-repo_key = "colbymchenry/codegraph"
-repo_slug = "colbymchenry-codegraph"
-url = "https://github.com/colbymchenry/codegraph"
-github_url = "https://github.com/colbymchenry/codegraph"
-metric_value = 12974
-metric_label = "+12,974 stars"
-context = "55,761 → 68,735 stars from 2026-W27 to 2026-W36."
-context_summary = "Pre-indexed code knowledge graph, auto syncs on code changes, for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, CoPilot, and Hermes Agent…"
-context_accessible_text = "Pre-indexed code knowledge graph, auto syncs on code changes, for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, CoPilot, and Hermes Agent — fewer tokens, fewer tool calls, 100% local"
-language = "C"
-latest_stars = 68735
-last_seen_week = "2026-W36"
-comparison_value = 55761
-comparison_label = "55,761 → 68,735 stars"
-
-[[ranking]]
-rank = 50
-repo = "langgenius/dify"
-repo_key = "langgenius/dify"
-repo_slug = "langgenius-dify"
-url = "https://github.com/langgenius/dify"
-github_url = "https://github.com/langgenius/dify"
-metric_value = 12921
-metric_label = "+12,921 stars"
-context = "141,747 → 154,668 stars from 2026-W21 to 2026-W37."
-context_summary = "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams…"
-context_accessible_text = "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams move from prototype to production without rebuilding the stack."
-language = "TypeScript"
-latest_stars = 154668
-last_seen_week = "2026-W37"
-comparison_value = 141747
-comparison_label = "141,747 → 154,668 stars"
-
-[[ranking]]
-rank = 51
-repo = "OpenHands/OpenHands"
-repo_key = "openhands/openhands"
-repo_slug = "openhands-openhands"
-url = "https://github.com/OpenHands/OpenHands"
-github_url = "https://github.com/OpenHands/OpenHands"
-metric_value = 12457
-metric_label = "+12,457 stars"
-context = "73,933 → 86,390 stars from 2026-W21 to 2026-W37."
-context_summary = "🙌 OpenHands: AI-Driven Development"
-context_accessible_text = "🙌 OpenHands: AI-Driven Development"
-language = "TypeScript"
-latest_stars = 86390
-last_seen_week = "2026-W37"
-comparison_value = 73933
-comparison_label = "73,933 → 86,390 stars"
-
-[[ranking]]
-rank = 52
-repo = "Fission-AI/OpenSpec"
-repo_key = "fission-ai/openspec"
-repo_slug = "fission-ai-openspec"
-url = "https://github.com/Fission-AI/OpenSpec"
-github_url = "https://github.com/Fission-AI/OpenSpec"
-metric_value = 12425
-metric_label = "+12,425 stars"
-context = "55,050 → 67,475 stars from 2026-W25 to 2026-W37."
-context_summary = "Spec-driven development (SDD) for AI coding assistants."
-context_accessible_text = "Spec-driven development (SDD) for AI coding assistants."
-language = "TypeScript"
-latest_stars = 67475
-last_seen_week = "2026-W37"
-comparison_value = 55050
-comparison_label = "55,050 → 67,475 stars"
-
-[[ranking]]
-rank = 53
 repo = "headroomlabs-ai/headroom"
 repo_key = "headroomlabs-ai/headroom"
 repo_slug = "headroomlabs-ai-headroom"
 url = "https://github.com/headroomlabs-ai/headroom"
 github_url = "https://github.com/headroomlabs-ai/headroom"
-metric_value = 12307
-metric_label = "+12,307 stars"
-context = "56,857 → 69,164 stars from 2026-W28 to 2026-W37."
+metric_value = 15088
+metric_label = "+15,088 stars"
+context = "56,857 → 71,945 stars from 2026-W28 to 2026-W38."
 context_summary = "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers…"
 context_accessible_text = "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers. Library, proxy, MCP server."
 language = "Python"
-latest_stars = 69164
-last_seen_week = "2026-W37"
+latest_stars = 71945
+last_seen_week = "2026-W38"
 comparison_value = 56857
-comparison_label = "56,857 → 69,164 stars"
+comparison_label = "56,857 → 71,945 stars"
+
+[[ranking]]
+rank = 47
+repo = "colbymchenry/codegraph"
+repo_key = "colbymchenry/codegraph"
+repo_slug = "colbymchenry-codegraph"
+url = "https://github.com/colbymchenry/codegraph"
+github_url = "https://github.com/colbymchenry/codegraph"
+metric_value = 14955
+metric_label = "+14,955 stars"
+context = "55,761 → 70,716 stars from 2026-W27 to 2026-W38."
+context_summary = "Pre-indexed code knowledge graph, auto syncs on code changes, for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, CoPilot, and Hermes Agent…"
+context_accessible_text = "Pre-indexed code knowledge graph, auto syncs on code changes, for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, CoPilot, and Hermes Agent — fewer tokens, fewer tool calls, 100% local"
+language = "C"
+latest_stars = 70716
+last_seen_week = "2026-W38"
+comparison_value = 55761
+comparison_label = "55,761 → 70,716 stars"
+
+[[ranking]]
+rank = 48
+repo = "paperclipai/paperclip"
+repo_key = "paperclipai/paperclip"
+repo_slug = "paperclipai-paperclip"
+url = "https://github.com/paperclipai/paperclip"
+github_url = "https://github.com/paperclipai/paperclip"
+metric_value = 14424
+metric_label = "+14,424 stars"
+context = "66,196 → 80,620 stars from 2026-W21 to 2026-W38."
+context_summary = "The open-source app everyone uses to manage agents at work"
+context_accessible_text = "The open-source app everyone uses to manage agents at work"
+language = "TypeScript"
+latest_stars = 80620
+last_seen_week = "2026-W38"
+comparison_value = 66196
+comparison_label = "66,196 → 80,620 stars"
+
+[[ranking]]
+rank = 49
+repo = "open-webui/open-webui"
+repo_key = "open-webui/open-webui"
+repo_slug = "open-webui-open-webui"
+url = "https://github.com/open-webui/open-webui"
+github_url = "https://github.com/open-webui/open-webui"
+metric_value = 14354
+metric_label = "+14,354 stars"
+context = "137,561 → 151,915 stars from 2026-W21 to 2026-W38."
+context_summary = "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)"
+context_accessible_text = "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)"
+language = "Python"
+latest_stars = 151915
+last_seen_week = "2026-W38"
+comparison_value = 137561
+comparison_label = "137,561 → 151,915 stars"
+
+[[ranking]]
+rank = 50
+repo = "bytedance/deer-flow"
+repo_key = "bytedance/deer-flow"
+repo_slug = "bytedance-deer-flow"
+url = "https://github.com/bytedance/deer-flow"
+github_url = "https://github.com/bytedance/deer-flow"
+metric_value = 14077
+metric_label = "+14,077 stars"
+context = "68,308 → 82,385 stars from 2026-W21 to 2026-W38."
+context_summary = "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message…"
+context_accessible_text = "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours."
+language = "Python"
+latest_stars = 82385
+last_seen_week = "2026-W38"
+comparison_value = 68308
+comparison_label = "68,308 → 82,385 stars"
+
+[[ranking]]
+rank = 51
+repo = "langgenius/dify"
+repo_key = "langgenius/dify"
+repo_slug = "langgenius-dify"
+url = "https://github.com/langgenius/dify"
+github_url = "https://github.com/langgenius/dify"
+metric_value = 13891
+metric_label = "+13,891 stars"
+context = "141,747 → 155,638 stars from 2026-W21 to 2026-W38."
+context_summary = "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams…"
+context_accessible_text = "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams move from prototype to production without rebuilding the stack."
+language = "TypeScript"
+latest_stars = 155638
+last_seen_week = "2026-W38"
+comparison_value = 141747
+comparison_label = "141,747 → 155,638 stars"
+
+[[ranking]]
+rank = 52
+repo = "OpenHands/OpenHands"
+repo_key = "openhands/openhands"
+repo_slug = "openhands-openhands"
+url = "https://github.com/OpenHands/OpenHands"
+github_url = "https://github.com/OpenHands/OpenHands"
+metric_value = 13880
+metric_label = "+13,880 stars"
+context = "73,933 → 87,813 stars from 2026-W21 to 2026-W38."
+context_summary = "🙌 OpenHands: AI-Driven Development"
+context_accessible_text = "🙌 OpenHands: AI-Driven Development"
+language = "TypeScript"
+latest_stars = 87813
+last_seen_week = "2026-W38"
+comparison_value = 73933
+comparison_label = "73,933 → 87,813 stars"
+
+[[ranking]]
+rank = 53
+repo = "Fission-AI/OpenSpec"
+repo_key = "fission-ai/openspec"
+repo_slug = "fission-ai-openspec"
+url = "https://github.com/Fission-AI/OpenSpec"
+github_url = "https://github.com/Fission-AI/OpenSpec"
+metric_value = 13114
+metric_label = "+13,114 stars"
+context = "55,050 → 68,164 stars from 2026-W25 to 2026-W38."
+context_summary = "Spec-driven development (SDD) for AI coding assistants."
+context_accessible_text = "Spec-driven development (SDD) for AI coding assistants."
+language = "TypeScript"
+latest_stars = 68164
+last_seen_week = "2026-W38"
+comparison_value = 55050
+comparison_label = "55,050 → 68,164 stars"
 
 [[ranking]]
 rank = 54
@@ -979,16 +979,16 @@ repo_key = "unslothai/unsloth"
 repo_slug = "unslothai-unsloth"
 url = "https://github.com/unslothai/unsloth"
 github_url = "https://github.com/unslothai/unsloth"
-metric_value = 11240
-metric_label = "+11,240 stars"
-context = "64,501 → 75,741 stars from 2026-W21 to 2026-W37."
+metric_value = 11627
+metric_label = "+11,627 stars"
+context = "64,501 → 76,128 stars from 2026-W21 to 2026-W38."
 context_summary = "Local UI to run and train LLMs and diffusion models. Supports GGUF, MLX, Qwen3.8, DeepSeek-V4, MiniMax-H3, Gemma 4, FLUX and more."
 context_accessible_text = "Local UI to run and train LLMs and diffusion models. Supports GGUF, MLX, Qwen3.8, DeepSeek-V4, MiniMax-H3, Gemma 4, FLUX and more."
 language = "Python"
-latest_stars = 75741
-last_seen_week = "2026-W37"
+latest_stars = 76128
+last_seen_week = "2026-W38"
 comparison_value = 64501
-comparison_label = "64,501 → 75,741 stars"
+comparison_label = "64,501 → 76,128 stars"
 
 [[ranking]]
 rank = 55
@@ -997,16 +997,16 @@ repo_key = "vllm-project/vllm"
 repo_slug = "vllm-project-vllm"
 url = "https://github.com/vllm-project/vllm"
 github_url = "https://github.com/vllm-project/vllm"
-metric_value = 10793
-metric_label = "+10,793 stars"
-context = "80,325 → 91,118 stars from 2026-W21 to 2026-W37."
+metric_value = 11344
+metric_label = "+11,344 stars"
+context = "80,325 → 91,669 stars from 2026-W21 to 2026-W38."
 context_summary = "A high-throughput and memory-efficient inference and serving engine for LLMs"
 context_accessible_text = "A high-throughput and memory-efficient inference and serving engine for LLMs"
 language = "Python"
-latest_stars = 91118
-last_seen_week = "2026-W37"
+latest_stars = 91669
+last_seen_week = "2026-W38"
 comparison_value = 80325
-comparison_label = "80,325 → 91,118 stars"
+comparison_label = "80,325 → 91,669 stars"
 
 [[ranking]]
 rank = 56
@@ -1015,37 +1015,91 @@ repo_key = "code-yeongyu/oh-my-openagent"
 repo_slug = "code-yeongyu-oh-my-openagent"
 url = "https://github.com/code-yeongyu/oh-my-openagent"
 github_url = "https://github.com/code-yeongyu/oh-my-openagent"
-metric_value = 10443
-metric_label = "+10,443 stars"
-context = "58,328 → 68,771 stars from 2026-W21 to 2026-W37."
-context_summary = "OmO: Drop your tokens. Ultrawork. Done."
-context_accessible_text = "OmO: Drop your tokens. Ultrawork. Done."
+metric_value = 10694
+metric_label = "+10,694 stars"
+context = "58,328 → 69,022 stars from 2026-W21 to 2026-W38."
+context_summary = "OmO: Just type \"mass ulw\" keyword with your prompt. Now you are the master of graph engineering."
+context_accessible_text = "OmO: Just type \"mass ulw\" keyword with your prompt. Now you are the master of graph engineering."
 language = "TypeScript"
-latest_stars = 68771
-last_seen_week = "2026-W37"
+latest_stars = 69022
+last_seen_week = "2026-W38"
 comparison_value = 58328
-comparison_label = "58,328 → 68,771 stars"
+comparison_label = "58,328 → 69,022 stars"
 
 [[ranking]]
 rank = 57
+repo = "stablyai/orca"
+repo_key = "stablyai/orca"
+repo_slug = "stablyai-orca"
+url = "https://github.com/stablyai/orca"
+github_url = "https://github.com/stablyai/orca"
+metric_value = 10341
+metric_label = "+10,341 stars"
+context = "57,633 → 67,974 stars from 2026-W36 to 2026-W38."
+context_summary = "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop, mobile and remote runtime."
+context_accessible_text = "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop, mobile and remote runtime."
+language = "TypeScript"
+latest_stars = 67974
+last_seen_week = "2026-W38"
+comparison_value = 57633
+comparison_label = "57,633 → 67,974 stars"
+
+[[ranking]]
+rank = 58
+repo = "pbakaus/impeccable"
+repo_key = "pbakaus/impeccable"
+repo_slug = "pbakaus-impeccable"
+url = "https://github.com/pbakaus/impeccable"
+github_url = "https://github.com/pbakaus/impeccable"
+metric_value = 10333
+metric_label = "+10,333 stars"
+context = "57,519 → 67,852 stars from 2026-W33 to 2026-W38."
+context_summary = "The design language that makes your AI harness better at design."
+context_accessible_text = "The design language that makes your AI harness better at design."
+language = "JavaScript"
+latest_stars = 67852
+last_seen_week = "2026-W38"
+comparison_value = 57519
+comparison_label = "57,519 → 67,852 stars"
+
+[[ranking]]
+rank = 59
 repo = "ZhuLinsen/daily_stock_analysis"
 repo_key = "zhulinsen/daily_stock_analysis"
 repo_slug = "zhulinsen-daily-stock-analysis"
 url = "https://github.com/ZhuLinsen/daily_stock_analysis"
 github_url = "https://github.com/ZhuLinsen/daily_stock_analysis"
-metric_value = 9928
-metric_label = "+9,928 stars"
-context = "54,788 → 64,716 stars from 2026-W28 to 2026-W37."
+metric_value = 10220
+metric_label = "+10,220 stars"
+context = "54,788 → 65,008 stars from 2026-W28 to 2026-W38."
 context_summary = "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision…"
 context_accessible_text = "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs."
 language = "Python"
-latest_stars = 64716
-last_seen_week = "2026-W37"
+latest_stars = 65008
+last_seen_week = "2026-W38"
 comparison_value = 54788
-comparison_label = "54,788 → 64,716 stars"
+comparison_label = "54,788 → 65,008 stars"
 
 [[ranking]]
-rank = 58
+rank = 60
+repo = "infiniflow/ragflow"
+repo_key = "infiniflow/ragflow"
+repo_slug = "infiniflow-ragflow"
+url = "https://github.com/infiniflow/ragflow"
+github_url = "https://github.com/infiniflow/ragflow"
+metric_value = 9931
+metric_label = "+9,931 stars"
+context = "80,710 → 90,641 stars from 2026-W21 to 2026-W38."
+context_summary = "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context…"
+context_accessible_text = "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs"
+language = "Go"
+latest_stars = 90641
+last_seen_week = "2026-W38"
+comparison_value = 80710
+comparison_label = "80,710 → 90,641 stars"
+
+[[ranking]]
+rank = 61
 repo = "666ghj/MiroFish"
 repo_key = "666ghj/mirofish"
 repo_slug = "666ghj-mirofish"
@@ -1063,25 +1117,25 @@ comparison_value = 62412
 comparison_label = "62,412 → 71,993 stars"
 
 [[ranking]]
-rank = 59
-repo = "infiniflow/ragflow"
-repo_key = "infiniflow/ragflow"
-repo_slug = "infiniflow-ragflow"
-url = "https://github.com/infiniflow/ragflow"
-github_url = "https://github.com/infiniflow/ragflow"
-metric_value = 9450
-metric_label = "+9,450 stars"
-context = "80,710 → 90,160 stars from 2026-W21 to 2026-W37."
-context_summary = "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context…"
-context_accessible_text = "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs"
-language = "Go"
-latest_stars = 90160
-last_seen_week = "2026-W37"
-comparison_value = 80710
-comparison_label = "80,710 → 90,160 stars"
+rank = 62
+repo = "langchain-ai/langchain"
+repo_key = "langchain-ai/langchain"
+repo_slug = "langchain-ai-langchain"
+url = "https://github.com/langchain-ai/langchain"
+github_url = "https://github.com/langchain-ai/langchain"
+metric_value = 9266
+metric_label = "+9,266 stars"
+context = "136,996 → 146,262 stars from 2026-W21 to 2026-W38."
+context_summary = "The agent engineering platform."
+context_accessible_text = "The agent engineering platform."
+language = "Python"
+latest_stars = 146262
+last_seen_week = "2026-W38"
+comparison_value = 136996
+comparison_label = "136,996 → 146,262 stars"
 
 [[ranking]]
-rank = 60
+rank = 63
 repo = "ComposioHQ/awesome-claude-skills"
 repo_key = "composiohq/awesome-claude-skills"
 repo_slug = "composiohq-awesome-claude-skills"
@@ -1099,79 +1153,79 @@ comparison_value = 61691
 comparison_label = "61,691 → 70,950 stars"
 
 [[ranking]]
-rank = 61
-repo = "langchain-ai/langchain"
-repo_key = "langchain-ai/langchain"
-repo_slug = "langchain-ai-langchain"
-url = "https://github.com/langchain-ai/langchain"
-github_url = "https://github.com/langchain-ai/langchain"
-metric_value = 8833
-metric_label = "+8,833 stars"
-context = "136,996 → 145,829 stars from 2026-W21 to 2026-W37."
-context_summary = "The agent engineering platform."
-context_accessible_text = "The agent engineering platform."
-language = "Python"
-latest_stars = 145829
-last_seen_week = "2026-W37"
-comparison_value = 136996
-comparison_label = "136,996 → 145,829 stars"
-
-[[ranking]]
-rank = 62
+rank = 64
 repo = "mem0ai/mem0"
 repo_key = "mem0ai/mem0"
 repo_slug = "mem0ai-mem0"
 url = "https://github.com/mem0ai/mem0"
 github_url = "https://github.com/mem0ai/mem0"
-metric_value = 8805
-metric_label = "+8,805 stars"
-context = "56,000 → 64,805 stars from 2026-W21 to 2026-W37."
+metric_value = 9256
+metric_label = "+9,256 stars"
+context = "56,000 → 65,256 stars from 2026-W21 to 2026-W38."
 context_summary = "The Memory Layer for AI Agents - Drop-in memory infrastructure for AI agents and apps. Context that persists. Built for production."
 context_accessible_text = "The Memory Layer for AI Agents - Drop-in memory infrastructure for AI agents and apps. Context that persists. Built for production."
 language = "Python"
-latest_stars = 64805
-last_seen_week = "2026-W37"
+latest_stars = 65256
+last_seen_week = "2026-W38"
 comparison_value = 56000
-comparison_label = "56,000 → 64,805 stars"
+comparison_label = "56,000 → 65,256 stars"
 
 [[ranking]]
-rank = 63
+rank = 65
+repo = "microsoft/ai-agents-for-beginners"
+repo_key = "microsoft/ai-agents-for-beginners"
+repo_slug = "microsoft-ai-agents-for-beginners"
+url = "https://github.com/microsoft/ai-agents-for-beginners"
+github_url = "https://github.com/microsoft/ai-agents-for-beginners"
+metric_value = 9215
+metric_label = "+9,215 stars"
+context = "65,420 → 74,635 stars from 2026-W22 to 2026-W38."
+context_summary = "18 Lessons to Get Started Building AI Agents"
+context_accessible_text = "18 Lessons to Get Started Building AI Agents"
+language = "Jupyter Notebook"
+latest_stars = 74635
+last_seen_week = "2026-W38"
+comparison_value = 65420
+comparison_label = "65,420 → 74,635 stars"
+
+[[ranking]]
+rank = 66
 repo = "ollama/ollama"
 repo_key = "ollama/ollama"
 repo_slug = "ollama-ollama"
 url = "https://github.com/ollama/ollama"
 github_url = "https://github.com/ollama/ollama"
-metric_value = 8662
-metric_label = "+8,662 stars"
-context = "171,669 → 180,331 stars from 2026-W21 to 2026-W37."
+metric_value = 9177
+metric_label = "+9,177 stars"
+context = "171,669 → 180,846 stars from 2026-W21 to 2026-W38."
 context_summary = "Get up and running with Kimi-K2.6, GLM-5.2, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models."
 context_accessible_text = "Get up and running with Kimi-K2.6, GLM-5.2, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models."
 language = "Go"
-latest_stars = 180331
-last_seen_week = "2026-W37"
+latest_stars = 180846
+last_seen_week = "2026-W38"
 comparison_value = 171669
-comparison_label = "171,669 → 180,331 stars"
+comparison_label = "171,669 → 180,846 stars"
 
 [[ranking]]
-rank = 64
-repo = "pbakaus/impeccable"
-repo_key = "pbakaus/impeccable"
-repo_slug = "pbakaus-impeccable"
-url = "https://github.com/pbakaus/impeccable"
-github_url = "https://github.com/pbakaus/impeccable"
-metric_value = 8589
-metric_label = "+8,589 stars"
-context = "57,519 → 66,108 stars from 2026-W33 to 2026-W37."
-context_summary = "The design language that makes your AI harness better at design."
-context_accessible_text = "The design language that makes your AI harness better at design."
-language = "JavaScript"
-latest_stars = 66108
-last_seen_week = "2026-W37"
-comparison_value = 57519
-comparison_label = "57,519 → 66,108 stars"
+rank = 67
+repo = "microsoft/generative-ai-for-beginners"
+repo_key = "microsoft/generative-ai-for-beginners"
+repo_slug = "microsoft-generative-ai-for-beginners"
+url = "https://github.com/microsoft/generative-ai-for-beginners"
+github_url = "https://github.com/microsoft/generative-ai-for-beginners"
+metric_value = 8325
+metric_label = "+8,325 stars"
+context = "111,356 → 119,681 stars from 2026-W22 to 2026-W38."
+context_summary = "21 Lessons, Get Started Building with Generative AI"
+context_accessible_text = "21 Lessons, Get Started Building with Generative AI"
+language = "Jupyter Notebook"
+latest_stars = 119681
+last_seen_week = "2026-W38"
+comparison_value = 111356
+comparison_label = "111,356 → 119,681 stars"
 
 [[ranking]]
-rank = 65
+rank = 68
 repo = "PaddlePaddle/PaddleOCR"
 repo_key = "paddlepaddle/paddleocr"
 repo_slug = "paddlepaddle-paddleocr"
@@ -1189,151 +1243,187 @@ comparison_value = 78051
 comparison_label = "78,051 → 86,297 stars"
 
 [[ranking]]
-rank = 66
-repo = "microsoft/ai-agents-for-beginners"
-repo_key = "microsoft/ai-agents-for-beginners"
-repo_slug = "microsoft-ai-agents-for-beginners"
-url = "https://github.com/microsoft/ai-agents-for-beginners"
-github_url = "https://github.com/microsoft/ai-agents-for-beginners"
-metric_value = 8139
-metric_label = "+8,139 stars"
-context = "65,420 → 73,559 stars from 2026-W22 to 2026-W36."
-context_summary = "18 Lessons to Get Started Building AI Agents"
-context_accessible_text = "18 Lessons to Get Started Building AI Agents"
-language = "Jupyter Notebook"
-latest_stars = 73559
-last_seen_week = "2026-W36"
-comparison_value = 65420
-comparison_label = "65,420 → 73,559 stars"
-
-[[ranking]]
-rank = 67
-repo = "microsoft/generative-ai-for-beginners"
-repo_key = "microsoft/generative-ai-for-beginners"
-repo_slug = "microsoft-generative-ai-for-beginners"
-url = "https://github.com/microsoft/generative-ai-for-beginners"
-github_url = "https://github.com/microsoft/generative-ai-for-beginners"
-metric_value = 7950
-metric_label = "+7,950 stars"
-context = "111,356 → 119,306 stars from 2026-W22 to 2026-W37."
-context_summary = "21 Lessons, Get Started Building with Generative AI"
-context_accessible_text = "21 Lessons, Get Started Building with Generative AI"
-language = "Jupyter Notebook"
-latest_stars = 119306
-last_seen_week = "2026-W37"
-comparison_value = 111356
-comparison_label = "111,356 → 119,306 stars"
-
-[[ranking]]
-rank = 68
+rank = 69
 repo = "f/prompts.chat"
 repo_key = "f/prompts.chat"
 repo_slug = "f-prompts-chat"
 url = "https://github.com/f/prompts.chat"
 github_url = "https://github.com/f/prompts.chat"
-metric_value = 7080
-metric_label = "+7,080 stars"
-context = "162,444 → 169,524 stars from 2026-W21 to 2026-W37."
+metric_value = 7833
+metric_label = "+7,833 stars"
+context = "162,444 → 170,277 stars from 2026-W21 to 2026-W38."
 context_summary = "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source — self-host for your organization with complete…"
 context_accessible_text = "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source — self-host for your organization with complete privacy."
 language = "HTML"
-latest_stars = 169524
-last_seen_week = "2026-W37"
+latest_stars = 170277
+last_seen_week = "2026-W38"
 comparison_value = 162444
-comparison_label = "162,444 → 169,524 stars"
+comparison_label = "162,444 → 170,277 stars"
 
 [[ranking]]
-rank = 69
+rank = 70
+repo = "asgeirtj/system_prompts_leaks"
+repo_key = "asgeirtj/system_prompts_leaks"
+repo_slug = "asgeirtj-system-prompts-leaks"
+url = "https://github.com/asgeirtj/system_prompts_leaks"
+github_url = "https://github.com/asgeirtj/system_prompts_leaks"
+metric_value = 7569
+metric_label = "+7,569 stars"
+context = "58,622 → 66,191 stars from 2026-W29 to 2026-W38."
+context_summary = "Extracted system prompts from Anthropic - Claude Fable 5.1, Opus 5, Claude Design, Claude Code. OpenAI - ChatGPT GPT-6-Astra, Codex. Google - Gemini 3.8…"
+context_accessible_text = "Extracted system prompts from Anthropic - Claude Fable 5.1, Opus 5, Claude Design, Claude Code. OpenAI - ChatGPT GPT-6-Astra, Codex. Google - Gemini 3.8 Flash, 3.1 Pro, Antigravity. xAI - Grok, Grok…"
+language = "JavaScript"
+latest_stars = 66191
+last_seen_week = "2026-W38"
+comparison_value = 58622
+comparison_label = "58,622 → 66,191 stars"
+
+[[ranking]]
+rank = 71
+repo = "diegosouzapw/OmniRoute"
+repo_key = "diegosouzapw/omniroute"
+repo_slug = "diegosouzapw-omniroute"
+url = "https://github.com/diegosouzapw/OmniRoute"
+github_url = "https://github.com/diegosouzapw/OmniRoute"
+metric_value = 7030
+metric_label = "+7,030 stars"
+context = "58,772 → 65,802 stars from 2026-W36 to 2026-W38."
+context_summary = "Never stop coding. Free MIT AI gateway: one endpoint, 352 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with…"
+context_accessible_text = "Never stop coding. Free MIT AI gateway: one endpoint, 352 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline & Copilot. Quota-aware auto-fallback, RTK+Caveman compression saves 15-95% tokens, MCP/A2A, Desktop/PWA. Built by 550+ contributors"
+language = "TypeScript"
+latest_stars = 65802
+last_seen_week = "2026-W38"
+comparison_value = 58772
+comparison_label = "58,772 → 65,802 stars"
+
+[[ranking]]
+rank = 72
 repo = "MemPalace/mempalace"
 repo_key = "mempalace/mempalace"
 repo_slug = "mempalace-mempalace"
 url = "https://github.com/MemPalace/mempalace"
 github_url = "https://github.com/MemPalace/mempalace"
-metric_value = 6343
-metric_label = "+6,343 stars"
-context = "52,401 → 58,744 stars from 2026-W21 to 2026-W36."
+metric_value = 6636
+metric_label = "+6,636 stars"
+context = "52,401 → 59,037 stars from 2026-W21 to 2026-W38."
 context_summary = "The best-benchmarked open-source AI memory system. And it's free."
 context_accessible_text = "The best-benchmarked open-source AI memory system. And it's free."
 language = "Python"
-latest_stars = 58744
-last_seen_week = "2026-W36"
+latest_stars = 59037
+last_seen_week = "2026-W38"
 comparison_value = 52401
-comparison_label = "52,401 → 58,744 stars"
+comparison_label = "52,401 → 59,037 stars"
 
 [[ranking]]
-rank = 70
+rank = 73
 repo = "punkpeye/awesome-mcp-servers"
 repo_key = "punkpeye/awesome-mcp-servers"
 repo_slug = "punkpeye-awesome-mcp-servers"
 url = "https://github.com/punkpeye/awesome-mcp-servers"
 github_url = "https://github.com/punkpeye/awesome-mcp-servers"
-metric_value = 6212
-metric_label = "+6,212 stars"
-context = "88,290 → 94,502 stars from 2026-W23 to 2026-W37."
+metric_value = 6635
+metric_label = "+6,635 stars"
+context = "88,290 → 94,925 stars from 2026-W23 to 2026-W38."
 context_summary = "A collection of MCP servers."
 context_accessible_text = "A collection of MCP servers."
 language = "Unknown"
-latest_stars = 94502
-last_seen_week = "2026-W37"
+latest_stars = 94925
+last_seen_week = "2026-W38"
 comparison_value = 88290
-comparison_label = "88,290 → 94,502 stars"
+comparison_label = "88,290 → 94,925 stars"
 
 [[ranking]]
-rank = 71
-repo = "upstash/context7"
-repo_key = "upstash/context7"
-repo_slug = "upstash-context7"
-url = "https://github.com/upstash/context7"
-github_url = "https://github.com/upstash/context7"
-metric_value = 6176
-metric_label = "+6,176 stars"
-context = "55,539 → 61,715 stars from 2026-W21 to 2026-W37."
-context_summary = "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors"
-context_accessible_text = "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors"
-language = "TypeScript"
-latest_stars = 61715
-last_seen_week = "2026-W37"
-comparison_value = 55539
-comparison_label = "55,539 → 61,715 stars"
-
-[[ranking]]
-rank = 72
+rank = 74
 repo = "docling-project/docling"
 repo_key = "docling-project/docling"
 repo_slug = "docling-project-docling"
 url = "https://github.com/docling-project/docling"
 github_url = "https://github.com/docling-project/docling"
-metric_value = 6171
-metric_label = "+6,171 stars"
-context = "59,909 → 66,080 stars from 2026-W21 to 2026-W37."
+metric_value = 6455
+metric_label = "+6,455 stars"
+context = "59,909 → 66,364 stars from 2026-W21 to 2026-W38."
 context_summary = "Get your documents ready for gen AI"
 context_accessible_text = "Get your documents ready for gen AI"
 language = "Python"
-latest_stars = 66080
-last_seen_week = "2026-W37"
+latest_stars = 66364
+last_seen_week = "2026-W38"
 comparison_value = 59909
-comparison_label = "59,909 → 66,080 stars"
+comparison_label = "59,909 → 66,364 stars"
 
 [[ranking]]
-rank = 73
+rank = 75
+repo = "upstash/context7"
+repo_key = "upstash/context7"
+repo_slug = "upstash-context7"
+url = "https://github.com/upstash/context7"
+github_url = "https://github.com/upstash/context7"
+metric_value = 6432
+metric_label = "+6,432 stars"
+context = "55,539 → 61,971 stars from 2026-W21 to 2026-W38."
+context_summary = "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors"
+context_accessible_text = "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors"
+language = "TypeScript"
+latest_stars = 61971
+last_seen_week = "2026-W38"
+comparison_value = 55539
+comparison_label = "55,539 → 61,971 stars"
+
+[[ranking]]
+rank = 76
 repo = "langflow-ai/langflow"
 repo_key = "langflow-ai/langflow"
 repo_slug = "langflow-ai-langflow"
 url = "https://github.com/langflow-ai/langflow"
 github_url = "https://github.com/langflow-ai/langflow"
-metric_value = 5936
-metric_label = "+5,936 stars"
-context = "148,421 → 154,357 stars from 2026-W21 to 2026-W37."
+metric_value = 6337
+metric_label = "+6,337 stars"
+context = "148,421 → 154,758 stars from 2026-W21 to 2026-W38."
 context_summary = "Langflow is a powerful tool for building and deploying AI-powered agents and workflows."
 context_accessible_text = "Langflow is a powerful tool for building and deploying AI-powered agents and workflows."
 language = "Python"
-latest_stars = 154357
-last_seen_week = "2026-W37"
+latest_stars = 154758
+last_seen_week = "2026-W38"
 comparison_value = 148421
-comparison_label = "148,421 → 154,357 stars"
+comparison_label = "148,421 → 154,758 stars"
 
 [[ranking]]
-rank = 74
+rank = 77
+repo = "cline/cline"
+repo_key = "cline/cline"
+repo_slug = "cline-cline"
+url = "https://github.com/cline/cline"
+github_url = "https://github.com/cline/cline"
+metric_value = 5998
+metric_label = "+5,998 stars"
+context = "61,957 → 67,955 stars from 2026-W21 to 2026-W38."
+context_summary = "Autonomous coding agent as an SDK, IDE extension, or CLI assistant."
+context_accessible_text = "Autonomous coding agent as an SDK, IDE extension, or CLI assistant."
+language = "TypeScript"
+latest_stars = 67955
+last_seen_week = "2026-W38"
+comparison_value = 61957
+comparison_label = "61,957 → 67,955 stars"
+
+[[ranking]]
+rank = 78
+repo = "Mintplex-Labs/anything-llm"
+repo_key = "mintplex-labs/anything-llm"
+repo_slug = "mintplex-labs-anything-llm"
+url = "https://github.com/Mintplex-Labs/anything-llm"
+github_url = "https://github.com/Mintplex-Labs/anything-llm"
+metric_value = 5790
+metric_label = "+5,790 stars"
+context = "60,204 → 65,994 stars from 2026-W21 to 2026-W38."
+context_summary = "Stop renting your intelligence. Own it with AnythingLLM. Everything you need for a powerful local-first agent experience"
+context_accessible_text = "Stop renting your intelligence. Own it with AnythingLLM. Everything you need for a powerful local-first agent experience"
+language = "JavaScript"
+latest_stars = 65994
+last_seen_week = "2026-W38"
+comparison_value = 60204
+comparison_label = "60,204 → 65,994 stars"
+
+[[ranking]]
+rank = 79
 repo = "crewAIInc/crewAI"
 repo_key = "crewaiinc/crewai"
 repo_slug = "crewaiinc-crewai"
@@ -1351,130 +1441,40 @@ comparison_value = 52142
 comparison_label = "52,142 → 57,844 stars"
 
 [[ranking]]
-rank = 75
-repo = "asgeirtj/system_prompts_leaks"
-repo_key = "asgeirtj/system_prompts_leaks"
-repo_slug = "asgeirtj-system-prompts-leaks"
-url = "https://github.com/asgeirtj/system_prompts_leaks"
-github_url = "https://github.com/asgeirtj/system_prompts_leaks"
-metric_value = 5671
-metric_label = "+5,671 stars"
-context = "58,622 → 64,293 stars from 2026-W29 to 2026-W37."
-context_summary = "Extracted system prompts from Anthropic - Claude Fable 5.1, Opus 5, Claude Design, Claude Code. OpenAI - ChatGPT GPT-6-Astra, Codex. Google - Gemini 3.8…"
-context_accessible_text = "Extracted system prompts from Anthropic - Claude Fable 5.1, Opus 5, Claude Design, Claude Code. OpenAI - ChatGPT GPT-6-Astra, Codex. Google - Gemini 3.8 Flash, 3.1 Pro, Antigravity. xAI - Grok, Grok…"
-language = "JavaScript"
-latest_stars = 64293
-last_seen_week = "2026-W37"
-comparison_value = 58622
-comparison_label = "58,622 → 64,293 stars"
-
-[[ranking]]
-rank = 76
-repo = "cline/cline"
-repo_key = "cline/cline"
-repo_slug = "cline-cline"
-url = "https://github.com/cline/cline"
-github_url = "https://github.com/cline/cline"
-metric_value = 5633
-metric_label = "+5,633 stars"
-context = "61,957 → 67,590 stars from 2026-W21 to 2026-W37."
-context_summary = "Autonomous coding agent as an SDK, IDE extension, or CLI assistant."
-context_accessible_text = "Autonomous coding agent as an SDK, IDE extension, or CLI assistant."
-language = "TypeScript"
-latest_stars = 67590
-last_seen_week = "2026-W37"
-comparison_value = 61957
-comparison_label = "61,957 → 67,590 stars"
-
-[[ranking]]
-rank = 77
-repo = "Mintplex-Labs/anything-llm"
-repo_key = "mintplex-labs/anything-llm"
-repo_slug = "mintplex-labs-anything-llm"
-url = "https://github.com/Mintplex-Labs/anything-llm"
-github_url = "https://github.com/Mintplex-Labs/anything-llm"
-metric_value = 5501
-metric_label = "+5,501 stars"
-context = "60,204 → 65,705 stars from 2026-W21 to 2026-W37."
-context_summary = "Stop renting your intelligence. Own it with AnythingLLM. Everything you need for a powerful local-first agent experience"
-context_accessible_text = "Stop renting your intelligence. Own it with AnythingLLM. Everything you need for a powerful local-first agent experience"
-language = "JavaScript"
-latest_stars = 65705
-last_seen_week = "2026-W37"
-comparison_value = 60204
-comparison_label = "60,204 → 65,705 stars"
-
-[[ranking]]
-rank = 78
-repo = "stablyai/orca"
-repo_key = "stablyai/orca"
-repo_slug = "stablyai-orca"
-url = "https://github.com/stablyai/orca"
-github_url = "https://github.com/stablyai/orca"
-metric_value = 5284
-metric_label = "+5,284 stars"
-context = "57,633 → 62,917 stars from 2026-W36 to 2026-W37."
-context_summary = "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop, mobile and remote runtime."
-context_accessible_text = "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop, mobile and remote runtime."
-language = "TypeScript"
-latest_stars = 62917
-last_seen_week = "2026-W37"
-comparison_value = 57633
-comparison_label = "57,633 → 62,917 stars"
-
-[[ranking]]
-rank = 79
+rank = 80
 repo = "AppFlowy-IO/AppFlowy"
 repo_key = "appflowy-io/appflowy"
 repo_slug = "appflowy-io-appflowy"
 url = "https://github.com/AppFlowy-IO/AppFlowy"
 github_url = "https://github.com/AppFlowy-IO/AppFlowy"
-metric_value = 5132
-metric_label = "+5,132 stars"
-context = "71,240 → 76,372 stars from 2026-W22 to 2026-W37."
+metric_value = 5384
+metric_label = "+5,384 stars"
+context = "71,240 → 76,624 stars from 2026-W22 to 2026-W38."
 context_summary = "Bring projects, wikis, and teams together with AI. AppFlowy is the AI collaborative workspace where you achieve more without losing control of your data. The…"
 context_accessible_text = "Bring projects, wikis, and teams together with AI. AppFlowy is the AI collaborative workspace where you achieve more without losing control of your data. The leading open source Notion alternative."
 language = "Dart"
-latest_stars = 76372
-last_seen_week = "2026-W37"
+latest_stars = 76624
+last_seen_week = "2026-W38"
 comparison_value = 71240
-comparison_label = "71,240 → 76,372 stars"
-
-[[ranking]]
-rank = 80
-repo = "tw93/Pake"
-repo_key = "tw93/pake"
-repo_slug = "tw93-pake"
-url = "https://github.com/tw93/Pake"
-github_url = "https://github.com/tw93/Pake"
-metric_value = 4916
-metric_label = "+4,916 stars"
-context = "56,406 → 61,322 stars from 2026-W26 to 2026-W37."
-context_summary = "🤱🏻 Turn any webpage into a desktop app with one command."
-context_accessible_text = "🤱🏻 Turn any webpage into a desktop app with one command."
-language = "Rust"
-latest_stars = 61322
-last_seen_week = "2026-W37"
-comparison_value = 56406
-comparison_label = "56,406 → 61,322 stars"
+comparison_label = "71,240 → 76,624 stars"
 
 [[ranking]]
 rank = 81
-repo = "lobehub/lobehub"
-repo_key = "lobehub/lobehub"
-repo_slug = "lobehub-lobehub"
-url = "https://github.com/lobehub/lobehub"
-github_url = "https://github.com/lobehub/lobehub"
-metric_value = 4619
-metric_label = "+4,619 stars"
-context = "77,660 → 82,279 stars from 2026-W22 to 2026-W37."
-context_summary = "🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling, and reporting on your entire AI team."
-context_accessible_text = "🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling, and reporting on your entire AI team."
-language = "TypeScript"
-latest_stars = 82279
-last_seen_week = "2026-W37"
-comparison_value = 77660
-comparison_label = "77,660 → 82,279 stars"
+repo = "OpenBB-finance/OpenBB"
+repo_key = "openbb-finance/openbb"
+repo_slug = "openbb-finance-openbb"
+url = "https://github.com/OpenBB-finance/OpenBB"
+github_url = "https://github.com/OpenBB-finance/OpenBB"
+metric_value = 5240
+metric_label = "+5,240 stars"
+context = "67,731 → 72,971 stars from 2026-W21 to 2026-W38."
+context_summary = "Open Data Platform for analysts, quants and AI agents."
+context_accessible_text = "Open Data Platform for analysts, quants and AI agents."
+language = "Python"
+latest_stars = 72971
+last_seen_week = "2026-W38"
+comparison_value = 67731
+comparison_label = "67,731 → 72,971 stars"
 
 [[ranking]]
 rank = 82
@@ -1483,19 +1483,127 @@ repo_key = "mvanhorn/last30days-skill"
 repo_slug = "mvanhorn-last30days-skill"
 url = "https://github.com/mvanhorn/last30days-skill"
 github_url = "https://github.com/mvanhorn/last30days-skill"
-metric_value = 4529
-metric_label = "+4,529 stars"
-context = "56,937 → 61,466 stars from 2026-W32 to 2026-W37."
+metric_value = 5044
+metric_label = "+5,044 stars"
+context = "56,937 → 61,981 stars from 2026-W32 to 2026-W38."
 context_summary = "AI agent skill that researches any topic across Reddit, X, YouTube, HN, Polymarket, and the web - then synthesizes a grounded summary"
 context_accessible_text = "AI agent skill that researches any topic across Reddit, X, YouTube, HN, Polymarket, and the web - then synthesizes a grounded summary"
 language = "Python"
-latest_stars = 61466
-last_seen_week = "2026-W37"
+latest_stars = 61981
+last_seen_week = "2026-W38"
 comparison_value = 56937
-comparison_label = "56,937 → 61,466 stars"
+comparison_label = "56,937 → 61,981 stars"
 
 [[ranking]]
 rank = 83
+repo = "tw93/Pake"
+repo_key = "tw93/pake"
+repo_slug = "tw93-pake"
+url = "https://github.com/tw93/Pake"
+github_url = "https://github.com/tw93/Pake"
+metric_value = 5007
+metric_label = "+5,007 stars"
+context = "56,406 → 61,413 stars from 2026-W26 to 2026-W38."
+context_summary = "🤱🏻 Turn any webpage into a desktop app with one command."
+context_accessible_text = "🤱🏻 Turn any webpage into a desktop app with one command."
+language = "Rust"
+latest_stars = 61413
+last_seen_week = "2026-W38"
+comparison_value = 56406
+comparison_label = "56,406 → 61,413 stars"
+
+[[ranking]]
+rank = 84
+repo = "tensorflow/tensorflow"
+repo_key = "tensorflow/tensorflow"
+repo_slug = "tensorflow-tensorflow"
+url = "https://github.com/tensorflow/tensorflow"
+github_url = "https://github.com/tensorflow/tensorflow"
+metric_value = 4922
+metric_label = "+4,922 stars"
+context = "195,142 → 200,064 stars from 2026-W21 to 2026-W38."
+context_summary = "An Open Source Machine Learning Framework for Everyone"
+context_accessible_text = "An Open Source Machine Learning Framework for Everyone"
+language = "C++"
+latest_stars = 200064
+last_seen_week = "2026-W38"
+comparison_value = 195142
+comparison_label = "195,142 → 200,064 stars"
+
+[[ranking]]
+rank = 85
+repo = "huggingface/transformers"
+repo_key = "huggingface/transformers"
+repo_slug = "huggingface-transformers"
+url = "https://github.com/huggingface/transformers"
+github_url = "https://github.com/huggingface/transformers"
+metric_value = 4909
+metric_label = "+4,909 stars"
+context = "160,712 → 165,621 stars from 2026-W21 to 2026-W38."
+context_summary = "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference…"
+context_accessible_text = "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training."
+language = "Python"
+latest_stars = 165621
+last_seen_week = "2026-W38"
+comparison_value = 160712
+comparison_label = "160,712 → 165,621 stars"
+
+[[ranking]]
+rank = 86
+repo = "usestrix/strix"
+repo_key = "usestrix/strix"
+repo_slug = "usestrix-strix"
+url = "https://github.com/usestrix/strix"
+github_url = "https://github.com/usestrix/strix"
+metric_value = 4835
+metric_label = "+4,835 stars"
+context = "57,450 → 62,285 stars from 2026-W35 to 2026-W38."
+context_summary = "Open-source AI penetration testing tool to find and fix your app’s vulnerabilities."
+context_accessible_text = "Open-source AI penetration testing tool to find and fix your app’s vulnerabilities."
+language = "Python"
+latest_stars = 62285
+last_seen_week = "2026-W38"
+comparison_value = 57450
+comparison_label = "57,450 → 62,285 stars"
+
+[[ranking]]
+rank = 87
+repo = "lobehub/lobehub"
+repo_key = "lobehub/lobehub"
+repo_slug = "lobehub-lobehub"
+url = "https://github.com/lobehub/lobehub"
+github_url = "https://github.com/lobehub/lobehub"
+metric_value = 4797
+metric_label = "+4,797 stars"
+context = "77,660 → 82,457 stars from 2026-W22 to 2026-W38."
+context_summary = "🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling, and reporting on your entire AI team."
+context_accessible_text = "🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling, and reporting on your entire AI team."
+language = "TypeScript"
+latest_stars = 82457
+last_seen_week = "2026-W38"
+comparison_value = 77660
+comparison_label = "77,660 → 82,457 stars"
+
+[[ranking]]
+rank = 88
+repo = "microsoft/ML-For-Beginners"
+repo_key = "microsoft/ml-for-beginners"
+repo_slug = "microsoft-ml-for-beginners"
+url = "https://github.com/microsoft/ML-For-Beginners"
+github_url = "https://github.com/microsoft/ML-For-Beginners"
+metric_value = 4482
+metric_label = "+4,482 stars"
+context = "85,963 → 90,445 stars from 2026-W22 to 2026-W38."
+context_summary = "12 weeks, 26 lessons, 52 quizzes, classic Machine Learning for all"
+context_accessible_text = "12 weeks, 26 lessons, 52 quizzes, classic Machine Learning for all"
+language = "Jupyter Notebook"
+latest_stars = 90445
+last_seen_week = "2026-W38"
+comparison_value = 85963
+comparison_label = "85,963 → 90,445 stars"
+
+[[ranking]]
+rank = 89
 repo = "x1xhlol/system-prompts-and-models-of-ai-tools"
 repo_key = "x1xhlol/system-prompts-and-models-of-ai-tools"
 repo_slug = "x1xhlol-system-prompts-and-models-of-ai-tools"
@@ -1513,7 +1621,7 @@ comparison_value = 138217
 comparison_label = "138,217 → 142,699 stars"
 
 [[ranking]]
-rank = 84
+rank = 90
 repo = "virattt/ai-hedge-fund"
 repo_key = "virattt/ai-hedge-fund"
 repo_slug = "virattt-ai-hedge-fund"
@@ -1531,7 +1639,43 @@ comparison_value = 58944
 comparison_label = "58,944 → 63,275 stars"
 
 [[ranking]]
-rank = 85
+rank = 91
+repo = "openinterpreter/openinterpreter"
+repo_key = "openinterpreter/openinterpreter"
+repo_slug = "openinterpreter-openinterpreter"
+url = "https://github.com/openinterpreter/openinterpreter"
+github_url = "https://github.com/openinterpreter/openinterpreter"
+metric_value = 4323
+metric_label = "+4,323 stars"
+context = "63,993 → 68,316 stars from 2026-W25 to 2026-W38."
+context_summary = "A coding agent for open models like Kimi K3 and GLM 5.3"
+context_accessible_text = "A coding agent for open models like Kimi K3 and GLM 5.3"
+language = "Rust"
+latest_stars = 68316
+last_seen_week = "2026-W38"
+comparison_value = 63993
+comparison_label = "63,993 → 68,316 stars"
+
+[[ranking]]
+rank = 92
+repo = "ultralytics/ultralytics"
+repo_key = "ultralytics/ultralytics"
+repo_slug = "ultralytics-ultralytics"
+url = "https://github.com/ultralytics/ultralytics"
+github_url = "https://github.com/ultralytics/ultralytics"
+metric_value = 4308
+metric_label = "+4,308 stars"
+context = "57,262 → 61,570 stars from 2026-W21 to 2026-W38."
+context_summary = "Ultralytics YOLO26, YOLO11, YOLOv8 — object detection, instance segmentation, semantic segmentation, image classification, pose estimation, object tracking"
+context_accessible_text = "Ultralytics YOLO26, YOLO11, YOLOv8 — object detection, instance segmentation, semantic segmentation, image classification, pose estimation, object tracking"
+language = "Python"
+latest_stars = 61570
+last_seen_week = "2026-W38"
+comparison_value = 57262
+comparison_label = "57,262 → 61,570 stars"
+
+[[ranking]]
+rank = 93
 repo = "modelcontextprotocol/servers"
 repo_key = "modelcontextprotocol/servers"
 repo_slug = "modelcontextprotocol-servers"
@@ -1549,79 +1693,25 @@ comparison_value = 85839
 comparison_label = "85,839 → 90,117 stars"
 
 [[ranking]]
-rank = 86
-repo = "openinterpreter/openinterpreter"
-repo_key = "openinterpreter/openinterpreter"
-repo_slug = "openinterpreter-openinterpreter"
-url = "https://github.com/openinterpreter/openinterpreter"
-github_url = "https://github.com/openinterpreter/openinterpreter"
-metric_value = 4266
-metric_label = "+4,266 stars"
-context = "63,993 → 68,259 stars from 2026-W25 to 2026-W37."
-context_summary = "A coding agent for open models like Kimi K3 and GLM 5.3"
-context_accessible_text = "A coding agent for open models like Kimi K3 and GLM 5.3"
-language = "Rust"
-latest_stars = 68259
-last_seen_week = "2026-W37"
-comparison_value = 63993
-comparison_label = "63,993 → 68,259 stars"
-
-[[ranking]]
-rank = 87
-repo = "microsoft/ML-For-Beginners"
-repo_key = "microsoft/ml-for-beginners"
-repo_slug = "microsoft-ml-for-beginners"
-url = "https://github.com/microsoft/ML-For-Beginners"
-github_url = "https://github.com/microsoft/ML-For-Beginners"
-metric_value = 4259
-metric_label = "+4,259 stars"
-context = "85,963 → 90,222 stars from 2026-W22 to 2026-W37."
-context_summary = "12 weeks, 26 lessons, 52 quizzes, classic Machine Learning for all"
-context_accessible_text = "12 weeks, 26 lessons, 52 quizzes, classic Machine Learning for all"
-language = "Jupyter Notebook"
-latest_stars = 90222
-last_seen_week = "2026-W37"
-comparison_value = 85963
-comparison_label = "85,963 → 90,222 stars"
-
-[[ranking]]
-rank = 88
-repo = "huggingface/transformers"
-repo_key = "huggingface/transformers"
-repo_slug = "huggingface-transformers"
-url = "https://github.com/huggingface/transformers"
-github_url = "https://github.com/huggingface/transformers"
-metric_value = 4211
-metric_label = "+4,211 stars"
-context = "160,712 → 164,923 stars from 2026-W21 to 2026-W37."
-context_summary = "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference…"
-context_accessible_text = "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training."
+rank = 94
+repo = "odysseus-dev/odysseus"
+repo_key = "odysseus-dev/odysseus"
+repo_slug = "odysseus-dev-odysseus"
+url = "https://github.com/odysseus-dev/odysseus"
+github_url = "https://github.com/odysseus-dev/odysseus"
+metric_value = 4090
+metric_label = "+4,090 stars"
+context = "83,112 → 87,202 stars from 2026-W29 to 2026-W38."
+context_summary = "Self-hosted AI workspace."
+context_accessible_text = "Self-hosted AI workspace."
 language = "Python"
-latest_stars = 164923
-last_seen_week = "2026-W37"
-comparison_value = 160712
-comparison_label = "160,712 → 164,923 stars"
+latest_stars = 87202
+last_seen_week = "2026-W38"
+comparison_value = 83112
+comparison_label = "83,112 → 87,202 stars"
 
 [[ranking]]
-rank = 89
-repo = "ultralytics/ultralytics"
-repo_key = "ultralytics/ultralytics"
-repo_slug = "ultralytics-ultralytics"
-url = "https://github.com/ultralytics/ultralytics"
-github_url = "https://github.com/ultralytics/ultralytics"
-metric_value = 4084
-metric_label = "+4,084 stars"
-context = "57,262 → 61,346 stars from 2026-W21 to 2026-W37."
-context_summary = "Ultralytics YOLO26, YOLO11, YOLOv8 — object detection, instance segmentation, semantic segmentation, image classification, pose estimation, object tracking"
-context_accessible_text = "Ultralytics YOLO26, YOLO11, YOLOv8 — object detection, instance segmentation, semantic segmentation, image classification, pose estimation, object tracking"
-language = "Python"
-latest_stars = 61346
-last_seen_week = "2026-W37"
-comparison_value = 57262
-comparison_label = "57,262 → 61,346 stars"
-
-[[ranking]]
-rank = 90
+rank = 95
 repo = "xai-org/grok-build"
 repo_key = "xai-org/grok-build"
 repo_slug = "xai-org-grok-build"
@@ -1639,133 +1729,61 @@ comparison_value = 16266
 comparison_label = "16,266 → 20,242 stars"
 
 [[ranking]]
-rank = 91
-repo = "odysseus-dev/odysseus"
-repo_key = "odysseus-dev/odysseus"
-repo_slug = "odysseus-dev-odysseus"
-url = "https://github.com/odysseus-dev/odysseus"
-github_url = "https://github.com/odysseus-dev/odysseus"
-metric_value = 3816
-metric_label = "+3,816 stars"
-context = "83,112 → 86,928 stars from 2026-W29 to 2026-W37."
-context_summary = "Self-hosted AI workspace."
-context_accessible_text = "Self-hosted AI workspace."
-language = "Python"
-latest_stars = 86928
-last_seen_week = "2026-W37"
-comparison_value = 83112
-comparison_label = "83,112 → 86,928 stars"
-
-[[ranking]]
-rank = 92
-repo = "tensorflow/tensorflow"
-repo_key = "tensorflow/tensorflow"
-repo_slug = "tensorflow-tensorflow"
-url = "https://github.com/tensorflow/tensorflow"
-github_url = "https://github.com/tensorflow/tensorflow"
-metric_value = 3765
-metric_label = "+3,765 stars"
-context = "195,142 → 198,907 stars from 2026-W21 to 2026-W37."
-context_summary = "An Open Source Machine Learning Framework for Everyone"
-context_accessible_text = "An Open Source Machine Learning Framework for Everyone"
-language = "C++"
-latest_stars = 198907
-last_seen_week = "2026-W37"
-comparison_value = 195142
-comparison_label = "195,142 → 198,907 stars"
-
-[[ranking]]
-rank = 93
-repo = "OpenBB-finance/OpenBB"
-repo_key = "openbb-finance/openbb"
-repo_slug = "openbb-finance-openbb"
-url = "https://github.com/OpenBB-finance/OpenBB"
-github_url = "https://github.com/OpenBB-finance/OpenBB"
-metric_value = 3575
-metric_label = "+3,575 stars"
-context = "67,731 → 71,306 stars from 2026-W21 to 2026-W32."
-context_summary = "Open Data Platform for analysts, quants and AI agents."
-context_accessible_text = "Open Data Platform for analysts, quants and AI agents."
-language = "Python"
-latest_stars = 71306
-last_seen_week = "2026-W32"
-comparison_value = 67731
-comparison_label = "67,731 → 71,306 stars"
-
-[[ranking]]
-rank = 94
-repo = "usestrix/strix"
-repo_key = "usestrix/strix"
-repo_slug = "usestrix-strix"
-url = "https://github.com/usestrix/strix"
-github_url = "https://github.com/usestrix/strix"
-metric_value = 3527
-metric_label = "+3,527 stars"
-context = "57,450 → 60,977 stars from 2026-W35 to 2026-W37."
-context_summary = "Open-source AI penetration testing tool to find and fix your app’s vulnerabilities."
-context_accessible_text = "Open-source AI penetration testing tool to find and fix your app’s vulnerabilities."
-language = "Python"
-latest_stars = 60977
-last_seen_week = "2026-W37"
-comparison_value = 57450
-comparison_label = "57,450 → 60,977 stars"
-
-[[ranking]]
-rank = 95
-repo = "diegosouzapw/OmniRoute"
-repo_key = "diegosouzapw/omniroute"
-repo_slug = "diegosouzapw-omniroute"
-url = "https://github.com/diegosouzapw/OmniRoute"
-github_url = "https://github.com/diegosouzapw/OmniRoute"
-metric_value = 3324
-metric_label = "+3,324 stars"
-context = "58,772 → 62,096 stars from 2026-W36 to 2026-W37."
-context_summary = "Never stop coding. Free MIT AI gateway: one endpoint, 352 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with…"
-context_accessible_text = "Never stop coding. Free MIT AI gateway: one endpoint, 352 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline & Copilot. Quota-aware auto-fallback, RTK+Caveman compression saves 15-95% tokens, MCP/A2A, Desktop/PWA. Built by 550+ contributors"
-language = "TypeScript"
-latest_stars = 62096
-last_seen_week = "2026-W37"
-comparison_value = 58772
-comparison_label = "58,772 → 62,096 stars"
-
-[[ranking]]
 rank = 96
+repo = "hacksider/Deep-Live-Cam"
+repo_key = "hacksider/deep-live-cam"
+repo_slug = "hacksider-deep-live-cam"
+url = "https://github.com/hacksider/Deep-Live-Cam"
+github_url = "https://github.com/hacksider/Deep-Live-Cam"
+metric_value = 3534
+metric_label = "+3,534 stars"
+context = "93,100 → 96,634 stars from 2026-W21 to 2026-W38."
+context_summary = "real time face swap and one-click video deepfake with only a single image"
+context_accessible_text = "real time face swap and one-click video deepfake with only a single image"
+language = "Python"
+latest_stars = 96634
+last_seen_week = "2026-W38"
+comparison_value = 93100
+comparison_label = "93,100 → 96,634 stars"
+
+[[ranking]]
+rank = 97
 repo = "hiyouga/LlamaFactory"
 repo_key = "hiyouga/llamafactory"
 repo_slug = "hiyouga-llamafactory"
 url = "https://github.com/hiyouga/LlamaFactory"
 github_url = "https://github.com/hiyouga/LlamaFactory"
-metric_value = 3250
-metric_label = "+3,250 stars"
-context = "71,357 → 74,607 stars from 2026-W21 to 2026-W37."
+metric_value = 3394
+metric_label = "+3,394 stars"
+context = "71,357 → 74,751 stars from 2026-W21 to 2026-W38."
 context_summary = "Unified Efficient Fine-Tuning of 100+ LLMs & VLMs (ACL 2024)"
 context_accessible_text = "Unified Efficient Fine-Tuning of 100+ LLMs & VLMs (ACL 2024)"
 language = "Python"
-latest_stars = 74607
-last_seen_week = "2026-W37"
+latest_stars = 74751
+last_seen_week = "2026-W38"
 comparison_value = 71357
-comparison_label = "71,357 → 74,607 stars"
+comparison_label = "71,357 → 74,751 stars"
 
 [[ranking]]
-rank = 97
+rank = 98
 repo = "opencv/opencv"
 repo_key = "opencv/opencv"
 repo_slug = "opencv-opencv"
 url = "https://github.com/opencv/opencv"
 github_url = "https://github.com/opencv/opencv"
-metric_value = 3215
-metric_label = "+3,215 stars"
-context = "87,523 → 90,738 stars from 2026-W21 to 2026-W37."
+metric_value = 3296
+metric_label = "+3,296 stars"
+context = "87,523 → 90,819 stars from 2026-W21 to 2026-W38."
 context_summary = "Open Source Computer Vision Library"
 context_accessible_text = "Open Source Computer Vision Library"
 language = "C++"
-latest_stars = 90738
-last_seen_week = "2026-W37"
+latest_stars = 90819
+last_seen_week = "2026-W38"
 comparison_value = 87523
-comparison_label = "87,523 → 90,738 stars"
+comparison_label = "87,523 → 90,819 stars"
 
 [[ranking]]
-rank = 98
+rank = 99
 repo = "ultraworkers/claw-code"
 repo_key = "ultraworkers/claw-code"
 repo_slug = "ultraworkers-claw-code"
@@ -1783,40 +1801,22 @@ comparison_value = 191856
 comparison_label = "191,856 → 195,018 stars"
 
 [[ranking]]
-rank = 99
-repo = "hacksider/Deep-Live-Cam"
-repo_key = "hacksider/deep-live-cam"
-repo_slug = "hacksider-deep-live-cam"
-url = "https://github.com/hacksider/Deep-Live-Cam"
-github_url = "https://github.com/hacksider/Deep-Live-Cam"
-metric_value = 3110
-metric_label = "+3,110 stars"
-context = "93,100 → 96,210 stars from 2026-W21 to 2026-W36."
-context_summary = "real time face swap and one-click video deepfake with only a single image"
-context_accessible_text = "real time face swap and one-click video deepfake with only a single image"
-language = "Python"
-latest_stars = 96210
-last_seen_week = "2026-W36"
-comparison_value = 93100
-comparison_label = "93,100 → 96,210 stars"
-
-[[ranking]]
 rank = 100
 repo = "pytorch/pytorch"
 repo_key = "pytorch/pytorch"
 repo_slug = "pytorch-pytorch"
 url = "https://github.com/pytorch/pytorch"
 github_url = "https://github.com/pytorch/pytorch"
-metric_value = 2849
-metric_label = "+2,849 stars"
-context = "99,977 → 102,826 stars from 2026-W21 to 2026-W37."
+metric_value = 3006
+metric_label = "+3,006 stars"
+context = "99,977 → 102,983 stars from 2026-W21 to 2026-W38."
 context_summary = "Tensors and Dynamic neural networks in Python with strong GPU acceleration"
 context_accessible_text = "Tensors and Dynamic neural networks in Python with strong GPU acceleration"
 language = "Python"
-latest_stars = 102826
-last_seen_week = "2026-W37"
+latest_stars = 102983
+last_seen_week = "2026-W38"
 comparison_value = 99977
-comparison_label = "99,977 → 102,826 stars"
+comparison_label = "99,977 → 102,983 stars"
 +++
 
 Top 100 repositories ranked by derived star gain across 2026 observations.
