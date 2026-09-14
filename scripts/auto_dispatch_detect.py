@@ -273,24 +273,36 @@ def _identity_from_sync_commit(
     )
 
 
-def _legacy_auto_pre_submit_only(jobs: list[dict[str, Any]]) -> bool:
+def _legacy_run_single_attempt(run: dict[str, Any]) -> bool:
+    """Return whether GitHub confirms this run has only its original attempt."""
+    return run.get("run_attempt") == 1
+
+
+def _legacy_auto_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
     """Return whether job evidence proves the protected dispatch never ran."""
-    return any(
+    return _legacy_run_single_attempt(run) and any(
         job.get("name") == "Protected podcast dispatch"
         and str(job.get("conclusion") or "") == "skipped"
         for job in jobs
     )
 
 
-def _legacy_manual_pre_submit_only(jobs: list[dict[str, Any]]) -> bool:
-    """Return whether manual-run evidence proves the handoff step was skipped."""
-    return (
-        _step_conclusion(
-            jobs,
-            "trigger-podcast",
-            "Trigger podcast generation with existing manifest",
+def _legacy_manual_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
+    """Return whether a single-attempt manual run was stopped before handoff."""
+    if not _legacy_run_single_attempt(run):
+        return False
+    return any(
+        job.get("name") == "trigger-podcast"
+        and (
+            str(job.get("conclusion") or "") == "skipped"
+            or _step_conclusion(
+                jobs,
+                "trigger-podcast",
+                "Trigger podcast generation with existing manifest",
+            )
+            == "skipped"
         )
-        == "skipped"
+        for job in jobs
     )
 
 
@@ -307,7 +319,7 @@ def _compat_identity_for_run(
         identity = _extract_dispatch_identity_from_log_outputs(log_text)
         if identity is not None and identity != requested_identity:
             return "ignore", identity
-        if _legacy_auto_pre_submit_only(jobs):
+        if _legacy_auto_pre_submit_only(run, jobs):
             return "ignore", identity
         if (
             _step_conclusion(jobs, "Protected podcast dispatch", "Trigger podcast generation")
@@ -1016,14 +1028,14 @@ def check_duplicate_result(
         if jobs_unreadable or logs_unreadable:
             run_path = str(run.get("path") or "")
             if run_path == AUTO_DISPATCH_WORKFLOW_PATH:
-                if not jobs_unreadable and _legacy_auto_pre_submit_only(jobs):
+                if not jobs_unreadable and _legacy_auto_pre_submit_only(run, jobs):
                     continue
                 if not logs_unreadable:
                     legacy_identity = _extract_dispatch_identity_from_log_outputs(log_text)
                     if legacy_identity is not None and legacy_identity != identity:
                         continue
             elif run_path == TRIGGER_PODCAST_WORKFLOW_PATH:
-                if not jobs_unreadable and _legacy_manual_pre_submit_only(jobs):
+                if not jobs_unreadable and _legacy_manual_pre_submit_only(run, jobs):
                     continue
                 if not logs_unreadable:
                     legacy_publish_run_id = _extract_publish_run_id_from_log_text(log_text)

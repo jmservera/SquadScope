@@ -118,7 +118,7 @@ URL, and documentation are delivered in PR #762.
   .github/workflows/auto-podcast-dispatch.yml
 * What changed and why: No additional behavior change; executed the approved
   validation boundary.
-* Completion evidence: 74 detection/workflow tests passed; Ruff lint and format
+* Completion evidence: 78 detection/workflow tests passed; Ruff lint and format
   checks passed; Checkov 3.2.533 reported 1005 passed, 0 failed, 7 skipped;
   Zizmor 1.27.0 reported no medium/high findings; anonymous fetch of
   https://claracle.com/weekly/2026/w38/ returned HTTP 200 at the same lowercase
@@ -137,7 +137,7 @@ URL, and documentation are delivered in PR #762.
 * Completion evidence: No safeguard weakening or unrelated production path
   change found. The only URL behavior change normalizes the generated public
   weekly path to Hugo's canonical lowercase permalink.
-* Validation: Final 76-test selection, Ruff, Python compilation, diff check,
+* Validation: Final 78-test selection, Ruff, Python compilation, diff check,
   Checkov, Zizmor, and anonymous URL fetch passed.
 
 ### Committed and opened the unmerged delivery PR
@@ -166,7 +166,7 @@ URL, and documentation are delivered in PR #762.
   recovery URLs to lowercase, and reconciled tracking evidence.
 * Completion evidence: All three moderate Copilot findings and both inline
   tracking comments were addressed without weakening retry safeguards.
-* Validation: 76 targeted tests passed; Ruff, Checkov 3.2.533, and Zizmor
+* Validation: 78 targeted tests passed; Ruff, Checkov 3.2.533, and Zizmor
   1.27.0 passed.
 
 ## Implementation-Time Plan and Detail Updates
@@ -190,7 +190,7 @@ URL, and documentation are delivered in PR #762.
 
 | Check | Scope | Status | Evidence or reason |
 |---|---|---|---|
-| Targeted detection/workflow tests | P03/P04 | Passed | 76 passed |
+| Targeted detection/workflow tests | P03/P04 | Passed | 78 passed |
 | Ruff lint/format | P04 | Passed | Changed Python files passed check and format |
 | Checkov 3.2.533 | P04 | Passed | 1005 passed, 0 failed, 7 skipped |
 | Zizmor 1.27.0 | P04 | Passed | No medium/high findings |

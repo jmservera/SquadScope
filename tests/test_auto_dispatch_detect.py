@@ -370,6 +370,7 @@ class TestDuplicateCheck(unittest.TestCase):
     def _run(self, run_id: int, *, workflow_path: str, head_sha: str = "abc123") -> dict:
         return {
             "id": run_id,
+            "run_attempt": 1,
             "path": workflow_path,
             "name": f"run-{run_id}",
             "display_title": f"run-{run_id}",
@@ -670,6 +671,27 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
 
+    def test_rerun_with_latest_skipped_protected_job_remains_ambiguous(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        run["run_attempt"] = 2
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: self._auto_pre_submit_jobs()},
+                    logs={self._AUTO_RUN_ID: ""},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+
     def test_same_identity_legacy_uncertain_submission_still_blocks(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
         jobs = [
@@ -935,6 +957,37 @@ class TestDuplicateCheck(unittest.TestCase):
             )
 
         self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_unreadable_manual_rerun_with_skipped_job_remains_ambiguous(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+        )
+        run["run_attempt"] = 2
+        skipped_job = [{"name": "trigger-podcast", "conclusion": "skipped", "steps": []}]
+
+        def _open(req, timeout=20):
+            url = req.full_url
+            if url == self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW):
+                return _gh_runs_response([])
+            if url == self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW):
+                return _gh_runs_response([run])
+            if url == self._jobs_url(self._TRIGGER_RUN_ID):
+                return _gh_jobs_response(skipped_job)
+            if url == self._logs_url(self._TRIGGER_RUN_ID):
+                raise OSError("network error")
+            raise AssertionError(f"Unexpected URL fetched: {url}")
+
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch("urllib.request.urlopen", side_effect=_open),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
 
 
