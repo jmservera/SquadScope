@@ -137,7 +137,7 @@ URL, and documentation are delivered in PR #762.
 * Completion evidence: No safeguard weakening or unrelated production path
   change found. The only URL behavior change normalizes the generated public
   weekly path to Hugo's canonical lowercase permalink.
-* Validation: Final 74-test selection, Ruff, Python compilation, diff check,
+* Validation: Final 76-test selection, Ruff, Python compilation, diff check,
   Checkov, Zizmor, and anonymous URL fetch passed.
 
 ### Committed and opened the unmerged delivery PR
