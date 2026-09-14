@@ -1080,6 +1080,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertFalse(job["concurrency"]["cancel-in-progress"])
         checkout = next(s for s in job["steps"] if _uses_action(s, "actions/checkout"))
         self.assertEqual(checkout["with"]["ref"], "${{ github.event.repository.default_branch }}")
+        derive = next(s for s in job["steps"] if s.get("id") == "derive")
+        self.assertIn('SHORT_LOWER="${SHORT,,}"', derive["run"])
+        self.assertIn(
+            "article_url=https://claracle.com/weekly/${YEAR}/${SHORT_LOWER}/",
+            derive["run"],
+        )
 
         locate = next(s for s in job["steps"] if s.get("id") == "manifest-locate")
         locate_run = locate["run"]
@@ -1162,8 +1168,13 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("Receipt state:", evidence["run"])
         self.assertIn("Eligible publication was not submitted", evidence["run"])
         self.assertEqual(evidence["run"].count("Eligible publication was not submitted"), 1)
+        self.assertIn("Eligible publication has an unknown submission outcome", evidence["run"])
+        self.assertIn('RECEIPT_STATE="submission_unknown"', evidence["run"])
         self.assertIn("Failure stage:", evidence["run"])
-        self.assertIn("submission_unknown and submission_rejected remain blocked", evidence["run"])
+        self.assertIn(
+            "submission_unknown and submission_rejected remain blocked pending manual reconciliation",
+            evidence["run"],
+        )
 
     def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")

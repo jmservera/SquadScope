@@ -282,6 +282,18 @@ def _legacy_auto_pre_submit_only(jobs: list[dict[str, Any]]) -> bool:
     )
 
 
+def _legacy_manual_pre_submit_only(jobs: list[dict[str, Any]]) -> bool:
+    """Return whether manual-run evidence proves the handoff step was skipped."""
+    return (
+        _step_conclusion(
+            jobs,
+            "trigger-podcast",
+            "Trigger podcast generation with existing manifest",
+        )
+        == "skipped"
+    )
+
+
 def _compat_identity_for_run(
     run: dict[str, Any],
     jobs: list[dict[str, Any]],
@@ -1011,14 +1023,7 @@ def check_duplicate_result(
                     if legacy_identity is not None and legacy_identity != identity:
                         continue
             elif run_path == TRIGGER_PODCAST_WORKFLOW_PATH:
-                if not jobs_unreadable and (
-                    _step_conclusion(
-                        jobs,
-                        "trigger-podcast",
-                        "Trigger podcast generation with existing manifest",
-                    )
-                    != "success"
-                ):
+                if not jobs_unreadable and _legacy_manual_pre_submit_only(jobs):
                     continue
                 if not logs_unreadable:
                     legacy_publish_run_id = _extract_publish_run_id_from_log_text(log_text)

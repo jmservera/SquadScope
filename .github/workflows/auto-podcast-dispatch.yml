@@ -459,20 +459,33 @@ jobs:
         run: |
           RECEIPT_STATE="${PODCASTER_RECEIPT_STATE:-}"
           if [ -z "$RECEIPT_STATE" ]; then
-            RECEIPT_STATE="pre_submit_failed"
+            if [ "$DERIVE_CONCLUSION" != "success" ] || \
+               [ "$MANIFEST_LOCATE_CONCLUSION" != "success" ] || \
+               [ "$HANDOFF_CONCLUSION" = "skipped" ]; then
+              RECEIPT_STATE="pre_submit_failed"
+            else
+              RECEIPT_STATE="submission_unknown"
+            fi
           fi
           FAILURE_STAGE=""
-          if [ "$RECEIPT_STATE" = "pre_submit_failed" ]; then
+          if [ "$RECEIPT_STATE" = "pre_submit_failed" ] || \
+             [ "$RECEIPT_STATE" = "submission_unknown" ]; then
             if [ "$DERIVE_CONCLUSION" != "success" ]; then
               FAILURE_STAGE="article-path-validation"
             elif [ "$MANIFEST_LOCATE_CONCLUSION" != "success" ]; then
               FAILURE_STAGE="manifest-validation"
+            elif [ "$RECEIPT_STATE" = "submission_unknown" ]; then
+              FAILURE_STAGE="podcaster-handoff-outcome-unknown"
             elif [ "$HANDOFF_CONCLUSION" != "success" ]; then
-              FAILURE_STAGE="podcaster-handoff-before-canonical-receipt"
+              FAILURE_STAGE="podcaster-handoff-pre-submit"
             else
               FAILURE_STAGE="receipt-capture"
             fi
-            echo "::error::Eligible publication was not submitted. stage=${FAILURE_STAGE} week=${WEEK} publish_run_id=${PUBLISH_RUN_ID}. Review the failing step and retry only this exact identity after the cause is cleared."
+            if [ "$RECEIPT_STATE" = "submission_unknown" ]; then
+              echo "::error::Eligible publication has an unknown submission outcome. stage=${FAILURE_STAGE} week=${WEEK} publish_run_id=${PUBLISH_RUN_ID}. Do not retry until the exact identity is manually reconciled."
+            else
+              echo "::error::Eligible publication was not submitted. stage=${FAILURE_STAGE} week=${WEEK} publish_run_id=${PUBLISH_RUN_ID}. Review the failing step and retry only this exact identity after the cause is cleared."
+            fi
           fi
           export RECEIPT_STATE
           python3 - <<'PY'
@@ -511,7 +524,7 @@ jobs:
             echo "- Podcaster response status: ${PODCASTER_STATUS}"
             echo "- Podcaster job ID: ${PODCASTER_JOB_ID}"
             echo "- Actions run: ${RUN_URL}"
-            echo "- Recovery: Review the failing step and canonical receipt. Retry only the same week, publish run ID, and article digest after the cause is cleared; submission_unknown and submission_rejected remain blocked."
+            echo "- Recovery: Review the failing step and canonical receipt. Retry only a pre_submit_failed identity after the cause is cleared; submission_unknown and submission_rejected remain blocked pending manual reconciliation."
           } >> "$GITHUB_STEP_SUMMARY"
 
   observe-summary:

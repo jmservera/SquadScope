@@ -152,6 +152,23 @@ URL, and documentation are delivered in PR #762.
   https://github.com/jmservera/SquadScope/pull/762 is open and unmerged.
 * Validation: Remote branch and PR creation succeeded.
 
+### Addressed first-round Copilot review findings
+
+* Related phase or task: P02-T02, P03-T01, P03-T02, P04-T02, P05-T01
+* Files: scripts/auto_dispatch_detect.py,
+  .github/workflows/auto-podcast-dispatch.yml,
+  .github/workflows/trigger-podcast.yml,
+  tests/test_auto_dispatch_detect.py, tests/test_pipeline.py,
+  .copilot-tracking/changes/2026-09-14/w38-delivery-reliability-changes.md
+* What changed and why: Kept manual runs with failed handoff and unreadable logs
+  ambiguous, limited pre-submit classification to skipped handoffs, classified
+  a handoff that ran without a receipt as submission_unknown, normalized manual
+  recovery URLs to lowercase, and reconciled tracking evidence.
+* Completion evidence: All three moderate Copilot findings and both inline
+  tracking comments were addressed without weakening retry safeguards.
+* Validation: 76 targeted tests passed; Ruff, Checkov 3.2.533, and Zizmor
+  1.27.0 passed.
+
 ## Implementation-Time Plan and Detail Updates
 
 ### Persisted the approved W38 implementation scope
@@ -173,7 +190,7 @@ URL, and documentation are delivered in PR #762.
 
 | Check | Scope | Status | Evidence or reason |
 |---|---|---|---|
-| Targeted detection/workflow tests | P03/P04 | Passed | 42 passed |
+| Targeted detection/workflow tests | P03/P04 | Passed | 76 passed |
 | Ruff lint/format | P04 | Passed | Changed Python files passed check and format |
 | Checkov 3.2.533 | P04 | Passed | 1005 passed, 0 failed, 7 skipped |
 | Zizmor 1.27.0 | P04 | Passed | No medium/high findings |
@@ -181,8 +198,8 @@ URL, and documentation are delivered in PR #762.
 
 ## Pre-Review Reconciliation
 
-* Plan markers and phase details: Current for implementation start.
-* Completed-work evidence and handoff prose: No completed source work yet.
+* Plan markers and phase details: Current and complete for the approved scope.
+* Completed-work evidence and handoff prose: Current through PR #762 delivery.
 * Validation, blockers, remaining work, and follow-up items: Current.
 * Review readiness: Ready; PR #762 is open and unmerged for CI and reviewer
   evaluation.

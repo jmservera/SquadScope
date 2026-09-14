@@ -878,6 +878,65 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertFalse(result.is_duplicate)
         self.assertEqual(result.reason, "prior run log/jobs unreadable")
 
+    def test_unreadable_manual_failure_remains_ambiguous(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+        )
+
+        def _open(req, timeout=20):
+            url = req.full_url
+            if url == self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW):
+                return _gh_runs_response([])
+            if url == self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW):
+                return _gh_runs_response([run])
+            if url == self._jobs_url(self._TRIGGER_RUN_ID):
+                return _gh_jobs_response(self._trigger_jobs("failure"))
+            if url == self._logs_url(self._TRIGGER_RUN_ID):
+                raise OSError("network error")
+            raise AssertionError(f"Unexpected URL fetched: {url}")
+
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch("urllib.request.urlopen", side_effect=_open),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.reason, "prior run log/jobs unreadable")
+
+    def test_unreadable_manual_skipped_handoff_is_pre_submit(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+        )
+
+        def _open(req, timeout=20):
+            url = req.full_url
+            if url == self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW):
+                return _gh_runs_response([])
+            if url == self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW):
+                return _gh_runs_response([run])
+            if url == self._jobs_url(self._TRIGGER_RUN_ID):
+                return _gh_jobs_response(self._trigger_jobs("skipped"))
+            if url == self._logs_url(self._TRIGGER_RUN_ID):
+                raise OSError("network error")
+            raise AssertionError(f"Unexpected URL fetched: {url}")
+
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch("urllib.request.urlopen", side_effect=_open),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
 
 # ---------------------------------------------------------------------------
 # TestWeekExtraction
