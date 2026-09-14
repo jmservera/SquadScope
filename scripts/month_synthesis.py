@@ -37,7 +37,7 @@ MONTH_NAMES = {
 
 SECTION_PATTERN = re.compile(r"(?m)^##\s+(.+?)\s*$")
 WORD_PATTERN = re.compile(r"\S+")
-SYNTHESIS_VERSION = 5
+SYNTHESIS_VERSION = 7
 PRIOR_MONTH_CONTEXT_LIMIT = 3
 
 
@@ -427,7 +427,7 @@ def synthesize_month(
         )
     if len(top_repos) > 1:
         theme_sentence_parts.append(
-            f"The month's anchor repos moved from {join_terms(top_repos[:2])} toward "
+            f"The month's anchor repos moved from {join_terms(top_repos[:-1])} toward "
             f"{top_repos[-1]}, reinforcing that the winning projects were the ones narrowing scope while deepening practical utility"
         )
     elif top_repos:
@@ -452,12 +452,14 @@ def synthesize_month(
             ": the later reports mostly confirmed the earlier direction of travel"
         )
     if conclusions:
-        prediction_sentence += f". In retrospect, the clearest forward-looking reads were that {'; '.join(conclusions)}."
+        prediction_sentence += (
+            f". In retrospect, the clearest forward-looking reads were: {'; '.join(conclusions)}."
+        )
     else:
         prediction_sentence += "."
 
     if noise:
-        prediction_sentence += f" The main counter-signal was noise that evolved from {' to '.join(noise[:2]) if len(noise) > 1 else noise[0]}."
+        prediction_sentence += f" The main counter-signals were: {'; '.join(noise[:2]) if len(noise) > 1 else noise[0]}."
 
     narrative = _trim_to_range(
         "\n\n".join([opening, theme_paragraph, signal_paragraph, prediction_sentence])

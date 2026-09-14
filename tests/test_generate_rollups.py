@@ -482,6 +482,30 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertNotEqual(first_monthly, second_monthly)
             self.assertNotEqual(first_yearly, second_yearly)
 
+    def test_merge_sections_normalizes_legacy_uppercase_week_links(self) -> None:
+        with temporary_workspace() as tmpdir:
+            path = Path(tmpdir) / "content" / "monthly" / "2026" / "05.md"
+            path.parent.mkdir(parents=True)
+            path.write_text(
+                "---\ntitle: Legacy\n---\n\n## Month Overview\n\n"
+                "### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)\n\n"
+                "## Prediction Review\n\nLegacy generated prediction text.\n\n"
+                "## Editorial Notes\n\nKeep this note.\n",
+                encoding="utf-8",
+            )
+
+            merged = generate_rollups.merge_sections(
+                path,
+                ["Month Overview"],
+                {"Month Overview": []},
+                replace_sections=frozenset({"Prediction Review"}),
+            )
+
+            self.assertIn("/weekly/2026/w21/", merged)
+            self.assertNotIn("/weekly/2026/W21/", merged)
+            self.assertNotIn("Legacy generated prediction text.", merged)
+            self.assertIn("Keep this note.", merged)
+
     def test_generate_yearly_narrative_standalone_writes_narrative_format(self) -> None:
         with temporary_workspace() as tmpdir:
             base = Path(tmpdir)
@@ -1025,6 +1049,12 @@ class MonthSynthesisTrimWordsTests(unittest.TestCase):
             "Across the weekly reports, the clearest signals were: The durable signal",
             synthesis.narrative,
         )
+        self.assertIn(
+            "anchor repos moved from vercel-labs/zero toward perplexityai/bumblebee",
+            synthesis.narrative,
+        )
+        self.assertIn("the clearest forward-looking reads were:", synthesis.prediction_review)
+        self.assertNotIn("forward-looking reads were that", synthesis.prediction_review)
         for sentence in synthesis.narrative.split(". "):
             self.assertTrue(sentence.strip())
 

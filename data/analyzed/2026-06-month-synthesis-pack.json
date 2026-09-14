@@ -3,11 +3,11 @@
   "prior_month_context": [
     {
       "month": "2026-05",
-      "summary": "May 2026 was defined by open source, developer tooling, and security. Later in the month, agent skills, ai memory, and coding agents gathered pace.",
+      "summary": "May 2026 was defined by developer tooling, open source, and security. Later in the month, agent skills, ai memory, and coding agents gathered pace.",
       "title": "Agent Skills and AI Memory Surge \u2014 May 2026"
     }
   ],
-  "synthesis_version": 5,
+  "synthesis_version": 7,
   "weeks": [
     {
       "conclusion": "The local-sovereignty infrastructure trend is in active acceleration with no sign of peaking \u2014 expect additional memory, control-plane, and sandboxing releases as the odysseus star count (whatever its provenance) validates demand for the category. The offensive security and agent crossover ([PentesterFlow/agent](https://github.com/PentesterFlow/agent), [Arenbai/SecSkills](https://github.com/Arenbai/SecSkills)) is early but directional; watch for detection tooling and blue-team responses emerging within the next two weeks. The DPI bypass cluster will either sustain as a recurring geopolitical readout or consolidate \u2014 next week's crawl will be diagnostic. GitHub Universe's institutional framing and Anthropic's approaching IPO will continue to amplify enterprise AI narratives; the open question is whether that institutional momentum catalyzes developer-side compliance and governance tooling, which remains the week's most conspicuous gap.",
