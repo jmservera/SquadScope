@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "5fab95dc93d19cc7970bf269012f901d7499405a7050a007dd052947cc12303d",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8107,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W37-summary.md",
+        "sha256": "3aa636fb0d1e3f9b29048c3b4d12f1a2e9dab1ac869f3d9342e314e0ae08decf"
+      },
+      "raw_json": {
+        "bytes": 389811,
+        "path": "data/raw/2026-W38.json",
+        "sha256": "67dc72f4928ba7c7a3daa12aa46f7f5dfd7d0fa74ff8ce1251fd004d26ed6dc8"
+      }
+    },
+    "week": "2026-W38"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agent Memory Meets the Governance Gap\"\ndate: 2026-09-07T04:22:17Z\nweek: \"2026-W37\"\nyear: 2026\ntags: [ai-agents, agent-memory, orchestration, developer-tools, security, local-ai]\ncategories: [weekly]\nrepos_featured: 50\nstars_tracked: 6926293\ntop_repo: \"okf-memory/okf-agent-memory\"\nquality_score: 100\nsummary: \"Agent tooling moved deeper into memory, skills, and orchestration while security churn and fork-heavy WARP repos distorted the signal.\"\npredictions:\n  - repo: okf-memory/okf-agent-memory\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: lnkiai/m3e-canvas\n    claim_type: signal\n    direction: up\n    confidence: 0.68\n  - repo: byJoey/warp-masque-actions\n    claim_type: noise\n    direction: down\n    confidence: 0.74\n  - repo: MSNightmare/FalconFlank\n    claim_type: noise\n    direction: down\n    confidence: 0.71\n  - repo: ashemag/human-atlas\n    claim_type: gap\n    direction: flat\n    confidence: 0.63\n---\n\nSeptember 2026 opened with agent infrastructur",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W37-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}

@@ -30,16 +30,16 @@
         "openai",
         "openhands"
       ],
-      "count": 17,
+      "count": 18,
       "display_name": "AI Coding Agents",
       "first_seen": "2026-05-21",
       "is_hub": true,
-      "last_used": "2026-09-07",
+      "last_used": "2026-09-14",
       "order": 0,
       "promoted": true,
       "slug": "ai-coding-agents",
-      "times_used": 17,
-      "weekly_issue_count": 17
+      "times_used": 18,
+      "weekly_issue_count": 18
     },
     "ai-machine-learning": {
       "count": 0,
@@ -81,15 +81,15 @@
       "aliases": [
         "local-first"
       ],
-      "count": 13,
+      "count": 14,
       "display_name": "Local First",
       "first_seen": "2026-05-25",
       "is_hub": true,
-      "last_used": "2026-09-07",
+      "last_used": "2026-09-14",
       "promoted": true,
       "slug": "local-first",
-      "times_used": 13,
-      "weekly_issue_count": 13
+      "times_used": 14,
+      "weekly_issue_count": 14
     },
     "mcp-ecosystem": {
       "aliases": [

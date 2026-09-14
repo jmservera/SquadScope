@@ -1,6 +1,23 @@
 {
   "month": "2026-09",
-  "synthesis_version": 3,
+  "prior_month_context": [
+    {
+      "month": "2026-08",
+      "summary": "August 2026 was defined by ai agents, agent skills, and developer tools. Later in the month, mcp, self hosting, and agent governance gathered pace.",
+      "title": "MCP and Self Hosting Surge \u2014 August 2026"
+    },
+    {
+      "month": "2026-07",
+      "summary": "July 2026 was defined by agent skills, security, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace.",
+      "title": "Discovery Noise and Local AI Surge \u2014 July 2026"
+    },
+    {
+      "month": "2026-06",
+      "summary": "June 2026 was defined by agent skills, noise floor, and coding agents. Later in the month, security, agent frameworks, and ai agents gathered pace.",
+      "title": "Security and Agent Frameworks Surge \u2014 June 2026"
+    }
+  ],
+  "synthesis_version": 4,
   "weeks": [
     {
       "conclusion": "Watch whether agent memory turns into a cluster rather than a one-off. If [okf-memory/okf-agent-memory](https://github.com/okf-memory/okf-agent-memory) attracts adjacent tools for audit, migration, or evaluation, September's agent story will move from orchestration into governance infrastructure. Also watch whether [lnkiai/m3e-canvas](https://github.com/lnkiai/m3e-canvas) sustains past novelty; design-to-code tools are useful, but only durable if they survive real product iteration.",
@@ -26,9 +43,35 @@
       "title": "Agent Memory Meets the Governance Gap",
       "top_repo": "okf-memory/okf-agent-memory",
       "week": "2026-W37"
+    },
+    {
+      "conclusion": "Watch whether formal certificates and specialized kernels attract adjacent implementations rather than merely launch-week attention. Media skills are likely to keep multiplying; the stronger projects will expose reusable stages, evaluation, and provenance instead of hiding a fragile chain behind one command. Physical AI should be judged by growth in interoperable data and simulation tooling. The unresolved opportunity remains an assurance layer that connects privacy, permissions, auditability, and production workflows.",
+      "featured_repos": [
+        "openai/NavierStokesAndEuler",
+        "deepseek-ai/DeepSelect",
+        "deepseek-ai/DeepJIT",
+        "Vincentwei1021/anything2explainer",
+        "eternityspring/reelbench-skills"
+      ],
+      "gaps": "Operational assurance is still the largest absence. [tsymbaluyk/maskgate](https://github.com/tsymbaluyk/maskgate) addresses PII masking before prompts, yet the visible set lacks a broader cluster for agent permissions, tamper-evident audit trails, policy replay, incident forensics, or behavioral evaluation. That gap is sharper because agent frameworks remain heavily represented among established repositories. Robotics provenance is another incomplete layer: one project mentions on-chain provenance, but there is little independent tooling for consent, dataset licensing, trace quality, or safety validation. The press also highlights healthcare integration and climate deployment, while the repository sample offers almost no open interoperability, validation, or governance infrastructure for either domain.",
+      "noise": "",
+      "signal": "The durable signal is concentrated in artifacts with narrow, testable jobs. [openai/NavierStokesAndEuler](https://github.com/openai/NavierStokesAndEuler) supplies certificates; [deepseek-ai/DeepSelect](https://github.com/deepseek-ai/DeepSelect) and [deepseek-ai/DeepJIT](https://github.com/deepseek-ai/DeepJIT) expose concrete systems work; [kevinzakka/mjbatch](https://github.com/kevinzakka/mjbatch) tackles simulation throughput. The media cluster also deserves attention because several independent repositories span generation, editing, analysis, speech, and rendering rather than repeating one wrapper. [Vincentwei1021/anything2explainer](https://github.com/Vincentwei1021/anything2explainer) has 1,200 stars and 211 forks, a healthier evidence profile than star-only novelty. Noise and risk remain substantial. [SpaceDudem/text-humanizer](https://github.com/SpaceDudem/text-humanizer) explicitly markets detector evasion, making its 735 stars an integrity warning rather than productive adoption. [henryzawadzki6542/cloudflare-turnstile-bypass](https://github.com/henryzawadzki6542/cloudflare-turnstile-bypass) similarly turns security circumvention into the product premise, while [angusdevgo/IDM_Pro_Tool](https://github.com/angusdevgo/IDM_Pro_Tool) sits in activation-tool churn. [zjwzcx/Awesome-Astra-Embodied-AI](https://github.com/zjwzcx/Awesome-Astra-Embodied-AI) has 302 stars but only two forks and no declared language, so its embodied-AI branding is weaker evidence than the simulation and data projects. None crosses the learned fork-inflation threshold, but launch-week stars alone cannot demonstrate retention.",
+      "summary": "AI development shifted from generic agents toward proofs, kernels, production media workflows, and the data infrastructure needed for physical systems.",
+      "tags": [
+        "ai-infrastructure",
+        "agent-skills",
+        "formal-verification",
+        "physical-ai",
+        "ai-video",
+        "privacy"
+      ],
+      "title": "AI Moves From Agents to Production Substrates",
+      "top_repo": "openai/NavierStokesAndEuler",
+      "week": "2026-W38"
     }
   ],
   "weeks_covered": [
-    "2026-W37"
+    "2026-W37",
+    "2026-W38"
   ]
 }

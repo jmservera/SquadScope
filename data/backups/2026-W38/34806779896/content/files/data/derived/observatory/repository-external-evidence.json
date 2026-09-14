@@ -1,0 +1,83 @@
+{
+  "first_party_referrals": {},
+  "sampled_link_paths": [],
+  "schema_version": "1.0.0",
+  "search_analytics": {
+    "/repo/burntsushi-ripgrep/": {
+      "clicks": 0,
+      "impressions": 20,
+      "position": 7.95
+    },
+    "/repo/coollabsio-coolify/": {
+      "clicks": 0,
+      "impressions": 1,
+      "position": 39.0
+    },
+    "/repo/eugeny-tabby/": {
+      "clicks": 0,
+      "impressions": 4,
+      "position": 7.75
+    },
+    "/repo/ghostty-org-ghostty/": {
+      "clicks": 0,
+      "impressions": 4,
+      "position": 15.75
+    },
+    "/repo/marktext-marktext/": {
+      "clicks": 0,
+      "impressions": 2,
+      "position": 5.5
+    },
+    "/repo/openbb-finance-openbb/": {
+      "clicks": 0,
+      "impressions": 7,
+      "position": 28.43
+    },
+    "/repo/pewdiepie-archdaemon-odysseus/": {
+      "clicks": 0,
+      "impressions": 3,
+      "position": 42.33
+    },
+    "/repo/ruvnet-ruflo/": {
+      "clicks": 0,
+      "impressions": 6,
+      "position": 36.33
+    },
+    "/repo/tw93-pake/": {
+      "clicks": 0,
+      "impressions": 1,
+      "position": 46.0
+    },
+    "/repo/yt-dlp-yt-dlp/": {
+      "clicks": 0,
+      "impressions": 3,
+      "position": 24.0
+    }
+  },
+  "sources": {
+    "first_party_referrals": {
+      "file": "ga4-repo-referrals.csv",
+      "scope": "GA4 repository landing-page referrals export",
+      "window": "2026-07-27..2026-08-11"
+    },
+    "sampled_links": {
+      "file": "gsc-top-linked-pages.csv",
+      "scope": "Search Console sampled top linked pages export",
+      "window": "exported 2026-08-10"
+    },
+    "search_analytics": {
+      "file": "Pages.csv",
+      "filters_file": "Filtres.csv",
+      "scope": "Web Search exact pages matching /repo/",
+      "window": "2026-07-27..2026-08-09"
+    }
+  },
+  "summary": {
+    "linked_repository_urls_observed": 0,
+    "referral_sessions": 0,
+    "referred_repository_urls_observed": 0,
+    "search_clicks": 0,
+    "search_impressions": 51,
+    "search_urls_observed": 10
+  }
+}

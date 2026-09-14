@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "e05f3508c9f10672e9ffadc5890efde1d5fb5bc2536700a9d75f077bd5751602",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8107,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W31-summary.md",
+        "sha256": "d89aa827b6350b3a9f09d7267a53b968b9cd1256088c25d63962975009bdc5ab"
+      },
+      "raw_json": {
+        "bytes": 351892,
+        "path": "data/raw/2026-W32.json",
+        "sha256": "27dd9362269a7ef8277e9083bf41276d4486825406f4f1ffaa792e6d16118456"
+      }
+    },
+    "week": "2026-W32"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agent Workbenches Met the Trust Gap\"\ndate: 2026-07-31T22:10:40Z\nweek: \"2026-W31\"\nyear: 2026\ntags: [ai-agents, agent-skills, local-first, security, developer-tools, discovery-noise]\ncategories: [weekly]\nrepos_featured: 300\nstars_tracked: 24800000\ntop_repo: \"makecindy/cindy\"\nquality_score: 100\nsummary: \"Agent tooling kept moving into workbenches, skills, and local controls while exploit and automation noise exposed a missing trust layer.\"\npredictions:\n  - repo: makecindy/cindy\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: risa-labs-inc/BossConsole\n    claim_type: signal\n    direction: up\n    confidence: 0.7\n  - repo: pc-style/skill-view\n    claim_type: signal\n    direction: up\n    confidence: 0.66\n  - repo: dr-Crimson-Smoke39/Discord-Nitro-Generator\n    claim_type: noise\n    direction: down\n    confidence: 0.88\n  - repo: rustyharbor308774/Ethereum-bot\n    claim_type: noise\n    direction: down\n    confidence: 0.86\n---\n\nJuly 2026's agent story hardened",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W31-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}
