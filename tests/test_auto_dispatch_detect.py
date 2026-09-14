@@ -860,6 +860,30 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
 
+    def test_readable_manual_rerun_with_skipped_handoff_remains_ambiguous(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+        )
+        run["run_attempt"] = 2
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    trigger_runs=[run],
+                    jobs={self._TRIGGER_RUN_ID: self._trigger_jobs("skipped")},
+                    logs={self._TRIGGER_RUN_ID: ""},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+
     def test_api_failure_non_blocking(self):
         with (
             mock.patch.object(detect, "fetch_publish_branch"),

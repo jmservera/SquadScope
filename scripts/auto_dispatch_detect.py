@@ -333,13 +333,13 @@ def _compat_identity_for_run(
     if path != TRIGGER_PODCAST_WORKFLOW_PATH:
         return "ignore", None
 
-    if (
-        _step_conclusion(
-            jobs, "trigger-podcast", "Trigger podcast generation with existing manifest"
-        )
-        != "success"
-    ):
-        return "ignore", None
+    handoff_conclusion = _step_conclusion(
+        jobs, "trigger-podcast", "Trigger podcast generation with existing manifest"
+    )
+    if handoff_conclusion != "success":
+        if _legacy_manual_pre_submit_only(run, jobs):
+            return "ignore", None
+        return "ambiguous", None
 
     publish_run_id = _extract_publish_run_id_from_log_text(log_text)
     if publish_run_id is None:
