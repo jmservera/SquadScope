@@ -98,7 +98,7 @@ class WeeklySummary:
 
     @property
     def week_link(self) -> str:
-        return f"/weekly/{self.year}/W{self.week_number:02d}/"
+        return f"/weekly/{self.year}/w{self.week_number:02d}/"
 
     @property
     def month_slug(self) -> str:

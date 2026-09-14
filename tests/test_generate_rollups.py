@@ -129,7 +129,7 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn("---\n\n## Month Synthesis", monthly)
             self.assertIn("## Month Overview", monthly)
             self.assertIn("### Week 2026-W21", monthly)
-            self.assertIn("[Week 21, 2026](/weekly/2026/W21/)", monthly)
+            self.assertIn("[Week 21, 2026](/weekly/2026/w21/)", monthly)
             self.assertIn("[octo/signal-kit](https://github.com/octo/signal-kit)", monthly)
 
             yearly = yearly_path.read_text(encoding="utf-8")
@@ -464,7 +464,7 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn("total_repos_featured: 4", second_monthly)
             self.assertIn('months_covered: ["2026-05"]', second_yearly)
             for expected in [
-                "### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)",
+                "### Week 2026-W21 — [Week 21, 2026](/weekly/2026/w21/)",
                 "- [octo/signal-kit](https://github.com/octo/signal-kit) led the published weekly analysis for 2026-W21.",
                 "- Signal: Teams preferred operational automation over generic hype.",
                 "- Gap to watch: Reliable momentum data remained missing.",
@@ -1019,6 +1019,12 @@ class MonthSynthesisTrimWordsTests(unittest.TestCase):
         self.assertNotIn("…", synthesis.summary)
         self.assertNotIn("…", synthesis.trend_arc)
         self.assertNotIn("…", synthesis.prediction_review)
+        self.assertIn("The opening report found: Week 21 shows", synthesis.narrative)
+        self.assertIn("The closing report found: Week 22 delivers", synthesis.narrative)
+        self.assertIn(
+            "Across the weekly reports, the clearest signals were: The durable signal",
+            synthesis.narrative,
+        )
         for sentence in synthesis.narrative.split(". "):
             self.assertTrue(sentence.strip())
 
