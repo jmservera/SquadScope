@@ -461,6 +461,19 @@ jobs:
           if [ -z "$RECEIPT_STATE" ]; then
             RECEIPT_STATE="pre_submit_failed"
           fi
+          FAILURE_STAGE=""
+          if [ "$RECEIPT_STATE" = "pre_submit_failed" ]; then
+            if [ "$DERIVE_CONCLUSION" != "success" ]; then
+              FAILURE_STAGE="article-path-validation"
+            elif [ "$MANIFEST_LOCATE_CONCLUSION" != "success" ]; then
+              FAILURE_STAGE="manifest-validation"
+            elif [ "$HANDOFF_CONCLUSION" != "success" ]; then
+              FAILURE_STAGE="podcaster-handoff-before-canonical-receipt"
+            else
+              FAILURE_STAGE="receipt-capture"
+            fi
+            echo "::error::Eligible publication was not submitted. stage=${FAILURE_STAGE} week=${WEEK} publish_run_id=${PUBLISH_RUN_ID}. Review the failing step and retry only this exact identity after the cause is cleared."
+          fi
           export RECEIPT_STATE
           python3 - <<'PY'
           import json
@@ -485,6 +498,7 @@ jobs:
             echo "## Podcaster real-generation evidence"
             echo ""
             echo "- Receipt state: ${RECEIPT_STATE}"
+            echo "- Failure stage: ${FAILURE_STAGE:-not-applicable}"
             echo "- Workflow conclusion: ${HANDOFF_OUTCOME}"
             echo "- Dispatcher: ${DISPATCHER}"
             echo "- Trigger: auto-dispatch (push to main)"
@@ -497,6 +511,7 @@ jobs:
             echo "- Podcaster response status: ${PODCASTER_STATUS}"
             echo "- Podcaster job ID: ${PODCASTER_JOB_ID}"
             echo "- Actions run: ${RUN_URL}"
+            echo "- Recovery: Review the failing step and canonical receipt. Retry only the same week, publish run ID, and article digest after the cause is cleared; submission_unknown and submission_rejected remain blocked."
           } >> "$GITHUB_STEP_SUMMARY"
 
   observe-summary:

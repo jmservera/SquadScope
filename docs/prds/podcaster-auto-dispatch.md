@@ -129,6 +129,13 @@ Workflow implementation requires URL pipeline review and Hermes security
 review. Any generated or externally supplied text that affects trigger behavior
 also requires Nibbler review.
 
+Duplicate history uses canonical receipts keyed by the exact week, publish run
+ID, and article SHA-256. Receipt-less legacy compatibility evidence is relevant
+only when it can belong to that same identity. A legacy auto-dispatch run whose
+protected dispatch job was skipped is conclusively pre-submit and cannot block a
+different publication; unreadable or uncertain evidence that can belong to the
+requested identity continues to fail closed.
+
 ## 9. Rollout
 
 1. Approve the trusted correlation design and threat model.

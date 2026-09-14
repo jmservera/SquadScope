@@ -273,10 +273,9 @@ def _identity_from_sync_commit(
     )
 
 
-def _legacy_auto_observe_only(jobs: list[dict[str, Any]]) -> bool:
-    return _step_conclusion(
-        jobs, "Observe-only summary", "Record observe-only result"
-    ) == "success" and any(
+def _legacy_auto_pre_submit_only(jobs: list[dict[str, Any]]) -> bool:
+    """Return whether job evidence proves the protected dispatch never ran."""
+    return any(
         job.get("name") == "Protected podcast dispatch"
         and str(job.get("conclusion") or "") == "skipped"
         for job in jobs
@@ -293,20 +292,19 @@ def _compat_identity_for_run(
     path = str(run.get("path") or "")
 
     if path == AUTO_DISPATCH_WORKFLOW_PATH:
-        if _legacy_auto_observe_only(jobs):
-            return "ignore", None
         identity = _extract_dispatch_identity_from_log_outputs(log_text)
-        if identity is None:
-            return "ambiguous", None
+        if identity is not None and identity != requested_identity:
+            return "ignore", identity
+        if _legacy_auto_pre_submit_only(jobs):
+            return "ignore", identity
         if (
             _step_conclusion(jobs, "Protected podcast dispatch", "Trigger podcast generation")
             == "success"
         ):
-            return "blocking" if identity == requested_identity else "ignore", identity
-        return (
-            "ambiguous",
-            identity if identity.publish_run_id == requested_identity.publish_run_id else None,
-        )
+            if identity is None:
+                return "ambiguous", None
+            return "blocking", identity
+        return "ambiguous", identity
 
     if path != TRIGGER_PODCAST_WORKFLOW_PATH:
         return "ignore", None
@@ -445,6 +443,14 @@ def extract_week_from_article_path(article_path: str) -> tuple[str | None, str |
     return f"{year}-{short}", year, short
 
 
+def article_url_from_article_path(article_path: str) -> str | None:
+    """Return the canonical lowercase public URL for a weekly article path."""
+    week, year, short = extract_week_from_article_path(article_path)
+    if not week or not year or not short:
+        return None
+    return f"https://claracle.com/weekly/{year}/{short.lower()}/"
+
+
 def validate_manifest(
     manifest: dict, week: str, run_id: str, article_sha256: str
 ) -> tuple[bool, str]:
@@ -503,7 +509,7 @@ def detect(args: argparse.Namespace) -> None:
         sys.exit(1)
 
     # Validate article path format
-    week, year, short = extract_week_from_article_path(article_path)
+    week, _year, _short = extract_week_from_article_path(article_path)
     if not week:
         print(
             f"::error::article-path must match content/weekly/YYYY/WNN.md (got: {article_path!r})",
@@ -586,8 +592,9 @@ def detect(args: argparse.Namespace) -> None:
     manifest_bytes = read_manifest_bytes_from_publish(manifest_path)
     manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
 
-    # Derive article URL deterministically from article path (preserve case: W37 not w37)
-    article_url = f"https://claracle.com/weekly/{year}/{short}/"
+    article_url = article_url_from_article_path(article_path)
+    if article_url is None:
+        raise ValueError(f"Could not derive article URL from {article_path!r}")
 
     status = "observe_only" if args.observe_only else "eligible"
 
@@ -995,18 +1002,31 @@ def check_duplicate_result(
             continue
 
         if jobs_unreadable or logs_unreadable:
-            if _legacy_auto_observe_only(jobs):
-                continue
-            if (
-                str(run.get("path") or "") == TRIGGER_PODCAST_WORKFLOW_PATH
-                and _step_conclusion(
-                    jobs,
-                    "trigger-podcast",
-                    "Trigger podcast generation with existing manifest",
-                )
-                != "success"
-            ):
-                continue
+            run_path = str(run.get("path") or "")
+            if run_path == AUTO_DISPATCH_WORKFLOW_PATH:
+                if not jobs_unreadable and _legacy_auto_pre_submit_only(jobs):
+                    continue
+                if not logs_unreadable:
+                    legacy_identity = _extract_dispatch_identity_from_log_outputs(log_text)
+                    if legacy_identity is not None and legacy_identity != identity:
+                        continue
+            elif run_path == TRIGGER_PODCAST_WORKFLOW_PATH:
+                if not jobs_unreadable and (
+                    _step_conclusion(
+                        jobs,
+                        "trigger-podcast",
+                        "Trigger podcast generation with existing manifest",
+                    )
+                    != "success"
+                ):
+                    continue
+                if not logs_unreadable:
+                    legacy_publish_run_id = _extract_publish_run_id_from_log_text(log_text)
+                    if (
+                        legacy_publish_run_id is not None
+                        and legacy_publish_run_id != identity.publish_run_id
+                    ):
+                        continue
             unreadable_prior_run_url = unreadable_prior_run_url or (_run_url(run) or None)
             continue
 

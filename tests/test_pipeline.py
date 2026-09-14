@@ -1160,6 +1160,10 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("PODCASTER_RECEIPT_STATE", evidence["env"])
         self.assertIn("PODCAST_DISPATCH_RECEIPT::", evidence["run"])
         self.assertIn("Receipt state:", evidence["run"])
+        self.assertIn("Eligible publication was not submitted", evidence["run"])
+        self.assertEqual(evidence["run"].count("Eligible publication was not submitted"), 1)
+        self.assertIn("Failure stage:", evidence["run"])
+        self.assertIn("submission_unknown and submission_rejected remain blocked", evidence["run"])
 
     def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")

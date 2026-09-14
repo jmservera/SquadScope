@@ -10,6 +10,8 @@ Public API tested:
     Extracts ISO week string (e.g. "2026-W37") or None for invalid paths.
   - check_paused() -> bool
     Returns True iff PODCAST_AUTO_DISPATCH_PAUSED env var is 'true' (case-insensitive).
+  - article_url_from_article_path(article_path: str) -> str | None
+    Returns the canonical lowercase public weekly URL.
   - check_duplicate_result(week, run_id, article_sha256, gh_token, repo) -> DuplicateCheckResult
     Returns structured duplicate status using exact identity, canonical receipts,
     and compatibility logic for legacy runs.
@@ -416,6 +418,49 @@ class TestDuplicateCheck(unittest.TestCase):
             },
         ]
 
+    def _auto_pre_submit_jobs(self, *, detect_conclusion: str = "failure") -> list[dict]:
+        return [
+            {
+                "name": "Detect eligible weekly publication",
+                "conclusion": detect_conclusion,
+                "steps": [
+                    {
+                        "name": "Detect eligible manifest",
+                        "conclusion": detect_conclusion,
+                    },
+                    {
+                        "name": "Check for duplicate dispatch",
+                        "conclusion": "skipped",
+                    },
+                ],
+            },
+            {
+                "name": "Protected podcast dispatch",
+                "conclusion": "skipped",
+                "steps": [],
+            },
+            {
+                "name": "Observe-only summary",
+                "conclusion": "skipped",
+                "steps": [],
+            },
+        ]
+
+    def _legacy_identity_log(
+        self,
+        *,
+        week: str = WEEK,
+        run_id: str = RUN_ID,
+        sha: str = KNOWN_SHA256,
+    ) -> str:
+        return "\n".join(
+            (
+                f"  output: week={week}",
+                f"  output: publish_run_id={run_id}",
+                f"  output: article_sha256={sha}",
+            )
+        )
+
     def _router(
         self,
         *,
@@ -594,6 +639,129 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
 
+    def test_w38_ignores_unrelated_legacy_no_anchor_pre_submit_run(self):
+        w38_week = "2026-W38"
+        w38_run_id = "34806779896"
+        w38_sha = "c935702d6887c2a9f88fc919ba74acbbc874278436b24d0872388f2e0322e1ef"
+        legacy_run_id = 34255052607
+        run = self._run(
+            legacy_run_id,
+            workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH,
+        )
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={legacy_run_id: self._auto_pre_submit_jobs()},
+                    logs={legacy_run_id: ""},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                w38_week,
+                w38_run_id,
+                w38_sha,
+                self._GH_TOKEN,
+                self._REPO,
+            )
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_same_identity_legacy_uncertain_submission_still_blocks(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        jobs = [
+            {
+                "name": "Protected podcast dispatch",
+                "conclusion": "failure",
+                "steps": [
+                    {
+                        "name": "Trigger podcast generation",
+                        "conclusion": "failure",
+                    }
+                ],
+            }
+        ]
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: jobs},
+                    logs={self._AUTO_RUN_ID: self._legacy_identity_log()},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.prior_run_url, run["html_url"])
+
+    def test_exact_identity_canonical_duplicate_still_blocks(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: self._auto_pre_submit_jobs()},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="submitted")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "duplicate")
+        self.assertTrue(result.is_duplicate)
+        self.assertEqual(result.reason, "submitted")
+
+    def test_different_complete_legacy_identity_is_ignored(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        jobs = [
+            {
+                "name": "Protected podcast dispatch",
+                "conclusion": "failure",
+                "steps": [
+                    {
+                        "name": "Trigger podcast generation",
+                        "conclusion": "failure",
+                    }
+                ],
+            }
+        ]
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: jobs},
+                    logs={
+                        self._AUTO_RUN_ID: self._legacy_identity_log(
+                            week="2026-W39",
+                            run_id="34999999999",
+                            sha="a" * 64,
+                        )
+                    },
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
+            )
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
     def test_legacy_manual_real_dispatch_blocks_auto_duplicate(self):
         repo = _TempGitRepo()
         try:
@@ -737,6 +905,12 @@ class TestWeekExtraction(unittest.TestCase):
         """Non-weekly path → extract_week returns None (no ValueError; fails closed downstream)."""
         result = detect.extract_week("content/blog/2026/some-post.md")
         self.assertIsNone(result)
+
+    def test_article_url_uses_canonical_lowercase_week_path(self):
+        self.assertEqual(
+            detect.article_url_from_article_path("content/weekly/2026/W38.md"),
+            "https://claracle.com/weekly/2026/w38/",
+        )
 
 
 class TestFindSyncCommitRegression(unittest.TestCase):
