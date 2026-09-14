@@ -106,16 +106,16 @@ weakening.
   canonical lowercase public article URL verification.
 
 <!-- rpi:phase id=P05 -->
-### P05 - Delivery [ ]
+### P05 - Delivery [x]
 
 <!-- rpi:task id=P05-T01 -->
 - [x] P05-T01: Review the final diff and reconcile implementation evidence.
 
 <!-- rpi:task id=P05-T02 -->
-- [ ] P05-T02: Commit with the required conventional message and trailers.
+- [x] P05-T02: Commit with the required conventional message and trailers.
 
 <!-- rpi:task id=P05-T03 -->
-- [ ] P05-T03: Push the branch and open an unmerged PR against `main` with
+- [x] P05-T03: Push the branch and open an unmerged PR against `main` with
   incident, tests, rollback, and preserved-safeguard evidence.
 
 ## Dependencies
