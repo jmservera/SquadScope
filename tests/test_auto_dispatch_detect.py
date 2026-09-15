@@ -49,6 +49,11 @@ TEST_WORKSPACES_ROOT = Path(__file__).resolve().parents[1] / ".test-workspaces"
 # ---------------------------------------------------------------------------
 
 
+def _check_duplicate_result(*args, **kwargs):
+    kwargs.setdefault("manifest_sha256", KNOWN_MANIFEST_SHA256)
+    return detect.check_duplicate_result(*args, **kwargs)
+
+
 def _make_manifest(
     *,
     sha256: str = KNOWN_SHA256,
@@ -515,12 +520,23 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
+
+    def test_missing_requested_manifest_digest_fails_closed(self):
+        result = detect.check_duplicate_result(
+            WEEK,
+            RUN_ID,
+            KNOWN_SHA256,
+            self._GH_TOKEN,
+            self._REPO,
+        )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.reason, "missing_requested_manifest_sha256")
 
     def test_real_receipt_blocks_duplicate_dispatch(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
@@ -535,9 +551,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "duplicate")
         self.assertTrue(result.is_duplicate)
@@ -561,7 +575,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
+            result = _check_duplicate_result(
                 WEEK,
                 RUN_ID,
                 KNOWN_SHA256,
@@ -587,7 +601,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
+            result = _check_duplicate_result(
                 WEEK,
                 RUN_ID,
                 KNOWN_SHA256,
@@ -619,7 +633,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
+            result = _check_duplicate_result(
                 WEEK,
                 RUN_ID,
                 KNOWN_SHA256,
@@ -649,7 +663,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
+            result = _check_duplicate_result(
                 WEEK,
                 RUN_ID,
                 KNOWN_SHA256,
@@ -674,7 +688,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
+            result = _check_duplicate_result(
                 WEEK,
                 RUN_ID,
                 KNOWN_SHA256,
@@ -699,7 +713,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
+            result = _check_duplicate_result(
                 WEEK,
                 RUN_ID,
                 KNOWN_SHA256,
@@ -724,9 +738,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
@@ -744,9 +756,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
@@ -765,9 +775,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "duplicate")
         self.assertTrue(result.is_duplicate)
@@ -791,9 +799,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
@@ -811,9 +817,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
@@ -838,7 +842,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
+            result = _check_duplicate_result(
                 w38_week,
                 w38_run_id,
                 w38_sha,
@@ -863,9 +867,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
@@ -895,9 +897,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
@@ -916,9 +916,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "duplicate")
         self.assertTrue(result.is_duplicate)
@@ -955,14 +953,12 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
 
-    def test_legacy_manual_real_dispatch_blocks_auto_duplicate(self):
+    def test_legacy_manual_real_dispatch_with_conflicting_manifest_is_ambiguous(self):
         repo = _TempGitRepo()
         try:
             repo.commit("chore: baseline", {"README.md": "base\n"})
@@ -994,7 +990,7 @@ class TestDuplicateCheck(unittest.TestCase):
                     ),
                 ),
             ):
-                result = detect.check_duplicate_result(
+                result = _check_duplicate_result(
                     WEEK,
                     RUN_ID,
                     KNOWN_SHA256,
@@ -1003,9 +999,10 @@ class TestDuplicateCheck(unittest.TestCase):
                     repo_root=repo.root,
                 )
 
-            self.assertEqual(result.status, "duplicate")
-            self.assertTrue(result.is_duplicate)
+            self.assertEqual(result.status, "ambiguous_prior_submission")
+            self.assertFalse(result.is_duplicate)
             self.assertEqual(result.prior_run_url, run["html_url"])
+            self.assertEqual(result.reason, "conflicting_manifest_sha256")
         finally:
             repo.cleanup()
 
@@ -1046,7 +1043,7 @@ class TestDuplicateCheck(unittest.TestCase):
                     ),
                 ),
             ):
-                result = detect.check_duplicate_result(
+                result = _check_duplicate_result(
                     WEEK,
                     RUN_ID,
                     KNOWN_SHA256,
@@ -1098,7 +1095,7 @@ class TestDuplicateCheck(unittest.TestCase):
                     ),
                 ),
             ):
-                result = detect.check_duplicate_result(
+                result = _check_duplicate_result(
                     WEEK,
                     RUN_ID,
                     KNOWN_SHA256,
@@ -1135,9 +1132,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
@@ -1159,9 +1154,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
@@ -1182,7 +1175,7 @@ class TestDuplicateCheck(unittest.TestCase):
                 ),
             ),
         ):
-            result = detect.check_duplicate_result(
+            result = _check_duplicate_result(
                 WEEK,
                 RUN_ID,
                 KNOWN_SHA256,
@@ -1199,9 +1192,7 @@ class TestDuplicateCheck(unittest.TestCase):
             mock.patch.object(detect, "fetch_publish_branch"),
             mock.patch("urllib.request.urlopen", side_effect=OSError("network error")),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
@@ -1226,9 +1217,7 @@ class TestDuplicateCheck(unittest.TestCase):
             mock.patch.object(detect, "fetch_publish_branch"),
             mock.patch("urllib.request.urlopen", side_effect=_open),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
@@ -1256,9 +1245,7 @@ class TestDuplicateCheck(unittest.TestCase):
             mock.patch.object(detect, "fetch_publish_branch"),
             mock.patch("urllib.request.urlopen", side_effect=_open),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
@@ -1286,9 +1273,7 @@ class TestDuplicateCheck(unittest.TestCase):
             mock.patch.object(detect, "fetch_publish_branch"),
             mock.patch("urllib.request.urlopen", side_effect=_open),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
@@ -1317,9 +1302,7 @@ class TestDuplicateCheck(unittest.TestCase):
             mock.patch.object(detect, "fetch_publish_branch"),
             mock.patch("urllib.request.urlopen", side_effect=_open),
         ):
-            result = detect.check_duplicate_result(
-                WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO
-            )
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)

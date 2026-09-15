@@ -323,6 +323,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                 article_text.encode("utf-8")
             ).hexdigest()
             manifest.write_text(json.dumps(manifest_data), encoding="utf-8")
+            expected_manifest_sha256 = hashlib.sha256(manifest.read_bytes()).hexdigest()
 
             payload = podcaster_handoff.build_payload(
                 week="2026-W23",
@@ -337,10 +338,7 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
 
         self.assertEqual(validate_payload(payload), [])
-        self.assertEqual(
-            payload["manifest_sha256"],
-            hashlib.sha256(manifest.read_bytes()).hexdigest(),
-        )
+        self.assertEqual(payload["manifest_sha256"], expected_manifest_sha256)
         self.assertTrue(payload["dry_run"])
         self.assertIn("source_artifacts", payload)
         self.assertTrue(payload["source_artifacts"])

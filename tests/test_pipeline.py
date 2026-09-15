@@ -1168,12 +1168,20 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIn("DETECT_MANIFEST_SHA256", locate["env"])
         self.assertIn("Manifest SHA-256 mismatch", locate["run"])
-
         evidence = next(
             step
             for step in real_generation["steps"]
-            if step.get("name") == "Retain real generation evidence"
+            if step["name"] == "Retain real generation evidence"
         )
+        self.assertIn(
+            "steps.manifest-locate.outputs.manifest_sha256 || needs.detect.outputs.manifest_sha256",
+            evidence["env"]["MANIFEST_SHA256"],
+        )
+        self.assertIn(
+            "steps.manifest-locate.outputs.article_sha256 || needs.detect.outputs.article_sha256",
+            evidence["env"]["ARTICLE_SHA256"],
+        )
+
         self.assertIn("PODCASTER_RECEIPT_STATE", evidence["env"])
         self.assertIn("PODCAST_DISPATCH_RECEIPT::", evidence["run"])
         self.assertIn("Receipt state:", evidence["run"])

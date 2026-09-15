@@ -199,10 +199,7 @@ def _receipt_identity_matches(receipt: dict[str, Any], identity: DispatchIdentit
         receipt.get("week") == identity.week
         and str(receipt.get("publish_run_id") or "") == identity.publish_run_id
         and receipt.get("article_sha256") == identity.article_sha256
-        and (
-            not identity.manifest_sha256
-            or receipt.get("manifest_sha256") == identity.manifest_sha256
-        )
+        and receipt.get("manifest_sha256") == identity.manifest_sha256
     )
 
 
@@ -1027,6 +1024,12 @@ def check_duplicate_result(
         or (manifest_sha256 and not SHA256_RE.match(manifest_sha256))
     ):
         raise ValueError("publication identity fields must use the canonical formats")
+    if not manifest_sha256:
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            reason="missing_requested_manifest_sha256",
+        )
 
     identity = DispatchIdentity(
         week=week,
@@ -1157,10 +1160,7 @@ def check_duplicate_result(
             and compat_identity is not None
             and _base_identity_matches(compat_identity, identity)
         ):
-            if (
-                not identity.manifest_sha256
-                or compat_identity.manifest_sha256 == identity.manifest_sha256
-            ):
+            if compat_identity.manifest_sha256 == identity.manifest_sha256:
                 return DuplicateCheckResult(
                     status="duplicate",
                     is_duplicate=True,
@@ -1201,6 +1201,7 @@ def check_duplicate(
     week: str,
     run_id: str,
     article_sha256: str,
+    manifest_sha256: str,
     gh_token: "str | None" = None,
     repo: "str | None" = None,
     *,
@@ -1213,6 +1214,7 @@ def check_duplicate(
         gh_token,
         repo,
         repo_root=repo_root,
+        manifest_sha256=manifest_sha256,
     )
     return result.is_duplicate, result.prior_run_url
 

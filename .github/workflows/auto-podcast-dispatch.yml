@@ -461,9 +461,9 @@ jobs:
           WEEK: ${{ needs.detect.outputs.week }}
           PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
           MANIFEST_PATH: ${{ steps.manifest-locate.outputs.manifest_path }}
-          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 }}
+          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 || needs.detect.outputs.manifest_sha256 }}
           ARTICLE_PATH: ${{ steps.derive.outputs.article_path }}
-          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 }}
+          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 || needs.detect.outputs.article_sha256 }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           DISPATCHER: auto-dispatch
         run: |

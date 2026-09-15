@@ -257,6 +257,25 @@ URL, and documentation are delivered in PR #762.
   already passed when inspected; Python, Checkov, CodeQL, and production-site
   jobs were running. The delivery requirement is CI start, not merge.
 
+### Addressed post-delivery four-field review findings
+
+* Related phase or task: P06-T01, P06-T02, P06-T03
+* Files: `.github/workflows/auto-podcast-dispatch.yml`,
+  `scripts/auto_dispatch_detect.py`, `tests/test_auto_dispatch_detect.py`,
+  `tests/test_pipeline.py`, `tests/test_podcaster_handoff.py`
+* What changed and why: Preserved detected article and manifest digests in the
+  always-run receipt when exact-release manifest validation fails; made a
+  missing requested manifest digest fail closed at the duplicate-check
+  boundary; required the compatibility wrapper to receive all four identity
+  fields; and corrected a temporary-directory test to hash the manifest while
+  it still exists.
+* Completion evidence: Canonical requests cannot omit the manifest digest and
+  legacy evidence with a reconstructed conflicting digest remains ambiguous
+  rather than becoming a proven duplicate. Workflow contract coverage proves
+  failed manifest fetch validation still emits the detected canonical identity.
+* Validation: Targeted dispatch, handoff, and workflow suite passed with
+  148 passed and 1 skipped; Ruff lint/format and `git diff --check` passed.
+
 ## Earlier Implementation-Time Plan and Detail Updates
 
 ### Persisted the approved W38 implementation scope
@@ -278,7 +297,7 @@ URL, and documentation are delivered in PR #762.
 
 | Check | Scope | Status | Evidence or reason |
 |---|---|---|---|
-| Targeted dispatch/handoff/workflow tests | P06 | Passed | 147 passed, 1 skipped |
+| Targeted dispatch/handoff/workflow tests | P06 | Passed | 148 passed, 1 skipped after post-delivery review fixes |
 | Full CI Python selection | P06 | Passed | 1,711 passed, 1 skipped |
 | Ruff lint/format | P06 | Passed | Five changed Python files passed check and format |
 | Checkov 3.2.533 | P06 | Passed | 1005 passed, 0 failed, 7 skipped |
