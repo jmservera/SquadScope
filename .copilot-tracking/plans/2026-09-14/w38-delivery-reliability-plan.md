@@ -2,7 +2,7 @@
 # Plan: W38 Delivery Reliability
 
 **Date:** 2026-09-14
-**Status:** P07 reviewer-lockout correction in progress; PR open and unmerged
+**Status:** P07 reviewer-lockout correction complete; PR open and unmerged
 **Scope:** P07 independent reviewer-lockout correction
 **Worktree:** /home/azureuser/source/worktrees/SquadScope-w38-delivery
 **Branch:** squad/w38-delivery-reliability
@@ -144,7 +144,7 @@ or retry-policy weakening.
   commit, push, and CI without production dispatch or merge.
 
 <!-- rpi:phase id=P07 -->
-### P07 - Reviewer-Lockout Correction [ ]
+### P07 - Reviewer-Lockout Correction [x]
 
 <!-- rpi:task id=P07-T01 -->
 - [x] P07-T01: Validate every canonical identity field, including the requested
@@ -157,7 +157,7 @@ or retry-policy weakening.
   compatibility behavior.
 
 <!-- rpi:task id=P07-T03 -->
-- [ ] P07-T03: Reconcile P06 validation counts, run targeted and full validation,
+- [x] P07-T03: Reconcile P06 validation counts, run targeted and full validation,
   commit, push, update PR evidence, and resolve the current review threads without
   production dispatch or merge.
 

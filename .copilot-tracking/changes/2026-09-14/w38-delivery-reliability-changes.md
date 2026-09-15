@@ -10,15 +10,15 @@
 
 ## Execution Status
 
-* Status: Partial — P07 implementation and local validation complete; delivery pending
+* Status: Complete — P07 correction committed and pushed for unmerged review
 * Declared invocation scope: P07 reviewer-lockout correction
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02,
   P03, P03-T01, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01, P05-T02,
-  P05-T03, P06, P06-T01, P06-T02, P06-T03, P07-T01, P07-T02
-* All remaining active-plan markers: P07, P07-T03
+  P05-T03, P06, P06-T01, P06-T02, P06-T03, P07, P07-T01, P07-T02, P07-T03
+* All remaining active-plan markers: None
 * Status basis: Pre-short-circuit identity validation, both entry-point
-  regressions, P06 evidence reconciliation, and local validation are complete.
-  Commit, push, PR update, thread resolution, and fresh CI remain.
+  regressions, P06 evidence reconciliation, and validation were committed as
+  `21834cd72145630ea656eb81dfee7f5da01cfba9` and pushed to the PR branch.
 
 ## Delivered P06 Implementation Boundary
 
@@ -309,6 +309,20 @@ URL, and documentation are delivered in PR #762.
 * Validation: Changed-surface suite passed 154 tests with 1 skipped; full
   CI-equivalent Python selection passed 1,718 tests with 1 skipped and two
   expected warnings.
+
+### Delivered the reviewer-lockout correction
+
+* Related phase or task: P07-T03
+* Files: all P07 source, tests, and tracking changes
+* What changed and why: Committed the independent correction with the required
+  trailers and pushed `squad/w38-delivery-reliability` without dispatching or
+  merging.
+* Completion evidence: Implementation commit
+  `21834cd72145630ea656eb81dfee7f5da01cfba9` is present on the remote PR branch.
+* Validation: All recorded P07 local checks passed before delivery; fresh PR CI
+  is owned by the pushed head. Both current review threads were answered with
+  exact evidence and resolved; the PR remained open and unmerged with zero
+  unresolved threads.
 
 ## Earlier Implementation-Time Plan and Detail Updates
 
