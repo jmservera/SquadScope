@@ -2,7 +2,7 @@
 # Plan: W38 Delivery Reliability
 
 **Date:** 2026-09-14
-**Status:** Independent reviewer revision in progress
+**Status:** P06 independent reviewer revision complete; PR open and unmerged
 **Scope:** P06 independent contract revision
 **Worktree:** /home/azureuser/source/worktrees/SquadScope-w38-delivery
 **Branch:** squad/w38-delivery-reliability
@@ -127,7 +127,7 @@ weakening.
   incident, tests, rollback, and preserved-safeguard evidence.
 
 <!-- rpi:phase id=P06 -->
-### P06 - Independent Contract Revision [ ]
+### P06 - Independent Contract Revision [x]
 
 <!-- rpi:task id=P06-T01 -->
 - [x] P06-T01: Add `manifest_sha256` to the exact Podcaster payload and validate
@@ -139,7 +139,7 @@ weakening.
   digests while retaining only evidenced safe legacy compatibility.
 
 <!-- rpi:task id=P06-T03 -->
-- [ ] P06-T03: Reconcile tests, documentation, changes evidence, PR description,
+- [x] P06-T03: Reconcile tests, documentation, changes evidence, PR description,
   commit, push, and CI without production dispatch or merge.
 
 ## Dependencies
