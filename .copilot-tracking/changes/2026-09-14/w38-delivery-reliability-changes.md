@@ -10,15 +10,15 @@
 
 ## Execution Status
 
-* Status: Complete — P06 independent reviewer revision delivered
-* Declared invocation scope: P06 independent contract revision
+* Status: Partial — P07 implementation and local validation complete; delivery pending
+* Declared invocation scope: P07 reviewer-lockout correction
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02,
   P03, P03-T01, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01, P05-T02,
-  P05-T03, P06, P06-T01, P06-T02, P06-T03
-* All remaining active-plan markers: None
-* Status basis: The four-field publication identity revision is implemented,
-  validated, committed, pushed, reflected in PR #762, and has fresh CI checks
-  running. The PR remains open and unmerged.
+  P05-T03, P06, P06-T01, P06-T02, P06-T03, P07-T01, P07-T02
+* All remaining active-plan markers: P07, P07-T03
+* Status basis: Pre-short-circuit identity validation, both entry-point
+  regressions, P06 evidence reconciliation, and local validation are complete.
+  Commit, push, PR update, thread resolution, and fresh CI remain.
 
 ## Delivered P06 Implementation Boundary
 
@@ -186,6 +186,24 @@ URL, and documentation are delivered in PR #762.
 
 ## Implementation-Time Plan and Detail Updates
 
+### Opened the independent reviewer-lockout correction
+
+* Affected plan area or markers: P07, P07-T01, P07-T02, P07-T03
+* What changed: Added the current correction scope for pre-short-circuit
+  canonical identity validation, both affected duplicate-check paths, regression
+  coverage, P06 evidence reconciliation, and PR delivery.
+* Why: Two current review threads reject the pushed P06 revision, and the P06
+  author is locked out from revising the artifacts.
+* Triggering evidence: PR #762 review threads `discussion_r4013963771` and
+  `discussion_r4013963818`.
+* User answer or decision: jmservera assigned Frank as the strict
+  reviewer-lockout revision owner and prohibited prior implementers from
+  revising the rejected artifacts.
+* Reconciliation performed: Plan status, new phase/task markers, detail
+  boundaries, validation intent, and delivery ownership updated.
+* Planning and critique state: Approved reviewer correction; implementation in
+  progress.
+
 ### Added the independent four-field identity revision
 
 * Affected plan area or markers: P06, P06-T01, P06-T02, P06-T03
@@ -217,8 +235,8 @@ URL, and documentation are delivered in PR #762.
   endpoint can be called.
 * Completion evidence: Exact-release, standard handoff, adversarial preloaded
   manifest, no-network missing-digest, and workflow-contract tests pass.
-* Validation: Included in the 147-test targeted selection and 1,711-test full
-  CI Python selection.
+* Validation: Final targeted selection passed 148 tests with 1 skipped; final
+  full CI Python selection passed 1,756 tests with 1 skipped.
 
 ### Made four-field duplicate decisions fail closed
 
@@ -235,8 +253,8 @@ URL, and documentation are delivered in PR #762.
 * Completion evidence: Added exact-match, conflict, missing-digest,
   duplicate-prevented, unknown-state, reconstructed legacy digest, missing
   legacy digest, readable skipped-job, and rerun regressions.
-* Validation: Included in the 147-test targeted selection and 1,711-test full
-  CI Python selection.
+* Validation: Final targeted selection passed 148 tests with 1 skipped; final
+  full CI Python selection passed 1,756 tests with 1 skipped.
 
 ### Delivered the independent revision to PR #762
 
@@ -276,6 +294,22 @@ URL, and documentation are delivered in PR #762.
 * Validation: Targeted dispatch, handoff, and workflow suite passed with
   148 passed and 1 skipped; Ruff lint/format and `git diff --check` passed.
 
+### Validated identity before unavailable-history exits
+
+* Related phase or task: P07-T01, P07-T02
+* Files: `scripts/auto_dispatch_detect.py`,
+  `tests/test_auto_dispatch_detect.py`
+* What changed and why: Canonical field and requested-manifest validation now
+  runs before missing credentials or repository can return the compatibility
+  clear result. The tuple compatibility entry point requires a non-empty
+  manifest digest because it cannot represent an ambiguous result.
+* Completion evidence: Missing requested digests fail closed without
+  credentials; malformed digests raise before a missing repository can clear;
+  complete identities retain the valid no-credentials compatibility result.
+* Validation: Changed-surface suite passed 154 tests with 1 skipped; full
+  CI-equivalent Python selection passed 1,718 tests with 1 skipped and two
+  expected warnings.
+
 ## Earlier Implementation-Time Plan and Detail Updates
 
 ### Persisted the approved W38 implementation scope
@@ -298,12 +332,17 @@ URL, and documentation are delivered in PR #762.
 | Check | Scope | Status | Evidence or reason |
 |---|---|---|---|
 | Targeted dispatch/handoff/workflow tests | P06 | Passed | 148 passed, 1 skipped after post-delivery review fixes |
-| Full CI Python selection | P06 | Passed | 1,711 passed, 1 skipped |
+| Full CI Python selection | P06 | Passed | 1,756 passed, 1 skipped |
 | Ruff lint/format | P06 | Passed | Five changed Python files passed check and format |
 | Checkov 3.2.533 | P06 | Passed | 1005 passed, 0 failed, 7 skipped |
 | Zizmor 1.25.2 | P06 | Passed | No medium/high findings; CI runs pinned 1.27.0 |
 | Canonical article URL | P04 | Passed | Anonymous HTTP 200 at lowercase W38 URL |
 | Fresh PR CI | P06 | Started | Six workflow runs started for commit `a2bebf1`; early Ruff, Bandit, Squad CI, hydration, and Zizmor checks passed |
+| Reviewer-lockout changed-surface tests | P07 | Passed | 154 passed, 1 skipped |
+| Reviewer-lockout full CI Python selection | P07 | Passed | 1,718 passed, 1 skipped, 2 expected warnings |
+| Reviewer-lockout Ruff lint/format | P07 | Passed | Four changed Python files passed check and format |
+| Reviewer-lockout Checkov | P07 | Passed | 752 passed, 0 failed, 7 skipped |
+| Reviewer-lockout Zizmor | P07 | Passed | No medium-or-higher findings |
 
 ## Pre-Review Reconciliation
 

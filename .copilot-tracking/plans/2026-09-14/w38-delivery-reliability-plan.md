@@ -2,8 +2,8 @@
 # Plan: W38 Delivery Reliability
 
 **Date:** 2026-09-14
-**Status:** P06 independent reviewer revision complete; PR open and unmerged
-**Scope:** P06 independent contract revision
+**Status:** P07 reviewer-lockout correction in progress; PR open and unmerged
+**Scope:** P07 independent reviewer-lockout correction
 **Worktree:** /home/azureuser/source/worktrees/SquadScope-w38-delivery
 **Branch:** squad/w38-delivery-reliability
 
@@ -38,13 +38,14 @@
 
 ## Scope and Non-Goals
 
-In scope: duplicate detection compatibility logic, focused regression tests,
-workflow-contract coverage, existing workflow notification evidence, and
-directly related documentation.
+In scope: duplicate detection compatibility logic, the SquadScope-owned
+Podcaster request payload contract, focused regression tests, workflow-contract
+coverage, existing workflow notification evidence, and directly related
+documentation.
 
-Out of scope: Podcaster contract changes, production dispatches, environment
-approval changes, secret changes, concurrency changes, or retry-policy
-weakening.
+Out of scope: changes within the Podcaster repository or service, production
+dispatches, environment approval changes, secret changes, concurrency changes,
+or retry-policy weakening.
 
 ## Acceptance Criteria
 
@@ -142,6 +143,24 @@ weakening.
 - [x] P06-T03: Reconcile tests, documentation, changes evidence, PR description,
   commit, push, and CI without production dispatch or merge.
 
+<!-- rpi:phase id=P07 -->
+### P07 - Reviewer-Lockout Correction [ ]
+
+<!-- rpi:task id=P07-T01 -->
+- [x] P07-T01: Validate every canonical identity field, including the requested
+  manifest digest, before missing-credential or missing-repository short-circuits
+  in both duplicate-check entry points.
+
+<!-- rpi:task id=P07-T02 -->
+- [x] P07-T02: Add regression coverage for credential-less and repository-less
+  missing or invalid manifest digests while preserving valid no-credential
+  compatibility behavior.
+
+<!-- rpi:task id=P07-T03 -->
+- [ ] P07-T03: Reconcile P06 validation counts, run targeted and full validation,
+  commit, push, update PR evidence, and resolve the current review threads without
+  production dispatch or merge.
+
 ## Dependencies
 
 * P02 depends on P01.
@@ -150,6 +169,8 @@ weakening.
 * P05 depends on P04.
 * P06 is a reviewer-directed revision of P02-P05 and depends on the rejected
   delivered baseline remaining intact.
+* P07 is an independent reviewer-lockout correction of P06 and depends on the
+  pushed P06 baseline remaining intact.
 
 ## Follow-Up Items
 

@@ -1101,7 +1101,13 @@ def main(argv: list[str] | None = None) -> int:
                 promotion_reference=args.promotion_reference,
             )
             exact_manifest = _load_manifest(manifest_path)
-            manifest_sha256 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+            try:
+                manifest_bytes = manifest_path.read_bytes()
+            except OSError as exc:
+                raise PodcasterHandoffError(
+                    f"Failed to read exact release manifest {manifest_path}: {exc}"
+                ) from exc
+            manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
             exact_payload = build_payload(
                 week=args.week,
                 article_url=args.article_url,

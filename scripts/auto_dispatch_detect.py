@@ -1013,10 +1013,6 @@ def check_duplicate_result(
     manifest_sha256: str = "",
 ) -> DuplicateCheckResult:
     """Check GitHub history for an existing real or ambiguous prior submission."""
-    token = gh_token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
-    repository = repo or os.environ.get("GITHUB_REPOSITORY", "")
-    if not token or not repository:
-        return DuplicateCheckResult(status="clear", is_duplicate=False)
     if (
         not WEEK_RE.match(week)
         or not RUN_ID_RE.match(run_id)
@@ -1030,6 +1026,10 @@ def check_duplicate_result(
             is_duplicate=False,
             reason="missing_requested_manifest_sha256",
         )
+    token = gh_token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    repository = repo or os.environ.get("GITHUB_REPOSITORY", "")
+    if not token or not repository:
+        return DuplicateCheckResult(status="clear", is_duplicate=False)
 
     identity = DispatchIdentity(
         week=week,
@@ -1201,11 +1201,11 @@ def check_duplicate(
     week: str,
     run_id: str,
     article_sha256: str,
-    manifest_sha256: str,
     gh_token: "str | None" = None,
     repo: "str | None" = None,
     *,
     repo_root: "Path | str" = Path("."),
+    manifest_sha256: str = "",
 ) -> "tuple[bool, str | None]":
     result = check_duplicate_result(
         week,
@@ -1216,7 +1216,7 @@ def check_duplicate(
         repo_root=repo_root,
         manifest_sha256=manifest_sha256,
     )
-    return result.is_duplicate, result.prior_run_url
+    return result.status != "clear", result.prior_run_url
 
 
 # Expose the test-friendly signature as the public name.

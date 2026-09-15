@@ -538,6 +538,56 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertFalse(result.is_duplicate)
         self.assertEqual(result.reason, "missing_requested_manifest_sha256")
 
+    def test_missing_requested_manifest_digest_fails_closed_without_credentials(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            result = detect.check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256)
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertEqual(result.reason, "missing_requested_manifest_sha256")
+
+    def test_invalid_requested_manifest_digest_rejected_without_repository(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with self.assertRaisesRegex(ValueError, "canonical formats"):
+                detect.check_duplicate_result(
+                    WEEK,
+                    RUN_ID,
+                    KNOWN_SHA256,
+                    self._GH_TOKEN,
+                    manifest_sha256="not-a-digest",
+                )
+
+    def test_compatibility_wrapper_fails_closed_without_credentials(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            duplicate, prior_url = detect.check_duplicate(WEEK, RUN_ID, KNOWN_SHA256, "")
+
+        self.assertTrue(duplicate)
+        self.assertIsNone(prior_url)
+
+    def test_complete_identity_without_credentials_retains_clear_result(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                manifest_sha256=KNOWN_MANIFEST_SHA256,
+            )
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_compatibility_wrapper_preserves_positional_token_and_repo_order(self):
+        duplicate, prior_url = detect.check_duplicate(
+            WEEK,
+            RUN_ID,
+            KNOWN_SHA256,
+            "",
+            "",
+            manifest_sha256=KNOWN_MANIFEST_SHA256,
+        )
+
+        self.assertFalse(duplicate)
+        self.assertIsNone(prior_url)
+
     def test_real_receipt_blocks_duplicate_dispatch(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
         with (

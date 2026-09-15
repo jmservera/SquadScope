@@ -849,6 +849,38 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
             podcaster_handoff.write_action_receipt_state(podcaster_handoff.RECEIPT_STATE_SUBMITTED)
 
+    def test_exact_release_manifest_read_failure_is_actionable(self) -> None:
+        manifest_path = Path("missing-publish-manifest.json")
+        with (
+            mock.patch.object(
+                podcaster_handoff,
+                "verify_release_evidence",
+                return_value=(manifest_path, "123456789"),
+            ),
+            mock.patch.object(podcaster_handoff, "_load_manifest", return_value={}),
+            mock.patch.object(Path, "read_bytes", side_effect=OSError("manifest disappeared")),
+            mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+        ):
+            exit_code = podcaster_handoff.main(
+                [
+                    "--week",
+                    "2026-W23",
+                    "--article-url",
+                    "https://claracle.com/weekly/2026/w23/",
+                    "--article-path",
+                    "content/weekly/2026/W23.md",
+                    "--exact-article-content",
+                    "--promotion-reference",
+                    "promotion.json",
+                    "--expected-article-sha256",
+                    "a" * 64,
+                ]
+            )
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("Failed to read exact release manifest", stdout.getvalue())
+        self.assertIn("manifest disappeared", stdout.getvalue())
+
     def test_post_handoff_sends_auth_header_without_logging_value(self) -> None:
         response = _FakeHTTPResponse(
             json.dumps(

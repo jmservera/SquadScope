@@ -65,3 +65,18 @@ no request left SquadScope; reruns may not.
 Validation includes handoff payload tests, canonical receipt conflict tests,
 legacy compatibility regressions, full relevant tests, Ruff, workflow checks,
 diff integrity, commit/push, PR description reconciliation, and CI start.
+
+## P07 - Reviewer-Lockout Correction
+
+Close the two unresolved PR review findings without involving the locked-out
+P06 author. Canonical identity validation, including the required requested
+manifest digest, must happen before missing-credential and missing-repository
+short-circuits in both duplicate-check entry points. Add credential-less and
+repository-less regressions while preserving the existing clear result for a
+complete valid identity when history cannot be queried.
+
+Reconcile the P06 completed-work evidence to the actual final targeted and full
+validation counts. Run targeted and full CI-equivalent Python tests, Ruff
+lint/format, supported workflow and infrastructure checks, compile and diff
+integrity checks, then commit, push, update PR evidence, resolve the current
+threads, and leave the PR unmerged without production dispatch.
