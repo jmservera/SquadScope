@@ -404,7 +404,7 @@ URL, and documentation are delivered in PR #762.
 | Checkov 3.2.533 | P06 | Passed | 1005 passed, 0 failed, 7 skipped |
 | Zizmor 1.25.2 | P06 | Passed | No medium/high findings; CI runs pinned 1.27.0 |
 | Canonical article URL | P04 | Passed | Anonymous HTTP 200 at lowercase W38 URL |
-| Fresh PR CI | P06 | Started | Six workflow runs started for commit `a2bebf1`; early Ruff, Bandit, Squad CI, hydration, and Zizmor checks passed |
+| Historical PR CI | P06 | Passed | Final checks passed for the P06 head |
 | Reviewer-lockout changed-surface tests | P07 | Passed | 154 passed, 1 skipped |
 | Reviewer-lockout full CI Python selection | P07 | Passed | 1,718 passed, 1 skipped, 2 expected warnings |
 | Reviewer-lockout Ruff lint/format | P07 | Passed | Four changed Python files passed check and format |
@@ -413,12 +413,11 @@ URL, and documentation are delivered in PR #762.
 
 ## Pre-Review Reconciliation
 
-* Plan markers and phase details: Current and complete for P06.
-* Completed-work evidence and handoff prose: Current through pushed P06
-  implementation, PR revision, review-thread inspection, and CI start.
+* Plan markers and phase details: Current and complete through P08.
+* Completed-work evidence and handoff prose: Current through pushed P08
+  implementation, PR revision, review-thread inspection, and green CI.
 * Validation, blockers, remaining work, and follow-up items: Current.
-* Review readiness: Ready; PR #762 is open and unmerged with fresh checks
-  running.
+* Review readiness: Ready; PR #762 is open, unmerged, thread-clean, and green.
 
 ## Blockers
 
@@ -426,7 +425,7 @@ URL, and documentation are delivered in PR #762.
 
 ## Remaining Work
 
-* None in declared P06 scope.
+* None in declared P08 scope.
 
 ## Follow-Up Items
 
@@ -435,14 +434,14 @@ URL, and documentation are delivered in PR #762.
 
 ## Return-to-Caller State
 
-* Implementation execution status: Complete for declared P06 scope
-* Declared scope and markers: P06, P06-T01, P06-T02, and P06-T03 complete.
+* Implementation execution status: Complete through declared P08 scope
+* Declared scope and markers: P06 through P08 and all contained tasks complete.
 * Validation coverage: Targeted and full Python tests, Ruff, Zizmor, Checkov,
   and prior public URL verification passed.
 * Blockers: None.
 * Current plan and detail updates: Approved W38 scope persisted.
 * Planning and critique state: Current and implementation-ready.
 * Follow-up items: None.
-* Review readiness or no-handoff reason: Ready; PR #762 is open and unmerged
-  with fresh CI running.
+* Review readiness or no-handoff reason: Ready; PR #762 is open, unmerged,
+  thread-clean, and green.
 * Continuation owner: Repository reviewers and CI.
