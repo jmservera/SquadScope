@@ -169,7 +169,7 @@ def _load_manifest(path: Path | None) -> dict[str, Any]:
         )
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise PodcasterHandoffError(f"Publish manifest could not be read: {path}") from exc
     if not isinstance(payload, dict):
         raise PodcasterHandoffError(f"Publish manifest must be a JSON object: {path}")
@@ -823,6 +823,19 @@ def build_payload(
         "publish_run_id": publish_run_id,
         "publish_mode": publish_mode,
     }
+    if manifest_path is not None:
+        try:
+            manifest_bytes = manifest_path.read_bytes()
+            manifest_from_bytes = json.loads(manifest_bytes.decode("utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise PodcasterHandoffError(
+                f"Unable to read publish manifest for digest validation: {manifest_path}"
+            ) from exc
+        if manifest_from_bytes != manifest:
+            raise PodcasterHandoffError(
+                "Preloaded publish manifest does not match the exact authorized manifest bytes."
+            )
+        payload["manifest_sha256"] = hashlib.sha256(manifest_bytes).hexdigest()
 
     # Read article content and extract title
     content, title, summary = _read_article_content(
@@ -901,6 +914,7 @@ def validate_exact_release_payload(
     article_url: str,
     article_path: str,
     article_sha256: str,
+    manifest_sha256: str,
     publish_run_id: str,
     repo_root: Path = REPO_ROOT,
 ) -> None:
@@ -914,6 +928,7 @@ def validate_exact_release_payload(
         "article_content",
         "article_title",
         "article_sha256",
+        "manifest_sha256",
         "source_artifacts",
         "podcast_config",
         "script_directions",
@@ -932,6 +947,7 @@ def validate_exact_release_payload(
         "publish_run_id": publish_run_id,
         "publish_mode": "normal",
         "article_sha256": article_sha256,
+        "manifest_sha256": manifest_sha256,
         "dry_run": True,
     }
     for field, expected in expected_values.items():
@@ -1009,6 +1025,11 @@ def post_handoff(
     endpoint: str, api_key: str, payload: dict[str, Any], *, timeout: int = DEFAULT_TIMEOUT_SECONDS
 ) -> dict[str, Any]:
     validate_endpoint(endpoint)
+    manifest_sha256 = payload.get("manifest_sha256")
+    if not isinstance(manifest_sha256, str) or not re.fullmatch(r"[0-9a-f]{64}", manifest_sha256):
+        raise PodcasterHandoffError(
+            "Podcaster handoff requires manifest_sha256 for the exact authorized manifest bytes."
+        )
     body = json.dumps(payload, separators=(",", ":")).encode("utf-8")
     req = request.Request(
         endpoint,
@@ -1080,6 +1101,7 @@ def main(argv: list[str] | None = None) -> int:
                 promotion_reference=args.promotion_reference,
             )
             exact_manifest = _load_manifest(manifest_path)
+            manifest_sha256 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
             exact_payload = build_payload(
                 week=args.week,
                 article_url=args.article_url,
@@ -1100,6 +1122,7 @@ def main(argv: list[str] | None = None) -> int:
                 article_url=args.article_url,
                 article_path=args.article_path,
                 article_sha256=args.expected_article_sha256,
+                manifest_sha256=manifest_sha256,
                 publish_run_id=publish_run_id,
             )
         except PodcasterHandoffError as exc:

@@ -12,9 +12,11 @@ Public API tested:
     Returns True iff PODCAST_AUTO_DISPATCH_PAUSED env var is 'true' (case-insensitive).
   - article_url_from_article_path(article_path: str) -> str | None
     Returns the canonical lowercase public weekly URL.
-  - check_duplicate_result(week, run_id, article_sha256, gh_token, repo) -> DuplicateCheckResult
-    Returns structured duplicate status using exact identity, canonical receipts,
-    and compatibility logic for legacy runs.
+  - check_duplicate_result(
+        week, run_id, article_sha256, gh_token, repo, manifest_sha256=...
+    ) -> DuplicateCheckResult
+    Returns structured duplicate status using the four-field publication
+    identity, canonical receipts, and compatibility logic for legacy runs.
 """
 
 import hashlib
@@ -36,6 +38,7 @@ import scripts.auto_dispatch_detect as detect
 
 KNOWN_ARTICLE_CONTENT = b"# W37 AI Weekly\n\nContent for week 37 of 2026.\n"
 KNOWN_SHA256 = hashlib.sha256(KNOWN_ARTICLE_CONTENT).hexdigest()
+KNOWN_MANIFEST_SHA256 = "b" * 64
 WEEK = "2026-W37"
 RUN_ID = "34082521901"
 TEST_WORKSPACES_ROOT = Path(__file__).resolve().parents[1] / ".test-workspaces"
@@ -379,7 +382,13 @@ class TestDuplicateCheck(unittest.TestCase):
         }
 
     def _receipt_log(
-        self, *, state: str, week: str = WEEK, run_id: str = RUN_ID, sha: str = KNOWN_SHA256
+        self,
+        *,
+        state: str,
+        week: str = WEEK,
+        run_id: str = RUN_ID,
+        sha: str = KNOWN_SHA256,
+        manifest_sha: str = KNOWN_MANIFEST_SHA256,
     ) -> str:
         payload = {
             "schema_version": detect.RECEIPT_SCHEMA_VERSION,
@@ -387,6 +396,7 @@ class TestDuplicateCheck(unittest.TestCase):
             "week": week,
             "publish_run_id": run_id,
             "article_sha256": sha,
+            "manifest_sha256": manifest_sha,
         }
         return (
             f"{detect.RECEIPT_PREFIX}{json.dumps(payload, sort_keys=True, separators=(',', ':'))}\n"
@@ -532,6 +542,174 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.status, "duplicate")
         self.assertTrue(result.is_duplicate)
         self.assertEqual(result.prior_run_url, run["html_url"])
+
+    def test_conflicting_manifest_digest_fails_closed(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={
+                        self._AUTO_RUN_ID: self._receipt_log(
+                            state="submitted",
+                            manifest_sha="c" * 64,
+                        )
+                    },
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256=KNOWN_MANIFEST_SHA256,
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.reason, "conflicting_manifest_sha256")
+
+    def test_exact_four_field_receipt_blocks_duplicate_dispatch(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="submitted")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256=KNOWN_MANIFEST_SHA256,
+            )
+
+        self.assertEqual(result.status, "duplicate")
+        self.assertTrue(result.is_duplicate)
+
+    def test_missing_manifest_digest_on_submitted_receipt_fails_closed(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        receipt = json.loads(
+            self._receipt_log(state="submitted").split(detect.RECEIPT_PREFIX, 1)[1]
+        )
+        receipt.pop("manifest_sha256")
+        log_text = (
+            f"{detect.RECEIPT_PREFIX}{json.dumps(receipt, sort_keys=True, separators=(',', ':'))}\n"
+        )
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: log_text},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256=KNOWN_MANIFEST_SHA256,
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertEqual(result.reason, "missing_manifest_sha256")
+
+    def test_conflicting_pre_submit_receipt_still_fails_closed(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={
+                        self._AUTO_RUN_ID: self._receipt_log(
+                            state="pre_submit_failed",
+                            manifest_sha="c" * 64,
+                        )
+                    },
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256=KNOWN_MANIFEST_SHA256,
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertEqual(result.reason, "conflicting_manifest_sha256")
+
+    def test_duplicate_prevented_receipt_preserves_prior_submission_proof(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="duplicate_prevented")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256=KNOWN_MANIFEST_SHA256,
+            )
+
+        self.assertEqual(result.status, "duplicate")
+        self.assertEqual(result.reason, "duplicate_prevented")
+
+    def test_unknown_exact_receipt_state_fails_closed(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._receipt_log(state="future_state")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256=KNOWN_MANIFEST_SHA256,
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertEqual(result.reason, "unknown_receipt_state")
 
     def test_pre_submit_failure_allows_retry(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
@@ -831,6 +1009,110 @@ class TestDuplicateCheck(unittest.TestCase):
         finally:
             repo.cleanup()
 
+    def test_legacy_manual_real_dispatch_uses_reconstructed_manifest_digest(self):
+        repo = _TempGitRepo()
+        try:
+            repo.commit("chore: baseline", {"README.md": "base\n"})
+            sync_sha = repo.commit(
+                "sync: publish data → main (#1)",
+                {"content/weekly/2026/W37.md": "# W37\n"},
+            )
+            run = self._run(
+                self._TRIGGER_RUN_ID,
+                workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+                head_sha=sync_sha,
+            )
+            manifest_bytes = json.dumps(_make_manifest(), separators=(",", ":")).encode()
+            manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+            with (
+                mock.patch.object(detect, "fetch_publish_branch"),
+                mock.patch.object(
+                    detect, "read_manifest_from_publish", return_value=_make_manifest()
+                ),
+                mock.patch.object(
+                    detect, "read_manifest_bytes_from_publish", return_value=manifest_bytes
+                ),
+                mock.patch(
+                    "urllib.request.urlopen",
+                    side_effect=self._router(
+                        trigger_runs=[run],
+                        jobs={self._TRIGGER_RUN_ID: self._trigger_jobs("success")},
+                        logs={
+                            self._TRIGGER_RUN_ID: (
+                                "##[notice]Using manifest from crawl-and-publish run "
+                                f"{RUN_ID} (2026-09-08 13:30:14)\n"
+                            )
+                        },
+                    ),
+                ),
+            ):
+                result = detect.check_duplicate_result(
+                    WEEK,
+                    RUN_ID,
+                    KNOWN_SHA256,
+                    self._GH_TOKEN,
+                    self._REPO,
+                    repo_root=repo.root,
+                    manifest_sha256=manifest_sha256,
+                )
+
+            self.assertEqual(result.status, "duplicate")
+            self.assertTrue(result.is_duplicate)
+        finally:
+            repo.cleanup()
+
+    def test_legacy_manual_real_dispatch_without_manifest_digest_fails_closed(self):
+        repo = _TempGitRepo()
+        try:
+            repo.commit("chore: baseline", {"README.md": "base\n"})
+            sync_sha = repo.commit(
+                "sync: publish data → main (#1)",
+                {"content/weekly/2026/W37.md": "# W37\n"},
+            )
+            run = self._run(
+                self._TRIGGER_RUN_ID,
+                workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+                head_sha=sync_sha,
+            )
+            with (
+                mock.patch.object(detect, "fetch_publish_branch"),
+                mock.patch.object(
+                    detect, "read_manifest_from_publish", return_value=_make_manifest()
+                ),
+                mock.patch.object(
+                    detect,
+                    "read_manifest_bytes_from_publish",
+                    side_effect=ValueError("unavailable"),
+                ),
+                mock.patch(
+                    "urllib.request.urlopen",
+                    side_effect=self._router(
+                        trigger_runs=[run],
+                        jobs={self._TRIGGER_RUN_ID: self._trigger_jobs("success")},
+                        logs={
+                            self._TRIGGER_RUN_ID: (
+                                "##[notice]Using manifest from crawl-and-publish run "
+                                f"{RUN_ID} (2026-09-08 13:30:14)\n"
+                            )
+                        },
+                    ),
+                ),
+            ):
+                result = detect.check_duplicate_result(
+                    WEEK,
+                    RUN_ID,
+                    KNOWN_SHA256,
+                    self._GH_TOKEN,
+                    self._REPO,
+                    repo_root=repo.root,
+                    manifest_sha256=KNOWN_MANIFEST_SHA256,
+                )
+
+            self.assertEqual(result.status, "ambiguous_prior_submission")
+            self.assertEqual(result.reason, "missing_manifest_sha256")
+        finally:
+            repo.cleanup()
+
     def test_legacy_manual_same_publish_run_without_identity_fails_closed(self):
         run = self._run(
             self._TRIGGER_RUN_ID,
@@ -882,6 +1164,34 @@ class TestDuplicateCheck(unittest.TestCase):
             )
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+
+    def test_readable_single_attempt_manual_skipped_handoff_is_pre_submit(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+        )
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    trigger_runs=[run],
+                    jobs={self._TRIGGER_RUN_ID: self._trigger_jobs("skipped")},
+                    logs={self._TRIGGER_RUN_ID: ""},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256=KNOWN_MANIFEST_SHA256,
+            )
+
+        self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
 
     def test_api_failure_non_blocking(self):

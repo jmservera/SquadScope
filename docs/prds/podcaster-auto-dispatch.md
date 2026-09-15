@@ -130,12 +130,23 @@ review. Any generated or externally supplied text that affects trigger behavior
 also requires Nibbler review.
 
 Duplicate history uses canonical receipts keyed by the exact week, publish run
-ID, and article SHA-256. Receipt-less legacy compatibility evidence is relevant
-only when it can belong to that same identity. A single-attempt legacy
+ID, article SHA-256, and publish-manifest SHA-256. A canonical receipt with the
+same first three fields but a conflicting manifest digest is ambiguous and
+fails closed; it is neither the same proven submission nor a safe retry.
+Every Podcaster request carries the SHA-256 of the exact manifest bytes used
+for authorization, and the protected automatic workflow rejects a fetched
+manifest whose digest differs from detection evidence before calling the
+endpoint.
+Receipt-less legacy compatibility evidence is relevant only when it can belong
+to that same identity. A single-attempt legacy
 auto-dispatch run whose protected dispatch job was skipped is conclusively
 pre-submit and cannot block a different publication. Reruns remain ambiguous
 because an earlier attempt may have submitted; unreadable or uncertain evidence
-that can belong to the requested identity continues to fail closed.
+that can belong to the requested identity continues to fail closed. Missing
+legacy manifest digests clear only with conclusive no-submission job evidence;
+successful handoffs remain blocked unless the exact manifest bytes can be
+reconstructed. Canonical `duplicate_prevented` receipts retain their meaning
+that a prior exact-identity submission was proven.
 
 ## 9. Rollout
 

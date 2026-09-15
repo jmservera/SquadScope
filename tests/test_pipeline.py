@@ -1135,12 +1135,18 @@ class WorkflowConfigTests(unittest.TestCase):
             detect_job["outputs"]["article_sha256"], "${{ steps.detect.outputs.article_sha256 }}"
         )
         self.assertEqual(
+            detect_job["outputs"]["manifest_sha256"],
+            "${{ steps.detect.outputs.manifest_sha256 }}",
+        )
+        self.assertEqual(
             detect_job["outputs"]["dedup_status"], "${{ steps.dedup.outputs.dedup_status }}"
         )
 
         dedup = next(step for step in detect_job["steps"] if step.get("id") == "dedup")
         self.assertIn("ARTICLE_SHA256", dedup["env"])
+        self.assertIn("MANIFEST_SHA256", dedup["env"])
         self.assertIn("--article-sha256", dedup["run"])
+        self.assertIn("--manifest-sha256", dedup["run"])
 
         emit_receipt = next(
             step for step in detect_job["steps"] if step.get("name") == "Emit detect receipt"
@@ -1157,6 +1163,11 @@ class WorkflowConfigTests(unittest.TestCase):
             "podcast-dispatch-${{ needs.detect.outputs.week }}-${{ needs.detect.outputs.publish_run_id }}",
         )
         self.assertFalse(real_generation["concurrency"]["cancel-in-progress"])
+        locate = next(
+            step for step in real_generation["steps"] if step.get("id") == "manifest-locate"
+        )
+        self.assertIn("DETECT_MANIFEST_SHA256", locate["env"])
+        self.assertIn("Manifest SHA-256 mismatch", locate["run"])
 
         evidence = next(
             step
@@ -1170,6 +1181,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(evidence["run"].count("Eligible publication was not submitted"), 1)
         self.assertIn("Eligible publication has an unknown submission outcome", evidence["run"])
         self.assertIn('RECEIPT_STATE="submission_unknown"', evidence["run"])
+        self.assertIn("article_sha256=${ARTICLE_SHA256}", evidence["run"])
+        self.assertIn("manifest_sha256=${MANIFEST_SHA256}", evidence["run"])
         self.assertIn("Failure stage:", evidence["run"])
         self.assertIn(
             "submission_unknown and submission_rejected remain blocked pending manual reconciliation",

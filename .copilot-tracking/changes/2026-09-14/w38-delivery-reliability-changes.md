@@ -10,14 +10,30 @@
 
 ## Execution Status
 
-* Status: Complete
-* Declared invocation scope: full plan
+* Status: Partial — independent reviewer revision in progress
+* Declared invocation scope: P06 independent contract revision
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02,
   P03, P03-T01, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01, P05-T02,
   P05-T03
-* All remaining active-plan markers: none
-* Status basis: The full approved implementation scope is complete, validated,
-  committed, pushed, and available in unmerged PR #762.
+* All remaining active-plan markers: P06, P06-T01, P06-T02, P06-T03
+* Status basis: Livingston rejected the delivered artifact because the
+  four-field publication identity was not carried through the handoff or
+  duplicate classifier. The validated baseline remains intact while the
+  independent revision is implemented.
+
+## Active P06 Implementation Boundary
+
+* Starting scope: P06-T01 through P06-T03, beginning with exact authorized
+  manifest digest propagation and validation.
+* Approved write boundary: existing SquadScope handoff, duplicate detection,
+  receipt/schema/workflow contracts, focused tests, directly related
+  documentation, and RPI tracking artifacts.
+* Planned validation: targeted and full relevant tests, Ruff lint and format,
+  supported workflow/security checks, branch-diff review, and
+  `git diff --check`.
+* Current blockers: None.
+* Production boundary: no provider call, production dispatch, environment,
+  secret, concurrency, or live-gate mutation is authorized.
 
 ## Execution Summary
 
@@ -172,6 +188,60 @@ URL, and documentation are delivered in PR #762.
 
 ## Implementation-Time Plan and Detail Updates
 
+### Added the independent four-field identity revision
+
+* Affected plan area or markers: P06, P06-T01, P06-T02, P06-T03
+* What changed: Added reviewer-directed work for manifest digest propagation,
+  conflict-safe duplicate classification, validation, and redelivery.
+* Why: The prior three-field implementation did not satisfy the shared
+  cross-repository contract.
+* Triggering evidence: Livingston's blocking findings and the coordinator
+  implementation contract.
+* User answer or decision: jmservera assigned Frank as the independent revision
+  owner and prohibited prior authors from revising the artifacts.
+* Reconciliation performed: Status, acceptance criteria, phase details,
+  remaining markers, validation intent, and delivery boundary updated.
+* Planning and critique state: Approved reviewer correction; implementation in
+  progress.
+
+## P06 Reviewer Revision Completed Work
+
+### Propagated the exact authorized manifest digest
+
+* Related phase or task: P06-T01
+* Files: scripts/podcaster_handoff.py,
+  .github/workflows/auto-podcast-dispatch.yml,
+  tests/test_podcaster_handoff.py, tests/test_pipeline.py
+* What changed and why: Every real handoff now hashes the exact manifest bytes
+  into `manifest_sha256`; the network boundary rejects payloads without a valid
+  digest; preloaded manifest data must match those bytes; and the protected
+  automatic job compares its fetched digest with detection evidence before the
+  endpoint can be called.
+* Completion evidence: Exact-release, standard handoff, adversarial preloaded
+  manifest, no-network missing-digest, and workflow-contract tests pass.
+* Validation: Included in the 147-test targeted selection and 1,711-test full
+  CI Python selection.
+
+### Made four-field duplicate decisions fail closed
+
+* Related phase or task: P06-T02
+* Files: scripts/auto_dispatch_detect.py,
+  tests/test_auto_dispatch_detect.py
+* What changed and why: Canonical matching now uses the ordered four-field
+  publication identity. Same-base-identity manifest conflicts, invalid or
+  missing manifest evidence without conclusive no-submission state, unknown
+  receipt states, and successful legacy handoffs without reconstructable exact
+  manifest bytes are ambiguous. Matching `duplicate_prevented` receipts remain
+  proof of a prior submission. Single-attempt skipped protected jobs may clear;
+  reruns and unknown outcomes remain blocked.
+* Completion evidence: Added exact-match, conflict, missing-digest,
+  duplicate-prevented, unknown-state, reconstructed legacy digest, missing
+  legacy digest, readable skipped-job, and rerun regressions.
+* Validation: Included in the 147-test targeted selection and 1,711-test full
+  CI Python selection.
+
+## Earlier Implementation-Time Plan and Detail Updates
+
 ### Persisted the approved W38 implementation scope
 
 * Affected plan area or markers: full plan
@@ -191,19 +261,22 @@ URL, and documentation are delivered in PR #762.
 
 | Check | Scope | Status | Evidence or reason |
 |---|---|---|---|
-| Targeted detection/workflow tests | P03/P04 | Passed | 79 passed |
-| Ruff lint/format | P04 | Passed | Changed Python files passed check and format |
-| Checkov 3.2.533 | P04 | Passed | 1005 passed, 0 failed, 7 skipped |
-| Zizmor 1.27.0 | P04 | Passed | No medium/high findings |
+| Targeted dispatch/handoff/workflow tests | P06 | Passed | 147 passed, 1 skipped |
+| Full CI Python selection | P06 | Passed | 1,711 passed, 1 skipped |
+| Ruff lint/format | P06 | Passed | Five changed Python files passed check and format |
+| Checkov 3.2.533 | P06 | Passed | 1005 passed, 0 failed, 7 skipped |
+| Zizmor 1.25.2 | P06 | Passed | No medium/high findings; CI runs pinned 1.27.0 |
 | Canonical article URL | P04 | Passed | Anonymous HTTP 200 at lowercase W38 URL |
 
 ## Pre-Review Reconciliation
 
-* Plan markers and phase details: Current and complete for the approved scope.
-* Completed-work evidence and handoff prose: Current through PR #762 delivery.
+* Plan markers and phase details: P06-T01 and P06-T02 complete; P06-T03 remains
+  active for delivery persistence.
+* Completed-work evidence and handoff prose: Current through local P06
+  implementation and validation; PR prose awaits post-commit reconciliation.
 * Validation, blockers, remaining work, and follow-up items: Current.
-* Review readiness: Ready; PR #762 is open and unmerged for CI and reviewer
-  evaluation.
+* Review readiness: Not yet; commit, push, PR update, thread reconciliation,
+  and new CI start remain.
 
 ## Blockers
 
@@ -211,7 +284,8 @@ URL, and documentation are delivered in PR #762.
 
 ## Remaining Work
 
-* None.
+* P06-T03: commit, push, update PR #762, reconcile review threads, and verify
+  new CI checks start.
 
 ## Follow-Up Items
 
@@ -220,14 +294,15 @@ URL, and documentation are delivered in PR #762.
 
 ## Return-to-Caller State
 
-* Implementation execution status: Complete
-* Declared scope and markers: Full plan; P01 through P05 complete; no remaining
-  active-plan markers.
-* Validation coverage: Detection/workflow tests, Ruff, pinned Zizmor, Checkov,
-  and public URL verification passed.
+* Implementation execution status: Partial — P06 delivery in progress
+* Declared scope and markers: P06; P06-T01 and P06-T02 complete; P06-T03
+  remains.
+* Validation coverage: Targeted and full Python tests, Ruff, Zizmor, Checkov,
+  and prior public URL verification passed.
 * Blockers: None.
 * Current plan and detail updates: Approved W38 scope persisted.
 * Planning and critique state: Current and implementation-ready.
 * Follow-up items: None.
-* Review readiness or no-handoff reason: Ready; PR #762 is open and unmerged.
-* Continuation owner: Repository reviewers and CI.
+* Review readiness or no-handoff reason: Awaiting persistent P06 delivery and
+  new CI start.
+* Continuation owner: P06 implementation owner.

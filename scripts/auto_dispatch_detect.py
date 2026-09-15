@@ -22,7 +22,9 @@ Duplicate-check mode:
     python3 scripts/auto_dispatch_detect.py \
         --check-duplicate \
         --week 2026-W37 \
-        --publish-run-id 34082521901
+        --publish-run-id 34082521901 \
+        --article-sha256 <sha256> \
+        --manifest-sha256 <sha256>
 
 Sync-correlation mode:
     python3 scripts/auto_dispatch_detect.py \
@@ -73,10 +75,8 @@ TRIGGER_PODCAST_WORKFLOW_PATH = f".github/workflows/{TRIGGER_PODCAST_WORKFLOW}"
 WORKFLOW_LOOKBACK_RUNS = 50
 BLOCKING_RECEIPT_STATES = frozenset({"submitted", "submission_rejected"})
 AMBIGUOUS_RECEIPT_STATES = frozenset({"ambiguous_prior_submission", "submission_unknown"})
-NON_BLOCKING_RECEIPT_STATES = frozenset(
+PROVEN_NO_SUBMISSION_RECEIPT_STATES = frozenset(
     {
-        "ambiguous_prior_submission",
-        "duplicate_prevented",
         "no_anchor",
         "no_matching_manifest",
         "no_new_article",
@@ -92,6 +92,7 @@ class DispatchIdentity:
     week: str
     publish_run_id: str
     article_sha256: str
+    manifest_sha256: str = ""
 
 
 @dataclass(frozen=True)
@@ -100,6 +101,14 @@ class DuplicateCheckResult:
     is_duplicate: bool
     prior_run_url: str | None = None
     reason: str | None = None
+
+
+def _base_identity_matches(left: DispatchIdentity, right: DispatchIdentity) -> bool:
+    return (
+        left.week == right.week
+        and left.publish_run_id == right.publish_run_id
+        and left.article_sha256 == right.article_sha256
+    )
 
 
 def set_output(key: str, value: str) -> None:
@@ -190,6 +199,29 @@ def _receipt_identity_matches(receipt: dict[str, Any], identity: DispatchIdentit
         receipt.get("week") == identity.week
         and str(receipt.get("publish_run_id") or "") == identity.publish_run_id
         and receipt.get("article_sha256") == identity.article_sha256
+        and (
+            not identity.manifest_sha256
+            or receipt.get("manifest_sha256") == identity.manifest_sha256
+        )
+    )
+
+
+def _receipt_base_identity_matches(receipt: dict[str, Any], identity: DispatchIdentity) -> bool:
+    return (
+        receipt.get("week") == identity.week
+        and str(receipt.get("publish_run_id") or "") == identity.publish_run_id
+        and receipt.get("article_sha256") == identity.article_sha256
+    )
+
+
+def _receipt_identity_conflicts(receipt: dict[str, Any], identity: DispatchIdentity) -> bool:
+    if not identity.manifest_sha256:
+        return False
+    return (
+        _receipt_base_identity_matches(receipt, identity)
+        and isinstance(receipt.get("manifest_sha256"), str)
+        and bool(receipt["manifest_sha256"])
+        and receipt["manifest_sha256"] != identity.manifest_sha256
     )
 
 
@@ -207,11 +239,13 @@ def _extract_dispatch_identity_from_log_outputs(log_text: str) -> DispatchIdenti
     week = values.get("week", "")
     publish_run_id = values.get("publish_run_id", "")
     article_sha256 = values.get("article_sha256", "")
+    manifest_sha256 = values.get("manifest_sha256", "")
     if WEEK_RE.match(week) and RUN_ID_RE.match(publish_run_id) and SHA256_RE.match(article_sha256):
         return DispatchIdentity(
             week=week,
             publish_run_id=publish_run_id,
             article_sha256=article_sha256,
+            manifest_sha256=manifest_sha256 if SHA256_RE.match(manifest_sha256) else "",
         )
     return None
 
@@ -266,10 +300,19 @@ def _identity_from_sync_commit(
     article_sha256 = candidate.get("content_sha256")
     if not isinstance(article_sha256, str) or not SHA256_RE.match(article_sha256):
         return None
+    manifest_sha256 = ""
+    try:
+        manifest_bytes = read_manifest_bytes_from_publish(
+            f"data/candidates/{week}/{publish_run_id}/publish-manifest.json"
+        )
+        manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+    except ValueError:
+        pass
     return DispatchIdentity(
         week=week,
         publish_run_id=publish_run_id,
         article_sha256=article_sha256,
+        manifest_sha256=manifest_sha256,
     )
 
 
@@ -317,7 +360,7 @@ def _compat_identity_for_run(
 
     if path == AUTO_DISPATCH_WORKFLOW_PATH:
         identity = _extract_dispatch_identity_from_log_outputs(log_text)
-        if identity is not None and identity != requested_identity:
+        if identity is not None and not _base_identity_matches(identity, requested_identity):
             return "ignore", identity
         if _legacy_auto_pre_submit_only(run, jobs):
             return "ignore", identity
@@ -354,7 +397,10 @@ def _compat_identity_for_run(
     )
     if identity is None:
         return "ambiguous", None
-    return ("blocking" if identity == requested_identity else "ignore"), identity
+    return (
+        ("blocking" if _base_identity_matches(identity, requested_identity) else "ignore"),
+        identity,
+    )
 
 
 def _list_workflow_runs(repo: str, token: str, workflow_file: str) -> list[dict[str, Any]]:
@@ -642,6 +688,7 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
     week = args.week
     publish_run_id = args.publish_run_id
     article_sha256 = args.article_sha256
+    manifest_sha256 = args.manifest_sha256
 
     if not week or not WEEK_RE.match(week):
         print(f"::error::--week must match YYYY-WNN (got: {week!r})", file=sys.stderr)
@@ -655,6 +702,12 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
     if not article_sha256 or not SHA256_RE.match(article_sha256):
         print(
             f"::error::--article-sha256 must be lowercase 64-char hex (got: {article_sha256!r})",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    if not manifest_sha256 or not SHA256_RE.match(manifest_sha256):
+        print(
+            f"::error::--manifest-sha256 must be lowercase 64-char hex (got: {manifest_sha256!r})",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -682,12 +735,14 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
         article_sha256,
         gh_token,
         repo,
+        manifest_sha256=manifest_sha256,
     )
 
     if result.status == "duplicate":
         prior_url = result.prior_run_url or ""
         print(
-            f"::warning::Prior real podcast dispatch for {week}/{publish_run_id} found: {prior_url}"
+            "::warning::Prior real podcast dispatch for "
+            f"{week}/{publish_run_id}/{article_sha256}/{manifest_sha256} found: {prior_url}"
         )
         set_output("is_duplicate", "true")
         set_output("prior_run_url", prior_url)
@@ -709,6 +764,7 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
     print(
         f"  No prior real podcast dispatch found for identity "
         f"week={week} publish_run_id={publish_run_id} article_sha256={article_sha256}."
+        f" manifest_sha256={manifest_sha256}."
     )
     set_output("is_duplicate", "false")
     set_output("prior_run_url", "")
@@ -770,6 +826,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--article-sha256",
         default="",
         help="Exact article SHA-256 (required for --check-duplicate).",
+    )
+    parser.add_argument(
+        "--manifest-sha256",
+        default="",
+        help="Exact publish manifest SHA-256 (required for --check-duplicate).",
     )
     return parser.parse_args(argv)
 
@@ -952,6 +1013,7 @@ def check_duplicate_result(
     repo: "str | None" = None,
     *,
     repo_root: "Path | str" = Path("."),
+    manifest_sha256: str = "",
 ) -> DuplicateCheckResult:
     """Check GitHub history for an existing real or ambiguous prior submission."""
     token = gh_token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
@@ -962,13 +1024,15 @@ def check_duplicate_result(
         not WEEK_RE.match(week)
         or not RUN_ID_RE.match(run_id)
         or not SHA256_RE.match(article_sha256)
+        or (manifest_sha256 and not SHA256_RE.match(manifest_sha256))
     ):
-        raise ValueError("week, run_id, and article_sha256 must be valid exact identity fields")
+        raise ValueError("publication identity fields must use the canonical formats")
 
     identity = DispatchIdentity(
         week=week,
         publish_run_id=run_id,
         article_sha256=article_sha256,
+        manifest_sha256=manifest_sha256,
     )
 
     try:
@@ -1002,11 +1066,37 @@ def check_duplicate_result(
         receipts = _parse_dispatch_receipts(log_text)
         matched_receipt = False
         for receipt in receipts:
+            state = str(receipt.get("receipt_state") or "")
+            if _receipt_identity_conflicts(receipt, identity):
+                return DuplicateCheckResult(
+                    status="ambiguous_prior_submission",
+                    is_duplicate=False,
+                    prior_run_url=_run_url(run) or None,
+                    reason="conflicting_manifest_sha256",
+                )
+            if (
+                identity.manifest_sha256
+                and _receipt_base_identity_matches(receipt, identity)
+                and not SHA256_RE.match(str(receipt.get("manifest_sha256") or ""))
+                and state not in PROVEN_NO_SUBMISSION_RECEIPT_STATES
+            ):
+                return DuplicateCheckResult(
+                    status="ambiguous_prior_submission",
+                    is_duplicate=False,
+                    prior_run_url=_run_url(run) or None,
+                    reason="missing_manifest_sha256",
+                )
             if not _receipt_identity_matches(receipt, identity):
                 continue
             matched_receipt = True
-            state = str(receipt.get("receipt_state") or "")
             if state in BLOCKING_RECEIPT_STATES:
+                return DuplicateCheckResult(
+                    status="duplicate",
+                    is_duplicate=True,
+                    prior_run_url=_run_url(run) or None,
+                    reason=state,
+                )
+            if state == "duplicate_prevented":
                 return DuplicateCheckResult(
                     status="duplicate",
                     is_duplicate=True,
@@ -1020,8 +1110,14 @@ def check_duplicate_result(
                     prior_run_url=_run_url(run) or None,
                     reason=state,
                 )
-            if state in NON_BLOCKING_RECEIPT_STATES:
+            if state in PROVEN_NO_SUBMISSION_RECEIPT_STATES:
                 break
+            return DuplicateCheckResult(
+                status="ambiguous_prior_submission",
+                is_duplicate=False,
+                prior_run_url=_run_url(run) or None,
+                reason="unknown_receipt_state",
+            )
         if matched_receipt or receipts:
             continue
 
@@ -1032,7 +1128,9 @@ def check_duplicate_result(
                     continue
                 if not logs_unreadable:
                     legacy_identity = _extract_dispatch_identity_from_log_outputs(log_text)
-                    if legacy_identity is not None and legacy_identity != identity:
+                    if legacy_identity is not None and not _base_identity_matches(
+                        legacy_identity, identity
+                    ):
                         continue
             elif run_path == TRIGGER_PODCAST_WORKFLOW_PATH:
                 if not jobs_unreadable and _legacy_manual_pre_submit_only(run, jobs):
@@ -1054,12 +1152,31 @@ def check_duplicate_result(
             identity,
             repo_root,
         )
-        if compatibility == "blocking" and compat_identity == identity:
+        if (
+            compatibility == "blocking"
+            and compat_identity is not None
+            and _base_identity_matches(compat_identity, identity)
+        ):
+            if (
+                not identity.manifest_sha256
+                or compat_identity.manifest_sha256 == identity.manifest_sha256
+            ):
+                return DuplicateCheckResult(
+                    status="duplicate",
+                    is_duplicate=True,
+                    prior_run_url=_run_url(run) or None,
+                    reason="legacy_real_submission",
+                )
+            reason = (
+                "conflicting_manifest_sha256"
+                if compat_identity.manifest_sha256
+                else "missing_manifest_sha256"
+            )
             return DuplicateCheckResult(
-                status="duplicate",
-                is_duplicate=True,
+                status="ambiguous_prior_submission",
+                is_duplicate=False,
                 prior_run_url=_run_url(run) or None,
-                reason="legacy_real_submission",
+                reason=reason,
             )
         if compatibility == "ambiguous":
             return DuplicateCheckResult(
