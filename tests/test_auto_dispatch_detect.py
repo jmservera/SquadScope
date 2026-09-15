@@ -1026,6 +1026,11 @@ class TestDuplicateCheck(unittest.TestCase):
                 mock.patch.object(
                     detect, "read_manifest_from_publish", return_value=_make_manifest()
                 ),
+                mock.patch.object(
+                    detect,
+                    "read_manifest_bytes_from_publish",
+                    return_value=b'{"manifest":"conflicting"}',
+                ),
                 mock.patch(
                     "urllib.request.urlopen",
                     side_effect=self._router(

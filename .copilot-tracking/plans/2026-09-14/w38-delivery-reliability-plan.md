@@ -2,8 +2,8 @@
 # Plan: W38 Delivery Reliability
 
 **Date:** 2026-09-14
-**Status:** P07 reviewer-lockout correction complete; PR open and unmerged
-**Scope:** P07 independent reviewer-lockout correction
+**Status:** P08 post-delivery review correction complete; PR open and unmerged
+**Scope:** P08 independent post-delivery correction
 **Worktree:** /home/azureuser/source/worktrees/SquadScope-w38-delivery
 **Branch:** squad/w38-delivery-reliability
 
@@ -161,6 +161,21 @@ or retry-policy weakening.
   commit, push, update PR evidence, and resolve the current review threads without
   production dispatch or merge.
 
+<!-- rpi:phase id=P08 -->
+### P08 - Post-Delivery Evidence Correction [x]
+
+<!-- rpi:task id=P08-T01 -->
+- [x] P08-T01: Make the conflicting legacy-manifest regression explicitly mock
+  the reconstructed manifest bytes and prove the digest conflict deterministically.
+
+<!-- rpi:task id=P08-T02 -->
+- [x] P08-T02: Distinguish historical P06 and current P07 validation snapshots
+  by exact commit, command, scope, and result in tracking and the PR description.
+
+<!-- rpi:task id=P08-T03 -->
+- [x] P08-T03: Revalidate, commit, push, answer and resolve the new review
+  threads, and leave the PR green, thread-clean, open, and unmerged.
+
 ## Dependencies
 
 * P02 depends on P01.
@@ -171,6 +186,8 @@ or retry-policy weakening.
   delivered baseline remaining intact.
 * P07 is an independent reviewer-lockout correction of P06 and depends on the
   pushed P06 baseline remaining intact.
+* P08 is a post-delivery evidence correction of P07 and depends on preserving
+  the pushed P07 implementation and validation results.
 
 ## Follow-Up Items
 

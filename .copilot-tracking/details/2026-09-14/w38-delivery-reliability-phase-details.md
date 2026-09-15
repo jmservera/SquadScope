@@ -80,3 +80,13 @@ validation counts. Run targeted and full CI-equivalent Python tests, Ruff
 lint/format, supported workflow and infrastructure checks, compile and diff
 integrity checks, then commit, push, update PR evidence, resolve the current
 threads, and leave the PR unmerged without production dispatch.
+
+## P08 - Post-Delivery Evidence Correction
+
+Make the legacy manifest-conflict test independent of temporary Git ref
+behavior by explicitly mocking the exact manifest bytes used for digest
+reconstruction. Reconcile the historical P06 validation snapshot at
+`2a6d0f75b522867f22ae9dc539b40109179e628b` separately from the P07 commands
+and results at `21834cd72145630ea656eb81dfee7f5da01cfba9`. Re-run the changed-surface
+tests and formatting/diff gates, commit, push, answer and resolve the two new
+threads, and leave the PR open and unmerged.

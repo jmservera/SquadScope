@@ -10,15 +10,17 @@
 
 ## Execution Status
 
-* Status: Complete — P07 correction committed and pushed for unmerged review
-* Declared invocation scope: P07 reviewer-lockout correction
+* Status: Complete — P08 evidence correction ready for pushed unmerged review
+* Declared invocation scope: P08 post-delivery evidence correction
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02,
   P03, P03-T01, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01, P05-T02,
-  P05-T03, P06, P06-T01, P06-T02, P06-T03, P07, P07-T01, P07-T02, P07-T03
+  P05-T03, P06, P06-T01, P06-T02, P06-T03, P07, P07-T01, P07-T02, P07-T03,
+  P08, P08-T01, P08-T02, P08-T03
 * All remaining active-plan markers: None
 * Status basis: Pre-short-circuit identity validation, both entry-point
   regressions, P06 evidence reconciliation, and validation were committed as
-  `21834cd72145630ea656eb81dfee7f5da01cfba9` and pushed to the PR branch.
+  `21834cd72145630ea656eb81dfee7f5da01cfba9`; the P08 deterministic fixture and
+  exact command/snapshot evidence are complete for final delivery.
 
 ## Delivered P06 Implementation Boundary
 
@@ -186,6 +188,21 @@ URL, and documentation are delivered in PR #762.
 
 ## Implementation-Time Plan and Detail Updates
 
+### Opened the post-delivery evidence correction
+
+* Affected plan area or markers: P08, P08-T01, P08-T02, P08-T03
+* What changed: Added deterministic manifest-byte fixture coverage and exact
+  historical-versus-current validation command reconciliation.
+* Why: The final tracking push received two new review threads questioning a
+  fixture dependency and the scope of the P06/P07 count snapshots.
+* Triggering evidence: PR #762 discussions `discussion_r4014162935` and
+  `discussion_r4014162997`.
+* User answer or decision: Existing reviewer-lockout ownership remains in force.
+* Reconciliation performed: Plan status, phase details, execution boundary,
+  validation evidence boundary, and delivery task updated.
+* Planning and critique state: Approved in-scope review correction; implementation
+  in progress.
+
 ### Opened the independent reviewer-lockout correction
 
 * Affected plan area or markers: P07, P07-T01, P07-T02, P07-T03
@@ -235,8 +252,12 @@ URL, and documentation are delivered in PR #762.
   endpoint can be called.
 * Completion evidence: Exact-release, standard handoff, adversarial preloaded
   manifest, no-network missing-digest, and workflow-contract tests pass.
-* Validation: Final targeted selection passed 148 tests with 1 skipped; final
-  full CI Python selection passed 1,756 tests with 1 skipped.
+* Validation: At P06 head
+  `2a6d0f75b522867f22ae9dc539b40109179e628b`,
+  `python3 -m pytest -q tests/test_auto_dispatch_detect.py
+  tests/test_podcaster_handoff.py tests/test_pipeline.py` passed 148 tests with
+  1 skipped; the `.github/workflows/ci.yml` Python selection passed 1,756 tests
+  with 1 skipped.
 
 ### Made four-field duplicate decisions fail closed
 
@@ -253,8 +274,12 @@ URL, and documentation are delivered in PR #762.
 * Completion evidence: Added exact-match, conflict, missing-digest,
   duplicate-prevented, unknown-state, reconstructed legacy digest, missing
   legacy digest, readable skipped-job, and rerun regressions.
-* Validation: Final targeted selection passed 148 tests with 1 skipped; final
-  full CI Python selection passed 1,756 tests with 1 skipped.
+* Validation: At P06 head
+  `2a6d0f75b522867f22ae9dc539b40109179e628b`,
+  `python3 -m pytest -q tests/test_auto_dispatch_detect.py
+  tests/test_podcaster_handoff.py tests/test_pipeline.py` passed 148 tests with
+  1 skipped; the `.github/workflows/ci.yml` Python selection passed 1,756 tests
+  with 1 skipped.
 
 ### Delivered the independent revision to PR #762
 
@@ -306,9 +331,13 @@ URL, and documentation are delivered in PR #762.
 * Completion evidence: Missing requested digests fail closed without
   credentials; malformed digests raise before a missing repository can clear;
   complete identities retain the valid no-credentials compatibility result.
-* Validation: Changed-surface suite passed 154 tests with 1 skipped; full
-  CI-equivalent Python selection passed 1,718 tests with 1 skipped and two
-  expected warnings.
+* Validation: At P07 implementation head
+  `21834cd72145630ea656eb81dfee7f5da01cfba9`,
+  `python3 -m pytest -q tests/test_auto_dispatch_detect.py
+  tests/test_podcaster_handoff.py tests/test_pipeline.py` passed 154 tests with
+  1 skipped. The exact `.github/workflows/ci.yml` Python command with its four
+  rendered-site test ignores passed 1,718 tests with 1 skipped and two expected
+  warnings.
 
 ### Delivered the reviewer-lockout correction
 
@@ -323,6 +352,30 @@ URL, and documentation are delivered in PR #762.
   is owned by the pushed head. Both current review threads were answered with
   exact evidence and resolved; the PR remained open and unmerged with zero
   unresolved threads.
+
+### Made legacy manifest conflict reconstruction deterministic
+
+* Related phase or task: P08-T01
+* Files: `tests/test_auto_dispatch_detect.py`
+* What changed and why: The conflicting-manifest regression now mocks the exact
+  publish-manifest byte reader with bytes whose digest differs from the
+  requested digest, removing any dependency on temporary Git refs.
+* Completion evidence: The named regression and the complete changed-surface
+  suite pass with the expected `conflicting_manifest_sha256` classification.
+* Validation: 154 passed, 1 skipped; Ruff check/format and `git diff --check`
+  passed.
+
+### Reconciled historical and current validation snapshots
+
+* Related phase or task: P08-T02, P08-T03
+* Files: P06/P07/P08 tracking evidence and PR description
+* What changed and why: Historical P06 results are explicitly tied to
+  `2a6d0f75b522867f22ae9dc539b40109179e628b`; current P07 results are tied to
+  `21834cd72145630ea656eb81dfee7f5da01cfba9`, with the exact targeted and full
+  command scopes named separately.
+* Completion evidence: No validation row now presents the two commit snapshots
+  as one test population.
+* Validation: Tracking diff and changed test formatting are clean.
 
 ## Earlier Implementation-Time Plan and Detail Updates
 
