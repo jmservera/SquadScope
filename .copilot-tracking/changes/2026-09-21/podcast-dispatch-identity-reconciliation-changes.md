@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: In progress
+* Status: Partial
 * Declared invocation scope: Full plan
-* Completed scope markers: P01, P01-T01, P01-T02, P02-T02, P03-T01, P05-T02
-* All remaining active-plan markers: P02, P02-T01, P03, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01
-* Status basis: The original six threads and hosted failure are corrected and hosted checks pass on `8a0ffd1`. Two follow-up threads are valid and active: post-boundary reconciliation signaling and normal-branch handoff error metadata outputs.
+* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05-T02
+* All remaining active-plan markers: P04, P04-T02, P05, P05-T01
+* Status basis: The original six threads and hosted failure are corrected and hosted checks pass on `8a0ffd1`. The two follow-up threads are also corrected and all renewed local gates pass; commit, push, PR head confirmation, and renewed hosted checks remain.
 
 ## Execution Summary
 
@@ -72,7 +72,25 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * Files: `.github/workflows/auto-podcast-dispatch.yml`, `scripts/podcaster_handoff.py`, owned tests, and implementation-owned plan/details/changes artifacts
 * What changed and why: Classified follow-up threads `PRRT_kwDOSgq4hM6kivL2` / discussion `4067000691` and `PRRT_kwDOSgq4hM6kivMQ` / discussion `4067000735` as valid. Reconciliation must not depend solely on a step-success output after durable `handoff_entered`, and normal handoff failures must expose the API status/category needed by the post receipt.
 * Completion evidence: Both threads were read with exact current-head file/line context on `8a0ffd1`.
-* Validation: Pending focused regressions and renewed required gates.
+* Validation: Passed locally; renewed hosted checks await push.
+
+### Corrected post-boundary reconciliation and normal error outputs
+
+* Related phase or task: P02-T01, P03-T02, P04-T01
+* Files: `.github/workflows/auto-podcast-dispatch.yml`, `scripts/podcaster_handoff.py`, `tests/test_pipeline.py`, `tests/test_podcaster_handoff.py`
+* What changed and why:
+  * `PRRT_kwDOSgq4hM6kivL2` / discussion `4067000691`: reconciliation now runs for every non-skipped eligible real-generation attempt, resolves the authoritative ledger state, skips terminal monitoring only for proven retryable pre-boundary states, and continues incident/monitor handling for `handoff_entered`, accepted, or unknown states even when the boundary step failed after persistence.
+  * `PRRT_kwDOSgq4hM6kivMQ` / discussion `4067000735`: shared error-output handling now writes receipt state, numeric HTTP status, and status category for normal and exact-content handoff failures.
+* Completion evidence: Workflow regressions assert job-result-based reconciliation, authoritative retryable-state outputs, conditional terminal monitoring, and absence of the fragile `handoff_entered` job-output predicate. Handoff regression asserts normal-branch 429 metadata reaches `GITHUB_OUTPUT`.
+* Validation: Focused dispatch suite `186 passed`; workflow/handoff subset `97 passed`.
+
+### Completed renewed local validation
+
+* Related phase or task: P04-T01, P04-T02
+* Files: Full repository and all workflows
+* What changed and why: Repeated all required local gates after changing the protected workflow.
+* Completion evidence: Full suite `1,794 passed`; Ruff clean with 194 files formatted; pip-audit found no vulnerabilities; Bandit exits 0; Checkov reports 1,073 passed, 0 failed, 7 existing skips; Zizmor reports no findings.
+* Validation: Passed; final staged diff check remains before commit.
 
 ### Activated independent-review correction batch
 
@@ -256,6 +274,14 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 | PR-thread Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,069 passed, 0 failed, 7 existing skips |
 | PR-thread Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
 | PR-thread script CLI smoke | Three changed scripts | Passed | All `--help` commands exited 0 |
+| Follow-up focused dispatch tests | Two follow-up threads | Passed | 186 passed |
+| Follow-up workflow/handoff tests | Changed workflow and handoff output paths | Passed | 97 passed |
+| Follow-up full repository tests | Repository | Passed | 1,794 passed; 2 existing warning messages |
+| Follow-up repository Ruff | Repository | Passed | All checks passed; 194 files formatted |
+| Follow-up pip-audit | `requirements.txt` | Passed | No known vulnerabilities found from a disposable venv |
+| Follow-up Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
+| Follow-up Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 existing skips |
+| Follow-up Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
 
 ## Pre-Review Reconciliation
 
