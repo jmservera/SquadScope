@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: In progress
+* Status: Partial
 * Declared invocation scope: Full plan
-* Completed scope markers: P02, P02-T01, P02-T02, P03-T01, P05-T02
-* All remaining active-plan markers: P01, P01-T01, P01-T02, P03, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01
-* Status basis: Hosted checks pass on `2d29860`, but five latest valid threads are active across accepted-duplicate reconciliation, legacy manual evidence, JSON persistence, incident race consolidation, and ledger classification.
+* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
+* All remaining active-plan markers: P04, P04-T02
+* Status basis: All review findings through head `0d75986` are corrected. All required local gates pass and the latest correction is pushed; renewed hosted checks remain.
 
 ## Execution Summary
 
@@ -125,7 +125,28 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * Files: `.github/workflows/auto-podcast-dispatch.yml`, `scripts/auto_dispatch_detect.py`, `scripts/podcast_dispatch_state.py`, owned tests, and implementation-owned plan/details/changes artifacts
 * What changed and why: Classified threads `PRRT_kwDOSgq4hM6ki6Nr` / `4067070000`, `PRRT_kwDOSgq4hM6ki6OF` / `4067070048`, `PRRT_kwDOSgq4hM6ki6OQ` / `4067070068`, `PRRT_kwDOSgq4hM6ki_0j` / `4067105035`, and `PRRT_kwDOSgq4hM6ki_07` / `4067105075` as valid.
 * Completion evidence: All five comments were read with exact current-head context; current hosted checks are green.
-* Validation: Pending focused regressions and renewed required gates.
+* Validation: Passed locally; renewed hosted checks await completion.
+
+### Corrected accepted duplicate, legacy manual, persistence, and incident race gaps
+
+* Related phase or task: P01-T01, P01-T02, P03-T02, P04-T01
+* Files: `.github/workflows/auto-podcast-dispatch.yml`, `scripts/auto_dispatch_detect.py`, `scripts/podcast_dispatch_state.py`, `tests/test_auto_dispatch_detect.py`, `tests/test_podcast_dispatch_state.py`, `tests/test_pipeline.py`
+* What changed and why:
+  * `PRRT_kwDOSgq4hM6ki6Nr` / `4067070000`: accepted duplicates also schedule reconciliation so interrupted prior monitoring can resume.
+  * `PRRT_kwDOSgq4hM6ki6OF` / `4067070048`: successful legacy manual runs with missing publish markers are ambiguous when trusted metadata associates them with the requested identity.
+  * `PRRT_kwDOSgq4hM6ki6OQ` / `4067070068`: JSON-bearing GitHub writes now send `Content-Type: application/json`.
+  * `PRRT_kwDOSgq4hM6ki_0j` / `4067105035`: incident creation rechecks successful creates, selects the lowest-numbered canonical issue, and comments/closes concurrent duplicates.
+  * `PRRT_kwDOSgq4hM6ki_07` / `4067105075`: authoritative exact ledger receipts use monotonic retry classification, so unclassified rejection remains ambiguous without relying on run lookback.
+* Completion evidence: Added accepted-duplicate workflow, related manual success, request-header, incident race, and authoritative unclassified-rejection regressions.
+* Validation: Focused suite `134 passed`; full suite `1,805 passed`.
+
+### Completed newest local validation and push
+
+* Related phase or task: P04-T01, P04-T02, P05-T01
+* Files: Full repository and all workflows
+* What changed and why: Repeated all required local gates and persisted the five-finding correction at `0d75986` (`fix(podcast): close remaining evidence gaps`).
+* Completion evidence: Full suite `1,805 passed`; Ruff clean with 194 files formatted; pip-audit found no vulnerabilities; Bandit exits 0; Checkov reports 1,073 passed, 0 failed, 7 existing skips; Zizmor reports no findings.
+* Validation: Passed locally; renewed hosted results pending.
 
 ### Activated independent-review correction batch
 
@@ -324,6 +345,13 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 | Latest Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
 | Latest Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 existing skips |
 | Latest Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
+| Newest focused dispatch/state/workflow tests | Five latest threads | Passed | 134 passed |
+| Newest full repository tests | Repository | Passed | 1,805 passed; 2 existing warning messages |
+| Newest repository Ruff | Repository | Passed | All checks passed; 194 files formatted |
+| Newest pip-audit | `requirements.txt` | Passed | No known vulnerabilities found from a disposable venv |
+| Newest Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
+| Newest Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 existing skips |
+| Newest Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
 
 ## Pre-Review Reconciliation
 
