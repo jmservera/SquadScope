@@ -2076,11 +2076,6 @@ Week {week_num} of {year_str} captured {repos_featured} repositories with {total
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    canary: str | None = None
-    if args.canary_output:
-        from scripts.canary_token import generate_canary
-
-        canary = generate_canary()
     wisdom_file = args.wisdom_file
     skills_dir = args.skills_dir
     continuity_file = args.continuity_file
@@ -2093,6 +2088,11 @@ def main(argv: list[str] | None = None) -> int:
 
     # Step 1: Run synthesis if requested
     if args.run_synthesis:
+        canary: str | None = None
+        if args.canary_output:
+            from scripts.canary_token import generate_canary
+
+            canary = generate_canary()
         payload = load_json(args.raw_json)
         sanitized_payload = sanitize_repo_payload(payload)
         current_week = sanitized_payload["week"]
@@ -2143,6 +2143,12 @@ def main(argv: list[str] | None = None) -> int:
                 f"::notice::Using synthesis narrative ({estimate_tokens(synthesis_narrative)} tokens) from {args.synthesis_input}",
                 file=sys.stderr,
             )
+
+    canary = None
+    if args.canary_output:
+        from scripts.canary_token import generate_canary
+
+        canary = generate_canary()
 
     prompt, preflight = _build_prompt(
         prompt_template_path=args.prompt_template,
