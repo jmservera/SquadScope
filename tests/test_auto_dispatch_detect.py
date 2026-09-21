@@ -448,6 +448,32 @@ class TestDuplicateCheck(unittest.TestCase):
             }
         ]
 
+    def test_run_metadata_identity_matching_requires_identifier_boundaries(self):
+        identity = detect.DispatchIdentity(
+            WEEK,
+            RUN_ID,
+            KNOWN_SHA256,
+            KNOWN_MANIFEST_SHA256,
+        )
+        self.assertTrue(
+            detect._run_metadata_associates_identity(
+                {"display_title": f"dispatch publish run {RUN_ID}"},
+                identity,
+            )
+        )
+        self.assertFalse(
+            detect._run_metadata_associates_identity(
+                {"display_title": f"dispatch publish run {RUN_ID}4"},
+                identity,
+            )
+        )
+        self.assertFalse(
+            detect._run_metadata_associates_identity(
+                {"display_title": f"dispatch publish run 9{RUN_ID}"},
+                identity,
+            )
+        )
+
     def _auto_observe_jobs(self) -> list[dict]:
         return [
             {

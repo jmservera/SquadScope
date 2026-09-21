@@ -138,7 +138,11 @@ def _run_metadata_associates_identity(run: dict[str, Any], identity: DispatchIde
         str(run.get(field) or "") for field in ("name", "display_title", "head_branch")
     )
     return any(
-        value and value in metadata
+        value
+        and re.search(
+            rf"(?<![A-Za-z0-9]){re.escape(value)}(?![A-Za-z0-9])",
+            metadata,
+        )
         for value in (
             identity.publish_run_id,
             identity.article_sha256,
