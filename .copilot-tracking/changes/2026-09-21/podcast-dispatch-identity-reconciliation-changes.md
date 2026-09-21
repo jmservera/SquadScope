@@ -76,6 +76,14 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * Completion evidence: Forged-author, wrong-repository, wrong-run, and wrong-workflow records are rejected while an exact trusted record is accepted.
 * Validation: Passed — focused and full suites.
 
+### Committed and pushed the corrected implementation
+
+* Related phase or task: P05-T01, P05-T02
+* Files: All correction-owned source, workflow, tests, implementation artifacts, and the unchanged independent review record
+* What changed and why: Committed the complete RV-001 through RV-006 correction batch as `c9373cf` (`fix(podcast): resolve dispatch review defects`) and pushed it to `origin/incident/podcast-dispatch-identity-reconciliation`. No PR was created.
+* Completion evidence: Push advanced the remote branch from `304d08d` to `c9373cf`; `gh pr list --head incident/podcast-dispatch-identity-reconciliation` returned an empty list before delivery.
+* Validation: Passed — staged diff check and push completed successfully.
+
 ### Implemented canonical identity and identity-scoped history
 
 * Related phase or task: P01, P01-T01, P01-T02
@@ -191,7 +199,7 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * Plan markers and phase details: Current; RV-001 through RV-006 owners re-completed and P05-T02 records the completed independent review
 * Completed-work evidence and handoff prose: Current through corrected local validation
 * Validation, blockers, remaining work, and follow-up items: Local validation current; hosted P04-T02 and external follow-ups explicitly separated
-* Review readiness: A second review is not required; PR creation is unblocked after corrected commit/push
+* Review readiness: A second review is not required; corrected commit `c9373cf` is pushed and PR creation is unblocked
 
 ## Blockers
 
