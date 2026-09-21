@@ -808,7 +808,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                 "podcaster_receipt_state=submitted\n",
             )
 
-    def test_failed_handoff_writes_only_receipt_state(self) -> None:
+    def test_failed_handoff_writes_receipt_state_and_status_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "outputs"
             with (
@@ -818,7 +818,9 @@ class PodcasterHandoffTests(unittest.TestCase):
                     "post_handoff",
                     side_effect=podcaster_handoff.PodcasterHandoffError(
                         "rejected",
-                        receipt_state=podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+                        receipt_state=podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
+                        api_status=429,
+                        api_status_category="http_outcome_unknown",
                     ),
                 ),
                 mock.patch.dict(
@@ -847,7 +849,9 @@ class PodcasterHandoffTests(unittest.TestCase):
             self.assertEqual(exit_code, 1)
             self.assertEqual(
                 output_path.read_text(encoding="utf-8"),
-                "podcaster_receipt_state=submission_rejected\n",
+                "podcaster_receipt_state=submission_unknown\n"
+                "podcaster_http_status=429\n"
+                "podcaster_api_status_category=http_outcome_unknown\n",
             )
 
     def test_action_outputs_are_optional_for_local_cli(self) -> None:

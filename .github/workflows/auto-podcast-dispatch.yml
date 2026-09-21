@@ -676,7 +676,8 @@ jobs:
       always() &&
       inputs.observe_only != true &&
       (needs.detect.outputs.dedup_status == 'ambiguous_prior_submission' ||
-       needs.real-generation.outputs.handoff_entered == 'true')
+       (needs.detect.outputs.eligible == 'true' &&
+        needs.real-generation.result != 'skipped'))
     runs-on: ubuntu-latest
     timeout-minutes: 61
     permissions:
@@ -696,6 +697,7 @@ jobs:
         with:
           name: podcast-dispatch-post-receipt
       - name: Resolve authoritative ledger receipt
+        id: resolve-receipt
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -752,7 +754,41 @@ jobs:
               print("::warning::Diagnostic receipt mirror does not match authoritative ledger.")
           PY
           fi
+          receipt_state=$(python3 - <<'PY'
+          from pathlib import Path
+          from scripts.podcast_dispatch_state import DispatchReceipt, parse_receipt
+
+          receipt = parse_receipt(
+              Path("podcast-dispatch-authoritative-receipt.json").read_text(encoding="utf-8")
+          )
+          if not isinstance(receipt, DispatchReceipt):
+              raise SystemExit("authoritative receipt is not v2")
+          print(receipt.receipt_state)
+          PY
+          )
+          echo "receipt_state=$receipt_state" >> "$GITHUB_OUTPUT"
+          case "$receipt_state" in
+            attempt_prepared|pre_submit_failed|submission_rejected|observation_only)
+              echo "retryable_pre_boundary=true" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "retryable_pre_boundary=false" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+      - name: Record retryable pre-boundary failure
+        if: steps.resolve-receipt.outputs.retryable_pre_boundary == 'true'
+        env:
+          RECEIPT_STATE: ${{ steps.resolve-receipt.outputs.receipt_state }}
+        run: |
+          {
+            echo "## Retryable pre-boundary podcast dispatch failure"
+            echo ""
+            echo "Authoritative receipt state: \`${RECEIPT_STATE}\`"
+            echo ""
+            echo "No Podcaster mutation is known to have started; a later workflow retry remains safe."
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Monitor authoritative terminal outcome
+        if: steps.resolve-receipt.outputs.retryable_pre_boundary != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}

@@ -1034,6 +1034,20 @@ def write_action_receipt_state(receipt_state: str) -> None:
         output.write(f"podcaster_receipt_state={_escape_gha_data(receipt_state)}\n")
 
 
+def write_action_error_outputs(exc: PodcasterHandoffError) -> None:
+    write_action_receipt_state(exc.receipt_state)
+    output_path = os.environ.get("GITHUB_OUTPUT")
+    if not output_path:
+        return
+    with Path(output_path).open("a", encoding="utf-8") as output:
+        if exc.api_status is not None:
+            output.write(f"podcaster_http_status={exc.api_status}\n")
+        if exc.api_status_category:
+            output.write(
+                f"podcaster_api_status_category={_escape_gha_data(exc.api_status_category)}\n"
+            )
+
+
 def _http_error_receipt(code: int) -> tuple[str, str]:
     pre_acceptance_rejections = {
         400,
@@ -1175,16 +1189,7 @@ def main(argv: list[str] | None = None) -> int:
                 publish_run_id=publish_run_id,
             )
         except PodcasterHandoffError as exc:
-            write_action_receipt_state(exc.receipt_state)
-            output_path = os.environ.get("GITHUB_OUTPUT")
-            if output_path:
-                with Path(output_path).open("a", encoding="utf-8") as output:
-                    if exc.api_status is not None:
-                        output.write(f"podcaster_http_status={exc.api_status}\n")
-                    if exc.api_status_category:
-                        output.write(
-                            f"podcaster_api_status_category={_escape_gha_data(exc.api_status_category)}\n"
-                        )
+            write_action_error_outputs(exc)
             print(f"::error::Podcaster handoff failed: {exc}")
             return 1
     endpoint = args.endpoint.strip()
@@ -1204,7 +1209,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         manifest = exact_manifest if exact_manifest is not None else _load_manifest(args.manifest)
     except PodcasterHandoffError as exc:
-        write_action_receipt_state(exc.receipt_state)
+        write_action_error_outputs(exc)
         print(f"::error::Podcaster handoff failed: {exc}")
         return 1
     if _is_gated_replay(manifest, week=args.week):
@@ -1238,7 +1243,7 @@ def main(argv: list[str] | None = None) -> int:
         write_action_outputs(response)
         write_action_receipt_state(RECEIPT_STATE_SUBMITTED)
     except PodcasterHandoffError as exc:
-        write_action_receipt_state(exc.receipt_state)
+        write_action_error_outputs(exc)
         print(f"::error::Podcaster handoff failed: {exc}")
         return 1
     job_id = _escape_gha_data(str(response.get("job_id", "")))

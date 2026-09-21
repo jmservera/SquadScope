@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: Partial
+* Status: In progress
 * Declared invocation scope: Full plan
-* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
-* All remaining active-plan markers: P04, P04-T02
-* Status basis: Six unresolved PR review threads and hosted run `35662034290` are corrected. All required local gates pass and correction commit `93c7c25` is pushed; PR head/check confirmation and hosted checks remain.
+* Completed scope markers: P01, P01-T01, P01-T02, P02-T02, P03-T01, P05-T02
+* All remaining active-plan markers: P02, P02-T01, P03, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01
+* Status basis: The original six threads and hosted failure are corrected and hosted checks pass on `8a0ffd1`. Two follow-up threads are valid and active: post-boundary reconciliation signaling and normal-branch handoff error metadata outputs.
 
 ## Execution Summary
 
@@ -65,6 +65,14 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * What changed and why: Created conventional commit `93c7c25` (`fix(podcast): close dispatch review gaps`) with the required trailers and pushed it normally to `origin/incident/podcast-dispatch-identity-reconciliation`.
 * Completion evidence: Remote push advanced the branch from `ceefe0b` to `93c7c25`; no force push, merge, review-thread resolution, or independent review record modification occurred.
 * Validation: Staged `git diff --check` passed before commit.
+
+### Activated follow-up PR review correction batch
+
+* Related phase or task: P02-T01, P03-T02, P04-T01, P04-T02, P05-T01
+* Files: `.github/workflows/auto-podcast-dispatch.yml`, `scripts/podcaster_handoff.py`, owned tests, and implementation-owned plan/details/changes artifacts
+* What changed and why: Classified follow-up threads `PRRT_kwDOSgq4hM6kivL2` / discussion `4067000691` and `PRRT_kwDOSgq4hM6kivMQ` / discussion `4067000735` as valid. Reconciliation must not depend solely on a step-success output after durable `handoff_entered`, and normal handoff failures must expose the API status/category needed by the post receipt.
+* Completion evidence: Both threads were read with exact current-head file/line context on `8a0ffd1`.
+* Validation: Pending focused regressions and renewed required gates.
 
 ### Activated independent-review correction batch
 

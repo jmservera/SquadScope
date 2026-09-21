@@ -1220,6 +1220,8 @@ class WorkflowConfigTests(unittest.TestCase):
         reconcile = workflow["jobs"]["reconcile"]
         self.assertEqual(reconcile["needs"], ["detect", "real-generation"])
         self.assertIn("always()", reconcile["if"])
+        self.assertIn("needs.real-generation.result != 'skipped'", reconcile["if"])
+        self.assertNotIn("outputs.handoff_entered", reconcile["if"])
         self.assertEqual(reconcile["timeout-minutes"], 61)
         self.assertEqual(reconcile["permissions"]["issues"], "write")
         reconcile_positions = {
@@ -1230,13 +1232,24 @@ class WorkflowConfigTests(unittest.TestCase):
             reconcile_positions["Monitor authoritative terminal outcome"],
         )
         resolver = reconcile["steps"][reconcile_positions["Resolve authoritative ledger receipt"]]
+        self.assertEqual(resolver["id"], "resolve-receipt")
         self.assertIn("podcast_dispatch_state.py resolve-receipt", resolver["run"])
         self.assertIn("podcast-dispatch-authoritative-receipt.json", resolver["run"])
         self.assertIn("podcast-dispatch-post-receipt.json", resolver["run"])
+        self.assertIn("retryable_pre_boundary", resolver["run"])
+        retryable = reconcile["steps"][reconcile_positions["Record retryable pre-boundary failure"]]
+        self.assertEqual(
+            retryable["if"],
+            "steps.resolve-receipt.outputs.retryable_pre_boundary == 'true'",
+        )
         monitor = next(
             step
             for step in reconcile["steps"]
             if step.get("name") == "Monitor authoritative terminal outcome"
+        )
+        self.assertEqual(
+            monitor["if"],
+            "steps.resolve-receipt.outputs.retryable_pre_boundary != 'true'",
         )
         self.assertIn("PODCASTER_STATUS_ENDPOINT", monitor["env"])
         self.assertIn("podcast_dispatch_state.py monitor", monitor["run"])

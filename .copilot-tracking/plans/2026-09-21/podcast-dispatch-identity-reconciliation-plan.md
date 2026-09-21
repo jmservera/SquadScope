@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: Six PR review threads and the hosted Python configuration failure are corrected, locally validated, committed, and pushed; hosted PR evidence remains under P04-T02
+* Planning status: Two follow-up PR review threads on pushed head `8a0ffd1` are active; affected workflow, handoff-output, regression, validation, and delivery markers are reopened
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -188,13 +188,13 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Detail section: P01-T02 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:phase id=P02 -->
-### [x] P02: Enforce durable receipt ordering around mutation
+### [ ] P02: Enforce durable receipt ordering around mutation
 
 * Intent: make mutation eligibility and outcome durable, correlated, and crash-safe.
 * Dependencies: P01.
 
 <!-- rpi:task id=P02-T01 -->
-#### [x] P02-T01: Expose safe handoff API and correlation status
+#### [ ] P02-T01: Expose safe handoff API and correlation status
 
 * Requirement and evidence: FR-06 and NFR-03; current `post_handoff` and action outputs.
 * Expected result: handoff emits safe HTTP/status/job/correlation metadata without logging secrets or payloads.
@@ -208,7 +208,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Detail section: P02-T02 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:phase id=P03 -->
-### [x] P03: Reconcile terminal outcome, latency, and incidents
+### [ ] P03: Reconcile terminal outcome, latency, and incidents
 
 * Intent: prevent accepted requests from being reported as successful without terminal publication evidence.
 * Dependencies: P02 accepted/post receipt.
@@ -221,7 +221,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Detail section: P03-T01 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:task id=P03-T02 -->
-#### [x] P03-T02: Add deduplicated incident lifecycle and workflow finalizer
+#### [ ] P03-T02: Add deduplicated incident lifecycle and workflow finalizer
 
 * Requirement and evidence: FR-09, FR-10; existing issue-upsert conventions.
 * Expected result: always-running reconciliation fails visibly, upserts one issue per identity/stage/state, and reconciles only exact-identity incidents on verified success.
@@ -234,7 +234,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Dependencies: P01-P03.
 
 <!-- rpi:task id=P04-T01 -->
-#### [x] P04-T01: Implement locked semantic and regression matrix
+#### [ ] P04-T01: Implement locked semantic and regression matrix
 
 * Requirement and evidence: caller regression list and research required test matrix.
 * Expected result: owned tests cover identity, legacy evidence, crash boundaries, no-mutation paths, monitor stages, incidents, security, and workflow structure.
@@ -248,13 +248,13 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Detail section: P04-T02 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:phase id=P05 -->
-### [x] P05: Deliver review branch and independent review handoff
+### [ ] P05: Deliver review branch and independent review handoff
 
 * Intent: preserve implementation evidence, publish the completed branch, and route the change through independent review and follow-up.
 * Dependencies: local P04-T02 evidence complete. Hosted gates remain mandatory after independent review opens the PR and before merge/readiness.
 
 <!-- rpi:task id=P05-T01 -->
-#### [x] P05-T01: Record evidence and push review branch
+#### [ ] P05-T01: Record evidence and push review branch
 
 * Requirement and evidence: FR-11 and caller delivery requirements, including independent review before PR creation.
 * Expected result: changes record is current, the branch is committed and pushed, and the independent reviewer receives the W38/W39 evidence, local validation, Podcaster contract dependency, rollback point, principal risks, and required future-PR references.
