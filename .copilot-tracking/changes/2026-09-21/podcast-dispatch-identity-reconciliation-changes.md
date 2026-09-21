@@ -12,9 +12,9 @@
 
 * Status: Partial
 * Declared invocation scope: Full plan
-* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05-T02
-* All remaining active-plan markers: P04, P04-T02, P05, P05-T01
-* Status basis: Six unresolved PR review threads and hosted run `35662034290` are corrected. All required local gates pass; commit, push, PR head confirmation, and hosted checks remain.
+* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
+* All remaining active-plan markers: P04, P04-T02
+* Status basis: Six unresolved PR review threads and hosted run `35662034290` are corrected. All required local gates pass and correction commit `93c7c25` is pushed; PR head/check confirmation and hosted checks remain.
 
 ## Execution Summary
 
@@ -57,6 +57,14 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * What changed and why: Ran every required local semantic, formatting, dependency, security, workflow, and whitespace gate without suppressions or expected-value weakening.
 * Completion evidence: Focused dispatch suite `186 passed`; full suite `1794 passed` after one transient atomic-proof integration failure passed on exact retry and the complete rerun; Ruff reports 194 files formatted; pip-audit reports no known vulnerabilities; Bandit exits 0; Checkov reports 1,069 passed, 0 failed, 7 existing skips; Zizmor reports no findings; changed script CLI smoke exits 0.
 * Validation: Passed; `git diff --check` will be rerun after final evidence reconciliation.
+
+### Committed and pushed the PR review correction batch
+
+* Related phase or task: P05-T01
+* Files: Nine correction-owned production, test, and implementation-evidence files
+* What changed and why: Created conventional commit `93c7c25` (`fix(podcast): close dispatch review gaps`) with the required trailers and pushed it normally to `origin/incident/podcast-dispatch-identity-reconciliation`.
+* Completion evidence: Remote push advanced the branch from `ceefe0b` to `93c7c25`; no force push, merge, review-thread resolution, or independent review record modification occurred.
+* Validation: Staged `git diff --check` passed before commit.
 
 ### Activated independent-review correction batch
 

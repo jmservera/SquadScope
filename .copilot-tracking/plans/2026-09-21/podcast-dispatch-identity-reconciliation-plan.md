@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: Six PR review threads and the hosted Python configuration failure are corrected and locally validated; delivery and hosted PR evidence remain
+* Planning status: Six PR review threads and the hosted Python configuration failure are corrected, locally validated, committed, and pushed; hosted PR evidence remains under P04-T02
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -248,13 +248,13 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Detail section: P04-T02 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:phase id=P05 -->
-### [ ] P05: Deliver review branch and independent review handoff
+### [x] P05: Deliver review branch and independent review handoff
 
 * Intent: preserve implementation evidence, publish the completed branch, and route the change through independent review and follow-up.
 * Dependencies: local P04-T02 evidence complete. Hosted gates remain mandatory after independent review opens the PR and before merge/readiness.
 
 <!-- rpi:task id=P05-T01 -->
-#### [ ] P05-T01: Record evidence and push review branch
+#### [x] P05-T01: Record evidence and push review branch
 
 * Requirement and evidence: FR-11 and caller delivery requirements, including independent review before PR creation.
 * Expected result: changes record is current, the branch is committed and pushed, and the independent reviewer receives the W38/W39 evidence, local validation, Podcaster contract dependency, rollback point, principal risks, and required future-PR references.
