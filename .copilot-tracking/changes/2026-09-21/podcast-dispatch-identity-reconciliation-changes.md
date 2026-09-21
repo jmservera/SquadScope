@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: In progress
+* Status: Partial
 * Declared invocation scope: Full plan
-* Completed scope markers: P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P05-T02
-* All remaining active-plan markers: P01, P01-T01, P01-T02, P04, P04-T01, P04-T02, P05, P05-T01
-* Status basis: Hosted checks pass on `ab2a8ec`, but three additional valid threads are active: legacy/unclassified rejection ambiguity, metadata-associated empty cancellation, and fail-closed issue/comment pagination.
+* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
+* All remaining active-plan markers: P04, P04-T02
+* Status basis: All review findings through head `9db415d` are corrected. All required local gates pass and the latest correction is pushed; renewed hosted checks remain.
 
 ## Execution Summary
 
@@ -98,7 +98,26 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * Files: `scripts/auto_dispatch_detect.py`, `scripts/podcast_dispatch_state.py`, `.github/workflows/auto-podcast-dispatch.yml`, owned tests, and implementation-owned plan/details/changes artifacts
 * What changed and why: Classified threads `PRRT_kwDOSgq4hM6ki2JH` / discussion `4067044335`, `PRRT_kwDOSgq4hM6ki2Jk` / discussion `4067044369`, and `PRRT_kwDOSgq4hM6ki2KC` / discussion `4067044407` as valid. Only explicitly classified v2 pre-acceptance rejection may be retryable; metadata-associated empty cancellations remain ambiguous; pagination exhaustion must fail closed.
 * Completion evidence: All three threads were read with exact current-head file/line context.
-* Validation: Pending focused regressions and renewed required gates.
+* Validation: Passed locally; renewed hosted checks await completion.
+
+### Corrected legacy rejection trust, cancellation association, and pagination
+
+* Related phase or task: P01-T01, P01-T02, P04-T01
+* Files: `scripts/auto_dispatch_detect.py`, `scripts/podcast_dispatch_state.py`, `.github/workflows/auto-podcast-dispatch.yml`, `tests/test_auto_dispatch_detect.py`, `tests/test_podcast_dispatch_state.py`, `tests/test_pipeline.py`
+* What changed and why:
+  * `PRRT_kwDOSgq4hM6ki2JH` / discussion `4067044335`: legacy and unclassified `submission_rejected` evidence is ambiguous; only v2 `http_rejected_pre_acceptance` evidence is retryable.
+  * `PRRT_kwDOSgq4hM6ki2Jk` / discussion `4067044369`: an empty cancelled run associated by trusted metadata remains ambiguous instead of taking the unrelated-run shortcut.
+  * `PRRT_kwDOSgq4hM6ki2KC` / discussion `4067044407`: issue and ledger-comment pagination fail closed if the bounded 100-page history is exhausted instead of returning truncated evidence.
+* Completion evidence: Added regressions for legacy versus classified v2 rejection, metadata-associated empty cancellation, issue-page exhaustion, comment-page exhaustion, and workflow use of receipt classification.
+* Validation: Focused suite `190 passed`; full suite `1,798 passed`.
+
+### Completed latest local validation and push
+
+* Related phase or task: P04-T01, P04-T02, P05-T01
+* Files: Full repository and all workflows
+* What changed and why: Repeated every required local gate and persisted the correction at commit `9db415d` (`fix(podcast): fail closed on incomplete evidence`).
+* Completion evidence: Full suite `1,798 passed`; Ruff clean with 194 files formatted; pip-audit found no vulnerabilities; Bandit exits 0; Checkov reports 1,073 passed, 0 failed, 7 existing skips; Zizmor reports no findings; branch and PR head both advanced to `9db415d`.
+* Validation: Passed locally; renewed hosted results pending.
 
 ### Activated independent-review correction batch
 
@@ -290,6 +309,13 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 | Follow-up Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
 | Follow-up Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 existing skips |
 | Follow-up Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
+| Latest focused dispatch tests | Three additional threads | Passed | 190 passed |
+| Latest full repository tests | Repository | Passed | 1,798 passed; 2 existing warning messages |
+| Latest repository Ruff | Repository | Passed | All checks passed; 194 files formatted |
+| Latest pip-audit | `requirements.txt` | Passed | No known vulnerabilities found from a disposable venv |
+| Latest Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
+| Latest Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 existing skips |
+| Latest Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
 
 ## Pre-Review Reconciliation
 

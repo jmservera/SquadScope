@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: Three additional PR review threads on pushed head `ab2a8ec` are active; legacy rejection trust, metadata-associated cancellation, pagination, regression, validation, and delivery markers are reopened
+* Planning status: Three additional PR review threads are corrected, locally validated, committed, and pushed at `9db415d`; renewed hosted evidence remains under P04-T02
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -168,20 +168,20 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 ## Phase Checklist
 
 <!-- rpi:phase id=P01 -->
-### [ ] P01: Establish canonical state and identity-scoped history
+### [x] P01: Establish canonical state and identity-scoped history
 
 * Intent: centralize v2 identity/receipt semantics and stop unrelated legacy ambiguity from acting as a global blocker.
 * Dependencies: one independent critique completed; PC-001 through PC-006 resolved in this plan.
 
 <!-- rpi:task id=P01-T01 -->
-#### [ ] P01-T01: Add canonical state and receipt model
+#### [x] P01-T01: Add canonical state and receipt model
 
 * Requirement and evidence: FR-01, FR-03, FR-04; research C9-C13 and C19-C22.
 * Expected result: new `scripts/podcast_dispatch_state.py` validates identity, serializes/parses v2 receipts, reads the Issue ledger/artifact JSON, and computes stable incident keys.
 * Detail section: P01-T01 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:task id=P01-T02 -->
-#### [ ] P01-T02: Refactor detector to full identity and scoped ambiguity
+#### [x] P01-T02: Refactor detector to full identity and scoped ambiguity
 
 * Requirement and evidence: FR-01, FR-02, FR-05; run 32730109166 and current `check_duplicate_result`.
 * Expected result: detector and CLI require `manifest_sha256`; unrelated empty/unreadable history is ignored, while exact mapped uncertainty remains `ambiguous_prior_submission`.
@@ -234,7 +234,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Dependencies: P01-P03.
 
 <!-- rpi:task id=P04-T01 -->
-#### [ ] P04-T01: Implement locked semantic and regression matrix
+#### [x] P04-T01: Implement locked semantic and regression matrix
 
 * Requirement and evidence: caller regression list and research required test matrix.
 * Expected result: owned tests cover identity, legacy evidence, crash boundaries, no-mutation paths, monitor stages, incidents, security, and workflow structure.
@@ -248,13 +248,13 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Detail section: P04-T02 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:phase id=P05 -->
-### [ ] P05: Deliver review branch and independent review handoff
+### [x] P05: Deliver review branch and independent review handoff
 
 * Intent: preserve implementation evidence, publish the completed branch, and route the change through independent review and follow-up.
 * Dependencies: local P04-T02 evidence complete. Hosted gates remain mandatory after independent review opens the PR and before merge/readiness.
 
 <!-- rpi:task id=P05-T01 -->
-#### [ ] P05-T01: Record evidence and push review branch
+#### [x] P05-T01: Record evidence and push review branch
 
 * Requirement and evidence: FR-11 and caller delivery requirements, including independent review before PR creation.
 * Expected result: changes record is current, the branch is committed and pushed, and the independent reviewer receives the W38/W39 evidence, local validation, Podcaster contract dependency, rollback point, principal risks, and required future-PR references.
