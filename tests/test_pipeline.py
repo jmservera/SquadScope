@@ -1222,6 +1222,17 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("always()", reconcile["if"])
         self.assertEqual(reconcile["timeout-minutes"], 61)
         self.assertEqual(reconcile["permissions"]["issues"], "write")
+        reconcile_positions = {
+            step.get("name"): index for index, step in enumerate(reconcile["steps"])
+        }
+        self.assertLess(
+            reconcile_positions["Resolve authoritative ledger receipt"],
+            reconcile_positions["Monitor authoritative terminal outcome"],
+        )
+        resolver = reconcile["steps"][reconcile_positions["Resolve authoritative ledger receipt"]]
+        self.assertIn("podcast_dispatch_state.py resolve-receipt", resolver["run"])
+        self.assertIn("podcast-dispatch-authoritative-receipt.json", resolver["run"])
+        self.assertIn("podcast-dispatch-post-receipt.json", resolver["run"])
         monitor = next(
             step
             for step in reconcile["steps"]
@@ -1229,6 +1240,8 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIn("PODCASTER_STATUS_ENDPOINT", monitor["env"])
         self.assertIn("podcast_dispatch_state.py monitor", monitor["run"])
+        self.assertIn("podcast-dispatch-authoritative-receipt.json", monitor["run"])
+        self.assertNotIn("--receipt podcast-dispatch-post-receipt.json", monitor["run"])
 
     def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")

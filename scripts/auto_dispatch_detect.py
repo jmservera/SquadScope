@@ -162,11 +162,13 @@ def fetch_publish_branch() -> None:
 
 
 def _github_api_headers(token: str) -> dict[str, str]:
-    return {
+    headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
     }
+    headers["Authorization"] = f"Bearer {token}"
+    return headers
 
 
 def _github_api_json(url: str, token: str) -> dict[str, Any]:
@@ -777,20 +779,25 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
 
     gh_token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if not gh_token:
-        print("::warning::GH_TOKEN/GITHUB_TOKEN not set; skipping duplicate check.")
-        print("  Relying on concurrency group and Podcaster idempotency.")
+        print(
+            "::error::GH_TOKEN/GITHUB_TOKEN not set; trusted duplicate evidence is unavailable.",
+            file=sys.stderr,
+        )
         set_output("is_duplicate", "false")
         set_output("prior_run_url", "")
-        set_output("dedup_status", "skipped_missing_token")
-        return
+        set_output("dedup_status", "ambiguous_prior_submission")
+        sys.exit(1)
 
     repo = os.environ.get("GITHUB_REPOSITORY", "")
     if not repo:
-        print("::warning::GITHUB_REPOSITORY not set; skipping duplicate check.")
+        print(
+            "::error::GITHUB_REPOSITORY not set; trusted duplicate evidence is unavailable.",
+            file=sys.stderr,
+        )
         set_output("is_duplicate", "false")
         set_output("prior_run_url", "")
-        set_output("dedup_status", "skipped_missing_repository")
-        return
+        set_output("dedup_status", "ambiguous_prior_submission")
+        sys.exit(1)
 
     result = check_duplicate_result(
         week,
@@ -1053,6 +1060,7 @@ def check_duplicate_api(
                 "X-GitHub-Api-Version": "2022-11-28",
             },
         )
+        req.add_header("Authorization", f"Bearer {token}")
         with request.urlopen(req, timeout=15) as resp:  # nosec B310 - URL is constructed from trusted API endpoint
             data = json.loads(resp.read())
     except Exception:
@@ -1095,7 +1103,11 @@ def check_duplicate_result(
     token = gh_token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     repository = repo or os.environ.get("GITHUB_REPOSITORY", "")
     if not token or not repository:
-        return DuplicateCheckResult(status="clear", is_duplicate=False)
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            reason="trusted_evidence_configuration_unavailable",
+        )
 
     identity = DispatchIdentity(
         week=week,
@@ -1111,15 +1123,11 @@ def check_duplicate_result(
         for workflow_file in (AUTO_DISPATCH_WORKFLOW, TRIGGER_PODCAST_WORKFLOW):
             candidate_runs.extend(_list_workflow_runs(repository, token, workflow_file))
     except Exception:
-        ledger_receipts = []
-        try:
-            candidate_runs = []
-            for workflow_file in (AUTO_DISPATCH_WORKFLOW, TRIGGER_PODCAST_WORKFLOW):
-                candidate_runs.extend(_list_workflow_runs(repository, token, workflow_file))
-        except Exception:
-            return DuplicateCheckResult(status="clear", is_duplicate=False)
-
-    unreadable_prior_run_url: str | None = None
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            reason="trusted_evidence_unavailable",
+        )
 
     exact_ledger_receipts = [
         receipt for receipt in ledger_receipts if _receipt_identity_matches(receipt, identity)
@@ -1235,8 +1243,12 @@ def check_duplicate_result(
                         and legacy_publish_run_id != identity.publish_run_id
                     ):
                         continue
-            unreadable_prior_run_url = unreadable_prior_run_url or (_run_url(run) or None)
-            continue
+            return DuplicateCheckResult(
+                status="ambiguous_prior_submission",
+                is_duplicate=False,
+                prior_run_url=_run_url(run) or None,
+                reason="related_history_evidence_unavailable",
+            )
 
         compatibility, compat_identity = _compat_identity_for_run(
             run,
@@ -1275,14 +1287,6 @@ def check_duplicate_result(
                 prior_run_url=_run_url(run) or None,
                 reason="legacy_submission_without_canonical_receipt",
             )
-
-    if unreadable_prior_run_url is not None:
-        return DuplicateCheckResult(
-            status="ambiguous_prior_submission",
-            is_duplicate=False,
-            prior_run_url=unreadable_prior_run_url,
-            reason="prior run log/jobs unreadable",
-        )
 
     return DuplicateCheckResult(status="clear", is_duplicate=False)
 

@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: Implementation in progress; local P04-T02 evidence complete, P05-T01 active, hosted gates deferred until the post-review PR
+* Planning status: RV-001 through RV-006 complete and locally validated; PR creation is unblocked, with hosted P04-T02 gates deferred until the PR
 
 ## Task-Level Context
 
@@ -23,11 +23,11 @@
 
 | Phase ID | Name | Status | Detail sections |
 |---|---|---|---|
-| P01 | Establish canonical state and identity-scoped history | Complete | P01, P01-T01, P01-T02 |
-| P02 | Enforce durable receipt ordering around mutation | Complete | P02, P02-T01, P02-T02 |
-| P03 | Reconcile terminal outcome, latency, and incidents | Complete | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: P04-T01 complete; P04-T02 active | P04, P04-T01, P04-T02 |
-| P05 | Deliver review branch and independent review handoff | P05-T01 complete; independent review pending | P05, P05-T01, P05-T02 |
+| P01 | Establish canonical state and identity-scoped history | Complete after RV-001, RV-002, and RV-006 corrections | P01, P01-T01, P01-T02 |
+| P02 | Enforce durable receipt ordering around mutation | Complete after RV-001 and RV-003 corrections | P02, P02-T01, P02-T02 |
+| P03 | Reconcile terminal outcome, latency, and incidents | Complete after RV-001 and RV-003 through RV-005 corrections | P03, P03-T01, P03-T02 |
+| P04 | Complete locked regression and validation evidence | In progress: P04-T01 complete; all local P04-T02 gates pass; hosted gates await PR | P04, P04-T01, P04-T02 |
+| P05 | Deliver review branch and independent review handoff | Complete; independent review consumed and corrected branch ready to push | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->
 ## P01: Establish canonical state and identity-scoped history

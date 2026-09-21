@@ -17,6 +17,7 @@ from urllib import error, parse, request
 
 RECEIPT_SCHEMA_VERSION_V2 = "podcast_dispatch_receipt_v2"
 STATUS_SCHEMA_VERSION_V1 = "podcast_publication_status_v1"
+EXPECTED_DISPATCH_WORKFLOW_PATH = ".github/workflows/auto-podcast-dispatch.yml"
 LEDGER_MARKER = "<!-- podcast-dispatch-ledger:v2 -->"
 LEDGER_TITLE = "Podcast dispatch receipt ledger"
 INCIDENT_MARKER_PREFIX = "<!-- podcast-dispatch-incident:v1:"
@@ -149,6 +150,14 @@ class MonitorResult:
     synthesis_latency_seconds: int | None = None
     warning_emitted: bool = False
     detail: str = ""
+    cleanup_budget_seconds: float = 0
+
+
+class TerminalEvidenceError(ValueError):
+    def __init__(self, stage: str, state: str, message: str) -> None:
+        super().__init__(message)
+        self.stage = stage
+        self.state = state
 
 
 def canonical_identity_key(identity: CanonicalPublicationIdentity) -> str:
@@ -254,27 +263,58 @@ def parse_artifact_json(data: bytes) -> list[DispatchReceipt]:
 
 
 def _github_headers(token: str) -> dict[str, str]:
-    return {
+    headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
         "User-Agent": "SquadScope-Podcast-Dispatch/2",
     }
+    headers["Authorization"] = f"Bearer {token}"
+    return headers
 
 
 def _github_json(
-    url: str, token: str, *, method: str = "GET", payload: dict[str, Any] | None = None
+    url: str,
+    token: str,
+    *,
+    method: str = "GET",
+    payload: dict[str, Any] | None = None,
+    timeout: float = 20,
 ) -> Any:
     body = None if payload is None else json.dumps(payload).encode()
     req = request.Request(url, data=body, method=method, headers=_github_headers(token))
-    with request.urlopen(req, timeout=20) as response:  # nosec B310
+    with request.urlopen(req, timeout=timeout) as response:  # nosec B310
         return json.loads(response.read())
 
 
-def _iter_issue_pages(repo: str, token: str, state: str = "all") -> Iterable[dict[str, Any]]:
+def _remaining_timeout(
+    deadline: float | None,
+    monotonic: Callable[[], float],
+    maximum: float = REQUEST_TIMEOUT_SECONDS,
+) -> float:
+    if deadline is None:
+        return maximum
+    remaining = deadline - monotonic()
+    if remaining <= 0:
+        raise TimeoutError("GitHub operation cleanup budget exhausted")
+    return min(maximum, remaining)
+
+
+def _iter_issue_pages(
+    repo: str,
+    token: str,
+    state: str = "all",
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> Iterable[dict[str, Any]]:
     for page in range(1, 101):
         url = f"https://api.github.com/repos/{repo}/issues?state={state}&per_page=100&page={page}"
-        values = _github_json(url, token)
+        values = _github_json(
+            url,
+            token,
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
         if not isinstance(values, list):
             raise ValueError("issues response must be a list")
         yield from (value for value in values if isinstance(value, dict))
@@ -293,11 +333,51 @@ def _trusted_comment(comment: dict[str, Any], repo: str) -> bool:
     )
 
 
-def list_ledger_receipts(repo: str, token: str) -> list[DispatchReceipt]:
+def _trusted_dispatch_run(
+    repo: str,
+    token: str,
+    dispatch_run_id: str,
+    cache: dict[str, bool],
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> bool:
+    cached = cache.get(dispatch_run_id)
+    if cached is not None:
+        return cached
+    run = _github_json(
+        f"https://api.github.com/repos/{repo}/actions/runs/{dispatch_run_id}",
+        token,
+        timeout=_remaining_timeout(deadline, monotonic),
+    )
+    repository = run.get("repository") if isinstance(run, dict) else None
+    trusted = (
+        isinstance(run, dict)
+        and isinstance(repository, dict)
+        and repository.get("full_name") == repo
+        and run.get("path") == EXPECTED_DISPATCH_WORKFLOW_PATH
+        and str(run.get("id") or "") == dispatch_run_id
+    )
+    cache[dispatch_run_id] = trusted
+    return trusted
+
+
+def list_ledger_receipts(
+    repo: str,
+    token: str,
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> list[DispatchReceipt]:
     ledger = next(
         (
             issue
-            for issue in _iter_issue_pages(repo, token)
+            for issue in _iter_issue_pages(
+                repo,
+                token,
+                deadline=deadline,
+                monotonic=monotonic,
+            )
             if issue.get("title") == LEDGER_TITLE and LEDGER_MARKER in str(issue.get("body") or "")
         ),
         None,
@@ -308,8 +388,13 @@ def list_ledger_receipts(repo: str, token: str) -> list[DispatchReceipt]:
     if not comments_url.startswith(f"https://api.github.com/repos/{repo}/"):
         raise ValueError("untrusted ledger comments URL")
     receipts: list[DispatchReceipt] = []
+    run_trust_cache: dict[str, bool] = {}
     for page in range(1, 101):
-        comments = _github_json(f"{comments_url}?per_page=100&page={page}", token)
+        comments = _github_json(
+            f"{comments_url}?per_page=100&page={page}",
+            token,
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
         if not isinstance(comments, list):
             raise ValueError("comments response must be a list")
         for comment in comments:
@@ -325,6 +410,15 @@ def list_ledger_receipts(repo: str, token: str) -> list[DispatchReceipt]:
                     f"https://github.com/{repo}/actions/runs/{parsed.dispatch_run_id}"
                 )
                 if parsed.actions_run_url != expected_run_url:
+                    continue
+                if not _trusted_dispatch_run(
+                    repo,
+                    token,
+                    parsed.dispatch_run_id,
+                    run_trust_cache,
+                    deadline=deadline,
+                    monotonic=monotonic,
+                ):
                     continue
                 receipts.append(parsed)
         if len(comments) < 100:
@@ -371,27 +465,31 @@ def validate_terminal_status(
     payload: Any, identity: CanonicalPublicationIdentity, job_id: str, correlation_id: str
 ) -> TerminalStatus:
     if not isinstance(payload, dict) or payload.get("schema_version") != STATUS_SCHEMA_VERSION_V1:
-        raise ValueError("status schema unavailable")
+        raise TerminalEvidenceError("evidence_schema", "invalid", "status schema unavailable")
     if payload.get("identity") != identity.as_dict():
-        raise ValueError("status identity mismatch")
+        raise TerminalEvidenceError("evidence_mismatch", "rejected", "status identity mismatch")
     if payload.get("job_id") != job_id or payload.get("correlation_id", job_id) != correlation_id:
-        raise ValueError("status correlation mismatch")
+        raise TerminalEvidenceError("evidence_mismatch", "rejected", "status correlation mismatch")
     synthesis = payload.get("synthesis")
     video = payload.get("video")
     provider = payload.get("provider")
     if not all(isinstance(value, dict) for value in (synthesis, video, provider)):
-        raise ValueError("status stages missing")
+        raise TerminalEvidenceError("evidence_schema", "missing_stage", "status stages missing")
     synth_state = synthesis.get("state")
     video_state = video.get("state")
     provider_state = provider.get("state")
     if synth_state not in {"pending", "started", "succeeded", "failed", "unknown"}:
-        raise ValueError("invalid synthesis state")
+        raise TerminalEvidenceError("evidence_schema", "invalid", "invalid synthesis state")
     if video_state not in {"pending", "succeeded", "failed", "unknown"}:
-        raise ValueError("invalid video state")
+        raise TerminalEvidenceError("evidence_schema", "invalid", "invalid video state")
     if provider_state not in {"pending", "published", "failed", "unknown"}:
-        raise ValueError("invalid provider state")
+        raise TerminalEvidenceError("evidence_schema", "invalid", "invalid provider state")
     if not isinstance(provider.get("external_verified"), bool):
-        raise ValueError("provider external_verified missing")
+        raise TerminalEvidenceError(
+            "evidence_schema",
+            "missing_stage",
+            "provider external_verified missing",
+        )
     return TerminalStatus(
         identity=identity,
         job_id=job_id,
@@ -444,7 +542,14 @@ def fetch_terminal_status(
         headers={"x-podcaster-api-key": token, "Accept": "application/json"},
     )
     with request.urlopen(req, timeout=timeout) as response:  # nosec B310
-        payload = json.loads(response.read())
+        try:
+            payload = json.loads(response.read())
+        except json.JSONDecodeError as exc:
+            raise TerminalEvidenceError(
+                "evidence_schema",
+                "invalid",
+                "status response is not valid JSON",
+            ) from exc
     return validate_terminal_status(payload, identity, job_id, correlation_id)
 
 
@@ -455,24 +560,37 @@ def monitor_terminal_outcome(
     *,
     fetch: Callable[..., TerminalStatus] = fetch_terminal_status,
     monotonic: Callable[[], float] = time.monotonic,
+    wall_time: Callable[[], float] = time.time,
     sleep: Callable[[float], None] = time.sleep,
     warning: Callable[[int], None] | None = None,
     evidence_deadline: int = EVIDENCE_DEADLINE_SECONDS,
     poll_interval: int = POLL_INTERVAL_SECONDS,
 ) -> MonitorResult:
+    accepted_at = datetime.fromisoformat(receipt.created_at.replace("Z", "+00:00")).timestamp()
+    accepted_elapsed_at_start = max(0.0, wall_time() - accepted_at)
+    cleanup_at_start = max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - accepted_elapsed_at_start)
     if receipt.receipt_state != "accepted" or not receipt.podcaster_job_id:
-        return MonitorResult(False, "receipt", "not_accepted")
+        return MonitorResult(
+            False,
+            "receipt",
+            "not_accepted",
+            cleanup_budget_seconds=cleanup_at_start,
+        )
     if not endpoint:
-        return MonitorResult(False, "status_contract", "unavailable")
+        return MonitorResult(
+            False,
+            "status_contract",
+            "unavailable",
+            cleanup_budget_seconds=cleanup_at_start,
+        )
     correlation_id = receipt.correlation_id or receipt.podcaster_job_id
     started = monotonic()
-    accepted_at = datetime.fromisoformat(receipt.created_at.replace("Z", "+00:00")).timestamp()
     consecutive_errors = 0
     warning_emitted = False
     synthesis_latency: int | None = None
     latest: TerminalStatus | None = None
     while True:
-        elapsed = monotonic() - started
+        elapsed = accepted_elapsed_at_start + (monotonic() - started)
         remaining = evidence_deadline - elapsed
         if remaining <= 0:
             break
@@ -486,15 +604,36 @@ def monitor_terminal_outcome(
                 min(REQUEST_TIMEOUT_SECONDS, remaining),
             )
             consecutive_errors = 0
-        except (OSError, ValueError, json.JSONDecodeError, error.URLError):
+        except TerminalEvidenceError as exc:
+            elapsed = accepted_elapsed_at_start + (monotonic() - started)
+            return MonitorResult(
+                False,
+                exc.stage,
+                exc.state,
+                synthesis_latency,
+                warning_emitted,
+                str(exc),
+                max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+            )
+        except (OSError, error.URLError):
+            elapsed = accepted_elapsed_at_start + (monotonic() - started)
             consecutive_errors += 1
             if consecutive_errors >= MAX_CONSECUTIVE_ERRORS:
-                return MonitorResult(False, "evidence_unavailable", "error_budget_exhausted")
+                return MonitorResult(
+                    False,
+                    "evidence_unavailable",
+                    "error_budget_exhausted",
+                    synthesis_latency,
+                    warning_emitted,
+                    "",
+                    max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+                )
         else:
             if latest.synthesis_state in {"started", "succeeded"} and synthesis_latency is None:
-                synthesis_latency = max(0, int(time.time() - accepted_at))
+                synthesis_latency = max(0, int(wall_time() - accepted_at))
             result = evaluate_terminal_status(latest)
             if result is not None:
+                elapsed = accepted_elapsed_at_start + (monotonic() - started)
                 return MonitorResult(
                     result.success,
                     result.stage,
@@ -502,8 +641,9 @@ def monitor_terminal_outcome(
                     synthesis_latency,
                     warning_emitted,
                     result.detail,
+                    max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
                 )
-        elapsed = monotonic() - started
+        elapsed = accepted_elapsed_at_start + (monotonic() - started)
         if (
             synthesis_latency is None
             and elapsed >= SYNTHESIS_WARNING_SECONDS
@@ -522,7 +662,16 @@ def monitor_terminal_outcome(
         stage = "video"
     else:
         stage = "provider"
-    return MonitorResult(False, stage, "timeout", synthesis_latency, warning_emitted)
+    elapsed = accepted_elapsed_at_start + (monotonic() - started)
+    return MonitorResult(
+        False,
+        stage,
+        "timeout",
+        synthesis_latency,
+        warning_emitted,
+        "",
+        max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+    )
 
 
 def upsert_incident(
@@ -532,6 +681,9 @@ def upsert_incident(
     stage: str,
     state: str,
     evidence: dict[str, str | int | bool | None],
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
 ) -> str:
     key = incident_key(identity, stage, state)
     marker = f"{INCIDENT_MARKER_PREFIX}{key} -->"
@@ -550,7 +702,13 @@ def upsert_incident(
     existing = next(
         (
             issue
-            for issue in _iter_issue_pages(repo, token, "open")
+            for issue in _iter_issue_pages(
+                repo,
+                token,
+                "open",
+                deadline=deadline,
+                monotonic=monotonic,
+            )
             if marker in str(issue.get("body") or "")
         ),
         None,
@@ -562,6 +720,7 @@ def upsert_incident(
             token,
             method="POST",
             payload={"body": body},
+            timeout=_remaining_timeout(deadline, monotonic),
         )
         return str(existing.get("html_url") or "")
     try:
@@ -574,12 +733,19 @@ def upsert_incident(
                 "body": body,
                 "labels": ["podcast-dispatch-incident"],
             },
+            timeout=_remaining_timeout(deadline, monotonic),
         )
     except error.HTTPError:
         existing = next(
             (
                 issue
-                for issue in _iter_issue_pages(repo, token, "open")
+                for issue in _iter_issue_pages(
+                    repo,
+                    token,
+                    "open",
+                    deadline=deadline,
+                    monotonic=monotonic,
+                )
                 if marker in str(issue.get("body") or "")
             ),
             None,
@@ -591,10 +757,21 @@ def upsert_incident(
 
 
 def reconcile_identity_incidents(
-    repo: str, token: str, identity: CanonicalPublicationIdentity
+    repo: str,
+    token: str,
+    identity: CanonicalPublicationIdentity,
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
 ) -> None:
     identity_marker = f"* Identity key: `{canonical_identity_key(identity)}`"
-    for issue in _iter_issue_pages(repo, token, "open"):
+    for issue in _iter_issue_pages(
+        repo,
+        token,
+        "open",
+        deadline=deadline,
+        monotonic=monotonic,
+    ):
         if identity_marker not in str(issue.get("body") or ""):
             continue
         number = issue.get("number")
@@ -605,13 +782,49 @@ def reconcile_identity_incidents(
             token,
             method="POST",
             payload={"body": "Authoritative externally verified terminal publication succeeded."},
+            timeout=_remaining_timeout(deadline, monotonic),
         )
         _github_json(
             f"https://api.github.com/repos/{repo}/issues/{number}",
             token,
             method="PATCH",
             payload={"state": "closed", "state_reason": "completed"},
+            timeout=_remaining_timeout(deadline, monotonic),
         )
+
+
+def resolve_authoritative_receipt(
+    repo: str,
+    token: str,
+    identity: CanonicalPublicationIdentity,
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> DispatchReceipt | None:
+    exact = [
+        receipt
+        for receipt in list_ledger_receipts(
+            repo,
+            token,
+            deadline=deadline,
+            monotonic=monotonic,
+        )
+        if receipt.identity == identity
+    ]
+    if not exact:
+        return None
+    exact.sort(
+        key=lambda receipt: datetime.fromisoformat(receipt.created_at.replace("Z", "+00:00")),
+        reverse=True,
+    )
+    for receipt_state in ("accepted", "submission_unknown", "handoff_entered"):
+        match = next(
+            (receipt for receipt in exact if receipt.receipt_state == receipt_state),
+            None,
+        )
+        if match is not None:
+            return match
+    return exact[0]
 
 
 def _identity_from_args(args: argparse.Namespace) -> CanonicalPublicationIdentity:
@@ -673,6 +886,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     monitor.add_argument("--repo", default="")
     monitor.add_argument("--token", default="")
     monitor.add_argument("--summary", type=Path)
+    resolver = subparsers.add_parser("resolve-receipt")
+    _add_identity_args(resolver)
+    resolver.add_argument("--repo", required=True)
+    resolver.add_argument("--token", required=True)
+    resolver.add_argument("--output", type=Path, required=True)
     incident = subparsers.add_parser("upsert-incident")
     _add_identity_args(incident)
     incident.add_argument("--stage", required=True)
@@ -708,6 +926,19 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(url)
         return 0
+    if args.command == "resolve-receipt":
+        resolver_deadline = time.monotonic() + 60
+        receipt = resolve_authoritative_receipt(
+            args.repo,
+            args.token,
+            _identity_from_args(args),
+            deadline=resolver_deadline,
+        )
+        if receipt is None:
+            return 2
+        args.output.write_text(serialize_receipt(receipt) + "\n", encoding="utf-8")
+        print(serialize_receipt(receipt))
+        return 0
     parsed = parse_receipt(args.receipt.read_text(encoding="utf-8"))
     if not isinstance(parsed, DispatchReceipt):
         raise SystemExit("monitor requires v2 receipt")
@@ -715,24 +946,44 @@ def main(argv: list[str] | None = None) -> int:
 
     def warn(latency: int) -> None:
         if args.repo and args.token:
-            warning_urls.append(
-                upsert_incident(
-                    args.repo,
-                    args.token,
-                    parsed.identity,
-                    "synthesis_latency",
-                    "warning",
-                    {
-                        "dispatch_run_id": parsed.dispatch_run_id,
-                        "attempt_id": parsed.attempt_id,
-                        "job_id": parsed.podcaster_job_id,
-                        "correlation_id": parsed.correlation_id,
-                        "synthesis_latency_seconds": latency,
-                    },
-                )
+            accepted_at = datetime.fromisoformat(
+                parsed.created_at.replace("Z", "+00:00")
+            ).timestamp()
+            remaining_total = max(
+                0.0,
+                TOTAL_MONITOR_BUDGET_SECONDS - max(0.0, time.time() - accepted_at),
             )
+            warning_deadline = time.monotonic() + min(
+                REQUEST_TIMEOUT_SECONDS,
+                remaining_total,
+            )
+            try:
+                warning_urls.append(
+                    upsert_incident(
+                        args.repo,
+                        args.token,
+                        parsed.identity,
+                        "synthesis_latency",
+                        "warning",
+                        {
+                            "dispatch_run_id": parsed.dispatch_run_id,
+                            "attempt_id": parsed.attempt_id,
+                            "job_id": parsed.podcaster_job_id,
+                            "correlation_id": parsed.correlation_id,
+                            "synthesis_latency_seconds": latency,
+                        },
+                        deadline=warning_deadline,
+                    )
+                )
+            except (OSError, TimeoutError, ValueError, error.HTTPError, error.URLError) as exc:
+                warning_urls.append("unavailable")
+                print(
+                    f"::warning::Synthesis latency incident persistence failed: "
+                    f"{type(exc).__name__}"
+                )
 
     result = monitor_terminal_outcome(parsed, args.endpoint, args.api_key, warning=warn)
+    cleanup_deadline = time.monotonic() + result.cleanup_budget_seconds
     summary = (
         f"## Podcast dispatch reconciliation\n\n"
         f"- Identity key: `{canonical_identity_key(parsed.identity)}`\n"
@@ -746,7 +997,12 @@ def main(argv: list[str] | None = None) -> int:
             output.write(summary)
     if result.success:
         if args.repo and args.token:
-            reconcile_identity_incidents(args.repo, args.token, parsed.identity)
+            reconcile_identity_incidents(
+                args.repo,
+                args.token,
+                parsed.identity,
+                deadline=cleanup_deadline,
+            )
         return 0
     if args.repo and args.token:
         upsert_incident(
@@ -763,6 +1019,7 @@ def main(argv: list[str] | None = None) -> int:
                 "actions_run_url": parsed.actions_run_url,
                 "synthesis_latency_seconds": result.synthesis_latency_seconds,
             },
+            deadline=cleanup_deadline,
         )
     return 1
 

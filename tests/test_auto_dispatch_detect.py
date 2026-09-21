@@ -505,6 +505,9 @@ class TestDuplicateCheck(unittest.TestCase):
         logs: dict[int, str] | None = None,
     ):
         routes = {
+            (
+                f"https://api.github.com/repos/{self._REPO}/issues?state=all&per_page=100&page=1"
+            ): _FakeHTTPResponse(b"[]"),
             self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW): _gh_runs_response(
                 auto_runs or []
             ),
@@ -582,7 +585,7 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertTrue(duplicate)
         self.assertIsNone(prior_url)
 
-    def test_complete_identity_without_credentials_retains_clear_result(self):
+    def test_complete_identity_without_credentials_fails_closed(self):
         with mock.patch.dict(os.environ, {}, clear=True):
             result = detect.check_duplicate_result(
                 WEEK,
@@ -591,8 +594,9 @@ class TestDuplicateCheck(unittest.TestCase):
                 manifest_sha256=KNOWN_MANIFEST_SHA256,
             )
 
-        self.assertEqual(result.status, "clear")
+        self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.reason, "trusted_evidence_configuration_unavailable")
 
     def test_compatibility_wrapper_preserves_positional_token_and_repo_order(self):
         duplicate, prior_url = detect.check_duplicate(
@@ -604,7 +608,7 @@ class TestDuplicateCheck(unittest.TestCase):
             manifest_sha256=KNOWN_MANIFEST_SHA256,
         )
 
-        self.assertFalse(duplicate)
+        self.assertTrue(duplicate)
         self.assertIsNone(prior_url)
 
     def test_real_receipt_blocks_duplicate_dispatch(self):
@@ -1361,17 +1365,36 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
 
-    def test_api_failure_non_blocking(self):
+    def test_complete_evidence_outage_fails_closed(self):
         with (
             mock.patch.object(detect, "fetch_publish_branch"),
             mock.patch("urllib.request.urlopen", side_effect=OSError("network error")),
         ):
             result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
-        self.assertEqual(result.status, "clear")
+        self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.reason, "trusted_evidence_unavailable")
 
-    def test_unreadable_run_logs_returns_ambiguous(self):
+    def test_missing_evidence_configuration_fails_closed(self):
+        for token, repository in ((None, self._REPO), (self._GH_TOKEN, "")):
+            with self.subTest(token=bool(token), repository=bool(repository)):
+                result = detect.check_duplicate_result(
+                    WEEK,
+                    RUN_ID,
+                    KNOWN_SHA256,
+                    token,
+                    repository,
+                    manifest_sha256=KNOWN_MANIFEST_SHA256,
+                )
+                self.assertEqual(result.status, "ambiguous_prior_submission")
+                self.assertFalse(result.is_duplicate)
+                self.assertEqual(
+                    result.reason,
+                    "trusted_evidence_configuration_unavailable",
+                )
+
+    def test_unreadable_related_run_evidence_returns_ambiguous(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
         run["name"] = f"Auto-dispatch: {WEEK}"
         run["display_title"] = run["name"]
@@ -1379,6 +1402,10 @@ class TestDuplicateCheck(unittest.TestCase):
 
         def _open(req, timeout=20):
             url = req.full_url
+            if url == (
+                f"https://api.github.com/repos/{self._REPO}/issues?state=all&per_page=100&page=1"
+            ):
+                return _FakeHTTPResponse(b"[]")
             if url == self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW):
                 return _gh_runs_response([run])
             if url == self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW):
@@ -1404,6 +1431,10 @@ class TestDuplicateCheck(unittest.TestCase):
 
         def _open(req, timeout=20):
             url = req.full_url
+            if url == (
+                f"https://api.github.com/repos/{self._REPO}/issues?state=all&per_page=100&page=1"
+            ):
+                return _FakeHTTPResponse(b"[]")
             if url == self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW):
                 return _gh_runs_response([])
             if url == self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW):
@@ -1422,7 +1453,7 @@ class TestDuplicateCheck(unittest.TestCase):
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
-        self.assertEqual(result.reason, "prior run log/jobs unreadable")
+        self.assertEqual(result.reason, "related_history_evidence_unavailable")
 
     def test_unreadable_manual_skipped_handoff_is_pre_submit(self):
         run = self._run(
@@ -1432,6 +1463,10 @@ class TestDuplicateCheck(unittest.TestCase):
 
         def _open(req, timeout=20):
             url = req.full_url
+            if url == (
+                f"https://api.github.com/repos/{self._REPO}/issues?state=all&per_page=100&page=1"
+            ):
+                return _FakeHTTPResponse(b"[]")
             if url == self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW):
                 return _gh_runs_response([])
             if url == self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW):
@@ -1450,6 +1485,7 @@ class TestDuplicateCheck(unittest.TestCase):
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
+        self.assertIsNone(result.reason)
 
     def test_unreadable_manual_rerun_with_skipped_job_remains_ambiguous(self):
         run = self._run(

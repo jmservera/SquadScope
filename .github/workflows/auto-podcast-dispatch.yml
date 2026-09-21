@@ -676,26 +676,65 @@ jobs:
         continue-on-error: true
         with:
           name: podcast-dispatch-post-receipt
+      - name: Resolve authoritative ledger receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          python3 scripts/podcast_dispatch_state.py resolve-receipt \
+            --week "${{ needs.detect.outputs.week }}" \
+            --publish-run-id "${{ needs.detect.outputs.publish_run_id }}" \
+            --article-sha256 "${{ needs.detect.outputs.article_sha256 }}" \
+            --manifest-sha256 "${{ needs.detect.outputs.manifest_sha256 }}" \
+            --repo "${{ github.repository }}" --token "$GH_TOKEN" \
+            --output podcast-dispatch-authoritative-receipt.json
+          resolve_status=$?
+          set -e
+          if [ "$resolve_status" -ne 0 ]; then
+            state="unavailable"
+            [ "$resolve_status" -eq 2 ] && state="missing"
+            python3 scripts/podcast_dispatch_state.py upsert-incident \
+              --week "${{ needs.detect.outputs.week }}" \
+              --publish-run-id "${{ needs.detect.outputs.publish_run_id }}" \
+              --article-sha256 "${{ needs.detect.outputs.article_sha256 }}" \
+              --manifest-sha256 "${{ needs.detect.outputs.manifest_sha256 }}" \
+              --stage ledger --state "$state" \
+              --repo "${{ github.repository }}" --token "$GH_TOKEN" \
+              --dispatch-run-id "${{ github.run_id }}"
+            echo "::error::Authoritative ledger receipt could not be resolved."
+            exit 1
+          fi
+          if [ -f podcast-dispatch-post-receipt.json ]; then
+            python3 - <<'PY'
+          from pathlib import Path
+          from scripts.podcast_dispatch_state import DispatchReceipt, parse_receipt
+
+          authoritative = parse_receipt(
+              Path("podcast-dispatch-authoritative-receipt.json").read_text(encoding="utf-8")
+          )
+          diagnostic = parse_receipt(
+              Path("podcast-dispatch-post-receipt.json").read_text(encoding="utf-8")
+          )
+          if not isinstance(authoritative, DispatchReceipt):
+              raise SystemExit("authoritative receipt is not v2")
+          if not isinstance(diagnostic, DispatchReceipt):
+              raise SystemExit("diagnostic receipt is not v2")
+          if (
+              diagnostic.identity != authoritative.identity
+              or diagnostic.attempt_id != authoritative.attempt_id
+              or diagnostic.receipt_state != authoritative.receipt_state
+          ):
+              print("::warning::Diagnostic receipt mirror does not match authoritative ledger.")
+          PY
+          fi
       - name: Monitor authoritative terminal outcome
         env:
           GH_TOKEN: ${{ github.token }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
           PODCASTER_STATUS_ENDPOINT: ${{ vars.PODCASTER_STATUS_ENDPOINT }}
         run: |
-          if [ ! -f podcast-dispatch-post-receipt.json ]; then
-            python3 scripts/podcast_dispatch_state.py upsert-incident \
-              --week "${{ needs.detect.outputs.week }}" \
-              --publish-run-id "${{ needs.detect.outputs.publish_run_id }}" \
-              --article-sha256 "${{ needs.detect.outputs.article_sha256 }}" \
-              --manifest-sha256 "${{ needs.detect.outputs.manifest_sha256 }}" \
-              --stage submission --state "${{ needs.detect.outputs.dedup_status == 'ambiguous_prior_submission' && 'ambiguous' || 'acknowledgement_missing' }}" \
-              --repo "${{ github.repository }}" --token "$GH_TOKEN" \
-              --dispatch-run-id "${{ github.run_id }}"
-            echo "::error::Missing post receipt; exact identity requires reconciliation."
-            exit 1
-          fi
           python3 scripts/podcast_dispatch_state.py monitor \
-            --receipt podcast-dispatch-post-receipt.json \
+            --receipt podcast-dispatch-authoritative-receipt.json \
             --endpoint "$PODCASTER_STATUS_ENDPOINT" --api-key "$PODCASTER_API_KEY" \
             --repo "${{ github.repository }}" --token "$GH_TOKEN" \
             --summary "$GITHUB_STEP_SUMMARY"

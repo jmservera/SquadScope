@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: Implementation in progress; local P04-T02 evidence complete, P05-T01 active, hosted gates deferred until the post-review PR
+* Planning status: Review corrections RV-001 through RV-006 complete and locally validated; PR creation is unblocked, with hosted gates remaining under P04-T02 after PR creation
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -248,7 +248,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Detail section: P04-T02 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:phase id=P05 -->
-### [ ] P05: Deliver review branch and independent review handoff
+### [x] P05: Deliver review branch and independent review handoff
 
 * Intent: preserve implementation evidence, publish the completed branch, and route the change through independent review and follow-up.
 * Dependencies: local P04-T02 evidence complete. Hosted gates remain mandatory after independent review opens the PR and before merge/readiness.
@@ -261,7 +261,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Detail section: P05-T01 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:task id=P05-T02 -->
-#### [ ] P05-T02: Route independent implementation review and follow-up
+#### [x] P05-T02: Route independent implementation review and follow-up
 
 * Requirement and evidence: required lifecycle.
 * Expected result: independent review compares plan/changes/tests/PR; accepted follow-ups are recorded without silently expanding this implementation.
@@ -383,6 +383,6 @@ Exactly one independent critique was completed at `.copilot-tracking/critiques/2
 ## Handoff
 
 * Implementation artifact: .copilot-tracking/changes/2026-09-21/podcast-dispatch-identity-reconciliation-changes.md
-* Ready phase or task: P01
-* Remaining provisional question or blocker: none; Podcaster status deployment is an explicit external dependency with a safe failing behavior
-* Implementation handoff: run `/rpi-implement` against this plan and use the implementation artifact above as the changes/evidence record; do not run another plan critique
+* Ready phase or task: P04-T02 hosted gates after PR creation
+* Remaining provisional question or blocker: none for PR creation; Podcaster status deployment remains an explicit external dependency with a safe failing behavior, and hosted CI/security/smoke evidence remains mandatory before merge/readiness
+* Implementation handoff: create the PR from the corrected pushed branch, then complete the remaining hosted P04-T02 evidence; do not run another plan critique or implementation review
