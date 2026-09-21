@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from scripts import ai_output_guard
+from scripts.analyze_fallback import estimate_tokens
 from scripts.canary_token import generate_canary, inject_canary
 
 
@@ -55,6 +56,36 @@ def test_rotate_and_validate_clean_output(tmp_path: Path) -> None:
         )
         == 0
     )
+
+
+def test_rotate_uses_utf8_byte_token_estimate(tmp_path: Path) -> None:
+    prompt_path = tmp_path / "prompt.md"
+    token_path = tmp_path / "canary.txt"
+    preflight_path = tmp_path / "preflight.json"
+    original_canary = generate_canary()
+    prompt_path.write_text(
+        inject_canary("# Analysis\n\nEvidence: 日本語 🚀\n", original_canary),
+        encoding="utf-8",
+    )
+    token_path.write_text(original_canary + "\n", encoding="utf-8")
+    preflight_path.write_text(
+        json.dumps(
+            {
+                "prompt_token_budget": 1000,
+                "components": [{"name": "rendered_prompt"}],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    ai_output_guard.rotate_canary(prompt_path, token_path, preflight_path)
+
+    prompt = prompt_path.read_text(encoding="utf-8")
+    report = json.loads(preflight_path.read_text(encoding="utf-8"))
+    expected_tokens = estimate_tokens(prompt)
+    assert report["prompt_tokens"] == expected_tokens
+    assert report["rendered_prompt_estimate"]["tokens"] == expected_tokens
+    assert report["components"][0]["token_estimate"] == expected_tokens
 
 
 def test_validate_rejects_canary_leak(tmp_path: Path) -> None:

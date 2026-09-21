@@ -10,11 +10,11 @@ import sys
 from pathlib import Path
 
 try:
-    from scripts.analyze_fallback import validate_output_safety
+    from scripts.analyze_fallback import estimate_tokens, validate_output_safety
     from scripts.canary_token import generate_canary
 except ModuleNotFoundError:  # pragma: no cover - direct script execution path
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scripts.analyze_fallback import validate_output_safety
+    from scripts.analyze_fallback import estimate_tokens, validate_output_safety
     from scripts.canary_token import generate_canary
 
 
@@ -46,7 +46,7 @@ def rotate_canary(prompt_path: Path, token_path: Path, preflight_path: Path) -> 
 
     report = json.loads(preflight_path.read_text(encoding="utf-8"))
     prompt_bytes = len(prompt.encode("utf-8"))
-    prompt_tokens = max(1, (len(prompt) + 3) // 4)
+    prompt_tokens = estimate_tokens(prompt)
     checksum = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
     report["prompt_bytes"] = prompt_bytes
     report["prompt_tokens"] = prompt_tokens
