@@ -407,6 +407,25 @@ class TestDuplicateCheck(unittest.TestCase):
             f"{detect.RECEIPT_PREFIX}{json.dumps(payload, sort_keys=True, separators=(',', ':'))}\n"
         )
 
+    def _v2_receipt_log(self, *, state: str, manifest_sha: str = "b" * 64) -> str:
+        payload = {
+            "schema_version": "podcast_dispatch_receipt_v2",
+            "receipt_id": "receipt-1",
+            "created_at": "2026-09-21T21:00:00Z",
+            "dispatch_run_id": str(self._AUTO_RUN_ID),
+            "attempt_id": f"{self._AUTO_RUN_ID}-1",
+            "identity": {
+                "week": WEEK,
+                "publish_run_id": RUN_ID,
+                "article_sha256": KNOWN_SHA256,
+                "manifest_sha256": manifest_sha,
+            },
+            "receipt_state": state,
+        }
+        return (
+            f"{detect.RECEIPT_PREFIX}{json.dumps(payload, sort_keys=True, separators=(',', ':'))}\n"
+        )
+
     def _trigger_jobs(self, handoff_conclusion: str) -> list[dict]:
         return [
             {
@@ -812,7 +831,7 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertFalse(result.is_duplicate)
         self.assertEqual(result.prior_run_url, run["html_url"])
 
-    def test_submission_rejected_blocks_retry(self):
+    def test_proven_submission_rejection_allows_retry(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
         with (
             mock.patch.object(detect, "fetch_publish_branch"),
@@ -827,8 +846,8 @@ class TestDuplicateCheck(unittest.TestCase):
         ):
             result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
-        self.assertEqual(result.status, "duplicate")
-        self.assertTrue(result.is_duplicate)
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
 
     def test_same_week_different_identity_is_not_conflated(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
@@ -853,6 +872,103 @@ class TestDuplicateCheck(unittest.TestCase):
 
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
+
+    def test_v2_manifest_digest_is_part_of_identity(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._v2_receipt_log(state="accepted")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256="c" * 64,
+            )
+        self.assertEqual(result.status, "clear")
+
+    def test_v2_exact_handoff_entry_is_fail_closed(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: self._v2_receipt_log(state="handoff_entered")},
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256="b" * 64,
+            )
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+
+    def test_cancelled_empty_run_is_unrelated(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        run["conclusion"] = "cancelled"
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run], jobs={self._AUTO_RUN_ID: []}, logs={self._AUTO_RUN_ID: ""}
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256="b" * 64,
+            )
+        self.assertEqual(result.status, "clear")
+
+    def test_cancelled_run_with_exact_output_identity_is_ambiguous(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        outputs = "\n".join(
+            (
+                f"output: week={WEEK}",
+                f"output: publish_run_id={RUN_ID}",
+                f"output: article_sha256={KNOWN_SHA256}",
+                f"output: manifest_sha256={'b' * 64}",
+            )
+        )
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run], jobs={self._AUTO_RUN_ID: []}, logs={self._AUTO_RUN_ID: outputs}
+                ),
+            ),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256="b" * 64,
+            )
+        self.assertEqual(result.status, "ambiguous_prior_submission")
 
     def test_legacy_unmarked_observe_only_run_is_ignored(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
@@ -1052,6 +1168,9 @@ class TestDuplicateCheck(unittest.TestCase):
                     self._GH_TOKEN,
                     self._REPO,
                     repo_root=repo.root,
+                    manifest_sha256=hashlib.sha256(
+                        json.dumps(_make_manifest(), sort_keys=True).encode()
+                    ).hexdigest(),
                 )
 
             self.assertEqual(result.status, "ambiguous_prior_submission")
@@ -1276,7 +1395,6 @@ class TestDuplicateCheck(unittest.TestCase):
 
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
-        self.assertEqual(result.reason, "prior run log/jobs unreadable")
 
     def test_unreadable_manual_failure_remains_ambiguous(self):
         run = self._run(

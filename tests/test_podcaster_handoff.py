@@ -763,7 +763,13 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("status=accepted", notice)
 
     def test_main_writes_only_safe_action_outputs(self) -> None:
-        response = {"job_id": "podcast%0Ajob", "status": "accepted", "errors": []}
+        response = {
+            "job_id": "podcast%0Ajob",
+            "correlation_id": "correlation-123",
+            "status": "accepted",
+            "api_status": 202,
+            "errors": [],
+        }
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "outputs"
             with (
@@ -797,6 +803,8 @@ class PodcasterHandoffTests(unittest.TestCase):
                 output_path.read_text(encoding="utf-8"),
                 "podcaster_job_id=podcast%250Ajob\n"
                 "podcaster_status=accepted\n"
+                "podcaster_http_status=202\n"
+                "podcaster_correlation_id=correlation-123\n"
                 "podcaster_receipt_state=submitted\n",
             )
 
@@ -1280,20 +1288,13 @@ class PodcasterHandoffTests(unittest.TestCase):
                     },
                 )
         msg = str(ctx.exception)
-        # Body IS included
-        self.assertIn("Response body:", msg)
-        self.assertIn("line1", msg)
-        # Truncated: 1024 bytes read max, so not all 1100 'A's appear
-        self.assertLessEqual(len(msg), 1200)
-        # Sanitized: no newlines or :: sequences
-        body_part = msg.split("Response body: ", 1)[1]
-        self.assertNotIn("\n", body_part)
-        self.assertNotIn("\r", body_part)
-        self.assertNotIn("::", body_part)
+        self.assertEqual(msg, "Podcaster handoff failed with HTTP 502.")
         self.assertEqual(
             ctx.exception.receipt_state,
             podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
         )
+        self.assertEqual(ctx.exception.api_status, 502)
+        self.assertEqual(ctx.exception.api_status_category, "http_rejected")
 
     def test_article_url_from_page_path_matches_hugo_weekly_permalink(self) -> None:
         self.assertEqual(

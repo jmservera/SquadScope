@@ -1160,7 +1160,7 @@ class WorkflowConfigTests(unittest.TestCase):
         real_generation = workflow["jobs"]["real-generation"]
         self.assertEqual(
             real_generation["concurrency"]["group"],
-            "podcast-dispatch-${{ needs.detect.outputs.week }}-${{ needs.detect.outputs.publish_run_id }}",
+            "podcast-dispatch-${{ needs.detect.outputs.identity_key }}",
         )
         self.assertFalse(real_generation["concurrency"]["cancel-in-progress"])
         locate = next(
@@ -1168,34 +1168,67 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIn("DETECT_MANIFEST_SHA256", locate["env"])
         self.assertIn("Manifest SHA-256 mismatch", locate["run"])
-        evidence = next(
+        post_ledger = next(
             step
             for step in real_generation["steps"]
-            if step["name"] == "Retain real generation evidence"
+            if step["name"] == "Persist post receipt to ledger"
         )
         self.assertIn(
             "steps.manifest-locate.outputs.manifest_sha256 || needs.detect.outputs.manifest_sha256",
-            evidence["env"]["MANIFEST_SHA256"],
+            post_ledger["env"]["MANIFEST_SHA256"],
         )
         self.assertIn(
             "steps.manifest-locate.outputs.article_sha256 || needs.detect.outputs.article_sha256",
-            evidence["env"]["ARTICLE_SHA256"],
+            post_ledger["env"]["ARTICLE_SHA256"],
+        )
+        self.assertIn("PODCASTER_RECEIPT_STATE", post_ledger["env"])
+        self.assertIn('STATE="${PODCASTER_RECEIPT_STATE:-submission_unknown}"', post_ledger["run"])
+        self.assertIn("podcast_dispatch_state.py write-receipt", post_ledger["run"])
+        self.assertIn("--append-ledger", post_ledger["run"])
+
+        steps = real_generation["steps"]
+        positions = {step.get("name"): index for index, step in enumerate(steps)}
+        ordered = [
+            "Prepare mutation receipt",
+            "Persist prepared receipt",
+            "Mirror prepared receipt",
+            "Persist handoff-entered boundary",
+            "Trigger podcast generation",
+            "Persist post receipt to ledger",
+            "Upload post receipt mirror",
+            "Assert post persistence",
+        ]
+        self.assertEqual(
+            [positions[name] for name in ordered], sorted(positions[name] for name in ordered)
+        )
+        self.assertEqual(real_generation["permissions"]["issues"], "write")
+        self.assertEqual(real_generation["permissions"]["contents"], "read")
+        pre_mirror = steps[positions["Mirror prepared receipt"]]
+        post_mirror = steps[positions["Upload post receipt mirror"]]
+        self.assertEqual(pre_mirror["with"]["retention-days"], 90)
+        self.assertEqual(post_mirror["with"]["retention-days"], 90)
+        self.assertTrue(pre_mirror["continue-on-error"])
+        self.assertTrue(post_mirror["continue-on-error"])
+        self.assertEqual(
+            steps[positions["Persist post receipt to ledger"]]["if"],
+            "always() && steps.handoff-boundary.outcome == 'success'",
+        )
+        self.assertIn(
+            "handoff_entered", steps[positions["Persist handoff-entered boundary"]]["run"]
         )
 
-        self.assertIn("PODCASTER_RECEIPT_STATE", evidence["env"])
-        self.assertIn("PODCAST_DISPATCH_RECEIPT::", evidence["run"])
-        self.assertIn("Receipt state:", evidence["run"])
-        self.assertIn("Eligible publication was not submitted", evidence["run"])
-        self.assertEqual(evidence["run"].count("Eligible publication was not submitted"), 1)
-        self.assertIn("Eligible publication has an unknown submission outcome", evidence["run"])
-        self.assertIn('RECEIPT_STATE="submission_unknown"', evidence["run"])
-        self.assertIn("article_sha256=${ARTICLE_SHA256}", evidence["run"])
-        self.assertIn("manifest_sha256=${MANIFEST_SHA256}", evidence["run"])
-        self.assertIn("Failure stage:", evidence["run"])
-        self.assertIn(
-            "submission_unknown and submission_rejected remain blocked pending manual reconciliation",
-            evidence["run"],
+        reconcile = workflow["jobs"]["reconcile"]
+        self.assertEqual(reconcile["needs"], ["detect", "real-generation"])
+        self.assertIn("always()", reconcile["if"])
+        self.assertEqual(reconcile["timeout-minutes"], 61)
+        self.assertEqual(reconcile["permissions"]["issues"], "write")
+        monitor = next(
+            step
+            for step in reconcile["steps"]
+            if step.get("name") == "Monitor authoritative terminal outcome"
         )
+        self.assertIn("PODCASTER_STATUS_ENDPOINT", monitor["env"])
+        self.assertIn("podcast_dispatch_state.py monitor", monitor["run"])
 
     def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")
