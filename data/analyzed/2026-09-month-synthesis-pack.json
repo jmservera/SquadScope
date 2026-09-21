@@ -3,12 +3,12 @@
   "prior_month_context": [
     {
       "month": "2026-08",
-      "summary": "August 2026 was defined by ai agents, agent skills, and developer tools. Later in the month, mcp, self hosting, and agent governance gathered pace.",
+      "summary": "August 2026 was defined by agent skills, ai agents, and developer tools. Later in the month, mcp, self hosting, and agent governance gathered pace.",
       "title": "MCP and Self Hosting Surge \u2014 August 2026"
     },
     {
       "month": "2026-07",
-      "summary": "July 2026 was defined by agent skills, security, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace.",
+      "summary": "July 2026 was defined by security, agent skills, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace.",
       "title": "Discovery Noise and Local AI Surge \u2014 July 2026"
     },
     {
@@ -17,7 +17,7 @@
       "title": "Security and Agent Frameworks Surge \u2014 June 2026"
     }
   ],
-  "synthesis_version": 4,
+  "synthesis_version": 8,
   "weeks": [
     {
       "conclusion": "Watch whether agent memory turns into a cluster rather than a one-off. If [okf-memory/okf-agent-memory](https://github.com/okf-memory/okf-agent-memory) attracts adjacent tools for audit, migration, or evaluation, September's agent story will move from orchestration into governance infrastructure. Also watch whether [lnkiai/m3e-canvas](https://github.com/lnkiai/m3e-canvas) sustains past novelty; design-to-code tools are useful, but only durable if they survive real product iteration.",
@@ -68,10 +68,36 @@
       "title": "AI Moves From Agents to Production Substrates",
       "top_repo": "openai/NavierStokesAndEuler",
       "week": "2026-W38"
+    },
+    {
+      "conclusion": "Watch whether typed-decision projects produce benchmarks, training data, and independent integrations after their launch burst. Sustained commits and deployment evidence would turn a Jev-shaped attention spike into an architectural category; another round of near-identical lists and wrappers would do the opposite. Agent harnesses will keep expanding, but the consequential contest is shifting toward evaluation, permissions, and efficient runtimes around them.",
+      "featured_repos": [
+        "mizorewww/laya-mlx",
+        "bespokelabsai/nimble",
+        "jaredpalmer/kev",
+        "browser-use/jev-ultrafast",
+        "zai-org/ZCode"
+      ],
+      "gaps": "Agent authorization remains conspicuously absent. The crawl is rich in harnesses, skills, computer control, and decision components, yet thin on least-privilege policy, tamper-evident action logs, replayable approvals, and incident forensics. Evaluation appears as a feature, but there is little visible work on cross-vendor reproducibility or failure testing that would validate the press's consistency concerns. The open repository layer also trails the press on energy-aware inference, scientific simulation, and clinical assurance. NVIDIA's infrastructure and healthcare stories show where deployment pressure is growing, but this sample offers no independent cluster for scheduling AI against grid constraints, validating medical models, or governing world-model training environments. The absence suggests that capital-intensive and regulated AI remains less observable through new GitHub launches.",
+      "noise": "",
+      "signal": "The strongest signal lies in projects whose claims can be tested without accepting their branding. [mizorewww/laya-mlx](https://github.com/mizorewww/laya-mlx) names a hardware target, runtime, and latency range; [bespokelabsai/nimble](https://github.com/bespokelabsai/nimble) connects decisions to curation and evaluation; [zai-org/ZCode](https://github.com/zai-org/ZCode) offers an Apache-licensed harness with substantial early fork activity. [robbietilton/Compositor](https://github.com/robbietilton/Compositor) is also notable precisely because it solves a legible desktop-software problem outside the AI launch cycle. The broader Jev cluster demands skepticism. [browser-use/jev-ultrafast](https://github.com/browser-use/jev-ultrafast), [tamaratran/fast-jev-compaction](https://github.com/tamaratran/fast-jev-compaction), [jarrodwatts/jev-trader](https://github.com/jarrodwatts/jev-trader), [TianyuCodings/NanoJev](https://github.com/TianyuCodings/NanoJev), and two new curated lists appeared in a narrow window with repeated vocabulary and extraordinary first-week totals. That does not prove manipulation, but it prevents the stars from serving as independent confirmation. The sample also carries familiar integrity and security churn: [korcarc/text-humanizer](https://github.com/korcarc/text-humanizer) explicitly sells detector evasion, while [arvindear/wp2shell-PoC](https://github.com/arvindear/wp2shell-PoC) and [ctdal/cve-2026-41940-PoC](https://github.com/ctdal/cve-2026-41940-PoC) package exploit chains. These may attract attention, but they do not support a constructive tooling trend.",
+      "summary": "Local typed-decision models promise cheaper, faster agents, but a coordinated Jev-shaped launch wave makes evidence more valuable than attention.",
+      "tags": [
+        "typed-decisions",
+        "local-ai",
+        "coding-agents",
+        "agent-skills",
+        "evaluation",
+        "security"
+      ],
+      "title": "Typed Decisions Challenge the General-Purpose Agent",
+      "top_repo": "mizorewww/laya-mlx",
+      "week": "2026-W39"
     }
   ],
   "weeks_covered": [
     "2026-W37",
-    "2026-W38"
+    "2026-W38",
+    "2026-W39"
   ]
 }

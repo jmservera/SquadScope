@@ -1,0 +1,459 @@
+{
+  "checksum_sha256": "d83a8f806fcc459524ee449374743c2e38909d9a03fec0ceea73ec69fc7a5ef2",
+  "component": "new_repos",
+  "provenance": {
+    "sources": {
+      "raw_json": {
+        "bytes": 412229,
+        "path": "data/raw/2026-W36.json",
+        "sha256": "f6fead0324cb5e2b603313b6cb189eebf246ae22b9911baea25b05b63365693f"
+      }
+    },
+    "week": "2026-W36"
+  },
+  "records": [
+    {
+      "created_at": "2026-08-27T14:20:58Z",
+      "description": "Autonomous research system for measurable, computer-executable research.",
+      "full_name": "sapientinc/PRAXIST",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 4806,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/sapientinc/PRAXIST"
+    },
+    {
+      "created_at": "2026-08-28T12:57:24Z",
+      "description": "ChatGPT thinks. Codex works. Use ChatGPT as the planning brain while keeping the Codex harness.",
+      "full_name": "XiaoDuoYa/codex-with-chatgpt",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 1501,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "chatgpt",
+        "codex",
+        "mcp",
+        "model-context-protocol",
+        "oauth"
+      ],
+      "url": "https://github.com/XiaoDuoYa/codex-with-chatgpt"
+    },
+    {
+      "created_at": "2026-08-28T08:07:10Z",
+      "description": "🌐 🔌 The MetaMask desktop app enables browsing Ethereum blockchain enabled websites",
+      "full_name": "MetaMask-AI/metamask-desktop",
+      "language": "CSS",
+      "source": "new_repos",
+      "stars": 1228,
+      "stars_gained": null,
+      "topics": [
+        "bitcoin",
+        "bitcoin-wallet",
+        "crypto",
+        "cryptocoins",
+        "cryptocompare-api",
+        "cryptocurrency",
+        "dapp",
+        "ethereum",
+        "ethereum-blockchain",
+        "ethereum-wallet",
+        "evm",
+        "evm-wallet",
+        "macos",
+        "metamask",
+        "metamask-dapp",
+        "metamask-desktop",
+        "metamask-io",
+        "solana",
+        "web3",
+        "windows"
+      ],
+      "url": "https://github.com/MetaMask-AI/metamask-desktop"
+    },
+    {
+      "created_at": "2026-08-26T06:09:58Z",
+      "description": "A studio for image and video generation — one prompt bar, each model’s own settings, and every finished run in one gallery.",
+      "full_name": "wide-trace/open-higgsfield",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 1092,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/wide-trace/open-higgsfield"
+    },
+    {
+      "created_at": "2026-08-28T05:56:49Z",
+      "description": "De-AI writing skill for Claude Code, Codex, Grok Build, and Antigravity — narrative-architecture repair for fiction, venue-matched rules for professional prose. Based on StoryScope (arXiv:2604.03136).",
+      "full_name": "Nanako0129/sepia",
+      "language": null,
+      "source": "new_repos",
+      "stars": 975,
+      "stars_gained": null,
+      "topics": [
+        "agent-skills",
+        "ai-writing",
+        "antigravity",
+        "claude-code",
+        "codex",
+        "developer-tools",
+        "fiction",
+        "grok",
+        "humanizer",
+        "llm",
+        "prompt-engineering",
+        "writing-tools"
+      ],
+      "url": "https://github.com/Nanako0129/sepia"
+    },
+    {
+      "created_at": "2026-08-25T02:46:10Z",
+      "description": "WeMM-Embedding is a family of universal multimodal embedding models by the WeChat Vision Team at Tencent, supporting multimodal understanding and retrieval.",
+      "full_name": "Tencent/WeMM-Embedding",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 946,
+      "stars_gained": null,
+      "topics": [
+        "embedding-models",
+        "multimodal",
+        "multimodal-llm"
+      ],
+      "url": "https://github.com/Tencent/WeMM-Embedding"
+    },
+    {
+      "created_at": "2026-08-25T18:34:47Z",
+      "description": "Free & Open-Source CapCut replacement.",
+      "full_name": "jub0t/WolfCut",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 743,
+      "stars_gained": null,
+      "topics": [
+        "audio-processor",
+        "auto-caption",
+        "automation",
+        "capcut",
+        "capcut-alternative",
+        "content-creation",
+        "cross-platform",
+        "desktop-app",
+        "ffmpeg",
+        "free-video-editor",
+        "non-linear-editor",
+        "offline-first",
+        "open-source-video-editor",
+        "rust-lang",
+        "tauri-app",
+        "video-editing",
+        "video-editing-software",
+        "video-processing-tool",
+        "whisper-cpp"
+      ],
+      "url": "https://github.com/jub0t/WolfCut"
+    },
+    {
+      "created_at": "2026-08-28T18:03:04Z",
+      "description": "An agent organization for Claude Code, structured as a company — 15+ departments, 125+ skills, each independently installable.",
+      "full_name": "cbrock84/headcount",
+      "language": "Markdown",
+      "source": "new_repos",
+      "stars": 739,
+      "stars_gained": null,
+      "topics": [
+        "agent-marketplace",
+        "claude-code",
+        "claude-code-plugin",
+        "claude-plugin",
+        "claude-skills",
+        "mcp"
+      ],
+      "url": "https://github.com/cbrock84/headcount"
+    },
+    {
+      "created_at": "2026-08-27T22:24:31Z",
+      "description": "Run iOS/ macOS in Qemu. Virtual iPhone 17, 16, 15, 14, 13, 12 and M5-M1 Apple Si Macs supported.",
+      "full_name": "jprx/darwin-vm",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 637,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/jprx/darwin-vm"
+    },
+    {
+      "created_at": "2026-08-28T15:38:33Z",
+      "description": "A tiny, self-hosted notification inbox for developers. Something happened in one of your apps; Boop tells you on your phone.",
+      "full_name": "chrisgreg/boop",
+      "language": "Go",
+      "source": "new_repos",
+      "stars": 620,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/chrisgreg/boop"
+    },
+    {
+      "created_at": "2026-08-27T12:46:32Z",
+      "description": "Spotify, native and fast. One lightweight Rust app for your whole library, local playback, and Spotify Connect on Linux, macOS, and Windows.",
+      "full_name": "crmne/fastpotify",
+      "language": "Rust",
+      "source": "new_repos",
+      "stars": 595,
+      "stars_gained": null,
+      "topics": [
+        "audio",
+        "cross-platform",
+        "desktop-app",
+        "egui",
+        "gui",
+        "librespot",
+        "linux",
+        "macos",
+        "mpris",
+        "music",
+        "music-player",
+        "rust",
+        "spotify",
+        "spotify-client",
+        "spotify-connect",
+        "windows"
+      ],
+      "url": "https://github.com/crmne/fastpotify"
+    },
+    {
+      "created_at": "2026-08-25T15:12:20Z",
+      "description": "人生 IPO：统一财务、健康、知识、人脉、AI 决策与团队执行的个人数据操作系统。",
+      "full_name": "gtlhuyidan-sketch/life-ipo",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 573,
+      "stars_gained": null,
+      "topics": [
+        "ai-planning",
+        "crm",
+        "health-data",
+        "knowledge-management",
+        "life-ipo",
+        "personal-finance",
+        "team-collaboration"
+      ],
+      "url": "https://github.com/gtlhuyidan-sketch/life-ipo"
+    },
+    {
+      "created_at": "2026-08-26T22:42:48Z",
+      "description": "A Claude Code skill that applies the concrete design rules from the book Refactoring UI (Wathan & Schoger) — constrained spacing/type/color/shadow scales, hierarchy through weight and color, and depth through emulated light — to building and fixing interfaces.",
+      "full_name": "s0xDk/refactoring-ui-skill",
+      "language": "CSS",
+      "source": "new_repos",
+      "stars": 452,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/s0xDk/refactoring-ui-skill"
+    },
+    {
+      "created_at": "2026-08-27T14:16:09Z",
+      "description": "A CLI that reads Claude Code, Codex, and Gemini CLI session logs and works out how much they cost, by model, project, and day.",
+      "full_name": "damejan80/tokentab",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 415,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "claude",
+        "claude-code",
+        "cursor",
+        "python",
+        "token-optimization",
+        "token-usage"
+      ],
+      "url": "https://github.com/damejan80/tokentab"
+    },
+    {
+      "created_at": "2026-08-27T17:59:23Z",
+      "description": "Open-source multi-provider AI gateway for Claude Code and other coding agents, with model routing, streaming, tools, reasoning, fallbacks, and local model support",
+      "full_name": "hkqr/my-free-code",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 404,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "claude-code",
+        "free-claude-api",
+        "multi-provider",
+        "multi-provider-llm"
+      ],
+      "url": "https://github.com/hkqr/my-free-code"
+    },
+    {
+      "created_at": "2026-08-27T18:30:44Z",
+      "description": "Run any model in Grok Bot — one-command setup, model picker UI, evidence-based provider wire maps, and an update-proof doctor. Not farming you, arming you.",
+      "full_name": "OnlyTerp/opengrok",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 384,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "grok",
+        "llm",
+        "model-router",
+        "openai-compatible",
+        "windows"
+      ],
+      "url": "https://github.com/OnlyTerp/opengrok"
+    },
+    {
+      "created_at": "2026-08-26T23:47:02Z",
+      "description": "Fire your SEO·GEO agency 🔥 A Claude Code skill that audits and optimizes SEO·AEO·GEO·LLMO·NEO(Naver) by itself — 월 50~350만 원짜리 'AI 검색 최적화' 대행, AI 에이전트가 대체합니다",
+      "full_name": "leopard627/fire-your-seo-agency",
+      "language": null,
+      "source": "new_repos",
+      "stars": 372,
+      "stars_gained": null,
+      "topics": [
+        "aeo",
+        "ai-search",
+        "claude-code",
+        "claude-skills",
+        "geo",
+        "llmo",
+        "llms-txt",
+        "naver",
+        "seo"
+      ],
+      "url": "https://github.com/leopard627/fire-your-seo-agency"
+    },
+    {
+      "created_at": "2026-08-27T11:49:48Z",
+      "description": "Curso de SDD (Spec-Driven Development) desde cero",
+      "full_name": "mouredev/hello-sdd",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 346,
+      "stars_gained": null,
+      "topics": [
+        "sdd",
+        "spec-driven-development"
+      ],
+      "url": "https://github.com/mouredev/hello-sdd"
+    },
+    {
+      "created_at": "2026-08-27T21:39:36Z",
+      "description": "从孙割19年白月光的痛彻心扉中蒸馏出来的无上心法",
+      "full_name": "KKKKhazix/sun-style-writing",
+      "language": null,
+      "source": "new_repos",
+      "stars": 341,
+      "stars_gained": null,
+      "topics": [
+        "agent-skills",
+        "chinese-writing",
+        "claude-code",
+        "codex",
+        "literary-writing",
+        "prompt-engineering",
+        "writing"
+      ],
+      "url": "https://github.com/KKKKhazix/sun-style-writing"
+    },
+    {
+      "created_at": "2026-08-25T03:56:26Z",
+      "description": "早耳 - Real-time multilingual speech-to-text on CPU only. Live subtitles, browser dashboard, speaker labels, translation. No GPU, no cloud.",
+      "full_name": "oboroge0/hayamimi",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 313,
+      "stars_gained": null,
+      "topics": [
+        "asr",
+        "japanese",
+        "multilingual",
+        "real-time",
+        "sherpa-onnx",
+        "speech-recognition",
+        "subtitles"
+      ],
+      "url": "https://github.com/oboroge0/hayamimi"
+    },
+    {
+      "created_at": "2026-08-26T18:00:02Z",
+      "description": "Code World Model  Official Repo",
+      "full_name": "buaacyw/code-world-model",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 308,
+      "stars_gained": null,
+      "topics": [
+        "world-models"
+      ],
+      "url": "https://github.com/buaacyw/code-world-model"
+    },
+    {
+      "created_at": "2026-08-26T04:57:19Z",
+      "description": "Pentest Harness — Heaven for Hackers. A self-hosted AI agent harness for authorized pentests, bug bounty, security labs, and CTFs. Bring your own AI model API; sessions stay local.",
+      "full_name": "S1N6H/pentest-harness",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 304,
+      "stars_gained": null,
+      "topics": [
+        "ai-agent",
+        "anthropic-api",
+        "bug-bounty",
+        "infosec",
+        "llm",
+        "offensive-security",
+        "open-source",
+        "openai-api",
+        "pentesting",
+        "red-team",
+        "security-tools"
+      ],
+      "url": "https://github.com/S1N6H/pentest-harness"
+    },
+    {
+      "created_at": "2026-08-26T19:10:55Z",
+      "description": "Bypass llm guardrails by confusing it with fabricated tool output.",
+      "full_name": "DavidCarliez/trustmebro",
+      "language": "Go",
+      "source": "new_repos",
+      "stars": 300,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/DavidCarliez/trustmebro"
+    },
+    {
+      "created_at": "2026-08-29T19:52:37Z",
+      "description": "DLSS 5 neural rendering in D3D11/D12/Vulkan games that ship without any DLSS — feeds a synthetic DLAA contract (ReShade depth + motion vectors) to the DLSS 5 add-on via a private D3D12 device.",
+      "full_name": "jlrouzies-fr/DLSS5-Feeder",
+      "language": "C++",
+      "source": "new_repos",
+      "stars": 297,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/jlrouzies-fr/DLSS5-Feeder"
+    },
+    {
+      "created_at": "2026-08-26T18:17:34Z",
+      "description": "Claude skill: refactor code to reduce cyclomatic complexity",
+      "full_name": "saurabhkumar8112/cyclomatic-complexity-skill",
+      "language": null,
+      "source": "new_repos",
+      "stars": 293,
+      "stars_gained": null,
+      "topics": [
+        "agent-skills",
+        "claude",
+        "code-quality",
+        "refactoring"
+      ],
+      "url": "https://github.com/saurabhkumar8112/cyclomatic-complexity-skill"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "new_repos"
+}

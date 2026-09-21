@@ -1,0 +1,375 @@
+{
+  "checksum_sha256": "1b08f198568fa5c243e63c969f18b2024c909359755c99c21ea41ca8a3850dc3",
+  "component": "new_repos",
+  "provenance": {
+    "sources": {
+      "raw_json": {
+        "bytes": 406234,
+        "path": "data/raw/2026-W39.json",
+        "sha256": "0b97fc410828016035152a9ee69bc1484a232a3865bbefeb4ce02fd57f13a64e"
+      }
+    },
+    "week": "2026-W39"
+  },
+  "records": [
+    {
+      "created_at": "2026-09-16T21:30:12Z",
+      "description": "i. am. speed.",
+      "full_name": "browser-use/jev-ultrafast",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 12648,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/browser-use/jev-ultrafast"
+    },
+    {
+      "created_at": "2026-09-17T05:57:20Z",
+      "description": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim.",
+      "full_name": "tamaratran/fast-jev-compaction",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 5392,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/tamaratran/fast-jev-compaction"
+    },
+    {
+      "created_at": "2026-09-16T20:35:54Z",
+      "description": "The Photoshop alternative for Mac",
+      "full_name": "robbietilton/Compositor",
+      "language": "Swift",
+      "source": "new_repos",
+      "stars": 3799,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/robbietilton/Compositor"
+    },
+    {
+      "created_at": "2026-09-20T12:01:16Z",
+      "description": "Z.ai's coding agent harness. Powerful, intelligent, extensible.",
+      "full_name": "zai-org/ZCode",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 3154,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/zai-org/ZCode"
+    },
+    {
+      "created_at": "2026-09-16T03:51:21Z",
+      "description": "Semantic ifs from open models, on a 3090 at home. Independent; not affiliated with Jev or TypeSafe.",
+      "full_name": "TheoLeeCJ/SemIf",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 2534,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/TheoLeeCJ/SemIf"
+    },
+    {
+      "created_at": "2026-09-15T11:51:15Z",
+      "description": "Private source preview: native Jianying drafts, isolated editing/export, and standalone Agent Skill.",
+      "full_name": "mcncarl/jianying-headless",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 2099,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/mcncarl/jianying-headless"
+    },
+    {
+      "created_at": "2026-09-19T13:50:26Z",
+      "description": "Native MLX runtime for Laya typed decision models — 7–14 ms short decisions on M3 Max. No text generation, PyTorch, or cloud API.",
+      "full_name": "mizorewww/laya-mlx",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 1955,
+      "stars_gained": null,
+      "topics": [
+        "apple-silicon",
+        "decision-model",
+        "inference",
+        "laya",
+        "local-ai",
+        "machine-learning",
+        "mlx",
+        "modernbert",
+        "system-one",
+        "typed-decisions"
+      ],
+      "url": "https://github.com/mizorewww/laya-mlx"
+    },
+    {
+      "created_at": "2026-09-16T21:36:20Z",
+      "description": "One AI trade decision every Monad block. Jev on Kuru MON-USDC.",
+      "full_name": "jarrodwatts/jev-trader",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 1589,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/jarrodwatts/jev-trader"
+    },
+    {
+      "created_at": "2026-09-17T16:08:30Z",
+      "description": "A nano replica of Jev: parallel decisions, dynamic candidates, and an end-to-end training pipeline.",
+      "full_name": "TianyuCodings/NanoJev",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 1527,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/TianyuCodings/NanoJev"
+    },
+    {
+      "created_at": "2026-09-18T09:07:48Z",
+      "description": "Local typed decisions, contrastive data curation, and model evaluation.",
+      "full_name": "bespokelabsai/nimble",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 1218,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/bespokelabsai/nimble"
+    },
+    {
+      "created_at": "2026-09-17T20:49:39Z",
+      "description": "tiny Jev-like family of decision models built on top of Qwen3.5 you can train and run on your own",
+      "full_name": "jaredpalmer/kev",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 1172,
+      "stars_gained": null,
+      "topics": [
+        "decision-model",
+        "jev",
+        "qwen3"
+      ],
+      "url": "https://github.com/jaredpalmer/kev"
+    },
+    {
+      "created_at": "2026-09-15T09:39:14Z",
+      "description": "🍊☁️ Open-source* apps that replace a SaaS product, running in your own Cloudflare account",
+      "full_name": "theoephraim/awesome-cloudflare-selfhosted",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 744,
+      "stars_gained": null,
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "cloudflare",
+        "cloudflare-workers",
+        "self-hosted"
+      ],
+      "url": "https://github.com/theoephraim/awesome-cloudflare-selfhosted"
+    },
+    {
+      "created_at": "2026-09-16T13:21:56Z",
+      "description": "text-humanizer is an open-source project designed to convert text generated by AI to its \"humanized\" version. Bypasses the most of AI detectors such as Turnitin or GPTZero",
+      "full_name": "korcarc/text-humanizer",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 737,
+      "stars_gained": null,
+      "topics": [
+        "ai-humanization",
+        "gptzero",
+        "gptzero-bypass",
+        "text-humanizer",
+        "turnitin",
+        "turnitin-bypass"
+      ],
+      "url": "https://github.com/korcarc/text-humanizer"
+    },
+    {
+      "created_at": "2026-09-17T14:23:21Z",
+      "description": "A curated list of public projects, integrations, and discussions built on Jev — TypeSafe AI's System One model for typed decisions.",
+      "full_name": "yibie/awesome-jev",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 683,
+      "stars_gained": null,
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "jev",
+        "llm"
+      ],
+      "url": "https://github.com/yibie/awesome-jev"
+    },
+    {
+      "created_at": "2026-09-16T17:48:45Z",
+      "description": "Computer use for about $0.0002 a step: OCR the screen, classify the next action with TypeSafe, click. macOS.",
+      "full_name": "awlevin/typesafe-computer-use",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 660,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "automation",
+        "computer-use",
+        "macos",
+        "ocr",
+        "typesafe"
+      ],
+      "url": "https://github.com/awlevin/typesafe-computer-use"
+    },
+    {
+      "created_at": "2026-09-16T22:20:15Z",
+      "description": "Apple Wallet Card Skinner for iOS 18+ (No Jailbreak Required)",
+      "full_name": "Mak5er/AirCard",
+      "language": "Swift",
+      "source": "new_repos",
+      "stars": 640,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Mak5er/AirCard"
+    },
+    {
+      "created_at": "2026-09-15T01:51:36Z",
+      "description": "A macOS menu-bar app that dresses your windows in knitted borders.",
+      "full_name": "saragordic/window-sweaters",
+      "language": "C",
+      "source": "new_repos",
+      "stars": 633,
+      "stars_gained": null,
+      "topics": [
+        "desktop-customization",
+        "knitting",
+        "macos",
+        "macos-app",
+        "menubar",
+        "menubar-app",
+        "objective-c",
+        "window-management"
+      ],
+      "url": "https://github.com/saragordic/window-sweaters"
+    },
+    {
+      "created_at": "2026-09-17T13:43:00Z",
+      "description": "Security analysis of the ChatGPT iOS subscription / entitlement flow (internal draft, coordinated disclosure WIP)",
+      "full_name": "yynxxxxx/gpt_sub_analysis",
+      "language": null,
+      "source": "new_repos",
+      "stars": 572,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/yynxxxxx/gpt_sub_analysis"
+    },
+    {
+      "created_at": "2026-09-19T16:48:59Z",
+      "description": "A curated list of tools  built for Jev — TypeSafe AI's System One model for typed decisions.",
+      "full_name": "v-modal/awesome-jev-tools",
+      "language": null,
+      "source": "new_repos",
+      "stars": 568,
+      "stars_gained": null,
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "awesome-lists",
+        "jev",
+        "llm",
+        "robotics",
+        "robotics-algorithms",
+        "robotics-control",
+        "robotics-simulation"
+      ],
+      "url": "https://github.com/v-modal/awesome-jev-tools"
+    },
+    {
+      "created_at": "2026-09-18T16:35:32Z",
+      "description": "CVE-2026-63030 & CVE-2026-60137 RCE chain proof-of-concept",
+      "full_name": "arvindear/wp2shell-PoC",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 563,
+      "stars_gained": null,
+      "topics": [
+        "cve-2026-60137",
+        "cve-2026-63030",
+        "wp2shell",
+        "wp2shell-exploit",
+        "wp2shell-poc"
+      ],
+      "url": "https://github.com/arvindear/wp2shell-PoC"
+    },
+    {
+      "created_at": "2026-09-19T04:14:43Z",
+      "description": "Your Cheat Sheet For AI Engineering Interviews at Top AI Companies - Questions and Answers.",
+      "full_name": "pallavi-shekhar/ai-engineering-interview-questions-company-wise",
+      "language": "Markdown",
+      "source": "new_repos",
+      "stars": 557,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "ai-engineering",
+        "ai-engineering-interview",
+        "ai-interview",
+        "ai-interview-questions",
+        "company-wise-prep",
+        "company-wise-questions",
+        "interview-questions",
+        "llm-inference",
+        "questions-and-answers"
+      ],
+      "url": "https://github.com/pallavi-shekhar/ai-engineering-interview-questions-company-wise"
+    },
+    {
+      "created_at": "2026-09-16T08:38:18Z",
+      "description": "vm2api 使用虚拟机完全拟真方案的订阅转api",
+      "full_name": "dofastted/vm2api",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 528,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/dofastted/vm2api"
+    },
+    {
+      "created_at": "2026-09-16T13:47:39Z",
+      "description": "A cPanel and WHM authentication bypassing tool",
+      "full_name": "ctdal/cve-2026-41940-PoC",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 528,
+      "stars_gained": null,
+      "topics": [
+        "cpanel",
+        "cpanel-whm",
+        "cve",
+        "cve-2026-41940",
+        "cve-2026-41940-poc"
+      ],
+      "url": "https://github.com/ctdal/cve-2026-41940-PoC"
+    },
+    {
+      "created_at": "2026-09-18T09:02:44Z",
+      "description": "尝试改善 Codex 降智、限流与连接体验。本地一键启动、网页配置修复，支持 Astra / Sol / Terra、订阅和代理；不保证取得指定 state 或提升模型质量。",
+      "full_name": "gylive/ccodex-sleep-state",
+      "language": "Go",
+      "source": "new_repos",
+      "stars": 510,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/gylive/ccodex-sleep-state"
+    },
+    {
+      "created_at": "2026-09-18T06:45:54Z",
+      "description": "Runtime behavioral ablation for compressed LLMs. First target: Ternary Bonsai 2 27B — no weight modification or re-quantization. by OrcaRouter team",
+      "full_name": "Continuum-AI-Corp/OrcaBonsai-27B-Uncensored",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 504,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Continuum-AI-Corp/OrcaBonsai-27B-Uncensored"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "new_repos"
+}

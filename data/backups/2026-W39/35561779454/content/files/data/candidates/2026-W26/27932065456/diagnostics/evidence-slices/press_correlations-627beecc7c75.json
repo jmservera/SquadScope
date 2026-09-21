@@ -1,0 +1,1650 @@
+{
+  "checksum_sha256": "627beecc7c7598a8aba51fe4616d7dcda853b8fb973c56222171a2d6a088f7b0",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 185257,
+        "path": "data/analyzed/2026-W26-correlations.json",
+        "sha256": "767f4819db3c5df88483750cd91de3a55006c42328e063707c821369dda8db16"
+      },
+      "external_news": {
+        "bytes": 51386,
+        "path": "data/raw/2026-W26-external-news.json",
+        "sha256": "d3c3f83b129c71728103fbe6bb2a0ebf513286e2025340134a80e81f51ef1d36"
+      },
+      "press_context": {
+        "bytes": 14270,
+        "path": "data/analyzed/2026-W26-press-context.md",
+        "sha256": "0b573fea722e80abd38ef3a3647deea1bc29d980ca8477f39a82e90204de84c1"
+      },
+      "raw_json": {
+        "bytes": 310603,
+        "path": "data/raw/2026-W26.json",
+        "sha256": "f0f1547b98816e82c8c858ab988ee6fda8d40d429534e0de31ad36258df5ef93"
+      }
+    },
+    "week": "2026-W26"
+  },
+  "records": [
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T09:01:25Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "GLM-5.2: Built for Long-Horizon Tasks",
+          "url": "https://huggingface.co/blog/zai-org/glm-52-blog"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/zai-org/glm-52-blog"
+      ],
+      "repo": "0xSero/glm-5.2-sm120"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-19T22:40:14Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "From PGP to Mythos: a brief history of export controls that didn’t stop anyone",
+          "url": "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/"
+      ],
+      "repo": "BurntSushi/ripgrep"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T15:00:36Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Fastest, Largest, Strongest: NVIDIA Blackwell Sweeps MLPerf Training 6.0",
+          "url": "https://blogs.nvidia.com/blog/blackwell-mlperf-training-6-0/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/blackwell-mlperf-training-6-0/"
+      ],
+      "repo": "CWS6206/EasySSDTester"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+      ],
+      "repo": "D4Vinci/Scrapling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-19T12:10:00Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: AI bottleneck debates, and BCI trials take off",
+          "url": "https://www.technologyreview.com/2026/06/19/1139327/the-download-llms-bottleneck-breakthrough-bci-trials-take-off/"
+        },
+        {
+          "published_at": "2026-06-18T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: a new hunt for dark matter and Kenya’s case for going solar",
+          "url": "https://www.technologyreview.com/2026/06/18/1139261/the-download-dark-matter-hunt-kenya-solar-power/"
+        },
+        {
+          "published_at": "2026-06-17T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: a reality check for geoengineering and the science of interoception",
+          "url": "https://www.technologyreview.com/2026/06/17/1139200/the-download-solar-geoengineering-interoception/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/19/1139327/the-download-llms-bottleneck-breakthrough-bci-trials-take-off/",
+        "https://www.technologyreview.com/2026/06/18/1139261/the-download-dark-matter-hunt-kenya-solar-power/",
+        "https://www.technologyreview.com/2026/06/17/1139200/the-download-solar-geoengineering-interoception/"
+      ],
+      "repo": "EURICO55/download-tor-browser"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+      ],
+      "repo": "EbookFoundation/free-programming-books"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+        },
+        {
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+        },
+        {
+          "published_at": "2026-06-16T16:30:27Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "HPE AI Factory With NVIDIA Expands for the Era of Agents",
+          "url": "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+        "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+      ],
+      "repo": "Gach0ng/AgentStalker"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+      ],
+      "repo": "Kato-Shoko705/Phoebe-Hub"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-18T13:00:32Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sync and Stream: GeForce NOW Connects to Members’ Game Libraries Across Devices",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-game-stores/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-game-stores/"
+      ],
+      "repo": "Kaushal-Parmar/CrosshairX"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "repo": "LadybirdBrowser/ladybird"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T16:35:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Polymarket reportedly paid creators to post deceptive videos about fake bets",
+          "url": "https://techcrunch.com/2026/06/21/polymarket-reportedly-paid-creators-to-post-deceptive-videos-about-fake-bets/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/polymarket-reportedly-paid-creators-to-post-deceptive-videos-about-fake-bets/"
+      ],
+      "repo": "MstKail/polymarket-trading-bot-services-polyedge365"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-18T20:00:27Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How FERC’s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+          "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+      ],
+      "repo": "NationalSecurityAgency/ghidra"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+      ],
+      "repo": "Noumena-Network/code"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+      ],
+      "repo": "NousResearch/hermes-agent"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+        },
+        {
+          "published_at": "2026-06-16T16:30:27Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "HPE AI Factory With NVIDIA Expands for the Era of Agents",
+          "url": "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+        "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-19T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Brain-computer interface trials are taking off",
+          "url": "https://www.technologyreview.com/2026/06/19/1139270/brain-computer-interface-trials-are-taking-off/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/19/1139270/brain-computer-interface-trials-are-taking-off/"
+      ],
+      "repo": "PieroSierra/SecondBrain"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-18T20:00:27Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How FERC’s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+          "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+      ],
+      "repo": "Plaer1/junction"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+      ],
+      "repo": "Schmobi85/Redz-Hub-2026-Keyless-Undetected"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+        },
+        {
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/"
+        },
+        {
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/"
+        },
+        {
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/"
+        },
+        {
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+      ],
+      "repo": "Sorathiya123/claude-ai-free-desktop-app"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+        },
+        {
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+        },
+        {
+          "published_at": "2026-06-16T16:30:27Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "HPE AI Factory With NVIDIA Expands for the Era of Agents",
+          "url": "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+        "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+      ],
+      "repo": "TauricResearch/TradingAgents"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-19T21:45:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Go eyes robotaxis and acquisitions after Japan’s biggest IPO of 2026 — here’s why it matters",
+          "url": "https://techcrunch.com/2026/06/19/go-eyes-robotaxis-and-acquisitions-after-japans-biggest-ipo-of-2026-heres-why-it-matters/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/go-eyes-robotaxis-and-acquisitions-after-japans-biggest-ipo-of-2026-heres-why-it-matters/"
+      ],
+      "repo": "TheAlgorithms/Java"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-19T22:40:14Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "From PGP to Mythos: a brief history of export controls that didn’t stop anyone",
+          "url": "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/"
+      ],
+      "repo": "TheAlgorithms/Python"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+        },
+        {
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+      ],
+      "repo": "TrenchesofChirac/claude-fable-5-free-desktop-app"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-18T06:00:59Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "France Advances Europe’s AI Future With NVIDIA Technologies",
+          "url": "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/"
+      ],
+      "repo": "VisionForge-OU/foreman"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T16:05:00Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "TechCrunch Mobility: A new robotaxi scorecard shows China’s dominance",
+          "url": "https://techcrunch.com/2026/06/21/techcrunch-mobility-a-new-robotaxi-scorecard-shows-chinas-dominance/"
+        },
+        {
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/techcrunch-mobility-a-new-robotaxi-scorecard-shows-chinas-dominance/",
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+      ],
+      "repo": "WilonityProject/Wilonity"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/"
+        },
+        {
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/"
+        },
+        {
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/"
+        },
+        {
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+        },
+        {
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "repo": "YangSiYv/valo-ai-assistant-2026"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+        },
+        {
+          "published_at": "2026-06-17T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Agentic Resource Discovery: Let agents search",
+          "url": "https://huggingface.co/blog/agentic-resource-discovery-launch"
+        },
+        {
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+        },
+        {
+          "published_at": "2026-06-16T16:30:27Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "HPE AI Factory With NVIDIA Expands for the Era of Agents",
+          "url": "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware",
+        "https://huggingface.co/blog/agentic-resource-discovery-launch",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+        "https://blogs.nvidia.com/blog/hpe-ai-factory-agentic-enterprise/"
+      ],
+      "repo": "addyosmani/agent-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T15:00:36Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Fastest, Largest, Strongest: NVIDIA Blackwell Sweeps MLPerf Training 6.0",
+          "url": "https://blogs.nvidia.com/blog/blackwell-mlperf-training-6-0/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/blackwell-mlperf-training-6-0/"
+      ],
+      "repo": "aidenybai/cnfast"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T15:26:44Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "MolmoMotion: Language-guided 3D motion forecasting",
+          "url": "https://huggingface.co/blog/allenai/molmomotion"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/allenai/molmomotion"
+      ],
+      "repo": "angular/angular"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+      ],
+      "repo": "anthropics/claude-code"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-18T18:13:13Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "MosaicLeaks: Can your research agent keep a secret?",
+          "url": "https://huggingface.co/blog/ServiceNow/mosaicleaks"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ServiceNow/mosaicleaks"
+      ],
+      "repo": "anthropics/launch-your-agent"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-19T21:45:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Go eyes robotaxis and acquisitions after Japan’s biggest IPO of 2026 — here’s why it matters",
+          "url": "https://techcrunch.com/2026/06/19/go-eyes-robotaxis-and-acquisitions-after-japans-biggest-ipo-of-2026-heres-why-it-matters/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/19/go-eyes-robotaxis-and-acquisitions-after-japans-biggest-ipo-of-2026-heres-why-it-matters/"
+      ],
+      "repo": "avelino/awesome-go"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-18T20:00:27Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How FERC’s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+          "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+        },
+        {
+          "published_at": "2026-06-18T13:00:43Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At Cannes Lions, NVIDIA Partners Reshape Advertising and Marketing With AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-ai-marketing-advertising-cannes-lions/"
+        },
+        {
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/",
+        "https://blogs.nvidia.com/blog/nvidia-ai-marketing-advertising-cannes-lions/",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+      ],
+      "repo": "axios/axios"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/"
+        },
+        {
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/"
+        },
+        {
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/"
+        },
+        {
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+        },
+        {
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "repo": "axisvoiceupgrade/Topaz-Photo-AI-2026"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-20T16:39:57Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Nobel laureate John Jumper is leaving DeepMind for rival Anthropic",
+          "url": "https://techcrunch.com/2026/06/20/nobel-laureate-john-jumper-is-leaving-deepmind-for-rival-anthropic/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/20/nobel-laureate-john-jumper-is-leaving-deepmind-for-rival-anthropic/"
+      ],
+      "repo": "base/node"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/"
+        },
+        {
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/"
+        },
+        {
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/"
+        },
+        {
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+        },
+        {
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "repo": "binghe1980/AI-Canvas"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T09:01:25Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "GLM-5.2: Built for Long-Horizon Tasks",
+          "url": "https://huggingface.co/blog/zai-org/glm-52-blog"
+        },
+        {
+          "published_at": "2026-06-16T22:30:41Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/zai-org/glm-52-blog",
+        "https://blogs.nvidia.com/blog/nvidia-xr-ai/"
+      ],
+      "repo": "briliwar0/glm-5.2-free-desktop-app"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T16:05:00Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "TechCrunch Mobility: A new robotaxi scorecard shows China’s dominance",
+          "url": "https://techcrunch.com/2026/06/21/techcrunch-mobility-a-new-robotaxi-scorecard-shows-chinas-dominance/"
+        },
+        {
+          "published_at": "2026-06-19T07:59:12Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The US says ASML’s top chip tool may be in China, but how?",
+          "url": "https://techcrunch.com/2026/06/19/the-us-says-asmls-top-chip-tool-may-be-in-china-asml-says-it-isnt/"
+        },
+        {
+          "published_at": "2026-06-18T13:00:43Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At Cannes Lions, NVIDIA Partners Reshape Advertising and Marketing With AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-ai-marketing-advertising-cannes-lions/"
+        },
+        {
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+        },
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/techcrunch-mobility-a-new-robotaxi-scorecard-shows-chinas-dominance/",
+        "https://techcrunch.com/2026/06/19/the-us-says-asmls-top-chip-tool-may-be-in-china-asml-says-it-isnt/",
+        "https://blogs.nvidia.com/blog/nvidia-ai-marketing-advertising-cannes-lions/",
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "repo": "cline/cline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T19:41:46Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Getting more from each token: How Copilot improves context handling and model routing",
+          "url": "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/"
+        },
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "repo": "commaai/openpilot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "repo": "coollabsio/coolify"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+        },
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "repo": "docling-project/docling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T18:34:31Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Ubisoft co-founder Claude Guillemot dies in plane crash",
+          "url": "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/"
+        },
+        {
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/"
+        },
+        {
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/"
+        },
+        {
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/"
+        },
+        {
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/ubisoft-co-founder-claude-guillemot-dies-in-plane-crash/",
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+      ],
+      "repo": "dwertipy412/Claude-AI-2026"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-18T20:00:27Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "How FERC’s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+          "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+      ],
+      "repo": "expressjs/express"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+      ],
+      "repo": "faizhameed/Redz-Hub-2026-Keyless-Undetected"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-18T06:00:59Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "France Advances Europe’s AI Future With NVIDIA Technologies",
+          "url": "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/"
+      ],
+      "repo": "flutter/flutter"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-21T14:40:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Beyond Siri: Here are the practical AI features coming to your iPhone in iOS 27",
+          "url": "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/"
+        },
+        {
+          "published_at": "2026-06-20T20:32:29Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Signal’s Meredith Whittaker wants you to remember that AI chatbots ‘are not your friends’",
+          "url": "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/"
+        },
+        {
+          "published_at": "2026-06-20T19:41:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "In the Weights is your new AI-centric vanity search",
+          "url": "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/"
+        },
+        {
+          "published_at": "2026-06-19T15:23:28Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Billionaire Ambani wants AI in every call, app, and home",
+          "url": "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/"
+        },
+        {
+          "published_at": "2026-06-19T13:00:00Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The CEO of Allbirds’ new AI biz has a plan. Now she needs a “brand-new team”",
+          "url": "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/21/beyond-siri-here-are-the-practical-ai-features-coming-to-your-iphone-in-ios-27/",
+        "https://techcrunch.com/2026/06/20/signals-meredith-whittaker-wants-you-to-remember-that-ai-chatbots-are-not-your-friends/",
+        "https://techcrunch.com/2026/06/20/in-the-weights-is-your-new-ai-centric-vanity-search/",
+        "https://techcrunch.com/2026/06/19/billionaire-ambani-wants-ai-in-every-call-app-and-home/",
+        "https://techcrunch.com/2026/06/19/the-ceo-of-allbirds-new-ai-biz-has-a-plan-but-no-employees/"
+      ],
+      "repo": "frtghyujkiolsas-lab/ai-sdd"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-17T19:41:46Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Getting more from each token: How Copilot improves context handling and model routing",
+          "url": "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/"
+        },
+        {
+          "published_at": "2026-06-17T10:18:05Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "From the Hugging Face Hub to robot hardware with Strands Agents and LeRobot",
+          "url": "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/",
+        "https://huggingface.co/blog/amazon/strands-lerobot-hub-to-hardware"
+      ],
+      "repo": "gin-gonic/gin"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T20:58:54Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "What are git worktrees, and why should I use them?",
+          "url": "https://github.blog/ai-and-ml/github-copilot/what-are-git-worktrees-and-why-should-i-use-them/"
+        },
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/what-are-git-worktrees-and-why-should-i-use-them/",
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "repo": "git/git"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-16T22:10:56Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Coherent Breaks Ground on Expanded Texas Facility, Scaling AI’s Optical Backbone",
+          "url": "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/coherent-texas-ai-optical/"
+      ],
+      "repo": "go-gitea/gitea"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}

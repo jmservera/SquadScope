@@ -1,0 +1,4732 @@
+{
+  "week": "2026-W22",
+  "correlations": [
+    {
+      "repo": "apple/corecrypto",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "starship/starship",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/spacex-launches-starship-v3-for-the-first-time-but-loses-booster-on-return/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "google/material-design-icons",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "sikander12342/Subnautica-2-Nitrox-Deep-Dive",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/nuclear-startup-deep-fission-says-its-going-public-again-and-i-have-questions/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "mikaeldengale-cloud/Deepseek-v4-Pro-App",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "kouhxp/yapsnap",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Astraltenprosper/uncensored-ai-image-video-generator",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "BlueSharks-apps/Gemini-app-windows",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "akitaonrails/ai-memory",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "vincelele/ai-fomo-skills",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "wanshuiyin/ARIS-in-AI-Offer",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "jaytel0/taste",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/kash-patels-clothing-brand-website-shut-down-after-reports-it-was-hacked/",
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "op7418/ai-desk-card",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "joeancilin/MindMate-AI",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "hasanyilmaz/operon",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "mikelikesdesign/AI-experiments",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "akii-technologies-ltd/akii-seo-ai-search-optimizer",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "facebook/react",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "electron/electron",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/generative-ai-for-beginners",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "tauri-apps/tauri",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/spacex-launches-starship-v3-for-the-first-time-but-loses-booster-on-return/",
+        "https://techcrunch.com/2026/05/22/blue-origin-cleared-to-fly-new-glenn-mega-rocket-after-april-mishap/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "angular/angular",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/nuclear-startup-deep-fission-says-its-going-public-again-and-i-have-questions/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "hacksider/Deep-Live-Cam",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/nuclear-startup-deep-fission-says-its-going-public-again-and-i-have-questions/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "opencv/opencv",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/peec-one-of-berlins-rising-startups-more-than-doubled-annualized-revenue-in-months-to-10m-sources-say/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "home-assistant/core",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "moby/moby",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/techcrunch-mobility-robotaxi-reality-check/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "AppFlowy-IO/AppFlowy",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "apache/echarts",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/ai-agents-for-beginners",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "JuliusBrussee/caveman",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "keras-team/keras",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/kash-patels-clothing-brand-website-shut-down-after-reports-it-was-hacked/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "topjohnwu/Magisk",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "withastro/astro",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "virattt/ai-hedge-fund",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "rails/rails",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/22/blue-origin-cleared-to-fly-new-glenn-mega-rocket-after-april-mishap/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "rclone/rclone",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "appwrite/appwrite",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/blue-origin-cleared-to-fly-new-glenn-mega-rocket-after-april-mishap/",
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "vuejs/core",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "tw93/Mole",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/the-dreamie-alarm-clock-got-me-to-stop-using-my-phone-in-bed/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "NicoleK-M/Spoof-Matrix-Hardware",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/6-kitchen-gadgets-that-make-adulting-feel-easier/",
+        "https://techcrunch.com/2026/05/24/the-dreamie-alarm-clock-got-me-to-stop-using-my-phone-in-bed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "elliotgao2/handsets",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Tartarus-AI/tartarusai-cli",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "yeahhe365/WebDroid-Agent",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "openclaw/openclaw",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "n8n-io/n8n",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Significant-Gravitas/AutoGPT",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "flutter/flutter",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "NousResearch/hermes-agent",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "f/prompts.chat",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Snailclimb/JavaGuide",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "langgenius/dify",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Genymobile/scrcpy",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "open-webui/open-webui",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "facebook/react-native",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "firecrawl/firecrawl",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "rustdesk/rustdesk",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "Comfy-Org/ComfyUI",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "github/spec-kit",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "jaywcjlove/awesome-mac",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/apple-says-epic-lawsuit-shouldnt-reshape-app-store-rules-for-all-developers/",
+        "https://techcrunch.com/2026/05/22/spotifys-ai-bet-more-of-everything-less-of-what-you-want/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "sherlock-project/sherlock",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/kash-patels-clothing-brand-website-shut-down-after-reports-it-was-hacked/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "infiniflow/ragflow",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "netdata/netdata",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "thedotmack/claude-mem",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "lobehub/lobehub",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "caddyserver/caddy",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/kash-patels-clothing-brand-website-shut-down-after-reports-it-was-hacked/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "daytonaio/daytona",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "hiyouga/LlamaFactory",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "bytedance/deer-flow",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "OpenBB-finance/OpenBB",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "docling-project/docling",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "code-yeongyu/oh-my-openagent",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "harry0703/MoneyPrinterTurbo",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "meilisearch/meilisearch",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "2dust/v2rayNG",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "mem0ai/mem0",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "laurent22/joplin",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "koala73/worldmonitor",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "WerWolv/ImHex",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/",
+        "https://techcrunch.com/2026/05/22/kash-patels-clothing-brand-website-shut-down-after-reports-it-was-hacked/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "MemPalace/mempalace",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/24/everyone-is-navigating-ai-security-in-real-time-even-google/",
+        "https://techcrunch.com/2026/05/24/xreal-googles-smartglasses-partner-thinks-it-has-finally-mastered-this-notoriously-tricky-industry/",
+        "https://techcrunch.com/2026/05/24/i-tried-amazons-bee-wearable-and-am-both-intrigued-and-slightly-creeped-out/",
+        "https://techcrunch.com/2026/05/23/ferrari-is-using-ai-to-create-f1-superfans/",
+        "https://techcrunch.com/2026/05/23/elon-musk-has-given-up-on-solar-power-on-earth/",
+        "https://techcrunch.com/2026/05/22/ai-is-being-used-to-resurrect-the-voices-of-dead-pilots/",
+        "https://techcrunch.com/2026/05/22/google-goes-for-the-glitter-with-disco-ball-icons-are-yall-sure-you-still-want-this/",
+        "https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    }
+  ],
+  "divergences": {
+    "uncovered_tech_trends": [
+      {
+        "topic": "Climate",
+        "techcrunch_articles": [
+          {
+            "title": "SolarSquare in talks to raise up to $60M as India’s rooftop solar market draws major VC interest",
+            "url": "https://techcrunch.com/2026/05/23/solarsquare-in-talks-to-raise-up-to-60m-as-indias-rooftop-solar-market-draws-major-vc-interest/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      }
+    ],
+    "unpublicized_dev_activity": [
+      {
+        "topic": "bot",
+        "github_repos": [
+          {
+            "full_name": "SKL2910/limitless-trading-bot",
+            "stars": 136,
+            "stars_gained": null
+          },
+          {
+            "full_name": "thesammy26/polymarket-arbitrage-bot",
+            "stars": 135,
+            "stars_gained": null
+          },
+          {
+            "full_name": "flaviodesa/polymarket-copy-trading-bot",
+            "stars": 135,
+            "stars_gained": null
+          },
+          {
+            "full_name": "bonny1220/solana-trading-bot",
+            "stars": 135,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Katbrink/polymarket-weather-trading-bot",
+            "stars": 135,
+            "stars_gained": null
+          },
+          {
+            "full_name": "gokulgml/polymarket-copy-trading-bot",
+            "stars": 135,
+            "stars_gained": null
+          },
+          {
+            "full_name": "LucaRatiu/hyperliquid-trading-bot",
+            "stars": 135,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cli",
+        "github_repos": [
+          {
+            "full_name": "jazzband/web3-devkit-cli",
+            "stars": 223,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ohmyzsh/ohmyzsh",
+            "stars": 187226,
+            "stars_gained": null
+          },
+          {
+            "full_name": "yt-dlp/yt-dlp",
+            "stars": 165475,
+            "stars_gained": null
+          },
+          {
+            "full_name": "jesseduffield/lazygit",
+            "stars": 78420,
+            "stars_gained": null
+          },
+          {
+            "full_name": "sharkdp/bat",
+            "stars": 59041,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ultralytics/ultralytics",
+            "stars": 57546,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "polymarket trading polymarket",
+        "github_repos": [
+          {
+            "full_name": "Signal-Market-Engine/polymarket-trading-bot",
+            "stars": 79,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Alpha-Vector-Core/polymarket-trading-bot",
+            "stars": 79,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Alpha-Vector-Core/polymarket-arbitrage-trading-bot",
+            "stars": 79,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Quantum-Probability-Forge/polymarket-arbitrage-trading-bot",
+            "stars": 79,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Quantum-Probability-Forge/polymarket-trading-bot",
+            "stars": 79,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Signal-Market-Engine/polymarket-arbitrage-trading-bot",
+            "stars": 79,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "arbitrage-bot",
+        "github_repos": [
+          {
+            "full_name": "ShinyaTomitsuka/arbitrage-trading-bot",
+            "stars": 286,
+            "stars_gained": null
+          },
+          {
+            "full_name": "mila89/polymarket-trading-bot",
+            "stars": 277,
+            "stars_gained": null
+          },
+          {
+            "full_name": "judithsulfan/trading-bot",
+            "stars": 266,
+            "stars_gained": null
+          },
+          {
+            "full_name": "md0070/polymarket-trading-bot",
+            "stars": 252,
+            "stars_gained": null
+          },
+          {
+            "full_name": "md0070/polymarket-arbitrage-trading-bot",
+            "stars": 79,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "awesome",
+        "github_repos": [
+          {
+            "full_name": "vinta/awesome-python",
+            "stars": 299477,
+            "stars_gained": null
+          },
+          {
+            "full_name": "awesome-selfhosted/awesome-selfhosted",
+            "stars": 295094,
+            "stars_gained": null
+          },
+          {
+            "full_name": "avelino/awesome-go",
+            "stars": 173596,
+            "stars_gained": null
+          },
+          {
+            "full_name": "fffaraz/awesome-cpp",
+            "stars": 71435,
+            "stars_gained": null
+          },
+          {
+            "full_name": "rust-unofficial/awesome-rust",
+            "stars": 57516,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "api",
+        "github_repos": [
+          {
+            "full_name": "neovim/neovim",
+            "stars": 99848,
+            "stars_gained": null
+          },
+          {
+            "full_name": "fastapi/fastapi",
+            "stars": 98500,
+            "stars_gained": null
+          },
+          {
+            "full_name": "hoppscotch/hoppscotch",
+            "stars": 79286,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ocornut/imgui",
+            "stars": 73434,
+            "stars_gained": null
+          },
+          {
+            "full_name": "strapi/strapi",
+            "stars": 72241,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-agents",
+        "github_repos": [
+          {
+            "full_name": "NanoFlow-io/engram",
+            "stars": 119,
+            "stars_gained": null
+          },
+          {
+            "full_name": "affaan-m/ECC",
+            "stars": 191484,
+            "stars_gained": null
+          },
+          {
+            "full_name": "browser-use/browser-use",
+            "stars": 95406,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Mintplex-Labs/anything-llm",
+            "stars": 60576,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "compiler",
+        "github_repos": [
+          {
+            "full_name": "rust-lang/rust",
+            "stars": 113082,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FuelLabs/sway",
+            "stars": 61681,
+            "stars_gained": null
+          },
+          {
+            "full_name": "typst/typst",
+            "stars": 53739,
+            "stars_gained": null
+          },
+          {
+            "full_name": "JetBrains/kotlin",
+            "stars": 52764,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "framework",
+        "github_repos": [
+          {
+            "full_name": "laravel/laravel",
+            "stars": 84331,
+            "stars_gained": null
+          },
+          {
+            "full_name": "spring-projects/spring-boot",
+            "stars": 80717,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nestjs/nest",
+            "stars": 75591,
+            "stars_gained": null
+          },
+          {
+            "full_name": "spring-projects/spring-framework",
+            "stars": 59976,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "claude-code",
+        "github_repos": [
+          {
+            "full_name": "open-gsd/get-shit-done-redux",
+            "stars": 678,
+            "stars_gained": null
+          },
+          {
+            "full_name": "hypnguyen1209/offensive-claude",
+            "stars": 231,
+            "stars_gained": null
+          },
+          {
+            "full_name": "gsd-build/get-shit-done",
+            "stars": 63698,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent",
+        "github_repos": [
+          {
+            "full_name": "VILA-Lab/FigMirror",
+            "stars": 257,
+            "stars_gained": null
+          },
+          {
+            "full_name": "OpenHands/OpenHands",
+            "stars": 74790,
+            "stars_gained": null
+          },
+          {
+            "full_name": "unslothai/unsloth",
+            "stars": 65094,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "algorithm",
+        "github_repos": [
+          {
+            "full_name": "TheAlgorithms/Python",
+            "stars": 221379,
+            "stars_gained": null
+          },
+          {
+            "full_name": "trekhleb/javascript-algorithms",
+            "stars": 196007,
+            "stars_gained": null
+          },
+          {
+            "full_name": "TheAlgorithms/Java",
+            "stars": 65703,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent-skills",
+        "github_repos": [
+          {
+            "full_name": "anthropics/skills",
+            "stars": 140452,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ComposioHQ/awesome-claude-skills",
+            "stars": 61691,
+            "stars_gained": null
+          },
+          {
+            "full_name": "nexu-io/open-design",
+            "stars": 51653,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "javascript",
+        "github_repos": [
+          {
+            "full_name": "nodejs/node",
+            "stars": 117374,
+            "stars_gained": null
+          },
+          {
+            "full_name": "microsoft/TypeScript",
+            "stars": 108946,
+            "stars_gained": null
+          },
+          {
+            "full_name": "socketio/socket.io",
+            "stars": 63099,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agentic-ai",
+        "github_repos": [
+          {
+            "full_name": "ruvnet/RuView",
+            "stars": 65622,
+            "stars_gained": null
+          },
+          {
+            "full_name": "ruvnet/ruflo",
+            "stars": 54891,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FlowiseAI/Flowise",
+            "stars": 53056,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "crimson-desert-lsfg",
+        "github_repos": [
+          {
+            "full_name": "uktrash/LSFG-Desktop",
+            "stars": 343,
+            "stars_gained": null
+          },
+          {
+            "full_name": "resonancegnatassess/Lossless-Scaling",
+            "stars": 228,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "1-12-2-mod",
+        "github_repos": [
+          {
+            "full_name": "Satomoit/LCE-Emerald-Launcher",
+            "stars": 261,
+            "stars_gained": null
+          },
+          {
+            "full_name": "lce-emerald-launcher/LCE-Emerald-Launcher",
+            "stars": 187,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "3d",
+        "github_repos": [
+          {
+            "full_name": "physx-omni/PhysX-Omni",
+            "stars": 119,
+            "stars_gained": null
+          },
+          {
+            "full_name": "mrdoob/three.js",
+            "stars": 112648,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "astro",
+        "github_repos": [
+          {
+            "full_name": "davidichalfyorov-wq/openxiv",
+            "stars": 56,
+            "stars_gained": null
+          },
+          {
+            "full_name": "unionlabs/union",
+            "stars": 74035,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "audio",
+        "github_repos": [
+          {
+            "full_name": "huggingface/transformers",
+            "stars": 160943,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FFmpeg/FFmpeg",
+            "stars": 60471,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agents",
+        "github_repos": [
+          {
+            "full_name": "langflow-ai/langflow",
+            "stars": 148734,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Shubhamsaboo/awesome-llm-apps",
+            "stars": 111694,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blog",
+        "github_repos": [
+          {
+            "full_name": "vercel/next.js",
+            "stars": 139589,
+            "stars_gained": null
+          },
+          {
+            "full_name": "gatsbyjs/gatsby",
+            "stars": 55943,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "go",
+        "github_repos": [
+          {
+            "full_name": "golang/go",
+            "stars": 134051,
+            "stars_gained": null
+          },
+          {
+            "full_name": "syncthing/syncthing",
+            "stars": 84456,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cncf",
+        "github_repos": [
+          {
+            "full_name": "kubernetes/kubernetes",
+            "stars": 122453,
+            "stars_gained": null
+          },
+          {
+            "full_name": "etcd-io/etcd",
+            "stars": 51735,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "hacktoberfest",
+        "github_repos": [
+          {
+            "full_name": "axios/axios",
+            "stars": 109071,
+            "stars_gained": null
+          },
+          {
+            "full_name": "pmndrs/zustand",
+            "stars": 58116,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "automation",
+        "github_repos": [
+          {
+            "full_name": "puppeteer/puppeteer",
+            "stars": 94365,
+            "stars_gained": null
+          },
+          {
+            "full_name": "microsoft/playwright",
+            "stars": 89371,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "docker",
+        "github_repos": [
+          {
+            "full_name": "louislam/uptime-kuma",
+            "stars": 87208,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Stirling-Tools/Stirling-PDF",
+            "stars": 79438,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "amd",
+        "github_repos": [
+          {
+            "full_name": "vllm-project/vllm",
+            "stars": 80941,
+            "stars_gained": null
+          },
+          {
+            "full_name": "webpack/webpack",
+            "stars": 65770,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bash",
+        "github_repos": [
+          {
+            "full_name": "junegunn/fzf",
+            "stars": 80517,
+            "stars_gained": null
+          },
+          {
+            "full_name": "warpdotdev/warp",
+            "stars": 59891,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai4science",
+        "github_repos": [
+          {
+            "full_name": "PaddlePaddle/PaddleOCR",
+            "stars": 78486,
+            "stars_gained": null
+          },
+          {
+            "full_name": "opendatalab/MinerU",
+            "stars": 64825,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "alerting",
+        "github_repos": [
+          {
+            "full_name": "grafana/grafana",
+            "stars": 73982,
+            "stars_gained": null
+          },
+          {
+            "full_name": "prometheus/prometheus",
+            "stars": 64167,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "c",
+        "github_repos": [
+          {
+            "full_name": "obsproject/obs-studio",
+            "stars": 72680,
+            "stars_gained": null
+          },
+          {
+            "full_name": "git/git",
+            "stars": 61138,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "angular",
+        "github_repos": [
+          {
+            "full_name": "ionic-team/ionic-framework",
+            "stars": 52512,
+            "stars_gained": null
+          },
+          {
+            "full_name": "prettier/prettier",
+            "stars": 51894,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "golang",
+        "github_repos": [
+          {
+            "full_name": "perplexityai/bumblebee",
+            "stars": 2328,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "animated-wallpaper",
+        "github_repos": [
+          {
+            "full_name": "kageroumado/phosphene",
+            "stars": 663,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Local Responses-API shim",
+        "github_repos": [
+          {
+            "full_name": "0xSero/codex-shim",
+            "stars": 504,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "微信账单分析工具 基于Electron的可视化账单分析应用",
+        "github_repos": [
+          {
+            "full_name": "run-liyi/wechatpay",
+            "stars": 448,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "educational-resource",
+        "github_repos": [
+          {
+            "full_name": "Jawaz-Keyzor/FL-Studio-2026-Producer-Edition-Unlock",
+            "stars": 429,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "island-life",
+        "github_repos": [
+          {
+            "full_name": "jskblue/Tomodachi-Island-Life-Remastered",
+            "stars": 424,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "claude-ai",
+        "github_repos": [
+          {
+            "full_name": "larajuniorlara/Claude-Design-Studio",
+            "stars": 422,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "claude",
+        "github_repos": [
+          {
+            "full_name": "rayhayqal/Mythos-Claude-Skill-Forge",
+            "stars": 422,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "forza",
+        "github_repos": [
+          {
+            "full_name": "rafa450367/forza-horizon-6-community-edition",
+            "stars": 422,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "booster",
+        "github_repos": [
+          {
+            "full_name": "Lablez/Ping-Slayer-Network-Optimizer",
+            "stars": 422,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "fh6-mod",
+        "github_repos": [
+          {
+            "full_name": "pheejm/forza-horizon-6-ultimate-mod-pack",
+            "stars": 422,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "awesome-claude-code",
+        "github_repos": [
+          {
+            "full_name": "muhammadqasimkalhoro94-blip/claude-zeroclaw-agentics",
+            "stars": 421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "download-yuzu",
+        "github_repos": [
+          {
+            "full_name": "pierremichaeljensen/Yuzu-Switch-Emulation-Kit",
+            "stars": 421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "microsoft-office",
+        "github_repos": [
+          {
+            "full_name": "bollahouse/office-2024-pro-integration-suite",
+            "stars": 421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "delta-executor-pc-edition",
+        "github_repos": [
+          {
+            "full_name": "sofian160616/Delta-Inject-Workstation",
+            "stars": 421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "minecraft",
+        "github_repos": [
+          {
+            "full_name": "ochoaochoa330-design/Aegis-V4-Client-2026",
+            "stars": 421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "mod",
+        "github_repos": [
+          {
+            "full_name": "teendriller0/AllMods-Subnautica-2",
+            "stars": 421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "3d-cad-software",
+        "github_repos": [
+          {
+            "full_name": "danyy-svg/AutoCAD-Suite-Builder",
+            "stars": 421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "discord-boost",
+        "github_repos": [
+          {
+            "full_name": "hahavelhojoguinho/guild-advancement-automator",
+            "stars": 421,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "anti-detect",
+        "github_repos": [
+          {
+            "full_name": "SalhaNabil/CloakBrowser",
+            "stars": 393,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "early-access-subnautica-2",
+        "github_repos": [
+          {
+            "full_name": "littlefrogyq/UE4SS-Subnautica-2",
+            "stars": 388,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "casino-bonus-2026",
+        "github_repos": [
+          {
+            "full_name": "bonus-2026/casino-bonus",
+            "stars": 357,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Starting Point Next-Gen",
+        "github_repos": [
+          {
+            "full_name": "MoonshotAI/kimi-code",
+            "stars": 343,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cs2-tool-2026",
+        "github_repos": [
+          {
+            "full_name": "Jawaz-Keyzor/CS2-External-Cheat-2026",
+            "stars": 338,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "aida64",
+        "github_repos": [
+          {
+            "full_name": "CylinderChairman/aida64",
+            "stars": 317,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "adaptive-triggers-pc",
+        "github_repos": [
+          {
+            "full_name": "aayan555/DS4Windows",
+            "stars": 312,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "antigravity-ai",
+        "github_repos": [
+          {
+            "full_name": "testerlingcodo/gemini-antigravity-cli",
+            "stars": 312,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cheat-engine-2026",
+        "github_repos": [
+          {
+            "full_name": "CEOHarvey242/cheat-engine-7.5",
+            "stars": 301,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "activator",
+        "github_repos": [
+          {
+            "full_name": "ZettPW/KMSTools",
+            "stars": 300,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "paralives",
+        "github_repos": [
+          {
+            "full_name": "Qwilxy/paralives-release",
+            "stars": 298,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bitlocker",
+        "github_repos": [
+          {
+            "full_name": "Mclisterjoeh2o/yellowkey-bitlocker",
+            "stars": 279,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "life-sim",
+        "github_repos": [
+          {
+            "full_name": "RayceAnderson/tomodachi-pc",
+            "stars": 277,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "一个基于 的浏览器插件，用于辅助 ChatGPT",
+        "github_repos": [
+          {
+            "full_name": "suyancc/openai-plus-vxt",
+            "stars": 269,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "what your coding",
+        "github_repos": [
+          {
+            "full_name": "jianshuo/ccglass",
+            "stars": 269,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Single file optical",
+        "github_repos": [
+          {
+            "full_name": "unprovable/ShadowCat",
+            "stars": 254,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-chat",
+        "github_repos": [
+          {
+            "full_name": "Jawaz-Keyzor/DarkGPT",
+            "stars": 250,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Framedex queryable knowledge",
+        "github_repos": [
+          {
+            "full_name": "Simbastack-hq/framedex",
+            "stars": 244,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent workspace DeepSeek",
+        "github_repos": [
+          {
+            "full_name": "XingYu-Zhong/DeepSeek-GUI",
+            "stars": 242,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "自动化完成 ChatGPT 账号注册、GoPay/PayPal",
+        "github_repos": [
+          {
+            "full_name": "hanyi0000/chatgpt-plus-automation-toolkit",
+            "stars": 239,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "arp-spoofing",
+        "github_repos": [
+          {
+            "full_name": "Biplobsarker/Umbrella-HWID",
+            "stars": 236,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "polymarket-arbitrae-trading-bot",
+        "github_repos": [
+          {
+            "full_name": "PredictiveFlow-Labs/polymarket-arbitrage-bot",
+            "stars": 232,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Open-source comic reader",
+        "github_repos": [
+          {
+            "full_name": "yui540/comimi",
+            "stars": 228,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "byovd",
+        "github_repos": [
+          {
+            "full_name": "redteamfortress/PhantomKiller",
+            "stars": 216,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Koyeb Cloudflare Argo",
+        "github_repos": [
+          {
+            "full_name": "zzzhhh1/mg-Koyeb",
+            "stars": 207,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cheato",
+        "github_repos": [
+          {
+            "full_name": "LUPUL64348/NTE-cheat",
+            "stars": 202,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Markov regime detection",
+        "github_repos": [
+          {
+            "full_name": "jackson-video-resources/markov-hedge-fund-method",
+            "stars": 200,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "polymarket-copy-trading-bot",
+        "github_repos": [
+          {
+            "full_name": "Polymarket-Trading-kit/crypto-trading-bot",
+            "stars": 197,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "OpenAI-compatible Chat proxy",
+        "github_repos": [
+          {
+            "full_name": "zqbxdev/webchat2api",
+            "stars": 196,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "crypto-trading-bot",
+        "github_repos": [
+          {
+            "full_name": "Polymarket-Trading-kit/sports-trading-bot",
+            "stars": 195,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Interactive live visualizer",
+        "github_repos": [
+          {
+            "full_name": "modaic-ai/gepa-viz",
+            "stars": 194,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "epic-games-launcher",
+        "github_repos": [
+          {
+            "full_name": "heroicgameslauncher/HeroicGamesLauncher",
+            "stars": 186,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "dev-mode",
+        "github_repos": [
+          {
+            "full_name": "XboxMode/Windows-Xbox-Mode",
+            "stars": 185,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "audio-equalizer",
+        "github_repos": [
+          {
+            "full_name": "Boob025/peace-equalizer-APO",
+            "stars": 179,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Obsidian note operations",
+        "github_repos": [
+          {
+            "full_name": "SIXIANGGUO/cc-note-ops",
+            "stars": 178,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "distributed",
+        "github_repos": [
+          {
+            "full_name": "tonbo-io/ursula",
+            "stars": 175,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-agent",
+        "github_repos": [
+          {
+            "full_name": "Eynzof/hermes-agent-cn-desktop",
+            "stars": 175,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cslol",
+        "github_repos": [
+          {
+            "full_name": "AresLeVrai/celestial-launcher-releases",
+            "stars": 175,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Claude Code skill",
+        "github_repos": [
+          {
+            "full_name": "aref-vc/tufte-claude-skill",
+            "stars": 161,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "jailbreak Y2JB. Ports",
+        "github_repos": [
+          {
+            "full_name": "matem6/P2JB-Y2JB-Porting",
+            "stars": 159,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Repo dependency analyzer",
+        "github_repos": [
+          {
+            "full_name": "scheidydude/codeindex",
+            "stars": 158,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "context-engineering",
+        "github_repos": [
+          {
+            "full_name": "open-gsd/gsd-pi",
+            "stars": 158,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "美股港股全栈数据工具包 Skill) 7层架构",
+        "github_repos": [
+          {
+            "full_name": "simonlin1212/global-stock-data",
+            "stars": 154,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "打得过Zen",
+        "github_repos": [
+          {
+            "full_name": "Margele/OpenZen",
+            "stars": 148,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Kings owns site",
+        "github_repos": [
+          {
+            "full_name": "Frank-Masciopinto/no-kings",
+            "stars": 146,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "enterprise workspace model",
+        "github_repos": [
+          {
+            "full_name": "DEEIX-AI/DEEIX-Chat",
+            "stars": 145,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bubblemap",
+        "github_repos": [
+          {
+            "full_name": "MariCarmen1971/solana-pumpfun-raydium-bundler",
+            "stars": 135,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "aster",
+        "github_repos": [
+          {
+            "full_name": "amet2901/asterdex-trading-bot",
+            "stars": 135,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "boris-prompts",
+        "github_repos": [
+          {
+            "full_name": "LingyiChen-AI/boris-prompts",
+            "stars": 134,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Documentation reverse engineering",
+        "github_repos": [
+          {
+            "full_name": "elyelysiox/recaptcha",
+            "stars": 132,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Code \"L2P: Unlocking",
+        "github_repos": [
+          {
+            "full_name": "TencentYoutuResearch/T2I-L2P",
+            "stars": 130,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "that modifies vanilla",
+        "github_repos": [
+          {
+            "full_name": "OpenYSMDev/OpenYSM",
+            "stars": 127,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Claude Code subagent",
+        "github_repos": [
+          {
+            "full_name": "chefkannofriend-source/lcb-baker-agent",
+            "stars": 123,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "3x-ui",
+        "github_repos": [
+          {
+            "full_name": "internetkafe/vpnhostinglist",
+            "stars": 123,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ICT/SMC trading-knowledge skill",
+        "github_repos": [
+          {
+            "full_name": "MobiusQuant/OpenMobius-skill",
+            "stars": 118,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "display-capture",
+        "github_repos": [
+          {
+            "full_name": "Jawaz-Keyzor/Valorant-External-Assistant-2026",
+            "stars": 114,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "开源image2调用图像生成/编辑桌面客户端 流式保活,兼容 Cloudflare",
+        "github_repos": [
+          {
+            "full_name": "RoseKhlifa/Image-Studio",
+            "stars": 109,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Chrome extension orchestrating",
+        "github_repos": [
+          {
+            "full_name": "afumu/openteam",
+            "stars": 107,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "3d-printing",
+        "github_repos": [
+          {
+            "full_name": "POWER-PILL/ASCII-Aquarium",
+            "stars": 98,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "MLLM-based agentic system",
+        "github_repos": [
+          {
+            "full_name": "YxuanAr/Code-as-Room",
+            "stars": 98,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "CAPTCHA solver: CloakBrowser",
+        "github_repos": [
+          {
+            "full_name": "clawdbrunner/captcha-solver",
+            "stars": 98,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "marketing",
+        "github_repos": [
+          {
+            "full_name": "zclllyybb/lofisu-identity-engine",
+            "stars": 97,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ChatGPT 会话管理与 CPA/sub2api/Cockpit",
+        "github_repos": [
+          {
+            "full_name": "maowuzz/chatgpt-session-forge",
+            "stars": 97,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Outcome-first plus directional",
+        "github_repos": [
+          {
+            "full_name": "kingbootoshi/directional-prompting",
+            "stars": 96,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "open protocol that",
+        "github_repos": [
+          {
+            "full_name": "workos/auth.md",
+            "stars": 94,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "beacon",
+        "github_repos": [
+          {
+            "full_name": "nettitude/CLR-Stomp",
+            "stars": 93,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "diffusion-decoder",
+        "github_repos": [
+          {
+            "full_name": "nv-tlabs/PiD",
+            "stars": 93,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Self-hosted instant sandboxes",
+        "github_repos": [
+          {
+            "full_name": "nkzw-tech/cloudsail",
+            "stars": 90,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "OSCAR: Offline Spectral",
+        "github_repos": [
+          {
+            "full_name": "FutureMLS-Lab/OSCAR",
+            "stars": 90,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "5min",
+        "github_repos": [
+          {
+            "full_name": "hotaku76/Polymarket-Automated-Trading-Bot",
+            "stars": 89,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Shir Khorshid MidONe",
+        "github_repos": [
+          {
+            "full_name": "mwhammadrezss/ShiroKhorshidScanner",
+            "stars": 88,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "douyin",
+        "github_repos": [
+          {
+            "full_name": "joeseesun/qiaomu-userscripts",
+            "stars": 87,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "lockbit",
+        "github_repos": [
+          {
+            "full_name": "Saddytech/lockbit-rescue",
+            "stars": 85,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "awesome-prompt",
+        "github_repos": [
+          {
+            "full_name": "mrslimslim/awesome-prompt",
+            "stars": 84,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "NetMap self-hosted tool",
+        "github_repos": [
+          {
+            "full_name": "xoriin/NetMap",
+            "stars": 83,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Create Remotion video",
+        "github_repos": [
+          {
+            "full_name": "leosssvip-dot/remotion-ad-video-skill",
+            "stars": 82,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "api-client",
+        "github_repos": [
+          {
+            "full_name": "stainlu/stainful",
+            "stars": 82,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Official repo paper",
+        "github_repos": [
+          {
+            "full_name": "jjrCN/PanoWorld",
+            "stars": 77,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Lightweight Windows utility",
+        "github_repos": [
+          {
+            "full_name": "Arccalc/Dwmfix",
+            "stars": 75,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Click-to-refine smart inpaint",
+        "github_repos": [
+          {
+            "full_name": "shootthesound/ComfyUI-Angelo",
+            "stars": 73,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "РАБОЧИЙ ДИСКОРД ЗАПРЕТ",
+        "github_repos": [
+          {
+            "full_name": "HaulerAwaken/Discord-Fix",
+            "stars": 73,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "基于DQN的无人机GPS欺骗攻击检测系统 随机攻击、重放攻击、隐蔽攻击",
+        "github_repos": [
+          {
+            "full_name": "zhw040803-glitch/UAV-GPS-DQN-Detection",
+            "stars": 73,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Local SvelteKit rendering",
+        "github_repos": [
+          {
+            "full_name": "wesbos/syntax-supercut-studio",
+            "stars": 73,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "software with extremely",
+        "github_repos": [
+          {
+            "full_name": "L-NEMU/TravelMinimal",
+            "stars": 70,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Finding Routes Kolkata",
+        "github_repos": [
+          {
+            "full_name": "Akash190104/kolkata-bus-route",
+            "stars": 69,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Rust port agent",
+        "github_repos": [
+          {
+            "full_name": "c4pt0r/pie",
+            "stars": 67,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Public deploy artifact",
+        "github_repos": [
+          {
+            "full_name": "ringhyacinth/hyacinth.im-site",
+            "stars": 67,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Modern rewrite Todo",
+        "github_repos": [
+          {
+            "full_name": "real-Elysia886/Todo-Tree-Next",
+            "stars": 67,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "接待助手 Skill。商家在牛顿端的对话入口，负责招聘接待助手、查看工作日报、解读接待数据、培训知识库；调整接待范围 暂停接待统一跳转到管理页面。",
+        "github_repos": [
+          {
+            "full_name": "next-1688/1688-cowboy",
+            "stars": 67,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Encode text reversible",
+        "github_repos": [
+          {
+            "full_name": "Tenobrus/graphglyph",
+            "stars": 64,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Kiro Pro/Pro+ 批量订阅自动化工具，支持",
+        "github_repos": [
+          {
+            "full_name": "guowang23333/kiro-pro-batch",
+            "stars": 64,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Code extension that",
+        "github_repos": [
+          {
+            "full_name": "StuckInTheNet/ComplyKit",
+            "stars": 63,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Kiro Client Rust",
+        "github_repos": [
+          {
+            "full_name": "ZyphrZero/kiro.rs",
+            "stars": 62,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Tg-Watchbot：Telegram 双向对话 网页关键词推送",
+        "github_repos": [
+          {
+            "full_name": "GongyiChuren/tg-watchbot",
+            "stars": 62,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Mission Control-style tmux",
+        "github_repos": [
+          {
+            "full_name": "cesarferreira/tmux.expose",
+            "stars": 61,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "AI-powered pixel-art JRPG:",
+        "github_repos": [
+          {
+            "full_name": "tensor2023/OpenPixel-RPG",
+            "stars": 61,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "猪猪小手机，最新版哦！请大家看准这个链接下载，谢谢啦。很荣幸能得到大家的喜欢，希望大家前途似海。PiggyPhone, latest version!",
+        "github_repos": [
+          {
+            "full_name": "lw0129-jj/PiggyPhone.JJ-STAR",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "macOS menu that",
+        "github_repos": [
+          {
+            "full_name": "aurorascharff/ClickLight",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Demonstration codebase building",
+        "github_repos": [
+          {
+            "full_name": "coleam00/helpline",
+            "stars": 59,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Yushio (夕潮) collaborator",
+        "github_repos": [
+          {
+            "full_name": "Lynnouo/yushio",
+            "stars": 58,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "耿同学skill，学术论文打假检测 agent skill，致敬耿同学讲故事",
+        "github_repos": [
+          {
+            "full_name": "wooly99/geng-academic-fraud-detector",
+            "stars": 58,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Taskloom production-grade realtime",
+        "github_repos": [
+          {
+            "full_name": "Abirami-19/taskloom-kanban",
+            "stars": 58,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Indonesian financial logos",
+        "github_repos": [
+          {
+            "full_name": "hafidznoor/idn-finlogos",
+            "stars": 57,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Useful skills agents",
+        "github_repos": [
+          {
+            "full_name": "openclaw/agent-skills",
+            "stars": 56,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "chrome-extension",
+        "github_repos": [
+          {
+            "full_name": "nevertoday/xposter",
+            "stars": 55,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 协作于一体",
+        "github_repos": [
+          {
+            "full_name": "uu201/character-arc",
+            "stars": 55,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "熊，来领养人",
+        "github_repos": [
+          {
+            "full_name": "wondaggvcb-oss/lazy-bear-desktop",
+            "stars": 54,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Single-file agent goal",
+        "github_repos": [
+          {
+            "full_name": "kingbootoshi/goal-ledger",
+            "stars": 53,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Desktop agent with",
+        "github_repos": [
+          {
+            "full_name": "vixues/LeAgent",
+            "stars": 53,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "在GitHub上申请免费的VPS",
+        "github_repos": [
+          {
+            "full_name": "1061700625/github_vps",
+            "stars": 52,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "open-source implementation Codex",
+        "github_repos": [
+          {
+            "full_name": "solrizon-ai/open-codex",
+            "stars": 52,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "在确认任何 LUI/Claw 自然语言定时任务之前，检测重复任务、语义重叠、执行冲突和阻断性边界条件。当用户通过",
+        "github_repos": [
+          {
+            "full_name": "next-1688/scheduled-task-conflict-checker",
+            "stars": 52,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent-development",
+        "github_repos": [
+          {
+            "full_name": "Cortex-AI-Network/crypto-arbitrage-bot-automated-trading",
+            "stars": 51,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "architecture",
+        "github_repos": [
+          {
+            "full_name": "Devolutions/psign",
+            "stars": 51,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "careers",
+        "github_repos": [
+          {
+            "full_name": "freeCodeCamp/freeCodeCamp",
+            "stars": 445394,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "books",
+        "github_repos": [
+          {
+            "full_name": "EbookFoundation/free-programming-books",
+            "stars": 388958,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "angular-roadmap",
+        "github_repos": [
+          {
+            "full_name": "nilbuild/developer-roadmap",
+            "stars": 355411,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Linux kernel source",
+        "github_repos": [
+          {
+            "full_name": "torvalds/linux",
+            "stars": 234362,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agentic skills framework",
+        "github_repos": [
+          {
+            "full_name": "obra/superpowers",
+            "stars": 205629,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deep-learning",
+        "github_repos": [
+          {
+            "full_name": "tensorflow/tensorflow",
+            "stars": 195267,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "repo finally unlocked.",
+        "github_repos": [
+          {
+            "full_name": "ultraworkers/claw-code",
+            "stars": 192458,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "editor",
+        "github_repos": [
+          {
+            "full_name": "microsoft/vscode",
+            "stars": 185321,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bootstrap",
+        "github_repos": [
+          {
+            "full_name": "twbs/bootstrap",
+            "stars": 174268,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "git",
+        "github_repos": [
+          {
+            "full_name": "github/gitignore",
+            "stars": 174084,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deepseek",
+        "github_repos": [
+          {
+            "full_name": "ollama/ollama",
+            "stars": 172245,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "open source coding",
+        "github_repos": [
+          {
+            "full_name": "anomalyco/opencode",
+            "stars": 165003,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "advanced-paste",
+        "github_repos": [
+          {
+            "full_name": "microsoft/PowerToys",
+            "stars": 133475,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Claude Code agentic",
+        "github_repos": [
+          {
+            "full_name": "anthropics/claude-code",
+            "stars": 126388,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "autogen",
+        "github_repos": [
+          {
+            "full_name": "microsoft/markitdown",
+            "stars": 125043,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "canvas",
+        "github_repos": [
+          {
+            "full_name": "excalidraw/excalidraw",
+            "stars": 123965,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "awesome-list",
+        "github_repos": [
+          {
+            "full_name": "ripienaar/free-for-dev",
+            "stars": 122633,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "clash",
+        "github_repos": [
+          {
+            "full_name": "clash-verge-rev/clash-verge-rev",
+            "stars": 120725,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "iptv",
+        "github_repos": [
+          {
+            "full_name": "iptv-org/iptv",
+            "stars": 116498,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "base-ui",
+        "github_repos": [
+          {
+            "full_name": "shadcn-ui/ui",
+            "stars": 115002,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ggml",
+        "github_repos": [
+          {
+            "full_name": "ggml-org/llama.cpp",
+            "stars": 112855,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "game-development",
+        "github_repos": [
+          {
+            "full_name": "godotengine/godot",
+            "stars": 111131,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deno",
+        "github_repos": [
+          {
+            "full_name": "denoland/deno",
+            "stars": 106863,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "expose",
+        "github_repos": [
+          {
+            "full_name": "fatedier/frp",
+            "stars": 106815,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "proxy",
+        "github_repos": [
+          {
+            "full_name": "2dust/v2rayN",
+            "stars": 106741,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Skills Real Engineers.",
+        "github_repos": [
+          {
+            "full_name": "mattpocock/skills",
+            "stars": 104380,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cmd",
+        "github_repos": [
+          {
+            "full_name": "microsoft/terminal",
+            "stars": 103308,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Garry Tan's exact",
+        "github_repos": [
+          {
+            "full_name": "garrytan/gstack",
+            "stars": 101948,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "backup-tool",
+        "github_repos": [
+          {
+            "full_name": "immich-app/immich",
+            "stars": 101764,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "chinese",
+        "github_repos": [
+          {
+            "full_name": "Anduin2017/HowToCook",
+            "stars": 100276,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "autograd",
+        "github_repos": [
+          {
+            "full_name": "pytorch/pytorch",
+            "stars": 100170,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "design-system",
+        "github_repos": [
+          {
+            "full_name": "mui/material-ui",
+            "stars": 98368,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ant-design",
+        "github_repos": [
+          {
+            "full_name": "ant-design/ant-design",
+            "stars": 98147,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "css",
+        "github_repos": [
+          {
+            "full_name": "tailwindlabs/tailwindcss",
+            "stars": 95106,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bun",
+        "github_repos": [
+          {
+            "full_name": "oven-sh/bun",
+            "stars": 92507,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "科技爱好者周刊，每周五发布",
+        "github_repos": [
+          {
+            "full_name": "ruanyf/weekly",
+            "stars": 91928,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bitcoin",
+        "github_repos": [
+          {
+            "full_name": "bitcoin/bitcoin",
+            "stars": 89186,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "diagrams",
+        "github_repos": [
+          {
+            "full_name": "mermaid-js/mermaid",
+            "stars": 88263,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blog-engine",
+        "github_repos": [
+          {
+            "full_name": "gohugoio/hugo",
+            "stars": 88230,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Model Context Protocol",
+        "github_repos": [
+          {
+            "full_name": "modelcontextprotocol/servers",
+            "stars": 86196,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "data-science",
+        "github_repos": [
+          {
+            "full_name": "microsoft/ML-For-Beginners",
+            "stars": 85963,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "packaging",
+        "github_repos": [
+          {
+            "full_name": "astral-sh/uv",
+            "stars": 85459,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Lightweight coding agent",
+        "github_repos": [
+          {
+            "full_name": "openai/codex",
+            "stars": 85454,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "gpui",
+        "github_repos": [
+          {
+            "full_name": "zed-industries/zed",
+            "stars": 83717,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "\"The mother demo",
+        "github_repos": [
+          {
+            "full_name": "realworld-apps/realworld",
+            "stars": 83475,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "build-tool",
+        "github_repos": [
+          {
+            "full_name": "vitejs/vite",
+            "stars": 80815,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ai-tools",
+        "github_repos": [
+          {
+            "full_name": "farion1231/cc-switch",
+            "stars": 80263,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "browser-ide",
+        "github_repos": [
+          {
+            "full_name": "coder/code-server",
+            "stars": 77703,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "elasticsearch",
+        "github_repos": [
+          {
+            "full_name": "elastic/elasticsearch",
+            "stars": 76756,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "aaron-swartz",
+        "github_repos": [
+          {
+            "full_name": "awesomedata/awesome-public-datasets",
+            "stars": 75619,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "cache",
+        "github_repos": [
+          {
+            "full_name": "redis/redis",
+            "stars": 74526,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "analytics",
+        "github_repos": [
+          {
+            "full_name": "apache/superset",
+            "stars": 72989,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Python programming language",
+        "github_repos": [
+          {
+            "full_name": "python/cpython",
+            "stars": 72878,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Drop screenshot convert",
+        "github_repos": [
+          {
+            "full_name": "abi/screenshot-to-code",
+            "stars": 72686,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "serial",
+        "github_repos": [
+          {
+            "full_name": "Eugeny/tabby",
+            "stars": 71592,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "presentations",
+        "github_repos": [
+          {
+            "full_name": "hakimel/reveal.js",
+            "stars": 71287,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "marshalling",
+        "github_repos": [
+          {
+            "full_name": "protocolbuffers/protobuf",
+            "stars": 71265,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "SecLists security tester's",
+        "github_repos": [
+          {
+            "full_name": "danielmiessler/SecLists",
+            "stars": 71137,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ci",
+        "github_repos": [
+          {
+            "full_name": "nektos/act",
+            "stars": 70477,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Swift Programming Language",
+        "github_repos": [
+          {
+            "full_name": "swiftlang/swift",
+            "stars": 70019,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "disassembler",
+        "github_repos": [
+          {
+            "full_name": "NationalSecurityAgency/ghidra",
+            "stars": 68837,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "app",
+        "github_repos": [
+          {
+            "full_name": "toeverything/AFFiNE",
+            "stars": 68727,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ansible",
+        "github_repos": [
+          {
+            "full_name": "ansible/ansible",
+            "stars": 68690,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Everything required your",
+        "github_repos": [
+          {
+            "full_name": "base/node",
+            "stars": 68554,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "open-source everyone uses",
+        "github_repos": [
+          {
+            "full_name": "paperclipai/paperclip",
+            "stars": 67528,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Crawl4AI: Open-source Friendly",
+        "github_repos": [
+          {
+            "full_name": "unclecode/crawl4ai",
+            "stars": 66212,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "data-analysis",
+        "github_repos": [
+          {
+            "full_name": "scikit-learn/scikit-learn",
+            "stars": 66182,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Curated list design",
+        "github_repos": [
+          {
+            "full_name": "bradtraversy/design-resources-for-developers",
+            "stars": 65758,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "documentation",
+        "github_repos": [
+          {
+            "full_name": "facebook/docusaurus",
+            "stars": 64999,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blocker",
+        "github_repos": [
+          {
+            "full_name": "gorhill/uBlock",
+            "stars": 64968,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bsd",
+        "github_repos": [
+          {
+            "full_name": "alacritty/alacritty",
+            "stars": 64198,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "browser",
+        "github_repos": [
+          {
+            "full_name": "LadybirdBrowser/ladybird",
+            "stars": 63545,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "consul",
+        "github_repos": [
+          {
+            "full_name": "traefik/traefik",
+            "stars": 63317,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "batch-processing",
+        "github_repos": [
+          {
+            "full_name": "pathwaycom/pathway",
+            "stars": 63235,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "airtable",
+        "github_repos": [
+          {
+            "full_name": "nocodb/nocodb",
+            "stars": 63129,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent-memory",
+        "github_repos": [
+          {
+            "full_name": "666ghj/MiroFish",
+            "stars": 62412,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Autonomous coding agent",
+        "github_repos": [
+          {
+            "full_name": "cline/cline",
+            "stars": 62281,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "crawler",
+        "github_repos": [
+          {
+            "full_name": "scrapy/scrapy",
+            "stars": 61807,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "diagram-editor",
+        "github_repos": [
+          {
+            "full_name": "jgraph/drawio-desktop",
+            "stars": 61279,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "advanced-driver-assistance-systems",
+        "github_repos": [
+          {
+            "full_name": "commaai/openpilot",
+            "stars": 61037,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "csr",
+        "github_repos": [
+          {
+            "full_name": "nuxt/nuxt",
+            "stars": 60289,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "ad-blocker",
+        "github_repos": [
+          {
+            "full_name": "pi-hole/pi-hole",
+            "stars": 58947,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "authentication",
+        "github_repos": [
+          {
+            "full_name": "pocketbase/pocketbase",
+            "stars": 58591,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blockchain",
+        "github_repos": [
+          {
+            "full_name": "FuelLabs/fuel-core",
+            "stars": 57054,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Declarative routing React",
+        "github_repos": [
+          {
+            "full_name": "remix-run/react-router",
+            "stars": 56435,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "dark-mode",
+        "github_repos": [
+          {
+            "full_name": "marktext/marktext",
+            "stars": 56430,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "llm",
+        "github_repos": [
+          {
+            "full_name": "upstash/context7",
+            "stars": 56036,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bitbucket",
+        "github_repos": [
+          {
+            "full_name": "go-gitea/gitea",
+            "stars": 55902,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "coolify",
+        "github_repos": [
+          {
+            "full_name": "coollabsio/coolify",
+            "stars": 55844,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "deep-face-swap",
+        "github_repos": [
+          {
+            "full_name": "deepfakes/faceswap",
+            "stars": 55243,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Ghostty fast, feature-rich,",
+        "github_repos": [
+          {
+            "full_name": "ghostty-org/ghostty",
+            "stars": 55230,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Chris Titus Tech's",
+        "github_repos": [
+          {
+            "full_name": "ChrisTitusTech/winutil",
+            "stars": 55040,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent toolkit: coding",
+        "github_repos": [
+          {
+            "full_name": "earendil-works/pi",
+            "stars": 54265,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bittorrent",
+        "github_repos": [
+          {
+            "full_name": "ngosang/trackerslist",
+            "stars": 53968,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agentic-coding",
+        "github_repos": [
+          {
+            "full_name": "rtk-ai/rtk",
+            "stars": 53829,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blogging",
+        "github_repos": [
+          {
+            "full_name": "TryGhost/Ghost",
+            "stars": 53666,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "command-line",
+        "github_repos": [
+          {
+            "full_name": "PowerShell/PowerShell",
+            "stars": 53600,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Reader JavaScript",
+        "github_repos": [
+          {
+            "full_name": "mozilla/pdf.js",
+            "stars": 53364,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "antigravity",
+        "github_repos": [
+          {
+            "full_name": "safishamsi/graphify",
+            "stars": 53364,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "csharp",
+        "github_repos": [
+          {
+            "full_name": "jellyfin/jellyfin",
+            "stars": 52144,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      }
+    ]
+  },
+  "uncorrelated_repos": [
+    "perplexityai/bumblebee",
+    "open-gsd/get-shit-done-redux",
+    "kageroumado/phosphene",
+    "0xSero/codex-shim",
+    "run-liyi/wechatpay",
+    "Jawaz-Keyzor/FL-Studio-2026-Producer-Edition-Unlock",
+    "jskblue/Tomodachi-Island-Life-Remastered",
+    "larajuniorlara/Claude-Design-Studio",
+    "rayhayqal/Mythos-Claude-Skill-Forge",
+    "rafa450367/forza-horizon-6-community-edition",
+    "Lablez/Ping-Slayer-Network-Optimizer",
+    "pheejm/forza-horizon-6-ultimate-mod-pack",
+    "muhammadqasimkalhoro94-blip/claude-zeroclaw-agentics",
+    "pierremichaeljensen/Yuzu-Switch-Emulation-Kit",
+    "bollahouse/office-2024-pro-integration-suite",
+    "sofian160616/Delta-Inject-Workstation",
+    "ochoaochoa330-design/Aegis-V4-Client-2026",
+    "teendriller0/AllMods-Subnautica-2",
+    "danyy-svg/AutoCAD-Suite-Builder",
+    "hahavelhojoguinho/guild-advancement-automator",
+    "SalhaNabil/CloakBrowser",
+    "littlefrogyq/UE4SS-Subnautica-2",
+    "bonus-2026/casino-bonus",
+    "uktrash/LSFG-Desktop",
+    "MoonshotAI/kimi-code",
+    "Jawaz-Keyzor/CS2-External-Cheat-2026",
+    "CylinderChairman/aida64",
+    "aayan555/DS4Windows",
+    "testerlingcodo/gemini-antigravity-cli",
+    "CEOHarvey242/cheat-engine-7.5",
+    "ZettPW/KMSTools",
+    "Qwilxy/paralives-release",
+    "ShinyaTomitsuka/arbitrage-trading-bot",
+    "Mclisterjoeh2o/yellowkey-bitlocker",
+    "mila89/polymarket-trading-bot",
+    "RayceAnderson/tomodachi-pc",
+    "suyancc/openai-plus-vxt",
+    "jianshuo/ccglass",
+    "judithsulfan/trading-bot",
+    "Satomoit/LCE-Emerald-Launcher",
+    "VILA-Lab/FigMirror",
+    "unprovable/ShadowCat",
+    "md0070/polymarket-trading-bot",
+    "Jawaz-Keyzor/DarkGPT",
+    "Simbastack-hq/framedex",
+    "XingYu-Zhong/DeepSeek-GUI",
+    "hanyi0000/chatgpt-plus-automation-toolkit",
+    "Biplobsarker/Umbrella-HWID",
+    "PredictiveFlow-Labs/polymarket-arbitrage-bot",
+    "hypnguyen1209/offensive-claude",
+    "yui540/comimi",
+    "resonancegnatassess/Lossless-Scaling",
+    "jazzband/web3-devkit-cli",
+    "redteamfortress/PhantomKiller",
+    "zzzhhh1/mg-Koyeb",
+    "LUPUL64348/NTE-cheat",
+    "jackson-video-resources/markov-hedge-fund-method",
+    "Polymarket-Trading-kit/crypto-trading-bot",
+    "zqbxdev/webchat2api",
+    "Polymarket-Trading-kit/sports-trading-bot",
+    "modaic-ai/gepa-viz",
+    "lce-emerald-launcher/LCE-Emerald-Launcher",
+    "heroicgameslauncher/HeroicGamesLauncher",
+    "XboxMode/Windows-Xbox-Mode",
+    "Boob025/peace-equalizer-APO",
+    "SIXIANGGUO/cc-note-ops",
+    "tonbo-io/ursula",
+    "Eynzof/hermes-agent-cn-desktop",
+    "AresLeVrai/celestial-launcher-releases",
+    "aref-vc/tufte-claude-skill",
+    "matem6/P2JB-Y2JB-Porting",
+    "scheidydude/codeindex",
+    "open-gsd/gsd-pi",
+    "simonlin1212/global-stock-data",
+    "Margele/OpenZen",
+    "Frank-Masciopinto/no-kings",
+    "DEEIX-AI/DEEIX-Chat",
+    "SKL2910/limitless-trading-bot",
+    "MariCarmen1971/solana-pumpfun-raydium-bundler",
+    "thesammy26/polymarket-arbitrage-bot",
+    "flaviodesa/polymarket-copy-trading-bot",
+    "amet2901/asterdex-trading-bot",
+    "bonny1220/solana-trading-bot",
+    "Katbrink/polymarket-weather-trading-bot",
+    "gokulgml/polymarket-copy-trading-bot",
+    "LucaRatiu/hyperliquid-trading-bot",
+    "LingyiChen-AI/boris-prompts",
+    "elyelysiox/recaptcha",
+    "TencentYoutuResearch/T2I-L2P",
+    "OpenYSMDev/OpenYSM",
+    "chefkannofriend-source/lcb-baker-agent",
+    "internetkafe/vpnhostinglist",
+    "NanoFlow-io/engram",
+    "physx-omni/PhysX-Omni",
+    "MobiusQuant/OpenMobius-skill",
+    "Jawaz-Keyzor/Valorant-External-Assistant-2026",
+    "RoseKhlifa/Image-Studio",
+    "afumu/openteam",
+    "POWER-PILL/ASCII-Aquarium",
+    "YxuanAr/Code-as-Room",
+    "clawdbrunner/captcha-solver",
+    "zclllyybb/lofisu-identity-engine",
+    "maowuzz/chatgpt-session-forge",
+    "kingbootoshi/directional-prompting",
+    "workos/auth.md",
+    "nettitude/CLR-Stomp",
+    "nv-tlabs/PiD",
+    "nkzw-tech/cloudsail",
+    "FutureMLS-Lab/OSCAR",
+    "hotaku76/Polymarket-Automated-Trading-Bot",
+    "mwhammadrezss/ShiroKhorshidScanner",
+    "joeseesun/qiaomu-userscripts",
+    "Saddytech/lockbit-rescue",
+    "mrslimslim/awesome-prompt",
+    "xoriin/NetMap",
+    "leosssvip-dot/remotion-ad-video-skill",
+    "stainlu/stainful",
+    "md0070/polymarket-arbitrage-trading-bot",
+    "Signal-Market-Engine/polymarket-trading-bot",
+    "Alpha-Vector-Core/polymarket-trading-bot",
+    "Alpha-Vector-Core/polymarket-arbitrage-trading-bot",
+    "Quantum-Probability-Forge/polymarket-arbitrage-trading-bot",
+    "Quantum-Probability-Forge/polymarket-trading-bot",
+    "Signal-Market-Engine/polymarket-arbitrage-trading-bot",
+    "jjrCN/PanoWorld",
+    "Arccalc/Dwmfix",
+    "shootthesound/ComfyUI-Angelo",
+    "HaulerAwaken/Discord-Fix",
+    "zhw040803-glitch/UAV-GPS-DQN-Detection",
+    "wesbos/syntax-supercut-studio",
+    "L-NEMU/TravelMinimal",
+    "Akash190104/kolkata-bus-route",
+    "c4pt0r/pie",
+    "ringhyacinth/hyacinth.im-site",
+    "real-Elysia886/Todo-Tree-Next",
+    "next-1688/1688-cowboy",
+    "Tenobrus/graphglyph",
+    "guowang23333/kiro-pro-batch",
+    "StuckInTheNet/ComplyKit",
+    "ZyphrZero/kiro.rs",
+    "GongyiChuren/tg-watchbot",
+    "cesarferreira/tmux.expose",
+    "tensor2023/OpenPixel-RPG",
+    "lw0129-jj/PiggyPhone.JJ-STAR",
+    "aurorascharff/ClickLight",
+    "coleam00/helpline",
+    "Lynnouo/yushio",
+    "wooly99/geng-academic-fraud-detector",
+    "Abirami-19/taskloom-kanban",
+    "hafidznoor/idn-finlogos",
+    "openclaw/agent-skills",
+    "davidichalfyorov-wq/openxiv",
+    "nevertoday/xposter",
+    "uu201/character-arc",
+    "wondaggvcb-oss/lazy-bear-desktop",
+    "kingbootoshi/goal-ledger",
+    "vixues/LeAgent",
+    "1061700625/github_vps",
+    "solrizon-ai/open-codex",
+    "next-1688/scheduled-task-conflict-checker",
+    "Cortex-AI-Network/crypto-arbitrage-bot-automated-trading",
+    "Devolutions/psign",
+    "freeCodeCamp/freeCodeCamp",
+    "EbookFoundation/free-programming-books",
+    "nilbuild/developer-roadmap",
+    "vinta/awesome-python",
+    "awesome-selfhosted/awesome-selfhosted",
+    "torvalds/linux",
+    "TheAlgorithms/Python",
+    "obra/superpowers",
+    "trekhleb/javascript-algorithms",
+    "tensorflow/tensorflow",
+    "ultraworkers/claw-code",
+    "affaan-m/ECC",
+    "ohmyzsh/ohmyzsh",
+    "microsoft/vscode",
+    "twbs/bootstrap",
+    "github/gitignore",
+    "avelino/awesome-go",
+    "ollama/ollama",
+    "yt-dlp/yt-dlp",
+    "anomalyco/opencode",
+    "huggingface/transformers",
+    "langflow-ai/langflow",
+    "anthropics/skills",
+    "vercel/next.js",
+    "golang/go",
+    "microsoft/PowerToys",
+    "anthropics/claude-code",
+    "microsoft/markitdown",
+    "excalidraw/excalidraw",
+    "ripienaar/free-for-dev",
+    "kubernetes/kubernetes",
+    "clash-verge-rev/clash-verge-rev",
+    "nodejs/node",
+    "iptv-org/iptv",
+    "shadcn-ui/ui",
+    "rust-lang/rust",
+    "ggml-org/llama.cpp",
+    "mrdoob/three.js",
+    "Shubhamsaboo/awesome-llm-apps",
+    "godotengine/godot",
+    "axios/axios",
+    "microsoft/TypeScript",
+    "denoland/deno",
+    "fatedier/frp",
+    "2dust/v2rayN",
+    "mattpocock/skills",
+    "microsoft/terminal",
+    "garrytan/gstack",
+    "immich-app/immich",
+    "Anduin2017/HowToCook",
+    "pytorch/pytorch",
+    "neovim/neovim",
+    "fastapi/fastapi",
+    "mui/material-ui",
+    "ant-design/ant-design",
+    "browser-use/browser-use",
+    "tailwindlabs/tailwindcss",
+    "puppeteer/puppeteer",
+    "oven-sh/bun",
+    "ruanyf/weekly",
+    "microsoft/playwright",
+    "bitcoin/bitcoin",
+    "mermaid-js/mermaid",
+    "gohugoio/hugo",
+    "louislam/uptime-kuma",
+    "modelcontextprotocol/servers",
+    "microsoft/ML-For-Beginners",
+    "astral-sh/uv",
+    "openai/codex",
+    "syncthing/syncthing",
+    "laravel/laravel",
+    "zed-industries/zed",
+    "realworld-apps/realworld",
+    "vllm-project/vllm",
+    "vitejs/vite",
+    "spring-projects/spring-boot",
+    "junegunn/fzf",
+    "farion1231/cc-switch",
+    "Stirling-Tools/Stirling-PDF",
+    "hoppscotch/hoppscotch",
+    "PaddlePaddle/PaddleOCR",
+    "jesseduffield/lazygit",
+    "coder/code-server",
+    "elastic/elasticsearch",
+    "awesomedata/awesome-public-datasets",
+    "nestjs/nest",
+    "OpenHands/OpenHands",
+    "redis/redis",
+    "unionlabs/union",
+    "grafana/grafana",
+    "ocornut/imgui",
+    "apache/superset",
+    "python/cpython",
+    "abi/screenshot-to-code",
+    "obsproject/obs-studio",
+    "strapi/strapi",
+    "Eugeny/tabby",
+    "fffaraz/awesome-cpp",
+    "hakimel/reveal.js",
+    "protocolbuffers/protobuf",
+    "danielmiessler/SecLists",
+    "nektos/act",
+    "swiftlang/swift",
+    "NationalSecurityAgency/ghidra",
+    "toeverything/AFFiNE",
+    "ansible/ansible",
+    "base/node",
+    "paperclipai/paperclip",
+    "unclecode/crawl4ai",
+    "scikit-learn/scikit-learn",
+    "webpack/webpack",
+    "bradtraversy/design-resources-for-developers",
+    "TheAlgorithms/Java",
+    "ruvnet/RuView",
+    "unslothai/unsloth",
+    "facebook/docusaurus",
+    "gorhill/uBlock",
+    "opendatalab/MinerU",
+    "alacritty/alacritty",
+    "prometheus/prometheus",
+    "gsd-build/get-shit-done",
+    "LadybirdBrowser/ladybird",
+    "traefik/traefik",
+    "pathwaycom/pathway",
+    "nocodb/nocodb",
+    "socketio/socket.io",
+    "666ghj/MiroFish",
+    "cline/cline",
+    "scrapy/scrapy",
+    "ComposioHQ/awesome-claude-skills",
+    "FuelLabs/sway",
+    "jgraph/drawio-desktop",
+    "git/git",
+    "commaai/openpilot",
+    "Mintplex-Labs/anything-llm",
+    "FFmpeg/FFmpeg",
+    "nuxt/nuxt",
+    "spring-projects/spring-framework",
+    "warpdotdev/warp",
+    "sharkdp/bat",
+    "pi-hole/pi-hole",
+    "pocketbase/pocketbase",
+    "pmndrs/zustand",
+    "ultralytics/ultralytics",
+    "rust-unofficial/awesome-rust",
+    "FuelLabs/fuel-core",
+    "remix-run/react-router",
+    "marktext/marktext",
+    "upstash/context7",
+    "gatsbyjs/gatsby",
+    "go-gitea/gitea",
+    "coollabsio/coolify",
+    "deepfakes/faceswap",
+    "ghostty-org/ghostty",
+    "ChrisTitusTech/winutil",
+    "ruvnet/ruflo",
+    "earendil-works/pi",
+    "ngosang/trackerslist",
+    "rtk-ai/rtk",
+    "typst/typst",
+    "TryGhost/Ghost",
+    "PowerShell/PowerShell",
+    "mozilla/pdf.js",
+    "safishamsi/graphify",
+    "FlowiseAI/Flowise",
+    "JetBrains/kotlin",
+    "ionic-team/ionic-framework",
+    "jellyfin/jellyfin",
+    "prettier/prettier",
+    "etcd-io/etcd",
+    "nexu-io/open-design"
+  ],
+  "metadata": {
+    "repos_analyzed": 416,
+    "correlations_found": 83,
+    "articles_matched": 19,
+    "uncovered_tech_trends": 1,
+    "unpublicized_dev_activity": 266
+  }
+}

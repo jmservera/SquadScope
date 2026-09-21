@@ -1,0 +1,1425 @@
+{
+  "checksum_sha256": "6d9f0d62a50b031aedef8ef0e444015cc11826d9675014f03c8f69d81d8cb66e",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 171977,
+        "path": "data/analyzed/2026-W30-correlations.json",
+        "sha256": "a3cb3317dca3ea4b6dd31a2d9d0ef86074b4dc38b5c2f6491abf4aaf61ff28dd"
+      },
+      "external_news": {
+        "bytes": 46151,
+        "path": "data/raw/2026-W30-external-news.json",
+        "sha256": "ee620aeba3ff51a5982137c325429e5d0ed8a821bc78306974f90475d3fc8fc4"
+      },
+      "raw_json": {
+        "bytes": 274545,
+        "path": "data/raw/2026-W30.json",
+        "sha256": "0e251c5ca51d1744e095bad85d9a80cbcdd75c260d716278ecbe07862a18ce7d"
+      }
+    },
+    "week": "2026-W30"
+  },
+  "records": [
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T17:29:31Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub for Beginners: Your roadmap to mastering the GitHub essentials",
+          "url": "https://github.blog/developer-skills/github/github-for-beginners-your-roadmap-to-mastering-the-github-essentials/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/developer-skills/github/github-for-beginners-your-roadmap-to-mastering-the-github-essentials/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T19:24:45Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Can an Apple lawsuit derail OpenAI’s hardware plans?",
+          "url": "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/"
+        },
+        {
+          "published_at": "2026-07-16T12:10:00Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: OpenAI unveils GPT-Red and heat pumps rise in the US",
+          "url": "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/"
+        },
+        {
+          "published_at": "2026-07-15T17:09:37Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Meet GPT-Red: an LLM super-hacker OpenAI built to make its models safer",
+          "url": "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/",
+        "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/",
+        "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+      ],
+      "repo": "openai/codex"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T15:00:14Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera Rubin Maximizes Intelligence per Dollar for Post-Training Workloads — a Key Metric for Agentic AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+      ],
+      "repo": "2dust/v2rayN"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-16T11:49:48Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Newer Models, Same Advantage",
+          "url": "https://huggingface.co/blog/Dharma-AI/newer-models-same-advantages"
+        },
+        {
+          "published_at": "2026-07-15T23:00:54Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Introduces New Jetson Thor Computers to Advance Mainstream Robotics and Edge AI",
+          "url": "https://blogs.nvidia.com/blog/jetson-thor-robotics-edge-ai-agent/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/Dharma-AI/newer-models-same-advantages",
+        "https://blogs.nvidia.com/blog/jetson-thor-robotics-edge-ai-agent/"
+      ],
+      "repo": "AstroVela/vane"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T19:49:53Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple and Google ordered to purge ‘nudify’ apps from App Stores",
+          "url": "https://techcrunch.com/2026/07/17/apple-and-google-ordered-to-purge-nudify-apps-from-app-stores/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/17/apple-and-google-ordered-to-purge-nudify-apps-from-app-stores/"
+      ],
+      "repo": "Bananefre/Stock-Market-app"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T14:00:00Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Nonprofit Current AI is racing to build the World Wide Web of AI, free for all",
+          "url": "https://techcrunch.com/2026/07/19/nonprofit-current-ai-is-racing-to-build-the-world-wide-web-of-ai-free-for-all/"
+        },
+        {
+          "published_at": "2026-07-14T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings, and the future of world models",
+          "url": "https://www.technologyreview.com/2026/07/14/1140391/the-download-anthropic-claude-internal-thoughts-world-models/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/nonprofit-current-ai-is-racing-to-build-the-world-wide-web-of-ai-free-for-all/",
+        "https://www.technologyreview.com/2026/07/14/1140391/the-download-anthropic-claude-internal-thoughts-world-models/"
+      ],
+      "repo": "Blueturboguy07/cue"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T23:08:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Applications close in 48 hours — here’s everything Australian founders need to know about Stripe x Startup Battlefield",
+          "url": "https://techcrunch.com/2026/07/17/applications-close-in-48-hours-heres-everything-australian-founders-need-to-know-about-stripe-x-startup-battlefield/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/17/applications-close-in-48-hours-heres-everything-australian-founders-need-to-know-about-stripe-x-startup-battlefield/"
+      ],
+      "repo": "BurntSushi/ripgrep"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T17:27:01Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Model Routing Is Simple. Until It Isn’t.",
+          "url": "https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt"
+      ],
+      "repo": "ChrisTitusTech/winutil"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-16T13:00:34Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sharpen the Sword, Skip the Downloads — ‘Onimusha: Way of the Sword’ Is Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+      ],
+      "repo": "CodeDrobe/skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-16T13:00:34Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sharpen the Sword, Skip the Downloads — ‘Onimusha: Way of the Sword’ Is Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+      ],
+      "repo": "Comfy-Org/ComfyUI"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T23:08:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Applications close in 48 hours — here’s everything Australian founders need to know about Stripe x Startup Battlefield",
+          "url": "https://techcrunch.com/2026/07/17/applications-close-in-48-hours-heres-everything-australian-founders-need-to-know-about-stripe-x-startup-battlefield/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/17/applications-close-in-48-hours-heres-everything-australian-founders-need-to-know-about-stripe-x-startup-battlefield/"
+      ],
+      "repo": "D4Vinci/Scrapling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T17:27:01Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Model Routing Is Simple. Until It Isn’t.",
+          "url": "https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt"
+      ],
+      "repo": "DietrichGebert/ponytail"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T15:00:20Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Why Performance per Watt Is the Ultimate Metric for AI Infrastructure Efficiency",
+          "url": "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+      ],
+      "repo": "DitchBreakerWish/FIFA-Ultimate-Editor-"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings, and the future of world models",
+          "url": "https://www.technologyreview.com/2026/07/14/1140391/the-download-anthropic-claude-internal-thoughts-world-models/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/14/1140391/the-download-anthropic-claude-internal-thoughts-world-models/"
+      ],
+      "repo": "Encod3d-Sec/ClaudeBrain"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "Fission-AI/OpenSpec"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Welcome Inkling by Thinking Machines",
+          "url": "https://huggingface.co/blog/thinkingmachines-inkling"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/thinkingmachines-inkling"
+      ],
+      "repo": "FuelLabs/fuel-core"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-18T19:30:23Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Waymo says San Francisco service has resumed after one-hour pause",
+          "url": "https://techcrunch.com/2026/07/18/waymo-appears-to-pause-san-francisco-service-amidst-power-outage/"
+        },
+        {
+          "published_at": "2026-07-16T13:00:34Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sharpen the Sword, Skip the Downloads — ‘Onimusha: Way of the Sword’ Is Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/18/waymo-appears-to-pause-san-francisco-service-amidst-power-outage/",
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+      ],
+      "repo": "FuelLabs/sway"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T19:49:53Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple and Google ordered to purge ‘nudify’ apps from App Stores",
+          "url": "https://techcrunch.com/2026/07/17/apple-and-google-ordered-to-purge-nudify-apps-from-app-stores/"
+        },
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/17/apple-and-google-ordered-to-purge-nudify-apps-from-app-stores/",
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "Gheat1/tuistore"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T14:00:00Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Nonprofit Current AI is racing to build the World Wide Web of AI, free for all",
+          "url": "https://techcrunch.com/2026/07/19/nonprofit-current-ai-is-racing-to-build-the-world-wide-web-of-ai-free-for-all/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/nonprofit-current-ai-is-racing-to-build-the-world-wide-web-of-ai-free-for-all/"
+      ],
+      "repo": "HSJ-BanFan/grok-register-web"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings, and the future of world models",
+          "url": "https://www.technologyreview.com/2026/07/14/1140391/the-download-anthropic-claude-internal-thoughts-world-models/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/14/1140391/the-download-anthropic-claude-internal-thoughts-world-models/"
+      ],
+      "repo": "KinetiNode/claude-fable-5-system-prompt-clean"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T15:00:14Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera Rubin Maximizes Intelligence per Dollar for Post-Training Workloads — a Key Metric for Agentic AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+      ],
+      "repo": "MIgHTy-alIeN/Trading-Bot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T17:09:37Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Meet GPT-Red: an LLM super-hacker OpenAI built to make its models safer",
+          "url": "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+      ],
+      "repo": "Mintplex-Labs/anything-llm"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T19:24:45Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Can an Apple lawsuit derail OpenAI’s hardware plans?",
+          "url": "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/"
+        },
+        {
+          "published_at": "2026-07-16T12:10:00Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: OpenAI unveils GPT-Red and heat pumps rise in the US",
+          "url": "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/"
+        },
+        {
+          "published_at": "2026-07-15T17:09:37Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Meet GPT-Red: an LLM super-hacker OpenAI built to make its models safer",
+          "url": "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+        },
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/",
+        "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/",
+        "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/",
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "OpenBB-finance/OpenBB"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T19:24:45Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Can an Apple lawsuit derail OpenAI’s hardware plans?",
+          "url": "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/"
+        },
+        {
+          "published_at": "2026-07-16T12:10:00Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: OpenAI unveils GPT-Red and heat pumps rise in the US",
+          "url": "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/"
+        },
+        {
+          "published_at": "2026-07-15T17:09:37Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Meet GPT-Red: an LLM super-hacker OpenAI built to make its models safer",
+          "url": "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+        },
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/",
+        "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/",
+        "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/",
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "OpenCut-app/OpenCut"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T19:24:45Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Can an Apple lawsuit derail OpenAI’s hardware plans?",
+          "url": "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/"
+        },
+        {
+          "published_at": "2026-07-16T12:10:00Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: OpenAI unveils GPT-Red and heat pumps rise in the US",
+          "url": "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/"
+        },
+        {
+          "published_at": "2026-07-15T17:09:37Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Meet GPT-Red: an LLM super-hacker OpenAI built to make its models safer",
+          "url": "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+        },
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/",
+        "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/",
+        "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/",
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T15:00:14Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera Rubin Maximizes Intelligence per Dollar for Post-Training Workloads — a Key Metric for Agentic AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+      ],
+      "repo": "Panniantong/Agent-Reach"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T15:00:14Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera Rubin Maximizes Intelligence per Dollar for Post-Training Workloads — a Key Metric for Agentic AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+      ],
+      "repo": "PromptPartner/agentsmith"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T08:00:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "PsiQuantum has a plan to make a massive quantum computer out of light",
+          "url": "https://www.technologyreview.com/2026/07/14/1140356/psiquantum-plan-massive-quantum-computer-out-of-light/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/14/1140356/psiquantum-plan-massive-quantum-computer-out-of-light/"
+      ],
+      "repo": "QuantumByteOSS/quantumbyte"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T17:09:37Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Meet GPT-Red: an LLM super-hacker OpenAI built to make its models safer",
+          "url": "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+      ],
+      "repo": "Shubhamsaboo/awesome-llm-apps"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-16T12:10:00Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: OpenAI unveils GPT-Red and heat pumps rise in the US",
+          "url": "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/"
+        },
+        {
+          "published_at": "2026-07-15T17:09:37Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Meet GPT-Red: an LLM super-hacker OpenAI built to make its models safer",
+          "url": "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/",
+        "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+      ],
+      "repo": "Significant-Gravitas/AutoGPT"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T21:16:07Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "What to watch for after Jensen Huang’s Japan visit",
+          "url": "https://techcrunch.com/2026/07/19/what-to-watch-for-after-jensen-huangs-japan-visit/"
+        },
+        {
+          "published_at": "2026-07-15T10:51:37Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Japan Bring Full-Stack AI and Robotics to Every Industry",
+          "url": "https://blogs.nvidia.com/blog/japan-ecosystem-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/what-to-watch-for-after-jensen-huangs-japan-visit/",
+        "https://blogs.nvidia.com/blog/japan-ecosystem-2026/"
+      ],
+      "repo": "TheAlgorithms/Java"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T15:00:20Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Why Performance per Watt Is the Ultimate Metric for AI Infrastructure Efficiency",
+          "url": "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+      ],
+      "repo": "WaterNegotiatorForm/RL-Ultimate-Vision"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T20:19:49Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Agility Robotics plants its flag in Tesla’s backyard",
+          "url": "https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/"
+        },
+        {
+          "published_at": "2026-07-15T23:00:54Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Introduces New Jetson Thor Computers to Advance Mainstream Robotics and Edge AI",
+          "url": "https://blogs.nvidia.com/blog/jetson-thor-robotics-edge-ai-agent/"
+        },
+        {
+          "published_at": "2026-07-15T10:51:37Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Japan Bring Full-Stack AI and Robotics to Every Industry",
+          "url": "https://blogs.nvidia.com/blog/japan-ecosystem-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/",
+        "https://blogs.nvidia.com/blog/jetson-thor-robotics-edge-ai-agent/",
+        "https://blogs.nvidia.com/blog/japan-ecosystem-2026/"
+      ],
+      "repo": "XiaomiRobotics/Xiaomi-Robotics-1"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T10:51:37Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Japan Bring Full-Stack AI and Robotics to Every Industry",
+          "url": "https://blogs.nvidia.com/blog/japan-ecosystem-2026/"
+        },
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/japan-ecosystem-2026/",
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "ZethRise/Aethery"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T15:00:14Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera Rubin Maximizes Intelligence per Dollar for Post-Training Workloads — a Key Metric for Agentic AI",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+      ],
+      "repo": "addyosmani/agent-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T20:19:49Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Agility Robotics plants its flag in Tesla’s backyard",
+          "url": "https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/"
+      ],
+      "repo": "alacritty/alacritty"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T14:00:00Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Nonprofit Current AI is racing to build the World Wide Web of AI, free for all",
+          "url": "https://techcrunch.com/2026/07/19/nonprofit-current-ai-is-racing-to-build-the-world-wide-web-of-ai-free-for-all/"
+        },
+        {
+          "published_at": "2026-07-15T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Introducing Real World VoiceEQ: Measuring the human quality of voice AI",
+          "url": "https://huggingface.co/blog/real-world-voiceeq"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/nonprofit-current-ai-is-racing-to-build-the-world-wide-web-of-ai-free-for-all/",
+        "https://huggingface.co/blog/real-world-voiceeq"
+      ],
+      "repo": "amirmushichge/world-cup-letter-flags"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Welcome Inkling by Thinking Machines",
+          "url": "https://huggingface.co/blog/thinkingmachines-inkling"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/thinkingmachines-inkling"
+      ],
+      "repo": "andyhuo520/MacCheck"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T19:22:00Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Nuclear startup Valar Atomics in talks to raise new funding at $6B valuation",
+          "url": "https://techcrunch.com/2026/07/17/nuclear-startup-valar-atomics-in-talks-to-raise-new-funding-at-6b-valuation/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/17/nuclear-startup-valar-atomics-in-talks-to-raise-new-funding-at-6b-valuation/"
+      ],
+      "repo": "angular/angular"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "anomalyco/opencode"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-15T17:27:01Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Model Routing Is Simple. Until It Isn’t.",
+          "url": "https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt"
+      ],
+      "repo": "ansible/ansible"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T12:10:00Z",
+          "relevance_score": 0.4,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Claude’s inner workings, and the future of world models",
+          "url": "https://www.technologyreview.com/2026/07/14/1140391/the-download-anthropic-claude-internal-thoughts-world-models/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/07/14/1140391/the-download-anthropic-claude-internal-thoughts-world-models/"
+      ],
+      "repo": "anthropics/claude-code"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-16T13:00:34Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sharpen the Sword, Skip the Downloads — ‘Onimusha: Way of the Sword’ Is Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+      ],
+      "repo": "anthropics/skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T19:24:45Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Can an Apple lawsuit derail OpenAI’s hardware plans?",
+          "url": "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/"
+        },
+        {
+          "published_at": "2026-07-17T19:49:53Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple and Google ordered to purge ‘nudify’ apps from App Stores",
+          "url": "https://techcrunch.com/2026/07/17/apple-and-google-ordered-to-purge-nudify-apps-from-app-stores/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/",
+        "https://techcrunch.com/2026/07/17/apple-and-google-ordered-to-purge-nudify-apps-from-app-stores/"
+      ],
+      "repo": "appwrite/appwrite"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "axios/axios"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-16T13:00:34Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Sharpen the Sword, Skip the Downloads — ‘Onimusha: Way of the Sword’ Is Coming to GeForce NOW",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+      ],
+      "repo": "bitcoin/bitcoin"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T15:00:20Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Why Performance per Watt Is the Ultimate Metric for AI Infrastructure Efficiency",
+          "url": "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+      ],
+      "repo": "chaservisiongirder/R6-Ultimate-Vision"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-17T15:57:54Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Fine-tune video and image models at scale with NVIDIA NeMo Automodel and 🤗 Diffusers",
+          "url": "https://huggingface.co/blog/nvidia/scale-diffusers-finetuning-nemo-automodel"
+        },
+        {
+          "published_at": "2026-07-17T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: perimenopause misinformation and China’s latest AI leap",
+          "url": "https://www.technologyreview.com/2026/07/17/1140640/the-download-perimenopause-misinformation-china-moonshot-ai/"
+        },
+        {
+          "published_at": "2026-07-15T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Welcome Inkling by Thinking Machines",
+          "url": "https://huggingface.co/blog/thinkingmachines-inkling"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/nvidia/scale-diffusers-finetuning-nemo-automodel",
+        "https://www.technologyreview.com/2026/07/17/1140640/the-download-perimenopause-misinformation-china-moonshot-ai/",
+        "https://huggingface.co/blog/thinkingmachines-inkling"
+      ],
+      "repo": "cline/cline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-14T15:00:20Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Why Performance per Watt Is the Ultimate Metric for AI Infrastructure Efficiency",
+          "url": "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+      ],
+      "repo": "colorsrankgap/COD-Ultimate-Vision"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-07-19T19:24:45Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Can an Apple lawsuit derail OpenAI’s hardware plans?",
+          "url": "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/"
+        },
+        {
+          "published_at": "2026-07-16T12:10:00Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: OpenAI unveils GPT-Red and heat pumps rise in the US",
+          "url": "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/"
+        },
+        {
+          "published_at": "2026-07-15T17:09:37Z",
+          "relevance_score": 0.8,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Meet GPT-Red: an LLM super-hacker OpenAI built to make its models safer",
+          "url": "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/"
+        },
+        {
+          "published_at": "2026-07-14T16:45:13Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Nemotron Labs: How Open Models Give Enterprises and Nations AI They Can Trust, Control and Customize",
+          "url": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/07/19/can-an-apple-lawsuit-derail-openais-hardware-plans/",
+        "https://www.technologyreview.com/2026/07/16/1140600/the-download-openai-unveils-gpt-red-heat-pumps-rise-us/",
+        "https://www.technologyreview.com/2026/07/15/1140514/meet-gpt-red-an-llm-super-hacker-openai-built-to-make-its-models-safer/",
+        "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+      ],
+      "repo": "commaai/openpilot"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}

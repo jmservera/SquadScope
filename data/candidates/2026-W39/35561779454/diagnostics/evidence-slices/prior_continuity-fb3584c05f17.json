@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "fb3584c05f17460b5fa0c7d26883167fd00a131f055084767d939a07b922cb9f",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8111,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W38-summary.md",
+        "sha256": "fb5b789eafaf14b1ff9befac3aed430d0afaa91b50ff766e55df0d571637baec"
+      },
+      "raw_json": {
+        "bytes": 406234,
+        "path": "data/raw/2026-W39.json",
+        "sha256": "0b97fc410828016035152a9ee69bc1484a232a3865bbefeb4ce02fd57f13a64e"
+      }
+    },
+    "week": "2026-W39"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"AI Moves From Agents to Production Substrates\"\ndate: 2026-09-14T04:44:20Z\nweek: \"2026-W38\"\nyear: 2026\ntags: [ai-infrastructure, agent-skills, formal-verification, physical-ai, ai-video, privacy]\ncategories: [weekly]\nrepos_featured: 50\nstars_tracked: 6578298\ntop_repo: \"openai/NavierStokesAndEuler\"\nquality_score: 100\nsummary: \"AI development shifted from generic agents toward proofs, kernels, production media workflows, and the data infrastructure needed for physical systems.\"\npredictions:\n  - repo: openai/NavierStokesAndEuler\n    claim_type: signal\n    direction: up\n    confidence: 0.78\n  - repo: deepseek-ai/DeepSelect\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: Vincentwei1021/anything2explainer\n    claim_type: signal\n    direction: up\n    confidence: 0.68\n  - repo: SpaceDudem/text-humanizer\n    claim_type: noise\n    direction: down\n    confidence: 0.76\n  - repo: tsymbaluyk/maskgate\n    claim_type: gap\n    direction: flat\n    confidence: 0.64\n---\n",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W38-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}
