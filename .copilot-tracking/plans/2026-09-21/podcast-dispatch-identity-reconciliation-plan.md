@@ -12,7 +12,9 @@
 
 ## Executive Summary
 
-This finalized plan fixes the W38/W39 failure mode by making podcast-dispatch history decisions apply only to the full canonical publication identity: `week`, `publish_run_id`, `article_sha256`, and `manifest_sha256`. A cancelled or unreadable historical run with no demonstrable relationship to that tuple will no longer poison unrelated publications. Evidence tied to the exact identity remains fail-closed.
+This finalized plan fixes the identity-scoping defect exposed by the W39 missed-publication incident. W39 publish run `35561779454` completed, but auto-dispatch run `35562322880` was blocked before Azure by unrelated cancelled run `32730109166`; no W39 synthesis, recorder, or video execution occurred. Podcast-dispatch history decisions therefore apply only to the full canonical publication identity: `week`, `publish_run_id`, `article_sha256`, and `manifest_sha256`. A cancelled or unreadable historical run with no demonstrable relationship to that tuple will no longer poison unrelated publications. Evidence tied to the exact identity remains fail-closed.
+
+W38 is comparative recovery-path evidence only. Its auto-dispatch attempt was blocked by unrelated run `34255052607`, manual recovery run `34958522782` reached Azure, and W38 ultimately published successfully. The plan does not treat W38 as a missed-publication incident or acceptance target.
 
 Before the protected Podcaster mutation, the workflow will prepare a secret-free receipt, append authoritative `attempt_prepared` evidence to a GitHub Issue ledger, and attempt a required 90-day artifact mirror. Any failure before the durable `handoff_entered` transition sends zero requests and remains safely retryable; mirror failure records `pre_submit_failed`. Immediately before invoking Podcaster, the workflow must durably append `handoff_entered`. From that point, a crash or missing acknowledgement blocks automatic retry and enters reconciliation. Post-call ledger and artifact writes run independently so one persistence failure cannot suppress the other.
 
@@ -21,6 +23,7 @@ An always-running reconciliation job will require accepted work to produce machi
 ### User Decisions and Requirements Highlights
 
 * Preserve idempotency and exact-identity fail-closed behavior; do not convert uncertainty into a retry.
+* Treat W39 as the sole missed-publication incident and acceptance target; use W38 only as comparative evidence of a blocked automatic path followed by successful recovery and publication.
 * Keep active implementation in SquadScope. Podcaster work is a separate contract follow-up, and SquadScope must fail visibly until terminal evidence is available.
 * Cover empty cancelled runs, `no_anchor`, observe-only, unrelated legacy ambiguity, exact-identity ambiguity, mutation crashes, monitor restarts, and missing terminal stages.
 * Keep all existing CI and safety gates; push the completed branch and open a PR with the required fully-qualified references.
@@ -55,6 +58,8 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 ## Goals
 
 * Scope all duplicate and ambiguity decisions to the four-field canonical publication identity.
+* Prevent the exact W39 identity from being blocked by unrelated cancelled run `32730109166`, while preserving fail-closed handling for evidence tied to that exact identity.
+* Preserve the factual W38 outcome: automatic dispatch blockage by `34255052607`, successful manual recovery run `34958522782`, and successful W38 publication.
 * Establish durable, ordered, secret-free evidence with an explicit retryable preparation state and fail-closed handoff-entry boundary.
 * Reconcile accepted work to authoritative terminal evidence within deterministic request, polling, cleanup, and workflow bounds, including actionable synthesis-start latency.
 * Create actionable, deduplicated incidents without automatically repeating an ambiguous provider mutation.
@@ -104,7 +109,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * **FR-10 Workflow result:** the reconciliation job runs with `if: always()` after detection and real generation. Accepted work cannot leave the workflow successful unless terminal evidence passes.
   * Observable acceptance criteria: missing post-receipt, monitor timeout, contract absence, stage failure, or provider uncertainty fails the job after incident upsert.
 * **FR-11 Delivery:** implementation creates the changes record, commits and pushes the completed branch, and hands it to independent review before PR creation.
-  * Observable acceptance criteria: the pushed branch and review handoff include W38/W39 incident evidence, local validation, known Podcaster contract dependency, safe rollback point, principal risks, and the fully-qualified references required for the later PR.
+  * Observable acceptance criteria: the pushed branch and review handoff identify W39 as the sole missed-publication incident, describe W38 only as successful comparative/recovery evidence, and include local validation, the known Podcaster contract dependency, safe rollback point, principal risks, and the fully-qualified references required for the later PR.
 
 ## Non-Functional Requirements
 
@@ -130,6 +135,8 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 
 * Full four-field identity is used consistently across detector input, receipt matching, concurrency/dedup state, monitor correlation, and incidents.
 * Unrelated empty/unreadable cancelled history does not block; exact-identity unreadable or unknown evidence does.
+* The W39 acceptance fixture uses publish run `35561779454`, auto-dispatch `35562322880`, and unrelated cancelled run `32730109166`; it proves dispatch was blocked before Azure and that no W39 synth/recorder/video execution occurred.
+* W38 fixtures and narrative state that run `34255052607` blocked one automatic path, manual recovery `34958522782` reached Azure, and W38 ultimately published successfully.
 * `attempt_prepared`/`pre_submit_failed` proves no mutation and permits retry; only successful `handoff_entered` persistence crosses the fail-closed boundary; a handoff-entry/post gap blocks redispatch.
 * Observe-only is durably observable but never counted as submission; `no_anchor` cannot emit a mutation receipt or monitor success.
 * Accepted work must prove synthesis start, successful video terminal state, and externally verified provider publication.
@@ -156,7 +163,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 
 * .squad/agents/leela/charter.md: Lead/architect ownership of interfaces and review gates.
 * .squad/decisions.md: Trusted article/manifest correlation, prior dedup defenses, pause/alert behavior, protected approval, and W37 protection.
-* .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md: W38/W39 incident evidence, current symbols, mutation seam, tests, cross-repository contracts, and planning-ready recommendations.
+* .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md: W39 incident evidence, W38 comparative recovery evidence, current symbols, mutation seam, tests, cross-repository contracts, and planning-ready recommendations.
 * scripts/auto_dispatch_detect.py: `DispatchIdentity`, `_receipt_identity_matches`, `_compat_identity_for_run`, `check_duplicate_result`, receipt states, and finite history behavior.
 * scripts/podcaster_handoff.py: `PodcasterHandoffError`, `validate_response`, `write_action_outputs`, `write_action_receipt_state`, `post_handoff`, and `main`.
 * .github/workflows/auto-podcast-dispatch.yml: `detect`, `real-generation`, `observe-summary`, manifest revalidation, handoff, and current log receipt steps.
@@ -257,7 +264,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 #### [x] P05-T01: Record evidence and push review branch
 
 * Requirement and evidence: FR-11 and caller delivery requirements, including independent review before PR creation.
-* Expected result: changes record is current, the branch is committed and pushed, and the independent reviewer receives the W38/W39 evidence, local validation, Podcaster contract dependency, rollback point, principal risks, and required future-PR references.
+* Expected result: changes record is current, the branch is committed and pushed, and the independent reviewer receives the W39 incident evidence, explicitly successful W38 comparative/recovery evidence, local validation, Podcaster contract dependency, rollback point, principal risks, and required future-PR references.
 * Detail section: P05-T01 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
 <!-- rpi:task id=P05-T02 -->
@@ -369,7 +376,7 @@ Exactly one independent critique was completed at `.copilot-tracking/critiques/2
 | PC-002 | Resolved | FR-08/NFR-02 and P03 now cap each HTTP request at 10 seconds and remaining budget, truncate sleeps, stop polling at 3,480 seconds, reserve 120 seconds for classification/incident/summary, and set `timeout-minutes: 61`; hung-request and cleanup-margin tests prove the bounded behavior. |
 | PC-003 | Resolved first | The receipt machine now separates prepare → authoritative `attempt_prepared` → required mirror → authoritative `handoff_entered` → mutate → acknowledge. Any failure or crash before successful `handoff_entered` persistence is known non-mutation and retryable; mirror failure records `pre_submit_failed` and sends zero requests. Successful `handoff_entered` is the only transition that creates fail-closed submission uncertainty. |
 | PC-004 | Resolved | Post-mutation ledger append and artifact upload are separate always-running, failure-independent steps with captured outcomes. Ledger remains authoritative; a final assertion preserves failure and reconciliation if either path fails, and tests prove neither write suppresses the other. |
-| PC-005 | Resolved | P05-T01 and PR acceptance now require W38/W39 incident evidence, local and hosted validation, the undeployed Podcaster contract dependency, rollback point, principal risks, and all fully-qualified references; Coordinator#17 remains non-closing. |
+| PC-005 | Resolved; scope corrected 2026-09-21 | P05-T01 and PR acceptance require W39 incident evidence plus explicitly successful W38 comparative/recovery evidence, local and hosted validation, the undeployed Podcaster contract dependency, rollback point, principal risks, and all fully-qualified references; Coordinator#17 remains non-closing. |
 | PC-006 | Resolved | All plan/detail metadata, dependencies, context, and handoff references use the caller-authorized `.copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md` path and recognize this completed critique as the sole plan-critique gate. |
 
 ## Follow-Up Items

@@ -386,7 +386,7 @@ URL, and documentation are delivered in PR #762.
   user-approved implementation and delivery requirements.
 * Why: The worktree contained the original auto-dispatch plan but no current W38
   reliability implementation artifact.
-* Triggering evidence: User-supplied W38 incident evidence and required
+* Triggering evidence: User-supplied W38 auto-dispatch-path failure evidence and required
   implementation/delivery contract.
 * User answer or decision: The implementation request explicitly approves and
   directs this scope.
@@ -445,3 +445,5 @@ URL, and documentation are delivered in PR #762.
 * Review readiness or no-handoff reason: Ready; PR #762 is open, unmerged,
   thread-clean, and green.
 * Continuation owner: Repository reviewers and CI.
+
+> **Authoritative correction — 2026-09-21:** This append-only historical record originally used broader incident wording for an auto-dispatch-path failure. W38 ultimately published successfully after manual recovery run `34958522782` reached Azure. W39 is the sole missed-publication production incident. The original execution entries remain as historical evidence but must not be read as claiming that W38 had no successful public outcome.

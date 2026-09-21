@@ -12,6 +12,8 @@
 ## Task-Level Context
 
 * Stable task identity: `SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21`.
+* Incident boundary: W39 is the sole missed-publication production incident. Publish run `35561779454` completed, auto-dispatch `35562322880` was blocked before Azure by unrelated cancelled run `32730109166`, and no W39 synthesis, recorder, or video execution occurred.
+* Comparative boundary: W38 ultimately published successfully. Run `34255052607` blocked one auto-dispatch path, while manual recovery run `34958522782` reached Azure. W38 is regression/recovery evidence, not a missed-publication acceptance target.
 * Current failure seam: `DispatchIdentity` and `_receipt_identity_matches` omit `manifest_sha256`; `check_duplicate_result` can turn globally unreadable/identity-free history into `ambiguous_prior_submission`.
 * Current mutation seam: `real-generation` calls `scripts/podcaster_handoff.py` after exact manifest validation; current evidence is emitted afterward to logs/outputs.
 * Safety invariant: only successful durable `handoff_entered` persistence crosses the uncertainty boundary; an exact identity at or beyond that state is never automatically retried.
@@ -555,7 +557,7 @@ Prove the change against the incident matrix and all affected repository gates.
 
 #### Context
 
-Tests must distinguish semantic safety assertions from reproductions of W38/W39 evidence shapes.
+Tests must distinguish semantic safety assertions from the W39 incident fixture and W38 comparative recovery fixture. Test names, comments, and assertions must not imply that W38 lacked a successful public outcome.
 
 #### Intent
 
@@ -695,7 +697,7 @@ Publish a focused review branch without opening the PR before independent review
   * update changes record with tests, scanners, hosted evidence, assumptions, and known Podcaster dependency;
   * commit only task-owned files;
   * push current completed branch;
-  * prepare evidence for a later PR with W38/W39 incident evidence, implementation/identity and receipt semantics, focused/full validation results, known Podcaster status-contract dependency, safe rollback point, principal risks/residual latency-threshold risk, non-closing `Related: jmservera/SquadScope-Coordinator#17`, and fully-qualified Podcaster references;
+  * prepare evidence for a later PR with W39 incident evidence, explicitly successful W38 comparative/recovery evidence, implementation/identity and receipt semantics, focused/full validation results, known Podcaster status-contract dependency, safe rollback point, principal risks/residual latency-threshold risk, non-closing `Related: jmservera/SquadScope-Coordinator#17`, and fully-qualified Podcaster references;
   * do not open the PR before independent review.
 * Excluded: reset/stash/clean of unrelated dirty files, force push unless branch policy explicitly requires it, `Closes` for Coordinator #17.
 
@@ -718,7 +720,8 @@ git diff --stat
 #### Completion Evidence
 
 * Remote branch exists and the review handoff contains the future PR requirements:
-  * W38/W39 run evidence and why unrelated legacy ambiguity no longer poisons identity;
+  * W39 run evidence and why unrelated legacy ambiguity no longer poisons its identity;
+  * W38 comparative evidence that one auto-dispatch path was blocked but manual recovery reached Azure and publication succeeded;
   * local and hosted validation results with any environment-qualified evidence;
   * explicit dependency on Podcaster `podcast_publication_status_v1` deployment/configuration;
   * rollback that retains four-field identity and durable ledger evidence;

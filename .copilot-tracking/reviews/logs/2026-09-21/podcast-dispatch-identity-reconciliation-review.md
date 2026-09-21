@@ -13,6 +13,10 @@
 * Changes: .copilot-tracking/changes/2026-09-21/podcast-dispatch-identity-reconciliation-changes.md
 * Other evidence considered: .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; branch/worktree Git state; changed workflow, production scripts, and tests; independently executed validation where practical.
 
+## Authoritative incident-scope correction — 2026-09-21
+
+This append-only review record preserves its original findings and execution evidence, but its current incident context is corrected. W39 is the sole missed-publication production incident: publish run `35561779454` completed, auto-dispatch `35562322880` was blocked before Azure by unrelated cancelled run `32730109166`, and no W39 synthesis, recorder, or video execution occurred. W38 ultimately published successfully; blocked auto-dispatch run `34255052607` and manual recovery run `34958522782` are comparative/recovery evidence only. No review finding depends on W38 having lacked a successful public outcome.
+
 ## Opening Review State
 
 * Interpreted review goal: Conduct one fresh evidence-based acceptance review of the pushed implementation against the complete approved plan and caller boundary, without modifying any artifact except this canonical review record.

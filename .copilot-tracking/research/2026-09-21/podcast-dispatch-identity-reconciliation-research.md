@@ -3,7 +3,13 @@
 **Research date:** 2026-09-21
 **Posture:** Balanced, thorough production-incident investigation
 **Scope:** Read-only repository, GitHub metadata/log evidence, and conceptual Podcaster contract research. No source, test, workflow, configuration, Git state, or external-repository changes.
-**Objective:** Establish planning evidence for identity-scoped dispatch deduplication and terminal-outcome reconciliation after the W38/W39 dispatch failures.
+**Objective:** Establish planning evidence for identity-scoped dispatch deduplication and terminal-outcome reconciliation after the W39 missed-publication incident, using W38 only as comparative recovery-path evidence.
+
+## Authoritative incident-scope correction — 2026-09-21
+
+The repository owner's authoritative correction supersedes any earlier interpretation of W38 as a missed-publication incident. W38 ultimately published successfully. One W38 auto-dispatch path was blocked by unrelated run `34255052607`, and manual recovery run `34958522782` reached Azure, but W38 had a successful public outcome.
+
+W39 is the sole missed-publication production incident and sole acceptance target in this research: publish run `35561779454` completed, auto-dispatch run `35562322880` was blocked by unrelated cancelled run `32730109166` before Azure, and no W39 synthesis, recorder, or video execution occurred. W38 remains relevant only as comparative evidence that a blocked automatic path can coexist with successful recovery and publication.
 
 ## Research protocol and initial boundary
 
@@ -45,11 +51,11 @@
 | C5 | Detection exposes week, publishing run, article SHA-256, manifest SHA-256, dedup status, and prior-run URL. It binds the triggering workflow to a sync commit; absent anchor exits `no_anchor` fail-closed, whereas no article is a clean `no_new_article`. | `.github/workflows/auto-podcast-dispatch.yml:50-62,114-165` | High |
 | C6 | Run 35561779454 (`Crawl and publish weekly data`) completed successfully. Run 35562322880 (`Auto-dispatch podcast after weekly article`) failed: detect job failed, and both protected-dispatch and observe-only jobs were skipped. | GitHub Actions runs 35561779454 and 35562322880, retrieved 2026-09-21: https://github.com/jmservera/SquadScope/actions/runs/35561779454 and https://github.com/jmservera/SquadScope/actions/runs/35562322880 | High |
 | C7 | The W39 run log records exact W39 identity (`week=2026-W39`, `publish_run_id=35561779454`, article digest `f666…506c`, manifest digest `e2d4…42a7`) and rejects run 32730109166 as `legacy_submission_without_canonical_receipt`, emitting an `ambiguous_prior_submission` receipt. | Run 35562322880 log, retrieved 2026-09-21, lines containing receipt/error; canonical run URL above | High |
-| C8 | Run 32730109166 (`Trigger podcast generation`) is `cancelled`; its only job is cancelled with **zero steps**, and its GitHub log download is an empty ZIP (22 bytes). W38 auto run 34255052607 likewise failed in detect with protected and observe-only jobs skipped; W38 recovery 34958522782 completed successfully with a 10-step manual trigger job. | GitHub Actions runs 32730109166, 34255052607, 34958522782, retrieved 2026-09-21: https://github.com/jmservera/SquadScope/actions/runs/32730109166 ; https://github.com/jmservera/SquadScope/actions/runs/34255052607 ; https://github.com/jmservera/SquadScope/actions/runs/34958522782 | High |
+| C8 | Run 32730109166 (`Trigger podcast generation`) is `cancelled`; its only job is cancelled with **zero steps**, and its GitHub log download is an empty ZIP (22 bytes). Separately, W38 auto run 34255052607 failed in detect with protected and observe-only jobs skipped; W38 recovery 34958522782 completed successfully with a 10-step manual trigger job, reached Azure, and W38 ultimately published successfully. | GitHub Actions runs 32730109166, 34255052607, 34958522782, retrieved 2026-09-21: https://github.com/jmservera/SquadScope/actions/runs/32730109166 ; https://github.com/jmservera/SquadScope/actions/runs/34255052607 ; https://github.com/jmservera/SquadScope/actions/runs/34958522782; authoritative repository-owner correction, 2026-09-21 | High |
 
 ### Wider relationship
 
-`C6/C7` supports the caller's W39 sequence: successful publishing identity → detect-only failure → no protected job. `C8` explains why a cancelled legacy run supplies no canonical counter-evidence; it **does not** prove provider submission or non-submission. It supports a bounded evidence model, not a global blocker.
+`C6/C7` supports the caller's W39 sequence: successful data publication identity → detect-only failure → no protected job and therefore no W39 synthesis, recorder, video, or provider execution. `C8` explains why a cancelled legacy run supplies no canonical counter-evidence; it **does not** prove provider submission or non-submission. The W38 portion of C8 is comparative recovery evidence, not evidence of a missed W38 publication.
 
 ## Wave 2 — Deeper: identity, mutation, receipts, and reconciliation
 
@@ -94,7 +100,7 @@
 
 ### Required test matrix
 
-- cancelled historical run whose jobs/steps/log ZIP are empty: unrelated canonical W39/W38 identity proceeds; exact mapped identity remains blocked/reconcilable;
+- cancelled historical run whose jobs/steps/log ZIP are empty: unrelated canonical identity proceeds; exact mapped identity remains blocked/reconcilable, with W39 as the incident acceptance case and W38 as a comparative regression fixture;
 - `no_anchor` produces no mutation receipt and no false terminal monitor success;
 - observe-only produces a durable observation record but is never submission/terminal-success evidence;
 - unrelated ambiguous legacy evidence does not block a different full four-field identity;
@@ -106,7 +112,7 @@
 
 ## Risks, gaps, and stop decision
 
-- **Planning Readiness: Ready.** The defect, exact Coordinator mutation seam, current receipt/dedup semantics, incident run facts, and the necessary cross-repo provider contract are sufficient to make a bounded implementation plan without guessing terminal success.
+- **Planning Readiness: Ready.** The W39-only incident boundary, exact Coordinator mutation seam, current receipt/dedup semantics, W38 comparative recovery evidence, and the necessary cross-repo provider contract are sufficient to make a bounded implementation plan without guessing terminal success. Acceptance must prove that exact W39 dispatch would not be blocked by unrelated run `32730109166`; it must not characterize W38 as unpublished.
 - **Smallest remaining gaps:** Before implementation, agree the durable Coordinator receipt backing store/retention and the Podcaster machine-readable monitor/readback endpoint or artifact schema for accepted `job_id` and synth/video/provider terminal states. These are contract design choices, not research blockers.
 - **Risks:** Older run history is finite (`WORKFLOW_LOOKBACK_RUNS=50`) and GitHub logs are ephemeral; migration must avoid treating absence as safe. Cross-repo PR/issue text is design evidence, not proof that an endpoint is deployed. Monitoring must prevent both premature success and unbounded polling.
 - **Stop decision:** Wave criteria met and source evidence saturated within the read-only scope. Further source inspection would not resolve the two explicit cross-repo contract decisions.

@@ -17,7 +17,7 @@
 * Preserve fail-closed handling for genuinely uncertain same-identity evidence
   and preserve all canonical receipt, workflow anchoring, concurrency, pause,
   approval, secret, manifest, digest, and retry safeguards.
-* Reproduce the W38 incident involving publication run `34806779896`,
+* Reproduce the W38 auto-dispatch-path failure involving publication run `34806779896`,
   auto-dispatch run `34807417082`, and unrelated legacy run `34255052607`.
 * Add narrowly scoped notification evidence only if an existing repository
   surface supports it without a cross-repository contract.
@@ -194,3 +194,5 @@ or retry-policy weakening.
 * None at implementation start. If durable notifications require a new
   cross-repository contract or a substantially larger operational surface,
   create a narrowly scoped GitHub issue instead of expanding this PR.
+
+> **Authoritative correction — 2026-09-21:** This historical plan originally used broader incident wording for the W38 auto-dispatch-path failure. W38 was not a missed-publication incident: manual recovery run `34958522782` reached Azure and W38 ultimately published successfully. W39 is the sole missed-publication production incident. Historical execution context above is superseded wherever it implies no successful W38 public outcome.

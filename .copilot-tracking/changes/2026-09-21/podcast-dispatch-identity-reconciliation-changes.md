@@ -20,6 +20,15 @@
 
 Implementation is active in the isolated worktree on `incident/podcast-dispatch-identity-reconciliation`. The write boundary is limited to the copied RPI artifacts and plan-locked SquadScope source, workflow, and test files. No Podcaster repository changes are permitted.
 
+### Authoritative incident-scope correction — 2026-09-21
+
+* Related scope: Research conclusions, plan/details, critique disposition, review narrative, regression naming, and PR-facing evidence.
+* Correction: W39 is the sole missed-publication production incident. Publish run `35561779454` completed; auto-dispatch run `35562322880` was blocked before Azure by unrelated cancelled run `32730109166`; no W39 synthesis, recorder, or video execution occurred.
+* W38 comparative evidence: One auto-dispatch path was blocked by unrelated run `34255052607`; manual recovery run `34958522782` reached Azure; W38 ultimately published successfully.
+* Historical-record handling: Earlier implementation entries and review evidence remain intact. Any earlier wording that grouped W38 with W39 as a missed-publication incident is superseded by this correction and must not be used in current acceptance or PR narrative.
+* Runtime impact: None. Existing W38 detector regression remains valid because it models unrelated-run identity scoping without asserting a missed publication.
+* Validation: The four dispatch-focused test modules report `203 passed`; `git diff --check` passes; the ten affected repository/session Markdown files pass tab and trailing-whitespace checks; prohibited-claim searches find no false W38 missed-publication or five-consecutive-failure statement.
+
 ### Activated PR review and hosted-failure correction batch
 
 * Related phase or task: P01-T01, P01-T02, P02-T01, P03-T01, P03-T02, P04-T01, P04-T02, P05-T01

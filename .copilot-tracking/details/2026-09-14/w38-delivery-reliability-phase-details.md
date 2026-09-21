@@ -40,7 +40,7 @@ networking.
 
 Review the diff for preserved safeguards, commit with the required trailers,
 push `squad/w38-delivery-reliability`, and open an unmerged PR against `main`.
-The PR must reference the W38 incident, list validation, document rollback with
+The PR must reference the W38 auto-dispatch-path failure and successful recovery, list validation, document rollback with
 `PODCAST_AUTO_DISPATCH_PAUSED=true`, and enumerate preserved safeguards.
 
 ## P06 - Independent Contract Revision
@@ -90,3 +90,5 @@ reconstruction. Reconcile the historical P06 validation snapshot at
 and results at `21834cd72145630ea656eb81dfee7f5da01cfba9`. Re-run the changed-surface
 tests and formatting/diff gates, commit, push, answer and resolve the two new
 threads, and leave the PR open and unmerged.
+
+> **Authoritative correction — 2026-09-21:** This historical detail record concerns a W38 auto-dispatch-path failure and recovery, not a missed publication. Manual recovery run `34958522782` reached Azure, and W38 ultimately published successfully. W39 is the sole missed-publication production incident. Any broader historical incident interpretation is superseded by this correction.

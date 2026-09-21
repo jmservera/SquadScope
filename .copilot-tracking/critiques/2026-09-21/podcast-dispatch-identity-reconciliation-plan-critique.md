@@ -16,6 +16,10 @@
 * Decisions, dependencies, and acceptance criteria considered: the complete plan and phase details, their functional and non-functional requirements, phase/task dependencies, receipt and incident schemas, test ownership lock, validation commands, rollback notes, cross-repository contract boundary, and delivery/review handoff.
 * Assessment boundary: this is one complete read-only credibility critique of the supplied artifacts. It does not independently verify repository source, GitHub runs, Podcaster deployment, endpoint behavior, or tool availability, and it does not treat the proposed Podcaster status contract as deployed fact.
 
+## Authoritative incident-scope correction — 2026-09-21
+
+The original critique assessed the plan language available at the time. Current disposition must use the repository owner's authoritative correction: W39 is the sole missed-publication incident; W38 ultimately published successfully after a blocked automatic path and manual recovery run `34958522782` reached Azure. Any critique wording that grouped W38 and W39 as equivalent incidents is superseded by this section. The findings about identity, durability, monitoring, and delivery evidence remain valid.
+
 ## Coverage Assessment
 
 | Requirement, research, phase, or task ID | Coverage | Evidence or concern |
@@ -97,9 +101,10 @@
 * Evidence: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md FR-11 and P05; .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md P05-T01
 * Concern: The delivery phase requires validation and links, while incident evidence and rollback/risk are only present elsewhere in planning or the changes record. The PR completion evidence does not require these items in the PR description.
 * Impact: The pushed deliverable can satisfy the written phase while omitting context explicitly required for reviewer and operator decision-making.
-* Smallest useful change: Add PR-body acceptance criteria requiring W38/W39 incident evidence, validation/local-hosted results, known Podcaster contract dependency, rollback point, principal risks, and all required fully-qualified references without auto-closing Coordinator#17.
+* Smallest useful change: Add PR-body acceptance criteria requiring W39 incident evidence and explicitly successful W38 comparative/recovery evidence, validation/local-hosted results, known Podcaster contract dependency, rollback point, principal risks, and all required fully-qualified references without auto-closing Coordinator#17.
 * Action owner: Planning parent
 * Exact resolving evidence: Revised P05-T01 checklist and completion evidence enumerate those PR sections, with the final changes record containing the created PR URL and a checked mapping to each required section/reference.
+* Authoritative correction disposition: Resolved with corrected incident scope. W39 alone supplies the missed-publication acceptance narrative; W38 supplies only blocked-path and successful-recovery comparison.
 * Decision route: Direct planner correction; no user decision needed.
 
 <!-- rpi:critique id=PC-006 -->
