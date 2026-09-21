@@ -384,16 +384,7 @@ def _identity_from_sync_commit(
         return None
     manifest_sha256 = ""
     try:
-        manifest_sha256 = hashlib.sha256(
-            read_manifest_bytes_from_publish(manifest_path)
-        ).hexdigest()
-    except ValueError:
-        pass
-    manifest_sha256 = ""
-    try:
-        manifest_bytes = read_manifest_bytes_from_publish(
-            f"data/candidates/{week}/{publish_run_id}/publish-manifest.json"
-        )
+        manifest_bytes = read_manifest_bytes_from_publish(manifest_path)
         manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
     except ValueError:
         pass
@@ -412,10 +403,18 @@ def _legacy_run_single_attempt(run: dict[str, Any]) -> bool:
 
 def _legacy_auto_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
     """Return whether job evidence proves the protected dispatch never ran."""
-    return _legacy_run_single_attempt(run) and any(
-        job.get("name") == "Protected podcast dispatch"
-        and str(job.get("conclusion") or "") == "skipped"
-        for job in jobs
+    return _legacy_run_single_attempt(run) and (
+        any(
+            job.get("name") == "Protected podcast dispatch"
+            and str(job.get("conclusion") or "") == "skipped"
+            for job in jobs
+        )
+        or _step_conclusion(
+            jobs,
+            "Protected podcast dispatch",
+            "Persist handoff-entered boundary",
+        )
+        == "skipped"
     )
 
 

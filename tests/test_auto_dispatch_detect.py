@@ -1179,6 +1179,44 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
 
+    def test_pre_boundary_persistence_failure_allows_safe_retry(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        jobs = [
+            {
+                "name": "Protected podcast dispatch",
+                "conclusion": "failure",
+                "steps": [
+                    {
+                        "name": "Persist prepared receipt",
+                        "conclusion": "failure",
+                    },
+                    {
+                        "name": "Persist handoff-entered boundary",
+                        "conclusion": "skipped",
+                    },
+                    {
+                        "name": "Trigger podcast generation",
+                        "conclusion": "skipped",
+                    },
+                ],
+            }
+        ]
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: jobs},
+                    logs={self._AUTO_RUN_ID: self._legacy_identity_log()},
+                ),
+            ),
+        ):
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
     def test_same_identity_legacy_uncertain_submission_still_blocks(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
         jobs = [
