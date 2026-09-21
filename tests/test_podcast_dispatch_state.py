@@ -80,6 +80,16 @@ class PodcastDispatchStateTests(unittest.TestCase):
         self.assertEqual(request_object.get_header("Authorization"), "Bearer sentinel-token")
         self.assertNotIn("sentinel-token", json.dumps(request_object.data))
 
+        response.__enter__.return_value.read.return_value = b"{}"
+        with mock.patch.object(state.request, "urlopen", return_value=response) as post:
+            state._github_json(
+                "https://api.github.com/repos/example/repo/issues",
+                "sentinel-token",
+                method="POST",
+                payload={"title": "incident"},
+            )
+        self.assertEqual(post.call_args.args[0].get_header("Content-type"), "application/json")
+
     def test_retry_classification_is_monotonic(self) -> None:
         self.assertEqual(
             state.receipt_retry_classification([self.receipt("attempt_prepared")]),
@@ -285,6 +295,19 @@ class PodcastDispatchStateTests(unittest.TestCase):
         ):
             list(state._iter_issue_pages("example/repo", "token"))
         self.assertEqual(github.call_count, 2)
+
+    def test_github_json_sets_json_content_type_for_payloads(self) -> None:
+        response = mock.MagicMock()
+        response.__enter__.return_value.read.return_value = b"{}"
+        with mock.patch.object(state.request, "urlopen", return_value=response) as urlopen:
+            state._github_json(
+                "https://api.github.com/repos/example/repo/issues",
+                "token",
+                method="POST",
+                payload={"title": "Incident"},
+            )
+        request_value = urlopen.call_args.args[0]
+        self.assertEqual(request_value.get_header("Content-type"), "application/json")
 
     def test_ledger_comment_pagination_exhaustion_fails_closed(self) -> None:
         ledger = {
@@ -561,6 +584,46 @@ class PodcastDispatchStateTests(unittest.TestCase):
         self.assertEqual(github.call_count, 1)
         self.assertIn("/issues/7/comments", github.call_args.args[0])
 
+    def test_incident_creation_race_closes_losing_duplicate(self) -> None:
+        key = state.incident_key(self.identity, "provider", "timeout")
+        marker = f"{state.INCIDENT_MARKER_PREFIX}{key} -->"
+        canonical = {
+            "number": 7,
+            "html_url": "https://github.com/example/repo/issues/7",
+            "body": marker,
+        }
+        created = {
+            "number": 8,
+            "html_url": "https://github.com/example/repo/issues/8",
+            "body": marker,
+        }
+        with (
+            mock.patch.object(
+                state,
+                "_iter_issue_pages",
+                side_effect=[iter([]), iter([created, canonical])],
+            ),
+            mock.patch.object(
+                state,
+                "_github_json",
+                side_effect=[created, {}, {}],
+            ) as github,
+        ):
+            url = state.upsert_incident(
+                "example/repo",
+                "token",
+                self.identity,
+                "provider",
+                "timeout",
+                {"job_id": "job-1"},
+            )
+        self.assertEqual(url, canonical["html_url"])
+        self.assertIn("/issues/8/comments", github.call_args_list[1].args[0])
+        self.assertEqual(
+            github.call_args_list[2].kwargs["payload"],
+            {"state": "closed", "state_reason": "not_planned"},
+        )
+
     def test_incident_requests_are_capped_by_cleanup_deadline(self) -> None:
         clock = [10.0]
         existing = {
@@ -586,6 +649,38 @@ class PodcastDispatchStateTests(unittest.TestCase):
                 monotonic=lambda: clock[0],
             )
         self.assertEqual(github.call_args.kwargs["timeout"], 5)
+
+    def test_incident_upsert_closes_concurrent_duplicate_after_create(self) -> None:
+        key = state.incident_key(self.identity, "provider", "timeout")
+        canonical = {
+            "number": 7,
+            "html_url": "https://github.com/example/repo/issues/7",
+            "body": f"{state.INCIDENT_MARKER_PREFIX}{key} -->",
+        }
+        created = {
+            "number": 8,
+            "html_url": "https://github.com/example/repo/issues/8",
+            "body": f"{state.INCIDENT_MARKER_PREFIX}{key} -->",
+        }
+        with (
+            mock.patch.object(
+                state,
+                "_iter_issue_pages",
+                side_effect=[iter([]), iter([canonical, created])],
+            ),
+            mock.patch.object(state, "_github_json", side_effect=[created, {}, {}]) as github,
+        ):
+            url = state.upsert_incident(
+                "example/repo", "token", self.identity, "provider", "timeout", {"job_id": "job-1"}
+            )
+        self.assertEqual(url, canonical["html_url"])
+        self.assertEqual(github.call_count, 3)
+        self.assertIn("/issues/8/comments", github.call_args_list[1].args[0])
+        self.assertEqual(github.call_args_list[2].kwargs["method"], "PATCH")
+        self.assertEqual(
+            github.call_args_list[2].kwargs["payload"],
+            {"state": "closed", "state_reason": "not_planned"},
+        )
 
     def test_incident_reconciliation_requires_incident_marker(self) -> None:
         identity_marker = f"* Identity key: `{state.canonical_identity_key(self.identity)}`"

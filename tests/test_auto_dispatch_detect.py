@@ -31,6 +31,7 @@ from pathlib import Path
 from unittest import mock
 
 import scripts.auto_dispatch_detect as detect
+from scripts import podcast_dispatch_state as state
 
 # ---------------------------------------------------------------------------
 # Constants shared across tests
@@ -884,6 +885,28 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.status, "clear")
         self.assertFalse(result.is_duplicate)
 
+    def test_v2_unclassified_ledger_rejection_fails_closed(self):
+        receipt = detect.parse_receipt(
+            self._v2_receipt_log(state="submission_rejected").removeprefix(detect.RECEIPT_PREFIX)
+        )
+        self.assertIsInstance(receipt, detect.DispatchReceipt)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch.object(detect, "list_ledger_receipts", return_value=[receipt]),
+            mock.patch.object(detect, "_list_workflow_runs", return_value=[]),
+        ):
+            result = detect.check_duplicate_result(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                self._GH_TOKEN,
+                self._REPO,
+                manifest_sha256="b" * 64,
+            )
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+
     def test_same_week_different_identity_is_not_conflated(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
         with (
@@ -1143,6 +1166,32 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertTrue(result.is_duplicate)
         self.assertEqual(result.reason, "submitted")
 
+    def test_unclassified_authoritative_rejection_remains_ambiguous(self):
+        receipt = state.DispatchReceipt(
+            receipt_id="receipt-1",
+            created_at="2026-09-21T21:00:00Z",
+            dispatch_run_id=str(self._AUTO_RUN_ID),
+            attempt_id=f"{self._AUTO_RUN_ID}-1",
+            identity=state.CanonicalPublicationIdentity(
+                WEEK,
+                RUN_ID,
+                KNOWN_SHA256,
+                KNOWN_MANIFEST_SHA256,
+            ),
+            receipt_state="submission_rejected",
+            actions_run_url=f"https://github.com/{self._REPO}/actions/runs/{self._AUTO_RUN_ID}",
+        )
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch.object(detect, "list_ledger_receipts", return_value=[receipt]),
+            mock.patch.object(detect, "_list_workflow_runs", return_value=[]),
+        ):
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.reason, "exact_identity_uncertain")
+
     def test_different_complete_legacy_identity_is_ignored(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
         jobs = [
@@ -1358,6 +1407,51 @@ class TestDuplicateCheck(unittest.TestCase):
                             f"{RUN_ID} (2026-09-08 13:30:14)\n"
                         )
                     },
+                ),
+            ),
+        ):
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+
+    def test_successful_manual_run_with_related_metadata_and_missing_marker_is_ambiguous(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+        )
+        run["display_title"] = f"Manual podcast dispatch for publish run {RUN_ID}"
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    trigger_runs=[run],
+                    jobs={self._TRIGGER_RUN_ID: self._trigger_jobs("success")},
+                    logs={self._TRIGGER_RUN_ID: ""},
+                ),
+            ),
+        ):
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+
+    def test_legacy_manual_success_with_related_metadata_and_no_marker_fails_closed(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+            head_sha="not-a-sync",
+        )
+        run["display_title"] = f"Manual podcast dispatch for publish run {RUN_ID}"
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    trigger_runs=[run],
+                    jobs={self._TRIGGER_RUN_ID: self._trigger_jobs("success")},
+                    logs={self._TRIGGER_RUN_ID: "handoff completed without legacy marker"},
                 ),
             ),
         ):

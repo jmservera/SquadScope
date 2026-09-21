@@ -1220,6 +1220,7 @@ class WorkflowConfigTests(unittest.TestCase):
         reconcile = workflow["jobs"]["reconcile"]
         self.assertEqual(reconcile["needs"], ["detect", "real-generation"])
         self.assertIn("always()", reconcile["if"])
+        self.assertIn("needs.detect.outputs.dedup_status == 'duplicate'", reconcile["if"])
         self.assertIn("needs.real-generation.result != 'skipped'", reconcile["if"])
         self.assertNotIn("outputs.handoff_entered", reconcile["if"])
         self.assertEqual(reconcile["timeout-minutes"], 61)

@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: Three additional PR review threads are corrected, locally validated, committed, and pushed at `9db415d`; renewed hosted P04-T02 evidence remains
+* Planning status: Five latest PR review threads are active implementation inputs; affected identity/history, GitHub persistence, reconciliation, incidents, regression, validation, and delivery markers are reopened
 
 ## Task-Level Context
 
@@ -23,11 +23,11 @@
 
 | Phase ID | Name | Status | Detail sections |
 |---|---|---|---|
-| P01 | Establish canonical state and identity-scoped history | Complete after legacy rejection ambiguity, metadata-associated cancellation, and fail-closed pagination corrections | P01, P01-T01, P01-T02 |
+| P01 | Establish canonical state and identity-scoped history | Reopened for legacy manual association, authoritative ledger classification, and JSON persistence headers | P01, P01-T01, P01-T02 |
 | P02 | Enforce durable receipt ordering around mutation | Complete; normal handoff failures preserve API status/category outputs | P02, P02-T01, P02-T02 |
-| P03 | Reconcile terminal outcome, latency, and incidents | Complete; reconciliation covers post-boundary step failure and excludes retryable pre-boundary states from terminal monitoring | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: P04-T01 and all local P04-T02 gates pass; renewed hosted checks await completion | P04, P04-T01, P04-T02 |
-| P05 | Deliver review branch and independent review handoff | Complete; latest correction commit `9db415d` is pushed and the independent review record remains unchanged | P05, P05-T01, P05-T02 |
+| P03 | Reconcile terminal outcome, latency, and incidents | Reopened for accepted-duplicate reconciliation and incident creation-race consolidation | P03, P03-T01, P03-T02 |
+| P04 | Complete locked regression and validation evidence | Reopened for five latest regressions and renewed local/hosted gates | P04, P04-T01, P04-T02 |
+| P05 | Deliver review branch and independent review handoff | Reopened for latest correction evidence, commit, push, and PR head confirmation | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->
 ## P01: Establish canonical state and identity-scoped history

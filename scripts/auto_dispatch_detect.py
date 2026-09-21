@@ -61,6 +61,7 @@ try:
         canonical_identity_key,
         list_ledger_receipts,
         parse_receipt,
+        receipt_retry_classification,
     )
 except ModuleNotFoundError:
     from podcast_dispatch_state import (  # type: ignore[no-redef]
@@ -68,6 +69,7 @@ except ModuleNotFoundError:
         canonical_identity_key,
         list_ledger_receipts,
         parse_receipt,
+        receipt_retry_classification,
     )
 
 if TYPE_CHECKING:
@@ -471,6 +473,8 @@ def _compat_identity_for_run(
 
     publish_run_id = _extract_publish_run_id_from_log_text(log_text)
     if publish_run_id is None:
+        if _run_metadata_associates_identity(run, requested_identity):
+            return "ambiguous", None
         return "ignore", None
     if publish_run_id != requested_identity.publish_run_id:
         return "ignore", None
@@ -1171,7 +1175,7 @@ def check_duplicate_result(
         states = {receipt.receipt_state for receipt in exact_ledger_receipts}
         if states & {"accepted"}:
             return DuplicateCheckResult("duplicate", True, reason="accepted")
-        if states & {"handoff_entered", "submission_unknown"}:
+        if receipt_retry_classification(exact_ledger_receipts) != "retryable_non_mutation":
             return DuplicateCheckResult(
                 "ambiguous_prior_submission", False, reason="exact_identity_uncertain"
             )

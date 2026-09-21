@@ -676,6 +676,7 @@ jobs:
       always() &&
       inputs.observe_only != true &&
       (needs.detect.outputs.dedup_status == 'ambiguous_prior_submission' ||
+       needs.detect.outputs.dedup_status == 'duplicate' ||
        (needs.detect.outputs.eligible == 'true' &&
         needs.real-generation.result != 'skipped'))
     runs-on: ubuntu-latest

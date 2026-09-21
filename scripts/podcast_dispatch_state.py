@@ -291,7 +291,10 @@ def _github_json(
     timeout: float = 20,
 ) -> Any:
     body = None if payload is None else json.dumps(payload).encode()
-    req = request.Request(url, data=body, method=method, headers=_github_headers(token))
+    headers = _github_headers(token)
+    if payload is not None:
+        headers["Content-Type"] = "application/json"
+    req = request.Request(url, data=body, method=method, headers=headers)
     with request.urlopen(req, timeout=timeout) as response:  # nosec B310
         return json.loads(response.read())
 
@@ -796,7 +799,50 @@ def upsert_incident(
         if existing is None:
             raise
         return str(existing.get("html_url") or "")
-    return str(created.get("html_url") or "") if isinstance(created, dict) else ""
+    if not isinstance(created, dict):
+        raise ValueError("invalid incident issue response")
+    matches = [
+        issue
+        for issue in _iter_issue_pages(
+            repo,
+            token,
+            "open",
+            deadline=deadline,
+            monotonic=monotonic,
+        )
+        if marker in str(issue.get("body") or "")
+    ]
+    if not any(issue.get("number") == created.get("number") for issue in matches):
+        matches.append(created)
+    numbered = [issue for issue in matches if isinstance(issue.get("number"), int)]
+    if not numbered:
+        raise ValueError("incident issue number missing")
+    canonical = min(numbered, key=lambda issue: int(issue["number"]))
+    canonical_number = int(canonical["number"])
+    for duplicate in numbered:
+        duplicate_number = int(duplicate["number"])
+        if duplicate_number == canonical_number:
+            continue
+        _github_json(
+            f"https://api.github.com/repos/{repo}/issues/{duplicate_number}/comments",
+            token,
+            method="POST",
+            payload={
+                "body": (
+                    "Closing duplicate incident created concurrently; canonical incident: "
+                    f"#{canonical_number}."
+                )
+            },
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+        _github_json(
+            f"https://api.github.com/repos/{repo}/issues/{duplicate_number}",
+            token,
+            method="PATCH",
+            payload={"state": "closed", "state_reason": "not_planned"},
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+    return str(canonical.get("html_url") or "")
 
 
 def reconcile_identity_incidents(
