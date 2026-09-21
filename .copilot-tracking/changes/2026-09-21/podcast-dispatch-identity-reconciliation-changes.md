@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: In progress
+* Status: Partial
 * Declared invocation scope: Full plan
-* Completed scope markers: P01-T02, P02, P02-T01, P02-T02, P03-T01, P05-T02
-* All remaining active-plan markers: P01, P01-T01, P03, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01
-* Status basis: Hosted checks pass on `3cc443a`, but five newest valid threads are active across typed IDs, secret-free CLI invocation, resolver incident deadlines, full-history resolution, and delayed incident persistence.
+* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
+* All remaining active-plan markers: P04, P04-T02
+* Status basis: All review findings through head `a6c1b41` are corrected. All required local gates pass and the latest correction is pushed; renewed hosted checks remain.
 
 ## Execution Summary
 
@@ -154,7 +154,28 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * Files: `.github/workflows/auto-podcast-dispatch.yml`, `scripts/podcast_dispatch_state.py`, owned tests, and implementation-owned plan/details/changes artifacts
 * What changed and why: Classified threads `PRRT_kwDOSgq4hM6kjDZC` / `4067127604`, `PRRT_kwDOSgq4hM6kjGc0` / `4067146574`, `PRRT_kwDOSgq4hM6kjKJd` / `4067169926`, `PRRT_kwDOSgq4hM6kjKJv` / `4067169951`, and `PRRT_kwDOSgq4hM6kjKJ-` / `4067169970` as valid.
 * Completion evidence: All five comments were read with exact current-head context; current hosted checks are green.
-* Validation: Pending focused regressions and renewed required gates.
+* Validation: Passed locally; renewed hosted checks await completion.
+
+### Corrected typed IDs, credential transport, receipt history, and incident budgets
+
+* Related phase or task: P01-T01, P03-T02, P04-T01
+* Files: `.github/workflows/auto-podcast-dispatch.yml`, `scripts/podcast_dispatch_state.py`, `tests/test_podcast_dispatch_state.py`, `tests/test_pipeline.py`
+* What changed and why:
+  * `PRRT_kwDOSgq4hM6kjDZC` / `4067127604`: canonical and dispatch run IDs validate as strings without coercing numeric JSON.
+  * `PRRT_kwDOSgq4hM6kjGc0` / `4067146574`: GitHub and Podcaster credentials are read from environment variables and no longer passed in process arguments.
+  * `PRRT_kwDOSgq4hM6kjKJd` / `4067169926`: ledger-resolution failures pass the remaining cleanup budget to bounded incident persistence.
+  * `PRRT_kwDOSgq4hM6kjKJv` / `4067169951`: authoritative receipt resolution classifies the full exact history before choosing a fallback.
+  * `PRRT_kwDOSgq4hM6kjKJ-` / `4067169970`: delayed accepted duplicates retain a minimum bounded 10-second incident persistence window after evidence budget exhaustion.
+* Completion evidence: Added numeric-ID rejection, mixed-history resolver, bounded deadline, and workflow secret/deadline regressions.
+* Validation: Focused suite `136 passed`; full suite `1,807 passed`.
+
+### Completed latest credential and budget validation
+
+* Related phase or task: P04-T01, P04-T02, P05-T01
+* Files: Full repository and all workflows
+* What changed and why: Repeated all required local gates and persisted the correction at `a6c1b41` (`fix(podcast): protect reconciliation credentials`).
+* Completion evidence: Full suite `1,807 passed`; Ruff clean with 194 files formatted; pip-audit found no vulnerabilities; Bandit exits 0; Checkov reports 1,073 passed, 0 failed, 7 existing skips; Zizmor reports no findings.
+* Validation: Passed locally; renewed hosted results pending.
 
 ### Activated independent-review correction batch
 
@@ -360,6 +381,13 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 | Newest Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
 | Newest Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 existing skips |
 | Newest Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
+| Credential/budget focused tests | Five newest threads | Passed | 136 passed |
+| Credential/budget full repository tests | Repository | Passed | 1,807 passed; 2 existing warning messages |
+| Credential/budget repository Ruff | Repository | Passed | All checks passed; 194 files formatted |
+| Credential/budget pip-audit | `requirements.txt` | Passed | No known vulnerabilities found from a disposable venv |
+| Credential/budget Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
+| Credential/budget Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 existing skips |
+| Credential/budget Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
 
 ## Pre-Review Reconciliation
 
