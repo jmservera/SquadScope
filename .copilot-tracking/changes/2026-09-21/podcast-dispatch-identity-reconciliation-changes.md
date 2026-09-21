@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: In progress
+* Status: Partial
 * Declared invocation scope: Full plan
-* Completed scope markers: P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P05-T02
-* All remaining active-plan markers: P01, P01-T01, P04, P04-T01, P04-T02, P05, P05-T01
-* Status basis: Hosted checks pass on `972a484`; underscore-bearing API status categories are a valid blocker, while behavior-safe source inspection proves the authorization-placeholder report is a display-redaction false positive.
+* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
+* All remaining active-plan markers: P04, P04-T02
+* Status basis: The latest valid category-validation blocker is corrected and all required local gates pass. Behavior-safe source inspection and the existing request regression disprove the authorization-placeholder report; renewed hosted checks remain.
 
 ## Execution Summary
 
@@ -182,8 +182,8 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * Related phase or task: P01-T01, P04-T01, P04-T02, P05-T01
 * Files: `scripts/podcast_dispatch_state.py`, `tests/test_podcast_dispatch_state.py`, and implementation-owned plan/details/changes artifacts
 * What changed and why: Classified thread `PRRT_kwDOSgq4hM6kjPiJ` / `4067204631` as valid because the shared safe identifier pattern rejected underscore-bearing API categories. Classified `PRRT_kwDOSgq4hM6kjPic` / `4067204660` as incorrect: source-level semantic inspection confirms the header contains the `Bearer ` scheme and `{token}` interpolation and contains no six-star literal; rendered output is redacted.
-* Completion evidence: Both comments were read with exact current-head context. The valid category defect is corrected with a receipt serialization/parsing regression; the existing request regression asserts that a synthetic supplied token reaches the Authorization header and is absent from the serialized request body.
-* Validation: Pending focused regression and renewed required gates.
+* Completion evidence: Both comments were read with exact current-head context. Functional commit `0c6e58b` corrects the valid category defect with a receipt serialization/parsing regression. The request regression evaluates its expected value to `Bearer sentinel-token`, asserts the supplied token reaches the Authorization header, and keeps it absent from the serialized request body; the source contains no six-star literal.
+* Validation: Focused dispatch/state/workflow suite `200 passed`; exact hosted regression with populated ambient GitHub variables `1 passed`; full suite `1,808 passed` with two existing URL-image warnings; Ruff clean with 194 files formatted; pip-audit found no known vulnerabilities; Bandit exits 0 with informational comment-token warnings only; Checkov reports 1,073 passed, 0 failed, 7 existing skips; Zizmor reports no findings with 8 ignored and 97 suppressed; changed-script CLI smoke and `git diff --check` pass.
 
 ### Activated independent-review correction batch
 
