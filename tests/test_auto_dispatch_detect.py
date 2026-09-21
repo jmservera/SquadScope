@@ -448,31 +448,68 @@ class TestDuplicateCheck(unittest.TestCase):
             }
         ]
 
-    def test_run_metadata_identity_matching_requires_identifier_boundaries(self):
+    def test_run_metadata_association_matches_delimited_identifiers(self):
         identity = detect.DispatchIdentity(
-            WEEK,
-            RUN_ID,
-            KNOWN_SHA256,
-            KNOWN_MANIFEST_SHA256,
+            week=WEEK,
+            publish_run_id="123",
+            article_sha256="a" * 64,
+            manifest_sha256="b" * 64,
         )
-        self.assertTrue(
-            detect._run_metadata_associates_identity(
-                {"display_title": f"dispatch publish run {RUN_ID}"},
-                identity,
-            )
+
+        for field, identifier in (
+            ("name", identity.publish_run_id),
+            ("display_title", identity.article_sha256),
+            ("head_branch", identity.manifest_sha256),
+        ):
+            with self.subTest(field=field):
+                self.assertTrue(
+                    detect._run_metadata_associates_identity(
+                        {field: f"dispatch/{identifier}-retry"},
+                        identity,
+                    )
+                )
+
+    def test_run_metadata_association_rejects_identifier_prefix_collisions(self):
+        identity = detect.DispatchIdentity(
+            week=WEEK,
+            publish_run_id="123",
+            article_sha256="a" * 64,
+            manifest_sha256="b" * 64,
         )
-        self.assertFalse(
-            detect._run_metadata_associates_identity(
-                {"display_title": f"dispatch publish run {RUN_ID}4"},
-                identity,
-            )
+
+        for identifier in (
+            identity.publish_run_id,
+            identity.article_sha256,
+            identity.manifest_sha256,
+        ):
+            with self.subTest(identifier=identifier):
+                self.assertFalse(
+                    detect._run_metadata_associates_identity(
+                        {"display_title": f"publish run {identifier}4"},
+                        identity,
+                    )
+                )
+
+    def test_run_metadata_association_rejects_identifier_suffix_collisions(self):
+        identity = detect.DispatchIdentity(
+            week=WEEK,
+            publish_run_id="123",
+            article_sha256="a" * 64,
+            manifest_sha256="b" * 64,
         )
-        self.assertFalse(
-            detect._run_metadata_associates_identity(
-                {"display_title": f"dispatch publish run 9{RUN_ID}"},
-                identity,
-            )
-        )
+
+        for identifier in (
+            identity.publish_run_id,
+            identity.article_sha256,
+            identity.manifest_sha256,
+        ):
+            with self.subTest(identifier=identifier):
+                self.assertFalse(
+                    detect._run_metadata_associates_identity(
+                        {"display_title": f"publish run 9{identifier}"},
+                        identity,
+                    )
+                )
 
     def _auto_observe_jobs(self) -> list[dict]:
         return [

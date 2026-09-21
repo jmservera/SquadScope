@@ -133,16 +133,24 @@ def _base_identity_matches(left: DispatchIdentity, right: DispatchIdentity) -> b
     )
 
 
+def _metadata_contains_identifier(metadata: str, identifier: str) -> bool:
+    if not identifier:
+        return False
+    return (
+        re.search(
+            rf"(?<![A-Za-z0-9]){re.escape(identifier)}(?![A-Za-z0-9])",
+            metadata,
+        )
+        is not None
+    )
+
+
 def _run_metadata_associates_identity(run: dict[str, Any], identity: DispatchIdentity) -> bool:
     metadata = " ".join(
         str(run.get(field) or "") for field in ("name", "display_title", "head_branch")
     )
     return any(
-        value
-        and re.search(
-            rf"(?<![A-Za-z0-9]){re.escape(value)}(?![A-Za-z0-9])",
-            metadata,
-        )
+        _metadata_contains_identifier(metadata, value)
         for value in (
             identity.publish_run_id,
             identity.article_sha256,
