@@ -243,27 +243,35 @@ jobs:
 
       - name: Record ambiguous prior dispatch notice
         if: always() && steps.dedup.outputs.dedup_status == 'ambiguous_prior_submission'
+        env:
+          PRIOR_RUN_URL: ${{ steps.dedup.outputs.prior_run_url || 'unknown' }}
+          WEEK: ${{ steps.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ steps.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ steps.detect.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ steps.detect.outputs.manifest_sha256 }}
         run: |
           {
             echo "## ⚠️ Podcast dispatch blocked by ambiguous prior submission"
             echo ""
             echo "- **Reason:** prior real-dispatch evidence could not be proven safe to retry"
-            echo "- **Prior run:** ${{ steps.dedup.outputs.prior_run_url || 'unknown' }}"
-            echo "- **Week:** ${{ steps.detect.outputs.week }}"
-            echo "- **Publish run ID:** ${{ steps.detect.outputs.publish_run_id }}"
-            echo "- **Article SHA-256:** \`${{ steps.detect.outputs.article_sha256 }}\`"
-            echo "- **Manifest SHA-256:** \`${{ steps.detect.outputs.manifest_sha256 }}\`"
+            echo "- **Prior run:** ${PRIOR_RUN_URL}"
+            echo "- **Week:** ${WEEK}"
+            echo "- **Publish run ID:** ${PUBLISH_RUN_ID}"
+            echo "- **Article SHA-256:** \`${ARTICLE_SHA256}\`"
+            echo "- **Manifest SHA-256:** \`${MANIFEST_SHA256}\`"
             echo ""
             echo "Manual review is required before any retry."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Record no-match notice
         if: steps.detect.outputs.eligible == 'false' && steps.detect.outputs.status != 'paused' && steps.detect.outputs.status != 'no_new_article'
+        env:
+          NO_MATCH_REASON: ${{ steps.detect.outputs.reason || 'no_matching_manifest' }}
         run: |
           {
             echo "## ⚠️ Podcast auto-dispatch: no eligible manifest found"
             echo ""
-            echo "- **Reason:** \`${{ steps.detect.outputs.reason || 'no_matching_manifest' }}\`"
+            echo "- **Reason:** \`${NO_MATCH_REASON}\`"
             echo "- **Push SHA:** \`${{ github.sha }}\`"
             echo ""
             echo "If publication should have triggered a podcast, check that:"
@@ -618,14 +626,18 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
         run: |
           python3 scripts/podcast_dispatch_state.py write-receipt \
             --state observation_only --dispatch-run-id "${{ github.run_id }}" \
             --attempt-id "${{ github.run_id }}-${{ github.run_attempt }}" \
-            --week "${{ needs.detect.outputs.week }}" \
-            --publish-run-id "${{ needs.detect.outputs.publish_run_id }}" \
-            --article-sha256 "${{ needs.detect.outputs.article_sha256 }}" \
-            --manifest-sha256 "${{ needs.detect.outputs.manifest_sha256 }}" \
+            --week "$WEEK" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256" \
+            --manifest-sha256 "$MANIFEST_SHA256" \
             --actions-run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
             --output podcast-dispatch-observation.json --append-ledger
       - name: Upload observation receipt
@@ -635,16 +647,23 @@ jobs:
           path: podcast-dispatch-observation.json
           retention-days: 90
       - name: Record observe-only result
+        env:
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_PATH: ${{ needs.detect.outputs.article_path }}
+          ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
+          MANIFEST_PATH: ${{ needs.detect.outputs.manifest_path }}
+          MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
         run: |
           {
             echo "## 👁️ Observe-only: podcast dispatch would have been created"
             echo ""
-            echo "- **Week:** ${{ needs.detect.outputs.week }}"
-            echo "- **Publish run ID:** ${{ needs.detect.outputs.publish_run_id }}"
-            echo "- **Article:** \`${{ needs.detect.outputs.article_path }}\`"
-            echo "- **Article SHA-256:** \`${{ needs.detect.outputs.article_sha256 }}\`"
-            echo "- **Manifest:** \`${{ needs.detect.outputs.manifest_path }}\`"
-            echo "- **Manifest SHA-256:** \`${{ needs.detect.outputs.manifest_sha256 }}\`"
+            echo "- **Week:** ${WEEK}"
+            echo "- **Publish run ID:** ${PUBLISH_RUN_ID}"
+            echo "- **Article:** \`${ARTICLE_PATH}\`"
+            echo "- **Article SHA-256:** \`${ARTICLE_SHA256}\`"
+            echo "- **Manifest:** \`${MANIFEST_PATH}\`"
+            echo "- **Manifest SHA-256:** \`${MANIFEST_SHA256}\`"
             echo "- **Would have dispatched to:** podcaster-real-generation environment"
             echo ""
             echo "_No Podcaster request was sent. This is an observe-only run._"
@@ -679,14 +698,20 @@ jobs:
       - name: Resolve authoritative ledger receipt
         env:
           GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          DISPATCH_RUN_ID: ${{ github.run_id }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
         run: |
           set +e
           python3 scripts/podcast_dispatch_state.py resolve-receipt \
-            --week "${{ needs.detect.outputs.week }}" \
-            --publish-run-id "${{ needs.detect.outputs.publish_run_id }}" \
-            --article-sha256 "${{ needs.detect.outputs.article_sha256 }}" \
-            --manifest-sha256 "${{ needs.detect.outputs.manifest_sha256 }}" \
-            --repo "${{ github.repository }}" --token "$GH_TOKEN" \
+            --week "$WEEK" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256" \
+            --manifest-sha256 "$MANIFEST_SHA256" \
+            --repo "$GITHUB_REPOSITORY" --token "$GH_TOKEN" \
             --output podcast-dispatch-authoritative-receipt.json
           resolve_status=$?
           set -e
@@ -694,13 +719,13 @@ jobs:
             state="unavailable"
             [ "$resolve_status" -eq 2 ] && state="missing"
             python3 scripts/podcast_dispatch_state.py upsert-incident \
-              --week "${{ needs.detect.outputs.week }}" \
-              --publish-run-id "${{ needs.detect.outputs.publish_run_id }}" \
-              --article-sha256 "${{ needs.detect.outputs.article_sha256 }}" \
-              --manifest-sha256 "${{ needs.detect.outputs.manifest_sha256 }}" \
+              --week "$WEEK" \
+              --publish-run-id "$PUBLISH_RUN_ID" \
+              --article-sha256 "$ARTICLE_SHA256" \
+              --manifest-sha256 "$MANIFEST_SHA256" \
               --stage ledger --state "$state" \
-              --repo "${{ github.repository }}" --token "$GH_TOKEN" \
-              --dispatch-run-id "${{ github.run_id }}"
+              --repo "$GITHUB_REPOSITORY" --token "$GH_TOKEN" \
+              --dispatch-run-id "$DISPATCH_RUN_ID"
             echo "::error::Authoritative ledger receipt could not be resolved."
             exit 1
           fi
