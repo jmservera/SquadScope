@@ -26,6 +26,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     rotate.add_argument("--prompt", required=True, type=Path)
     rotate.add_argument("--token-file", required=True, type=Path)
     rotate.add_argument("--preflight-report", required=True, type=Path)
+    rotate.add_argument("--legacy-preflight-report", type=Path)
+    rotate.add_argument("--preflight-report-md", type=Path)
 
     validate = subparsers.add_parser("validate", help="Validate generated output.")
     validate.add_argument("--output", required=True, type=Path)
@@ -34,7 +36,50 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def rotate_canary(prompt_path: Path, token_path: Path, preflight_path: Path) -> None:
+def _render_preflight_markdown(report: dict[str, object]) -> str:
+    rows = [
+        "# Analysis Prompt Preflight",
+        "",
+        f"- Prompt budget: `{report['prompt_token_budget']}` tokens",
+        f"- Rendered prompt: `{report['prompt_tokens']}` tokens / `{report['prompt_bytes']}` bytes",
+        f"- Prompt checksum: `{report['prompt_checksum_sha256']}`",
+        f"- Degraded/compacted: `{str(report['degraded']).lower()}`",
+        f"- Degradation reason: {report.get('degradation_reason') or 'none'}",
+        f"- Publish eligible: `{str(report['publish_eligible']).lower()}`",
+        f"- Promotion policy: {report['promotion_policy']}",
+        f"- Fallback policy: {report['fallback_policy']}",
+        f"- Deterministic slices: {', '.join(report['deterministic_slices'])}",
+        "",
+        "| Component | Included | Bytes | Tokens | Checksum | Path | Inclusion reason | Compaction decision |",
+        "| --- | --- | ---: | ---: | --- | --- | --- | --- |",
+    ]
+    for component in report["components"]:
+        rows.append(
+            "| "
+            + " | ".join(
+                [
+                    str(component["name"]),
+                    str(component["included"]).lower(),
+                    str(component["bytes"]),
+                    str(component["token_estimate"]),
+                    str(component["checksum_sha256"]),
+                    str(component.get("path") or ""),
+                    str(component["inclusion_reason"]).replace("|", "\\|"),
+                    str(component["compaction_decision"]).replace("|", "\\|"),
+                ]
+            )
+            + " |"
+        )
+    return "\n".join(rows) + "\n"
+
+
+def rotate_canary(
+    prompt_path: Path,
+    token_path: Path,
+    preflight_path: Path,
+    legacy_preflight_path: Path | None = None,
+    preflight_md_path: Path | None = None,
+) -> None:
     prompt = prompt_path.read_text(encoding="utf-8")
     old_canary = token_path.read_text(encoding="utf-8").strip()
     new_canary = generate_canary()
@@ -63,7 +108,12 @@ def rotate_canary(prompt_path: Path, token_path: Path, preflight_path: Path) -> 
             component["bytes"] = prompt_bytes
             component["token_estimate"] = prompt_tokens
             component["checksum_sha256"] = checksum
-    preflight_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    serialized_report = json.dumps(report, indent=2, sort_keys=True) + "\n"
+    preflight_path.write_text(serialized_report, encoding="utf-8")
+    if legacy_preflight_path:
+        legacy_preflight_path.write_text(serialized_report, encoding="utf-8")
+    if preflight_md_path:
+        preflight_md_path.write_text(_render_preflight_markdown(report), encoding="utf-8")
     if not report["prompt_within_budget"]:
         raise ValueError("Rotated prompt exceeds the configured token budget.")
 
@@ -77,7 +127,13 @@ def validate_output(output_path: Path, token_path: Path) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     if args.command == "rotate":
-        rotate_canary(args.prompt, args.token_file, args.preflight_report)
+        rotate_canary(
+            args.prompt,
+            args.token_file,
+            args.preflight_report,
+            args.legacy_preflight_report,
+            args.preflight_report_md,
+        )
         return 0
 
     violations = validate_output(args.output, args.token_file)

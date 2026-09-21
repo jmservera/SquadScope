@@ -88,6 +88,63 @@ def test_rotate_uses_utf8_byte_token_estimate(tmp_path: Path) -> None:
     assert report["components"][0]["token_estimate"] == expected_tokens
 
 
+def test_rotate_refreshes_all_preflight_artifacts(tmp_path: Path) -> None:
+    prompt_path = tmp_path / "prompt.md"
+    token_path = tmp_path / "canary.txt"
+    preflight_path = tmp_path / "analysis-input-manifest.json"
+    legacy_preflight_path = tmp_path / "analysis-preflight.json"
+    preflight_md_path = tmp_path / "analysis-preflight.md"
+    original_canary = generate_canary()
+    prompt_path.write_text(
+        inject_canary("# Analysis\n\nUse the supplied evidence.\n", original_canary),
+        encoding="utf-8",
+    )
+    token_path.write_text(original_canary + "\n", encoding="utf-8")
+    report = {
+        "prompt_token_budget": 1000,
+        "prompt_tokens": 1,
+        "prompt_bytes": 1,
+        "prompt_checksum_sha256": "stale",
+        "degraded": False,
+        "degradation_reason": None,
+        "publish_eligible": True,
+        "promotion_policy": "eligible-only",
+        "fallback_policy": "none",
+        "deterministic_slices": ["raw"],
+        "components": [
+            {
+                "name": "rendered_prompt",
+                "included": True,
+                "bytes": 1,
+                "token_estimate": 1,
+                "checksum_sha256": "stale",
+                "path": None,
+                "inclusion_reason": "required",
+                "compaction_decision": "none",
+            }
+        ],
+    }
+    preflight_path.write_text(json.dumps(report), encoding="utf-8")
+    legacy_preflight_path.write_text(json.dumps(report), encoding="utf-8")
+    preflight_md_path.write_text("stale\n", encoding="utf-8")
+
+    ai_output_guard.rotate_canary(
+        prompt_path,
+        token_path,
+        preflight_path,
+        legacy_preflight_path,
+        preflight_md_path,
+    )
+
+    canonical = preflight_path.read_text(encoding="utf-8")
+    assert legacy_preflight_path.read_text(encoding="utf-8") == canonical
+    refreshed = json.loads(canonical)
+    markdown = preflight_md_path.read_text(encoding="utf-8")
+    assert refreshed["prompt_checksum_sha256"] != "stale"
+    assert refreshed["prompt_checksum_sha256"] in markdown
+    assert f"`{refreshed['prompt_tokens']}` tokens" in markdown
+
+
 def test_validate_rejects_canary_leak(tmp_path: Path) -> None:
     token_path = tmp_path / "canary.txt"
     output_path = tmp_path / "output.md"

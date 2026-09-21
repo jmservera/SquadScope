@@ -669,6 +669,7 @@ jobs:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PREFLIGHT_REPORT_JSON: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
+          PREFLIGHT_REPORT_MD: ${{ steps.prompt-preflight.outputs.preflight_report_md }}
           IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
           IN_WEEK: ${{ steps.analysis-context.outputs.week }}
@@ -700,6 +701,7 @@ jobs:
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
           PROMPT_FILE="$IN_PROMPT_FILE"
           CANARY_FILE="$IN_CANARY_FILE"
+          LEGACY_PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
@@ -775,7 +777,9 @@ jobs:
               python3 scripts/ai_output_guard.py rotate \
                 --prompt "$PROMPT_FILE" \
                 --token-file "$CANARY_FILE" \
-                --preflight-report "$PREFLIGHT_REPORT_JSON"
+                --preflight-report "$PREFLIGHT_REPORT_JSON" \
+                --legacy-preflight-report "$LEGACY_PREFLIGHT_JSON" \
+                --preflight-report-md "$PREFLIGHT_REPORT_MD"
             fi
             TRANSCRIPT_FILE="data/metrics/copilot-transcript-attempt-${ATTEMPT}.md"
             GATE_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-${ATTEMPT}.json"
