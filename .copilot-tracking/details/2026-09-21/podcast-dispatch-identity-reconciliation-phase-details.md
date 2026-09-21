@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: Two follow-up PR review threads on pushed head `8a0ffd1` are corrected and locally validated; follow-up commit, push, PR head confirmation, and renewed hosted evidence remain
+* Planning status: Three additional PR review threads on pushed head `ab2a8ec` are active implementation inputs; affected identity/history, receipt trust, pagination, regression, validation, and delivery markers are reopened
 
 ## Task-Level Context
 
@@ -23,10 +23,10 @@
 
 | Phase ID | Name | Status | Detail sections |
 |---|---|---|---|
-| P01 | Establish canonical state and identity-scoped history | Complete after multi-ledger reconciliation and identity-scoped unreadable-history correction | P01, P01-T01, P01-T02 |
+| P01 | Establish canonical state and identity-scoped history | Reopened for legacy rejection ambiguity, metadata-associated cancellation, and fail-closed pagination | P01, P01-T01, P01-T02 |
 | P02 | Enforce durable receipt ordering around mutation | Complete; normal handoff failures preserve API status/category outputs | P02, P02-T01, P02-T02 |
 | P03 | Reconcile terminal outcome, latency, and incidents | Complete; reconciliation covers post-boundary step failure and excludes retryable pre-boundary states from terminal monitoring | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: follow-up P04-T01 and all local P04-T02 gates pass; renewed hosted checks await push | P04, P04-T01, P04-T02 |
+| P04 | Complete locked regression and validation evidence | Reopened for three additional regressions and renewed local/hosted gates | P04, P04-T01, P04-T02 |
 | P05 | Deliver review branch and independent review handoff | Reopened for follow-up correction evidence, commit, push, and PR head confirmation | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->

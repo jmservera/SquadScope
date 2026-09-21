@@ -91,6 +91,22 @@ class PodcastDispatchStateTests(unittest.TestCase):
             ),
             "blocking",
         )
+        unclassified_rejection = self.receipt("submission_rejected")
+        classified_rejection = state.DispatchReceipt(
+            **{
+                **unclassified_rejection.__dict__,
+                "api_status": 400,
+                "api_status_category": "http_rejected_pre_acceptance",
+            }
+        )
+        self.assertEqual(
+            state.receipt_retry_classification([unclassified_rejection]),
+            "ambiguous_exact",
+        )
+        self.assertEqual(
+            state.receipt_retry_classification([classified_rejection]),
+            "retryable_non_mutation",
+        )
 
     def test_v1_parser_never_fabricates_manifest_identity(self) -> None:
         parsed = state.parse_receipt(
@@ -260,6 +276,30 @@ class PodcastDispatchStateTests(unittest.TestCase):
             mock.patch.object(state, "_github_json", return_value=created),
         ):
             self.assertEqual(state._ledger_issue("example/repo", "token"), canonical)
+
+    def test_issue_pagination_exhaustion_fails_closed(self) -> None:
+        with (
+            mock.patch.object(state, "MAX_GITHUB_PAGES", 2),
+            mock.patch.object(state, "_github_json", return_value=[{}] * 100) as github,
+            self.assertRaisesRegex(ValueError, "issue pagination limit reached"),
+        ):
+            list(state._iter_issue_pages("example/repo", "token"))
+        self.assertEqual(github.call_count, 2)
+
+    def test_ledger_comment_pagination_exhaustion_fails_closed(self) -> None:
+        ledger = {
+            "title": state.LEDGER_TITLE,
+            "body": state.LEDGER_MARKER,
+            "comments_url": "https://api.github.com/repos/example/repo/issues/9/comments",
+        }
+        with (
+            mock.patch.object(state, "MAX_GITHUB_PAGES", 2),
+            mock.patch.object(state, "_iter_issue_pages", return_value=iter([ledger])),
+            mock.patch.object(state, "_github_json", return_value=[{}] * 100) as github,
+            self.assertRaisesRegex(ValueError, "comment pagination limit reached"),
+        ):
+            state.list_ledger_receipts("example/repo", "token")
+        self.assertEqual(github.call_count, 2)
 
     def test_resolver_prefers_authoritative_accepted_receipt(self) -> None:
         accepted = self.receipt()

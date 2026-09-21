@@ -101,7 +101,6 @@ PROVEN_NO_SUBMISSION_RECEIPT_STATES = frozenset(
         "paused",
         "attempt_prepared",
         "pre_submit_failed",
-        "submission_rejected",
         "observation_only",
     }
 )
@@ -280,6 +279,21 @@ def _receipt_identity_conflicts(
     )
 
 
+def _receipt_proves_no_submission(receipt: dict[str, Any] | DispatchReceipt) -> bool:
+    state = (
+        receipt.receipt_state
+        if isinstance(receipt, DispatchReceipt)
+        else str(receipt.get("receipt_state") or "")
+    )
+    if state in PROVEN_NO_SUBMISSION_RECEIPT_STATES:
+        return True
+    return (
+        isinstance(receipt, DispatchReceipt)
+        and state == "submission_rejected"
+        and receipt.api_status_category == "http_rejected_pre_acceptance"
+    )
+
+
 def _extract_dispatch_identity_from_log_outputs(log_text: str) -> DispatchIdentity | None:
     values: dict[str, str] = {}
     for line in log_text.splitlines():
@@ -432,6 +446,8 @@ def _compat_identity_for_run(
             and run.get("conclusion") == "cancelled"
             and _legacy_run_single_attempt(run)
         ):
+            if _run_metadata_associates_identity(run, requested_identity):
+                return "ambiguous", None
             return "ignore", None
         if (
             _step_conclusion(jobs, "Protected podcast dispatch", "Trigger podcast generation")
@@ -1198,7 +1214,7 @@ def check_duplicate_result(
                 and _receipt_base_identity_matches(receipt, identity)
                 and isinstance(receipt, dict)
                 and not SHA256_RE.match(str(receipt.get("manifest_sha256") or ""))
-                and state not in PROVEN_NO_SUBMISSION_RECEIPT_STATES
+                and not _receipt_proves_no_submission(receipt)
             ):
                 return DuplicateCheckResult(
                     status="ambiguous_prior_submission",
@@ -1230,7 +1246,7 @@ def check_duplicate_result(
                     prior_run_url=_run_url(run) or None,
                     reason=state,
                 )
-            if state in PROVEN_NO_SUBMISSION_RECEIPT_STATES:
+            if _receipt_proves_no_submission(receipt):
                 break
             return DuplicateCheckResult(
                 status="ambiguous_prior_submission",

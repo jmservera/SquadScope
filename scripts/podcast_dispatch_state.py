@@ -37,15 +37,14 @@ RECEIPT_STATES = frozenset(
     }
 )
 BLOCKING_STATES = frozenset({"handoff_entered", "accepted", "submission_unknown"})
-RETRYABLE_STATES = frozenset(
-    {"attempt_prepared", "pre_submit_failed", "submission_rejected", "observation_only"}
-)
+RETRYABLE_STATES = frozenset({"attempt_prepared", "pre_submit_failed", "observation_only"})
 EVIDENCE_DEADLINE_SECONDS = 3480
 TOTAL_MONITOR_BUDGET_SECONDS = 3600
 POLL_INTERVAL_SECONDS = 30
 REQUEST_TIMEOUT_SECONDS = 10
 MAX_CONSECUTIVE_ERRORS = 5
 SYNTHESIS_WARNING_SECONDS = 600
+MAX_GITHUB_PAGES = 100
 
 
 def _validate(value: str, pattern: re.Pattern[str], field: str) -> str:
@@ -245,10 +244,20 @@ def parse_receipt(value: str | bytes | dict[str, Any]) -> DispatchReceipt | dict
 
 
 def receipt_retry_classification(receipts: Iterable[DispatchReceipt]) -> str:
-    states = {receipt.receipt_state for receipt in receipts}
+    receipt_values = list(receipts)
+    if not receipt_values:
+        return "ambiguous_exact"
+    states = {receipt.receipt_state for receipt in receipt_values}
     if states & BLOCKING_STATES:
         return "blocking"
-    if states <= RETRYABLE_STATES:
+    if all(
+        receipt.receipt_state in RETRYABLE_STATES
+        or (
+            receipt.receipt_state == "submission_rejected"
+            and receipt.api_status_category == "http_rejected_pre_acceptance"
+        )
+        for receipt in receipt_values
+    ):
         return "retryable_non_mutation"
     return "ambiguous_exact"
 
@@ -308,7 +317,7 @@ def _iter_issue_pages(
     deadline: float | None = None,
     monotonic: Callable[[], float] = time.monotonic,
 ) -> Iterable[dict[str, Any]]:
-    for page in range(1, 101):
+    for page in range(1, MAX_GITHUB_PAGES + 1):
         url = f"https://api.github.com/repos/{repo}/issues?state={state}&per_page=100&page={page}"
         values = _github_json(
             url,
@@ -319,7 +328,9 @@ def _iter_issue_pages(
             raise ValueError("issues response must be a list")
         yield from (value for value in values if isinstance(value, dict))
         if len(values) < 100:
-            break
+            return
+        if page == MAX_GITHUB_PAGES:
+            raise ValueError("issue pagination limit reached before history was exhausted")
 
 
 def _trusted_comment(comment: dict[str, Any], repo: str) -> bool:
@@ -402,7 +413,7 @@ def list_ledger_receipts(
         comments_url = str(ledger.get("comments_url") or "")
         if not comments_url.startswith(f"https://api.github.com/repos/{repo}/"):
             raise ValueError("untrusted ledger comments URL")
-        for page in range(1, 101):
+        for page in range(1, MAX_GITHUB_PAGES + 1):
             comments = _github_json(
                 f"{comments_url}?per_page=100&page={page}",
                 token,
@@ -436,6 +447,10 @@ def list_ledger_receipts(
                     receipts.append(parsed)
             if len(comments) < 100:
                 break
+            if page == MAX_GITHUB_PAGES:
+                raise ValueError(
+                    "ledger comment pagination limit reached before history was exhausted"
+                )
     return receipts
 
 

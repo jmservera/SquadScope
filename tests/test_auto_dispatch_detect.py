@@ -407,7 +407,13 @@ class TestDuplicateCheck(unittest.TestCase):
             f"{detect.RECEIPT_PREFIX}{json.dumps(payload, sort_keys=True, separators=(',', ':'))}\n"
         )
 
-    def _v2_receipt_log(self, *, state: str, manifest_sha: str = "b" * 64) -> str:
+    def _v2_receipt_log(
+        self,
+        *,
+        state: str,
+        manifest_sha: str = "b" * 64,
+        api_status_category: str | None = None,
+    ) -> str:
         payload = {
             "schema_version": "podcast_dispatch_receipt_v2",
             "receipt_id": "receipt-1",
@@ -422,6 +428,8 @@ class TestDuplicateCheck(unittest.TestCase):
             },
             "receipt_state": state,
         }
+        if api_status_category is not None:
+            payload["api_status_category"] = api_status_category
         return (
             f"{detect.RECEIPT_PREFIX}{json.dumps(payload, sort_keys=True, separators=(',', ':'))}\n"
         )
@@ -835,7 +843,7 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertFalse(result.is_duplicate)
         self.assertEqual(result.prior_run_url, run["html_url"])
 
-    def test_proven_submission_rejection_allows_retry(self):
+    def test_legacy_submission_rejection_remains_ambiguous(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
         with (
             mock.patch.object(detect, "fetch_publish_branch"),
@@ -845,6 +853,29 @@ class TestDuplicateCheck(unittest.TestCase):
                     auto_runs=[run],
                     jobs={self._AUTO_RUN_ID: []},
                     logs={self._AUTO_RUN_ID: self._receipt_log(state="submission_rejected")},
+                ),
+            ),
+        ):
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
+        self.assertFalse(result.is_duplicate)
+
+    def test_v2_pre_acceptance_rejection_allows_retry(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={
+                        self._AUTO_RUN_ID: self._v2_receipt_log(
+                            state="submission_rejected",
+                            api_status_category="http_rejected_pre_acceptance",
+                        )
+                    },
                 ),
             ),
         ):
@@ -990,6 +1021,26 @@ class TestDuplicateCheck(unittest.TestCase):
             result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
 
         self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_cancelled_empty_run_with_related_metadata_is_ambiguous(self):
+        run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
+        run["conclusion"] = "cancelled"
+        run["display_title"] = f"Auto-dispatch for publish run {RUN_ID}"
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=self._router(
+                    auto_runs=[run],
+                    jobs={self._AUTO_RUN_ID: []},
+                    logs={self._AUTO_RUN_ID: ""},
+                ),
+            ),
+        ):
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
+
+        self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
 
     def test_w38_ignores_unrelated_legacy_no_anchor_pre_submit_run(self):

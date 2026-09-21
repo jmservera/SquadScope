@@ -1237,6 +1237,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("podcast-dispatch-authoritative-receipt.json", resolver["run"])
         self.assertIn("podcast-dispatch-post-receipt.json", resolver["run"])
         self.assertIn("retryable_pre_boundary", resolver["run"])
+        self.assertIn("receipt_retry_classification", resolver["run"])
         retryable = reconcile["steps"][reconcile_positions["Record retryable pre-boundary failure"]]
         self.assertEqual(
             retryable["if"],
