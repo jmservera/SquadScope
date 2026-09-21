@@ -21,7 +21,7 @@ from scripts.promotion_guard import promote_candidate
 from scripts.publish_hydration import GENERATED_PATHS, check_publish_references
 
 COMMIT_STEP_NAME = "Commit generated content to data branch"
-PROOF_PATH = "data/observatory/ranking_summary.json"
+PROOF_PATH = "data/derived/observatory/atomic-publish-proof.json"
 REQUIRED_COMMIT_FRAGMENTS = (
     'CURRENT_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")',
     'if [ "$GENERATED_STATE_CHANGED" = false ]; then',
@@ -276,12 +276,19 @@ def _scenario_environment(
 
 def _write_proof_mutation(repo: Path, source_publish_sha: str, proof_nonce: str) -> None:
     target = repo / PROOF_PATH
-    payload = json.loads(target.read_text(encoding="utf-8"))
-    payload["_atomic_publish_proof"] = {
-        "source_publish_sha": source_publish_sha,
-        "proof_nonce": proof_nonce,
-    }
-    target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        json.dumps(
+            {
+                "schema_version": "atomic_publish_proof_v1",
+                "source_publish_sha": source_publish_sha,
+                "proof_nonce": proof_nonce,
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def _changed_paths(repo: Path, before: str, after: str) -> list[str]:
