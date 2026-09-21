@@ -12,9 +12,9 @@
 
 * Status: Partial
 * Declared invocation scope: Full plan
-* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01
-* All remaining active-plan markers: P04, P04-T02, P05, P05-T01, P05-T02
-* Status basis: Production/workflow implementation, locked regressions, and all available local gates are complete. Branch delivery is active; hosted checks and independent review require the pushed branch and later PR.
+* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05-T01
+* All remaining active-plan markers: P04, P04-T02, P05, P05-T02
+* Status basis: Production/workflow implementation, locked regressions, all available local gates, commit, and branch push are complete. Hosted checks and independent review remain before PR creation.
 
 ## Execution Summary
 
@@ -51,6 +51,14 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * What changed and why: Added/updated semantic and structural coverage for the incident identity, non-mutation paths, receipt safety, monitor bounds, terminal predicates, incidents, and workflow ordering.
 * Completion evidence: `python3 -m pytest -q tests/test_auto_dispatch_detect.py tests/test_podcaster_handoff.py tests/test_podcast_dispatch_state.py tests/test_pipeline.py` reported `142 passed`.
 * Validation: Passed.
+
+### Committed and pushed the independent-review branch
+
+* Related phase or task: P05-T01
+* Files: All task-owned source, workflow, tests, and five RPI artifact paths
+* What changed and why: Created conventional commit `10bd873` and pushed `incident/podcast-dispatch-identity-reconciliation` to `origin` without opening a PR.
+* Completion evidence: Remote branch creation succeeded and local branch tracks the required origin branch.
+* Validation: Passed — staged diff check and push completed successfully.
 
 ## Completed Work
 
@@ -116,7 +124,7 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 
 ## Remaining Work
 
-* P04-T02 remains open only for hosted evidence. P05-T01 is active until commit/push; P05-T02 remains for independent review.
+* P04-T02 remains open only for hosted evidence. P05-T02 remains for independent review; PR creation follows that review.
 
 ## Follow-Up Items
 
@@ -129,7 +137,7 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * Declared scope and markers: Full plan; P01-P03 and P04-T01 complete
 * Validation coverage: All available local tests, lint, formatting, dependency audit, Bandit, Checkov, and Zizmor pass; hosted gates pending by required review-before-PR sequencing
 * Blockers: Hosted evidence sequencing only; no source implementation blocker
-* Current plan and detail updates: Delivery sequencing reconciled; P05-T01 active while P04-T02 retains hosted-only evidence
+* Current plan and detail updates: Delivery sequencing reconciled; P05-T01 complete while P04-T02 retains hosted-only evidence and P05-T02 awaits independent review
 * Planning and critique state: Current and ready; exactly one critique
 * Follow-up items: Unchanged from plan
 * Review readiness or no-handoff reason: Not ready; implementation underway

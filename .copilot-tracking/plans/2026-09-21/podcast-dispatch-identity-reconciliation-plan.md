@@ -254,7 +254,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Dependencies: local P04-T02 evidence complete. Hosted gates remain mandatory after independent review opens the PR and before merge/readiness.
 
 <!-- rpi:task id=P05-T01 -->
-#### [ ] P05-T01: Record evidence and push review branch
+#### [x] P05-T01: Record evidence and push review branch
 
 * Requirement and evidence: FR-11 and caller delivery requirements, including independent review before PR creation.
 * Expected result: changes record is current, the branch is committed and pushed, and the independent reviewer receives the W38/W39 evidence, local validation, Podcaster contract dependency, rollback point, principal risks, and required future-PR references.
