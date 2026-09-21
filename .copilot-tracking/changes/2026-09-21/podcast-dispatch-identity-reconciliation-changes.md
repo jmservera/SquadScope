@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: Partial
+* Status: In progress
 * Declared invocation scope: Full plan
-* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
-* All remaining active-plan markers: P04, P04-T02
-* Status basis: All review findings through head `0d75986` are corrected. All required local gates pass and the latest correction is pushed; renewed hosted checks remain.
+* Completed scope markers: P01-T02, P02, P02-T01, P02-T02, P03-T01, P05-T02
+* All remaining active-plan markers: P01, P01-T01, P03, P03-T02, P04, P04-T01, P04-T02, P05, P05-T01
+* Status basis: Hosted checks pass on `3cc443a`, but five newest valid threads are active across typed IDs, secret-free CLI invocation, resolver incident deadlines, full-history resolution, and delayed incident persistence.
 
 ## Execution Summary
 
@@ -147,6 +147,14 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * What changed and why: Repeated all required local gates and persisted the five-finding correction at `0d75986` (`fix(podcast): close remaining evidence gaps`).
 * Completion evidence: Full suite `1,805 passed`; Ruff clean with 194 files formatted; pip-audit found no vulnerabilities; Bandit exits 0; Checkov reports 1,073 passed, 0 failed, 7 existing skips; Zizmor reports no findings.
 * Validation: Passed locally; renewed hosted results pending.
+
+### Activated newest PR review correction batch
+
+* Related phase or task: P01-T01, P03-T02, P04-T01, P04-T02, P05-T01
+* Files: `.github/workflows/auto-podcast-dispatch.yml`, `scripts/podcast_dispatch_state.py`, owned tests, and implementation-owned plan/details/changes artifacts
+* What changed and why: Classified threads `PRRT_kwDOSgq4hM6kjDZC` / `4067127604`, `PRRT_kwDOSgq4hM6kjGc0` / `4067146574`, `PRRT_kwDOSgq4hM6kjKJd` / `4067169926`, `PRRT_kwDOSgq4hM6kjKJv` / `4067169951`, and `PRRT_kwDOSgq4hM6kjKJ-` / `4067169970` as valid.
+* Completion evidence: All five comments were read with exact current-head context; current hosted checks are green.
+* Validation: Pending focused regressions and renewed required gates.
 
 ### Activated independent-review correction batch
 

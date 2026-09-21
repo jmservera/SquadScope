@@ -68,6 +68,16 @@ class PodcastDispatchStateTests(unittest.TestCase):
             state.parse_receipt(payload)
         self.assertNotIn("secret", encoded)
 
+        numeric_identity = json.loads(encoded)
+        numeric_identity["identity"]["publish_run_id"] = 35561779454
+        with self.assertRaisesRegex(ValueError, "publish_run_id"):
+            state.parse_receipt(numeric_identity)
+
+        numeric_dispatch = json.loads(encoded)
+        numeric_dispatch["dispatch_run_id"] = 35562322880
+        with self.assertRaisesRegex(ValueError, "dispatch_run_id"):
+            state.parse_receipt(numeric_dispatch)
+
     def test_github_request_carries_bearer_token_without_serializing_it(self) -> None:
         response = mock.MagicMock()
         response.__enter__.return_value.read.return_value = b"{}"
@@ -129,6 +139,17 @@ class PodcastDispatchStateTests(unittest.TestCase):
             }
         )
         self.assertNotIn("manifest_sha256", parsed)
+
+    def test_receipt_parser_rejects_numeric_identifiers(self) -> None:
+        payload = self.receipt().as_dict()
+        payload["dispatch_run_id"] = 123
+        with self.assertRaisesRegex(ValueError, "dispatch_run_id"):
+            state.parse_receipt(payload)
+
+        payload = self.receipt().as_dict()
+        payload["identity"]["publish_run_id"] = 456
+        with self.assertRaisesRegex(ValueError, "publish_run_id"):
+            state.parse_receipt(payload)
 
     def test_terminal_success_requires_every_authoritative_stage(self) -> None:
         self.assertTrue(state.evaluate_terminal_status(self.terminal()).success)
@@ -346,6 +367,30 @@ class PodcastDispatchStateTests(unittest.TestCase):
                 state.resolve_authoritative_receipt("example/repo", "token", self.identity),
                 accepted,
             )
+
+    def test_resolver_preserves_older_ambiguous_rejection(self) -> None:
+        rejected = self.receipt("submission_rejected")
+        prepared = state.DispatchReceipt(
+            **{
+                **rejected.__dict__,
+                "receipt_id": "receipt-2",
+                "created_at": (datetime.now(UTC) + timedelta(seconds=1)).isoformat(),
+                "receipt_state": "pre_submit_failed",
+            }
+        )
+        with mock.patch.object(
+            state,
+            "list_ledger_receipts",
+            return_value=[rejected, prepared],
+        ):
+            self.assertEqual(
+                state.resolve_authoritative_receipt("example/repo", "token", self.identity),
+                rejected,
+            )
+
+    def test_incident_deadline_keeps_minimum_bounded_write_window(self) -> None:
+        self.assertEqual(state._bounded_incident_deadline(0, monotonic=lambda: 100), 110)
+        self.assertEqual(state._bounded_incident_deadline(25, monotonic=lambda: 100), 125)
 
     def test_missing_status_contract_fails_visibly(self) -> None:
         result = state.monitor_terminal_outcome(self.receipt(), "", "secret")

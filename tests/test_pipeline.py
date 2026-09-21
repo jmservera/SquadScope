@@ -1237,8 +1237,11 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("podcast_dispatch_state.py resolve-receipt", resolver["run"])
         self.assertIn("podcast-dispatch-authoritative-receipt.json", resolver["run"])
         self.assertIn("podcast-dispatch-post-receipt.json", resolver["run"])
+        self.assertNotIn('--token "$GH_TOKEN"', resolver["run"])
+        self.assertIn("--timeout-seconds", resolver["run"])
         self.assertIn("retryable_pre_boundary", resolver["run"])
         self.assertIn("receipt_retry_classification", resolver["run"])
+        self.assertIn("remaining_cleanup", resolver["run"])
         retryable = reconcile["steps"][reconcile_positions["Record retryable pre-boundary failure"]]
         self.assertEqual(
             retryable["if"],
@@ -1254,7 +1257,10 @@ class WorkflowConfigTests(unittest.TestCase):
             "steps.resolve-receipt.outputs.retryable_pre_boundary != 'true'",
         )
         self.assertIn("PODCASTER_STATUS_ENDPOINT", monitor["env"])
+        self.assertIn("PODCASTER_API_KEY", monitor["env"])
         self.assertIn("podcast_dispatch_state.py monitor", monitor["run"])
+        self.assertNotIn("--api-key", monitor["run"])
+        self.assertNotIn("--token", monitor["run"])
         self.assertIn("podcast-dispatch-authoritative-receipt.json", monitor["run"])
         self.assertNotIn("--receipt podcast-dispatch-post-receipt.json", monitor["run"])
 

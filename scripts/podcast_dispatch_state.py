@@ -72,7 +72,7 @@ class CanonicalPublicationIdentity:
 
     def __post_init__(self) -> None:
         _validate(self.week, WEEK_RE, "week")
-        _validate(str(self.publish_run_id), RUN_ID_RE, "publish_run_id")
+        _validate(self.publish_run_id, RUN_ID_RE, "publish_run_id")
         _validate(self.article_sha256, SHA256_RE, "article_sha256")
         _validate(self.manifest_sha256, SHA256_RE, "manifest_sha256")
 
@@ -100,7 +100,7 @@ class DispatchReceipt:
     synthesis_latency_seconds: int | None = None
 
     def __post_init__(self) -> None:
-        _validate(str(self.dispatch_run_id), RUN_ID_RE, "dispatch_run_id")
+        _validate(self.dispatch_run_id, RUN_ID_RE, "dispatch_run_id")
         _validate(self.attempt_id, SAFE_ID_RE, "attempt_id")
         _validate(self.receipt_id, SAFE_ID_RE, "receipt_id")
         _timestamp(self.created_at)
@@ -310,6 +310,13 @@ def _remaining_timeout(
     if remaining <= 0:
         raise TimeoutError("GitHub operation cleanup budget exhausted")
     return min(maximum, remaining)
+
+
+def _bounded_incident_deadline(
+    cleanup_budget_seconds: float,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> float:
+    return monotonic() + max(REQUEST_TIMEOUT_SECONDS, cleanup_budget_seconds)
 
 
 def _iter_issue_pages(
@@ -907,6 +914,7 @@ def resolve_authoritative_receipt(
         key=lambda receipt: datetime.fromisoformat(receipt.created_at.replace("Z", "+00:00")),
         reverse=True,
     )
+    classification = receipt_retry_classification(exact)
     for receipt_state in ("accepted", "submission_unknown", "handoff_entered"):
         match = next(
             (receipt for receipt in exact if receipt.receipt_state == receipt_state),
@@ -914,6 +922,12 @@ def resolve_authoritative_receipt(
         )
         if match is not None:
             return match
+    if classification == "ambiguous_exact":
+        return next(
+            receipt
+            for receipt in exact
+            if receipt_retry_classification([receipt]) == "ambiguous_exact"
+        )
     return exact[0]
 
 
@@ -972,22 +986,23 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     monitor = subparsers.add_parser("monitor")
     monitor.add_argument("--receipt", type=Path, required=True)
     monitor.add_argument("--endpoint", default="")
-    monitor.add_argument("--api-key", default="")
     monitor.add_argument("--repo", default="")
-    monitor.add_argument("--token", default="")
     monitor.add_argument("--summary", type=Path)
     resolver = subparsers.add_parser("resolve-receipt")
     _add_identity_args(resolver)
     resolver.add_argument("--repo", required=True)
-    resolver.add_argument("--token", required=True)
     resolver.add_argument("--output", type=Path, required=True)
     incident = subparsers.add_parser("upsert-incident")
     _add_identity_args(incident)
     incident.add_argument("--stage", required=True)
     incident.add_argument("--state", required=True)
     incident.add_argument("--repo", required=True)
-    incident.add_argument("--token", required=True)
     incident.add_argument("--dispatch-run-id", required=True)
+    incident.add_argument(
+        "--timeout-seconds",
+        type=float,
+        default=REQUEST_TIMEOUT_SECONDS,
+    )
     return parser.parse_args(argv)
 
 
@@ -1006,21 +1021,30 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "upsert-incident":
         identity = _identity_from_args(args)
+        token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
+        if not token:
+            raise SystemExit("incident persistence requires GH_TOKEN or GITHUB_TOKEN")
+        if args.timeout_seconds <= 0:
+            raise SystemExit("incident persistence timeout must be positive")
         url = upsert_incident(
             args.repo,
-            args.token,
+            token,
             identity,
             args.stage,
             args.state,
             {"dispatch_run_id": args.dispatch_run_id},
+            deadline=time.monotonic() + args.timeout_seconds,
         )
         print(url)
         return 0
     if args.command == "resolve-receipt":
+        token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
+        if not token:
+            raise SystemExit("receipt resolution requires GH_TOKEN or GITHUB_TOKEN")
         resolver_deadline = time.monotonic() + 60
         receipt = resolve_authoritative_receipt(
             args.repo,
-            args.token,
+            token,
             _identity_from_args(args),
             deadline=resolver_deadline,
         )
@@ -1034,8 +1058,11 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit("monitor requires v2 receipt")
     warning_urls: list[str] = []
 
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
+    api_key = os.environ.get("PODCASTER_API_KEY", "")
+
     def warn(latency: int) -> None:
-        if args.repo and args.token:
+        if args.repo and token:
             accepted_at = datetime.fromisoformat(
                 parsed.created_at.replace("Z", "+00:00")
             ).timestamp()
@@ -1051,7 +1078,7 @@ def main(argv: list[str] | None = None) -> int:
                 warning_urls.append(
                     upsert_incident(
                         args.repo,
-                        args.token,
+                        token,
                         parsed.identity,
                         "synthesis_latency",
                         "warning",
@@ -1072,8 +1099,8 @@ def main(argv: list[str] | None = None) -> int:
                     f"{type(exc).__name__}"
                 )
 
-    result = monitor_terminal_outcome(parsed, args.endpoint, args.api_key, warning=warn)
-    cleanup_deadline = time.monotonic() + result.cleanup_budget_seconds
+    result = monitor_terminal_outcome(parsed, args.endpoint, api_key, warning=warn)
+    cleanup_deadline = _bounded_incident_deadline(result.cleanup_budget_seconds)
     summary = (
         f"## Podcast dispatch reconciliation\n\n"
         f"- Identity key: `{canonical_identity_key(parsed.identity)}`\n"
@@ -1086,18 +1113,18 @@ def main(argv: list[str] | None = None) -> int:
         with args.summary.open("a", encoding="utf-8") as output:
             output.write(summary)
     if result.success:
-        if args.repo and args.token:
+        if args.repo and token:
             reconcile_identity_incidents(
                 args.repo,
-                args.token,
+                token,
                 parsed.identity,
                 deadline=cleanup_deadline,
             )
         return 0
-    if args.repo and args.token:
+    if args.repo and token:
         upsert_incident(
             args.repo,
-            args.token,
+            token,
             parsed.identity,
             result.stage,
             result.state,

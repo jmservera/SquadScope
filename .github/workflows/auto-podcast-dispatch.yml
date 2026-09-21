@@ -708,27 +708,34 @@ jobs:
           ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
           MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
         run: |
+          resolve_started=$SECONDS
           set +e
           python3 scripts/podcast_dispatch_state.py resolve-receipt \
             --week "$WEEK" \
             --publish-run-id "$PUBLISH_RUN_ID" \
             --article-sha256 "$ARTICLE_SHA256" \
             --manifest-sha256 "$MANIFEST_SHA256" \
-            --repo "$GITHUB_REPOSITORY" --token "$GH_TOKEN" \
+            --repo "$GITHUB_REPOSITORY" \
             --output podcast-dispatch-authoritative-receipt.json
           resolve_status=$?
           set -e
           if [ "$resolve_status" -ne 0 ]; then
             state="unavailable"
             [ "$resolve_status" -eq 2 ] && state="missing"
+            remaining_cleanup=$((120 - (SECONDS - resolve_started)))
+            if [ "$remaining_cleanup" -le 0 ]; then
+              echo "::error::No cleanup budget remains to persist the ledger incident."
+              exit 1
+            fi
             python3 scripts/podcast_dispatch_state.py upsert-incident \
               --week "$WEEK" \
               --publish-run-id "$PUBLISH_RUN_ID" \
               --article-sha256 "$ARTICLE_SHA256" \
               --manifest-sha256 "$MANIFEST_SHA256" \
               --stage ledger --state "$state" \
-              --repo "$GITHUB_REPOSITORY" --token "$GH_TOKEN" \
-              --dispatch-run-id "$DISPATCH_RUN_ID"
+              --repo "$GITHUB_REPOSITORY" \
+              --dispatch-run-id "$DISPATCH_RUN_ID" \
+              --timeout-seconds "$remaining_cleanup"
             echo "::error::Authoritative ledger receipt could not be resolved."
             exit 1
           fi
@@ -810,6 +817,6 @@ jobs:
         run: |
           python3 scripts/podcast_dispatch_state.py monitor \
             --receipt podcast-dispatch-authoritative-receipt.json \
-            --endpoint "$PODCASTER_STATUS_ENDPOINT" --api-key "$PODCASTER_API_KEY" \
-            --repo "${{ github.repository }}" --token "$GH_TOKEN" \
+            --endpoint "$PODCASTER_STATUS_ENDPOINT" \
+            --repo "${{ github.repository }}" \
             --summary "$GITHUB_STEP_SUMMARY"
