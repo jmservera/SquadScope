@@ -531,6 +531,7 @@ jobs:
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           SYNTHESIS_FILE="$DIAGNOSTICS_DIR/synthesis-narrative.md"
           SYNTHESIS_PROMPT="$DIAGNOSTICS_DIR/synthesis-prompt.md"
+          SYNTHESIS_CANARY="$DIAGNOSTICS_DIR/synthesis-canary.txt"
           mkdir -p "$DIAGNOSTICS_DIR"
           # Step 1: render synthesis prompt, then run via Copilot CLI.
           # Copilot CLI installation/verification (previous step) must have
@@ -544,7 +545,8 @@ jobs:
             --current-datetime "$CURRENT_DATETIME" \
             --press-context "$PRESS_FILE" \
             --run-synthesis \
-            --synthesis-output "$SYNTHESIS_PROMPT"
+            --synthesis-output "$SYNTHESIS_PROMPT" \
+            --canary-output "$SYNTHESIS_CANARY"
           SYNTHESIS_STATUS="missing"
           if [ ! -f "$SYNTHESIS_PROMPT" ]; then
             echo "::warning::Synthesis prompt was not generated; required synthesis is missing."
@@ -572,6 +574,11 @@ jobs:
             elif [ ! -s "$SYNTHESIS_FILE" ]; then
               SYNTHESIS_STATUS="empty"
               echo "::warning::Synthesis Copilot CLI produced no narrative content; required synthesis is empty."
+            elif ! python3 scripts/ai_output_guard.py validate \
+              --output "$SYNTHESIS_FILE" \
+              --token-file "$SYNTHESIS_CANARY"; then
+              SYNTHESIS_STATUS="failed"
+              echo "::error::Synthesis output failed prompt-injection safety validation."
             else
               SYNTHESIS_STATUS="available"
             fi
@@ -606,6 +613,7 @@ jobs:
           PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-input-manifest.json"
           LEGACY_PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
           PREFLIGHT_MD="$DIAGNOSTICS_DIR/analysis-preflight.md"
+          CANARY_FILE="$DIAGNOSTICS_DIR/analysis-canary.txt"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
           # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
           git fetch origin publish 2>/dev/null && \
@@ -622,6 +630,7 @@ jobs:
             --prompt-token-budget "${ANALYSIS_PROMPT_TOKEN_BUDGET:-90000}" \
             --preflight-report-json "$PREFLIGHT_JSON" \
             --preflight-report-md "$PREFLIGHT_MD" \
+            --canary-output "$CANARY_FILE" \
             "${SYNTHESIS_ARGS[@]}" \
             --print-prompt > "$PROMPT_FILE"
           cp "$PREFLIGHT_JSON" "$LEGACY_PREFLIGHT_JSON"
@@ -651,6 +660,7 @@ jobs:
           echo "prompt_file=$PROMPT_FILE" >> "$GITHUB_OUTPUT"
           echo "preflight_report_json=$PREFLIGHT_JSON" >> "$GITHUB_OUTPUT"
           echo "preflight_report_md=$PREFLIGHT_MD" >> "$GITHUB_OUTPUT"
+          echo "canary_file=$CANARY_FILE" >> "$GITHUB_OUTPUT"
 
       - name: Run analysis
         if: steps.prompt-preflight.outcome == 'success'
@@ -671,6 +681,7 @@ jobs:
           IN_RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
           IN_PROMPT_FILE: ${{ steps.prompt-preflight.outputs.prompt_file }}
           IN_GATE_REPORT_FILE: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
+          IN_CANARY_FILE: ${{ steps.prompt-preflight.outputs.canary_file }}
         run: |
           set -euo pipefail
           OUTPUT_FILE="$IN_OUTPUT_FILE"
@@ -688,6 +699,7 @@ jobs:
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
           PROMPT_FILE="$IN_PROMPT_FILE"
+          CANARY_FILE="$IN_CANARY_FILE"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
@@ -759,6 +771,12 @@ jobs:
             fi
 
             echo "::notice::Running Copilot analysis attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1))"
+            if [ "$ATTEMPT" -gt 0 ]; then
+              python3 scripts/ai_output_guard.py rotate \
+                --prompt "$PROMPT_FILE" \
+                --token-file "$CANARY_FILE" \
+                --preflight-report "$PREFLIGHT_REPORT_JSON"
+            fi
             TRANSCRIPT_FILE="data/metrics/copilot-transcript-attempt-${ATTEMPT}.md"
             GATE_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-${ATTEMPT}.json"
             CANDIDATE_SNAPSHOT="$DIAGNOSTICS_DIR/candidate-copilot-cli-attempt-${ATTEMPT}.md"
@@ -813,6 +831,16 @@ jobs:
             if ! test -s "$OUTPUT_FILE"; then
               FINAL_FAILURE_CLASS="writer_contract_failure"
               echo "::warning::Copilot analysis completed without writing ${OUTPUT_FILE}; class=${FINAL_FAILURE_CLASS}"
+              ATTEMPT=$((ATTEMPT + 1))
+              continue
+            fi
+
+            if ! python3 scripts/ai_output_guard.py validate \
+              --output "$OUTPUT_FILE" \
+              --token-file "$CANARY_FILE"; then
+              FINAL_FAILURE_CLASS="prompt_security_failure"
+              echo "::error::Copilot analysis output failed prompt-injection safety validation."
+              rm -f "$OUTPUT_FILE"
               ATTEMPT=$((ATTEMPT + 1))
               continue
             fi
