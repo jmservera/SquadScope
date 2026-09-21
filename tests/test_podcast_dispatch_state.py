@@ -78,6 +78,15 @@ class PodcastDispatchStateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "dispatch_run_id"):
             state.parse_receipt(numeric_dispatch)
 
+        rejected = state.DispatchReceipt(
+            **{
+                **self.receipt("submission_rejected").__dict__,
+                "api_status": 400,
+                "api_status_category": "http_rejected_pre_acceptance",
+            }
+        )
+        self.assertEqual(state.parse_receipt(state.serialize_receipt(rejected)), rejected)
+
     def test_github_request_carries_bearer_token_without_serializing_it(self) -> None:
         response = mock.MagicMock()
         response.__enter__.return_value.read.return_value = b"{}"
@@ -87,7 +96,10 @@ class PodcastDispatchStateTests(unittest.TestCase):
                 {},
             )
         request_object = urlopen.call_args.args[0]
-        self.assertEqual(request_object.get_header("Authorization"), "Bearer sentinel-token")
+        self.assertEqual(
+            request_object.get_header("Authorization"),
+            "Bearer sentinel-token",
+        )
         self.assertNotIn("sentinel-token", json.dumps(request_object.data))
 
         response.__enter__.return_value.read.return_value = b"{}"

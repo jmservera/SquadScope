@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: Five newest PR review threads are corrected, locally validated, committed, and pushed at `a6c1b41`; renewed hosted P04-T02 evidence remains
+* Planning status: Two latest PR review blockers are active implementation inputs; affected receipt validation, GitHub authentication, regression, validation, and delivery markers are reopened
 
 ## Task-Level Context
 
@@ -23,11 +23,11 @@
 
 | Phase ID | Name | Status | Detail sections |
 |---|---|---|---|
-| P01 | Establish canonical state and identity-scoped history | Complete after strict string ID validation and full-history authoritative resolution corrections | P01, P01-T01, P01-T02 |
+| P01 | Establish canonical state and identity-scoped history | Reopened for classified error-category validation and authenticated GitHub requests | P01, P01-T01, P01-T02 |
 | P02 | Enforce durable receipt ordering around mutation | Complete; normal handoff failures preserve API status/category outputs | P02, P02-T01, P02-T02 |
 | P03 | Reconcile terminal outcome, latency, and incidents | Complete after environment-only credentials and bounded incident persistence corrections | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: newest P04-T01 and all local P04-T02 gates pass; renewed hosted checks await completion | P04, P04-T01, P04-T02 |
-| P05 | Deliver review branch and independent review handoff | Complete; latest correction commit `a6c1b41` is pushed and the independent review record remains unchanged | P05, P05-T01, P05-T02 |
+| P04 | Complete locked regression and validation evidence | Reopened for two blocker regressions and renewed local/hosted gates | P04, P04-T01, P04-T02 |
+| P05 | Deliver review branch and independent review handoff | Reopened for blocker correction evidence, commit, push, and PR head confirmation | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->
 ## P01: Establish canonical state and identity-scoped history

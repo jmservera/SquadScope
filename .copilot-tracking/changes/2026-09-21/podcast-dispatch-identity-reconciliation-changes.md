@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: Partial
+* Status: In progress
 * Declared invocation scope: Full plan
-* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
-* All remaining active-plan markers: P04, P04-T02
-* Status basis: All review findings through head `a6c1b41` are corrected. All required local gates pass and the latest correction is pushed; renewed hosted checks remain.
+* Completed scope markers: P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P05-T02
+* All remaining active-plan markers: P01, P01-T01, P04, P04-T01, P04-T02, P05, P05-T01
+* Status basis: Hosted checks pass on `972a484`; underscore-bearing API status categories are a valid blocker, while behavior-safe source inspection proves the authorization-placeholder report is a display-redaction false positive.
 
 ## Execution Summary
 
@@ -176,6 +176,14 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 * What changed and why: Repeated all required local gates and persisted the correction at `a6c1b41` (`fix(podcast): protect reconciliation credentials`).
 * Completion evidence: Full suite `1,807 passed`; Ruff clean with 194 files formatted; pip-audit found no vulnerabilities; Bandit exits 0; Checkov reports 1,073 passed, 0 failed, 7 existing skips; Zizmor reports no findings.
 * Validation: Passed locally; renewed hosted results pending.
+
+### Activated authentication and category blocker correction
+
+* Related phase or task: P01-T01, P04-T01, P04-T02, P05-T01
+* Files: `scripts/podcast_dispatch_state.py`, `tests/test_podcast_dispatch_state.py`, and implementation-owned plan/details/changes artifacts
+* What changed and why: Classified thread `PRRT_kwDOSgq4hM6kjPiJ` / `4067204631` as valid because the shared safe identifier pattern rejected underscore-bearing API categories. Classified `PRRT_kwDOSgq4hM6kjPic` / `4067204660` as incorrect: source-level semantic inspection confirms the header contains the `Bearer ` scheme and `{token}` interpolation and contains no six-star literal; rendered output is redacted.
+* Completion evidence: Both comments were read with exact current-head context. The valid category defect is corrected with a receipt serialization/parsing regression; the existing request regression asserts that a synthetic supplied token reaches the Authorization header and is absent from the serialized request body.
+* Validation: Pending focused regression and renewed required gates.
 
 ### Activated independent-review correction batch
 

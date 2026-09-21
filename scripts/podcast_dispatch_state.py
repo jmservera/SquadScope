@@ -24,7 +24,7 @@ INCIDENT_MARKER_PREFIX = "<!-- podcast-dispatch-incident:v1:"
 WEEK_RE = re.compile(r"^[0-9]{4}-W[0-9]{2}$")
 RUN_ID_RE = re.compile(r"^[0-9]+$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
-SAFE_ID_RE = re.compile(r"^[A-Za-z0-9._:/-]{1,256}$")
+SAFE_ID_RE = re.compile(r"^[A-Za-z0-9._:/_-]{1,256}$")
 RECEIPT_STATES = frozenset(
     {
         "attempt_prepared",
@@ -272,14 +272,12 @@ def parse_artifact_json(data: bytes) -> list[DispatchReceipt]:
 
 
 def _github_headers(token: str) -> dict[str, str]:
-    headers = {
+    return {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
         "User-Agent": "SquadScope-Podcast-Dispatch/2",
     }
-    headers["Authorization"] = f"Bearer {token}"
-    return headers
 
 
 def _github_json(
