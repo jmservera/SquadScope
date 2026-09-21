@@ -362,6 +362,25 @@ def _trusted_dispatch_run(
     return trusted
 
 
+def _ledger_issues(
+    repo: str,
+    token: str,
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> list[dict[str, Any]]:
+    return [
+        issue
+        for issue in _iter_issue_pages(
+            repo,
+            token,
+            deadline=deadline,
+            monotonic=monotonic,
+        )
+        if issue.get("title") == LEDGER_TITLE and LEDGER_MARKER in str(issue.get("body") or "")
+    ]
+
+
 def list_ledger_receipts(
     repo: str,
     token: str,
@@ -369,74 +388,61 @@ def list_ledger_receipts(
     deadline: float | None = None,
     monotonic: Callable[[], float] = time.monotonic,
 ) -> list[DispatchReceipt]:
-    ledger = next(
-        (
-            issue
-            for issue in _iter_issue_pages(
-                repo,
-                token,
-                deadline=deadline,
-                monotonic=monotonic,
-            )
-            if issue.get("title") == LEDGER_TITLE and LEDGER_MARKER in str(issue.get("body") or "")
-        ),
-        None,
+    ledgers = _ledger_issues(
+        repo,
+        token,
+        deadline=deadline,
+        monotonic=monotonic,
     )
-    if ledger is None:
+    if not ledgers:
         return []
-    comments_url = str(ledger.get("comments_url") or "")
-    if not comments_url.startswith(f"https://api.github.com/repos/{repo}/"):
-        raise ValueError("untrusted ledger comments URL")
     receipts: list[DispatchReceipt] = []
     run_trust_cache: dict[str, bool] = {}
-    for page in range(1, 101):
-        comments = _github_json(
-            f"{comments_url}?per_page=100&page={page}",
-            token,
-            timeout=_remaining_timeout(deadline, monotonic),
-        )
-        if not isinstance(comments, list):
-            raise ValueError("comments response must be a list")
-        for comment in comments:
-            if not isinstance(comment, dict) or not _trusted_comment(comment, repo):
-                continue
-            body = str(comment["body"]).strip()
-            try:
-                parsed = parse_receipt(body)
-            except (json.JSONDecodeError, TypeError, ValueError):
-                continue
-            if isinstance(parsed, DispatchReceipt):
-                expected_run_url = (
-                    f"https://github.com/{repo}/actions/runs/{parsed.dispatch_run_id}"
-                )
-                if parsed.actions_run_url != expected_run_url:
+    for ledger in ledgers:
+        comments_url = str(ledger.get("comments_url") or "")
+        if not comments_url.startswith(f"https://api.github.com/repos/{repo}/"):
+            raise ValueError("untrusted ledger comments URL")
+        for page in range(1, 101):
+            comments = _github_json(
+                f"{comments_url}?per_page=100&page={page}",
+                token,
+                timeout=_remaining_timeout(deadline, monotonic),
+            )
+            if not isinstance(comments, list):
+                raise ValueError("comments response must be a list")
+            for comment in comments:
+                if not isinstance(comment, dict) or not _trusted_comment(comment, repo):
                     continue
-                if not _trusted_dispatch_run(
-                    repo,
-                    token,
-                    parsed.dispatch_run_id,
-                    run_trust_cache,
-                    deadline=deadline,
-                    monotonic=monotonic,
-                ):
+                body = str(comment["body"]).strip()
+                try:
+                    parsed = parse_receipt(body)
+                except (json.JSONDecodeError, TypeError, ValueError):
                     continue
-                receipts.append(parsed)
-        if len(comments) < 100:
-            break
+                if isinstance(parsed, DispatchReceipt):
+                    expected_run_url = (
+                        f"https://github.com/{repo}/actions/runs/{parsed.dispatch_run_id}"
+                    )
+                    if parsed.actions_run_url != expected_run_url:
+                        continue
+                    if not _trusted_dispatch_run(
+                        repo,
+                        token,
+                        parsed.dispatch_run_id,
+                        run_trust_cache,
+                        deadline=deadline,
+                        monotonic=monotonic,
+                    ):
+                        continue
+                    receipts.append(parsed)
+            if len(comments) < 100:
+                break
     return receipts
 
 
 def _ledger_issue(repo: str, token: str) -> dict[str, Any]:
-    issue = next(
-        (
-            value
-            for value in _iter_issue_pages(repo, token)
-            if value.get("title") == LEDGER_TITLE and LEDGER_MARKER in str(value.get("body") or "")
-        ),
-        None,
-    )
-    if issue is not None:
-        return issue
+    issues = _ledger_issues(repo, token)
+    if issues:
+        return min(issues, key=lambda value: int(value.get("number") or 2**63))
     created = _github_json(
         f"https://api.github.com/repos/{repo}/issues",
         token,
@@ -445,7 +451,9 @@ def _ledger_issue(repo: str, token: str) -> dict[str, Any]:
     )
     if not isinstance(created, dict):
         raise ValueError("invalid ledger issue response")
-    return created
+    issues = _ledger_issues(repo, token)
+    candidates = [*issues, created]
+    return min(candidates, key=lambda value: int(value.get("number") or 2**63))
 
 
 def append_ledger_receipt(repo: str, token: str, receipt: DispatchReceipt) -> None:
@@ -529,6 +537,23 @@ def fetch_terminal_status(
     correlation_id: str,
     timeout: float,
 ) -> TerminalStatus:
+    parsed_endpoint = parse.urlparse(endpoint)
+    if parsed_endpoint.scheme not in {"https", "http"} or not parsed_endpoint.netloc:
+        raise TerminalEvidenceError(
+            "status_contract",
+            "invalid_configuration",
+            "PODCASTER_STATUS_ENDPOINT must be an absolute HTTP(S) URL",
+        )
+    if parsed_endpoint.scheme == "http" and parsed_endpoint.hostname not in {
+        "localhost",
+        "127.0.0.1",
+        "::1",
+    }:
+        raise TerminalEvidenceError(
+            "status_contract",
+            "invalid_configuration",
+            "PODCASTER_STATUS_ENDPOINT may use HTTP only for loopback addresses",
+        )
     query = parse.urlencode(
         {
             **identity.as_dict(),
@@ -542,6 +567,9 @@ def fetch_terminal_status(
         headers={"x-podcaster-api-key": token, "Accept": "application/json"},
     )
     with request.urlopen(req, timeout=timeout) as response:  # nosec B310
+        status_code = getattr(response, "status", response.getcode())
+        if status_code < 200 or status_code >= 300:
+            raise OSError(f"status endpoint returned HTTP {status_code}")
         try:
             payload = json.loads(response.read())
         except json.JSONDecodeError as exc:
@@ -772,7 +800,8 @@ def reconcile_identity_incidents(
         deadline=deadline,
         monotonic=monotonic,
     ):
-        if identity_marker not in str(issue.get("body") or ""):
+        body = str(issue.get("body") or "")
+        if INCIDENT_MARKER_PREFIX not in body or identity_marker not in body:
             continue
         number = issue.get("number")
         if not isinstance(number, int):

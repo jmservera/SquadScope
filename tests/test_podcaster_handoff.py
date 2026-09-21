@@ -1259,7 +1259,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                 )
         self.assertEqual(
             ctx.exception.receipt_state,
-            podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
         )
 
     def test_error_body_included_and_sanitized_in_exception(self) -> None:
@@ -1291,10 +1291,66 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(msg, "Podcaster handoff failed with HTTP 502.")
         self.assertEqual(
             ctx.exception.receipt_state,
-            podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
         )
         self.assertEqual(ctx.exception.api_status, 502)
-        self.assertEqual(ctx.exception.api_status_category, "http_rejected")
+        self.assertEqual(ctx.exception.api_status_category, "http_outcome_unknown")
+
+    def test_definitive_client_rejection_remains_retryable(self) -> None:
+        http_err = error.HTTPError(
+            url="http://localhost:7071/api/generate",
+            code=400,
+            msg="Bad Request",
+            hdrs={},
+            fp=io.BytesIO(b"{}"),
+        )
+        with mock.patch.object(podcaster_handoff.request, "urlopen", side_effect=http_err):
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                podcaster_handoff.post_handoff(
+                    "http://localhost:7071/api/generate",
+                    "super-secret-value",
+                    {
+                        "week": "2026-W23",
+                        "article_url": "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                        "article_path": "content/weekly/2026/W23.md",
+                        "publish_run_id": "123456789",
+                        "publish_mode": "normal",
+                        "manifest_sha256": "a" * 64,
+                    },
+                )
+        self.assertEqual(
+            ctx.exception.receipt_state,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+        )
+        self.assertEqual(ctx.exception.api_status_category, "http_rejected_pre_acceptance")
+
+    def test_rate_limit_response_is_submission_unknown(self) -> None:
+        http_err = error.HTTPError(
+            url="http://localhost:7071/api/generate",
+            code=429,
+            msg="Too Many Requests",
+            hdrs={},
+            fp=io.BytesIO(b"{}"),
+        )
+        with mock.patch.object(podcaster_handoff.request, "urlopen", side_effect=http_err):
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                podcaster_handoff.post_handoff(
+                    "http://localhost:7071/api/generate",
+                    "super-secret-value",
+                    {
+                        "week": "2026-W23",
+                        "article_url": "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                        "article_path": "content/weekly/2026/W23.md",
+                        "publish_run_id": "123456789",
+                        "publish_mode": "normal",
+                        "manifest_sha256": "a" * 64,
+                    },
+                )
+        self.assertEqual(
+            ctx.exception.receipt_state,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
+        )
+        self.assertEqual(ctx.exception.api_status_category, "http_outcome_unknown")
 
     def test_article_url_from_page_path_matches_hugo_weekly_permalink(self) -> None:
         self.assertEqual(

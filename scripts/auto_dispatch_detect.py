@@ -105,6 +105,7 @@ PROVEN_NO_SUBMISSION_RECEIPT_STATES = frozenset(
         "observation_only",
     }
 )
+_EVIDENCE_CONFIG_UNSET = object()
 
 
 @dataclass(frozen=True)
@@ -128,6 +129,20 @@ def _base_identity_matches(left: DispatchIdentity, right: DispatchIdentity) -> b
         left.week == right.week
         and left.publish_run_id == right.publish_run_id
         and left.article_sha256 == right.article_sha256
+    )
+
+
+def _run_metadata_associates_identity(run: dict[str, Any], identity: DispatchIdentity) -> bool:
+    metadata = " ".join(
+        str(run.get(field) or "") for field in ("name", "display_title", "head_branch")
+    )
+    return any(
+        value and value in metadata
+        for value in (
+            identity.publish_run_id,
+            identity.article_sha256,
+            identity.manifest_sha256,
+        )
     )
 
 
@@ -1080,8 +1095,8 @@ def check_duplicate_result(
     week: str,
     run_id: str,
     article_sha256: str,
-    gh_token: "str | None" = None,
-    repo: "str | None" = None,
+    gh_token: "str | None | object" = _EVIDENCE_CONFIG_UNSET,
+    repo: "str | None | object" = _EVIDENCE_CONFIG_UNSET,
     *,
     repo_root: "Path | str" = Path("."),
     manifest_sha256: str = "",
@@ -1100,9 +1115,13 @@ def check_duplicate_result(
             is_duplicate=False,
             reason="missing_requested_manifest_sha256",
         )
-    token = gh_token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
-    repository = repo or os.environ.get("GITHUB_REPOSITORY", "")
-    if not token or not repository:
+    token = (
+        os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+        if gh_token is _EVIDENCE_CONFIG_UNSET
+        else gh_token
+    )
+    repository = os.environ.get("GITHUB_REPOSITORY", "") if repo is _EVIDENCE_CONFIG_UNSET else repo
+    if not isinstance(token, str) or not token or not isinstance(repository, str) or not repository:
         return DuplicateCheckResult(
             status="ambiguous_prior_submission",
             is_duplicate=False,
@@ -1243,12 +1262,14 @@ def check_duplicate_result(
                         and legacy_publish_run_id != identity.publish_run_id
                     ):
                         continue
-            return DuplicateCheckResult(
-                status="ambiguous_prior_submission",
-                is_duplicate=False,
-                prior_run_url=_run_url(run) or None,
-                reason="related_history_evidence_unavailable",
-            )
+            if _run_metadata_associates_identity(run, identity):
+                return DuplicateCheckResult(
+                    status="ambiguous_prior_submission",
+                    is_duplicate=False,
+                    prior_run_url=_run_url(run) or None,
+                    reason="related_history_evidence_unavailable",
+                )
+            continue
 
         compatibility, compat_identity = _compat_identity_for_run(
             run,

@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: RV-001 through RV-006 complete and locally validated; PR creation is unblocked, with hosted P04-T02 gates deferred until the PR
+* Planning status: Six unresolved PR review threads and the hosted Python configuration failure are corrected and locally validated; commit, push, PR head confirmation, and hosted checks remain
 
 ## Task-Level Context
 
@@ -23,11 +23,11 @@
 
 | Phase ID | Name | Status | Detail sections |
 |---|---|---|---|
-| P01 | Establish canonical state and identity-scoped history | Complete after RV-001, RV-002, and RV-006 corrections | P01, P01-T01, P01-T02 |
-| P02 | Enforce durable receipt ordering around mutation | Complete after RV-001 and RV-003 corrections | P02, P02-T01, P02-T02 |
-| P03 | Reconcile terminal outcome, latency, and incidents | Complete after RV-001 and RV-003 through RV-005 corrections | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: P04-T01 complete; all local P04-T02 gates pass; hosted gates await PR | P04, P04-T01, P04-T02 |
-| P05 | Deliver review branch and independent review handoff | Complete; independent review consumed and corrected implementation pushed at `c9373cf` | P05, P05-T01, P05-T02 |
+| P01 | Establish canonical state and identity-scoped history | Complete after multi-ledger reconciliation and identity-scoped unreadable-history correction | P01, P01-T01, P01-T02 |
+| P02 | Enforce durable receipt ordering around mutation | Complete after retry-safe HTTP rejection classification | P02, P02-T01, P02-T02 |
+| P03 | Reconcile terminal outcome, latency, and incidents | Complete after protected status endpoint validation, HTTP status enforcement, and incident-marker filtering | P03, P03-T01, P03-T02 |
+| P04 | Complete locked regression and validation evidence | In progress: P04-T01 and all local P04-T02 gates pass; hosted checks await push | P04, P04-T01, P04-T02 |
+| P05 | Deliver review branch and independent review handoff | Reopened for correction evidence, commit, push, and PR head confirmation; P05-T02 remains complete | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->
 ## P01: Establish canonical state and identity-scoped history

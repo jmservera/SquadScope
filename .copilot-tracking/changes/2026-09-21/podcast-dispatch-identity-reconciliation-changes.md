@@ -12,13 +12,51 @@
 
 * Status: Partial
 * Declared invocation scope: Full plan
-* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
-* All remaining active-plan markers: P04, P04-T02
-* Status basis: RV-001 through RV-006 are corrected and all required local gates pass. P04-T02 remains open only for PR-hosted CI, security, and protected smoke evidence.
+* Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05-T02
+* All remaining active-plan markers: P04, P04-T02, P05, P05-T01
+* Status basis: Six unresolved PR review threads and hosted run `35662034290` are corrected. All required local gates pass; commit, push, PR head confirmation, and hosted checks remain.
 
 ## Execution Summary
 
 Implementation is active in the isolated worktree on `incident/podcast-dispatch-identity-reconciliation`. The write boundary is limited to the copied RPI artifacts and plan-locked SquadScope source, workflow, and test files. No Podcaster repository changes are permitted.
+
+### Activated PR review and hosted-failure correction batch
+
+* Related phase or task: P01-T01, P01-T02, P02-T01, P03-T01, P03-T02, P04-T01, P04-T02, P05-T01
+* Files: `scripts/podcast_dispatch_state.py`, `scripts/podcaster_handoff.py`, `scripts/auto_dispatch_detect.py`, owned tests, and implementation-owned plan/details/changes artifacts
+* What changed and why: Classified all six unresolved review threads as valid and reopened their owning markers. Added the hosted Python failure as a production/test-coupling correction: explicit missing trusted-evidence arguments must not be silently repopulated from ambient GitHub Actions variables.
+* Completion evidence: GitHub thread IDs `PRRT_kwDOSgq4hM6kiV_K`, `PRRT_kwDOSgq4hM6kiV_p`, `PRRT_kwDOSgq4hM6kiWAM`, `PRRT_kwDOSgq4hM6kiiNx`, `PRRT_kwDOSgq4hM6kiiN9`, and `PRRT_kwDOSgq4hM6kiiOJ` were read with exact file/line context at head `ceefe0b`.
+* Validation: Passed locally; hosted checks await push.
+
+### Preserved explicit missing-configuration semantics under GitHub Actions
+
+* Related phase or task: P01-T02, P04-T01; hosted run `35662034290`
+* Files: `scripts/auto_dispatch_detect.py`, `tests/test_auto_dispatch_detect.py`
+* What changed and why: Added an omitted-argument sentinel so only omitted token/repository arguments use ambient environment fallback. Explicit `None` or empty values now remain missing configuration and deterministically return `trusted_evidence_configuration_unavailable`, even when GitHub Actions provides `GITHUB_TOKEN` and `GITHUB_REPOSITORY`.
+* Completion evidence: The exact hosted test passes with ambient variables explicitly populated.
+* Validation: `GITHUB_TOKEN=ambient-token GITHUB_REPOSITORY=ambient/repo python3 -m pytest -q tests/test_auto_dispatch_detect.py::TestDuplicateCheck::test_missing_evidence_configuration_fails_closed` reported `1 passed`.
+
+### Corrected all six unresolved PR review threads
+
+* Related phase or task: P01-T01, P01-T02, P02-T01, P03-T01, P03-T02, P04-T01
+* Files: `scripts/podcast_dispatch_state.py`, `scripts/podcaster_handoff.py`, `scripts/auto_dispatch_detect.py`, `tests/test_podcast_dispatch_state.py`, `tests/test_podcaster_handoff.py`, `tests/test_auto_dispatch_detect.py`
+* What changed and why:
+  * `PRRT_kwDOSgq4hM6kiV_K` / discussion `4066844193`: readers now aggregate every matching ledger issue; post-create writers re-scan and select the lowest-numbered canonical ledger so a creation race cannot hide authoritative receipts.
+  * `PRRT_kwDOSgq4hM6kiV_p` / discussion `4066844234`: only definitive pre-acceptance client rejections remain `submission_rejected`; 408/409/425/429, 5xx, and other uncertain HTTP outcomes become blocking `submission_unknown`.
+  * `PRRT_kwDOSgq4hM6kiWAM` / discussion `4066844288`: unreadable jobs/logs block only when trusted run metadata associates the candidate with the requested identity; unrelated unreadable history is nonblocking.
+  * `PRRT_kwDOSgq4hM6kiiNx` / discussion `4066920222`: terminal status endpoints must be absolute HTTPS URLs, with HTTP allowed only for loopback development addresses, before the API key is attached.
+  * `PRRT_kwDOSgq4hM6kiiN9` / discussion `4066920245`: non-2xx status responses are rejected before body parsing and cannot establish terminal success.
+  * `PRRT_kwDOSgq4hM6kiiOJ` / discussion `4066920268`: successful reconciliation closes only issues containing both the incident marker prefix and exact identity marker.
+* Completion evidence: Added regressions for duplicate ledgers and creation races, 400 versus 429/500 classification, related versus unrelated unreadable history, invalid status endpoint, schema-shaped 500 responses, and unrelated issue identity text.
+* Validation: Focused suite and full repository suite pass.
+
+### Completed local correction validation
+
+* Related phase or task: P04-T01, P04-T02
+* Files: Full repository
+* What changed and why: Ran every required local semantic, formatting, dependency, security, workflow, and whitespace gate without suppressions or expected-value weakening.
+* Completion evidence: Focused dispatch suite `186 passed`; full suite `1794 passed` after one transient atomic-proof integration failure passed on exact retry and the complete rerun; Ruff reports 194 files formatted; pip-audit reports no known vulnerabilities; Bandit exits 0; Checkov reports 1,069 passed, 0 failed, 7 existing skips; Zizmor reports no findings; changed script CLI smoke exits 0.
+* Validation: Passed; `git diff --check` will be rerun after final evidence reconciliation.
 
 ### Activated independent-review correction batch
 
@@ -193,6 +231,15 @@ Implementation is active in the isolated worktree on `incident/podcast-dispatch-
 | Zizmor 1.25.2 | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
 | Corrected script CLI import smoke | Three changed scripts | Passed | All `--help` commands exited 0 |
 | Corrected `git diff --check` | Task-owned diff | Passed | No whitespace errors |
+| PR-thread focused dispatch tests | Six unresolved threads plus hosted regression | Passed | 186 passed |
+| Hosted-failure CI-like exact test | Ambient `GITHUB_TOKEN` and `GITHUB_REPOSITORY` present | Passed | 1 passed |
+| PR-thread full repository tests | Repository | Passed | 1,794 passed; 2 existing warning messages |
+| PR-thread repository Ruff | Repository | Passed | All checks passed; 194 files formatted |
+| PR-thread pip-audit | `requirements.txt` | Passed | No known vulnerabilities found from a disposable venv |
+| PR-thread Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
+| PR-thread Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,069 passed, 0 failed, 7 existing skips |
+| PR-thread Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
+| PR-thread script CLI smoke | Three changed scripts | Passed | All `--help` commands exited 0 |
 
 ## Pre-Review Reconciliation
 

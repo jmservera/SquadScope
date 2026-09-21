@@ -1034,6 +1034,27 @@ def write_action_receipt_state(receipt_state: str) -> None:
         output.write(f"podcaster_receipt_state={_escape_gha_data(receipt_state)}\n")
 
 
+def _http_error_receipt(code: int) -> tuple[str, str]:
+    pre_acceptance_rejections = {
+        400,
+        401,
+        403,
+        404,
+        405,
+        406,
+        411,
+        413,
+        414,
+        415,
+        416,
+        417,
+        422,
+    }
+    if code in pre_acceptance_rejections:
+        return RECEIPT_STATE_SUBMISSION_REJECTED, "http_rejected_pre_acceptance"
+    return RECEIPT_STATE_SUBMISSION_UNKNOWN, "http_outcome_unknown"
+
+
 def post_handoff(
     endpoint: str, api_key: str, payload: dict[str, Any], *, timeout: int = DEFAULT_TIMEOUT_SECONDS
 ) -> dict[str, Any]:
@@ -1059,11 +1080,12 @@ def post_handoff(
             status_code = getattr(response, "status", response.getcode())
             response_body = response.read().decode("utf-8")
     except error.HTTPError as exc:
+        receipt_state, category = _http_error_receipt(exc.code)
         raise PodcasterHandoffError(
             f"Podcaster handoff failed with HTTP {exc.code}.",
-            receipt_state=RECEIPT_STATE_SUBMISSION_REJECTED,
+            receipt_state=receipt_state,
             api_status=exc.code,
-            api_status_category="http_rejected",
+            api_status_category=category,
         ) from exc
     except error.URLError as exc:
         raise PodcasterHandoffError(
@@ -1073,11 +1095,12 @@ def post_handoff(
         ) from exc
 
     if status_code < 200 or status_code >= 300:
+        receipt_state, category = _http_error_receipt(status_code)
         raise PodcasterHandoffError(
             f"Podcaster handoff failed with HTTP {status_code}.",
-            receipt_state=RECEIPT_STATE_SUBMISSION_REJECTED,
+            receipt_state=receipt_state,
             api_status=status_code,
-            api_status_category="http_rejected",
+            api_status_category=category,
         )
     try:
         response_payload = json.loads(response_body)

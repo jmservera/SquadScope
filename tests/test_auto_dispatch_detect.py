@@ -1377,26 +1377,31 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.reason, "trusted_evidence_unavailable")
 
     def test_missing_evidence_configuration_fails_closed(self):
-        for token, repository in ((None, self._REPO), (self._GH_TOKEN, "")):
-            with self.subTest(token=bool(token), repository=bool(repository)):
-                result = detect.check_duplicate_result(
-                    WEEK,
-                    RUN_ID,
-                    KNOWN_SHA256,
-                    token,
-                    repository,
-                    manifest_sha256=KNOWN_MANIFEST_SHA256,
-                )
-                self.assertEqual(result.status, "ambiguous_prior_submission")
-                self.assertFalse(result.is_duplicate)
-                self.assertEqual(
-                    result.reason,
-                    "trusted_evidence_configuration_unavailable",
-                )
+        with mock.patch.dict(
+            os.environ,
+            {"GITHUB_TOKEN": "ambient-token", "GITHUB_REPOSITORY": "ambient/repo"},
+            clear=True,
+        ):
+            for token, repository in ((None, self._REPO), (self._GH_TOKEN, "")):
+                with self.subTest(token=bool(token), repository=bool(repository)):
+                    result = detect.check_duplicate_result(
+                        WEEK,
+                        RUN_ID,
+                        KNOWN_SHA256,
+                        token,
+                        repository,
+                        manifest_sha256=KNOWN_MANIFEST_SHA256,
+                    )
+                    self.assertEqual(result.status, "ambiguous_prior_submission")
+                    self.assertFalse(result.is_duplicate)
+                    self.assertEqual(
+                        result.reason,
+                        "trusted_evidence_configuration_unavailable",
+                    )
 
     def test_unreadable_related_run_evidence_returns_ambiguous(self):
         run = self._run(self._AUTO_RUN_ID, workflow_path=detect.AUTO_DISPATCH_WORKFLOW_PATH)
-        run["name"] = f"Auto-dispatch: {WEEK}"
+        run["name"] = f"Auto-dispatch: {WEEK} publish-run {RUN_ID}"
         run["display_title"] = run["name"]
         run["conclusion"] = "success"
 
@@ -1423,11 +1428,43 @@ class TestDuplicateCheck(unittest.TestCase):
         self.assertEqual(result.status, "ambiguous_prior_submission")
         self.assertFalse(result.is_duplicate)
 
-    def test_unreadable_manual_failure_remains_ambiguous(self):
+    def test_unreadable_unrelated_manual_failure_is_nonblocking(self):
         run = self._run(
             self._TRIGGER_RUN_ID,
             workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
         )
+
+        def _open(req, timeout=20):
+            url = req.full_url
+            if url == (
+                f"https://api.github.com/repos/{self._REPO}/issues?state=all&per_page=100&page=1"
+            ):
+                return _FakeHTTPResponse(b"[]")
+            if url == self._workflow_runs_url(detect.AUTO_DISPATCH_WORKFLOW):
+                return _gh_runs_response([])
+            if url == self._workflow_runs_url(detect.TRIGGER_PODCAST_WORKFLOW):
+                return _gh_runs_response([run])
+            if url == self._jobs_url(self._TRIGGER_RUN_ID):
+                return _gh_jobs_response(self._trigger_jobs("failure"))
+            if url == self._logs_url(self._TRIGGER_RUN_ID):
+                raise OSError("network error")
+            raise AssertionError(f"Unexpected URL fetched: {url}")
+
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch("urllib.request.urlopen", side_effect=_open),
+        ):
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+
+    def test_unreadable_related_manual_failure_remains_ambiguous(self):
+        run = self._run(
+            self._TRIGGER_RUN_ID,
+            workflow_path=detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+        )
+        run["display_title"] = f"Manual podcast dispatch for publish run {RUN_ID}"
 
         def _open(req, timeout=20):
             url = req.full_url

@@ -193,6 +193,74 @@ class PodcastDispatchStateTests(unittest.TestCase):
             self.assertEqual(state.list_ledger_receipts("example/repo", "token"), [])
         github_call.assert_called_once()
 
+    def test_ledger_reader_consolidates_all_matching_issues(self) -> None:
+        first = self.receipt("attempt_prepared")
+        second = state.DispatchReceipt(
+            **{
+                **self.receipt().__dict__,
+                "receipt_id": "receipt-2",
+            }
+        )
+        ledgers = [
+            {
+                "title": state.LEDGER_TITLE,
+                "body": state.LEDGER_MARKER,
+                "comments_url": f"https://api.github.com/repos/example/repo/issues/{number}/comments",
+            }
+            for number in (9, 10)
+        ]
+        comments = {
+            "/issues/9/comments": [
+                {
+                    "user": {"login": "github-actions[bot]"},
+                    "body": state.serialize_receipt(first),
+                    "html_url": "https://github.com/example/repo/issues/9#issuecomment-1",
+                }
+            ],
+            "/issues/10/comments": [
+                {
+                    "user": {"login": "github-actions[bot]"},
+                    "body": state.serialize_receipt(second),
+                    "html_url": "https://github.com/example/repo/issues/10#issuecomment-2",
+                }
+            ],
+        }
+
+        def github(url, token, **kwargs):
+            for suffix, values in comments.items():
+                if suffix in url:
+                    return values
+            if f"/actions/runs/{first.dispatch_run_id}" in url:
+                return {
+                    "id": int(first.dispatch_run_id),
+                    "path": state.EXPECTED_DISPATCH_WORKFLOW_PATH,
+                    "repository": {"full_name": "example/repo"},
+                }
+            raise AssertionError(url)
+
+        with (
+            mock.patch.object(state, "_iter_issue_pages", return_value=iter(ledgers)),
+            mock.patch.object(state, "_github_json", side_effect=github),
+        ):
+            self.assertEqual(
+                state.list_ledger_receipts("example/repo", "token"),
+                [first, second],
+            )
+
+    def test_ledger_creation_rechecks_and_selects_canonical_issue(self) -> None:
+        canonical = {"number": 9}
+        raced = {"number": 10}
+        created = {"number": 11}
+        with (
+            mock.patch.object(
+                state,
+                "_ledger_issues",
+                side_effect=[[], [raced, canonical]],
+            ),
+            mock.patch.object(state, "_github_json", return_value=created),
+        ):
+            self.assertEqual(state._ledger_issue("example/repo", "token"), canonical)
+
     def test_resolver_prefers_authoritative_accepted_receipt(self) -> None:
         accepted = self.receipt()
         prepared = state.DispatchReceipt(
@@ -221,6 +289,52 @@ class PodcastDispatchStateTests(unittest.TestCase):
         self.assertEqual(
             (result.success, result.stage, result.state), (False, "status_contract", "unavailable")
         )
+
+    def test_status_endpoint_rejects_non_loopback_http_before_sending_key(self) -> None:
+        with (
+            mock.patch.object(state.request, "urlopen") as urlopen,
+            self.assertRaisesRegex(
+                state.TerminalEvidenceError,
+                "HTTP only for loopback",
+            ),
+        ):
+            state.fetch_terminal_status(
+                "http://example.invalid/status",
+                "secret",
+                self.identity,
+                "job-1",
+                "correlation-1",
+                10,
+            )
+        urlopen.assert_not_called()
+
+    def test_status_endpoint_rejects_non_2xx_before_parsing_success_payload(self) -> None:
+        response = mock.MagicMock()
+        response.__enter__.return_value.status = 500
+        response.__enter__.return_value.getcode.return_value = 500
+        response.__enter__.return_value.read.return_value = json.dumps(
+            {
+                "schema_version": state.STATUS_SCHEMA_VERSION_V1,
+                "identity": self.identity.as_dict(),
+                "job_id": "job-1",
+                "correlation_id": "correlation-1",
+                "synthesis": {"state": "succeeded"},
+                "video": {"state": "succeeded"},
+                "provider": {"state": "published", "external_verified": True},
+            }
+        ).encode()
+        with (
+            mock.patch.object(state.request, "urlopen", return_value=response),
+            self.assertRaisesRegex(OSError, "HTTP 500"),
+        ):
+            state.fetch_terminal_status(
+                "https://example.invalid/status",
+                "secret",
+                self.identity,
+                "job-1",
+                "correlation-1",
+                10,
+            )
 
     def test_monitor_emits_warning_then_times_out_without_synthesis(self) -> None:
         clock = [0.0]
@@ -432,6 +546,25 @@ class PodcastDispatchStateTests(unittest.TestCase):
                 monotonic=lambda: clock[0],
             )
         self.assertEqual(github.call_args.kwargs["timeout"], 5)
+
+    def test_incident_reconciliation_requires_incident_marker(self) -> None:
+        identity_marker = f"* Identity key: `{state.canonical_identity_key(self.identity)}`"
+        unrelated = {"number": 7, "body": identity_marker}
+        incident = {
+            "number": 8,
+            "body": f"{state.INCIDENT_MARKER_PREFIX}key -->\n{identity_marker}",
+        }
+        with (
+            mock.patch.object(
+                state,
+                "_iter_issue_pages",
+                return_value=iter([unrelated, incident]),
+            ),
+            mock.patch.object(state, "_github_json", return_value={}) as github,
+        ):
+            state.reconcile_identity_incidents("example/repo", "token", self.identity)
+        self.assertEqual(github.call_count, 2)
+        self.assertTrue(all("/issues/8" in call.args[0] for call in github.call_args_list))
 
 
 if __name__ == "__main__":
