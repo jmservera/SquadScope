@@ -6,8 +6,9 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import stat
-import subprocess
+import subprocess  # nosec B404
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path, PurePosixPath
@@ -44,8 +45,12 @@ def _sha256(data: bytes) -> str:
 
 
 def _run_git(root: Path, *args: str) -> bytes:
-    result = subprocess.run(
-        ["git", "-C", str(root), *args],
+    git_path = shutil.which("git")
+    if git_path is None:
+        raise WorkspaceError("Git executable not found on PATH")
+    # The executable is resolved explicitly and invoked with a fixed argv without a shell.
+    result = subprocess.run(  # nosec B603
+        [git_path, "-C", str(root), *args],
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
