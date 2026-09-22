@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from scripts.copilot_workspace_guard import git_worktree_snapshot, snapshot, verify
+from scripts.copilot_workspace_guard import snapshot, verify
 
 
 def test_verify_allows_only_declared_regular_output(tmp_path: Path):
@@ -61,19 +61,15 @@ def test_verify_rejects_deletion_and_rename(tmp_path: Path):
     ]
 
 
-def test_git_worktree_snapshot_detects_changes_to_already_dirty_paths(tmp_path: Path):
-    tracked = tmp_path / "tracked.txt"
-    untracked = tmp_path / "untracked.txt"
-    paths_file = tmp_path / "paths.txt"
-    tracked.write_text("baseline", encoding="utf-8")
-    tracked.write_text("already dirty", encoding="utf-8")
-    untracked.write_text("already untracked", encoding="utf-8")
-    paths_file.write_bytes(b"tracked.txt\0untracked.txt\0")
-    baseline = git_worktree_snapshot(tmp_path, paths_file)
+def test_snapshot_detects_changes_to_ignored_and_git_metadata(tmp_path: Path):
+    (tmp_path / ".git").mkdir()
+    git_config = tmp_path / ".git" / "config"
+    ignored = tmp_path / "ignored.cache"
+    git_config.write_text("safe", encoding="utf-8")
+    ignored.write_text("safe", encoding="utf-8")
+    baseline = snapshot(tmp_path)
 
-    tracked.write_text("changed again", encoding="utf-8")
-    untracked.write_text("changed again", encoding="utf-8")
-    current = git_worktree_snapshot(tmp_path, paths_file)
+    git_config.write_text("changed", encoding="utf-8")
+    ignored.write_text("changed", encoding="utf-8")
 
-    assert baseline["tracked.txt"] != current["tracked.txt"]
-    assert baseline["untracked.txt"] != current["untracked.txt"]
+    assert verify(tmp_path, baseline, set()) == [".git/config", "ignored.cache"]
