@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: Latest valid PR review blocker is corrected and locally validated; authorization-placeholder report is disproved by source and regression evidence; renewed hosted evidence remains under P04-T02
+* Planning status: Resumed on existing PR #772 at P04-T02; W39/W38 scope and attempt-versus-weekly-identity reconciliation plus all required local gates are complete, while commit/push and renewed hosted evidence remain
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -24,6 +24,8 @@ An always-running reconciliation job will require accepted work to produce machi
 
 * Preserve idempotency and exact-identity fail-closed behavior; do not convert uncertainty into a retry.
 * Treat W39 as the sole missed-publication incident and acceptance target; use W38 only as comparative evidence of a blocked automatic path followed by successful recovery and publication.
+* Preserve immutable attempt outcomes independently from the weekly publication identity. A failed, blocked, rejected, unknown, or otherwise non-green attempt is never rewritten after a later recovery.
+* Set the weekly identity to `published_verified` or `published_verified_recovered` only after exact identity-bound provider readback proves `provider=published` with `external_verified=true`. Partial progress, unknown state, manual action without readback, duplicate ambiguity, and missing readback remain non-green.
 * Keep active implementation in SquadScope. Podcaster work is a separate contract follow-up, and SquadScope must fail visibly until terminal evidence is available.
 * Cover empty cancelled runs, `no_anchor`, observe-only, unrelated legacy ambiguity, exact-identity ambiguity, mutation crashes, monitor restarts, and missing terminal stages.
 * Keep all existing CI and safety gates; push the completed branch and open a PR with the required fully-qualified references.
@@ -40,6 +42,14 @@ An always-running reconciliation job will require accepted work to produce machi
 * None for SquadScope implementation. The Podcaster terminal contract remains an external deployment dependency: absent or incompatible `PODCASTER_STATUS_ENDPOINT` evidence intentionally produces a visible `status_contract/unavailable` incident rather than success or redispatch.
 * The 10-minute synthesis-latency warning is an initial operational threshold because production percentiles are unavailable. It is configurable within the hard monitor bounds and is an accepted residual tuning risk, not an implementation blocker.
 
+## Resumed Correction Scope — 2026-09-22
+
+* Declared scope: Full plan continuation on existing branch `docs/w39-incident-scope-correction` and existing PR `jmservera/SquadScope#772`.
+* First incomplete dependency-ready marker: P04-T02. P01-P03, P04-T01, and P05 have completion evidence; P04-T02 remained unchecked because hosted PR evidence and the final cross-artifact state-model correction were not complete.
+* Approved write boundary: this repository worktree only; directly related state helper/tests and the existing research, plan, details, critique, changes, review, W38 historical, session, and PR artifacts.
+* Validation intent: focused state/dispatch tests, full Python tests, Ruff, dependency/security/workflow gates, Markdown semantic/whitespace checks, hosted checks, and remote/thread verification without weakening gates.
+* Blockers: none before implementation. Exact provider readback remains an external prerequisite for any green weekly identity.
+
 For current user input, see [User Decisions and Requirements](#user-decisions-and-requirements). The planner keeps the synthesized sections below current as evidence and caller direction evolve.
 
 ## User Decisions and Requirements
@@ -51,6 +61,8 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Persist secret-free canonical handoff receipts around mutation with dispatch run, publication identity, attempt/API status, and Podcaster job/correlation ID; persistence failure before handoff entry must remain provably non-mutating and retryable.
 * Bound terminal monitoring through synthesis start, video terminal state, and authoritative provider outcome; measure dispatch-accepted-to-synthesis-start latency, warn before the terminal deadline, and make missing stages visibly fail with a deduplicated incident.
 * Preserve idempotency and fail-closed exact ambiguity.
+* Keep attempt evidence and weekly publication identity as separate layers: attempts remain immutable facts; weekly state is a derived exact-identity outcome.
+* Permit only `published_verified` and `published_verified_recovered` as green weekly states, and only from exact externally verified provider readback.
 * Use focused and repository-standard validation without weakening CI or safety gates.
 * Push the completed branch for independent review. Do not open the PR until that review completes; the later PR must link `jmservera/SquadScope-Coordinator#17` and related fully-qualified Podcaster work.
 * Coordinate conceptually with Podcaster without modifying `/home/azureuser/source/SquadScope-Podcaster`.
@@ -141,6 +153,8 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Observe-only is durably observable but never counted as submission; `no_anchor` cannot emit a mutation receipt or monitor success.
 * Accepted work must prove synthesis start, successful video terminal state, and externally verified provider publication.
 * Missing contract/stage, mismatched evidence, timeout, provider unknown/failure, and monitor restart produce deterministic visible behavior and deduplicated incidents; synthesis-start latency is measured, summarized, and warned at 600 seconds.
+* Attempt truth remains immutable after recovery. A recovered weekly identity may become `published_verified_recovered`, but the earlier blocked/failed/unknown attempt remains recorded and non-green.
+* Partial progress, unknown provider outcome, manual intervention without exact readback, duplicate ambiguity, and missing readback cannot produce either green weekly state.
 * No secrets or article/payload content enter receipts, artifacts, summaries, or incidents.
 * Focused tests, full Python tests, Ruff, Checkov, Bandit, Zizmor, pip-audit, and the Podcaster smoke workflow evidence are recorded before PR readiness.
 * No source/test/workflow removal occurs; no more than two implementation files are added, excluding the implementation changes-record artifact.

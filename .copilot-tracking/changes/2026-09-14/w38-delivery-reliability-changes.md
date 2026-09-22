@@ -447,3 +447,5 @@ URL, and documentation are delivered in PR #762.
 * Continuation owner: Repository reviewers and CI.
 
 > **Authoritative correction — 2026-09-21:** This append-only historical record originally used broader incident wording for an auto-dispatch-path failure. W38 ultimately published successfully after manual recovery run `34958522782` reached Azure. W39 is the sole missed-publication production incident. The original execution entries remain as historical evidence but must not be read as claiming that W38 had no successful public outcome.
+
+> **State-model clarification — 2026-09-22:** This record's blocked and failed attempt entries remain immutable. Recovery does not turn those attempts green. The separate weekly identity can be `published_verified_recovered` only after exact provider readback proves `provider=published` with `external_verified=true`; manual workflow success, Azure reachability, partial progress, unknown outcome, duplicate ambiguity, or absent readback remain non-green evidence.

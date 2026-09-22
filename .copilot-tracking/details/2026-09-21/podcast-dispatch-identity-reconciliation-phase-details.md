@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: Latest valid PR review blocker is corrected and locally validated; authorization-placeholder report is a display-redaction false positive; renewed hosted P04-T02 evidence remains
+* Planning status: Resumed at P04-T02 on existing PR #772; canonical artifact/state-model reconciliation and local validation pass, while commit/push and renewed hosted delivery verification remain
 
 ## Task-Level Context
 
@@ -20,6 +20,9 @@
 * Availability invariant at the pre-boundary: prepare, `attempt_prepared`, mirror failure, `pre_submit_failed`, or failed `handoff_entered` persistence proves the handoff was not invoked and remains retryable.
 * Availability invariant: history with no demonstrable association to the requested identity is not allowed to poison that identity.
 * Cross-repository boundary: SquadScope consumes a defined terminal contract but does not modify or assume deployment in SquadScope-Podcaster.
+* Attempt/weekly boundary: every dispatch or recovery attempt remains an immutable factual record. Weekly publication state is derived separately and can be green only after exact provider readback.
+* Weekly green states: `published_verified` for exact verified success without earlier non-green attempt evidence, and `published_verified_recovered` for exact verified success after a preserved non-green attempt.
+* Non-green weekly evidence: partial stages, provider unknown/failure, manual action without exact readback, duplicate ambiguity, missing readback, and status-contract unavailability.
 
 ## Phase Index
 
@@ -28,7 +31,7 @@
 | P01 | Establish canonical state and identity-scoped history | Complete after accepting safe underscore-bearing API status categories | P01, P01-T01, P01-T02 |
 | P02 | Enforce durable receipt ordering around mutation | Complete; normal handoff failures preserve API status/category outputs | P02, P02-T01, P02-T02 |
 | P03 | Reconcile terminal outcome, latency, and incidents | Complete after environment-only credentials and bounded incident persistence corrections | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: latest P04-T01 and all local P04-T02 gates pass; renewed hosted checks await completion | P04, P04-T01, P04-T02 |
+| P04 | Complete locked regression and validation evidence | In progress: P04-T01 and resumed local P04-T02 gates pass; renewed hosted checks remain | P04, P04-T01, P04-T02 |
 | P05 | Deliver review branch and independent review handoff | Complete; functional correction commit `0c6e58b` is pushed and the independent review record remains unchanged | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->
@@ -616,7 +619,7 @@ Produce complete, reproducible readiness evidence.
 
 #### Boundaries
 
-* Included: every command in the plan's required validation block and hosted checks.
+* Included: every command in the plan's required validation block and hosted checks; semantic coverage that keeps immutable attempt outcome separate from derived weekly publication state and proves only exact externally verified provider readback can produce `published_verified` or `published_verified_recovered`.
 * Excluded: changing dependencies merely to avoid a scanner/test result; broad unrelated fixes.
 
 #### Likely Targets

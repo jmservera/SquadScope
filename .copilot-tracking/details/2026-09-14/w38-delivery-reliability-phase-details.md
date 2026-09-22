@@ -92,3 +92,5 @@ tests and formatting/diff gates, commit, push, answer and resolve the two new
 threads, and leave the PR open and unmerged.
 
 > **Authoritative correction — 2026-09-21:** This historical detail record concerns a W38 auto-dispatch-path failure and recovery, not a missed publication. Manual recovery run `34958522782` reached Azure, and W38 ultimately published successfully. W39 is the sole missed-publication production incident. Any broader historical incident interpretation is superseded by this correction.
+
+> **State-model clarification — 2026-09-22:** Preserve the failed automatic attempt as immutable non-green evidence. The weekly W38 identity may be represented as `published_verified_recovered` only from exact identity-bound provider readback with `provider=published` and `external_verified=true`. Partial stages, unknown outcome, duplicate ambiguity, manual action, workflow success, or missing readback remain non-green and cannot rewrite the attempt record.
