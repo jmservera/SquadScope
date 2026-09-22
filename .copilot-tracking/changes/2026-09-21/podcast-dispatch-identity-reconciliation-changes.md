@@ -10,11 +10,11 @@
 
 ## Execution Status
 
-* Status: Partial
+* Status: Blocked
 * Declared invocation scope: Full plan
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
 * All remaining active-plan markers: P04, P04-T02
-* Status basis: Resumed on existing PR #772 at the earliest unchecked marker, P04-T02. Canonical state-model reconciliation and every required local gate now pass; commit/push, renewed hosted validation, and final delivery verification remain.
+* Status basis: Resumed on existing PR #772 at the earliest unchecked marker, P04-T02. Canonical state-model reconciliation and every required local gate pass, and commit `0a412d5` is pushed. PR #772 was merged externally at 2026-09-22T07:48:10Z before that commit existed, so the correction cannot receive existing-PR hosted evidence; a replacement PR is prohibited by the caller.
 
 ## Execution Summary
 
@@ -57,6 +57,15 @@ Implementation resumed in the isolated worktree on `docs/w39-incident-scope-corr
 * Dependency/security: pip-audit 2.10.1 found no known vulnerabilities; Bandit 1.9.4 exited 0 with existing informational comment-token warnings; Checkov 3.2.533 reported 1,073 passed, 0 failed, 7 skipped; Zizmor 1.25.2 reported no findings with 8 ignored and 97 suppressed by the existing configuration.
 * Documentation/diff: `git diff --check` passed; all ten correction Markdown artifacts contain no tabs or trailing whitespace; semantic searches preserve W39-only incident scope and W38 comparative/recovery scope.
 * Gate integrity: no dependency manifest, scanner baseline, workflow gate, or unrelated source was changed.
+
+### External PR merge blocker — 2026-09-22
+
+* Related phase or task: P04-T02 and delivery closeout.
+* Evidence: Initial inspection showed PR #772 open at head `23dc562`. GitHub records that `jmservera` merged it at `2026-09-22T07:48:10Z` as merge commit `574e4e4`. The correction commit `0a412d5` was created at `2026-09-22T07:54:06Z`, after the merge, and the PR head remains `23dc562`.
+* Current branch state: `docs/w39-incident-scope-correction` is pushed at `0a412d5`; local and remote SHA matched after push.
+* Impact: The correction commit is not part of PR #772 and cannot trigger renewed checks on that merged PR. Creating a replacement branch or PR is explicitly prohibited.
+* Clearing owner/evidence: repository owner must authorize a permitted delivery path for commit `0a412d5` (for example, explicitly authorizing a new PR or another policy-compliant integration route). Until then P04-T02 remains unchecked and overall delivery is blocked.
+* Safety: No merge was performed by this correction run, no replacement PR was created, and no valid review thread was hidden or resolved.
 
 ### Activated PR review and hosted-failure correction batch
 
@@ -452,11 +461,13 @@ Implementation resumed in the isolated worktree on `docs/w39-incident-scope-corr
 
 ## Blockers
 
-* None for PR creation. Hosted CI, lint, Checkov, security scanning, and protected smoke remain mandatory after PR creation and before merge/readiness.
+* External delivery blocker: PR #772 was merged by `jmservera` before correction commit `0a412d5` existed. The caller prohibits a replacement PR, so renewed hosted validation and attachment of the correction commit to the existing PR are impossible without owner authorization.
+* External runtime prerequisite: exact provider readback remains required before a weekly identity can become green.
 
 ## Remaining Work
 
-* P04-T02 remains open only for hosted PR evidence. No implementation correction or second review remains.
+* P04-T02 remains open only for hosted evidence on the correction commit. Local implementation, artifacts, validation, commit, and branch push are complete.
+* Repository owner must authorize a permissible delivery route for `0a412d5`; no replacement PR may be inferred or created by this run.
 
 ## Follow-Up Items
 
@@ -465,12 +476,12 @@ Implementation resumed in the isolated worktree on `docs/w39-incident-scope-corr
 
 ## Return-to-Caller State
 
-* Implementation execution status: Partial
+* Implementation execution status: Blocked after locally complete correction and push
 * Declared scope and markers: Full plan; P01-P03, P04-T01, and P05 complete; P04-T02 remains hosted-only
 * Validation coverage: 150 focused and 1,756 full tests plus Ruff, pip-audit, Bandit, Checkov, Zizmor, CLI smoke, and diff checks pass; hosted gates remain for the PR
-* Blockers: None for PR creation; hosted evidence remains before merge/readiness
+* Blockers: PR #772 was externally merged before the correction commit existed; replacement PR creation is prohibited
 * Current plan and detail updates: RV-001 through RV-006 are complete; P05-T02 records the completed independent review and no second review is required
 * Planning and critique state: Current and ready; exactly one critique
 * Follow-up items: Unchanged from plan
-* Review readiness or no-handoff reason: PR creation is unblocked; no second review is required
-* Continuation owner: Delivery owner for PR creation and hosted P04-T02 evidence
+* Review readiness or no-handoff reason: No handoff is possible on existing PR #772 because it is merged and does not contain the correction commit
+* Continuation owner: Repository owner to authorize a permitted delivery route for `0a412d5`, followed by hosted P04-T02 evidence

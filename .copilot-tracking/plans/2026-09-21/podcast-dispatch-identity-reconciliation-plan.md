@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: Resumed on existing PR #772 at P04-T02; W39/W38 scope and attempt-versus-weekly-identity reconciliation plus all required local gates are complete, while commit/push and renewed hosted evidence remain
+* Planning status: Blocked at P04-T02 after PR #772 was merged externally at 2026-09-22T07:48:10Z before correction commit `0a412d5` existed; the correction is committed and pushed on the required branch, but cannot receive the required existing-PR hosted evidence without an owner-authorized delivery path
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -48,7 +48,7 @@ An always-running reconciliation job will require accepted work to produce machi
 * First incomplete dependency-ready marker: P04-T02. P01-P03, P04-T01, and P05 have completion evidence; P04-T02 remained unchecked because hosted PR evidence and the final cross-artifact state-model correction were not complete.
 * Approved write boundary: this repository worktree only; directly related state helper/tests and the existing research, plan, details, critique, changes, review, W38 historical, session, and PR artifacts.
 * Validation intent: focused state/dispatch tests, full Python tests, Ruff, dependency/security/workflow gates, Markdown semantic/whitespace checks, hosted checks, and remote/thread verification without weakening gates.
-* Blockers: none before implementation. Exact provider readback remains an external prerequisite for any green weekly identity.
+* Blockers: PR #772 was merged externally while this correction was running, before the correction commit existed. The task forbids a replacement PR, so renewed hosted PR evidence and attachment of the correction commit to PR #772 are externally blocked. Exact provider readback remains a separate external prerequisite for any green weekly identity.
 
 For current user input, see [User Decisions and Requirements](#user-decisions-and-requirements). The planner keeps the synthesized sections below current as evidence and caller direction evolve.
 
