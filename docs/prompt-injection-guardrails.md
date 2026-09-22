@@ -154,7 +154,22 @@ Post-generation validation checks for:
 - **Unknown canary patterns** — catches leaks from prior invocations or cross-contamination
 - **Boundary marker reproduction** — detects if the model leaked `<untrusted-content>` or `</untrusted-content>` tags from prompt framing
 
-This is automatically called after `call_github_models()` returns. Violations emit `::warning::` annotations in CI.
+This is automatically called after `call_github_models()` returns. The production
+Copilot CLI path uses `scripts/copilot_output_guard.py` with a unique canary for
+each synthesis and analysis invocation. Canary or boundary leaks fail the
+workflow before the output is accepted.
+
+### 6.1 Copilot workspace mutation guard
+
+The production workflow copies `scripts/copilot_workspace_guard.py` to
+`RUNNER_TEMP`, then runs each Copilot invocation from a fresh isolated directory
+outside the repository with `--disallow-temp-dir`, built-in MCP servers disabled,
+and only read/write tools available. The sandbox contains only the prepared
+prompt and selected agent definition; repository paths and `.git` are not
+granted to Copilot. The guard snapshots the complete sandbox and verifies it
+immediately after Copilot returns. Only the exact output and optional transcript
+may change. The validated output is copied into the repository only after the
+guard and canary checks pass, before any repository Python or Git command runs.
 
 ### 7. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
 
@@ -230,7 +245,7 @@ The following summarizes the complete defense chain from data ingestion to publi
 │  • <untrusted-content> boundary fencing     │
 │  • Instruction preamble per fence           │
 │  • Closing security constraint per prompt   │
-│  • Canary token injection                   │
+│  • Per-invocation canary token injection    │
 └─────────────────────────────────────────────┘
         │
         ▼
@@ -242,7 +257,7 @@ The following summarizes the complete defense chain from data ingestion to publi
         ▼
 ┌─────────────────────────────────────────────┐
 │  OUTPUT VALIDATION                          │
-│  • validate_output_safety()                 │
+│  • validate_output_safety() / CLI guard     │
 │    - Canary token leak detection            │
 │    - Boundary marker reproduction check     │
 │    - Unknown canary pattern detection       │
@@ -263,6 +278,12 @@ The following summarizes the complete defense chain from data ingestion to publi
 │  • test_prompt_lint_ci.py — gate on PRs     │
 └─────────────────────────────────────────────┘
 ```
+
+For Copilot CLI, prompt-boundary enforcement is applied to the fully rendered
+prompt: press divergence/caveat/telemetry data is fenced before a final closing
+constraint; synthesis press, historical, and continuity sources are fenced
+separately; and the weekly prompt appends its closing security constraint only
+after the final dynamic press block.
 
 ## Acceptance Criteria Verification (Issue #352)
 

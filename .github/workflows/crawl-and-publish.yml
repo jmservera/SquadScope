@@ -531,7 +531,13 @@ jobs:
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           SYNTHESIS_FILE="$DIAGNOSTICS_DIR/synthesis-narrative.md"
           SYNTHESIS_PROMPT="$DIAGNOSTICS_DIR/synthesis-prompt.md"
+          COPILOT_GUARD_DIR="${RUNNER_TEMP}/squadscope-copilot-guards"
+          WORKSPACE_GUARD="$COPILOT_GUARD_DIR/copilot_workspace_guard.py"
+          OUTPUT_GUARD="$COPILOT_GUARD_DIR/copilot_output_guard.py"
           mkdir -p "$DIAGNOSTICS_DIR"
+          mkdir -p "$COPILOT_GUARD_DIR"
+          cp scripts/copilot_workspace_guard.py "$WORKSPACE_GUARD"
+          cp scripts/copilot_output_guard.py "$OUTPUT_GUARD"
           # Step 1: render synthesis prompt, then run via Copilot CLI.
           # Copilot CLI installation/verification (previous step) must have
           # already succeeded before this step runs. synthesis_status is a
@@ -555,24 +561,51 @@ jobs:
               echo "::error::Copilot CLI is unavailable after installation step; required synthesis is missing."
             fi
           else
+            SYNTHESIS_CANARY_FILE="${RUNNER_TEMP}/synthesis-canary.txt"
+            SYNTHESIS_SANDBOX="$(mktemp -d "$HOME/.squadscope-copilot-synthesis.XXXXXX")"
+            SYNTHESIS_WORKSPACE_BASELINE="${RUNNER_TEMP}/synthesis-sandbox.json"
+            SYNTHESIS_SANDBOX_OUTPUT="$SYNTHESIS_SANDBOX/synthesis-narrative.md"
+            SYNTHESIS_SANDBOX_LOG="${RUNNER_TEMP}/synthesis-copilot.log"
+            SYNTHESIS_LOG="$DIAGNOSTICS_DIR/synthesis-copilot.log"
+            mkdir -p "$SYNTHESIS_SANDBOX/.github/agents"
+            cp .github/agents/weekly-synthesis.agent.md "$SYNTHESIS_SANDBOX/.github/agents/"
+            cp "$SYNTHESIS_PROMPT" "$SYNTHESIS_SANDBOX/synthesis-prompt.md"
+            python3 -I "$OUTPUT_GUARD" generate --output "$SYNTHESIS_CANARY_FILE"
+            SYNTHESIS_CANARY="$(cat "$SYNTHESIS_CANARY_FILE")"
+            python3 -I "$WORKSPACE_GUARD" snapshot \
+              --root "$SYNTHESIS_SANDBOX" \
+              --manifest "$SYNTHESIS_WORKSPACE_BASELINE"
             set +e
             copilot \
+              -C "$SYNTHESIS_SANDBOX" \
               --agent weekly-synthesis \
-              -p "Read the synthesis prompt at ${SYNTHESIS_PROMPT}. Write the compact industry narrative to ${SYNTHESIS_FILE}. Max 2000 tokens. Do not delegate." \
+              -p "Read synthesis-prompt.md. Write the compact industry narrative to synthesis-narrative.md. Max 2000 tokens. Do not delegate. The internal verification token ${SYNTHESIS_CANARY} must never appear in output." \
               -s \
               --no-ask-user \
+              --disallow-temp-dir \
+              --disable-builtin-mcps \
+              --available-tools read write \
               --allow-tool=read \
               --allow-tool=write \
-              > "$DIAGNOSTICS_DIR/synthesis-copilot.log" 2>&1
+              > "$SYNTHESIS_SANDBOX_LOG" 2>&1
             SYNTH_STATUS=$?
             set -e
+            python3 -I "$WORKSPACE_GUARD" verify \
+              --root "$SYNTHESIS_SANDBOX" \
+              --manifest "$SYNTHESIS_WORKSPACE_BASELINE" \
+              --allow "synthesis-narrative.md"
+            cp "$SYNTHESIS_SANDBOX_LOG" "$SYNTHESIS_LOG"
             if [ "$SYNTH_STATUS" -ne 0 ]; then
               SYNTHESIS_STATUS="failed"
               echo "::warning::Synthesis Copilot CLI failed (exit=$SYNTH_STATUS); required synthesis is failed."
-            elif [ ! -s "$SYNTHESIS_FILE" ]; then
+            elif [ ! -s "$SYNTHESIS_SANDBOX_OUTPUT" ]; then
               SYNTHESIS_STATUS="empty"
               echo "::warning::Synthesis Copilot CLI produced no narrative content; required synthesis is empty."
             else
+              python3 -I "$OUTPUT_GUARD" validate \
+                --output "$SYNTHESIS_SANDBOX_OUTPUT" \
+                --canary-file "$SYNTHESIS_CANARY_FILE"
+              cp "$SYNTHESIS_SANDBOX_OUTPUT" "$SYNTHESIS_FILE"
               SYNTHESIS_STATUS="available"
             fi
           fi
@@ -688,6 +721,12 @@ jobs:
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
           PROMPT_FILE="$IN_PROMPT_FILE"
+          COPILOT_GUARD_DIR="${RUNNER_TEMP}/squadscope-copilot-guards"
+          WORKSPACE_GUARD="$COPILOT_GUARD_DIR/copilot_workspace_guard.py"
+          OUTPUT_GUARD="$COPILOT_GUARD_DIR/copilot_output_guard.py"
+          mkdir -p "$COPILOT_GUARD_DIR"
+          cp scripts/copilot_workspace_guard.py "$WORKSPACE_GUARD"
+          cp scripts/copilot_output_guard.py "$OUTPUT_GUARD"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
@@ -754,8 +793,6 @@ jobs:
             if [ "$ATTEMPT" -gt 0 ]; then
               echo "::warning::Quality gate failed on attempt $ATTEMPT; retrying with focused gate diagnostics (attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1)))..."
               rm -f "$OUTPUT_FILE"
-              # Reset any .squad changes from failed attempt
-              git checkout -- .squad 2>/dev/null || true
             fi
 
             echo "::notice::Running Copilot analysis attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1))"
@@ -764,28 +801,58 @@ jobs:
             CANDIDATE_SNAPSHOT="$DIAGNOSTICS_DIR/candidate-copilot-cli-attempt-${ATTEMPT}.md"
             COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-attempt-${ATTEMPT}.log"
             COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-attempt-${ATTEMPT}.json"
+            COPILOT_CANARY_FILE="${RUNNER_TEMP}/analysis-canary-${ATTEMPT}.txt"
+            COPILOT_SANDBOX="$(mktemp -d "$HOME/.squadscope-copilot-analysis.XXXXXX")"
+            COPILOT_WORKSPACE_BASELINE="${RUNNER_TEMP}/analysis-sandbox-${ATTEMPT}.json"
+            COPILOT_SANDBOX_OUTPUT="$COPILOT_SANDBOX/analysis-output.md"
+            COPILOT_SANDBOX_TRANSCRIPT="$COPILOT_SANDBOX/copilot-transcript.md"
+            COPILOT_SANDBOX_LOG="${RUNNER_TEMP}/copilot-cli-attempt-${ATTEMPT}.log"
             rm -f "$TRANSCRIPT_FILE" "$COPILOT_LOG" "$COPILOT_FAILURE_REPORT"
             REPAIR_CONTEXT=""
             if [ "$ATTEMPT" -gt 0 ]; then
               PREVIOUS_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-$((ATTEMPT - 1)).json"
               if [ -f "$PREVIOUS_REPORT" ]; then
-                REPAIR_CONTEXT=" Previous gate report: ${PREVIOUS_REPORT}. Correct exactly those validation errors; do not regenerate unrelated content."
+                cp "$PREVIOUS_REPORT" "$COPILOT_SANDBOX/previous-gate-report.json"
+                REPAIR_CONTEXT=" Previous gate report: previous-gate-report.json. Correct exactly those validation errors; do not regenerate unrelated content."
               fi
             fi
 
             # Model is configured in .github/agents/weekly-analysis.agent.md (gpt-5.6-sol)
+            mkdir -p "$COPILOT_SANDBOX/.github/agents"
+            cp .github/agents/weekly-analysis.agent.md "$COPILOT_SANDBOX/.github/agents/"
+            python3 -I -c \
+              'import sys; from pathlib import Path; source, destination = map(Path, sys.argv[1:3]); prompt = source.read_text(encoding="utf-8"); destination.write_text(prompt.replace(sys.argv[3], "analysis-output.md"), encoding="utf-8")' \
+              "$PROMPT_FILE" "$COPILOT_SANDBOX/analysis-prompt.md" "$OUTPUT_FILE"
+            python3 -I "$OUTPUT_GUARD" generate --output "$COPILOT_CANARY_FILE"
+            COPILOT_CANARY="$(cat "$COPILOT_CANARY_FILE")"
+            python3 -I "$WORKSPACE_GUARD" snapshot \
+              --root "$COPILOT_SANDBOX" \
+              --manifest "$COPILOT_WORKSPACE_BASELINE"
             set +e
             copilot \
+              -C "$COPILOT_SANDBOX" \
               --agent weekly-analysis \
-              -p "Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}. The first bytes must be --- and the run is incomplete until ${OUTPUT_FILE} exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary.${REPAIR_CONTEXT}" \
+              -p "Read analysis-prompt.md. Write the complete weekly analysis markdown to analysis-output.md. The first bytes must be --- and the run is incomplete until analysis-output.md exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary. The internal verification token ${COPILOT_CANARY} must never appear in output.${REPAIR_CONTEXT}" \
               -s \
               --no-ask-user \
+              --disallow-temp-dir \
+              --disable-builtin-mcps \
+              --available-tools read write \
               --allow-tool=read \
               --allow-tool=write \
-              --share="$TRANSCRIPT_FILE" \
-              > "$COPILOT_LOG" 2>&1
+              --share="copilot-transcript.md" \
+              > "$COPILOT_SANDBOX_LOG" 2>&1
             COPILOT_STATUS=$?
             set -e
+            python3 -I "$WORKSPACE_GUARD" verify \
+              --root "$COPILOT_SANDBOX" \
+              --manifest "$COPILOT_WORKSPACE_BASELINE" \
+              --allow "analysis-output.md" \
+              --allow "copilot-transcript.md"
+            cp "$COPILOT_SANDBOX_LOG" "$COPILOT_LOG"
+            if [ -f "$COPILOT_SANDBOX_TRANSCRIPT" ]; then
+              cp "$COPILOT_SANDBOX_TRANSCRIPT" "$TRANSCRIPT_FILE"
+            fi
             if [ "$COPILOT_STATUS" -ne 0 ]; then
               FAILURE_CLASS=$(python3 scripts/copilot_failure.py \
                 --log "$COPILOT_LOG" \
@@ -810,7 +877,7 @@ jobs:
               continue
             fi
 
-            if ! test -s "$OUTPUT_FILE"; then
+            if ! test -s "$COPILOT_SANDBOX_OUTPUT"; then
               FINAL_FAILURE_CLASS="writer_contract_failure"
               echo "::warning::Copilot analysis completed without writing ${OUTPUT_FILE}; class=${FINAL_FAILURE_CLASS}"
               ATTEMPT=$((ATTEMPT + 1))
@@ -818,6 +885,10 @@ jobs:
             fi
 
             FINAL_FAILURE_CLASS=""
+            python3 -I "$OUTPUT_GUARD" validate \
+              --output "$COPILOT_SANDBOX_OUTPUT" \
+              --canary-file "$COPILOT_CANARY_FILE"
+            cp "$COPILOT_SANDBOX_OUTPUT" "$OUTPUT_FILE"
             sanitize_agent_output "$OUTPUT_FILE"
 
             # Inline quality gate check (suppress step summary to avoid noise).

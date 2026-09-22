@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import re
+import unicodedata
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -60,8 +62,24 @@ def _truncate(value: str, max_length: int) -> str:
 
 
 def _escape_untrusted_boundaries(value: str) -> str:
-    result = value.replace(BOUNDARY_CLOSE, BOUNDARY_CLOSE_ESCAPED)
-    result = result.replace(BOUNDARY_OPEN, BOUNDARY_OPEN_ESCAPED)
+    result = unicodedata.normalize("NFC", value)
+    result = "".join(
+        character
+        for character in result
+        if character in "\n\t" or not unicodedata.category(character).startswith("C")
+    )
+    result = re.sub(
+        re.escape(BOUNDARY_CLOSE),
+        BOUNDARY_CLOSE_ESCAPED,
+        result,
+        flags=re.IGNORECASE,
+    )
+    result = re.sub(
+        re.escape(BOUNDARY_OPEN),
+        BOUNDARY_OPEN_ESCAPED,
+        result,
+        flags=re.IGNORECASE,
+    )
     return result
 
 
@@ -84,9 +102,15 @@ def sanitize_text(
     if not isinstance(text, str):
         text = str(text)
     stripped = text.lstrip()
-    has_boundary = BOUNDARY_CLOSE in stripped or BOUNDARY_OPEN in stripped
+    has_boundary = bool(
+        re.search(
+            rf"{re.escape(BOUNDARY_CLOSE)}|{re.escape(BOUNDARY_OPEN)}",
+            unicodedata.normalize("NFC", stripped),
+            flags=re.IGNORECASE,
+        )
+    )
     sanitized = _escape_untrusted_boundaries(stripped)
-    lowered = sanitized.lower()
+    lowered = sanitized.casefold()
     suspicious_matches = [phrase for phrase in INJECTION_PHRASES if phrase in lowered]
 
     is_suspicious = bool(suspicious_matches) or has_boundary
@@ -120,7 +144,7 @@ def sanitize_description(
 
     original = description
     sanitized = _escape_untrusted_boundaries(description.lstrip())
-    lowered = sanitized.lower()
+    lowered = sanitized.casefold()
     suspicious_matches = [phrase for phrase in INJECTION_PHRASES if phrase in lowered]
 
     if original != sanitized:

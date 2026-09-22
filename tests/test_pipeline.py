@@ -433,11 +433,23 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--create-token-issue", run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
         self.assertIn("--agent weekly-analysis", run_analysis)
+        self.assertIn("copilot_workspace_guard.py", run_analysis)
+        self.assertIn("copilot_output_guard.py", run_analysis)
+        self.assertIn('COPILOT_SANDBOX="$(mktemp -d', run_analysis)
+        self.assertIn('-C "$COPILOT_SANDBOX"', run_analysis)
+        self.assertIn("--disallow-temp-dir", run_analysis)
+        self.assertIn("--disable-builtin-mcps", run_analysis)
+        self.assertIn('"$WORKSPACE_GUARD" snapshot', run_analysis)
+        self.assertIn('"$WORKSPACE_GUARD" verify', run_analysis)
+        self.assertIn('"$OUTPUT_GUARD" validate', run_analysis)
+        self.assertIn('--allow "analysis-output.md"', run_analysis)
+        self.assertIn('--allow "copilot-transcript.md"', run_analysis)
+        self.assertIn("must never appear in output", run_analysis)
         self.assertIn(
-            "Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}.",
+            "Read analysis-prompt.md. Write the complete weekly analysis markdown to analysis-output.md.",
             run_analysis,
         )
-        self.assertIn('if ! test -s "$OUTPUT_FILE"; then', run_analysis)
+        self.assertIn('if ! test -s "$COPILOT_SANDBOX_OUTPUT"; then', run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS="writer_contract_failure"', run_analysis)
         self.assertNotIn("--allow-tool=glob", run_analysis)
         self.assertNotIn("--allow-tool=grep", run_analysis)
@@ -458,6 +470,33 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('ANALYSIS_SOURCE="no-ai"', run_analysis)
         self.assertNotIn('ANALYSIS_SOURCE="github-models"', run_analysis)
         self.assertNotIn("falling back to GitHub Models API", run_analysis)
+        verify_index = run_analysis.index('"$WORKSPACE_GUARD" verify')
+        validate_index = run_analysis.index('"$OUTPUT_GUARD" validate', verify_index)
+        copy_index = run_analysis.index(
+            'cp "$COPILOT_SANDBOX_OUTPUT" "$OUTPUT_FILE"', validate_index
+        )
+        sanitize_index = run_analysis.index('sanitize_agent_output "$OUTPUT_FILE"', copy_index)
+        self.assertLess(verify_index, validate_index)
+        self.assertLess(validate_index, copy_index)
+        self.assertLess(copy_index, sanitize_index)
+
+        synthesis_step = next(
+            (s for s in analyze["steps"] if s.get("name") == "Run synthesis step (Step 1)"),
+            None,
+        )
+        self.assertIsNotNone(synthesis_step)
+        synthesis_run = synthesis_step["run"]
+        self.assertIn('SYNTHESIS_SANDBOX="$(mktemp -d', synthesis_run)
+        self.assertIn('-C "$SYNTHESIS_SANDBOX"', synthesis_run)
+        self.assertIn("--disallow-temp-dir", synthesis_run)
+        synthesis_verify = synthesis_run.index('"$WORKSPACE_GUARD" verify')
+        synthesis_validate = synthesis_run.index('"$OUTPUT_GUARD" validate', synthesis_verify)
+        synthesis_copy = synthesis_run.index(
+            'cp "$SYNTHESIS_SANDBOX_OUTPUT" "$SYNTHESIS_FILE"',
+            synthesis_validate,
+        )
+        self.assertLess(synthesis_verify, synthesis_validate)
+        self.assertLess(synthesis_validate, synthesis_copy)
 
         manifest_step = next(
             (s for s in analyze["steps"] if s.get("name") == "Emit publish eligibility manifest"),
