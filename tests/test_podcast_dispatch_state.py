@@ -210,7 +210,7 @@ class PodcastDispatchStateTests(unittest.TestCase):
                     state.derive_weekly_identity_state(self.identity, **kwargs),
                     expected,
                 )
-                self.assertNotIn(expected, state.WEEKLY_GREEN_STATES)
+                self.assertIn(expected, state.WEEKLY_NON_GREEN_STATES)
 
     def test_status_validation_rejects_identity_mismatch(self) -> None:
         payload = {
