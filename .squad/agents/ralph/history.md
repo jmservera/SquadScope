@@ -157,6 +157,6 @@
 
 ## Reskill 2026-09-22
 - The June P0/P1 directives (#337, #352, #357/#358, #372, #380) are complete and merged.
-- The PRD backlog is archived and current; no open pull requests or untriaged implementation issues remain.
+- The PRD backlog is archived and current; no other open pull requests or untriaged implementation issues remain.
 - #594 stays open solely for #714, which requires a new frozen candidate followed by genuine live screen-reader evidence.
 - Next action is human/release-owner coordination for #714; automation and browser tooling cannot substitute for that review.
