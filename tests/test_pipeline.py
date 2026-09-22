@@ -430,19 +430,25 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIsNotNone(synthesis_step)
         synthesis_run = synthesis_step["run"]
-        synthesis_snapshot = synthesis_run.index(
-            "python3 scripts/check_copilot_workspace.py snapshot"
+        self.assertIn(
+            'install -m 0444 scripts/check_copilot_workspace.py "$SYNTHESIS_WORKSPACE_VERIFIER"',
+            synthesis_run,
         )
+        synthesis_snapshot = synthesis_run.index('python3 "$SYNTHESIS_WORKSPACE_VERIFIER" snapshot')
         synthesis_invocation = synthesis_run.index("copilot \\\n", synthesis_snapshot)
         synthesis_status = synthesis_run.index("SYNTH_STATUS=$?", synthesis_invocation)
+        synthesis_integrity = synthesis_run.index(
+            'sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER"', synthesis_status
+        )
         synthesis_verify = synthesis_run.index(
-            "python3 scripts/check_copilot_workspace.py verify", synthesis_status
+            'python3 "$SYNTHESIS_WORKSPACE_VERIFIER" verify', synthesis_integrity
         )
         synthesis_classification = synthesis_run.index(
             'if [ "$SYNTH_STATUS" -ne 0 ]', synthesis_verify
         )
         self.assertLess(synthesis_snapshot, synthesis_invocation)
-        self.assertLess(synthesis_status, synthesis_verify)
+        self.assertLess(synthesis_status, synthesis_integrity)
+        self.assertLess(synthesis_integrity, synthesis_verify)
         self.assertLess(synthesis_verify, synthesis_classification)
         self.assertIn('--allow "$SYNTHESIS_FILE"', synthesis_run)
         self.assertIn('--allow "$SYNTHESIS_LOG"', synthesis_run)
@@ -456,19 +462,25 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--create-token-issue", run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
         self.assertIn("--agent weekly-analysis", run_analysis)
-        analysis_snapshot = run_analysis.index(
-            "python3 scripts/check_copilot_workspace.py snapshot"
+        self.assertIn(
+            'install -m 0444 scripts/check_copilot_workspace.py "$COPILOT_WORKSPACE_VERIFIER"',
+            run_analysis,
         )
+        analysis_snapshot = run_analysis.index('python3 "$COPILOT_WORKSPACE_VERIFIER" snapshot')
         analysis_invocation = run_analysis.index("copilot \\\n", analysis_snapshot)
         analysis_status = run_analysis.index("COPILOT_STATUS=$?", analysis_invocation)
+        analysis_integrity = run_analysis.index(
+            'sha256sum "$COPILOT_WORKSPACE_VERIFIER"', analysis_status
+        )
         analysis_verify = run_analysis.index(
-            "python3 scripts/check_copilot_workspace.py verify", analysis_status
+            'python3 "$COPILOT_WORKSPACE_VERIFIER" verify', analysis_integrity
         )
         analysis_classification = run_analysis.index(
             'if [ "$COPILOT_STATUS" -ne 0 ]', analysis_verify
         )
         self.assertLess(analysis_snapshot, analysis_invocation)
-        self.assertLess(analysis_status, analysis_verify)
+        self.assertLess(analysis_status, analysis_integrity)
+        self.assertLess(analysis_integrity, analysis_verify)
         self.assertLess(analysis_verify, analysis_classification)
         self.assertIn('--allow "$OUTPUT_FILE"', run_analysis)
         self.assertIn('--allow "$TRANSCRIPT_FILE"', run_analysis)

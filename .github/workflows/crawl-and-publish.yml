@@ -559,8 +559,11 @@ jobs:
           else
             SYNTHESIS_LOG="$DIAGNOSTICS_DIR/synthesis-copilot.log"
             SYNTHESIS_WORKSPACE_SNAPSHOT="${RUNNER_TEMP}/copilot-synthesis-workspace.json"
+            SYNTHESIS_WORKSPACE_VERIFIER="${RUNNER_TEMP}/copilot-synthesis-workspace-verifier.py"
             rm -f "$SYNTHESIS_FILE" "$SYNTHESIS_LOG"
-            python3 scripts/check_copilot_workspace.py snapshot \
+            install -m 0444 scripts/check_copilot_workspace.py "$SYNTHESIS_WORKSPACE_VERIFIER"
+            SYNTHESIS_VERIFIER_SHA256="$(sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER" | cut -d' ' -f1)"
+            python3 "$SYNTHESIS_WORKSPACE_VERIFIER" snapshot \
               --root "$GITHUB_WORKSPACE" \
               --output "$SYNTHESIS_WORKSPACE_SNAPSHOT" \
               --allow "$SYNTHESIS_FILE" \
@@ -576,7 +579,11 @@ jobs:
               > "$SYNTHESIS_LOG" 2>&1
             SYNTH_STATUS=$?
             set -e
-            if ! python3 scripts/check_copilot_workspace.py verify \
+            if [ "$(sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER" | cut -d' ' -f1)" != "$SYNTHESIS_VERIFIER_SHA256" ]; then
+              echo "::error::Copilot synthesis tampered with the immutable workspace verifier."
+              exit 1
+            fi
+            if ! python3 "$SYNTHESIS_WORKSPACE_VERIFIER" verify \
               --snapshot "$SYNTHESIS_WORKSPACE_SNAPSHOT"; then
               echo "::error::Copilot synthesis mutated the workspace outside its exact output and log files."
               exit 1
@@ -712,6 +719,9 @@ jobs:
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
+          COPILOT_WORKSPACE_VERIFIER="${RUNNER_TEMP}/copilot-analysis-workspace-verifier.py"
+          install -m 0444 scripts/check_copilot_workspace.py "$COPILOT_WORKSPACE_VERIFIER"
+          COPILOT_VERIFIER_SHA256="$(sha256sum "$COPILOT_WORKSPACE_VERIFIER" | cut -d' ' -f1)"
           PROMPT_FILE="$IN_PROMPT_FILE"
           CANARY_FILE="$IN_CANARY_FILE"
           LEGACY_PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
@@ -809,7 +819,7 @@ jobs:
 
             # Copilot has no path-scoped write capability. This baseline and the
             # immediate verification below provide post-invocation containment.
-            python3 scripts/check_copilot_workspace.py snapshot \
+            python3 "$COPILOT_WORKSPACE_VERIFIER" snapshot \
               --root "$GITHUB_WORKSPACE" \
               --output "$COPILOT_WORKSPACE_SNAPSHOT" \
               --allow "$OUTPUT_FILE" \
@@ -828,7 +838,11 @@ jobs:
               > "$COPILOT_LOG" 2>&1
             COPILOT_STATUS=$?
             set -e
-            if ! python3 scripts/check_copilot_workspace.py verify \
+            if [ "$(sha256sum "$COPILOT_WORKSPACE_VERIFIER" | cut -d' ' -f1)" != "$COPILOT_VERIFIER_SHA256" ]; then
+              echo "::error::Copilot analysis tampered with the immutable workspace verifier."
+              exit 1
+            fi
+            if ! python3 "$COPILOT_WORKSPACE_VERIFIER" verify \
               --snapshot "$COPILOT_WORKSPACE_SNAPSHOT"; then
               echo "::error::Copilot analysis mutated the workspace outside its exact output, transcript, and log files."
               exit 1

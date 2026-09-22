@@ -137,11 +137,7 @@ def capture_workspace(
 
     for current, directory_names, file_names in os.walk(root, topdown=True, followlinks=False):
         current_path = Path(current)
-        if current_path == root:
-            directory_names[:] = sorted(name for name in directory_names if name != ".git")
-            file_names = [name for name in file_names if name != ".git"]
-        else:
-            directory_names.sort()
+        directory_names.sort()
         file_names.sort()
 
         for directory_name in directory_names:

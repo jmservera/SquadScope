@@ -125,6 +125,27 @@ def test_detects_index_mutation_even_for_allowed_file(repository: Path, tmp_path
     assert ("<git-index>", "modified") in _changes(snapshot)
 
 
+@pytest.mark.parametrize(
+    ("metadata_path", "expected_change"),
+    [(".git/config", "modified"), (".git/hooks/post-checkout", "added")],
+)
+def test_detects_git_metadata_mutation(
+    repository: Path, tmp_path: Path, metadata_path: str, expected_change: str
+) -> None:
+    snapshot = _snapshot(repository, tmp_path, "data/candidates/output.md")
+    target = repository / metadata_path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists():
+        target.write_text(
+            target.read_text(encoding="utf-8") + "\n[alias]\nmalicious = status\n",
+            encoding="utf-8",
+        )
+    else:
+        target.write_text("malicious metadata\n", encoding="utf-8")
+
+    assert (metadata_path, expected_change) in _changes(snapshot)
+
+
 def test_detects_mutation_to_preexisting_dirty_file(repository: Path, tmp_path: Path) -> None:
     dirty = repository / "dirty.txt"
     dirty.write_text("dirty before Copilot\n", encoding="utf-8")
@@ -208,6 +229,24 @@ def test_fake_copilot_protected_mutation_fails_before_output_consumption(
 
     assert not consumed
     assert ("scripts/protected.py", "modified") in _changes(snapshot)
+
+
+def test_immutable_verifier_detects_checkout_verifier_tampering(
+    repository: Path, tmp_path: Path
+) -> None:
+    checkout_verifier = repository / "scripts" / "check_copilot_workspace.py"
+    checkout_verifier.write_text("original verifier\n", encoding="utf-8")
+    _git(repository, "add", "scripts/check_copilot_workspace.py")
+    _git(repository, "commit", "--quiet", "-m", "add verifier")
+    snapshot = _snapshot(repository, tmp_path, "data/candidates/output.md")
+
+    checkout_verifier.write_text("print('always clean')\n", encoding="utf-8")
+    immutable_changes = workspace.verify_workspace(snapshot)
+
+    assert {
+        "path": "scripts/check_copilot_workspace.py",
+        "change": "modified",
+    } in immutable_changes
 
 
 def test_allowed_path_cannot_become_symlink(repository: Path, tmp_path: Path) -> None:
