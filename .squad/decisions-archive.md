@@ -3828,6 +3828,8 @@ Added small deterministic promotion-guard helper and regression tests for publis
 
 **Why:** Operator directive — no exceptions.
 
+## Archived by nap on 2026-09-22
+
 ### 2026-07-17T12-00-55: Design Review gate for #569–#571 and #571 revision lockout
 
 **By:** Leela
@@ -4094,4 +4096,3 @@ item.
 
 **Files edited:**
 * docs/review/data-observatory-relaunch/security-review.md
-

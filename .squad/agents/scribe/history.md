@@ -20,3 +20,10 @@
 - Created orchestration logs for Bender, Farnsworth, Fry, Leela
 - Created session log: crawler-improvement-analysis
 - Outcome: GitHub issue #237 created; squad decision on bounded in-process RSS topology with deterministic merge-before-analyze flow
+
+## 2026-09-22 Nap and Reskill Cycle
+- Reviewed the current PRD backlog, recent merged work, squad charter, routing, and all open issues and pull requests.
+- No PRDs moved and no issues changed: #594 and #714 already contain current acceptance criteria and ownership.
+- Archived ten stale decisions and retained the active #594/#714 release gate.
+- Opened PR #775; unrelated original-worktree changes remained untouched.
+- #714 remains human-gated on a frozen candidate and genuine live screen-reader evidence.
