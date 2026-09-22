@@ -132,6 +132,11 @@ production inference path.
 - Canary insertion during prompt rendering when `--canary-output` is supplied.
 - Immutable closing security constraints at the absolute end of rendered
   synthesis and weekly prompts.
+- An authenticated verifier copied outside the checkout before each agent
+  invocation; its SHA-256 must still match before post-invocation verification.
+- Fail-closed workspace snapshots covering file content, types, permissions,
+  ownership, directory metadata, the Git index, and `.git` metadata. Only the
+  exact declared output and diagnostic artifacts may be created.
 - Prompt linting, preflight budgeting, and downstream schema/content gates.
 
 **Fallback/API-only code paths:**
