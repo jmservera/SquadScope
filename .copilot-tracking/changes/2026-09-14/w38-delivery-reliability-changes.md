@@ -120,7 +120,7 @@ URL, and documentation are delivered in PR #762.
 ### Documented the legacy compatibility boundary
 
 * Related phase or task: P04-T01
-* Files: docs/prds/podcaster-auto-dispatch.md
+* Files: docs/processed/podcaster-auto-dispatch.md
 * What changed and why: Documented canonical exact-identity receipts,
   receipt-less legacy scoping, skipped protected dispatch as pre-submit, and
   continued fail-closed ambiguity.

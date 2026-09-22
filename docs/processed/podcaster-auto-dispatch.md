@@ -6,9 +6,16 @@ ms.date: 2026-09-08
 ms.topic: reference
 ---
 
+> **ARCHIVED — IMPLEMENTED**
+> The protected auto-dispatch capability shipped in
+> [#747](https://github.com/jmservera/SquadScope/pull/747) and was subsequently
+> hardened through the dispatch identity and reconciliation follow-ups. The
+> workflow and implementation are canonical; this PRD is retained as the
+> historical requirements record.
+
 # Protected Podcaster Auto-Dispatch
 
-Version 0.1 | Status Draft | Owner jmservera | Team SquadScope Squad
+Version 0.1 | Status Implemented and archived 2026-09-22 | Owner jmservera | Team SquadScope Squad
 
 ## 1. Executive summary
 

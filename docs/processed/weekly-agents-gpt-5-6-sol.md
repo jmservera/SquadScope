@@ -7,11 +7,16 @@ ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 
-Version 1.2 | Status **User-Approved 2026-09-08T14:29:49Z** — jmservera explicitly approved Sol upgrade for SquadScope weekly analysis/synthesis agents | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
+> **ARCHIVED — IMPLEMENTED**
+> The model upgrade shipped in
+> [#745](https://github.com/jmservera/SquadScope/pull/745). The agent
+> declarations are the canonical current configuration; this PRD preserves the
+> approval evidence and pre-implementation comparison.
 
-> **User-approved. Implementation in progress on `feat/weekly-agents-gpt-5-6-sol`.** This PRD
-> records evidence and scope. Production changes are limited to the two weekly agent `model:`
-> declarations and matching cost-attribution surfaces per Section 4.
+Version 1.2 | Status **Implemented and archived 2026-09-22** — jmservera approved the Sol upgrade on 2026-09-08T14:29:49Z | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
+
+> **Historical scope.** Production changes were limited to the two weekly agent
+> `model:` declarations and matching cost-attribution surfaces per Section 4.
 
 > **PRD evidence preserved.** Prior evidence (2-week comparison, subjective reviewer assessment,
 > cost inconclusive at +1.2% avg) is on record. User approval overrides the ≥3-run cost
