@@ -14,7 +14,7 @@
 * Declared invocation scope: Full plan
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
 * All remaining active-plan markers: P04, P04-T02
-* Status basis: Authorized continuation resumes at P04-T02 from current `origin/main` in a fresh dedicated worktree. Validated source commit `0a412d5` is applied semantically; focused validation, push, non-draft follow-up PR creation, and hosted readiness inspection remain.
+* Status basis: Validated source commit `0a412d5` is applied semantically on fresh branch `fix/w39-weekly-state-followup`; focused validation passes, the branch is pushed, and non-draft `jmservera/SquadScope#773` is open. P04-T02 remains incomplete while hosted checks and review are pending.
 
 ## Execution Summary
 
@@ -58,6 +58,15 @@ Implementation resumed in the isolated worktree `/home/azureuser/source/SquadSco
 * Dependency/security: pip-audit 2.10.1 found no known vulnerabilities; Bandit 1.9.4 exited 0 with existing informational comment-token warnings; Checkov 3.2.533 reported 1,073 passed, 0 failed, 7 skipped; Zizmor 1.25.2 reported no findings with 8 ignored and 97 suppressed by the existing configuration.
 * Documentation/diff: `git diff --check` passed; all ten correction Markdown artifacts contain no tabs or trailing whitespace; semantic searches preserve W39-only incident scope and W38 comparative/recovery scope.
 * Gate integrity: no dependency manifest, scanner baseline, workflow gate, or unrelated source was changed.
+
+### Delivered fresh follow-up branch and PR — 2026-09-22
+
+* Related phase or task: P04-T02 and hosted delivery closeout.
+* Branch/worktree: `fix/w39-weekly-state-followup` in `/home/azureuser/source/SquadScope-w39-weekly-state-followup`, based on current `origin/main` at `574e4e4`.
+* Source reconciliation: source commit `0a412d5` was semantically cherry-picked as `468d8db`; newer mainline dispatch fixes were preserved. Stale blocker-only commit `27b7f20` was not cherry-picked.
+* Local validation: the focused dispatch/state suite passed `206`; targeted Ruff check and format passed; `git diff --check origin/main...HEAD` passed; ten changed evidence files passed tab and trailing-whitespace checks.
+* Hosted delivery: the branch was pushed and local/remote SHA matched at `468d8db`. Non-draft follow-up PR `jmservera/SquadScope#773` targets `main`, links `jmservera/SquadScope#772`, and remains unmerged.
+* Initial readiness inspection: GitHub reported the PR mergeable with zero reviews and zero review threads. Ruff and Zizmor passed; remaining hosted checks were queued or in progress.
 
 ### Activated PR review and hosted-failure correction batch
 
@@ -443,21 +452,25 @@ Implementation resumed in the isolated worktree `/home/azureuser/source/SquadSco
 | Resumed Checkov 3.2.533 | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 skipped |
 | Resumed Zizmor 1.25.2 | All workflows | Passed | No findings; 8 ignored and 97 suppressed by existing configuration |
 | Resumed diff and Markdown checks | Correction diff and ten artifacts | Passed | No whitespace errors, tabs, or trailing whitespace |
+| Fresh-branch focused dispatch/state tests | State-model and directly coupled dispatch surfaces | Passed | 206 passed in 2.46s |
+| Fresh-branch targeted Ruff | Changed Python files | Passed | Check and format validation passed |
+| Fresh-branch evidence checks | Branch diff and ten changed evidence files | Passed | No diff whitespace errors, tabs, or trailing whitespace |
+| Follow-up PR checks | `jmservera/SquadScope#773` | Pending | Initial inspection: Ruff and Zizmor passed; remaining checks queued or in progress |
 
 ## Pre-Review Reconciliation
 
 * Plan markers and phase details: Current; RV-001 through RV-006 owners re-completed and P05-T02 records the completed independent review
-* Completed-work evidence and handoff prose: Current through corrected local validation
-* Validation, blockers, remaining work, and follow-up items: Local validation current; hosted P04-T02 and external follow-ups explicitly separated
-* Review readiness: A second review is not required; corrected commit `c9373cf` is pushed and PR creation is unblocked
+* Completed-work evidence and handoff prose: Current through fresh-branch correction, validation, push, and PR creation
+* Validation, blockers, remaining work, and follow-up items: Local validation current; hosted P04-T02 on `jmservera/SquadScope#773` and external follow-ups explicitly separated
+* Review readiness: A second RPI review is not required; PR `jmservera/SquadScope#773` is open and ready for hosted checks and repository review
 
 ## Blockers
 
-* None for PR creation. Hosted CI, lint, Checkov, security scanning, and protected smoke remain mandatory after PR creation and before merge/readiness.
+* No implementation blocker. Hosted CI/security checks and repository review on `jmservera/SquadScope#773` remain pending.
 
 ## Remaining Work
 
-* P04-T02 remains open only for hosted PR evidence. No implementation correction or second review remains.
+* P04-T02 remains open only for completed hosted checks and review evidence on `jmservera/SquadScope#773`. No implementation correction or second RPI review remains.
 
 ## Follow-Up Items
 
@@ -468,10 +481,10 @@ Implementation resumed in the isolated worktree `/home/azureuser/source/SquadSco
 
 * Implementation execution status: Partial
 * Declared scope and markers: Full plan; P01-P03, P04-T01, and P05 complete; P04-T02 remains hosted-only
-* Validation coverage: 150 focused and 1,756 full tests plus Ruff, pip-audit, Bandit, Checkov, Zizmor, CLI smoke, and diff checks pass; hosted gates remain for the PR
-* Blockers: None for PR creation; hosted evidence remains before merge/readiness
-* Current plan and detail updates: RV-001 through RV-006 are complete; P05-T02 records the completed independent review and no second review is required
+* Validation coverage: Fresh-branch focused suite passes 206 tests; targeted Ruff, diff, and ten-file evidence checks pass; hosted checks on `jmservera/SquadScope#773` remain pending
+* Blockers: No implementation blocker; hosted checks and repository review remain
+* Current plan and detail updates: Fresh branch/worktree, source commit reconciliation, local validation, push, and follow-up PR state are current; RV-001 through RV-006 remain complete and no second RPI review is required
 * Planning and critique state: Current and ready; exactly one critique
 * Follow-up items: Unchanged from plan
-* Review readiness or no-handoff reason: PR creation is unblocked; no second review is required
-* Continuation owner: Delivery owner for PR creation and hosted P04-T02 evidence
+* Review readiness or no-handoff reason: `jmservera/SquadScope#773` is open, mergeable, and ready for hosted checks/repository review; no second RPI review is required
+* Continuation owner: Hosted checks and repository reviewers for final P04-T02 evidence; no merge is authorized by this run

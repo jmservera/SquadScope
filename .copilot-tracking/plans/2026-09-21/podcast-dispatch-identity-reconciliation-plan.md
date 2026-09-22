@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: Authorized hosted-delivery continuation at P04-T02 on fresh branch `fix/w39-weekly-state-followup`; validated attempt-versus-weekly state behavior is applied and focused validation, push, and follow-up PR evidence remain
+* Planning status: P04-T02 hosted delivery is active on non-draft follow-up PR `jmservera/SquadScope#773`; the correction and focused local validation pass, while hosted checks and review remain pending
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -48,8 +48,8 @@ An always-running reconciliation job will require accepted work to produce machi
 * First execution boundary: validated source commit `0a412d5` is applied semantically onto the merged `jmservera/SquadScope#772` baseline; stale blocker-only commit `27b7f20` is intentionally excluded.
 * Approved write boundary: this repository worktree only; directly related state helper/tests and the existing research, plan, details, critique, changes, review, W38 historical, and session artifacts.
 * Validation intent: focused state-model tests, directly relevant semantic and whitespace checks, hosted checks, remote SHA verification, PR metadata, and unresolved-thread inspection without weakening gates.
-* Delivery intent: push the fresh branch, open a non-draft follow-up PR targeting `main`, link `jmservera/SquadScope#772`, and leave the PR unmerged.
-* Blockers: none. Exact provider readback remains an external prerequisite for any green weekly identity.
+* Delivery state: branch `fix/w39-weekly-state-followup` is pushed and non-draft follow-up PR `jmservera/SquadScope#773` targets `main` and links `jmservera/SquadScope#772`. Initial inspection found the PR mergeable with no reviews or review threads; hosted checks were queued or in progress, with Ruff and Zizmor already passing.
+* Blockers: no implementation blocker. Hosted checks and review remain pending. Exact provider readback remains an external prerequisite for any green weekly identity.
 
 For current user input, see [User Decisions and Requirements](#user-decisions-and-requirements). The planner keeps the synthesized sections below current as evidence and caller direction evolve.
 

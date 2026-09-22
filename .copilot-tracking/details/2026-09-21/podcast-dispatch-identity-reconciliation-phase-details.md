@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: Authorized hosted-delivery continuation at P04-T02 on `fix/w39-weekly-state-followup`; validated state-model correction is applied and focused validation, push, and follow-up PR evidence remain
+* Planning status: P04-T02 hosted delivery is active on non-draft `jmservera/SquadScope#773`; correction and focused local validation pass, while hosted checks and review remain pending
 
 ## Task-Level Context
 
@@ -24,7 +24,7 @@
 * Weekly green states: `published_verified` for exact verified success without earlier non-green attempt evidence, and `published_verified_recovered` for exact verified success after a preserved non-green attempt.
 * Non-green weekly evidence: partial stages, provider unknown/failure, manual action without exact readback, duplicate ambiguity, missing readback, and status-contract unavailability.
 * Resumption boundary: current `origin/main` includes merged `jmservera/SquadScope#772`; source correction `0a412d5` is applied semantically in `/home/azureuser/source/SquadScope-w39-weekly-state-followup`, while stale blocker-only commit `27b7f20` is excluded.
-* Delivery boundary: push the fresh branch, open a non-draft follow-up PR, inspect hosted checks/reviews/threads, and do not merge.
+* Delivery boundary: `fix/w39-weekly-state-followup` is pushed and non-draft `jmservera/SquadScope#773` targets `main`; initial inspection found no reviews or review threads, hosted checks queued/in progress, and no merge was performed.
 
 ## Phase Index
 
@@ -33,7 +33,7 @@
 | P01 | Establish canonical state and identity-scoped history | Complete after accepting safe underscore-bearing API status categories | P01, P01-T01, P01-T02 |
 | P02 | Enforce durable receipt ordering around mutation | Complete; normal handoff failures preserve API status/category outputs | P02, P02-T01, P02-T02 |
 | P03 | Reconcile terminal outcome, latency, and incidents | Complete after environment-only credentials and bounded incident persistence corrections | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: P04-T01 is complete; the P04-T02 correction is applied and focused validation plus hosted follow-up PR evidence remain | P04, P04-T01, P04-T02 |
+| P04 | Complete locked regression and validation evidence | In progress: P04-T01 and fresh-branch focused validation pass; `jmservera/SquadScope#773` is open and hosted checks/review remain | P04, P04-T01, P04-T02 |
 | P05 | Deliver review branch and independent review handoff | Complete; functional correction commit `0c6e58b` is pushed and the independent review record remains unchanged | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->

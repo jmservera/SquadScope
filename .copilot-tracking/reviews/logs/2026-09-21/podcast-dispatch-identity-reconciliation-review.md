@@ -21,6 +21,10 @@ This append-only review record preserves its original findings and execution evi
 
 This append-only review remains historical evidence for the implementation findings at its assessed commit. The current correction separates immutable attempt outcomes from the derived weekly identity. Earlier failed, blocked, partial, rejected, or unknown attempts remain non-green facts. A weekly identity is green only as `published_verified` or `published_verified_recovered`, and only after exact identity-bound provider readback proves `provider=published` with `external_verified=true`. Manual action, workflow success, API acceptance, duplicate ambiguity, partial stages, unknown provider state, and missing readback remain non-green. This correction does not erase or resolve any historical review finding.
 
+## Hosted delivery continuation — 2026-09-22
+
+The review's original assessed commit and findings remain immutable historical evidence. RV-001 through RV-006 were already corrected before this continuation, so no second RPI review is required. The validated attempt-versus-weekly correction from source commit `0a412d5` is applied on fresh branch `fix/w39-weekly-state-followup`; focused validation reports 206 passed tests plus successful targeted Ruff and evidence checks. Non-draft follow-up PR `jmservera/SquadScope#773` targets `main`, links the merged incident-scope PR `jmservera/SquadScope#772`, has no review threads at initial inspection, and remains unmerged while hosted checks and repository review proceed.
+
 ## Opening Review State
 
 * Interpreted review goal: Conduct one fresh evidence-based acceptance review of the pushed implementation against the complete approved plan and caller boundary, without modifying any artifact except this canonical review record.
