@@ -35,10 +35,36 @@ _CITATION_TITLE_MAX = 200
 _CITATION_URL_MAX = 300
 _CITATION_SOURCE_MAX = 100
 _REPO_NAME_MAX = 200
+_DIVERGENCE_TOPIC_MAX = 120
+_METADATA_TEXT_MAX = 300
 
 
 def log(message: str) -> None:
     print(f"[correlate] {message}", file=sys.stderr)
+
+
+def _sanitize_external_value(value: Any, *, label: str) -> Any:
+    """Recursively bound external metadata while preserving scalar types."""
+    if isinstance(value, str):
+        return sanitize_text(value, max_length=_METADATA_TEXT_MAX, label=label)
+    if isinstance(value, list):
+        return [
+            _sanitize_external_value(item, label=label)
+            for item in value[:MAX_ARTICLES_FOR_CORRELATION]
+        ]
+    if isinstance(value, dict):
+        return {
+            sanitize_text(str(key), max_length=100, label=f"{label} key"): (
+                _sanitize_external_value(item, label=label)
+            )
+            for key, item in list(value.items())[:MAX_ARTICLES_FOR_CORRELATION]
+        }
+    return value
+
+
+def _repo_key(repo: dict[str, Any]) -> str:
+    raw = repo.get("full_name") or f"{repo.get('owner')}/{repo.get('name')}"
+    return sanitize_text(raw, max_length=_REPO_NAME_MAX, label="correlation repo name")
 
 
 # ---------------------------------------------------------------------------
@@ -227,7 +253,11 @@ def _article_citation(article: dict[str, Any]) -> dict[str, Any]:
             sanitize_text(s, max_length=_CITATION_SOURCE_MAX, label="article source")
             for s in article.get("sources", [article.get("source", "unknown")])
         ],
-        "published_at": article.get("published_at", ""),
+        "published_at": sanitize_text(
+            article.get("published_at", ""),
+            max_length=40,
+            label="article published_at",
+        ),
         "relevance_score": article.get("relevance_score", 0),
     }
 
@@ -309,7 +339,14 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
         best_confidence = 1.0
         best_type = "direct_link"
         matched_article_objs = _unique_articles(direct)[:MAX_MATCHED_ARTICLES_PER_REPO]
-        matched_articles = [a["url"] for a in matched_article_objs]
+        matched_articles = [
+            sanitize_text(
+                a.get("url", ""),
+                max_length=_CITATION_URL_MAX,
+                label="matched article url",
+            )
+            for a in matched_article_objs
+        ]
 
     # Priority 2: Org name match (confidence 0.8)
     if not matched_articles:
@@ -318,7 +355,14 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
             best_confidence = 0.8
             best_type = "org_name"
             matched_article_objs = _unique_articles(org)[:MAX_MATCHED_ARTICLES_PER_REPO]
-            matched_articles = [a["url"] for a in matched_article_objs]
+            matched_articles = [
+                sanitize_text(
+                    a.get("url", ""),
+                    max_length=_CITATION_URL_MAX,
+                    label="matched article url",
+                )
+                for a in matched_article_objs
+            ]
 
     # Priority 3: Project name fuzzy match (confidence 0.6)
     if not matched_articles:
@@ -327,7 +371,14 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
             best_confidence = 0.6
             best_type = "project_name"
             matched_article_objs = _unique_articles(fuzzy)[:MAX_MATCHED_ARTICLES_PER_REPO]
-            matched_articles = [a["url"] for a in matched_article_objs]
+            matched_articles = [
+                sanitize_text(
+                    a.get("url", ""),
+                    max_length=_CITATION_URL_MAX,
+                    label="matched article url",
+                )
+                for a in matched_article_objs
+            ]
 
     # Priority 4: Category correlation (confidence 0.4)
     if not matched_articles:
@@ -336,7 +387,14 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
             best_confidence = 0.4
             best_type = "category"
             matched_article_objs = _unique_articles(cat)[:MAX_MATCHED_ARTICLES_PER_REPO]
-            matched_articles = [a["url"] for a in matched_article_objs]
+            matched_articles = [
+                sanitize_text(
+                    a.get("url", ""),
+                    max_length=_CITATION_URL_MAX,
+                    label="matched article url",
+                )
+                for a in matched_article_objs
+            ]
 
     if not matched_articles:
         return None
@@ -353,16 +411,11 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
         temporal_spike=temporal_spike,
     )
 
-    raw_repo_key = repo.get("full_name") or f"{repo.get('owner')}/{repo.get('name')}"
-    repo_name = sanitize_text(
-        raw_repo_key,
-        max_length=_REPO_NAME_MAX,
-        label="correlation repo name",
-    )
+    repo_name = _repo_key(repo)
 
     return {
         "repo": repo_name,
-        "repo_key": raw_repo_key,
+        "repo_key": repo_name,
         "press_correlated": press_correlated,
         "correlation_confidence": round(best_confidence, 2),
         "matched_articles": matched_articles,
@@ -379,24 +432,26 @@ def _extract_article_topic(article: dict[str, Any]) -> str:
     """Extract a representative topic string from an article."""
     categories = article.get("categories", [])
     if categories:
-        return categories[0]
+        return sanitize_text(categories[0], max_length=_DIVERGENCE_TOPIC_MAX, label="article topic")
     entities = article.get("entities", [])
     if entities:
-        return entities[0]
+        return sanitize_text(entities[0], max_length=_DIVERGENCE_TOPIC_MAX, label="article topic")
     title = article.get("title", "")
     # Use first few meaningful words from title as fallback
     words = [w for w in re.split(r"\s+", title) if len(w) > 3]
-    return " ".join(words[:3]) if words else "unknown"
+    topic = " ".join(words[:3]) if words else "unknown"
+    return sanitize_text(topic, max_length=_DIVERGENCE_TOPIC_MAX, label="article topic")
 
 
 def _extract_repo_topic(repo: dict[str, Any]) -> str:
     """Extract a representative topic string from a repo."""
     topics = repo.get("topics", [])
     if topics:
-        return topics[0]
+        return sanitize_text(topics[0], max_length=_DIVERGENCE_TOPIC_MAX, label="repo topic")
     description = repo.get("description") or ""
     words = [w for w in re.split(r"\s+", description) if len(w) > 3]
-    return " ".join(words[:3]) if words else repo.get("name", "unknown")
+    topic = " ".join(words[:3]) if words else repo.get("name", "unknown")
+    return sanitize_text(topic, max_length=_DIVERGENCE_TOPIC_MAX, label="repo topic")
 
 
 def detect_divergences(
@@ -416,9 +471,16 @@ def detect_divergences(
         matched_article_urls.update(corr.get("matched_articles", []))
 
     # Unmatched articles → uncovered tech trends
-    unmatched_articles = [a for a in articles if a.get("url") not in matched_article_urls][
-        :MAX_DIVERGENCE_ARTICLES
-    ]
+    unmatched_articles = [
+        a
+        for a in articles
+        if sanitize_text(
+            a.get("url", ""),
+            max_length=_CITATION_URL_MAX,
+            label="matched article url",
+        )
+        not in matched_article_urls
+    ][:MAX_DIVERGENCE_ARTICLES]
 
     # Group unmatched articles by topic
     topic_articles: dict[str, list[dict[str, Any]]] = {}
@@ -429,10 +491,8 @@ def detect_divergences(
     uncovered_tech_trends = [
         {
             "topic": topic,
-            "news_articles": [{"title": a.get("title", ""), "url": a.get("url", "")} for a in arts],
-            "techcrunch_articles": [
-                {"title": a.get("title", ""), "url": a.get("url", "")} for a in arts
-            ],
+            "news_articles": [_article_citation(a) for a in arts],
+            "techcrunch_articles": [_article_citation(a) for a in arts],
             "signal": "No matching GitHub activity",
         }
         for topic, arts in sorted(topic_articles.items(), key=lambda x: -len(x[1]))
@@ -440,11 +500,7 @@ def detect_divergences(
 
     # Find repos that had no correlation match
     correlated_repo_names: set[str] = {c.get("repo_key", c.get("repo", "")) for c in correlations}
-    unmatched_repos = [
-        r
-        for r in repos
-        if (r.get("full_name") or f"{r.get('owner')}/{r.get('name')}") not in correlated_repo_names
-    ]
+    unmatched_repos = [r for r in repos if _repo_key(r) not in correlated_repo_names]
 
     # Group unmatched repos by topic
     topic_repos: dict[str, list[dict[str, Any]]] = {}
@@ -457,7 +513,7 @@ def detect_divergences(
             "topic": topic,
             "github_repos": [
                 {
-                    "full_name": r.get("full_name") or f"{r.get('owner')}/{r.get('name')}",
+                    "full_name": _repo_key(r),
                     "stars": r.get("stars", 0),
                     "stars_gained": r.get("stars_gained"),
                 }
@@ -488,8 +544,7 @@ def correlate_all(
         if result:
             correlations.append(result)
         else:
-            name = repo.get("full_name") or f"{repo.get('owner')}/{repo.get('name')}"
-            uncorrelated.append(name)
+            uncorrelated.append(_repo_key(repo))
 
     # Sort by confidence descending
     correlations.sort(
@@ -556,16 +611,19 @@ def load_json(path: Path) -> dict[str, Any]:
 def extract_news_metadata(news_data: dict[str, Any] | list[dict[str, Any]]) -> dict[str, Any]:
     """Extract source/failure metadata from canonical or legacy news payloads."""
     if isinstance(news_data, list):
-        return {
-            "schema_version": 1,
-            "sources_requested": ["techcrunch"],
-            "sources_succeeded": ["techcrunch"],
-            "sources_failed": [],
-            "source_status": [],
-            "errors": [],
-        }
+        return _sanitize_external_value(
+            {
+                "schema_version": 1,
+                "sources_requested": ["techcrunch"],
+                "sources_succeeded": ["techcrunch"],
+                "sources_failed": [],
+                "source_status": [],
+                "errors": [],
+            },
+            label="news metadata",
+        )
     metadata = news_data.get("metadata", {})
-    return {
+    extracted = {
         "schema_version": news_data.get("schema_version", 1),
         "source_config_checksum": metadata.get("source_config_checksum", ""),
         "sources_requested": metadata.get(
@@ -577,6 +635,7 @@ def extract_news_metadata(news_data: dict[str, Any] | list[dict[str, Any]]) -> d
         "errors": metadata.get("errors", []),
         "artifact_checksum": metadata.get("artifact_checksum", ""),
     }
+    return _sanitize_external_value(extracted, label="news metadata")
 
 
 def extract_week_from_filename(path: Path) -> str:

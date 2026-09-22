@@ -9,11 +9,12 @@ SquadScope ingests external text from multiple untrusted sources:
 | Source | Entry Point | Risk | Sanitization Point |
 |--------|-------------|------|-------------------|
 | GitHub repo descriptions | `data/raw/*.json` → prompt templates | HIGH — attacker controls repo description | `preprocess_for_analysis.py` → `sanitize_description()` |
-| TechCrunch/RSS article titles | crawl data → `render_press_context.py` | MEDIUM — unlikely but possible | `render_press_context.format_articles_list()` → `sanitize_text()` |
+| External RSS article titles/source metadata/errors | crawl data → `correlate.py` / `render_press_context.py` | HIGH — publisher-controlled text and failure strings | Bounded sanitization at correlation output plus final press rendering |
 | Previous analysis output | `data/analyzed/*.md` → prompt templates | HIGH — poisoned output persists | `analyze_fallback.py` → `_escape_untrusted_boundaries()` |
 | Historical context (rolling/monthly/yearly) | `content/` → `assemble_historical_context.py` | HIGH — poisoned output persists | `assemble_historical_context._escape_boundaries()` (defense-in-depth) + final historical-context escaping in `analyze_fallback.py` prompt assembly → `_escape_untrusted_boundaries()` |
-| README snippets | GitHub API → correlation narratives | MEDIUM — attacker controls README | `render_press_context._extract_readme_description()` (structural filtering) |
-| Correlation match data | `correlate.py` → `render_press_context.py` | MEDIUM — sanitized at source | `correlate.py` → `sanitize_text()` at output time |
+| README snippets | GitHub API → reader-mode correlation narratives | HIGH — repository-controlled text | Structural filtering, `sanitize_text()`, and length caps in `render_press_context.py` |
+| Correlation/divergence/caveat/telemetry strings | `correlate.py` → `render_press_context.py` | HIGH — derived from RSS and repository metadata | Sanitized and capped at correlation output, then sanitized again while rendering |
+| Synthesis output | Copilot CLI synthesis → weekly analysis prompt | HIGH — prior AI output derived from untrusted sources | Boundary escaping, source cap, and insertion inside the historical-context fence |
 | Wisdom files | `.squad/identity/wisdom.md` → prompt templates | MEDIUM — prior LLM output | `reskill.render_wisdom()` → `_escape_untrusted_boundaries()` |
 | Skills files | `.squad/skills/**/*.md` → prompt templates | MEDIUM — prior LLM output | `reskill.render_skills()` → `_escape_untrusted_boundaries()` |
 | Per-topic wisdom | `topics/<id>/wisdom.md` → prompt templates | MEDIUM — prior LLM output | `render_topic_prompt.py` → `_escape_untrusted_boundaries()` |
@@ -55,12 +56,14 @@ This applies to:
 - `{{RECENT_ANALYSES}}` — reskill analysis summaries
 - `{{SNAPSHOT_CONTEXT}}` — hindsight snapshot data
 - `{{SCORECARD}}` — prediction scorecard
-- `{articles_list}` — TechCrunch article listings
-- `{correlations_list}` — press correlation data
+- `{articles_list}` — the complete rendered press evidence payload, including articles, correlations, divergences, source caveats, and telemetry
 
 ### 3. Closing Security Constraints
 
-Every prompt template ends with an explicit security constraint that reinforces the model's task boundary:
+Every fully assembled press, synthesis, and weekly-analysis prompt ends with an
+explicit immutable security constraint that reinforces the model's task boundary.
+Rendering, compaction, and canary insertion occur before this suffix; no dynamic
+content is appended after it.
 
 ```markdown
 ## Closing security constraint
@@ -112,13 +115,44 @@ When creating or modifying prompt templates:
 | `{{OUTPUT_PATH}}` | TRUSTED | No |
 | `{{TOPIC_ID}}` | TRUSTED | No (regex-validated in `render_template()` before prompt insertion) |
 
+## Production Copilot CLI Controls vs Fallback-Only Controls
+
+The production weekly pipeline uses Copilot CLI. `scripts/analyze_fallback.py` is
+also the deterministic prompt renderer/preflight entry point used by that
+pipeline; its filename is historical and does not mean GitHub Models is the
+production inference path.
+
+**Applied to production Copilot CLI prompts:**
+
+- Recursive repository-payload sanitization.
+- Source-specific caps for press, rolling, previous-week, monthly, yearly,
+  continuity, and synthesis content.
+- Complete press-evidence fencing and boundary escaping.
+- Separate synthesis-source fences.
+- Canary insertion during prompt rendering when `--canary-output` is supplied.
+- Immutable closing security constraints at the absolute end of rendered
+  synthesis and weekly prompts.
+- Prompt linting, preflight budgeting, and downstream schema/content gates.
+
+**Fallback/API-only code paths:**
+
+- `_call_synthesis_api()` and `call_github_models()` perform GitHub Models HTTP
+  requests, retry handling, and immediate `validate_output_safety()` checks on
+  the returned text.
+- Those API calls are not the production weekly inference path. Their output
+  validation must not be described as a production Copilot CLI runtime control.
+
+Copilot CLI output is instead evaluated by the production workflow's analysis
+gate and publication validation. Canary presence in a prompt is preventive and
+diagnostic; it does not by itself prove that novel injections were blocked.
+
 ## Scope
 
 This document covers the complete Phase 1, Phase 2, and pipeline integration guardrails for issue #352:
 
 - **Phase 1** (complete): Sanitization, boundary fencing, closing constraints, and lint enforcement for all prompt placeholders — including previously semi-trusted variables (`{{WISDOM}}`, `{{SKILLS}}`, `{{WISDOM_CONTENT}}`, `{{TOPIC_DESCRIPTION}}`).
 - **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
-- **Pipeline Integration** (complete): Canary tokens automatically injected in all `call_github_models()` callers (`analyze_fallback.py` and `reskill.py`), output validated via `validate_output_safety()` for canary leaks and boundary marker reproduction. Full canary leak blocks publishing; partial/boundary violations emit warnings.
+- **Pipeline Integration** (complete): Production prompt rendering supports unique canaries for Copilot CLI prompt artifacts. GitHub Models fallback/API callers additionally run `validate_output_safety()` immediately on API output; this API-specific behavior is not claimed for Copilot CLI invocation itself.
 - **Preprocess Sanitization** (complete): `preprocess_for_analysis.py` now calls `sanitize_description()` on all repo descriptions during compaction, ensuring injection attempts are detected, truncated, and boundary-escaped before reaching prompt templates.
 - **Correlation Sanitization** (complete): `correlate.py` now applies `sanitize_text()` to article titles, URLs, source names, and repo names at correlation output time, providing defense-in-depth before content reaches `render_press_context.py`.
 - **Reskill Boundary Escaping** (complete): All `reskill.py` render functions (`render_wisdom`, `render_skills`, `render_recent_analyses`, `render_snapshot_context`) now apply `_escape_untrusted_boundaries()` before returning content. `track_quality.build_quality_report()` and `load_scorecard.render_scorecard_section()` also escape boundaries in their output.
@@ -126,9 +160,11 @@ This document covers the complete Phase 1, Phase 2, and pipeline integration gua
 
 ### 5. Canary Token Leak Detection (`scripts/canary_token.py`)
 
-Each prompt invocation embeds a unique canary token (format: `SQSC-CANARY-<16 hex>`). The token is:
+When the renderer is invoked with `--canary-output`, the prompt embeds a unique
+canary token (format: `SQSC-CANARY-<16 hex>`). The token is:
 
-- Automatically injected by `call_github_models()` in both `analyze_fallback.py` and `reskill.py` before sending to the LLM
+- Injected into production Copilot CLI prompt artifacts by the rendering workflow
+- Independently injected by GitHub Models fallback/API callers before their HTTP requests
 - Unique per invocation (secrets + timestamp) to prevent replay
 - Checked in generated output via exact, case-insensitive, and partial pattern matching
 - Full/case-variant leaks logged at CRITICAL level and block publishing
@@ -154,7 +190,9 @@ Post-generation validation checks for:
 - **Unknown canary patterns** — catches leaks from prior invocations or cross-contamination
 - **Boundary marker reproduction** — detects if the model leaked `<untrusted-content>` or `</untrusted-content>` tags from prompt framing
 
-This is automatically called after `call_github_models()` returns. Violations emit `::warning::` annotations in CI.
+This is automatically called after the GitHub Models fallback/API functions
+return. It is not automatically applied to Copilot CLI output by
+`call_github_models()` because Copilot CLI does not use that function.
 
 ### 7. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
 
@@ -236,16 +274,17 @@ The following summarizes the complete defense chain from data ingestion to publi
         ▼
 ┌─────────────────────────────────────────────┐
 │  LLM INVOCATION                             │
-│  (GitHub Models / Copilot CLI)              │
+│  Production: Copilot CLI                    │
+│  Diagnostic/fallback code: GitHub Models    │
 └─────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────┐
 │  OUTPUT VALIDATION                          │
-│  • validate_output_safety()                 │
-│    - Canary token leak detection            │
-│    - Boundary marker reproduction check     │
-│    - Unknown canary pattern detection       │
+│  • GitHub Models API path:                  │
+│    validate_output_safety()                 │
+│  • Production Copilot CLI path: workflow    │
+│    analysis/publication gates               │
 │  • Frontmatter safety validation            │
 │    - Length caps on output fields            │
 │    - Injection phrase detection              │
@@ -282,3 +321,17 @@ The following summarizes the complete defense chain from data ingestion to publi
 - **Azure Prompt Shields integration** — add as optional pre-flight injection scanner
 - **Garak scheduled scans** — weekly red-team against staging endpoint
 - **Structured output enforcement** — JSON Schema constraints on LLM output to limit exfiltration paths
+
+## Residual Limitations
+
+- Boundary tags and instruction repetition reduce instruction confusion but
+  cannot guarantee model compliance against novel or obfuscated attacks.
+- Phrase-based sanitization can miss multilingual, encoded, or semantically
+  equivalent injections and can also truncate benign text.
+- Canary non-leakage is not proof of safety; a manipulated output may avoid
+  reproducing the canary.
+- Copilot CLI does not expose the same immediate response-validation hook as the
+  fallback/API helpers, so production relies on persisted prompt evidence and
+  downstream quality/publication gates.
+- External facts can still be false, biased, stale, or coordinated even after
+  their text is safely bounded. Editorial verification remains necessary.

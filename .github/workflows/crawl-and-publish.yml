@@ -557,6 +557,14 @@ jobs:
               echo "::error::Copilot CLI is unavailable after installation step; required synthesis is missing."
             fi
           else
+            SYNTHESIS_LOG="$DIAGNOSTICS_DIR/synthesis-copilot.log"
+            SYNTHESIS_WORKSPACE_SNAPSHOT="${RUNNER_TEMP}/copilot-synthesis-workspace.json"
+            rm -f "$SYNTHESIS_FILE" "$SYNTHESIS_LOG"
+            python3 scripts/check_copilot_workspace.py snapshot \
+              --root "$GITHUB_WORKSPACE" \
+              --output "$SYNTHESIS_WORKSPACE_SNAPSHOT" \
+              --allow "$SYNTHESIS_FILE" \
+              --allow "$SYNTHESIS_LOG"
             set +e
             copilot \
               --agent weekly-synthesis \
@@ -565,9 +573,14 @@ jobs:
               --no-ask-user \
               --allow-tool=read \
               --allow-tool=write \
-              > "$DIAGNOSTICS_DIR/synthesis-copilot.log" 2>&1
+              > "$SYNTHESIS_LOG" 2>&1
             SYNTH_STATUS=$?
             set -e
+            if ! python3 scripts/check_copilot_workspace.py verify \
+              --snapshot "$SYNTHESIS_WORKSPACE_SNAPSHOT"; then
+              echo "::error::Copilot synthesis mutated the workspace outside its exact output and log files."
+              exit 1
+            fi
             if [ "$SYNTH_STATUS" -ne 0 ]; then
               SYNTHESIS_STATUS="failed"
               echo "::warning::Synthesis Copilot CLI failed (exit=$SYNTH_STATUS); required synthesis is failed."
@@ -768,8 +781,6 @@ jobs:
             if [ "$ATTEMPT" -gt 0 ]; then
               echo "::warning::Quality gate failed on attempt $ATTEMPT; retrying with focused gate diagnostics (attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1)))..."
               rm -f "$OUTPUT_FILE"
-              # Reset any .squad changes from failed attempt
-              git checkout -- .squad 2>/dev/null || true
             fi
 
             echo "::notice::Running Copilot analysis attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1))"
@@ -786,7 +797,8 @@ jobs:
             CANDIDATE_SNAPSHOT="$DIAGNOSTICS_DIR/candidate-copilot-cli-attempt-${ATTEMPT}.md"
             COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-attempt-${ATTEMPT}.log"
             COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-attempt-${ATTEMPT}.json"
-            rm -f "$TRANSCRIPT_FILE" "$COPILOT_LOG" "$COPILOT_FAILURE_REPORT"
+            COPILOT_WORKSPACE_SNAPSHOT="${RUNNER_TEMP}/copilot-analysis-workspace-${ATTEMPT}.json"
+            rm -f "$OUTPUT_FILE" "$TRANSCRIPT_FILE" "$COPILOT_LOG" "$COPILOT_FAILURE_REPORT"
             REPAIR_CONTEXT=""
             if [ "$ATTEMPT" -gt 0 ]; then
               PREVIOUS_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-$((ATTEMPT - 1)).json"
@@ -795,6 +807,14 @@ jobs:
               fi
             fi
 
+            # Copilot has no path-scoped write capability. This baseline and the
+            # immediate verification below provide post-invocation containment.
+            python3 scripts/check_copilot_workspace.py snapshot \
+              --root "$GITHUB_WORKSPACE" \
+              --output "$COPILOT_WORKSPACE_SNAPSHOT" \
+              --allow "$OUTPUT_FILE" \
+              --allow "$TRANSCRIPT_FILE" \
+              --allow "$COPILOT_LOG"
             # Model is configured in .github/agents/weekly-analysis.agent.md (gpt-5.6-sol)
             set +e
             copilot \
@@ -808,6 +828,11 @@ jobs:
               > "$COPILOT_LOG" 2>&1
             COPILOT_STATUS=$?
             set -e
+            if ! python3 scripts/check_copilot_workspace.py verify \
+              --snapshot "$COPILOT_WORKSPACE_SNAPSHOT"; then
+              echo "::error::Copilot analysis mutated the workspace outside its exact output, transcript, and log files."
+              exit 1
+            fi
             if [ "$COPILOT_STATUS" -ne 0 ]; then
               FAILURE_CLASS=$(python3 scripts/copilot_failure.py \
                 --log "$COPILOT_LOG" \
