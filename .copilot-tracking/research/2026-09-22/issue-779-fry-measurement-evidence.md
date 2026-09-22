@@ -54,7 +54,8 @@ Scope: scheduled runs W37 `34082521901`, W38 `34806779896`, and W39 `35561779454
 - `scripts/preflight_cost_check.py`
 - `tests/test_track_token_usage.py`
 - `tests/test_copilot_pricing_review.py`
-- `docs/processed/weekly-agents-gpt-5-6-sol.md`
+- `docs/prds/weekly-agents-gpt-5-6-sol.md` (archived under `docs/processed/`
+  when this evidence was collected)
 - Retained `analysis-candidate`, `analyzed-data`, and `token-usage-ledger`
   artifacts downloaded from each run.
 
@@ -298,4 +299,3 @@ Relevant analyze job IDs:
 - W37: `101621166615`
 - W38: `103861103072`
 - W39: `106216691867`
-

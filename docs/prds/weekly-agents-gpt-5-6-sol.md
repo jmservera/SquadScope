@@ -1,6 +1,6 @@
 ---
 title: Upgrade Weekly Agents to GPT-5.6-Sol Product Requirements Document
-description: PRD proposing a model upgrade for the weekly-analysis and weekly-synthesis Copilot CLI agents from gpt-5.5 to gpt-5.6-sol, with evidence, acceptance criteria, and rollback plan
+description: Tracks post-upgrade validation and lifecycle disposition for the weekly-analysis and weekly-synthesis GPT-5.6-Sol deployment
 author: Leela (Lead/Architect)
 ms.date: 2026-09-22
 ms.topic: reference

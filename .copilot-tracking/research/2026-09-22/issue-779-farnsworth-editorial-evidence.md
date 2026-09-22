@@ -47,8 +47,8 @@ have reader-visible references.
   press-context markdown, and the promoted weekly summaries.
 - `docs/analysis-spec.md`, `scripts/analysis_gate.py`, and
   `tests/test_analysis_gate.py`.
-- Archived PRD `docs/processed/weekly-agents-gpt-5-6-sol.md`, its history, and
-  archival PR
+- Active PRD `docs/prds/weekly-agents-gpt-5-6-sol.md`, which was archived at
+  the time of this review, its history, and archival PR
   [jmservera/SquadScope#774](https://github.com/jmservera/SquadScope/pull/774).
 
 For both weeks the candidate and promoted analyzed summary are byte-identical,
