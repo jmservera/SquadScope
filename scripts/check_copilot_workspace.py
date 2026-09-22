@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import hmac
 import json
 import os
 import shutil
@@ -25,6 +26,7 @@ class FileState:
     mode: int
     uid: int
     gid: int
+    nlink: int
     sha256: str
 
 
@@ -126,6 +128,7 @@ def _file_state(path: Path) -> FileState:
             mode=mode,
             uid=metadata.st_uid,
             gid=metadata.st_gid,
+            nlink=metadata.st_nlink,
             sha256=_sha256(path.read_bytes()),
         )
     if stat.S_ISLNK(metadata.st_mode):
@@ -134,6 +137,7 @@ def _file_state(path: Path) -> FileState:
             mode=mode,
             uid=metadata.st_uid,
             gid=metadata.st_gid,
+            nlink=metadata.st_nlink,
             sha256=_sha256(os.readlink(path).encode("utf-8", errors="surrogateescape")),
         )
     raise WorkspaceError(f"unsupported workspace entry type: {path}")
@@ -209,9 +213,13 @@ def write_snapshot(snapshot: WorkspaceSnapshot, output: Path) -> None:
     output.write_text(serialized + "\n", encoding="utf-8")
 
 
-def read_snapshot(path: Path) -> WorkspaceSnapshot:
+def read_snapshot(path: Path, expected_sha256: str) -> WorkspaceSnapshot:
     try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
+        serialized = path.read_bytes()
+        actual_sha256 = _sha256(serialized)
+        if not hmac.compare_digest(actual_sha256, expected_sha256.lower()):
+            raise WorkspaceError("workspace snapshot integrity check failed")
+        payload = json.loads(serialized)
         if payload.get("schema_version") != SCHEMA_VERSION:
             raise WorkspaceError("unsupported snapshot schema version")
         directories = {
@@ -269,6 +277,8 @@ def verify_workspace(snapshot: WorkspaceSnapshot) -> list[dict[str, str]]:
         if path in allowed:
             if after is not None and after.kind != "file":
                 changes.append({"path": path, "change": "allowed-path-not-regular-file"})
+            elif after is not None and after.nlink != 1:
+                changes.append({"path": path, "change": "allowed-path-hard-linked"})
             continue
         if before is None:
             change = "added"
@@ -297,6 +307,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
     verify_parser = subparsers.add_parser("verify")
     verify_parser.add_argument("--snapshot", type=Path, required=True)
+    verify_parser.add_argument("--expected-sha256", required=True)
     return parser
 
 
@@ -312,7 +323,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "allowed_paths": snapshot.allowed_paths,
             }
         else:
-            snapshot = read_snapshot(args.snapshot)
+            snapshot = read_snapshot(args.snapshot, args.expected_sha256)
             changes = verify_workspace(snapshot)
             result = {"status": "passed" if not changes else "failed", "changes": changes}
             print(json.dumps(result, sort_keys=True))

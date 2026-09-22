@@ -590,7 +590,8 @@ jobs:
               exit 1
             fi
             if ! python3 "$SYNTHESIS_WORKSPACE_VERIFIER" verify \
-              --snapshot "$SYNTHESIS_WORKSPACE_SNAPSHOT"; then
+              --snapshot "$SYNTHESIS_WORKSPACE_SNAPSHOT" \
+              --expected-sha256 "$SYNTHESIS_SNAPSHOT_SHA256"; then
               echo "::error::Copilot synthesis mutated the workspace outside its exact output and log files."
               exit 1
             fi
@@ -855,7 +856,8 @@ jobs:
               exit 1
             fi
             if ! python3 "$COPILOT_WORKSPACE_VERIFIER" verify \
-              --snapshot "$COPILOT_WORKSPACE_SNAPSHOT"; then
+              --snapshot "$COPILOT_WORKSPACE_SNAPSHOT" \
+              --expected-sha256 "$COPILOT_SNAPSHOT_SHA256"; then
               echo "::error::Copilot analysis mutated the workspace outside its exact output, transcript, and log files."
               exit 1
             fi

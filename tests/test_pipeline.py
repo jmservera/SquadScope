@@ -450,6 +450,10 @@ class WorkflowConfigTests(unittest.TestCase):
         synthesis_verify = synthesis_run.index(
             'python3 "$SYNTHESIS_WORKSPACE_VERIFIER" verify', synthesis_snapshot_integrity
         )
+        self.assertIn(
+            '--expected-sha256 "$SYNTHESIS_SNAPSHOT_SHA256"',
+            synthesis_run[synthesis_verify:],
+        )
         synthesis_classification = synthesis_run.index(
             'if [ "$SYNTH_STATUS" -ne 0 ]', synthesis_verify
         )
@@ -490,6 +494,10 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         analysis_verify = run_analysis.index(
             'python3 "$COPILOT_WORKSPACE_VERIFIER" verify', analysis_snapshot_integrity
+        )
+        self.assertIn(
+            '--expected-sha256 "$COPILOT_SNAPSHOT_SHA256"',
+            run_analysis[analysis_verify:],
         )
         analysis_classification = run_analysis.index(
             'if [ "$COPILOT_STATUS" -ne 0 ]', analysis_verify

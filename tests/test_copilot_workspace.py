@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import subprocess
@@ -43,6 +44,10 @@ def _changes(snapshot: workspace.WorkspaceSnapshot) -> set[tuple[str, str]]:
     return {(change["path"], change["change"]) for change in workspace.verify_workspace(snapshot)}
 
 
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def test_allows_only_exact_regular_artifacts(repository: Path, tmp_path: Path) -> None:
     snapshot = _snapshot(
         repository,
@@ -79,9 +84,46 @@ def test_cli_emits_machine_readable_snapshot_and_verify_results(
     assert snapshot_result["status"] == "snapshotted"
 
     (repository / "data" / "candidates" / "output.md").write_text("expected\n", encoding="utf-8")
-    assert workspace.main(["verify", "--snapshot", str(snapshot_path)]) == 0
+    assert (
+        workspace.main(
+            [
+                "verify",
+                "--snapshot",
+                str(snapshot_path),
+                "--expected-sha256",
+                _sha256(snapshot_path),
+            ]
+        )
+        == 0
+    )
     verify_result = json.loads(capsys.readouterr().out)
     assert verify_result == {"changes": [], "status": "passed"}
+
+
+def test_cli_rejects_snapshot_integrity_mismatch(
+    repository: Path, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    snapshot_path = tmp_path / "snapshot.json"
+    workspace.write_snapshot(
+        workspace.capture_workspace(repository, ["data/candidates/output.md"]),
+        snapshot_path,
+    )
+    expected_sha256 = _sha256(snapshot_path)
+    snapshot_path.write_text("{}\n", encoding="utf-8")
+
+    assert (
+        workspace.main(
+            [
+                "verify",
+                "--snapshot",
+                str(snapshot_path),
+                "--expected-sha256",
+                expected_sha256,
+            ]
+        )
+        == 2
+    )
+    assert "integrity check failed" in json.loads(capsys.readouterr().out)["error"]
 
 
 @pytest.mark.parametrize(
@@ -266,3 +308,15 @@ def test_allowed_path_cannot_become_symlink(repository: Path, tmp_path: Path) ->
         "data/candidates/output.md",
         "allowed-path-not-regular-file",
     ) in _changes(snapshot)
+
+
+def test_allowed_path_cannot_become_hard_link(repository: Path, tmp_path: Path) -> None:
+    snapshot = _snapshot(repository, tmp_path, "data/candidates/output.md")
+    os.link(
+        repository / "scripts" / "protected.py",
+        repository / "data" / "candidates" / "output.md",
+    )
+
+    changes = _changes(snapshot)
+    assert ("data/candidates/output.md", "allowed-path-hard-linked") in changes
+    assert ("scripts/protected.py", "modified") in changes
