@@ -200,6 +200,7 @@ class PodcastDispatchStateTests(unittest.TestCase):
             ({"status": self.terminal(video="pending")}, "publication_partial"),
             ({"status": self.terminal(provider="unknown")}, "publication_unknown"),
             ({"status": self.terminal(provider="failed")}, "publication_failed"),
+            ({"status": self.terminal(verified=False)}, "publication_unverified"),
             ({"status": None, "manual_action": True}, "manual_action_required"),
             ({"status": None, "duplicate_ambiguous": True}, "duplicate_ambiguous"),
             ({"status": None}, "readback_missing"),

@@ -51,6 +51,7 @@ WEEKLY_NON_GREEN_STATES = frozenset(
         "publication_partial",
         "publication_failed",
         "publication_unknown",
+        "publication_unverified",
         "manual_action_required",
         "duplicate_ambiguous",
         "readback_missing",
@@ -581,6 +582,8 @@ def derive_weekly_identity_state(
             )
         if terminal is None:
             return "publication_partial"
+        if terminal.state == "unverified":
+            return "publication_unverified"
         if terminal.state == "unknown":
             return "publication_unknown"
         return "publication_failed"
