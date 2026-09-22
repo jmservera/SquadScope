@@ -14,11 +14,21 @@
 * Declared invocation scope: Full plan
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
 * All remaining active-plan markers: P04, P04-T02
-* Status basis: The latest valid category-validation blocker is corrected and all required local gates pass. Behavior-safe source inspection and the existing request regression disprove the authorization-placeholder report; renewed hosted checks remain.
+* Status basis: Authorized continuation resumes at P04-T02 from current `origin/main` in a fresh dedicated worktree. The next boundary is semantic application of validated commit `0a412d5`, focused validation, push, and a non-draft follow-up PR; no merge is authorized.
 
 ## Execution Summary
 
-Implementation is active in the isolated worktree on `incident/podcast-dispatch-identity-reconciliation`. The write boundary is limited to the copied RPI artifacts and plan-locked SquadScope source, workflow, and test files. No Podcaster repository changes are permitted.
+Implementation is active in the isolated worktree `/home/azureuser/source/SquadScope-w39-weekly-state-followup` on `fix/w39-weekly-state-followup`, created from current `origin/main` at `574e4e4`. The write boundary is limited to directly related SquadScope state semantics/tests and canonical RPI evidence. No Podcaster repository changes are permitted.
+
+### Authorized hosted-delivery resumption — 2026-09-22
+
+* Related phase or task: P04-T02; full-plan continuation.
+* Source reconciliation: `origin/main` contains merged `jmservera/SquadScope#772` at `574e4e4`; validated correction commit `0a412d5` is absent. Commit `27b7f20` records a now-superseded external delivery blocker and will not be cherry-picked wholesale.
+* First execution boundary: semantically cherry-pick `0a412d5` while retaining newer mainline fixes and avoiding duplicated W39/W38 narrative.
+* Approved write boundary: `/home/azureuser/source/SquadScope-w39-weekly-state-followup`; directly related state helper/tests and existing canonical evidence artifacts only.
+* Validation intent: focused state-model tests, semantic/whitespace checks for changed evidence, push verification, and follow-up PR checks/review/thread inspection.
+* Delivery intent: open a non-draft PR against `main`, link `jmservera/SquadScope#772`, describe W39 as missed/not-dispatched and W38 only as successful comparison/recovery evidence, and do not merge.
+* Current blockers: none. Exact identity-bound provider readback remains an external prerequisite for either green weekly state.
 
 ### Authoritative incident-scope correction — 2026-09-21
 

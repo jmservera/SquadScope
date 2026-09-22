@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: Latest valid PR review blocker is corrected and locally validated; authorization-placeholder report is disproved by source and regression evidence; renewed hosted evidence remains under P04-T02
+* Planning status: Authorized hosted-delivery continuation at P04-T02 on fresh branch `fix/w39-weekly-state-followup` from current `origin/main`; reconcile validated attempt-versus-weekly state behavior, rerun focused validation, push, and open an unmerged follow-up PR
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -39,6 +39,15 @@ An always-running reconciliation job will require accepted work to produce machi
 
 * None for SquadScope implementation. The Podcaster terminal contract remains an external deployment dependency: absent or incompatible `PODCASTER_STATUS_ENDPOINT` evidence intentionally produces a visible `status_contract/unavailable` incident rather than success or redispatch.
 * The 10-minute synthesis-latency warning is an initial operational threshold because production percentiles are unavailable. It is configurable within the hard monitor bounds and is an accepted residual tuning risk, not an implementation blocker.
+
+## Hosted Delivery Resumption — 2026-09-22
+
+* Declared scope: Full-plan continuation of P04-T02 using a fresh branch and worktree from current `origin/main`.
+* First execution boundary: Cherry-pick validated source commit `0a412d5` semantically onto the merged `jmservera/SquadScope#772` baseline; do not duplicate the stale external-blocker narrative from `27b7f20`.
+* Approved write boundary: the isolated `/home/azureuser/source/SquadScope-w39-weekly-state-followup` worktree; directly related state helper/tests and canonical plan, details, changes, review, research, W38 historical, and session evidence only.
+* Validation intent: focused state-model tests, directly relevant semantic and whitespace checks, remote SHA verification, and hosted PR checks/review/thread inspection.
+* Delivery intent: push `fix/w39-weekly-state-followup`, open a non-draft follow-up PR targeting `main`, link `jmservera/SquadScope#772`, and leave the PR unmerged.
+* Current blockers: none. Exact authoritative provider readback remains required before any weekly identity can be green.
 
 For current user input, see [User Decisions and Requirements](#user-decisions-and-requirements). The planner keeps the synthesized sections below current as evidence and caller direction evolve.
 

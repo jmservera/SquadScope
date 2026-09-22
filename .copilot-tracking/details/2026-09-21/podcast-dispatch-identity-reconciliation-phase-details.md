@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: Latest valid PR review blocker is corrected and locally validated; authorization-placeholder report is a display-redaction false positive; renewed hosted P04-T02 evidence remains
+* Planning status: Authorized hosted-delivery continuation at P04-T02 on fresh branch `fix/w39-weekly-state-followup`; validated state-model correction, focused checks, push, and follow-up PR evidence remain
 
 ## Task-Level Context
 
@@ -20,6 +20,8 @@
 * Availability invariant at the pre-boundary: prepare, `attempt_prepared`, mirror failure, `pre_submit_failed`, or failed `handoff_entered` persistence proves the handoff was not invoked and remains retryable.
 * Availability invariant: history with no demonstrable association to the requested identity is not allowed to poison that identity.
 * Cross-repository boundary: SquadScope consumes a defined terminal contract but does not modify or assume deployment in SquadScope-Podcaster.
+* Resumption boundary: use the isolated `/home/azureuser/source/SquadScope-w39-weekly-state-followup` worktree from current `origin/main`; apply source commit `0a412d5` while preserving merged `jmservera/SquadScope#772` narrative and excluding stale blocker-only commit `27b7f20`.
+* Delivery boundary: push a fresh branch, open a non-draft follow-up PR, inspect hosted checks/reviews/threads, and do not merge.
 
 ## Phase Index
 
@@ -28,7 +30,7 @@
 | P01 | Establish canonical state and identity-scoped history | Complete after accepting safe underscore-bearing API status categories | P01, P01-T01, P01-T02 |
 | P02 | Enforce durable receipt ordering around mutation | Complete; normal handoff failures preserve API status/category outputs | P02, P02-T01, P02-T02 |
 | P03 | Reconcile terminal outcome, latency, and incidents | Complete after environment-only credentials and bounded incident persistence corrections | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: latest P04-T01 and all local P04-T02 gates pass; renewed hosted checks await completion | P04, P04-T01, P04-T02 |
+| P04 | Complete locked regression and validation evidence | In progress: P04-T01 is complete; P04-T02 is authorized for fresh-branch correction, focused validation, and hosted follow-up PR evidence | P04, P04-T01, P04-T02 |
 | P05 | Deliver review branch and independent review handoff | Complete; functional correction commit `0c6e58b` is pushed and the independent review record remains unchanged | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->
