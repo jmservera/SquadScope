@@ -139,8 +139,10 @@ production inference path.
 - Fail-closed workspace snapshots covering file content, types, permissions,
   ownership, directory metadata, the Git index, and `.git` metadata. Only the
   exact declared output and diagnostic artifacts may be created.
-- Immediate `ai_output_guard.py validate` checks on production synthesis and
-  analysis artifacts before they are accepted by downstream gates.
+- Direct workflow calls to `ai_output_guard.py validate` immediately after both
+  production Copilot CLI invocations. Each call uses that invocation's canary
+  token and rejects canary leaks or escaped boundary markers before the
+  synthesis or analysis artifact reaches downstream gates.
 - Prompt linting, preflight budgeting, and downstream schema/content gates.
 
 **Fallback/API-only code paths:**
@@ -151,10 +153,12 @@ production inference path.
 - Those API calls are not the production weekly inference path. Their output
   validation must not be described as a production Copilot CLI runtime control.
 
-Copilot CLI output is validated immediately by `ai_output_guard.py`, then
-evaluated by the production workflow's analysis gate and publication
-validation. Canary presence in a prompt is preventive and diagnostic; it does
-not by itself prove that novel injections were blocked.
+Copilot CLI output is validated directly in `crawl-and-publish.yml` immediately
+after each invocation, then evaluated by the production workflow's analysis
+gate and publication validation. This workflow control is distinct from the
+in-process `validate_output_safety()` calls used by GitHub Models API helpers.
+Canary presence in a prompt is preventive and diagnostic; acceptance requires
+the post-invocation validator to reject leaks and escaped boundaries.
 
 ## Scope
 
@@ -162,7 +166,7 @@ This document covers the complete Phase 1, Phase 2, and pipeline integration gua
 
 - **Phase 1** (complete): Sanitization, boundary fencing, closing constraints, and lint enforcement for all prompt placeholders — including previously semi-trusted variables (`{{WISDOM}}`, `{{SKILLS}}`, `{{WISDOM_CONTENT}}`, `{{TOPIC_DESCRIPTION}}`).
 - **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
-- **Pipeline Integration** (complete): Production prompt rendering supports unique canaries for Copilot CLI prompt artifacts, and the workflow runs `ai_output_guard.py validate` on synthesis and analysis output before acceptance. GitHub Models fallback/API callers run `validate_output_safety()` immediately on API output.
+- **Pipeline Integration** (complete): Production prompt rendering supports unique per-invocation canaries for Copilot CLI prompt artifacts, and `crawl-and-publish.yml` runs `ai_output_guard.py validate` immediately after synthesis and analysis to reject canary or boundary violations before acceptance. Separately, GitHub Models fallback/API callers run in-process `validate_output_safety()` checks on API output.
 - **Preprocess Sanitization** (complete): `preprocess_for_analysis.py` now calls `sanitize_description()` on all repo descriptions during compaction, ensuring injection attempts are detected, truncated, and boundary-escaped before reaching prompt templates.
 - **Correlation Sanitization** (complete): `correlate.py` now applies `sanitize_text()` to article titles, URLs, source names, and repo names at correlation output time, providing defense-in-depth before content reaches `render_press_context.py`.
 - **Reskill Boundary Escaping** (complete): All `reskill.py` render functions (`render_wisdom`, `render_skills`, `render_recent_analyses`, `render_snapshot_context`) now apply `_escape_untrusted_boundaries()` before returning content. `track_quality.build_quality_report()` and `load_scorecard.render_scorecard_section()` also escape boundaries in their output.
