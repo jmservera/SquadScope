@@ -568,6 +568,8 @@ jobs:
               --output "$SYNTHESIS_WORKSPACE_SNAPSHOT" \
               --allow "$SYNTHESIS_FILE" \
               --allow "$SYNTHESIS_LOG"
+            chmod 0444 "$SYNTHESIS_WORKSPACE_SNAPSHOT"
+            SYNTHESIS_SNAPSHOT_SHA256="$(sha256sum "$SYNTHESIS_WORKSPACE_SNAPSHOT" | cut -d' ' -f1)"
             set +e
             copilot \
               --agent weekly-synthesis \
@@ -581,6 +583,10 @@ jobs:
             set -e
             if [ "$(sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER" | cut -d' ' -f1)" != "$SYNTHESIS_VERIFIER_SHA256" ]; then
               echo "::error::Copilot synthesis tampered with the immutable workspace verifier."
+              exit 1
+            fi
+            if [ "$(sha256sum "$SYNTHESIS_WORKSPACE_SNAPSHOT" | cut -d' ' -f1)" != "$SYNTHESIS_SNAPSHOT_SHA256" ]; then
+              echo "::error::Copilot synthesis tampered with the authenticated workspace snapshot."
               exit 1
             fi
             if ! python3 "$SYNTHESIS_WORKSPACE_VERIFIER" verify \
@@ -825,6 +831,8 @@ jobs:
               --allow "$OUTPUT_FILE" \
               --allow "$TRANSCRIPT_FILE" \
               --allow "$COPILOT_LOG"
+            chmod 0444 "$COPILOT_WORKSPACE_SNAPSHOT"
+            COPILOT_SNAPSHOT_SHA256="$(sha256sum "$COPILOT_WORKSPACE_SNAPSHOT" | cut -d' ' -f1)"
             # Model is configured in .github/agents/weekly-analysis.agent.md (gpt-5.6-sol)
             set +e
             copilot \
@@ -840,6 +848,10 @@ jobs:
             set -e
             if [ "$(sha256sum "$COPILOT_WORKSPACE_VERIFIER" | cut -d' ' -f1)" != "$COPILOT_VERIFIER_SHA256" ]; then
               echo "::error::Copilot analysis tampered with the immutable workspace verifier."
+              exit 1
+            fi
+            if [ "$(sha256sum "$COPILOT_WORKSPACE_SNAPSHOT" | cut -d' ' -f1)" != "$COPILOT_SNAPSHOT_SHA256" ]; then
+              echo "::error::Copilot analysis tampered with the authenticated workspace snapshot."
               exit 1
             fi
             if ! python3 "$COPILOT_WORKSPACE_VERIFIER" verify \

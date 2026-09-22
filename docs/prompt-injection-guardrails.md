@@ -134,6 +134,8 @@ production inference path.
   synthesis and weekly prompts.
 - An authenticated verifier copied outside the checkout before each agent
   invocation; its SHA-256 must still match before post-invocation verification.
+- A read-only baseline snapshot outside the checkout whose SHA-256 is retained
+  in the invoking shell and rechecked before the verifier trusts it.
 - Fail-closed workspace snapshots covering file content, types, permissions,
   ownership, directory metadata, the Git index, and `.git` metadata. Only the
   exact declared output and diagnostic artifacts may be created.
