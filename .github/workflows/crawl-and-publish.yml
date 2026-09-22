@@ -564,6 +564,8 @@ jobs:
             SYNTHESIS_SANDBOX="$(mktemp -d "$HOME/.squadscope-copilot-synthesis.XXXXXX")"
             SYNTHESIS_WORKSPACE_BASELINE="${RUNNER_TEMP}/synthesis-sandbox.json"
             SYNTHESIS_REPO_BASELINE="${RUNNER_TEMP}/synthesis-repo-state.json"
+            SYNTHESIS_REPO_PATHS="${RUNNER_TEMP}/synthesis-repo-paths.txt"
+            SYNTHESIS_REPO_CURRENT_PATHS="${RUNNER_TEMP}/synthesis-repo-current-paths.txt"
             SYNTHESIS_SANDBOX_OUTPUT="$SYNTHESIS_SANDBOX/synthesis-narrative.md"
             SYNTHESIS_SANDBOX_LOG="${RUNNER_TEMP}/synthesis-copilot.log"
             SYNTHESIS_LOG="$DIAGNOSTICS_DIR/synthesis-copilot.log"
@@ -573,9 +575,12 @@ jobs:
             python3 -I "$WORKSPACE_GUARD" snapshot \
               --root "$SYNTHESIS_SANDBOX" \
               --manifest "$SYNTHESIS_WORKSPACE_BASELINE"
+            git -c core.fsmonitor=false -c core.hooksPath=/dev/null \
+              ls-files --cached --others --exclude-standard -z > "$SYNTHESIS_REPO_PATHS"
             python3 -I "$WORKSPACE_GUARD" git-snapshot \
               --root "$GITHUB_WORKSPACE" \
-              --manifest "$SYNTHESIS_REPO_BASELINE"
+              --manifest "$SYNTHESIS_REPO_BASELINE" \
+              --paths-file "$SYNTHESIS_REPO_PATHS"
             set +e
             copilot \
               -C "$SYNTHESIS_SANDBOX" \
@@ -595,9 +600,12 @@ jobs:
               --root "$SYNTHESIS_SANDBOX" \
               --manifest "$SYNTHESIS_WORKSPACE_BASELINE" \
               --allow "synthesis-narrative.md"
+            git -c core.fsmonitor=false -c core.hooksPath=/dev/null \
+              ls-files --cached --others --exclude-standard -z > "$SYNTHESIS_REPO_CURRENT_PATHS"
             python3 -I "$WORKSPACE_GUARD" git-verify \
               --root "$GITHUB_WORKSPACE" \
-              --manifest "$SYNTHESIS_REPO_BASELINE"
+              --manifest "$SYNTHESIS_REPO_BASELINE" \
+              --paths-file "$SYNTHESIS_REPO_CURRENT_PATHS"
             cp "$SYNTHESIS_SANDBOX_LOG" "$SYNTHESIS_LOG"
             if [ "$SYNTH_STATUS" -ne 0 ]; then
               SYNTHESIS_STATUS="failed"
@@ -823,6 +831,8 @@ jobs:
             COPILOT_SANDBOX="$(mktemp -d "$HOME/.squadscope-copilot-analysis.XXXXXX")"
             COPILOT_WORKSPACE_BASELINE="${RUNNER_TEMP}/analysis-sandbox-${ATTEMPT}.json"
             COPILOT_REPO_BASELINE="${RUNNER_TEMP}/analysis-repo-state-${ATTEMPT}.json"
+            COPILOT_REPO_PATHS="${RUNNER_TEMP}/analysis-repo-paths-${ATTEMPT}.txt"
+            COPILOT_REPO_CURRENT_PATHS="${RUNNER_TEMP}/analysis-repo-current-paths-${ATTEMPT}.txt"
             COPILOT_SANDBOX_OUTPUT="$COPILOT_SANDBOX/analysis-output.md"
             COPILOT_SANDBOX_TRANSCRIPT="$COPILOT_SANDBOX/copilot-transcript.md"
             COPILOT_SANDBOX_LOG="${RUNNER_TEMP}/copilot-cli-attempt-${ATTEMPT}.log"
@@ -845,9 +855,12 @@ jobs:
             python3 -I "$WORKSPACE_GUARD" snapshot \
               --root "$COPILOT_SANDBOX" \
               --manifest "$COPILOT_WORKSPACE_BASELINE"
+            git -c core.fsmonitor=false -c core.hooksPath=/dev/null \
+              ls-files --cached --others --exclude-standard -z > "$COPILOT_REPO_PATHS"
             python3 -I "$WORKSPACE_GUARD" git-snapshot \
               --root "$GITHUB_WORKSPACE" \
-              --manifest "$COPILOT_REPO_BASELINE"
+              --manifest "$COPILOT_REPO_BASELINE" \
+              --paths-file "$COPILOT_REPO_PATHS"
             set +e
             copilot \
               -C "$COPILOT_SANDBOX" \
@@ -869,9 +882,12 @@ jobs:
               --manifest "$COPILOT_WORKSPACE_BASELINE" \
               --allow "analysis-output.md" \
               --allow "copilot-transcript.md"
+            git -c core.fsmonitor=false -c core.hooksPath=/dev/null \
+              ls-files --cached --others --exclude-standard -z > "$COPILOT_REPO_CURRENT_PATHS"
             python3 -I "$WORKSPACE_GUARD" git-verify \
               --root "$GITHUB_WORKSPACE" \
-              --manifest "$COPILOT_REPO_BASELINE"
+              --manifest "$COPILOT_REPO_BASELINE" \
+              --paths-file "$COPILOT_REPO_CURRENT_PATHS"
             cp "$COPILOT_SANDBOX_LOG" "$COPILOT_LOG"
             if [ -f "$COPILOT_SANDBOX_TRANSCRIPT" ]; then
               cp "$COPILOT_SANDBOX_TRANSCRIPT" "$TRANSCRIPT_FILE"
