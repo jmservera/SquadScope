@@ -7,11 +7,16 @@ ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 
-Version 1.2 | Status **User-Approved 2026-09-08T14:29:49Z** — jmservera explicitly approved Sol upgrade for SquadScope weekly analysis/synthesis agents | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
+> **ARCHIVED — IMPLEMENTED**
+> The model upgrade shipped in
+> [#745](https://github.com/jmservera/SquadScope/pull/745). The agent
+> declarations are the canonical current configuration; this PRD preserves the
+> approval evidence and pre-implementation comparison.
 
-> **User-approved. Implementation in progress on `feat/weekly-agents-gpt-5-6-sol`.** This PRD
-> records evidence and scope. Production changes are limited to the two weekly agent `model:`
-> declarations and matching cost-attribution surfaces per Section 4.
+Version 1.2 | Status **Implemented and archived 2026-09-22** — jmservera approved the Sol upgrade on 2026-09-08T14:29:49Z | Owner jmservera | Team SquadScope Squad | Lifecycle Definition
+
+> **Historical scope.** Production changes were limited to the two weekly agent
+> `model:` declarations and matching cost-attribution surfaces per Section 4.
 
 > **PRD evidence preserved.** Prior evidence (2-week comparison, subjective reviewer assessment,
 > cost inconclusive at +1.2% avg) is on record. User approval overrides the ≥3-run cost
@@ -19,10 +24,11 @@ Version 1.2 | Status **User-Approved 2026-09-08T14:29:49Z** — jmservera explic
 
 ## 1. Problem and Context
 
-SquadScope runs a two-step Copilot CLI analysis every week:
+At the time of this proposal, SquadScope ran a two-step Copilot CLI analysis
+with the following baseline:
 
-- `weekly-synthesis` (`.github/agents/weekly-synthesis.agent.md`, currently `model: gpt-5.5`)
-- `weekly-analysis` (`.github/agents/weekly-analysis.agent.md`, currently `model: gpt-5.5`)
+- `weekly-synthesis` (`.github/agents/weekly-synthesis.agent.md`, then `model: gpt-5.5`)
+- `weekly-analysis` (`.github/agents/weekly-analysis.agent.md`, then `model: gpt-5.5`)
 
 Analysis is Copilot-only with no GitHub Models/OpenAI operational fallback, so each
 weekly run consumes AI Credits at a measurable, recurring cost. `gpt-5.6-sol` is now
@@ -75,7 +81,7 @@ parallel processes. No latency figure is a reliable serial measurement.
 
 | Model | W33 score | W34 score | Average | vs. baseline |
 |-------|-----------|-----------|---------|--------------|
-| gpt-5.5 (current) | 7.3 | 7.6 | 7.45 | — |
+| gpt-5.5 (proposal baseline) | 7.3 | 7.6 | 7.45 | — |
 | gpt-5.6-sol | 8.2 | 9.0 | 8.60 | **+1.15 points** |
 | gpt-6-astra | 8.7 | 8.6 | 8.65 | +1.20 points |
 
@@ -94,7 +100,7 @@ Full verdict: `blinded-review/editorial-verdict.md` in session files.
 Pricing source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing (fetched 2026-09-08).
 These are Copilot CLI billing rates, NOT direct Azure/OpenAI API prices.
 
-| Dimension | gpt-5.5 (current) | gpt-5.6-sol (proposed) | gpt-6-astra (rejected) |
+| Dimension | gpt-5.5 (proposal baseline) | gpt-5.6-sol (proposed) | gpt-6-astra (rejected) |
 |-----------|-------------------|------------------------|------------------------|
 | Availability | GA | GA, Copilot CLI | GA, Copilot CLI |
 | Avg cost / weekly run | $0.456 | $0.462 (+1.2%) | $1.094 (+140%) |

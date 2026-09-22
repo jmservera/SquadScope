@@ -15,3 +15,9 @@ dynamic-topic-summary created=0 skipped=4060
 dynamic-topic-check enabled=true threshold=4 lookback_days=62 current_date=2026-09-07 allowlist=['local-first']
 {"assigned_paths": ["content/weekly/2026/W37.md"], "event": "assign-promoted-topics"}
 dynamic-topic-summary created=0 skipped=4437
+dynamic-topic-check enabled=true threshold=4 lookback_days=62 current_date=2026-09-14 allowlist=['local-first']
+{"assigned_paths": ["content/weekly/2026/W38.md"], "event": "assign-promoted-topics"}
+dynamic-topic-summary created=0 skipped=4626
+dynamic-topic-check enabled=true threshold=4 lookback_days=62 current_date=2026-09-21 allowlist=['local-first']
+{"assigned_paths": ["content/weekly/2026/W39.md"], "event": "assign-promoted-topics"}
+dynamic-topic-summary created=0 skipped=4695

@@ -1,0 +1,1251 @@
+#!/usr/bin/env python3
+"""Canonical podcast dispatch receipts, terminal monitoring, and incidents."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import time
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any, Callable, Iterable
+from urllib import error, parse, request
+
+RECEIPT_SCHEMA_VERSION_V2 = "podcast_dispatch_receipt_v2"
+STATUS_SCHEMA_VERSION_V1 = "podcast_publication_status_v1"
+EXPECTED_DISPATCH_WORKFLOW_PATH = ".github/workflows/auto-podcast-dispatch.yml"
+LEDGER_MARKER = "<!-- podcast-dispatch-ledger:v2 -->"
+LEDGER_TITLE = "Podcast dispatch receipt ledger"
+INCIDENT_MARKER_PREFIX = "<!-- podcast-dispatch-incident:v1:"
+WEEK_RE = re.compile(r"^[0-9]{4}-W[0-9]{2}$")
+RUN_ID_RE = re.compile(r"^[0-9]+$")
+SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+SAFE_ID_RE = re.compile(r"^[A-Za-z0-9._:/_-]{1,256}$")
+RECEIPT_STATES = frozenset(
+    {
+        "attempt_prepared",
+        "pre_submit_failed",
+        "handoff_entered",
+        "accepted",
+        "submission_rejected",
+        "submission_unknown",
+        "observation_only",
+    }
+)
+BLOCKING_STATES = frozenset({"handoff_entered", "accepted", "submission_unknown"})
+RETRYABLE_STATES = frozenset({"attempt_prepared", "pre_submit_failed", "observation_only"})
+EVIDENCE_DEADLINE_SECONDS = 3480
+TOTAL_MONITOR_BUDGET_SECONDS = 3600
+POLL_INTERVAL_SECONDS = 30
+REQUEST_TIMEOUT_SECONDS = 10
+MAX_CONSECUTIVE_ERRORS = 5
+SYNTHESIS_WARNING_SECONDS = 600
+MAX_GITHUB_PAGES = 100
+WEEKLY_GREEN_STATES = frozenset({"published_verified", "published_verified_recovered"})
+WEEKLY_NON_GREEN_STATES = frozenset(
+    {
+        "publication_partial",
+        "publication_failed",
+        "publication_unknown",
+        "publication_unverified",
+        "manual_action_required",
+        "duplicate_ambiguous",
+        "readback_missing",
+    }
+)
+
+
+def _validate(value: str, pattern: re.Pattern[str], field: str) -> str:
+    if not isinstance(value, str) or not pattern.fullmatch(value):
+        raise ValueError(f"invalid {field}")
+    return value
+
+
+def _timestamp(value: str) -> str:
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except (TypeError, ValueError) as exc:
+        raise ValueError("invalid created_at") from exc
+    if parsed.tzinfo is None:
+        raise ValueError("created_at must include timezone")
+    return parsed.astimezone(UTC).isoformat().replace("+00:00", "Z")
+
+
+@dataclass(frozen=True)
+class CanonicalPublicationIdentity:
+    week: str
+    publish_run_id: str
+    article_sha256: str
+    manifest_sha256: str
+
+    def __post_init__(self) -> None:
+        _validate(self.week, WEEK_RE, "week")
+        _validate(self.publish_run_id, RUN_ID_RE, "publish_run_id")
+        _validate(self.article_sha256, SHA256_RE, "article_sha256")
+        _validate(self.manifest_sha256, SHA256_RE, "manifest_sha256")
+
+    def as_dict(self) -> dict[str, str]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class DispatchReceipt:
+    receipt_id: str
+    created_at: str
+    dispatch_run_id: str
+    attempt_id: str
+    identity: CanonicalPublicationIdentity
+    receipt_state: str
+    api_status: int | None = None
+    api_status_category: str | None = None
+    podcaster_job_id: str | None = None
+    correlation_id: str | None = None
+    actions_run_url: str | None = None
+    stage: str | None = None
+    state: str | None = None
+    ledger_persisted: bool | None = None
+    artifact_persisted: bool | None = None
+    synthesis_latency_seconds: int | None = None
+
+    def __post_init__(self) -> None:
+        _validate(self.dispatch_run_id, RUN_ID_RE, "dispatch_run_id")
+        _validate(self.attempt_id, SAFE_ID_RE, "attempt_id")
+        _validate(self.receipt_id, SAFE_ID_RE, "receipt_id")
+        _timestamp(self.created_at)
+        if self.receipt_state not in RECEIPT_STATES:
+            raise ValueError("invalid receipt_state")
+        if self.api_status is not None and not 100 <= self.api_status <= 599:
+            raise ValueError("invalid api_status")
+        for field in (
+            self.api_status_category,
+            self.podcaster_job_id,
+            self.correlation_id,
+            self.stage,
+            self.state,
+        ):
+            if field is not None:
+                _validate(field, SAFE_ID_RE, "safe identifier")
+        if self.actions_run_url is not None and not self.actions_run_url.startswith(
+            ("https://github.com/", "https://api.github.com/")
+        ):
+            raise ValueError("invalid actions_run_url")
+        if self.synthesis_latency_seconds is not None and self.synthesis_latency_seconds < 0:
+            raise ValueError("invalid synthesis_latency_seconds")
+
+    def as_dict(self) -> dict[str, Any]:
+        value = asdict(self)
+        value["schema_version"] = RECEIPT_SCHEMA_VERSION_V2
+        return value
+
+
+@dataclass(frozen=True)
+class TerminalStatus:
+    identity: CanonicalPublicationIdentity
+    job_id: str
+    correlation_id: str
+    synthesis_state: str
+    video_state: str
+    provider_state: str
+    external_verified: bool
+
+
+@dataclass(frozen=True)
+class MonitorResult:
+    success: bool
+    stage: str
+    state: str
+    synthesis_latency_seconds: int | None = None
+    warning_emitted: bool = False
+    detail: str = ""
+    cleanup_budget_seconds: float = 0
+    terminal_status: TerminalStatus | None = None
+
+
+class TerminalEvidenceError(ValueError):
+    def __init__(self, stage: str, state: str, message: str) -> None:
+        super().__init__(message)
+        self.stage = stage
+        self.state = state
+
+
+def canonical_identity_key(identity: CanonicalPublicationIdentity) -> str:
+    canonical = "\0".join(
+        (
+            identity.week,
+            identity.publish_run_id,
+            identity.article_sha256,
+            identity.manifest_sha256,
+        )
+    )
+    return hashlib.sha256(canonical.encode()).hexdigest()
+
+
+def incident_key(identity: CanonicalPublicationIdentity, stage: str, state: str) -> str:
+    canonical = json.dumps(identity.as_dict(), sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(
+        f"podcast-dispatch-incident-v1\0{canonical}\0{stage}\0{state}".encode()
+    ).hexdigest()
+
+
+def serialize_receipt(receipt: DispatchReceipt) -> str:
+    return json.dumps(receipt.as_dict(), sort_keys=True, separators=(",", ":"))
+
+
+def parse_receipt(value: str | bytes | dict[str, Any]) -> DispatchReceipt | dict[str, Any]:
+    payload = json.loads(value) if isinstance(value, (str, bytes)) else value
+    if not isinstance(payload, dict):
+        raise ValueError("receipt must be an object")
+    schema = payload.get("schema_version")
+    if schema == "podcast_dispatch_receipt_v1":
+        allowed = {
+            "schema_version",
+            "workflow",
+            "dispatcher",
+            "receipt_state",
+            "week",
+            "publish_run_id",
+            "article_sha256",
+            "manifest_sha256",
+            "podcaster_status",
+            "podcaster_job_id",
+            "prior_run_url",
+            "actions_run_url",
+        }
+        if set(payload) - allowed:
+            raise ValueError("unsupported v1 receipt fields")
+        return dict(payload)
+    if schema != RECEIPT_SCHEMA_VERSION_V2:
+        raise ValueError("unsupported receipt schema")
+    allowed = {
+        "schema_version",
+        "receipt_id",
+        "created_at",
+        "dispatch_run_id",
+        "attempt_id",
+        "identity",
+        "receipt_state",
+        "api_status",
+        "api_status_category",
+        "podcaster_job_id",
+        "correlation_id",
+        "actions_run_url",
+        "stage",
+        "state",
+        "ledger_persisted",
+        "artifact_persisted",
+        "synthesis_latency_seconds",
+    }
+    if set(payload) - allowed:
+        raise ValueError("unsupported receipt fields")
+    identity_payload = payload.get("identity")
+    if not isinstance(identity_payload, dict) or set(identity_payload) != {
+        "week",
+        "publish_run_id",
+        "article_sha256",
+        "manifest_sha256",
+    }:
+        raise ValueError("invalid identity")
+    identity = CanonicalPublicationIdentity(**identity_payload)
+    kwargs = {
+        key: value for key, value in payload.items() if key not in {"schema_version", "identity"}
+    }
+    return DispatchReceipt(identity=identity, **kwargs)
+
+
+def receipt_retry_classification(receipts: Iterable[DispatchReceipt]) -> str:
+    receipt_values = list(receipts)
+    if not receipt_values:
+        return "ambiguous_exact"
+    states = {receipt.receipt_state for receipt in receipt_values}
+    if states & BLOCKING_STATES:
+        return "blocking"
+    if all(
+        receipt.receipt_state in RETRYABLE_STATES
+        or (
+            receipt.receipt_state == "submission_rejected"
+            and receipt.api_status_category == "http_rejected_pre_acceptance"
+        )
+        for receipt in receipt_values
+    ):
+        return "retryable_non_mutation"
+    return "ambiguous_exact"
+
+
+def parse_artifact_json(data: bytes) -> list[DispatchReceipt]:
+    payload = json.loads(data)
+    values = payload if isinstance(payload, list) else [payload]
+    receipts = [parse_receipt(value) for value in values]
+    if not all(isinstance(value, DispatchReceipt) for value in receipts):
+        raise ValueError("artifact contains legacy receipt")
+    return [value for value in receipts if isinstance(value, DispatchReceipt)]
+
+
+def _github_headers(token: str) -> dict[str, str]:
+    return {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "SquadScope-Podcast-Dispatch/2",
+    }
+
+
+def _github_json(
+    url: str,
+    token: str,
+    *,
+    method: str = "GET",
+    payload: dict[str, Any] | None = None,
+    timeout: float = 20,
+) -> Any:
+    body = None if payload is None else json.dumps(payload).encode()
+    headers = _github_headers(token)
+    if payload is not None:
+        headers["Content-Type"] = "application/json"
+    req = request.Request(url, data=body, method=method, headers=headers)
+    with request.urlopen(req, timeout=timeout) as response:  # nosec B310
+        return json.loads(response.read())
+
+
+def _remaining_timeout(
+    deadline: float | None,
+    monotonic: Callable[[], float],
+    maximum: float = REQUEST_TIMEOUT_SECONDS,
+) -> float:
+    if deadline is None:
+        return maximum
+    remaining = deadline - monotonic()
+    if remaining <= 0:
+        raise TimeoutError("GitHub operation cleanup budget exhausted")
+    return min(maximum, remaining)
+
+
+def _bounded_incident_deadline(
+    cleanup_budget_seconds: float,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> float:
+    return monotonic() + max(REQUEST_TIMEOUT_SECONDS, cleanup_budget_seconds)
+
+
+def _iter_issue_pages(
+    repo: str,
+    token: str,
+    state: str = "all",
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> Iterable[dict[str, Any]]:
+    for page in range(1, MAX_GITHUB_PAGES + 1):
+        url = f"https://api.github.com/repos/{repo}/issues?state={state}&per_page=100&page={page}"
+        values = _github_json(
+            url,
+            token,
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+        if not isinstance(values, list):
+            raise ValueError("issues response must be a list")
+        yield from (value for value in values if isinstance(value, dict))
+        if len(values) < 100:
+            return
+        if page == MAX_GITHUB_PAGES:
+            raise ValueError("issue pagination limit reached before history was exhausted")
+
+
+def _trusted_comment(comment: dict[str, Any], repo: str) -> bool:
+    user = comment.get("user") or {}
+    body = comment.get("body")
+    url = str(comment.get("html_url") or "")
+    return (
+        user.get("login") == "github-actions[bot]"
+        and isinstance(body, str)
+        and f"github.com/{repo}/" in url
+    )
+
+
+def _trusted_dispatch_run(
+    repo: str,
+    token: str,
+    dispatch_run_id: str,
+    cache: dict[str, bool],
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> bool:
+    cached = cache.get(dispatch_run_id)
+    if cached is not None:
+        return cached
+    run = _github_json(
+        f"https://api.github.com/repos/{repo}/actions/runs/{dispatch_run_id}",
+        token,
+        timeout=_remaining_timeout(deadline, monotonic),
+    )
+    repository = run.get("repository") if isinstance(run, dict) else None
+    trusted = (
+        isinstance(run, dict)
+        and isinstance(repository, dict)
+        and repository.get("full_name") == repo
+        and run.get("path") == EXPECTED_DISPATCH_WORKFLOW_PATH
+        and str(run.get("id") or "") == dispatch_run_id
+    )
+    cache[dispatch_run_id] = trusted
+    return trusted
+
+
+def _ledger_issues(
+    repo: str,
+    token: str,
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> list[dict[str, Any]]:
+    return [
+        issue
+        for issue in _iter_issue_pages(
+            repo,
+            token,
+            deadline=deadline,
+            monotonic=monotonic,
+        )
+        if issue.get("title") == LEDGER_TITLE and LEDGER_MARKER in str(issue.get("body") or "")
+    ]
+
+
+def list_ledger_receipts(
+    repo: str,
+    token: str,
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> list[DispatchReceipt]:
+    ledgers = _ledger_issues(
+        repo,
+        token,
+        deadline=deadline,
+        monotonic=monotonic,
+    )
+    if not ledgers:
+        return []
+    receipts: list[DispatchReceipt] = []
+    run_trust_cache: dict[str, bool] = {}
+    for ledger in ledgers:
+        comments_url = str(ledger.get("comments_url") or "")
+        if not comments_url.startswith(f"https://api.github.com/repos/{repo}/"):
+            raise ValueError("untrusted ledger comments URL")
+        for page in range(1, MAX_GITHUB_PAGES + 1):
+            comments = _github_json(
+                f"{comments_url}?per_page=100&page={page}",
+                token,
+                timeout=_remaining_timeout(deadline, monotonic),
+            )
+            if not isinstance(comments, list):
+                raise ValueError("comments response must be a list")
+            for comment in comments:
+                if not isinstance(comment, dict) or not _trusted_comment(comment, repo):
+                    continue
+                body = str(comment["body"]).strip()
+                try:
+                    parsed = parse_receipt(body)
+                except (json.JSONDecodeError, TypeError, ValueError):
+                    continue
+                if isinstance(parsed, DispatchReceipt):
+                    expected_run_url = (
+                        f"https://github.com/{repo}/actions/runs/{parsed.dispatch_run_id}"
+                    )
+                    if parsed.actions_run_url != expected_run_url:
+                        continue
+                    if not _trusted_dispatch_run(
+                        repo,
+                        token,
+                        parsed.dispatch_run_id,
+                        run_trust_cache,
+                        deadline=deadline,
+                        monotonic=monotonic,
+                    ):
+                        continue
+                    receipts.append(parsed)
+            if len(comments) < 100:
+                break
+            if page == MAX_GITHUB_PAGES:
+                raise ValueError(
+                    "ledger comment pagination limit reached before history was exhausted"
+                )
+    return receipts
+
+
+def _ledger_issue(repo: str, token: str) -> dict[str, Any]:
+    issues = _ledger_issues(repo, token)
+    if issues:
+        return min(issues, key=lambda value: int(value.get("number") or 2**63))
+    created = _github_json(
+        f"https://api.github.com/repos/{repo}/issues",
+        token,
+        method="POST",
+        payload={"title": LEDGER_TITLE, "body": f"{LEDGER_MARKER}\nAppend-only dispatch receipts."},
+    )
+    if not isinstance(created, dict):
+        raise ValueError("invalid ledger issue response")
+    issues = _ledger_issues(repo, token)
+    candidates = [*issues, created]
+    return min(candidates, key=lambda value: int(value.get("number") or 2**63))
+
+
+def append_ledger_receipt(repo: str, token: str, receipt: DispatchReceipt) -> None:
+    issue = _ledger_issue(repo, token)
+    number = issue.get("number")
+    if not isinstance(number, int):
+        raise ValueError("ledger issue number missing")
+    _github_json(
+        f"https://api.github.com/repos/{repo}/issues/{number}/comments",
+        token,
+        method="POST",
+        payload={"body": serialize_receipt(receipt)},
+    )
+
+
+def validate_terminal_status(
+    payload: Any, identity: CanonicalPublicationIdentity, job_id: str, correlation_id: str
+) -> TerminalStatus:
+    if not isinstance(payload, dict) or payload.get("schema_version") != STATUS_SCHEMA_VERSION_V1:
+        raise TerminalEvidenceError("evidence_schema", "invalid", "status schema unavailable")
+    if payload.get("identity") != identity.as_dict():
+        raise TerminalEvidenceError("evidence_mismatch", "rejected", "status identity mismatch")
+    if payload.get("job_id") != job_id or payload.get("correlation_id", job_id) != correlation_id:
+        raise TerminalEvidenceError("evidence_mismatch", "rejected", "status correlation mismatch")
+    synthesis = payload.get("synthesis")
+    video = payload.get("video")
+    provider = payload.get("provider")
+    if not all(isinstance(value, dict) for value in (synthesis, video, provider)):
+        raise TerminalEvidenceError("evidence_schema", "missing_stage", "status stages missing")
+    synth_state = synthesis.get("state")
+    video_state = video.get("state")
+    provider_state = provider.get("state")
+    if synth_state not in {"pending", "started", "succeeded", "failed", "unknown"}:
+        raise TerminalEvidenceError("evidence_schema", "invalid", "invalid synthesis state")
+    if video_state not in {"pending", "succeeded", "failed", "unknown"}:
+        raise TerminalEvidenceError("evidence_schema", "invalid", "invalid video state")
+    if provider_state not in {"pending", "published", "failed", "unknown"}:
+        raise TerminalEvidenceError("evidence_schema", "invalid", "invalid provider state")
+    if not isinstance(provider.get("external_verified"), bool):
+        raise TerminalEvidenceError(
+            "evidence_schema",
+            "missing_stage",
+            "provider external_verified missing",
+        )
+    return TerminalStatus(
+        identity=identity,
+        job_id=job_id,
+        correlation_id=correlation_id,
+        synthesis_state=synth_state,
+        video_state=video_state,
+        provider_state=provider_state,
+        external_verified=provider["external_verified"],
+    )
+
+
+def evaluate_terminal_status(status: TerminalStatus) -> MonitorResult | None:
+    for stage, state in (
+        ("synthesis", status.synthesis_state),
+        ("video", status.video_state),
+        ("provider", status.provider_state),
+    ):
+        if state in {"failed", "unknown"}:
+            return MonitorResult(False, stage, state)
+    if (
+        status.synthesis_state in {"started", "succeeded"}
+        and status.video_state == "succeeded"
+        and status.provider_state == "published"
+        and status.external_verified
+    ):
+        return MonitorResult(True, "provider", "published")
+    if status.provider_state == "published" and not status.external_verified:
+        return MonitorResult(False, "provider", "unverified")
+    return None
+
+
+def derive_weekly_identity_state(
+    identity: CanonicalPublicationIdentity,
+    status: TerminalStatus | None,
+    *,
+    prior_non_green_attempt: bool = False,
+    manual_action: bool = False,
+    duplicate_ambiguous: bool = False,
+) -> str:
+    """Derive weekly outcome without rewriting immutable attempt evidence."""
+    if status is not None and status.identity == identity:
+        terminal = evaluate_terminal_status(status)
+        if terminal is not None and terminal.success:
+            return (
+                "published_verified_recovered" if prior_non_green_attempt else "published_verified"
+            )
+        if terminal is None:
+            return "publication_partial"
+        if terminal.state == "unverified":
+            return "publication_unverified"
+        if terminal.state == "unknown":
+            return "publication_unknown"
+        return "publication_failed"
+    if duplicate_ambiguous:
+        return "duplicate_ambiguous"
+    if manual_action:
+        return "manual_action_required"
+    if status is not None:
+        return "publication_unknown"
+    return "readback_missing"
+
+
+def has_prior_non_green_attempt(
+    receipts: Iterable[DispatchReceipt],
+    current: DispatchReceipt,
+) -> bool:
+    """Return true only for explicit non-green evidence from an earlier attempt."""
+    attempts: dict[str, list[DispatchReceipt]] = {}
+    for receipt in receipts:
+        if receipt.identity == current.identity and receipt.attempt_id != current.attempt_id:
+            attempts.setdefault(receipt.attempt_id, []).append(receipt)
+    for attempt_receipts in attempts.values():
+        if any(
+            receipt.stage == "provider" and receipt.state == "published"
+            for receipt in attempt_receipts
+        ):
+            continue
+        if any(
+            receipt.stage is not None or receipt.state is not None for receipt in attempt_receipts
+        ):
+            return True
+        states = {receipt.receipt_state for receipt in attempt_receipts}
+        if "accepted" not in states and states != {"observation_only"}:
+            return True
+    return False
+
+
+def fetch_terminal_status(
+    endpoint: str,
+    token: str,
+    identity: CanonicalPublicationIdentity,
+    job_id: str,
+    correlation_id: str,
+    timeout: float,
+) -> TerminalStatus:
+    parsed_endpoint = parse.urlparse(endpoint)
+    if parsed_endpoint.scheme not in {"https", "http"} or not parsed_endpoint.netloc:
+        raise TerminalEvidenceError(
+            "status_contract",
+            "invalid_configuration",
+            "PODCASTER_STATUS_ENDPOINT must be an absolute HTTP(S) URL",
+        )
+    if parsed_endpoint.scheme == "http" and parsed_endpoint.hostname not in {
+        "localhost",
+        "127.0.0.1",
+        "::1",
+    }:
+        raise TerminalEvidenceError(
+            "status_contract",
+            "invalid_configuration",
+            "PODCASTER_STATUS_ENDPOINT may use HTTP only for loopback addresses",
+        )
+    query = parse.urlencode(
+        {
+            **identity.as_dict(),
+            "job_id": job_id,
+            "correlation_id": correlation_id,
+        }
+    )
+    separator = "&" if "?" in endpoint else "?"
+    req = request.Request(
+        f"{endpoint}{separator}{query}",
+        headers={"x-podcaster-api-key": token, "Accept": "application/json"},
+    )
+    with request.urlopen(req, timeout=timeout) as response:  # nosec B310
+        status_code = getattr(response, "status", response.getcode())
+        if status_code < 200 or status_code >= 300:
+            raise OSError(f"status endpoint returned HTTP {status_code}")
+        try:
+            payload = json.loads(response.read())
+        except json.JSONDecodeError as exc:
+            raise TerminalEvidenceError(
+                "evidence_schema",
+                "invalid",
+                "status response is not valid JSON",
+            ) from exc
+    return validate_terminal_status(payload, identity, job_id, correlation_id)
+
+
+def monitor_terminal_outcome(
+    receipt: DispatchReceipt,
+    endpoint: str,
+    token: str,
+    *,
+    fetch: Callable[..., TerminalStatus] = fetch_terminal_status,
+    monotonic: Callable[[], float] = time.monotonic,
+    wall_time: Callable[[], float] = time.time,
+    sleep: Callable[[float], None] = time.sleep,
+    warning: Callable[[int], None] | None = None,
+    evidence_deadline: int = EVIDENCE_DEADLINE_SECONDS,
+    poll_interval: int = POLL_INTERVAL_SECONDS,
+) -> MonitorResult:
+    accepted_at = datetime.fromisoformat(receipt.created_at.replace("Z", "+00:00")).timestamp()
+    accepted_elapsed_at_start = max(0.0, wall_time() - accepted_at)
+    cleanup_at_start = max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - accepted_elapsed_at_start)
+    if receipt.receipt_state != "accepted" or not receipt.podcaster_job_id:
+        return MonitorResult(
+            False,
+            "receipt",
+            "not_accepted",
+            cleanup_budget_seconds=cleanup_at_start,
+        )
+    if not endpoint:
+        return MonitorResult(
+            False,
+            "status_contract",
+            "unavailable",
+            cleanup_budget_seconds=cleanup_at_start,
+        )
+    correlation_id = receipt.correlation_id or receipt.podcaster_job_id
+    started = monotonic()
+    consecutive_errors = 0
+    warning_emitted = False
+    synthesis_latency: int | None = None
+    latest: TerminalStatus | None = None
+    while True:
+        elapsed = accepted_elapsed_at_start + (monotonic() - started)
+        remaining = evidence_deadline - elapsed
+        if remaining <= 0:
+            break
+        try:
+            latest = fetch(
+                endpoint,
+                token,
+                receipt.identity,
+                receipt.podcaster_job_id,
+                correlation_id,
+                min(REQUEST_TIMEOUT_SECONDS, remaining),
+            )
+            consecutive_errors = 0
+        except TerminalEvidenceError as exc:
+            elapsed = accepted_elapsed_at_start + (monotonic() - started)
+            return MonitorResult(
+                False,
+                exc.stage,
+                exc.state,
+                synthesis_latency,
+                warning_emitted,
+                str(exc),
+                max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+            )
+        except (OSError, error.URLError):
+            elapsed = accepted_elapsed_at_start + (monotonic() - started)
+            consecutive_errors += 1
+            if consecutive_errors >= MAX_CONSECUTIVE_ERRORS:
+                return MonitorResult(
+                    False,
+                    "evidence_unavailable",
+                    "error_budget_exhausted",
+                    synthesis_latency,
+                    warning_emitted,
+                    "",
+                    max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+                    latest,
+                )
+        else:
+            if latest.synthesis_state in {"started", "succeeded"} and synthesis_latency is None:
+                synthesis_latency = max(0, int(wall_time() - accepted_at))
+            result = evaluate_terminal_status(latest)
+            if result is not None:
+                elapsed = accepted_elapsed_at_start + (monotonic() - started)
+                return MonitorResult(
+                    result.success,
+                    result.stage,
+                    result.state,
+                    synthesis_latency,
+                    warning_emitted,
+                    result.detail,
+                    max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+                    latest,
+                )
+        elapsed = accepted_elapsed_at_start + (monotonic() - started)
+        if (
+            synthesis_latency is None
+            and elapsed >= SYNTHESIS_WARNING_SECONDS
+            and not warning_emitted
+        ):
+            warning_emitted = True
+            if warning:
+                warning(int(elapsed))
+        remaining = evidence_deadline - elapsed
+        if remaining <= 0:
+            break
+        sleep(min(poll_interval, remaining))
+    if latest is None or latest.synthesis_state == "pending":
+        stage = "synthesis"
+    elif latest.video_state == "pending":
+        stage = "video"
+    else:
+        stage = "provider"
+    elapsed = accepted_elapsed_at_start + (monotonic() - started)
+    return MonitorResult(
+        False,
+        stage,
+        "timeout",
+        synthesis_latency,
+        warning_emitted,
+        "",
+        max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+        latest,
+    )
+
+
+def upsert_incident(
+    repo: str,
+    token: str,
+    identity: CanonicalPublicationIdentity,
+    stage: str,
+    state: str,
+    evidence: dict[str, str | int | bool | None],
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> str:
+    key = incident_key(identity, stage, state)
+    marker = f"{INCIDENT_MARKER_PREFIX}{key} -->"
+    body = (
+        f"{marker}\n## Podcast dispatch reconciliation\n\n"
+        f"* Identity key: `{canonical_identity_key(identity)}`\n"
+        f"* Week: `{identity.week}`\n"
+        f"* Publish run: `{identity.publish_run_id}`\n"
+        f"* Article SHA-256: `{identity.article_sha256}`\n"
+        f"* Manifest SHA-256: `{identity.manifest_sha256}`\n"
+        f"* Stage/state: `{stage}/{state}`\n"
+        f"* Evidence: `{json.dumps(evidence, sort_keys=True, separators=(',', ':'))}`\n\n"
+        "Recovery: restore authoritative status evidence or reconcile manually; do not redispatch "
+        "an identity with handoff-entered or unknown evidence."
+    )
+    existing = next(
+        (
+            issue
+            for issue in _iter_issue_pages(
+                repo,
+                token,
+                "open",
+                deadline=deadline,
+                monotonic=monotonic,
+            )
+            if marker in str(issue.get("body") or "")
+        ),
+        None,
+    )
+    if existing is not None:
+        number = existing.get("number")
+        _github_json(
+            f"https://api.github.com/repos/{repo}/issues/{number}/comments",
+            token,
+            method="POST",
+            payload={"body": body},
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+        return str(existing.get("html_url") or "")
+    try:
+        created = _github_json(
+            f"https://api.github.com/repos/{repo}/issues",
+            token,
+            method="POST",
+            payload={
+                "title": f"Podcast dispatch incident: {identity.week} {stage}/{state}",
+                "body": body,
+                "labels": ["podcast-dispatch-incident"],
+            },
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+    except error.HTTPError:
+        existing = next(
+            (
+                issue
+                for issue in _iter_issue_pages(
+                    repo,
+                    token,
+                    "open",
+                    deadline=deadline,
+                    monotonic=monotonic,
+                )
+                if marker in str(issue.get("body") or "")
+            ),
+            None,
+        )
+        if existing is None:
+            raise
+        return str(existing.get("html_url") or "")
+    if not isinstance(created, dict):
+        raise ValueError("invalid incident issue response")
+    matches = [
+        issue
+        for issue in _iter_issue_pages(
+            repo,
+            token,
+            "open",
+            deadline=deadline,
+            monotonic=monotonic,
+        )
+        if marker in str(issue.get("body") or "")
+    ]
+    if not any(issue.get("number") == created.get("number") for issue in matches):
+        matches.append(created)
+    numbered = [issue for issue in matches if isinstance(issue.get("number"), int)]
+    if not numbered:
+        raise ValueError("incident issue number missing")
+    canonical = min(numbered, key=lambda issue: int(issue["number"]))
+    canonical_number = int(canonical["number"])
+    for duplicate in numbered:
+        duplicate_number = int(duplicate["number"])
+        if duplicate_number == canonical_number:
+            continue
+        _github_json(
+            f"https://api.github.com/repos/{repo}/issues/{duplicate_number}/comments",
+            token,
+            method="POST",
+            payload={
+                "body": (
+                    "Closing duplicate incident created concurrently; canonical incident: "
+                    f"#{canonical_number}."
+                )
+            },
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+        _github_json(
+            f"https://api.github.com/repos/{repo}/issues/{duplicate_number}",
+            token,
+            method="PATCH",
+            payload={"state": "closed", "state_reason": "not_planned"},
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+    return str(canonical.get("html_url") or "")
+
+
+def reconcile_identity_incidents(
+    repo: str,
+    token: str,
+    identity: CanonicalPublicationIdentity,
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> None:
+    identity_marker = f"* Identity key: `{canonical_identity_key(identity)}`"
+    for issue in _iter_issue_pages(
+        repo,
+        token,
+        "open",
+        deadline=deadline,
+        monotonic=monotonic,
+    ):
+        body = str(issue.get("body") or "")
+        if INCIDENT_MARKER_PREFIX not in body or identity_marker not in body:
+            continue
+        number = issue.get("number")
+        if not isinstance(number, int):
+            continue
+        _github_json(
+            f"https://api.github.com/repos/{repo}/issues/{number}/comments",
+            token,
+            method="POST",
+            payload={"body": "Authoritative externally verified terminal publication succeeded."},
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+        _github_json(
+            f"https://api.github.com/repos/{repo}/issues/{number}",
+            token,
+            method="PATCH",
+            payload={"state": "closed", "state_reason": "completed"},
+            timeout=_remaining_timeout(deadline, monotonic),
+        )
+
+
+def resolve_authoritative_receipt(
+    repo: str,
+    token: str,
+    identity: CanonicalPublicationIdentity,
+    *,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
+) -> DispatchReceipt | None:
+    exact = [
+        receipt
+        for receipt in list_ledger_receipts(
+            repo,
+            token,
+            deadline=deadline,
+            monotonic=monotonic,
+        )
+        if receipt.identity == identity
+    ]
+    if not exact:
+        return None
+    exact.sort(
+        key=lambda receipt: datetime.fromisoformat(receipt.created_at.replace("Z", "+00:00")),
+        reverse=True,
+    )
+    classification = receipt_retry_classification(exact)
+    for receipt_state in ("accepted", "submission_unknown", "handoff_entered"):
+        match = next(
+            (receipt for receipt in exact if receipt.receipt_state == receipt_state),
+            None,
+        )
+        if match is not None:
+            return match
+    if classification == "ambiguous_exact":
+        return next(
+            receipt
+            for receipt in exact
+            if receipt_retry_classification([receipt]) == "ambiguous_exact"
+        )
+    return exact[0]
+
+
+def _identity_from_args(args: argparse.Namespace) -> CanonicalPublicationIdentity:
+    return CanonicalPublicationIdentity(
+        args.week, args.publish_run_id, args.article_sha256, args.manifest_sha256
+    )
+
+
+def _build_receipt(args: argparse.Namespace) -> DispatchReceipt:
+    created_at = args.created_at or datetime.now(UTC).isoformat().replace("+00:00", "Z")
+    attempt_id = args.attempt_id
+    receipt_id = (
+        args.receipt_id
+        or hashlib.sha256(f"{attempt_id}\0{args.state}\0{created_at}".encode()).hexdigest()
+    )
+    return DispatchReceipt(
+        receipt_id=receipt_id,
+        created_at=created_at,
+        dispatch_run_id=args.dispatch_run_id,
+        attempt_id=attempt_id,
+        identity=_identity_from_args(args),
+        receipt_state=args.state,
+        api_status=args.api_status,
+        api_status_category=args.api_status_category,
+        podcaster_job_id=args.job_id,
+        correlation_id=args.correlation_id,
+        actions_run_url=args.actions_run_url,
+    )
+
+
+def _add_identity_args(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--week", required=True)
+    parser.add_argument("--publish-run-id", required=True)
+    parser.add_argument("--article-sha256", required=True)
+    parser.add_argument("--manifest-sha256", required=True)
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    writer = subparsers.add_parser("write-receipt")
+    _add_identity_args(writer)
+    writer.add_argument("--state", required=True, choices=sorted(RECEIPT_STATES))
+    writer.add_argument("--dispatch-run-id", required=True)
+    writer.add_argument("--attempt-id", required=True)
+    writer.add_argument("--receipt-id", default="")
+    writer.add_argument("--created-at", default="")
+    writer.add_argument("--api-status", type=int)
+    writer.add_argument("--api-status-category")
+    writer.add_argument("--job-id")
+    writer.add_argument("--correlation-id")
+    writer.add_argument("--actions-run-url")
+    writer.add_argument("--output", type=Path, required=True)
+    writer.add_argument("--append-ledger", action="store_true")
+    monitor = subparsers.add_parser("monitor")
+    monitor.add_argument("--receipt", type=Path, required=True)
+    monitor.add_argument("--endpoint", default="")
+    monitor.add_argument("--repo", default="")
+    monitor.add_argument("--summary", type=Path)
+    resolver = subparsers.add_parser("resolve-receipt")
+    _add_identity_args(resolver)
+    resolver.add_argument("--repo", required=True)
+    resolver.add_argument("--output", type=Path, required=True)
+    incident = subparsers.add_parser("upsert-incident")
+    _add_identity_args(incident)
+    incident.add_argument("--stage", required=True)
+    incident.add_argument("--state", required=True)
+    incident.add_argument("--repo", required=True)
+    incident.add_argument("--dispatch-run-id", required=True)
+    incident.add_argument(
+        "--timeout-seconds",
+        type=float,
+        default=REQUEST_TIMEOUT_SECONDS,
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    if args.command == "write-receipt":
+        receipt = _build_receipt(args)
+        args.output.write_text(serialize_receipt(receipt) + "\n", encoding="utf-8")
+        if args.append_ledger:
+            repo = os.environ.get("GITHUB_REPOSITORY", "")
+            token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
+            if not repo or not token:
+                raise SystemExit("ledger persistence requires repository and token")
+            append_ledger_receipt(repo, token, receipt)
+        print(serialize_receipt(receipt))
+        return 0
+    if args.command == "upsert-incident":
+        identity = _identity_from_args(args)
+        token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
+        if not token:
+            raise SystemExit("incident persistence requires GH_TOKEN or GITHUB_TOKEN")
+        if args.timeout_seconds <= 0:
+            raise SystemExit("incident persistence timeout must be positive")
+        url = upsert_incident(
+            args.repo,
+            token,
+            identity,
+            args.stage,
+            args.state,
+            {"dispatch_run_id": args.dispatch_run_id},
+            deadline=time.monotonic() + args.timeout_seconds,
+        )
+        print(url)
+        return 0
+    if args.command == "resolve-receipt":
+        token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
+        if not token:
+            raise SystemExit("receipt resolution requires GH_TOKEN or GITHUB_TOKEN")
+        resolver_deadline = time.monotonic() + 60
+        receipt = resolve_authoritative_receipt(
+            args.repo,
+            token,
+            _identity_from_args(args),
+            deadline=resolver_deadline,
+        )
+        if receipt is None:
+            return 2
+        args.output.write_text(serialize_receipt(receipt) + "\n", encoding="utf-8")
+        print(serialize_receipt(receipt))
+        return 0
+    parsed = parse_receipt(args.receipt.read_text(encoding="utf-8"))
+    if not isinstance(parsed, DispatchReceipt):
+        raise SystemExit("monitor requires v2 receipt")
+    warning_urls: list[str] = []
+
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
+    api_key = os.environ.get("PODCASTER_API_KEY", "")
+
+    def warn(latency: int) -> None:
+        if args.repo and token:
+            accepted_at = datetime.fromisoformat(
+                parsed.created_at.replace("Z", "+00:00")
+            ).timestamp()
+            remaining_total = max(
+                0.0,
+                TOTAL_MONITOR_BUDGET_SECONDS - max(0.0, time.time() - accepted_at),
+            )
+            warning_deadline = time.monotonic() + min(
+                REQUEST_TIMEOUT_SECONDS,
+                remaining_total,
+            )
+            try:
+                warning_urls.append(
+                    upsert_incident(
+                        args.repo,
+                        token,
+                        parsed.identity,
+                        "synthesis_latency",
+                        "warning",
+                        {
+                            "dispatch_run_id": parsed.dispatch_run_id,
+                            "attempt_id": parsed.attempt_id,
+                            "job_id": parsed.podcaster_job_id,
+                            "correlation_id": parsed.correlation_id,
+                            "synthesis_latency_seconds": latency,
+                        },
+                        deadline=warning_deadline,
+                    )
+                )
+            except (OSError, TimeoutError, ValueError, error.HTTPError, error.URLError) as exc:
+                warning_urls.append("unavailable")
+                print(
+                    f"::warning::Synthesis latency incident persistence failed: "
+                    f"{type(exc).__name__}"
+                )
+
+    result = monitor_terminal_outcome(parsed, args.endpoint, api_key, warning=warn)
+    cleanup_deadline = _bounded_incident_deadline(result.cleanup_budget_seconds)
+    prior_non_green_attempt = False
+    prior_attempt_history_available = False
+    if result.success and args.repo and token:
+        try:
+            receipts = list_ledger_receipts(
+                args.repo,
+                token,
+                deadline=min(
+                    cleanup_deadline,
+                    time.monotonic() + REQUEST_TIMEOUT_SECONDS,
+                ),
+            )
+        except (OSError, TimeoutError, ValueError, error.HTTPError, error.URLError) as exc:
+            print(
+                "::warning::Prior attempt history could not be loaded; "
+                f"weekly recovery classification is unavailable: {type(exc).__name__}"
+            )
+        else:
+            prior_attempt_history_available = True
+            prior_non_green_attempt = has_prior_non_green_attempt(receipts, parsed)
+    receipt_classification = receipt_retry_classification([parsed])
+    weekly_state = derive_weekly_identity_state(
+        parsed.identity,
+        result.terminal_status,
+        prior_non_green_attempt=prior_non_green_attempt,
+        manual_action=(
+            parsed.receipt_state != "accepted" and receipt_classification != "ambiguous_exact"
+        ),
+        duplicate_ambiguous=receipt_classification == "ambiguous_exact",
+    )
+    weekly_success = weekly_state in WEEKLY_GREEN_STATES
+    summary = (
+        f"## Podcast dispatch reconciliation\n\n"
+        f"- Identity key: `{canonical_identity_key(parsed.identity)}`\n"
+        f"- Result: `{result.stage}/{result.state}`\n"
+        f"- Weekly identity state: `{weekly_state}`\n"
+        f"- Terminal monitor success: `{str(result.success).lower()}`\n"
+        f"- Weekly identity green: `{str(weekly_success).lower()}`\n"
+        f"- Prior attempt history available: "
+        f"`{str(prior_attempt_history_available).lower()}`\n"
+        f"- Prior non-green attempt: `{str(prior_non_green_attempt).lower()}`\n"
+        f"- Synthesis latency seconds: `{result.synthesis_latency_seconds}`\n"
+        f"- Synthesis warning incident: `{warning_urls[-1] if warning_urls else 'none'}`\n"
+    )
+    if args.summary:
+        with args.summary.open("a", encoding="utf-8") as output:
+            output.write(summary)
+    if weekly_success:
+        if args.repo and token:
+            reconcile_identity_incidents(
+                args.repo,
+                token,
+                parsed.identity,
+                deadline=cleanup_deadline,
+            )
+        return 0
+    if args.repo and token:
+        upsert_incident(
+            args.repo,
+            token,
+            parsed.identity,
+            result.stage,
+            result.state,
+            {
+                "dispatch_run_id": parsed.dispatch_run_id,
+                "attempt_id": parsed.attempt_id,
+                "job_id": parsed.podcaster_job_id,
+                "correlation_id": parsed.correlation_id,
+                "actions_run_url": parsed.actions_run_url,
+                "synthesis_latency_seconds": result.synthesis_latency_seconds,
+            },
+            deadline=cleanup_deadline,
+        )
+    return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

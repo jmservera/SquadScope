@@ -37,7 +37,7 @@ MONTH_NAMES = {
 
 SECTION_PATTERN = re.compile(r"(?m)^##\s+(.+?)\s*$")
 WORD_PATTERN = re.compile(r"\S+")
-SYNTHESIS_VERSION = 4
+SYNTHESIS_VERSION = 8
 PRIOR_MONTH_CONTEXT_LIMIT = 3
 
 
@@ -399,14 +399,16 @@ def synthesize_month(
             f"Against that backdrop, {MONTH_NAMES[month]} {year} should be read for what advanced, reversed, or newly emerged rather than as a replay of the same monthly storyline."
         )
         opening_parts.append(
-            f"It opened with {summaries[0] if summaries else 'a broad platform reset'} and ended with "
-            f"{summaries[-1] if summaries else 'a clearer hierarchy of durable themes'}, which means the center of gravity shifted without abandoning the strongest earlier signals."
+            f"The opening report found: {summaries[0] if summaries else 'A broad platform reset'}. "
+            f"The closing report found: {summaries[-1] if summaries else 'A clearer hierarchy of durable themes'}. "
+            "Together, they show that the center of gravity shifted without abandoning the strongest earlier signals."
         )
     else:
         opening_parts.append(
-            f"{MONTH_NAMES[month]} {year} reads less like three isolated weekly spikes and more like one continuous adjustment in priorities. "
-            f"The month opened with {summaries[0] if summaries else 'a broad platform reset'} and ended with "
-            f"{summaries[-1] if summaries else 'a clearer hierarchy of durable themes'}, which means the center of gravity shifted without abandoning the strongest earlier signals."
+            f"{MONTH_NAMES[month]} {year} reads less like isolated weekly snapshots and more like one continuous adjustment in priorities. "
+            f"The opening report found: {summaries[0] if summaries else 'A broad platform reset'}. "
+            f"The closing report found: {summaries[-1] if summaries else 'A clearer hierarchy of durable themes'}. "
+            "Together, they show that the center of gravity shifted without abandoning the strongest earlier signals."
         )
     opening = " ".join(opening_parts)
 
@@ -425,7 +427,7 @@ def synthesize_month(
         )
     if len(top_repos) > 1:
         theme_sentence_parts.append(
-            f"The month's anchor repos moved from {join_terms(top_repos[:2])} toward "
+            f"The month's anchor repos moved from {join_terms(top_repos[:-1])} toward "
             f"{top_repos[-1]}, reinforcing that the winning projects were the ones narrowing scope while deepening practical utility"
         )
     elif top_repos:
@@ -435,7 +437,7 @@ def synthesize_month(
     theme_paragraph = ". ".join(part.rstrip(".") for part in theme_sentence_parts if part) + "."
 
     signal_paragraph = (
-        f"The cross-week signal strengthened around {'; '.join(signals) if signals else 'operationally useful work rather than one-off hype'}. "
+        f"Across the weekly reports, the clearest signals were: {'; '.join(signals) if signals else 'Operationally useful work rather than one-off hype'}. "
         f"At the same time, the month never solved its trust problem: "
         f"{'; '.join(gaps) if gaps else 'the same defensive gaps kept resurfacing'}."
     )
@@ -450,12 +452,17 @@ def synthesize_month(
             ": the later reports mostly confirmed the earlier direction of travel"
         )
     if conclusions:
-        prediction_sentence += f". In retrospect, the clearest forward-looking reads were that {'; '.join(conclusions)}."
+        prediction_sentence += (
+            f". In retrospect, the clearest forward-looking reads were: {'; '.join(conclusions)}."
+        )
     else:
         prediction_sentence += "."
 
     if noise:
-        prediction_sentence += f" The main counter-signal was noise that evolved from {' to '.join(noise[:2]) if len(noise) > 1 else noise[0]}."
+        noise_label = "counter-signal was" if len(noise) == 1 else "counter-signals were"
+        prediction_sentence += (
+            f" The main {noise_label}: {'; '.join(noise[:2]) if len(noise) > 1 else noise[0]}."
+        )
 
     narrative = _trim_to_range(
         "\n\n".join([opening, theme_paragraph, signal_paragraph, prediction_sentence])

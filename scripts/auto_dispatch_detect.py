@@ -22,7 +22,9 @@ Duplicate-check mode:
     python3 scripts/auto_dispatch_detect.py \
         --check-duplicate \
         --week 2026-W37 \
-        --publish-run-id 34082521901
+        --publish-run-id 34082521901 \
+        --article-sha256 <sha256> \
+        --manifest-sha256 <sha256>
 
 Sync-correlation mode:
     python3 scripts/auto_dispatch_detect.py \
@@ -53,6 +55,23 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 from urllib import request
 
+try:
+    from scripts.podcast_dispatch_state import (
+        DispatchReceipt,
+        canonical_identity_key,
+        list_ledger_receipts,
+        parse_receipt,
+        receipt_retry_classification,
+    )
+except ModuleNotFoundError:
+    from podcast_dispatch_state import (  # type: ignore[no-redef]
+        DispatchReceipt,
+        canonical_identity_key,
+        list_ledger_receipts,
+        parse_receipt,
+        receipt_retry_classification,
+    )
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -71,20 +90,23 @@ TRIGGER_PODCAST_WORKFLOW = "trigger-podcast.yml"
 AUTO_DISPATCH_WORKFLOW_PATH = f".github/workflows/{AUTO_DISPATCH_WORKFLOW}"
 TRIGGER_PODCAST_WORKFLOW_PATH = f".github/workflows/{TRIGGER_PODCAST_WORKFLOW}"
 WORKFLOW_LOOKBACK_RUNS = 50
-BLOCKING_RECEIPT_STATES = frozenset({"submitted", "submission_rejected"})
-AMBIGUOUS_RECEIPT_STATES = frozenset({"ambiguous_prior_submission", "submission_unknown"})
-NON_BLOCKING_RECEIPT_STATES = frozenset(
+BLOCKING_RECEIPT_STATES = frozenset({"submitted", "accepted"})
+AMBIGUOUS_RECEIPT_STATES = frozenset(
+    {"ambiguous_prior_submission", "submission_unknown", "handoff_entered"}
+)
+PROVEN_NO_SUBMISSION_RECEIPT_STATES = frozenset(
     {
-        "ambiguous_prior_submission",
-        "duplicate_prevented",
         "no_anchor",
         "no_matching_manifest",
         "no_new_article",
         "observe_only",
         "paused",
+        "attempt_prepared",
         "pre_submit_failed",
+        "observation_only",
     }
 )
+_EVIDENCE_CONFIG_UNSET = object()
 
 
 @dataclass(frozen=True)
@@ -92,6 +114,7 @@ class DispatchIdentity:
     week: str
     publish_run_id: str
     article_sha256: str
+    manifest_sha256: str = ""
 
 
 @dataclass(frozen=True)
@@ -100,6 +123,40 @@ class DuplicateCheckResult:
     is_duplicate: bool
     prior_run_url: str | None = None
     reason: str | None = None
+
+
+def _base_identity_matches(left: DispatchIdentity, right: DispatchIdentity) -> bool:
+    return (
+        left.week == right.week
+        and left.publish_run_id == right.publish_run_id
+        and left.article_sha256 == right.article_sha256
+    )
+
+
+def _metadata_contains_identifier(metadata: str, identifier: str) -> bool:
+    if not identifier:
+        return False
+    return (
+        re.search(
+            rf"(?<![A-Za-z0-9]){re.escape(identifier)}(?![A-Za-z0-9])",
+            metadata,
+        )
+        is not None
+    )
+
+
+def _run_metadata_associates_identity(run: dict[str, Any], identity: DispatchIdentity) -> bool:
+    metadata = " ".join(
+        str(run.get(field) or "") for field in ("name", "display_title", "head_branch")
+    )
+    return any(
+        _metadata_contains_identifier(metadata, value)
+        for value in (
+            identity.publish_run_id,
+            identity.article_sha256,
+            identity.manifest_sha256,
+        )
+    )
 
 
 def set_output(key: str, value: str) -> None:
@@ -133,11 +190,13 @@ def fetch_publish_branch() -> None:
 
 
 def _github_api_headers(token: str) -> dict[str, str]:
-    return {
+    headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
     }
+    headers["Authorization"] = f"Bearer {token}"
+    return headers
 
 
 def _github_api_json(url: str, token: str) -> dict[str, Any]:
@@ -170,8 +229,8 @@ def _run_url(run: dict[str, Any]) -> str:
     return value if isinstance(value, str) else ""
 
 
-def _parse_dispatch_receipts(log_text: str) -> list[dict[str, Any]]:
-    receipts: list[dict[str, Any]] = []
+def _parse_dispatch_receipts(log_text: str) -> list[dict[str, Any] | DispatchReceipt]:
+    receipts: list[dict[str, Any] | DispatchReceipt] = []
     for line in log_text.splitlines():
         if RECEIPT_PREFIX not in line:
             continue
@@ -180,16 +239,72 @@ def _parse_dispatch_receipts(log_text: str) -> list[dict[str, Any]]:
             parsed = json.loads(payload.strip())
         except json.JSONDecodeError:
             continue
-        if isinstance(parsed, dict) and parsed.get("schema_version") == RECEIPT_SCHEMA_VERSION:
-            receipts.append(parsed)
+        if not isinstance(parsed, dict):
+            continue
+        try:
+            receipts.append(parse_receipt(parsed))
+        except ValueError:
+            continue
     return receipts
 
 
-def _receipt_identity_matches(receipt: dict[str, Any], identity: DispatchIdentity) -> bool:
+def _receipt_identity_matches(
+    receipt: dict[str, Any] | DispatchReceipt, identity: DispatchIdentity
+) -> bool:
+    if isinstance(receipt, DispatchReceipt):
+        return (
+            receipt.identity.week == identity.week
+            and receipt.identity.publish_run_id == identity.publish_run_id
+            and receipt.identity.article_sha256 == identity.article_sha256
+            and receipt.identity.manifest_sha256 == identity.manifest_sha256
+        )
     return (
         receipt.get("week") == identity.week
         and str(receipt.get("publish_run_id") or "") == identity.publish_run_id
         and receipt.get("article_sha256") == identity.article_sha256
+        and receipt.get("manifest_sha256") == identity.manifest_sha256
+    )
+
+
+def _receipt_base_identity_matches(
+    receipt: dict[str, Any] | DispatchReceipt, identity: DispatchIdentity
+) -> bool:
+    if isinstance(receipt, DispatchReceipt):
+        return _base_identity_matches(receipt.identity, identity)
+    return (
+        receipt.get("week") == identity.week
+        and str(receipt.get("publish_run_id") or "") == identity.publish_run_id
+        and receipt.get("article_sha256") == identity.article_sha256
+    )
+
+
+def _receipt_identity_conflicts(
+    receipt: dict[str, Any] | DispatchReceipt, identity: DispatchIdentity
+) -> bool:
+    if not identity.manifest_sha256:
+        return False
+    if isinstance(receipt, DispatchReceipt):
+        return False
+    return (
+        _receipt_base_identity_matches(receipt, identity)
+        and isinstance(receipt.get("manifest_sha256"), str)
+        and bool(receipt["manifest_sha256"])
+        and receipt["manifest_sha256"] != identity.manifest_sha256
+    )
+
+
+def _receipt_proves_no_submission(receipt: dict[str, Any] | DispatchReceipt) -> bool:
+    state = (
+        receipt.receipt_state
+        if isinstance(receipt, DispatchReceipt)
+        else str(receipt.get("receipt_state") or "")
+    )
+    if state in PROVEN_NO_SUBMISSION_RECEIPT_STATES:
+        return True
+    return (
+        isinstance(receipt, DispatchReceipt)
+        and state == "submission_rejected"
+        and receipt.api_status_category == "http_rejected_pre_acceptance"
     )
 
 
@@ -207,11 +322,13 @@ def _extract_dispatch_identity_from_log_outputs(log_text: str) -> DispatchIdenti
     week = values.get("week", "")
     publish_run_id = values.get("publish_run_id", "")
     article_sha256 = values.get("article_sha256", "")
+    manifest_sha256 = values.get("manifest_sha256", "")
     if WEEK_RE.match(week) and RUN_ID_RE.match(publish_run_id) and SHA256_RE.match(article_sha256):
         return DispatchIdentity(
             week=week,
             publish_run_id=publish_run_id,
             article_sha256=article_sha256,
+            manifest_sha256=manifest_sha256 if SHA256_RE.match(manifest_sha256) else "",
         )
     return None
 
@@ -256,29 +373,66 @@ def _identity_from_sync_commit(
     week, _, _ = extract_week_from_article_path(article_paths[0])
     if not week:
         return None
+    manifest_path = f"data/candidates/{week}/{publish_run_id}/publish-manifest.json"
     try:
-        manifest = read_manifest_from_publish(
-            f"data/candidates/{week}/{publish_run_id}/publish-manifest.json"
-        )
+        manifest = read_manifest_from_publish(manifest_path)
     except (ValueError, json.JSONDecodeError, KeyError):
         return None
     candidate = manifest.get("candidate") or {}
     article_sha256 = candidate.get("content_sha256")
     if not isinstance(article_sha256, str) or not SHA256_RE.match(article_sha256):
         return None
+    manifest_sha256 = ""
+    try:
+        manifest_bytes = read_manifest_bytes_from_publish(manifest_path)
+        manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+    except ValueError:
+        pass
     return DispatchIdentity(
         week=week,
         publish_run_id=publish_run_id,
         article_sha256=article_sha256,
+        manifest_sha256=manifest_sha256,
     )
 
 
-def _legacy_auto_observe_only(jobs: list[dict[str, Any]]) -> bool:
-    return _step_conclusion(
-        jobs, "Observe-only summary", "Record observe-only result"
-    ) == "success" and any(
-        job.get("name") == "Protected podcast dispatch"
-        and str(job.get("conclusion") or "") == "skipped"
+def _legacy_run_single_attempt(run: dict[str, Any]) -> bool:
+    """Return whether GitHub confirms this run has only its original attempt."""
+    return run.get("run_attempt") == 1
+
+
+def _legacy_auto_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
+    """Return whether job evidence proves the protected dispatch never ran."""
+    return _legacy_run_single_attempt(run) and (
+        any(
+            job.get("name") == "Protected podcast dispatch"
+            and str(job.get("conclusion") or "") == "skipped"
+            for job in jobs
+        )
+        or _step_conclusion(
+            jobs,
+            "Protected podcast dispatch",
+            "Persist handoff-entered boundary",
+        )
+        == "skipped"
+    )
+
+
+def _legacy_manual_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
+    """Return whether a single-attempt manual run was stopped before handoff."""
+    if not _legacy_run_single_attempt(run):
+        return False
+    return any(
+        job.get("name") == "trigger-podcast"
+        and (
+            str(job.get("conclusion") or "") == "skipped"
+            or _step_conclusion(
+                jobs,
+                "trigger-podcast",
+                "Trigger podcast generation with existing manifest",
+            )
+            == "skipped"
+        )
         for job in jobs
     )
 
@@ -293,35 +447,46 @@ def _compat_identity_for_run(
     path = str(run.get("path") or "")
 
     if path == AUTO_DISPATCH_WORKFLOW_PATH:
-        if _legacy_auto_observe_only(jobs):
-            return "ignore", None
         identity = _extract_dispatch_identity_from_log_outputs(log_text)
-        if identity is None:
-            return "ambiguous", None
+        if identity is not None and not _base_identity_matches(identity, requested_identity):
+            return "ignore", identity
+        if _legacy_auto_pre_submit_only(run, jobs):
+            return "ignore", identity
+        if (
+            identity is None
+            and not jobs
+            and not log_text
+            and run.get("conclusion") == "cancelled"
+            and _legacy_run_single_attempt(run)
+        ):
+            if _run_metadata_associates_identity(run, requested_identity):
+                return "ambiguous", None
+            return "ignore", None
         if (
             _step_conclusion(jobs, "Protected podcast dispatch", "Trigger podcast generation")
             == "success"
         ):
-            return "blocking" if identity == requested_identity else "ignore", identity
-        return (
-            "ambiguous",
-            identity if identity.publish_run_id == requested_identity.publish_run_id else None,
-        )
+            if identity is None:
+                return "ambiguous", None
+            return "blocking", identity
+        return "ambiguous", identity
 
     if path != TRIGGER_PODCAST_WORKFLOW_PATH:
         return "ignore", None
 
-    if (
-        _step_conclusion(
-            jobs, "trigger-podcast", "Trigger podcast generation with existing manifest"
-        )
-        != "success"
-    ):
-        return "ignore", None
+    handoff_conclusion = _step_conclusion(
+        jobs, "trigger-podcast", "Trigger podcast generation with existing manifest"
+    )
+    if handoff_conclusion != "success":
+        if _legacy_manual_pre_submit_only(run, jobs):
+            return "ignore", None
+        return "ambiguous", None
 
     publish_run_id = _extract_publish_run_id_from_log_text(log_text)
     if publish_run_id is None:
-        return "ambiguous", None
+        if _run_metadata_associates_identity(run, requested_identity):
+            return "ambiguous", None
+        return "ignore", None
     if publish_run_id != requested_identity.publish_run_id:
         return "ignore", None
 
@@ -332,7 +497,10 @@ def _compat_identity_for_run(
     )
     if identity is None:
         return "ambiguous", None
-    return ("blocking" if identity == requested_identity else "ignore"), identity
+    return (
+        ("blocking" if _base_identity_matches(identity, requested_identity) else "ignore"),
+        identity,
+    )
 
 
 def _list_workflow_runs(repo: str, token: str, workflow_file: str) -> list[dict[str, Any]]:
@@ -445,6 +613,14 @@ def extract_week_from_article_path(article_path: str) -> tuple[str | None, str |
     return f"{year}-{short}", year, short
 
 
+def article_url_from_article_path(article_path: str) -> str | None:
+    """Return the canonical lowercase public URL for a weekly article path."""
+    week, year, short = extract_week_from_article_path(article_path)
+    if not week or not year or not short:
+        return None
+    return f"https://claracle.com/weekly/{year}/{short.lower()}/"
+
+
 def validate_manifest(
     manifest: dict, week: str, run_id: str, article_sha256: str
 ) -> tuple[bool, str]:
@@ -503,7 +679,7 @@ def detect(args: argparse.Namespace) -> None:
         sys.exit(1)
 
     # Validate article path format
-    week, year, short = extract_week_from_article_path(article_path)
+    week, _year, _short = extract_week_from_article_path(article_path)
     if not week:
         print(
             f"::error::article-path must match content/weekly/YYYY/WNN.md (got: {article_path!r})",
@@ -586,8 +762,9 @@ def detect(args: argparse.Namespace) -> None:
     manifest_bytes = read_manifest_bytes_from_publish(manifest_path)
     manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
 
-    # Derive article URL deterministically from article path (preserve case: W37 not w37)
-    article_url = f"https://claracle.com/weekly/{year}/{short}/"
+    article_url = article_url_from_article_path(article_path)
+    if article_url is None:
+        raise ValueError(f"Could not derive article URL from {article_path!r}")
 
     status = "observe_only" if args.observe_only else "eligible"
 
@@ -600,6 +777,17 @@ def detect(args: argparse.Namespace) -> None:
     set_output("article_url", article_url)
     set_output("article_sha256", article_sha256)
     set_output("manifest_sha256", manifest_sha256)
+    set_output(
+        "identity_key",
+        canonical_identity_key(
+            DispatchIdentity(
+                week=week,
+                publish_run_id=run_id,
+                article_sha256=article_sha256,
+                manifest_sha256=manifest_sha256,
+            )
+        ),
+    )
 
     print(f"  status: {status}")
     print(f"  publish_run_id: {run_id}")
@@ -611,6 +799,7 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
     week = args.week
     publish_run_id = args.publish_run_id
     article_sha256 = args.article_sha256
+    manifest_sha256 = args.manifest_sha256
 
     if not week or not WEEK_RE.match(week):
         print(f"::error::--week must match YYYY-WNN (got: {week!r})", file=sys.stderr)
@@ -627,23 +816,34 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
             file=sys.stderr,
         )
         sys.exit(1)
+    if not manifest_sha256 or not SHA256_RE.match(manifest_sha256):
+        print(
+            f"::error::--manifest-sha256 must be lowercase 64-char hex (got: {manifest_sha256!r})",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     gh_token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if not gh_token:
-        print("::warning::GH_TOKEN/GITHUB_TOKEN not set; skipping duplicate check.")
-        print("  Relying on concurrency group and Podcaster idempotency.")
+        print(
+            "::error::GH_TOKEN/GITHUB_TOKEN not set; trusted duplicate evidence is unavailable.",
+            file=sys.stderr,
+        )
         set_output("is_duplicate", "false")
         set_output("prior_run_url", "")
-        set_output("dedup_status", "skipped_missing_token")
-        return
+        set_output("dedup_status", "ambiguous_prior_submission")
+        sys.exit(1)
 
     repo = os.environ.get("GITHUB_REPOSITORY", "")
     if not repo:
-        print("::warning::GITHUB_REPOSITORY not set; skipping duplicate check.")
+        print(
+            "::error::GITHUB_REPOSITORY not set; trusted duplicate evidence is unavailable.",
+            file=sys.stderr,
+        )
         set_output("is_duplicate", "false")
         set_output("prior_run_url", "")
-        set_output("dedup_status", "skipped_missing_repository")
-        return
+        set_output("dedup_status", "ambiguous_prior_submission")
+        sys.exit(1)
 
     result = check_duplicate_result(
         week,
@@ -651,12 +851,14 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
         article_sha256,
         gh_token,
         repo,
+        manifest_sha256=manifest_sha256,
     )
 
     if result.status == "duplicate":
         prior_url = result.prior_run_url or ""
         print(
-            f"::warning::Prior real podcast dispatch for {week}/{publish_run_id} found: {prior_url}"
+            "::warning::Prior real podcast dispatch for "
+            f"{week}/{publish_run_id}/{article_sha256}/{manifest_sha256} found: {prior_url}"
         )
         set_output("is_duplicate", "true")
         set_output("prior_run_url", prior_url)
@@ -677,7 +879,8 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
 
     print(
         f"  No prior real podcast dispatch found for identity "
-        f"week={week} publish_run_id={publish_run_id} article_sha256={article_sha256}."
+        f"week={week} publish_run_id={publish_run_id} article_sha256={article_sha256} "
+        f"manifest_sha256={manifest_sha256}."
     )
     set_output("is_duplicate", "false")
     set_output("prior_run_url", "")
@@ -739,6 +942,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--article-sha256",
         default="",
         help="Exact article SHA-256 (required for --check-duplicate).",
+    )
+    parser.add_argument(
+        "--manifest-sha256",
+        default="",
+        help="Exact publish manifest SHA-256 (required for --check-duplicate).",
     )
     return parser.parse_args(argv)
 
@@ -898,6 +1106,7 @@ def check_duplicate_api(
                 "X-GitHub-Api-Version": "2022-11-28",
             },
         )
+        req.add_header("Authorization", f"Bearer {token}")
         with request.urlopen(req, timeout=15) as resp:  # nosec B310 - URL is constructed from trusted API endpoint
             data = json.loads(resp.read())
     except Exception:
@@ -917,38 +1126,70 @@ def check_duplicate_result(
     week: str,
     run_id: str,
     article_sha256: str,
-    gh_token: "str | None" = None,
-    repo: "str | None" = None,
+    gh_token: "str | None | object" = _EVIDENCE_CONFIG_UNSET,
+    repo: "str | None | object" = _EVIDENCE_CONFIG_UNSET,
     *,
     repo_root: "Path | str" = Path("."),
+    manifest_sha256: str = "",
 ) -> DuplicateCheckResult:
     """Check GitHub history for an existing real or ambiguous prior submission."""
-    token = gh_token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
-    repository = repo or os.environ.get("GITHUB_REPOSITORY", "")
-    if not token or not repository:
-        return DuplicateCheckResult(status="clear", is_duplicate=False)
     if (
         not WEEK_RE.match(week)
         or not RUN_ID_RE.match(run_id)
         or not SHA256_RE.match(article_sha256)
+        or (manifest_sha256 and not SHA256_RE.match(manifest_sha256))
     ):
-        raise ValueError("week, run_id, and article_sha256 must be valid exact identity fields")
+        raise ValueError("publication identity fields must use the canonical formats")
+    if not manifest_sha256:
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            reason="missing_requested_manifest_sha256",
+        )
+    token = (
+        os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+        if gh_token is _EVIDENCE_CONFIG_UNSET
+        else gh_token
+    )
+    repository = os.environ.get("GITHUB_REPOSITORY", "") if repo is _EVIDENCE_CONFIG_UNSET else repo
+    if not isinstance(token, str) or not token or not isinstance(repository, str) or not repository:
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            reason="trusted_evidence_configuration_unavailable",
+        )
 
     identity = DispatchIdentity(
         week=week,
         publish_run_id=run_id,
         article_sha256=article_sha256,
+        manifest_sha256=manifest_sha256,
     )
 
     try:
         fetch_publish_branch()
+        ledger_receipts = list_ledger_receipts(repository, token)
         candidate_runs: list[dict[str, Any]] = []
         for workflow_file in (AUTO_DISPATCH_WORKFLOW, TRIGGER_PODCAST_WORKFLOW):
             candidate_runs.extend(_list_workflow_runs(repository, token, workflow_file))
     except Exception:
-        return DuplicateCheckResult(status="clear", is_duplicate=False)
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            reason="trusted_evidence_unavailable",
+        )
 
-    unreadable_prior_run_url: str | None = None
+    exact_ledger_receipts = [
+        receipt for receipt in ledger_receipts if _receipt_identity_matches(receipt, identity)
+    ]
+    if exact_ledger_receipts:
+        states = {receipt.receipt_state for receipt in exact_ledger_receipts}
+        if states & {"accepted"}:
+            return DuplicateCheckResult("duplicate", True, reason="accepted")
+        if receipt_retry_classification(exact_ledger_receipts) != "retryable_non_mutation":
+            return DuplicateCheckResult(
+                "ambiguous_prior_submission", False, reason="exact_identity_uncertain"
+            )
 
     for run in candidate_runs:
         run_id_value = run.get("id")
@@ -971,11 +1212,42 @@ def check_duplicate_result(
         receipts = _parse_dispatch_receipts(log_text)
         matched_receipt = False
         for receipt in receipts:
+            state = (
+                receipt.receipt_state
+                if isinstance(receipt, DispatchReceipt)
+                else str(receipt.get("receipt_state") or "")
+            )
+            if _receipt_identity_conflicts(receipt, identity):
+                return DuplicateCheckResult(
+                    status="ambiguous_prior_submission",
+                    is_duplicate=False,
+                    prior_run_url=_run_url(run) or None,
+                    reason="conflicting_manifest_sha256",
+                )
+            if (
+                identity.manifest_sha256
+                and _receipt_base_identity_matches(receipt, identity)
+                and isinstance(receipt, dict)
+                and not SHA256_RE.match(str(receipt.get("manifest_sha256") or ""))
+                and not _receipt_proves_no_submission(receipt)
+            ):
+                return DuplicateCheckResult(
+                    status="ambiguous_prior_submission",
+                    is_duplicate=False,
+                    prior_run_url=_run_url(run) or None,
+                    reason="missing_manifest_sha256",
+                )
             if not _receipt_identity_matches(receipt, identity):
                 continue
             matched_receipt = True
-            state = str(receipt.get("receipt_state") or "")
             if state in BLOCKING_RECEIPT_STATES:
+                return DuplicateCheckResult(
+                    status="duplicate",
+                    is_duplicate=True,
+                    prior_run_url=_run_url(run) or None,
+                    reason=state,
+                )
+            if state == "duplicate_prevented":
                 return DuplicateCheckResult(
                     status="duplicate",
                     is_duplicate=True,
@@ -989,25 +1261,45 @@ def check_duplicate_result(
                     prior_run_url=_run_url(run) or None,
                     reason=state,
                 )
-            if state in NON_BLOCKING_RECEIPT_STATES:
+            if _receipt_proves_no_submission(receipt):
                 break
+            return DuplicateCheckResult(
+                status="ambiguous_prior_submission",
+                is_duplicate=False,
+                prior_run_url=_run_url(run) or None,
+                reason="unknown_receipt_state",
+            )
         if matched_receipt or receipts:
             continue
 
         if jobs_unreadable or logs_unreadable:
-            if _legacy_auto_observe_only(jobs):
-                continue
-            if (
-                str(run.get("path") or "") == TRIGGER_PODCAST_WORKFLOW_PATH
-                and _step_conclusion(
-                    jobs,
-                    "trigger-podcast",
-                    "Trigger podcast generation with existing manifest",
+            run_path = str(run.get("path") or "")
+            if run_path == AUTO_DISPATCH_WORKFLOW_PATH:
+                if not jobs_unreadable and _legacy_auto_pre_submit_only(run, jobs):
+                    continue
+                if not logs_unreadable:
+                    legacy_identity = _extract_dispatch_identity_from_log_outputs(log_text)
+                    if legacy_identity is not None and not _base_identity_matches(
+                        legacy_identity, identity
+                    ):
+                        continue
+            elif run_path == TRIGGER_PODCAST_WORKFLOW_PATH:
+                if not jobs_unreadable and _legacy_manual_pre_submit_only(run, jobs):
+                    continue
+                if not logs_unreadable:
+                    legacy_publish_run_id = _extract_publish_run_id_from_log_text(log_text)
+                    if (
+                        legacy_publish_run_id is not None
+                        and legacy_publish_run_id != identity.publish_run_id
+                    ):
+                        continue
+            if _run_metadata_associates_identity(run, identity):
+                return DuplicateCheckResult(
+                    status="ambiguous_prior_submission",
+                    is_duplicate=False,
+                    prior_run_url=_run_url(run) or None,
+                    reason="related_history_evidence_unavailable",
                 )
-                != "success"
-            ):
-                continue
-            unreadable_prior_run_url = unreadable_prior_run_url or (_run_url(run) or None)
             continue
 
         compatibility, compat_identity = _compat_identity_for_run(
@@ -1017,12 +1309,28 @@ def check_duplicate_result(
             identity,
             repo_root,
         )
-        if compatibility == "blocking" and compat_identity == identity:
+        if (
+            compatibility == "blocking"
+            and compat_identity is not None
+            and _base_identity_matches(compat_identity, identity)
+        ):
+            if compat_identity.manifest_sha256 == identity.manifest_sha256:
+                return DuplicateCheckResult(
+                    status="duplicate",
+                    is_duplicate=True,
+                    prior_run_url=_run_url(run) or None,
+                    reason="legacy_real_submission",
+                )
+            reason = (
+                "conflicting_manifest_sha256"
+                if compat_identity.manifest_sha256
+                else "missing_manifest_sha256"
+            )
             return DuplicateCheckResult(
-                status="duplicate",
-                is_duplicate=True,
+                status="ambiguous_prior_submission",
+                is_duplicate=False,
                 prior_run_url=_run_url(run) or None,
-                reason="legacy_real_submission",
+                reason=reason,
             )
         if compatibility == "ambiguous":
             return DuplicateCheckResult(
@@ -1031,14 +1339,6 @@ def check_duplicate_result(
                 prior_run_url=_run_url(run) or None,
                 reason="legacy_submission_without_canonical_receipt",
             )
-
-    if unreadable_prior_run_url is not None:
-        return DuplicateCheckResult(
-            status="ambiguous_prior_submission",
-            is_duplicate=False,
-            prior_run_url=unreadable_prior_run_url,
-            reason="prior run log/jobs unreadable",
-        )
 
     return DuplicateCheckResult(status="clear", is_duplicate=False)
 
@@ -1051,6 +1351,7 @@ def check_duplicate(
     repo: "str | None" = None,
     *,
     repo_root: "Path | str" = Path("."),
+    manifest_sha256: str = "",
 ) -> "tuple[bool, str | None]":
     result = check_duplicate_result(
         week,
@@ -1059,8 +1360,9 @@ def check_duplicate(
         gh_token,
         repo,
         repo_root=repo_root,
+        manifest_sha256=manifest_sha256,
     )
-    return result.is_duplicate, result.prior_run_url
+    return result.status != "clear", result.prior_run_url
 
 
 # Expose the test-friendly signature as the public name.

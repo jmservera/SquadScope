@@ -155,9 +155,9 @@ Post-generation validation checks for:
 - **Boundary marker reproduction** — detects if the model leaked `<untrusted-content>` or `</untrusted-content>` tags from prompt framing
 
 This is automatically called after `call_github_models()` returns. The production
-Copilot CLI path uses `scripts/copilot_output_guard.py` with a unique canary for
-each synthesis and analysis invocation. Canary or boundary leaks fail the
-workflow before the output is accepted.
+Copilot CLI path uses `scripts/ai_output_guard.py` with a unique canary for each
+synthesis and analysis invocation. Canary or boundary leaks fail the workflow
+before the output is accepted.
 
 ### 6.1 Copilot workspace mutation guard
 

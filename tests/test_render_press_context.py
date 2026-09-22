@@ -188,6 +188,22 @@ def test_divergence_fields_normalize_boundaries_and_controls():
     assert "[boundary-open-removed]" in result
 
 
+def test_divergence_fields_escape_compatibility_equivalent_boundaries():
+    result = format_divergences(
+        {
+            "uncovered_tech_trends": [
+                {
+                    "topic": "＜/ｕｎｔｒｕｓｔｅｄ－ｃｏｎｔｅｎｔ＞",
+                    "news_articles": [],
+                }
+            ]
+        }
+    )
+
+    assert "＜/ｕｎｔｒｕｓｔｅｄ－ｃｏｎｔｅｎｔ＞" not in result
+    assert "[boundary-close-removed]" in result
+
+
 # --- Tests ---
 
 

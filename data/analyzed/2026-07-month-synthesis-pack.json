@@ -1,6 +1,18 @@
 {
   "month": "2026-07",
-  "synthesis_version": 3,
+  "prior_month_context": [
+    {
+      "month": "2026-06",
+      "summary": "June 2026 was defined by agent skills, noise floor, and coding agents. Later in the month, security, agent frameworks, and ai agents gathered pace.",
+      "title": "Security and Agent Frameworks Surge \u2014 June 2026"
+    },
+    {
+      "month": "2026-05",
+      "summary": "May 2026 was defined by open source, developer tooling, and ai. Later in the month, agent skills, ai memory, and coding agents gathered pace.",
+      "title": "Agent Skills and AI Memory Surge \u2014 May 2026"
+    }
+  ],
+  "synthesis_version": 8,
   "weeks": [
     {
       "conclusion": "Watch whether cost-control tools like [Kulaxyz/token-diet](https://github.com/Kulaxyz/token-diet) turn into measured benchmarks or remain prompt-level folklore. The science-workbench cluster should keep growing if Claude Science attention continues, but the decisive test is whether [ai4s-research/open-science](https://github.com/ai4s-research/open-science) and peers produce reproducible workflows rather than branded shells. Security will be the pressure point: the next valuable wave should pair [elder-plinius/T3MP3ST](https://github.com/elder-plinius/T3MP3ST)-style offensive harnesses with hard execution boundaries and defensible audit trails.",

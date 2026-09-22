@@ -33,6 +33,7 @@ from scripts.month_synthesis import ensure_month_synthesis
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SUMMARY_SUFFIX = "-summary.md"
 WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
+LEGACY_WEEK_LINK_PATTERN = re.compile(r"(/weekly/\d{4}/)W(\d{2}/)")
 REPO_LINK_PATTERN = re.compile(r"https://github\.com/(?P<repo>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)")
 NO_UPDATES_PLACEHOLDER = "_No updates yet._"
 MONTHLY_SECTIONS = [
@@ -98,7 +99,7 @@ class WeeklySummary:
 
     @property
     def week_link(self) -> str:
-        return f"/weekly/{self.year}/W{self.week_number:02d}/"
+        return f"/weekly/{self.year}/w{self.week_number:02d}/"
 
     @property
     def month_slug(self) -> str:
@@ -252,6 +253,10 @@ def get_subsection_text(section_body: str, heading: str) -> str:
 
 def normalize_text(value: str) -> str:
     return re.sub(r"\s+", " ", value.strip())
+
+
+def normalize_weekly_links(value: str) -> str:
+    return LEGACY_WEEK_LINK_PATTERN.sub(r"\1w\2", value)
 
 
 def repo_markdown(repo: str) -> str:
@@ -431,7 +436,9 @@ def build_monthly_pages(
                 },
                 sections=page_entries,
                 section_order=MONTHLY_SECTIONS,
-                replace_sections=frozenset({"Month Synthesis"}),
+                replace_sections=frozenset(
+                    {"Month Synthesis", "Trend Arc", "Prediction Review", "Weekly Reports"}
+                ),
             )
         )
     return pages
@@ -475,6 +482,7 @@ def merge_sections(
             _, body = analysis_gate.extract_frontmatter(existing_text)
         except ValueError:
             body = ""
+        body = normalize_weekly_links(body)
         intro, existing_sections = split_sections(body)
 
     rendered_sections: list[str] = []
@@ -494,7 +502,7 @@ def merge_sections(
 
     if preserve_unknown_sections:
         for section, content in existing_sections.items():
-            if section in section_order:
+            if section in section_order or section in replace_sections:
                 continue
             section_body = content.strip() or NO_UPDATES_PLACEHOLDER
             rendered_sections.append(f"## {section}\n\n{section_body}")
@@ -523,10 +531,14 @@ def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
         return []
 
     written: list[Path] = []
-    monthly_pages = build_monthly_pages(summaries, content_root, analyzed_dir)
-    for page in monthly_pages:
-        write_rollup(page)
-        written.append(page.path)
+    month_keys = sorted({(summary.year, summary.month) for summary in summaries})
+    for year, month in month_keys:
+        monthly_summaries = [
+            summary for summary in summaries if summary.year == year and summary.month == month
+        ]
+        for page in build_monthly_pages(monthly_summaries, content_root, analyzed_dir):
+            write_rollup(page)
+            written.append(page.path)
 
     write_yearly_evidence_packs(analyzed_dir, analyzed_dir.parent / "derived" / "yearly")
 

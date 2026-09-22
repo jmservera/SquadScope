@@ -232,6 +232,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                 manifest_path=manifest,
                 repo_root=Path(tmpdir),
             )
+            manifest_sha256 = hashlib.sha256(manifest.read_bytes()).hexdigest()
 
         self.assertEqual(payload["week"], "2026-W23")
         self.assertEqual(
@@ -239,6 +240,10 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         self.assertEqual(payload["article_path"], "content/weekly/2026/W23.md")
         self.assertEqual(payload["publish_run_id"], "123456789")
+        self.assertEqual(
+            payload["manifest_sha256"],
+            manifest_sha256,
+        )
         self.assertEqual(payload["publish_mode"], "normal")
         self.assertEqual(payload["article_sha256"], "c" * 64)
         self.assertEqual(
@@ -318,6 +323,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                 article_text.encode("utf-8")
             ).hexdigest()
             manifest.write_text(json.dumps(manifest_data), encoding="utf-8")
+            expected_manifest_sha256 = hashlib.sha256(manifest.read_bytes()).hexdigest()
 
             payload = podcaster_handoff.build_payload(
                 week="2026-W23",
@@ -332,6 +338,7 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
 
         self.assertEqual(validate_payload(payload), [])
+        self.assertEqual(payload["manifest_sha256"], expected_manifest_sha256)
         self.assertTrue(payload["dry_run"])
         self.assertIn("source_artifacts", payload)
         self.assertTrue(payload["source_artifacts"])
@@ -511,6 +518,9 @@ class PodcasterHandoffTests(unittest.TestCase):
                             article_url="https://claracle.com/weekly/2026/w23/",
                             article_path=article_path.as_posix(),
                             article_sha256=article_sha,
+                            manifest_sha256=hashlib.sha256(
+                                (root / manifest_path).read_bytes()
+                            ).hexdigest(),
                             publish_run_id=publish_run_id,
                             repo_root=root,
                         )
@@ -753,7 +763,13 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("status=accepted", notice)
 
     def test_main_writes_only_safe_action_outputs(self) -> None:
-        response = {"job_id": "podcast%0Ajob", "status": "accepted", "errors": []}
+        response = {
+            "job_id": "podcast%0Ajob",
+            "correlation_id": "correlation-123",
+            "status": "accepted",
+            "api_status": 202,
+            "errors": [],
+        }
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "outputs"
             with (
@@ -787,10 +803,12 @@ class PodcasterHandoffTests(unittest.TestCase):
                 output_path.read_text(encoding="utf-8"),
                 "podcaster_job_id=podcast%250Ajob\n"
                 "podcaster_status=accepted\n"
+                "podcaster_http_status=202\n"
+                "podcaster_correlation_id=correlation-123\n"
                 "podcaster_receipt_state=submitted\n",
             )
 
-    def test_failed_handoff_writes_only_receipt_state(self) -> None:
+    def test_failed_handoff_writes_receipt_state_and_status_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "outputs"
             with (
@@ -800,7 +818,9 @@ class PodcasterHandoffTests(unittest.TestCase):
                     "post_handoff",
                     side_effect=podcaster_handoff.PodcasterHandoffError(
                         "rejected",
-                        receipt_state=podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+                        receipt_state=podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
+                        api_status=429,
+                        api_status_category="http_outcome_unknown",
                     ),
                 ),
                 mock.patch.dict(
@@ -829,7 +849,9 @@ class PodcasterHandoffTests(unittest.TestCase):
             self.assertEqual(exit_code, 1)
             self.assertEqual(
                 output_path.read_text(encoding="utf-8"),
-                "podcaster_receipt_state=submission_rejected\n",
+                "podcaster_receipt_state=submission_unknown\n"
+                "podcaster_http_status=429\n"
+                "podcaster_api_status_category=http_outcome_unknown\n",
             )
 
     def test_action_outputs_are_optional_for_local_cli(self) -> None:
@@ -839,19 +861,16 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
             podcaster_handoff.write_action_receipt_state(podcaster_handoff.RECEIPT_STATE_SUBMITTED)
 
-    def test_post_handoff_sends_auth_header_without_logging_value(self) -> None:
-        response = _FakeHTTPResponse(
-            json.dumps(
-                {"job_id": "podcast-2026-W23-abc12345", "status": "accepted", "errors": []}
-            ).encode()
-        )
+    def test_exact_release_manifest_read_failure_is_actionable(self) -> None:
+        manifest_path = Path("missing-publish-manifest.json")
         with (
             mock.patch.object(
-                podcaster_handoff.request, "urlopen", return_value=response
-            ) as urlopen_mock,
-            mock.patch.dict(
-                podcaster_handoff.os.environ, {"PODCASTER_API_KEY": "super-secret-value"}
+                podcaster_handoff,
+                "verify_release_evidence",
+                return_value=(manifest_path, "123456789"),
             ),
+            mock.patch.object(podcaster_handoff, "_load_manifest", return_value={}),
+            mock.patch.object(Path, "read_bytes", side_effect=OSError("manifest disappeared")),
             mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
         ):
             exit_code = podcaster_handoff.main(
@@ -859,15 +878,56 @@ class PodcasterHandoffTests(unittest.TestCase):
                     "--week",
                     "2026-W23",
                     "--article-url",
-                    "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                    "https://claracle.com/weekly/2026/w23/",
                     "--article-path",
                     "content/weekly/2026/W23.md",
-                    "--publish-run-id",
-                    "123456789",
-                    "--endpoint",
-                    "http://localhost:7071/api/generate",
+                    "--exact-article-content",
+                    "--promotion-reference",
+                    "promotion.json",
+                    "--expected-article-sha256",
+                    "a" * 64,
                 ]
             )
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("Failed to read exact release manifest", stdout.getvalue())
+        self.assertIn("manifest disappeared", stdout.getvalue())
+
+    def test_post_handoff_sends_auth_header_without_logging_value(self) -> None:
+        response = _FakeHTTPResponse(
+            json.dumps(
+                {"job_id": "podcast-2026-W23-abc12345", "status": "accepted", "errors": []}
+            ).encode()
+        )
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest = self._write_manifest(Path(tmpdir))
+            manifest_sha256 = hashlib.sha256(manifest.read_bytes()).hexdigest()
+            with (
+                mock.patch.object(
+                    podcaster_handoff.request, "urlopen", return_value=response
+                ) as urlopen_mock,
+                mock.patch.dict(
+                    podcaster_handoff.os.environ, {"PODCASTER_API_KEY": "super-secret-value"}
+                ),
+                mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+            ):
+                exit_code = podcaster_handoff.main(
+                    [
+                        "--week",
+                        "2026-W23",
+                        "--article-url",
+                        "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                        "--article-path",
+                        "content/weekly/2026/W23.md",
+                        "--publish-run-id",
+                        "123456789",
+                        "--manifest",
+                        str(manifest),
+                        "--endpoint",
+                        "http://localhost:7071/api/generate",
+                    ]
+                )
 
         self.assertEqual(exit_code, 0)
         req = urlopen_mock.call_args.args[0]
@@ -880,6 +940,7 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         self.assertEqual(sent_payload["article_path"], "content/weekly/2026/W23.md")
         self.assertEqual(sent_payload["publish_run_id"], "123456789")
+        self.assertEqual(sent_payload["manifest_sha256"], manifest_sha256)
         self.assertEqual(sent_payload["publish_mode"], "normal")
         self.assertIn("podcast_config", sent_payload)
         self.assertEqual(sent_payload["podcast_config"]["name"], "Claracle")
@@ -1072,6 +1133,7 @@ class PodcasterHandoffTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             manifest_path = self._write_manifest(Path(tmpdir), run_mode="normal")
             preloaded = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest_sha256 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
             with mock.patch.object(
                 podcaster_handoff, "_load_manifest", side_effect=AssertionError("reloaded")
             ):
@@ -1081,9 +1143,31 @@ class PodcasterHandoffTests(unittest.TestCase):
                     article_path="content/weekly/2026/W23.md",
                     publish_run_id="123456789",
                     publish_mode="normal",
+                    manifest_path=manifest_path,
                     manifest=preloaded,
                 )
         self.assertEqual(payload["week"], "2026-W23")
+        self.assertEqual(payload["manifest_sha256"], manifest_sha256)
+
+    def test_preloaded_manifest_must_match_exact_manifest_bytes(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest_path = self._write_manifest(Path(tmpdir))
+            preloaded = json.loads(manifest_path.read_text(encoding="utf-8"))
+            preloaded["run_id"] = "987654321"
+
+            with self.assertRaisesRegex(
+                podcaster_handoff.PodcasterHandoffError,
+                "does not match the exact authorized manifest bytes",
+            ):
+                podcaster_handoff.build_payload(
+                    week="2026-W23",
+                    article_url="https://claracle.com/weekly/2026/w23/",
+                    article_path="content/weekly/2026/W23.md",
+                    publish_run_id="123456789",
+                    manifest_path=manifest_path,
+                    manifest=preloaded,
+                )
 
     def test_missing_manifest_path_raises_fail_closed(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -1134,6 +1218,27 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         self.assertEqual(result["status"], "dry_run")
 
+    def test_post_handoff_rejects_missing_manifest_digest_before_network(self) -> None:
+        with (
+            mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock,
+            self.assertRaisesRegex(
+                podcaster_handoff.PodcasterHandoffError,
+                "requires manifest_sha256",
+            ),
+        ):
+            podcaster_handoff.post_handoff(
+                "http://localhost:7071/api/generate",
+                "super-secret-value",
+                {
+                    "week": "2026-W23",
+                    "article_url": "https://claracle.com/weekly/2026/w23/",
+                    "article_path": "content/weekly/2026/W23.md",
+                    "publish_run_id": "123456789",
+                    "publish_mode": "normal",
+                },
+            )
+        urlopen_mock.assert_not_called()
+
     def test_non_2xx_response_fails_handoff(self) -> None:
         http_err = error.HTTPError(
             url="http://localhost:7071/api/generate",
@@ -1153,11 +1258,12 @@ class PodcasterHandoffTests(unittest.TestCase):
                         "article_path": "content/weekly/2026/W23.md",
                         "publish_run_id": "123456789",
                         "publish_mode": "normal",
+                        "manifest_sha256": "a" * 64,
                     },
                 )
         self.assertEqual(
             ctx.exception.receipt_state,
-            podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
         )
 
     def test_error_body_included_and_sanitized_in_exception(self) -> None:
@@ -1182,23 +1288,73 @@ class PodcasterHandoffTests(unittest.TestCase):
                         "article_path": "content/weekly/2026/W23.md",
                         "publish_run_id": "123456789",
                         "publish_mode": "normal",
+                        "manifest_sha256": "a" * 64,
                     },
                 )
         msg = str(ctx.exception)
-        # Body IS included
-        self.assertIn("Response body:", msg)
-        self.assertIn("line1", msg)
-        # Truncated: 1024 bytes read max, so not all 1100 'A's appear
-        self.assertLessEqual(len(msg), 1200)
-        # Sanitized: no newlines or :: sequences
-        body_part = msg.split("Response body: ", 1)[1]
-        self.assertNotIn("\n", body_part)
-        self.assertNotIn("\r", body_part)
-        self.assertNotIn("::", body_part)
+        self.assertEqual(msg, "Podcaster handoff failed with HTTP 502.")
+        self.assertEqual(
+            ctx.exception.receipt_state,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
+        )
+        self.assertEqual(ctx.exception.api_status, 502)
+        self.assertEqual(ctx.exception.api_status_category, "http_outcome_unknown")
+
+    def test_definitive_client_rejection_remains_retryable(self) -> None:
+        http_err = error.HTTPError(
+            url="http://localhost:7071/api/generate",
+            code=400,
+            msg="Bad Request",
+            hdrs={},
+            fp=io.BytesIO(b"{}"),
+        )
+        with mock.patch.object(podcaster_handoff.request, "urlopen", side_effect=http_err):
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                podcaster_handoff.post_handoff(
+                    "http://localhost:7071/api/generate",
+                    "super-secret-value",
+                    {
+                        "week": "2026-W23",
+                        "article_url": "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                        "article_path": "content/weekly/2026/W23.md",
+                        "publish_run_id": "123456789",
+                        "publish_mode": "normal",
+                        "manifest_sha256": "a" * 64,
+                    },
+                )
         self.assertEqual(
             ctx.exception.receipt_state,
             podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED,
         )
+        self.assertEqual(ctx.exception.api_status_category, "http_rejected_pre_acceptance")
+
+    def test_rate_limit_response_is_submission_unknown(self) -> None:
+        http_err = error.HTTPError(
+            url="http://localhost:7071/api/generate",
+            code=429,
+            msg="Too Many Requests",
+            hdrs={},
+            fp=io.BytesIO(b"{}"),
+        )
+        with mock.patch.object(podcaster_handoff.request, "urlopen", side_effect=http_err):
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                podcaster_handoff.post_handoff(
+                    "http://localhost:7071/api/generate",
+                    "super-secret-value",
+                    {
+                        "week": "2026-W23",
+                        "article_url": "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                        "article_path": "content/weekly/2026/W23.md",
+                        "publish_run_id": "123456789",
+                        "publish_mode": "normal",
+                        "manifest_sha256": "a" * 64,
+                    },
+                )
+        self.assertEqual(
+            ctx.exception.receipt_state,
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
+        )
+        self.assertEqual(ctx.exception.api_status_category, "http_outcome_unknown")
 
     def test_article_url_from_page_path_matches_hugo_weekly_permalink(self) -> None:
         self.assertEqual(

@@ -77,8 +77,9 @@ jobs:
           # 2026-W25 → year=2026, short=W25
           YEAR="${WEEK%%-*}"
           SHORT="${WEEK##*-}"
+          SHORT_LOWER="${SHORT,,}"
           echo "article_path=content/weekly/${YEAR}/${SHORT}.md" >> "$GITHUB_OUTPUT"
-          echo "article_url=https://claracle.com/weekly/${YEAR}/${SHORT}/" >> "$GITHUB_OUTPUT"
+          echo "article_url=https://claracle.com/weekly/${YEAR}/${SHORT_LOWER}/" >> "$GITHUB_OUTPUT"
 
       - name: Locate publish manifest from crawl-and-publish
         id: manifest-locate

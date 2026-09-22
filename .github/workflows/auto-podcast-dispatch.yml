@@ -47,6 +47,7 @@ jobs:
     permissions:
       contents: read
       actions: read
+      issues: read
     outputs:
       eligible: ${{ steps.detect.outputs.eligible }}
       week: ${{ steps.detect.outputs.week }}
@@ -56,6 +57,7 @@ jobs:
       article_url: ${{ steps.detect.outputs.article_url }}
       article_sha256: ${{ steps.detect.outputs.article_sha256 }}
       manifest_sha256: ${{ steps.detect.outputs.manifest_sha256 }}
+      identity_key: ${{ steps.detect.outputs.identity_key }}
       is_duplicate: ${{ steps.dedup.outputs.is_duplicate }}
       dedup_status: ${{ steps.dedup.outputs.dedup_status }}
       prior_run_url: ${{ steps.dedup.outputs.prior_run_url }}
@@ -173,12 +175,14 @@ jobs:
           WEEK: ${{ steps.detect.outputs.week }}
           PUBLISH_RUN_ID: ${{ steps.detect.outputs.publish_run_id }}
           ARTICLE_SHA256: ${{ steps.detect.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ steps.detect.outputs.manifest_sha256 }}
         run: |
           python3 scripts/auto_dispatch_detect.py \
             --check-duplicate \
             --week "$WEEK" \
             --publish-run-id "$PUBLISH_RUN_ID" \
-            --article-sha256 "$ARTICLE_SHA256"
+            --article-sha256 "$ARTICLE_SHA256" \
+            --manifest-sha256 "$MANIFEST_SHA256"
 
       - name: Emit detect receipt
         if: always()
@@ -239,26 +243,35 @@ jobs:
 
       - name: Record ambiguous prior dispatch notice
         if: always() && steps.dedup.outputs.dedup_status == 'ambiguous_prior_submission'
+        env:
+          PRIOR_RUN_URL: ${{ steps.dedup.outputs.prior_run_url || 'unknown' }}
+          WEEK: ${{ steps.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ steps.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ steps.detect.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ steps.detect.outputs.manifest_sha256 }}
         run: |
           {
             echo "## ⚠️ Podcast dispatch blocked by ambiguous prior submission"
             echo ""
             echo "- **Reason:** prior real-dispatch evidence could not be proven safe to retry"
-            echo "- **Prior run:** ${{ steps.dedup.outputs.prior_run_url || 'unknown' }}"
-            echo "- **Week:** ${{ steps.detect.outputs.week }}"
-            echo "- **Publish run ID:** ${{ steps.detect.outputs.publish_run_id }}"
-            echo "- **Article SHA-256:** \`${{ steps.detect.outputs.article_sha256 }}\`"
+            echo "- **Prior run:** ${PRIOR_RUN_URL}"
+            echo "- **Week:** ${WEEK}"
+            echo "- **Publish run ID:** ${PUBLISH_RUN_ID}"
+            echo "- **Article SHA-256:** \`${ARTICLE_SHA256}\`"
+            echo "- **Manifest SHA-256:** \`${MANIFEST_SHA256}\`"
             echo ""
             echo "Manual review is required before any retry."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Record no-match notice
         if: steps.detect.outputs.eligible == 'false' && steps.detect.outputs.status != 'paused' && steps.detect.outputs.status != 'no_new_article'
+        env:
+          NO_MATCH_REASON: ${{ steps.detect.outputs.reason || 'no_matching_manifest' }}
         run: |
           {
             echo "## ⚠️ Podcast auto-dispatch: no eligible manifest found"
             echo ""
-            echo "- **Reason:** \`${{ steps.detect.outputs.reason || 'no_matching_manifest' }}\`"
+            echo "- **Reason:** \`${NO_MATCH_REASON}\`"
             echo "- **Push SHA:** \`${{ github.sha }}\`"
             echo ""
             echo "If publication should have triggered a podcast, check that:"
@@ -283,12 +296,16 @@ jobs:
       inputs.observe_only != true
     runs-on: ubuntu-latest
     concurrency:
-      group: podcast-dispatch-${{ needs.detect.outputs.week }}-${{ needs.detect.outputs.publish_run_id }}
+      group: podcast-dispatch-${{ needs.detect.outputs.identity_key }}
       cancel-in-progress: false
     environment:
       name: podcaster-real-generation
     permissions:
       contents: read
+      actions: read
+      issues: write
+    outputs:
+      handoff_entered: ${{ steps.handoff-boundary.outcome == 'success' }}
 
     steps:
       - name: Check out repository
@@ -330,6 +347,7 @@ jobs:
           PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
           DETECT_MANIFEST_PATH: ${{ needs.detect.outputs.manifest_path }}
           DETECT_ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
+          DETECT_MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
         run: |
           set -euo pipefail
           if ! [[ "$PUBLISH_RUN_ID" =~ ^[0-9]+$ ]]; then
@@ -357,7 +375,7 @@ jobs:
             exit 1
           fi
           # Mirror trigger-podcast.yml validation inline Python
-          python3 - "$MANIFEST" "$WEEK" "$PUBLISH_RUN_ID" "$DETECT_ARTICLE_SHA256" <<'PY'
+          python3 - "$MANIFEST" "$WEEK" "$PUBLISH_RUN_ID" "$DETECT_ARTICLE_SHA256" "$DETECT_MANIFEST_SHA256" <<'PY'
           import hashlib
           import json
           import os
@@ -368,6 +386,7 @@ jobs:
           requested_week = sys.argv[2]
           requested_run_id = sys.argv[3]
           expected_article_sha256 = sys.argv[4]
+          expected_manifest_sha256 = sys.argv[5]
           manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
           if manifest.get("week") != requested_week:
@@ -394,6 +413,11 @@ jobs:
               )
 
           manifest_sha256 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+          if manifest_sha256 != expected_manifest_sha256:
+              raise SystemExit(
+                  f"::error::Manifest SHA-256 mismatch: fetched={manifest_sha256!r} "
+                  f"detect={expected_manifest_sha256!r}"
+              )
 
           with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as out:
               out.write(f"manifest_path={manifest_path}\n")
@@ -402,8 +426,98 @@ jobs:
               out.write(f"publish_run_id={requested_run_id}\n")
           PY
 
+      - name: Validate Podcaster configuration
+        env:
+          PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
+        run: |
+          if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
+            echo "::error::Requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
+            exit 1
+          fi
+
+      - name: Prepare mutation receipt
+        id: prepare-receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 scripts/podcast_dispatch_state.py write-receipt \
+            --state attempt_prepared \
+            --dispatch-run-id "${{ github.run_id }}" \
+            --attempt-id "${{ github.run_id }}-${{ github.run_attempt }}" \
+            --week "$WEEK" --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256" --manifest-sha256 "$MANIFEST_SHA256" \
+            --actions-run-url "$RUN_URL" --output podcast-dispatch-pre-receipt.json
+
+      - name: Persist prepared receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from scripts.podcast_dispatch_state import append_ledger_receipt, parse_receipt
+          receipt = parse_receipt(open("podcast-dispatch-pre-receipt.json", encoding="utf-8").read())
+          append_ledger_receipt(os.environ["GITHUB_REPOSITORY"], os.environ["GH_TOKEN"], receipt)
+          PY
+
+      - name: Mirror prepared receipt
+        id: mirror-pre
+        continue-on-error: true
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: podcast-dispatch-pre-receipt
+          path: podcast-dispatch-pre-receipt.json
+          retention-days: 90
+
+      - name: Record pre-submit mirror failure
+        if: steps.mirror-pre.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 scripts/podcast_dispatch_state.py write-receipt \
+            --state pre_submit_failed --dispatch-run-id "${{ github.run_id }}" \
+            --attempt-id "${{ github.run_id }}-${{ github.run_attempt }}" \
+            --week "$WEEK" --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256" --manifest-sha256 "$MANIFEST_SHA256" \
+            --actions-run-url "$RUN_URL" --output podcast-dispatch-pre-receipt.json \
+            --append-ledger
+          exit 1
+
+      - name: Persist handoff-entered boundary
+        id: handoff-boundary
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 scripts/podcast_dispatch_state.py write-receipt \
+            --state handoff_entered --dispatch-run-id "${{ github.run_id }}" \
+            --attempt-id "${{ github.run_id }}-${{ github.run_attempt }}" \
+            --week "$WEEK" --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256" --manifest-sha256 "$MANIFEST_SHA256" \
+            --actions-run-url "$RUN_URL" --output podcast-dispatch-pre-receipt.json \
+            --append-ledger
+
       - name: Trigger podcast generation
         id: handoff
+        continue-on-error: true
         env:
           PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
@@ -415,10 +529,6 @@ jobs:
           TRIGGER_RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
-          if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
-            echo "::error::Requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
-            exit 1
-          fi
           if [ ! -f "$ARTICLE_PATH" ]; then
             echo "::error::Article '$ARTICLE_PATH' is not on the default branch."
             exit 1
@@ -438,66 +548,64 @@ jobs:
             --podcast-config config/podcast.json \
             --require-merged
 
-      - name: Retain real generation evidence
-        if: always()
+      - name: Persist post receipt to ledger
+        id: post-ledger
+        if: always() && steps.handoff-boundary.outcome == 'success'
+        continue-on-error: true
         env:
-          DERIVE_CONCLUSION: ${{ steps.derive.conclusion }}
-          MANIFEST_LOCATE_CONCLUSION: ${{ steps.manifest-locate.conclusion }}
-          HANDOFF_OUTCOME: ${{ steps.handoff.outcome }}
-          HANDOFF_CONCLUSION: ${{ steps.handoff.conclusion }}
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           PODCASTER_JOB_ID: ${{ steps.handoff.outputs.podcaster_job_id }}
           PODCASTER_RECEIPT_STATE: ${{ steps.handoff.outputs.podcaster_receipt_state }}
           PODCASTER_STATUS: ${{ steps.handoff.outputs.podcaster_status }}
+          PODCASTER_HTTP_STATUS: ${{ steps.handoff.outputs.podcaster_http_status }}
+          PODCASTER_API_STATUS_CATEGORY: ${{ steps.handoff.outputs.podcaster_api_status_category }}
+          PODCASTER_CORRELATION_ID: ${{ steps.handoff.outputs.podcaster_correlation_id }}
           WEEK: ${{ needs.detect.outputs.week }}
           PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
           MANIFEST_PATH: ${{ steps.manifest-locate.outputs.manifest_path }}
-          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 }}
+          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 || needs.detect.outputs.manifest_sha256 }}
           ARTICLE_PATH: ${{ steps.derive.outputs.article_path }}
-          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 }}
+          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 || needs.detect.outputs.article_sha256 }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          DISPATCHER: auto-dispatch
         run: |
-          RECEIPT_STATE="${PODCASTER_RECEIPT_STATE:-}"
-          if [ -z "$RECEIPT_STATE" ]; then
-            RECEIPT_STATE="pre_submit_failed"
-          fi
-          export RECEIPT_STATE
-          python3 - <<'PY'
-          import json
-          import os
+          STATE="${PODCASTER_RECEIPT_STATE:-submission_unknown}"
+          [ "$STATE" = "submitted" ] && STATE="accepted"
+          ARGS=()
+          [ -n "$PODCASTER_HTTP_STATUS" ] && ARGS+=(--api-status "$PODCASTER_HTTP_STATUS")
+          [ -n "$PODCASTER_API_STATUS_CATEGORY" ] && ARGS+=(--api-status-category "$PODCASTER_API_STATUS_CATEGORY")
+          [ -n "$PODCASTER_JOB_ID" ] && ARGS+=(--job-id "$PODCASTER_JOB_ID")
+          [ -n "$PODCASTER_CORRELATION_ID" ] && ARGS+=(--correlation-id "$PODCASTER_CORRELATION_ID")
+          python3 scripts/podcast_dispatch_state.py write-receipt \
+            --state "$STATE" --dispatch-run-id "${{ github.run_id }}" \
+            --attempt-id "${{ github.run_id }}-${{ github.run_attempt }}" \
+            --week "$WEEK" --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256" --manifest-sha256 "$MANIFEST_SHA256" \
+            --actions-run-url "$RUN_URL" --output podcast-dispatch-post-receipt.json \
+            --append-ledger "${ARGS[@]}"
 
-          record = {
-              "schema_version": "podcast_dispatch_receipt_v1",
-              "workflow": "auto-podcast-dispatch",
-              "dispatcher": os.environ.get("DISPATCHER", "").strip(),
-              "receipt_state": os.environ.get("RECEIPT_STATE", "").strip(),
-              "week": os.environ.get("WEEK", "").strip(),
-              "publish_run_id": os.environ.get("PUBLISH_RUN_ID", "").strip(),
-              "article_sha256": os.environ.get("ARTICLE_SHA256", "").strip(),
-              "manifest_sha256": os.environ.get("MANIFEST_SHA256", "").strip(),
-              "podcaster_status": os.environ.get("PODCASTER_STATUS", "").strip(),
-              "podcaster_job_id": os.environ.get("PODCASTER_JOB_ID", "").strip(),
-              "actions_run_url": os.environ.get("RUN_URL", "").strip(),
-          }
-          print(f"PODCAST_DISPATCH_RECEIPT::{json.dumps(record, sort_keys=True, separators=(',', ':'))}")
-          PY
-          {
-            echo "## Podcaster real-generation evidence"
-            echo ""
-            echo "- Receipt state: ${RECEIPT_STATE}"
-            echo "- Workflow conclusion: ${HANDOFF_OUTCOME}"
-            echo "- Dispatcher: ${DISPATCHER}"
-            echo "- Trigger: auto-dispatch (push to main)"
-            echo "- Week: ${WEEK}"
-            echo "- Publish run ID: ${PUBLISH_RUN_ID}"
-            echo "- Manifest: ${MANIFEST_PATH}"
-            echo "- Manifest SHA-256: ${MANIFEST_SHA256}"
-            echo "- Article: ${ARTICLE_PATH}"
-            echo "- Article SHA-256: ${ARTICLE_SHA256}"
-            echo "- Podcaster response status: ${PODCASTER_STATUS}"
-            echo "- Podcaster job ID: ${PODCASTER_JOB_ID}"
-            echo "- Actions run: ${RUN_URL}"
-          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload post receipt mirror
+        id: post-artifact
+        if: always() && steps.handoff-boundary.outcome == 'success'
+        continue-on-error: true
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: podcast-dispatch-post-receipt
+          path: podcast-dispatch-post-receipt.json
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Assert post persistence
+        if: always() && steps.handoff-boundary.outcome == 'success'
+        env:
+          HANDOFF_OUTCOME: ${{ steps.handoff.outcome }}
+          LEDGER_OUTCOME: ${{ steps.post-ledger.outcome }}
+          ARTIFACT_OUTCOME: ${{ steps.post-artifact.outcome }}
+        run: |
+          if [ "$HANDOFF_OUTCOME" != "success" ] || [ "$LEDGER_OUTCOME" != "success" ] || [ "$ARTIFACT_OUTCOME" != "success" ]; then
+            echo "::error::Handoff or required post persistence failed; reconciliation remains required."
+            exit 1
+          fi
 
   observe-summary:
     name: Observe-only summary
@@ -506,20 +614,209 @@ jobs:
       needs.detect.outputs.eligible == 'true' &&
       inputs.observe_only == true
     runs-on: ubuntu-latest
-    permissions: {}
+    permissions:
+      contents: read
+      issues: write
     steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          persist-credentials: false
+      - name: Persist observation receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
+        run: |
+          python3 scripts/podcast_dispatch_state.py write-receipt \
+            --state observation_only --dispatch-run-id "${{ github.run_id }}" \
+            --attempt-id "${{ github.run_id }}-${{ github.run_attempt }}" \
+            --week "$WEEK" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256" \
+            --manifest-sha256 "$MANIFEST_SHA256" \
+            --actions-run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --output podcast-dispatch-observation.json --append-ledger
+      - name: Upload observation receipt
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: podcast-dispatch-observation
+          path: podcast-dispatch-observation.json
+          retention-days: 90
       - name: Record observe-only result
+        env:
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_PATH: ${{ needs.detect.outputs.article_path }}
+          ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
+          MANIFEST_PATH: ${{ needs.detect.outputs.manifest_path }}
+          MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
         run: |
           {
             echo "## 👁️ Observe-only: podcast dispatch would have been created"
             echo ""
-            echo "- **Week:** ${{ needs.detect.outputs.week }}"
-            echo "- **Publish run ID:** ${{ needs.detect.outputs.publish_run_id }}"
-            echo "- **Article:** \`${{ needs.detect.outputs.article_path }}\`"
-            echo "- **Article SHA-256:** \`${{ needs.detect.outputs.article_sha256 }}\`"
-            echo "- **Manifest:** \`${{ needs.detect.outputs.manifest_path }}\`"
-            echo "- **Manifest SHA-256:** \`${{ needs.detect.outputs.manifest_sha256 }}\`"
+            echo "- **Week:** ${WEEK}"
+            echo "- **Publish run ID:** ${PUBLISH_RUN_ID}"
+            echo "- **Article:** \`${ARTICLE_PATH}\`"
+            echo "- **Article SHA-256:** \`${ARTICLE_SHA256}\`"
+            echo "- **Manifest:** \`${MANIFEST_PATH}\`"
+            echo "- **Manifest SHA-256:** \`${MANIFEST_SHA256}\`"
             echo "- **Would have dispatched to:** podcaster-real-generation environment"
             echo ""
             echo "_No Podcaster request was sent. This is an observe-only run._"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  reconcile:
+    name: Reconcile podcast publication
+    needs: [detect, real-generation]
+    if: |
+      always() &&
+      inputs.observe_only != true &&
+      (needs.detect.outputs.dedup_status == 'ambiguous_prior_submission' ||
+       needs.detect.outputs.dedup_status == 'duplicate' ||
+       (needs.detect.outputs.eligible == 'true' &&
+        needs.real-generation.result != 'skipped'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 61
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+    environment:
+      name: podcaster-real-generation
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          persist-credentials: false
+      - name: Download post receipt
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        continue-on-error: true
+        with:
+          name: podcast-dispatch-post-receipt
+      - name: Resolve authoritative ledger receipt
+        id: resolve-receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          DISPATCH_RUN_ID: ${{ github.run_id }}
+          WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
+          ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
+          MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
+        run: |
+          resolve_started=$SECONDS
+          set +e
+          python3 scripts/podcast_dispatch_state.py resolve-receipt \
+            --week "$WEEK" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-sha256 "$ARTICLE_SHA256" \
+            --manifest-sha256 "$MANIFEST_SHA256" \
+            --repo "$GITHUB_REPOSITORY" \
+            --output podcast-dispatch-authoritative-receipt.json
+          resolve_status=$?
+          set -e
+          if [ "$resolve_status" -ne 0 ]; then
+            state="unavailable"
+            [ "$resolve_status" -eq 2 ] && state="missing"
+            remaining_cleanup=$((120 - (SECONDS - resolve_started)))
+            if [ "$remaining_cleanup" -le 0 ]; then
+              echo "::error::No cleanup budget remains to persist the ledger incident."
+              exit 1
+            fi
+            python3 scripts/podcast_dispatch_state.py upsert-incident \
+              --week "$WEEK" \
+              --publish-run-id "$PUBLISH_RUN_ID" \
+              --article-sha256 "$ARTICLE_SHA256" \
+              --manifest-sha256 "$MANIFEST_SHA256" \
+              --stage ledger --state "$state" \
+              --repo "$GITHUB_REPOSITORY" \
+              --dispatch-run-id "$DISPATCH_RUN_ID" \
+              --timeout-seconds "$remaining_cleanup"
+            echo "::error::Authoritative ledger receipt could not be resolved."
+            exit 1
+          fi
+          if [ -f podcast-dispatch-post-receipt.json ]; then
+            python3 - <<'PY'
+          from pathlib import Path
+          from scripts.podcast_dispatch_state import DispatchReceipt, parse_receipt
+
+          authoritative = parse_receipt(
+              Path("podcast-dispatch-authoritative-receipt.json").read_text(encoding="utf-8")
+          )
+          diagnostic = parse_receipt(
+              Path("podcast-dispatch-post-receipt.json").read_text(encoding="utf-8")
+          )
+          if not isinstance(authoritative, DispatchReceipt):
+              raise SystemExit("authoritative receipt is not v2")
+          if not isinstance(diagnostic, DispatchReceipt):
+              raise SystemExit("diagnostic receipt is not v2")
+          if (
+              diagnostic.identity != authoritative.identity
+              or diagnostic.attempt_id != authoritative.attempt_id
+              or diagnostic.receipt_state != authoritative.receipt_state
+          ):
+              print("::warning::Diagnostic receipt mirror does not match authoritative ledger.")
+          PY
+          fi
+          receipt_state=$(python3 - <<'PY'
+          from pathlib import Path
+          from scripts.podcast_dispatch_state import DispatchReceipt, parse_receipt
+
+          receipt = parse_receipt(
+              Path("podcast-dispatch-authoritative-receipt.json").read_text(encoding="utf-8")
+          )
+          if not isinstance(receipt, DispatchReceipt):
+              raise SystemExit("authoritative receipt is not v2")
+          print(receipt.receipt_state)
+          PY
+          )
+          retryable_pre_boundary=$(python3 - <<'PY'
+          from pathlib import Path
+          from scripts.podcast_dispatch_state import (
+              DispatchReceipt,
+              parse_receipt,
+              receipt_retry_classification,
+          )
+
+          receipt = parse_receipt(
+              Path("podcast-dispatch-authoritative-receipt.json").read_text(encoding="utf-8")
+          )
+          if not isinstance(receipt, DispatchReceipt):
+              raise SystemExit("authoritative receipt is not v2")
+          print(
+              "true"
+              if receipt_retry_classification([receipt]) == "retryable_non_mutation"
+              else "false"
+          )
+          PY
+          )
+          echo "receipt_state=$receipt_state" >> "$GITHUB_OUTPUT"
+          echo "retryable_pre_boundary=$retryable_pre_boundary" >> "$GITHUB_OUTPUT"
+      - name: Record retryable pre-boundary failure
+        if: steps.resolve-receipt.outputs.retryable_pre_boundary == 'true'
+        env:
+          RECEIPT_STATE: ${{ steps.resolve-receipt.outputs.receipt_state }}
+        run: |
+          {
+            echo "## Retryable pre-boundary podcast dispatch failure"
+            echo ""
+            echo "Authoritative receipt state: \`${RECEIPT_STATE}\`"
+            echo ""
+            echo "No Podcaster mutation is known to have started; a later workflow retry remains safe."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Monitor authoritative terminal outcome
+        if: steps.resolve-receipt.outputs.retryable_pre_boundary != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
+          PODCASTER_STATUS_ENDPOINT: ${{ vars.PODCASTER_STATUS_ENDPOINT }}
+        run: |
+          python3 scripts/podcast_dispatch_state.py monitor \
+            --receipt podcast-dispatch-authoritative-receipt.json \
+            --endpoint "$PODCASTER_STATUS_ENDPOINT" \
+            --repo "${{ github.repository }}" \
+            --summary "$GITHUB_STEP_SUMMARY"

@@ -434,17 +434,17 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
         self.assertIn("--agent weekly-analysis", run_analysis)
         self.assertIn("copilot_workspace_guard.py", run_analysis)
-        self.assertIn("copilot_output_guard.py", run_analysis)
+        self.assertIn("scripts/ai_output_guard.py validate", run_analysis)
         self.assertIn('COPILOT_SANDBOX="$(mktemp -d', run_analysis)
         self.assertIn('-C "$COPILOT_SANDBOX"', run_analysis)
         self.assertIn("--disallow-temp-dir", run_analysis)
         self.assertIn("--disable-builtin-mcps", run_analysis)
         self.assertIn('"$WORKSPACE_GUARD" snapshot', run_analysis)
         self.assertIn('"$WORKSPACE_GUARD" verify', run_analysis)
-        self.assertIn('"$OUTPUT_GUARD" validate', run_analysis)
+        self.assertIn('--token-file "$CANARY_FILE"', run_analysis)
         self.assertIn('--allow "analysis-output.md"', run_analysis)
         self.assertIn('--allow "copilot-transcript.md"', run_analysis)
-        self.assertIn("must never appear in output", run_analysis)
+        self.assertIn("Never reproduce the internal verification token", run_analysis)
         self.assertIn(
             "Read analysis-prompt.md. Write the complete weekly analysis markdown to analysis-output.md.",
             run_analysis,
@@ -471,7 +471,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn('ANALYSIS_SOURCE="github-models"', run_analysis)
         self.assertNotIn("falling back to GitHub Models API", run_analysis)
         verify_index = run_analysis.index('"$WORKSPACE_GUARD" verify')
-        validate_index = run_analysis.index('"$OUTPUT_GUARD" validate', verify_index)
+        validate_index = run_analysis.index("scripts/ai_output_guard.py validate", verify_index)
         copy_index = run_analysis.index(
             'cp "$COPILOT_SANDBOX_OUTPUT" "$OUTPUT_FILE"', validate_index
         )
@@ -490,7 +490,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('-C "$SYNTHESIS_SANDBOX"', synthesis_run)
         self.assertIn("--disallow-temp-dir", synthesis_run)
         synthesis_verify = synthesis_run.index('"$WORKSPACE_GUARD" verify')
-        synthesis_validate = synthesis_run.index('"$OUTPUT_GUARD" validate', synthesis_verify)
+        synthesis_validate = synthesis_run.index(
+            "scripts/ai_output_guard.py validate", synthesis_verify
+        )
         synthesis_copy = synthesis_run.index(
             'cp "$SYNTHESIS_SANDBOX_OUTPUT" "$SYNTHESIS_FILE"',
             synthesis_validate,
@@ -1119,6 +1121,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertFalse(job["concurrency"]["cancel-in-progress"])
         checkout = next(s for s in job["steps"] if _uses_action(s, "actions/checkout"))
         self.assertEqual(checkout["with"]["ref"], "${{ github.event.repository.default_branch }}")
+        derive = next(s for s in job["steps"] if s.get("id") == "derive")
+        self.assertIn('SHORT_LOWER="${SHORT,,}"', derive["run"])
+        self.assertIn(
+            "article_url=https://claracle.com/weekly/${YEAR}/${SHORT_LOWER}/",
+            derive["run"],
+        )
 
         locate = next(s for s in job["steps"] if s.get("id") == "manifest-locate")
         locate_run = locate["run"]
@@ -1168,12 +1176,18 @@ class WorkflowConfigTests(unittest.TestCase):
             detect_job["outputs"]["article_sha256"], "${{ steps.detect.outputs.article_sha256 }}"
         )
         self.assertEqual(
+            detect_job["outputs"]["manifest_sha256"],
+            "${{ steps.detect.outputs.manifest_sha256 }}",
+        )
+        self.assertEqual(
             detect_job["outputs"]["dedup_status"], "${{ steps.dedup.outputs.dedup_status }}"
         )
 
         dedup = next(step for step in detect_job["steps"] if step.get("id") == "dedup")
         self.assertIn("ARTICLE_SHA256", dedup["env"])
+        self.assertIn("MANIFEST_SHA256", dedup["env"])
         self.assertIn("--article-sha256", dedup["run"])
+        self.assertIn("--manifest-sha256", dedup["run"])
 
         emit_receipt = next(
             step for step in detect_job["steps"] if step.get("name") == "Emit detect receipt"
@@ -1187,18 +1201,109 @@ class WorkflowConfigTests(unittest.TestCase):
         real_generation = workflow["jobs"]["real-generation"]
         self.assertEqual(
             real_generation["concurrency"]["group"],
-            "podcast-dispatch-${{ needs.detect.outputs.week }}-${{ needs.detect.outputs.publish_run_id }}",
+            "podcast-dispatch-${{ needs.detect.outputs.identity_key }}",
         )
         self.assertFalse(real_generation["concurrency"]["cancel-in-progress"])
-
-        evidence = next(
+        locate = next(
+            step for step in real_generation["steps"] if step.get("id") == "manifest-locate"
+        )
+        self.assertIn("DETECT_MANIFEST_SHA256", locate["env"])
+        self.assertIn("Manifest SHA-256 mismatch", locate["run"])
+        post_ledger = next(
             step
             for step in real_generation["steps"]
-            if step.get("name") == "Retain real generation evidence"
+            if step["name"] == "Persist post receipt to ledger"
         )
-        self.assertIn("PODCASTER_RECEIPT_STATE", evidence["env"])
-        self.assertIn("PODCAST_DISPATCH_RECEIPT::", evidence["run"])
-        self.assertIn("Receipt state:", evidence["run"])
+        self.assertIn(
+            "steps.manifest-locate.outputs.manifest_sha256 || needs.detect.outputs.manifest_sha256",
+            post_ledger["env"]["MANIFEST_SHA256"],
+        )
+        self.assertIn(
+            "steps.manifest-locate.outputs.article_sha256 || needs.detect.outputs.article_sha256",
+            post_ledger["env"]["ARTICLE_SHA256"],
+        )
+        self.assertIn("PODCASTER_RECEIPT_STATE", post_ledger["env"])
+        self.assertIn('STATE="${PODCASTER_RECEIPT_STATE:-submission_unknown}"', post_ledger["run"])
+        self.assertIn("podcast_dispatch_state.py write-receipt", post_ledger["run"])
+        self.assertIn("--append-ledger", post_ledger["run"])
+
+        steps = real_generation["steps"]
+        positions = {step.get("name"): index for index, step in enumerate(steps)}
+        ordered = [
+            "Prepare mutation receipt",
+            "Persist prepared receipt",
+            "Mirror prepared receipt",
+            "Persist handoff-entered boundary",
+            "Trigger podcast generation",
+            "Persist post receipt to ledger",
+            "Upload post receipt mirror",
+            "Assert post persistence",
+        ]
+        self.assertEqual(
+            [positions[name] for name in ordered], sorted(positions[name] for name in ordered)
+        )
+        self.assertEqual(real_generation["permissions"]["issues"], "write")
+        self.assertEqual(real_generation["permissions"]["contents"], "read")
+        pre_mirror = steps[positions["Mirror prepared receipt"]]
+        post_mirror = steps[positions["Upload post receipt mirror"]]
+        self.assertEqual(pre_mirror["with"]["retention-days"], 90)
+        self.assertEqual(post_mirror["with"]["retention-days"], 90)
+        self.assertTrue(pre_mirror["continue-on-error"])
+        self.assertTrue(post_mirror["continue-on-error"])
+        self.assertEqual(
+            steps[positions["Persist post receipt to ledger"]]["if"],
+            "always() && steps.handoff-boundary.outcome == 'success'",
+        )
+        self.assertIn(
+            "handoff_entered", steps[positions["Persist handoff-entered boundary"]]["run"]
+        )
+
+        reconcile = workflow["jobs"]["reconcile"]
+        self.assertEqual(reconcile["needs"], ["detect", "real-generation"])
+        self.assertIn("always()", reconcile["if"])
+        self.assertIn("needs.detect.outputs.dedup_status == 'duplicate'", reconcile["if"])
+        self.assertIn("needs.real-generation.result != 'skipped'", reconcile["if"])
+        self.assertNotIn("outputs.handoff_entered", reconcile["if"])
+        self.assertEqual(reconcile["timeout-minutes"], 61)
+        self.assertEqual(reconcile["permissions"]["issues"], "write")
+        reconcile_positions = {
+            step.get("name"): index for index, step in enumerate(reconcile["steps"])
+        }
+        self.assertLess(
+            reconcile_positions["Resolve authoritative ledger receipt"],
+            reconcile_positions["Monitor authoritative terminal outcome"],
+        )
+        resolver = reconcile["steps"][reconcile_positions["Resolve authoritative ledger receipt"]]
+        self.assertEqual(resolver["id"], "resolve-receipt")
+        self.assertIn("podcast_dispatch_state.py resolve-receipt", resolver["run"])
+        self.assertIn("podcast-dispatch-authoritative-receipt.json", resolver["run"])
+        self.assertIn("podcast-dispatch-post-receipt.json", resolver["run"])
+        self.assertNotIn('--token "$GH_TOKEN"', resolver["run"])
+        self.assertIn("--timeout-seconds", resolver["run"])
+        self.assertIn("retryable_pre_boundary", resolver["run"])
+        self.assertIn("receipt_retry_classification", resolver["run"])
+        self.assertIn("remaining_cleanup", resolver["run"])
+        retryable = reconcile["steps"][reconcile_positions["Record retryable pre-boundary failure"]]
+        self.assertEqual(
+            retryable["if"],
+            "steps.resolve-receipt.outputs.retryable_pre_boundary == 'true'",
+        )
+        monitor = next(
+            step
+            for step in reconcile["steps"]
+            if step.get("name") == "Monitor authoritative terminal outcome"
+        )
+        self.assertEqual(
+            monitor["if"],
+            "steps.resolve-receipt.outputs.retryable_pre_boundary != 'true'",
+        )
+        self.assertIn("PODCASTER_STATUS_ENDPOINT", monitor["env"])
+        self.assertIn("PODCASTER_API_KEY", monitor["env"])
+        self.assertIn("podcast_dispatch_state.py monitor", monitor["run"])
+        self.assertNotIn("--api-key", monitor["run"])
+        self.assertNotIn("--token", monitor["run"])
+        self.assertIn("podcast-dispatch-authoritative-receipt.json", monitor["run"])
+        self.assertNotIn("--receipt podcast-dispatch-post-receipt.json", monitor["run"])
 
     def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")

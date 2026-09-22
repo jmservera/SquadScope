@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-08  
 **Status:** Approved — "go ahead" from jmservera  
-**PRD:** jmservera/SquadScope PR #743 (docs/prds/podcaster-auto-dispatch.md)  
+**PRD:** jmservera/SquadScope PR #743 (docs/processed/podcaster-auto-dispatch.md)
 **Worktree:** /home/azureuser/source/SquadScope-auto-dispatch  
 **Branch:** feat/podcast-auto-dispatch  
 

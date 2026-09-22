@@ -68,6 +68,13 @@ def _escape_untrusted_boundaries(value: str) -> str:
         for character in result
         if character in "\n\t" or not unicodedata.category(character).startswith("C")
     )
+    compatibility_result = unicodedata.normalize("NFKC", result)
+    if re.search(
+        rf"{re.escape(BOUNDARY_CLOSE)}|{re.escape(BOUNDARY_OPEN)}",
+        compatibility_result,
+        flags=re.IGNORECASE,
+    ):
+        result = compatibility_result
     result = re.sub(
         re.escape(BOUNDARY_CLOSE),
         BOUNDARY_CLOSE_ESCAPED,
@@ -105,7 +112,7 @@ def sanitize_text(
     has_boundary = bool(
         re.search(
             rf"{re.escape(BOUNDARY_CLOSE)}|{re.escape(BOUNDARY_OPEN)}",
-            unicodedata.normalize("NFC", stripped),
+            unicodedata.normalize("NFKC", stripped),
             flags=re.IGNORECASE,
         )
     )

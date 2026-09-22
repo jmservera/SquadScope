@@ -6,9 +6,16 @@ ms.date: 2026-09-08
 ms.topic: reference
 ---
 
+> **ARCHIVED — IMPLEMENTED**
+> The protected auto-dispatch capability shipped in
+> [#747](https://github.com/jmservera/SquadScope/pull/747) and was subsequently
+> hardened through the dispatch identity and reconciliation follow-ups. The
+> workflow and implementation are canonical; this PRD is retained as the
+> historical requirements record.
+
 # Protected Podcaster Auto-Dispatch
 
-Version 0.1 | Status Draft | Owner jmservera | Team SquadScope Squad
+Version 0.1 | Status Implemented and archived 2026-09-22 | Owner jmservera | Team SquadScope Squad
 
 ## 1. Executive summary
 
@@ -128,6 +135,25 @@ continue to:
 Workflow implementation requires URL pipeline review and Hermes security
 review. Any generated or externally supplied text that affects trigger behavior
 also requires Nibbler review.
+
+Duplicate history uses canonical receipts keyed by the exact week, publish run
+ID, article SHA-256, and publish-manifest SHA-256. A canonical receipt with the
+same first three fields but a conflicting manifest digest is ambiguous and
+fails closed; it is neither the same proven submission nor a safe retry.
+Every Podcaster request carries the SHA-256 of the exact manifest bytes used
+for authorization, and the protected automatic workflow rejects a fetched
+manifest whose digest differs from detection evidence before calling the
+endpoint.
+Receipt-less legacy compatibility evidence is relevant only when it can belong
+to that same identity. A single-attempt legacy
+auto-dispatch run whose protected dispatch job was skipped is conclusively
+pre-submit and cannot block a different publication. Reruns remain ambiguous
+because an earlier attempt may have submitted; unreadable or uncertain evidence
+that can belong to the requested identity continues to fail closed. Missing
+legacy manifest digests clear only with conclusive no-submission job evidence;
+successful handoffs remain blocked unless the exact manifest bytes can be
+reconstructed. Canonical `duplicate_prevented` receipts retain their meaning
+that a prior exact-identity submission was proven.
 
 ## 9. Rollout
 
