@@ -563,6 +563,8 @@ jobs:
           else
             SYNTHESIS_SANDBOX="$(mktemp -d "$HOME/.squadscope-copilot-synthesis.XXXXXX")"
             SYNTHESIS_WORKSPACE_BASELINE="${RUNNER_TEMP}/synthesis-sandbox.json"
+            SYNTHESIS_REPO_BASELINE="${RUNNER_TEMP}/synthesis-repo-status.txt"
+            SYNTHESIS_REPO_CURRENT="${RUNNER_TEMP}/synthesis-repo-status-current.txt"
             SYNTHESIS_SANDBOX_OUTPUT="$SYNTHESIS_SANDBOX/synthesis-narrative.md"
             SYNTHESIS_SANDBOX_LOG="${RUNNER_TEMP}/synthesis-copilot.log"
             SYNTHESIS_LOG="$DIAGNOSTICS_DIR/synthesis-copilot.log"
@@ -572,6 +574,8 @@ jobs:
             python3 -I "$WORKSPACE_GUARD" snapshot \
               --root "$SYNTHESIS_SANDBOX" \
               --manifest "$SYNTHESIS_WORKSPACE_BASELINE"
+            git -c core.fsmonitor=false -c core.hooksPath=/dev/null \
+              status --porcelain=v1 --untracked-files=all > "$SYNTHESIS_REPO_BASELINE"
             set +e
             copilot \
               -C "$SYNTHESIS_SANDBOX" \
@@ -591,6 +595,13 @@ jobs:
               --root "$SYNTHESIS_SANDBOX" \
               --manifest "$SYNTHESIS_WORKSPACE_BASELINE" \
               --allow "synthesis-narrative.md"
+            git -c core.fsmonitor=false -c core.hooksPath=/dev/null \
+              status --porcelain=v1 --untracked-files=all > "$SYNTHESIS_REPO_CURRENT"
+            if ! cmp -s "$SYNTHESIS_REPO_BASELINE" "$SYNTHESIS_REPO_CURRENT"; then
+              echo "::error::Copilot synthesis modified the repository workspace."
+              diff -u "$SYNTHESIS_REPO_BASELINE" "$SYNTHESIS_REPO_CURRENT" || true
+              exit 1
+            fi
             cp "$SYNTHESIS_SANDBOX_LOG" "$SYNTHESIS_LOG"
             if [ "$SYNTH_STATUS" -ne 0 ]; then
               SYNTHESIS_STATUS="failed"
@@ -815,6 +826,8 @@ jobs:
             COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-attempt-${ATTEMPT}.json"
             COPILOT_SANDBOX="$(mktemp -d "$HOME/.squadscope-copilot-analysis.XXXXXX")"
             COPILOT_WORKSPACE_BASELINE="${RUNNER_TEMP}/analysis-sandbox-${ATTEMPT}.json"
+            COPILOT_REPO_BASELINE="${RUNNER_TEMP}/analysis-repo-status-${ATTEMPT}.txt"
+            COPILOT_REPO_CURRENT="${RUNNER_TEMP}/analysis-repo-status-current-${ATTEMPT}.txt"
             COPILOT_SANDBOX_OUTPUT="$COPILOT_SANDBOX/analysis-output.md"
             COPILOT_SANDBOX_TRANSCRIPT="$COPILOT_SANDBOX/copilot-transcript.md"
             COPILOT_SANDBOX_LOG="${RUNNER_TEMP}/copilot-cli-attempt-${ATTEMPT}.log"
@@ -837,6 +850,8 @@ jobs:
             python3 -I "$WORKSPACE_GUARD" snapshot \
               --root "$COPILOT_SANDBOX" \
               --manifest "$COPILOT_WORKSPACE_BASELINE"
+            git -c core.fsmonitor=false -c core.hooksPath=/dev/null \
+              status --porcelain=v1 --untracked-files=all > "$COPILOT_REPO_BASELINE"
             set +e
             copilot \
               -C "$COPILOT_SANDBOX" \
@@ -858,6 +873,13 @@ jobs:
               --manifest "$COPILOT_WORKSPACE_BASELINE" \
               --allow "analysis-output.md" \
               --allow "copilot-transcript.md"
+            git -c core.fsmonitor=false -c core.hooksPath=/dev/null \
+              status --porcelain=v1 --untracked-files=all > "$COPILOT_REPO_CURRENT"
+            if ! cmp -s "$COPILOT_REPO_BASELINE" "$COPILOT_REPO_CURRENT"; then
+              echo "::error::Copilot analysis modified the repository workspace."
+              diff -u "$COPILOT_REPO_BASELINE" "$COPILOT_REPO_CURRENT" || true
+              exit 1
+            fi
             cp "$COPILOT_SANDBOX_LOG" "$COPILOT_LOG"
             if [ -f "$COPILOT_SANDBOX_TRANSCRIPT" ]; then
               cp "$COPILOT_SANDBOX_TRANSCRIPT" "$TRANSCRIPT_FILE"

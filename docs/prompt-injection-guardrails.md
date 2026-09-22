@@ -168,8 +168,10 @@ and only read/write tools available. The sandbox contains only the prepared
 prompt and selected agent definition; repository paths and `.git` are not
 granted to Copilot. The guard snapshots the complete sandbox and verifies it
 immediately after Copilot returns. Only the exact output and optional transcript
-may change. The validated output is copied into the repository only after the
-guard and canary checks pass, before any repository Python or Git command runs.
+may change. A pre/post Git status comparison also fails if tracked or untracked
+repository state changes during the invocation. The validated output is copied
+into the repository only after the workspace, repository-state, and canary
+checks pass, before any repository Python command runs.
 
 ### 7. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
 
