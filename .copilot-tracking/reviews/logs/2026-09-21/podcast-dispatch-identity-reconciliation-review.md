@@ -25,6 +25,12 @@ This append-only review remains historical evidence for the implementation findi
 
 The review's original assessed commit and findings remain immutable historical evidence. RV-001 through RV-006 were already corrected before this continuation, so no second RPI review is required. The validated attempt-versus-weekly correction from source commit `0a412d5` is applied on fresh branch `fix/w39-weekly-state-followup`; focused validation reports 206 passed tests plus successful targeted Ruff and evidence checks. Non-draft follow-up PR `jmservera/SquadScope#773` targets `main`, links the merged incident-scope PR `jmservera/SquadScope#772`, has no review threads at initial inspection, and remains unmerged while hosted checks and repository review proceed.
 
+## Post-delivery closeout handoff — 2026-09-22
+
+`jmservera/SquadScope#773` subsequently merged as `7a6d8811bf82507cbdd0b01ba1135bc42e5942f3`; visible main-branch CI, security, release, and Hugo deployment passed, and all four review threads are resolved. This updates delivery readiness only. It does not change the historical review outcome into W39 publication acceptance.
+
+The active handoff now has five separate gates: (1) code delivery, complete for SquadScope; (2) merged/deployed Podcaster prerequisite, blocked; (3) duplicate-safe exact-W39 receipt/provider preflight, blocked; (4) actual W39 generation and Azure execution, not run; and (5) authoritative applicable-provider publication readback, absent. Incident closeout remains not ready. Unknown or ambiguous evidence fails closed, and no provider mutation is authorized before the preflight gate is proven.
+
 ## Opening Review State
 
 * Interpreted review goal: Conduct one fresh evidence-based acceptance review of the pushed implementation against the complete approved plan and caller boundary, without modifying any artifact except this canonical review record.

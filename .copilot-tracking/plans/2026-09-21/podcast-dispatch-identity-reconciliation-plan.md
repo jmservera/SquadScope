@@ -5,7 +5,7 @@
 
 * Task ID: SS-PODCAST-DISPATCH-IDENTITY-RECONCILIATION-2026-09-21
 * Task slug: podcast-dispatch-identity-reconciliation
-* Planning status: P04-T02 hosted delivery is active on non-draft follow-up PR `jmservera/SquadScope#773`; the correction and focused local validation pass, while hosted checks and review remain pending
+* Planning status: Full-plan implementation resumed at P04-T02. `jmservera/SquadScope#773` is merged and the SquadScope merge SHA is deployed, but delivery is not W39 incident closeout. P04-T02 lacks explicit hosted handoff-smoke evidence, and P06-P10 remain blocked on Podcaster merge/deployment, duplicate-safe exact-W39 reconciliation, real execution, provider readback, and closeout evidence.
 * Plan date: 2026-09-21
 * Phase details: .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 * Plan critique: .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md
@@ -20,6 +20,8 @@ Before the protected Podcaster mutation, the workflow will prepare a secret-free
 
 An always-running reconciliation job will require accepted work to produce machine-readable evidence of synthesis start, video terminal state, and authoritative provider outcome. It uses a 58-minute evidence-acquisition deadline, 30-second polling, 10-second deadline-capped HTTP calls, five consecutive evidence errors, a reserved 2-minute incident/summary cleanup window, and a 61-minute workflow timeout backstop. It measures accepted-to-synthesis-start latency, warns at 10 minutes, and continues toward terminal evidence. Missing configuration, stages, timeout, failure, or unknown provider state fails visibly and opens or updates a canonical-identity incident. Only `video=succeeded` and `provider=published` with `external_verified=true` establishes success.
 
+Code delivery, prerequisite deployment, safe preflight, actual execution, provider verification, and incident closeout are separate gates. Merge, deployment, green CI, API acceptance, or a successful dispatch submission cannot close W39. After both repositories' required fixes are merged and deployed, an operator must first reconcile the exact W39 identity and all canonical receipts/provider state. Any missing, partial, unknown, manual-only, conflicting, or duplicate-ambiguous evidence fails closed and prohibits provider mutation. Only then may one authorized W39 generation/publishing run proceed, followed by Azure execution evidence and authoritative provider readback proving publication.
+
 ### User Decisions and Requirements Highlights
 
 * Preserve idempotency and exact-identity fail-closed behavior; do not convert uncertainty into a retry.
@@ -27,6 +29,10 @@ An always-running reconciliation job will require accepted work to produce machi
 * Preserve immutable attempt outcomes independently from the weekly publication identity. A failed, blocked, rejected, unknown, or otherwise non-green attempt is never rewritten after a later recovery.
 * Set the weekly identity to `published_verified` or `published_verified_recovered` only after exact identity-bound provider readback proves `provider=published` with `external_verified=true`. Partial progress, unknown state, manual action without readback, duplicate ambiguity, and missing readback remain non-green.
 * Keep active implementation in SquadScope. Podcaster work is a separate contract follow-up, and SquadScope must fail visibly until terminal evidence is available.
+* Treat `jmservera/SquadScope#773` delivery as code-delivery evidence only, never incident closeout.
+* Do not mutate a provider until the exact W39 four-field identity, canonical receipt history, and current provider state are reconciled with no duplicate or unknown mutation risk.
+* Require a real post-deployment W39 generation/publishing run, Azure execution evidence, and authoritative applicable-provider terminal readback before incident closeout.
+* Fail closed on partial, unknown, manual-only, missing-readback, conflicting-receipt, or duplicate-ambiguous evidence.
 * Cover empty cancelled runs, `no_anchor`, observe-only, unrelated legacy ambiguity, exact-identity ambiguity, mutation crashes, monitor restarts, and missing terminal stages.
 * Keep all existing CI and safety gates; push the completed branch and open a PR with the required fully-qualified references.
 
@@ -39,7 +45,11 @@ An always-running reconciliation job will require accepted work to produce machi
 
 ### Unresolved Decisions or Blockers
 
-* None for SquadScope implementation. The Podcaster terminal contract remains an external deployment dependency: absent or incompatible `PODCASTER_STATUS_ENDPOINT` evidence intentionally produces a visible `status_contract/unavailable` incident rather than success or redispatch.
+* **B-PODCASTER-MERGE — Podcaster delivery owner:** `jmservera/SquadScope-Podcaster#684` is open, draft, and awaiting final independent review; `jmservera/SquadScope-Podcaster#682` is also open. Clearing evidence: the required Podcaster fix is accepted and merged at an identified commit.
+* **B-PODCASTER-DEPLOY — Podcaster release/operations owner:** no authorized Podcaster deployment/canary evidence exists for the required terminal-truth fix. Clearing evidence: deployment provenance, healthy canary, and the deployed status/readback contract version.
+* **B-W39-PREFLIGHT — W39 incident coordinator:** the exact W39 identity is known from incident evidence, but the authoritative ledger/canonical receipt set and current provider state have not been re-read and reconciled after deployment. Clearing evidence: a timestamped, identity-bound preflight report proving no prior or ambiguous mutation and naming the one authorized attempt.
+* **B-W39-EXECUTION — W39 incident coordinator:** no post-fix W39 generation/publishing run or Azure execution exists. Clearing evidence: canonical accepted receipt plus Azure job/correlation and terminal execution records from the authorized run.
+* **B-W39-PUBLICATION — Provider owner:** no authoritative post-run YouTube/Spotify or applicable-provider readback proves W39 publication. Clearing evidence: exact identity/item-bound terminal readback with externally verified publication and no unresolved duplicate.
 * The 10-minute synthesis-latency warning is an initial operational threshold because production percentiles are unavailable. It is configurable within the hard monitor bounds and is an accepted residual tuning risk, not an implementation blocker.
 
 ## Hosted Delivery Resumption — 2026-09-22
@@ -48,8 +58,9 @@ An always-running reconciliation job will require accepted work to produce machi
 * First execution boundary: validated source commit `0a412d5` is applied semantically onto the merged `jmservera/SquadScope#772` baseline; stale blocker-only commit `27b7f20` is intentionally excluded.
 * Approved write boundary: this repository worktree only; directly related state helper/tests and the existing research, plan, details, critique, changes, review, W38 historical, and session artifacts.
 * Validation intent: focused state-model tests, directly relevant semantic and whitespace checks, hosted checks, remote SHA verification, PR metadata, and unresolved-thread inspection without weakening gates.
-* Delivery state: branch `fix/w39-weekly-state-followup` is pushed and non-draft follow-up PR `jmservera/SquadScope#773` targets `main` and links `jmservera/SquadScope#772`. Initial inspection found the PR mergeable with no reviews or review threads; hosted checks were queued or in progress, with Ruff and Zizmor already passing.
-* Blockers: no implementation blocker. Hosted checks and review remain pending. Exact provider readback remains an external prerequisite for any green weekly identity.
+* Delivery state: `jmservera/SquadScope#773` was merged by `jmservera` at `2026-09-22T09:20:43Z` as merge commit `7a6d8811bf82507cbdd0b01ba1135bc42e5942f3`. Main-branch CI, lint, security, Checkov, release, and Hugo deployment completed successfully. All four review threads are resolved; no unresolved thread remains.
+* Acceptance boundary: this establishes SquadScope code delivery and deployment only. It does not establish Podcaster readiness, duplicate-safe W39 preflight, W39 execution, provider publication, or incident closeout. Explicit hosted `podcaster-handoff-smoke` evidence was not found, so P04-T02 remains the earliest incomplete marker.
+* Stop gate: do not trigger W39 generation or any provider mutation while B-PODCASTER-MERGE, B-PODCASTER-DEPLOY, or B-W39-PREFLIGHT is open.
 
 For current user input, see [User Decisions and Requirements](#user-decisions-and-requirements). The planner keeps the synthesized sections below current as evidence and caller direction evolve.
 
@@ -67,6 +78,8 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Use focused and repository-standard validation without weakening CI or safety gates.
 * Push the completed branch for independent review. Do not open the PR until that review completes; the later PR must link `jmservera/SquadScope-Coordinator#17` and related fully-qualified Podcaster work.
 * Coordinate conceptually with Podcaster without modifying `/home/azureuser/source/SquadScope-Podcaster`.
+* After both repositories' required fixes are merged and deployed, reconcile the exact W39 identity, canonical receipts, and provider state before authorizing one real run.
+* Keep code-delivery readiness, prerequisite deployment readiness, execution readiness, publication proof, and incident closeout as distinct states.
 
 ## Goals
 
@@ -77,6 +90,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Reconcile accepted work to authoritative terminal evidence within deterministic request, polling, cleanup, and workflow bounds, including actionable synthesis-start latency.
 * Create actionable, deduplicated incidents without automatically repeating an ambiguous provider mutation.
 * Deliver reviewable SquadScope changes with locked regression ownership and complete validation evidence.
+* Execute and externally verify the actual missed W39 publication only after all prerequisite and duplicate-safety gates clear.
 
 ## Scope and Non-Goals
 
@@ -88,6 +102,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * `.github/workflows/auto-podcast-dispatch.yml` receipt ordering, artifact retention, reconciliation, permissions, and incident wiring.
 * Existing detector, handoff, and workflow contract tests plus one new reconciliation/state test module.
 * Implementation evidence, branch push, PR creation, and independent implementation review handoff.
+* Post-delivery prerequisite verification, duplicate-safe W39 preflight, one authorized real W39 run, Azure evidence, applicable-provider readback, and closeout reconciliation.
 
 ### Non-Goals
 
@@ -97,6 +112,8 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Treating HTTP 2xx/`accepted`, synthesis start, or video completion alone as publication success.
 * Rewriting historical v1 receipts or requiring old runs to gain unavailable evidence.
 * Changing publish generation, article/manifest generation, protected environment approval, or unrelated workflows.
+* Treating merge, deployment, workflow success, API acceptance, or dispatch submission as proof of publication.
+* Blind retry or provider mutation when exact-W39 receipt/provider state is absent, partial, unknown, or ambiguous.
 * Weakening or skipping tests, Ruff, Checkov, Bandit, Zizmor, pip-audit, or smoke gates.
 
 ## Functional Requirements
@@ -161,6 +178,12 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * No source/test/workflow removal occurs; no more than two implementation files are added, excluding the implementation changes-record artifact.
 * Exactly one independent plan critique is complete; PC-001 through PC-006 are dispositioned below and no second critique is requested or permitted.
 * Completed implementation is pushed and routed to independent implementation review before the PR is opened; the later PR carries the required fully-qualified links.
+* Code delivery readiness requires validated, reviewed, merged, and deployed repository changes; it does not imply W39 publication or incident closeout.
+* Execution readiness requires both repositories' required fixes to be merged and deployed plus a duplicate-safe exact-W39 preflight over the full canonical identity, authoritative receipts, prior attempts, expected provider items, and live provider state.
+* Any partial, unknown, manual-only, conflicting, missing-readback, or duplicate-ambiguous preflight result blocks mutation and remains non-green.
+* W39 execution evidence requires one authorized canonical receipt and Azure job/correlation plus terminal stage evidence; API acceptance or dispatch submission alone is insufficient.
+* Publication evidence requires authoritative exact identity/item-bound terminal readback from YouTube, Spotify, or every applicable provider proving external publication with no unresolved duplicate.
+* Incident closeout requires the complete chain of exact W39 identity, canonical receipt, Azure execution evidence, and authoritative provider readback. CI, merge, deployment, API acceptance, or successful submission cannot substitute for any missing element.
 
 ## Implementation Context Record
 
@@ -289,6 +312,66 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * Expected result: independent review compares plan/changes/tests/PR; accepted follow-ups are recorded without silently expanding this implementation.
 * Detail section: P05-T02 in .copilot-tracking/details/2026-09-21/podcast-dispatch-identity-reconciliation-phase-details.md
 
+<!-- rpi:phase id=P06 -->
+### [ ] P06: Verify merged and deployed prerequisites
+
+* Intent: prove the required SquadScope and Podcaster fixes are both merged and deployed before any W39 mutation is considered.
+* Dependencies: P04-T02 delivery evidence; accepted Podcaster final-SHA review.
+
+<!-- rpi:task id=P06-T01 -->
+#### [ ] P06-T01: Record cross-repository merge and deployment provenance
+
+* Requirement and evidence: authoritative 2026-09-22 closeout directive.
+* Expected result: identify exact merged and deployed SHAs, deployment/canary evidence, and the deployed terminal-readback contract for both repositories; absent or uncertain evidence remains blocked.
+
+<!-- rpi:phase id=P07 -->
+### [ ] P07: Reconcile exact W39 identity before mutation
+
+* Intent: establish a duplicate-safe preflight from authoritative receipts and provider state.
+* Dependencies: P06.
+
+<!-- rpi:task id=P07-T01 -->
+#### [ ] P07-T01: Fail-closed exact-W39 receipt and provider-state preflight
+
+* Requirement and evidence: W39 identity `2026-W39`, publish run `35561779454`, article SHA-256 `f666…506c`, manifest SHA-256 `e2d4…42a7`; canonical full values must be re-read from trusted evidence, not copied from abbreviated prose.
+* Expected result: one timestamped preflight binds the full four-field identity, authoritative ledger receipts, prior attempts, expected provider items, and current provider readback. Any missing, partial, unknown, conflict, manual-only state, or duplicate ambiguity prohibits mutation.
+
+<!-- rpi:phase id=P08 -->
+### [ ] P08: Run actual W39 generation and publishing
+
+* Intent: execute exactly one authorized post-deployment W39 run after the preflight clears.
+* Dependencies: P07-T01 green.
+
+<!-- rpi:task id=P08-T01 -->
+#### [ ] P08-T01: Capture canonical receipt and Azure execution evidence
+
+* Requirement and evidence: authoritative 2026-09-22 closeout directive.
+* Expected result: the authorized attempt produces a canonical accepted receipt, dispatch/job/correlation identity, Azure execution provenance, and terminal stage evidence; API acceptance or successful submission alone remains non-green.
+
+<!-- rpi:phase id=P09 -->
+### [ ] P09: Prove authoritative provider publication
+
+* Intent: verify externally visible publication for every applicable provider.
+* Dependencies: P08-T01.
+
+<!-- rpi:task id=P09-T01 -->
+#### [ ] P09-T01: Record terminal YouTube/Spotify or applicable-provider readback
+
+* Requirement and evidence: exact identity/item-bound provider readback.
+* Expected result: authoritative readback proves terminal publication and external verification for each applicable provider with no unresolved duplicate; partial, unknown, manual-only, or missing readback remains non-green.
+
+<!-- rpi:phase id=P10 -->
+### [ ] P10: Reconcile W39 incident closeout
+
+* Intent: close the incident only from the complete evidence chain.
+* Dependencies: P09-T01.
+
+<!-- rpi:task id=P10-T01 -->
+#### [ ] P10-T01: Record closeout verdict and evidence links
+
+* Requirement and evidence: exact W39 identity + canonical receipt + Azure execution + authoritative provider publication readback.
+* Expected result: closeout explicitly distinguishes delivered code from proven publication; no CI/API/dispatch-only evidence can satisfy this marker.
+
 ## Dependencies
 
 * **Pre-implementation gate:** satisfied by the one completed critique at `.copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md`; all PC-001 through PC-006 dispositions are recorded below.
@@ -297,6 +380,7 @@ For current user input, see [User Decisions and Requirements](#user-decisions-an
 * **Podcaster terminal contract:** `PODCASTER_STATUS_ENDPOINT` and existing API-key authentication; missing/incompatible contract is an explicit incident and failing workflow outcome.
 * **Protected environment:** `podcaster-real-generation` approval remains required.
 * **Cross-repository references:** Podcaster issues/PRs are contract evidence and follow-up ownership, not locally verified implementation.
+* **Execution authorization:** P08 cannot begin until P06 and P07 are complete. Unknown or ambiguous evidence is a hard stop, not an operator discretion path.
 
 ## Test and Change Ownership Lock
 
@@ -396,8 +480,11 @@ Exactly one independent critique was completed at `.copilot-tracking/critiques/2
 
 ## Follow-Up Items
 
-* **Podcaster owner:** deploy and document the `podcast_publication_status_v1` machine-readable readback contract for accepted `job_id`/correlation ID and full canonical identity. Related evidence/work: `jmservera/SquadScope-Podcaster#678`, `#679`, `#681`, `#682`, and PR `#680`.
-* **Operations owner:** configure `PODCASTER_STATUS_ENDPOINT` in the protected environment after the Podcaster contract is available. Until then, SquadScope intentionally opens/deduplicates `status_contract/unavailable` incidents and fails reconciliation.
+* **Podcaster delivery owner — B-PODCASTER-MERGE:** complete final independent review and merge the required terminal-truth implementation. Current evidence: `jmservera/SquadScope-Podcaster#684` is open/draft; `#682` remains open.
+* **Podcaster release/operations owner — B-PODCASTER-DEPLOY:** deploy the accepted commit, record provenance/canary evidence, document the `podcast_publication_status_v1` readback contract, and configure `PODCASTER_STATUS_ENDPOINT`.
+* **W39 incident coordinator — B-W39-PREFLIGHT:** after deployments, re-read full W39 identity and authoritative receipts/provider state; do not rely on abbreviated hashes in planning prose.
+* **W39 incident coordinator — B-W39-EXECUTION:** after the preflight clears, coordinate exactly one real W39 generation/publishing run and capture its canonical receipt and Azure evidence.
+* **Provider owner — B-W39-PUBLICATION:** capture authoritative YouTube/Spotify or applicable-provider terminal readback proving externally verified publication before closeout.
 * **Repository owner:** decide any future Issue-ledger archival/rotation policy before GitHub operational limits are approached. The active implementation must paginate and retain the ledger; archival is not required for initial acceptance.
 * **Coordinator:** clarify why closed unrelated `jmservera/SquadScope-Coordinator#17` must be linked if later PR wording needs more than a non-closing “Related” reference. This does not block the requested link.
 * **Delivery owner after independent review:** open the PR only after review, using the required incident evidence, validation, rollback/risk sections, and fully-qualified non-closing references.
@@ -405,6 +492,6 @@ Exactly one independent critique was completed at `.copilot-tracking/critiques/2
 ## Handoff
 
 * Implementation artifact: .copilot-tracking/changes/2026-09-21/podcast-dispatch-identity-reconciliation-changes.md
-* Ready phase or task: P04-T02 hosted gates after PR creation
-* Remaining provisional question or blocker: none for PR creation; Podcaster status deployment remains an explicit external dependency with a safe failing behavior, and hosted CI/security/smoke evidence remains mandatory before merge/readiness
-* Implementation handoff: create the PR from the corrected pushed branch, then complete the remaining hosted P04-T02 evidence; do not run another plan critique or implementation review
+* Ready phase or task: P04-T02 evidence reconciliation; P06-P10 are dependency-blocked.
+* Remaining blocker: explicit hosted handoff-smoke evidence is absent; Podcaster merge/deployment and exact-W39 preflight are not complete.
+* Implementation handoff: preserve #773 as delivered code evidence only. Do not trigger W39 generation or provider mutation until P06 and P07 are proven complete; then execute P08-P10 in order.

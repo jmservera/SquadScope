@@ -17,6 +17,14 @@ Attempt evidence and weekly publication identity are separate. A blocked, failed
 
 Manual action, workflow success, API acceptance, duplicate ambiguity, partial stages, unknown provider state, and missing readback are not green weekly evidence. Under this model W39 remains non-green because it was not dispatched and has no provider readback. W38's successful public outcome remains authoritative comparative evidence, while its failed automatic attempt remains intact; a machine state of `published_verified_recovered` requires the exact provider readback rather than inference from the manual workflow alone.
 
+## Authoritative incident-closeout requirement — 2026-09-22
+
+`jmservera/SquadScope#773` delivery is not W39 incident closeout. Current hosted evidence shows #773 merged as `7a6d8811bf82507cbdd0b01ba1135bc42e5942f3` and the SquadScope main-branch CI/security/release/Hugo deployment completed successfully. This proves code delivery, not publication.
+
+The required Podcaster fix is not yet an operational prerequisite: `jmservera/SquadScope-Podcaster#684` remains open/draft pending final independent review, `#682` remains open, and no accepted deployment/canary evidence was found. Therefore no W39 run is authorized.
+
+After both repositories' required fixes are merged and deployed, the operator must re-read the full non-abbreviated W39 four-field identity and reconcile authoritative canonical receipts, prior attempts, expected provider items, and live provider state before mutation. Any unknown, partial, manual-only, conflicting, missing, or duplicate-ambiguous evidence fails closed. Closeout then requires one authorized real run with a canonical receipt, Azure execution evidence, and authoritative terminal provider readback proving external publication.
+
 ## Research protocol and initial boundary
 
 - Required sequence: Wider → Deeper → Contrarian.

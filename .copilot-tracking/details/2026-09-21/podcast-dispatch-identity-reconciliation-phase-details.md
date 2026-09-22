@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: P04-T02 hosted delivery is active on non-draft `jmservera/SquadScope#773`; correction and focused local validation pass, while hosted checks and review remain pending
+* Planning status: Resumed at P04-T02. `jmservera/SquadScope#773` is merged and its merge SHA is deployed, but explicit handoff-smoke evidence is absent and P06-P10 remain blocked; incident closeout is not ready.
 
 ## Task-Level Context
 
@@ -24,7 +24,8 @@
 * Weekly green states: `published_verified` for exact verified success without earlier non-green attempt evidence, and `published_verified_recovered` for exact verified success after a preserved non-green attempt.
 * Non-green weekly evidence: partial stages, provider unknown/failure, manual action without exact readback, duplicate ambiguity, missing readback, and status-contract unavailability.
 * Resumption boundary: current `origin/main` includes merged `jmservera/SquadScope#772`; source correction `0a412d5` is applied semantically in `/home/azureuser/source/SquadScope-w39-weekly-state-followup`, while stale blocker-only commit `27b7f20` is excluded.
-* Delivery boundary: `fix/w39-weekly-state-followup` is pushed and non-draft `jmservera/SquadScope#773` targets `main`; initial inspection found no reviews or review threads, hosted checks queued/in progress, and no merge was performed.
+* Delivery boundary: `jmservera/SquadScope#773` merged as `7a6d8811bf82507cbdd0b01ba1135bc42e5942f3`; visible main-branch CI/security/release/deploy runs passed. This is code-delivery evidence only.
+* Closeout boundary: no mutation before exact-W39 ledger/provider reconciliation; no green incident state from CI, merge, deployment, API acceptance, or dispatch submission; unknown or ambiguity fails closed.
 
 ## Phase Index
 
@@ -33,8 +34,13 @@
 | P01 | Establish canonical state and identity-scoped history | Complete after accepting safe underscore-bearing API status categories | P01, P01-T01, P01-T02 |
 | P02 | Enforce durable receipt ordering around mutation | Complete; normal handoff failures preserve API status/category outputs | P02, P02-T01, P02-T02 |
 | P03 | Reconcile terminal outcome, latency, and incidents | Complete after environment-only credentials and bounded incident persistence corrections | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: P04-T01 and fresh-branch focused validation pass; `jmservera/SquadScope#773` is open and hosted checks/review remain | P04, P04-T01, P04-T02 |
+| P04 | Complete locked regression and validation evidence | In progress: visible hosted checks passed, but explicit handoff-smoke evidence was not found | P04, P04-T01, P04-T02 |
 | P05 | Deliver review branch and independent review handoff | Complete; functional correction commit `0c6e58b` is pushed and the independent review record remains unchanged | P05, P05-T01, P05-T02 |
+| P06 | Verify merged and deployed prerequisites | Blocked on accepted/merged/deployed Podcaster fix | P06, P06-T01 |
+| P07 | Reconcile exact W39 identity before mutation | Blocked on P06 | P07, P07-T01 |
+| P08 | Run actual W39 generation and publishing | Blocked on duplicate-safe P07 preflight | P08, P08-T01 |
+| P09 | Prove authoritative provider publication | Blocked on actual P08 execution | P09, P09-T01 |
+| P10 | Reconcile W39 incident closeout | Blocked on provider readback | P10, P10-T01 |
 
 <!-- rpi:phase id=P01 -->
 ## P01: Establish canonical state and identity-scoped history
@@ -775,3 +781,106 @@ Complete the requested lifecycle without self-review substitution.
 #### Unresolved Items
 
 * None.
+
+<!-- rpi:phase id=P06 -->
+## P06: Verify merged and deployed prerequisites
+
+### Intent
+
+Separate code delivery from operational readiness by proving exact merge and deployment provenance for required SquadScope and Podcaster fixes.
+
+### Completion Evidence
+
+* SquadScope merge/deploy evidence names `7a6d8811bf82507cbdd0b01ba1135bc42e5942f3`.
+* Podcaster evidence names the accepted merge SHA, deployment revision, canary result, and available terminal-readback contract.
+
+### Unresolved Items
+
+* `jmservera/SquadScope-Podcaster#684` is open/draft and awaiting final review; `#682` remains open. No deployment evidence exists.
+
+<!-- rpi:task id=P06-T01 -->
+### P06-T01: Record cross-repository merge and deployment provenance
+
+* Fail closed if any required repository fix, deployment revision, contract configuration, or canary result is unknown.
+
+<!-- rpi:phase id=P07 -->
+## P07: Reconcile exact W39 identity before mutation
+
+### Intent
+
+Produce a timestamped preflight that binds the full four-field W39 identity to authoritative canonical receipts, prior attempts, provider items, and live provider state.
+
+### Completion Evidence
+
+* Full, non-abbreviated identity is read from trusted publish evidence.
+* Ledger and provider readback prove no prior accepted, entered, unknown, conflicting, or duplicate mutation.
+* The report identifies one authorized attempt or stops without mutation.
+
+### Unresolved Items
+
+* Current receipts/provider state have not been reconciled after both deployments.
+
+<!-- rpi:task id=P07-T01 -->
+### P07-T01: Fail-closed exact-W39 receipt and provider-state preflight
+
+* Any partial, missing, unknown, manual-only, conflicting, or duplicate-ambiguous evidence is non-green and blocks P08.
+
+<!-- rpi:phase id=P08 -->
+## P08: Run actual W39 generation and publishing
+
+### Intent
+
+Execute exactly one authorized W39 run only after P06 and P07 complete.
+
+### Completion Evidence
+
+* Canonical receipt, accepted job/correlation identity, Azure revision/run, synthesis/video terminal evidence, and immutable attempt record.
+
+### Unresolved Items
+
+* No W39 run is authorized or triggered in this reconciliation.
+
+<!-- rpi:task id=P08-T01 -->
+### P08-T01: Capture canonical receipt and Azure execution evidence
+
+* API acceptance or successful submission is intermediate evidence, never publication proof.
+
+<!-- rpi:phase id=P09 -->
+## P09: Prove authoritative provider publication
+
+### Intent
+
+Read back terminal publication state from YouTube/Spotify or every applicable provider using exact identity and expected item IDs.
+
+### Completion Evidence
+
+* Every applicable provider reports externally verified terminal publication with no unresolved duplicate.
+
+### Unresolved Items
+
+* No post-run provider readback exists because P08 has not run.
+
+<!-- rpi:task id=P09-T01 -->
+### P09-T01: Record terminal applicable-provider readback
+
+* Partial, unknown, manual-only, missing, or ambiguous readback remains non-green.
+
+<!-- rpi:phase id=P10 -->
+## P10: Reconcile W39 incident closeout
+
+### Intent
+
+Close W39 only when exact identity, canonical receipt, Azure execution, and authoritative provider readback form one complete evidence chain.
+
+### Completion Evidence
+
+* Closeout record links the exact evidence and states why code delivery alone was insufficient.
+
+### Unresolved Items
+
+* P06-P09 are incomplete.
+
+<!-- rpi:task id=P10-T01 -->
+### P10-T01: Record closeout verdict and evidence links
+
+* CI, merge, deployment, API acceptance, and dispatch success cannot independently satisfy this task.

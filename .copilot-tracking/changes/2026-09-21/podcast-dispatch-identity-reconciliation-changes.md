@@ -13,12 +13,29 @@
 * Status: Partial
 * Declared invocation scope: Full plan
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
-* All remaining active-plan markers: P04, P04-T02
-* Status basis: Validated source commit `0a412d5` is applied semantically on fresh branch `fix/w39-weekly-state-followup`; focused validation passes, the branch is pushed, and non-draft `jmservera/SquadScope#773` is open. P04-T02 remains incomplete while hosted checks and review are pending.
+* All remaining active-plan markers: P04, P04-T02, P06, P06-T01, P07, P07-T01, P08, P08-T01, P09, P09-T01, P10, P10-T01
+* Status basis: SquadScope code delivery is merged and deployed, but explicit handoff-smoke evidence is absent. Podcaster delivery/deployment, duplicate-safe exact-W39 preflight, actual W39 execution, provider readback, and incident closeout remain incomplete.
 
 ## Execution Summary
 
 Implementation resumed in the isolated worktree `/home/azureuser/source/SquadScope-w39-weekly-state-followup` on `fix/w39-weekly-state-followup`, created from current `origin/main` at `574e4e4`. The write boundary is limited to directly related SquadScope state semantics/tests and the existing correction artifacts. No Podcaster repository changes are permitted.
+
+### Reconciled authoritative closeout requirement — 2026-09-22
+
+* Resumed marker: P04-T02, the earliest unchecked full-plan marker.
+* Delivery evidence: `jmservera/SquadScope#773` merged at `2026-09-22T09:20:43Z` as `7a6d8811bf82507cbdd0b01ba1135bc42e5942f3`; visible main-branch CI, lint, security, Checkov, release, and Hugo deployment runs passed. All four review threads are resolved.
+* Evidence gap: no explicit hosted `podcaster-handoff-smoke` result was found, so P04-T02 is not checked solely from the visible green suite.
+* Prerequisite state: `jmservera/SquadScope-Podcaster#684` is open/draft and awaiting final independent review; `#682` remains open. No accepted merge/deployment/canary evidence exists for the required Podcaster fix.
+* Safety gate: no provider mutation before a timestamped exact-W39 preflight reconciles the full canonical identity, authoritative receipts, prior attempts, expected provider items, and live provider state. Unknown, partial, manual-only, conflicting, missing, or duplicate-ambiguous evidence fails closed.
+* Acceptance boundary: merge, deployment, green CI, API acceptance, and successful dispatch are not publication evidence. W39 closeout requires the exact identity, canonical receipt, Azure execution evidence, and authoritative applicable-provider terminal readback.
+* Execution result: no W39 generation or publishing run was triggered and no provider was mutated.
+* Hosted PR text: updated merged `jmservera/SquadScope#773` with a non-duplicative delivery/closeout checklist, explicit stop gates, named blockers, the `jmservera/SquadScope#772` link, and the statement that no W39 run was triggered.
+* Blockers:
+  * `B-PODCASTER-MERGE` — owner: Podcaster delivery owner; clear with accepted final-SHA review and merged required fix.
+  * `B-PODCASTER-DEPLOY` — owner: Podcaster release/operations; clear with deployment provenance, healthy canary, and deployed status contract.
+  * `B-W39-PREFLIGHT` — owner: W39 incident coordinator; clear with duplicate-safe exact-identity receipt/provider reconciliation.
+  * `B-W39-EXECUTION` — owner: W39 incident coordinator; clear with canonical receipt and Azure evidence from one authorized run.
+  * `B-W39-PUBLICATION` — owner: provider owner; clear with authoritative terminal publication readback for every applicable provider.
 
 ### Authorized hosted-delivery resumption — 2026-09-22
 
