@@ -21,6 +21,12 @@
 - Created session log: crawler-improvement-analysis
 - Outcome: GitHub issue #237 created; squad decision on bounded in-process RSS topology with deterministic merge-before-analyze flow
 
+## 2026-09-22 Nap and Reskill Health Pass
+- `squad nap` archived ten stale decisions and retained the current #594/#714 accessibility release gate.
+- The active ledger, dated archive boundary, and Ralph reskill summary were checked for auditability.
+- All three Ralph loops were running; PR #775 was the only open pull request and its full CI suite passed after a timing-only Pagefind rerun.
+- No feature, pipeline, generated-data, or release behavior changed.
+
 ## 2026-09-22 Nap and Reskill Cycle
 - Reviewed the current PRD backlog, recent merged work, squad charter, routing, and all open issues and pull requests.
 - No PRDs moved and no issues changed: #594 and #714 already contain current acceptance criteria and ownership.
