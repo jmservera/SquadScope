@@ -17,6 +17,10 @@
 
 This append-only review record preserves its original findings and execution evidence, but its current incident context is corrected. W39 is the sole missed-publication production incident: publish run `35561779454` completed, auto-dispatch `35562322880` was blocked before Azure by unrelated cancelled run `32730109166`, and no W39 synthesis, recorder, or video execution occurred. W38 ultimately published successfully; blocked auto-dispatch run `34255052607` and manual recovery run `34958522782` are comparative/recovery evidence only. No review finding depends on W38 having lacked a successful public outcome.
 
+## Post-review QA state-model reconciliation — 2026-09-22
+
+This append-only review remains historical evidence for the implementation findings at its assessed commit. The current correction separates immutable attempt outcomes from the derived weekly identity. Earlier failed, blocked, partial, rejected, or unknown attempts remain non-green facts. A weekly identity is green only as `published_verified` or `published_verified_recovered`, and only after exact identity-bound provider readback proves `provider=published` with `external_verified=true`. Manual action, workflow success, API acceptance, duplicate ambiguity, partial stages, unknown provider state, and missing readback remain non-green. This correction does not erase or resolve any historical review finding.
+
 ## Opening Review State
 
 * Interpreted review goal: Conduct one fresh evidence-based acceptance review of the pushed implementation against the complete approved plan and caller boundary, without modifying any artifact except this canonical review record.

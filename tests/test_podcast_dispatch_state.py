@@ -171,6 +171,47 @@ class PodcastDispatchStateTests(unittest.TestCase):
             (result.success, result.stage, result.state), (False, "provider", "unverified")
         )
 
+    def test_weekly_identity_green_requires_exact_verified_provider_readback(self) -> None:
+        self.assertEqual(
+            state.derive_weekly_identity_state(self.identity, self.terminal()),
+            "published_verified",
+        )
+        self.assertEqual(
+            state.derive_weekly_identity_state(
+                self.identity,
+                self.terminal(),
+                prior_non_green_attempt=True,
+            ),
+            "published_verified_recovered",
+        )
+        different_identity = state.CanonicalPublicationIdentity(
+            "2026-W38",
+            "34806779896",
+            "c" * 64,
+            "d" * 64,
+        )
+        self.assertEqual(
+            state.derive_weekly_identity_state(different_identity, self.terminal()),
+            "publication_unknown",
+        )
+
+    def test_weekly_identity_non_green_evidence_never_rewrites_attempt_truth(self) -> None:
+        cases = (
+            ({"status": self.terminal(video="pending")}, "publication_partial"),
+            ({"status": self.terminal(provider="unknown")}, "publication_unknown"),
+            ({"status": self.terminal(provider="failed")}, "publication_failed"),
+            ({"status": None, "manual_action": True}, "manual_action_required"),
+            ({"status": None, "duplicate_ambiguous": True}, "duplicate_ambiguous"),
+            ({"status": None}, "readback_missing"),
+        )
+        for kwargs, expected in cases:
+            with self.subTest(expected=expected):
+                self.assertEqual(
+                    state.derive_weekly_identity_state(self.identity, **kwargs),
+                    expected,
+                )
+                self.assertNotIn(expected, state.WEEKLY_GREEN_STATES)
+
     def test_status_validation_rejects_identity_mismatch(self) -> None:
         payload = {
             "schema_version": state.STATUS_SCHEMA_VERSION_V1,

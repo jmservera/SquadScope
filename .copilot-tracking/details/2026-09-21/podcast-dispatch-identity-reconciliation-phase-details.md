@@ -7,7 +7,7 @@
 * Task slug: podcast-dispatch-identity-reconciliation
 * Related plan: .copilot-tracking/plans/2026-09-21/podcast-dispatch-identity-reconciliation-plan.md
 * Evidence sources: .squad/decisions.md; .copilot-tracking/research/2026-09-21/podcast-dispatch-identity-reconciliation-research.md; .copilot-tracking/critiques/2026-09-21/podcast-dispatch-identity-reconciliation-plan-critique.md; authoritative caller requirements dated 2026-09-21
-* Planning status: Authorized hosted-delivery continuation at P04-T02 on fresh branch `fix/w39-weekly-state-followup`; validated state-model correction, focused checks, push, and follow-up PR evidence remain
+* Planning status: Authorized hosted-delivery continuation at P04-T02 on `fix/w39-weekly-state-followup`; validated state-model correction is applied and focused validation, push, and follow-up PR evidence remain
 
 ## Task-Level Context
 
@@ -20,8 +20,11 @@
 * Availability invariant at the pre-boundary: prepare, `attempt_prepared`, mirror failure, `pre_submit_failed`, or failed `handoff_entered` persistence proves the handoff was not invoked and remains retryable.
 * Availability invariant: history with no demonstrable association to the requested identity is not allowed to poison that identity.
 * Cross-repository boundary: SquadScope consumes a defined terminal contract but does not modify or assume deployment in SquadScope-Podcaster.
-* Resumption boundary: use the isolated `/home/azureuser/source/SquadScope-w39-weekly-state-followup` worktree from current `origin/main`; apply source commit `0a412d5` while preserving merged `jmservera/SquadScope#772` narrative and excluding stale blocker-only commit `27b7f20`.
-* Delivery boundary: push a fresh branch, open a non-draft follow-up PR, inspect hosted checks/reviews/threads, and do not merge.
+* Attempt/weekly boundary: every dispatch or recovery attempt remains an immutable factual record. Weekly publication state is derived separately and can be green only after exact provider readback.
+* Weekly green states: `published_verified` for exact verified success without earlier non-green attempt evidence, and `published_verified_recovered` for exact verified success after a preserved non-green attempt.
+* Non-green weekly evidence: partial stages, provider unknown/failure, manual action without exact readback, duplicate ambiguity, missing readback, and status-contract unavailability.
+* Resumption boundary: current `origin/main` includes merged `jmservera/SquadScope#772`; source correction `0a412d5` is applied semantically in `/home/azureuser/source/SquadScope-w39-weekly-state-followup`, while stale blocker-only commit `27b7f20` is excluded.
+* Delivery boundary: push the fresh branch, open a non-draft follow-up PR, inspect hosted checks/reviews/threads, and do not merge.
 
 ## Phase Index
 
@@ -30,7 +33,7 @@
 | P01 | Establish canonical state and identity-scoped history | Complete after accepting safe underscore-bearing API status categories | P01, P01-T01, P01-T02 |
 | P02 | Enforce durable receipt ordering around mutation | Complete; normal handoff failures preserve API status/category outputs | P02, P02-T01, P02-T02 |
 | P03 | Reconcile terminal outcome, latency, and incidents | Complete after environment-only credentials and bounded incident persistence corrections | P03, P03-T01, P03-T02 |
-| P04 | Complete locked regression and validation evidence | In progress: P04-T01 is complete; P04-T02 is authorized for fresh-branch correction, focused validation, and hosted follow-up PR evidence | P04, P04-T01, P04-T02 |
+| P04 | Complete locked regression and validation evidence | In progress: P04-T01 is complete; the P04-T02 correction is applied and focused validation plus hosted follow-up PR evidence remain | P04, P04-T01, P04-T02 |
 | P05 | Deliver review branch and independent review handoff | Complete; functional correction commit `0c6e58b` is pushed and the independent review record remains unchanged | P05, P05-T01, P05-T02 |
 
 <!-- rpi:phase id=P01 -->
@@ -618,7 +621,7 @@ Produce complete, reproducible readiness evidence.
 
 #### Boundaries
 
-* Included: every command in the plan's required validation block and hosted checks.
+* Included: every command in the plan's required validation block and hosted checks; semantic coverage that keeps immutable attempt outcome separate from derived weekly publication state and proves only exact externally verified provider readback can produce `published_verified` or `published_verified_recovered`.
 * Excluded: changing dependencies merely to avoid a scanner/test result; broad unrelated fixes.
 
 #### Likely Targets

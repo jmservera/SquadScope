@@ -45,6 +45,17 @@ REQUEST_TIMEOUT_SECONDS = 10
 MAX_CONSECUTIVE_ERRORS = 5
 SYNTHESIS_WARNING_SECONDS = 600
 MAX_GITHUB_PAGES = 100
+WEEKLY_GREEN_STATES = frozenset({"published_verified", "published_verified_recovered"})
+WEEKLY_NON_GREEN_STATES = frozenset(
+    {
+        "publication_partial",
+        "publication_failed",
+        "publication_unknown",
+        "manual_action_required",
+        "duplicate_ambiguous",
+        "readback_missing",
+    }
+)
 
 
 def _validate(value: str, pattern: re.Pattern[str], field: str) -> str:
@@ -550,6 +561,35 @@ def evaluate_terminal_status(status: TerminalStatus) -> MonitorResult | None:
     if status.provider_state == "published" and not status.external_verified:
         return MonitorResult(False, "provider", "unverified")
     return None
+
+
+def derive_weekly_identity_state(
+    identity: CanonicalPublicationIdentity,
+    status: TerminalStatus | None,
+    *,
+    prior_non_green_attempt: bool = False,
+    manual_action: bool = False,
+    duplicate_ambiguous: bool = False,
+) -> str:
+    """Derive weekly outcome without rewriting immutable attempt evidence."""
+    if status is not None and status.identity == identity:
+        terminal = evaluate_terminal_status(status)
+        if terminal is not None and terminal.success:
+            return (
+                "published_verified_recovered" if prior_non_green_attempt else "published_verified"
+            )
+        if terminal is None:
+            return "publication_partial"
+        if terminal.state == "unknown":
+            return "publication_unknown"
+        return "publication_failed"
+    if duplicate_ambiguous:
+        return "duplicate_ambiguous"
+    if manual_action:
+        return "manual_action_required"
+    if status is not None:
+        return "publication_unknown"
+    return "readback_missing"
 
 
 def fetch_terminal_status(

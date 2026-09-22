@@ -196,3 +196,5 @@ or retry-policy weakening.
   create a narrowly scoped GitHub issue instead of expanding this PR.
 
 > **Authoritative correction — 2026-09-21:** This historical plan originally used broader incident wording for the W38 auto-dispatch-path failure. W38 was not a missed-publication incident: manual recovery run `34958522782` reached Azure and W38 ultimately published successfully. W39 is the sole missed-publication production incident. Historical execution context above is superseded wherever it implies no successful W38 public outcome.
+
+> **State-model clarification — 2026-09-22:** The blocked W38 automatic attempt remains immutable non-green attempt evidence after recovery. Weekly identity is derived separately: `published_verified_recovered` is permitted only when exact W38 provider readback proves `provider=published` with `external_verified=true`. Manual workflow success, reaching Azure, or operator action alone does not establish that machine state; absent exact readback the weekly state remains non-green even though the repository owner's factual successful-publication correction remains authoritative.

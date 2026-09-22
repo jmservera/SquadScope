@@ -11,6 +11,12 @@ The repository owner's authoritative correction supersedes any earlier interpret
 
 W39 is the sole missed-publication production incident and sole acceptance target in this research: publish run `35561779454` completed, auto-dispatch run `35562322880` was blocked by unrelated cancelled run `32730109166` before Azure, and no W39 synthesis, recorder, or video execution occurred. W38 remains relevant only as comparative evidence that a blocked automatic path can coexist with successful recovery and publication.
 
+## Authoritative attempt-versus-weekly state model — 2026-09-22
+
+Attempt evidence and weekly publication identity are separate. A blocked, failed, rejected, partial, or unknown attempt remains an immutable non-green fact after any later recovery. The weekly identity may become `published_verified` or `published_verified_recovered` only when exact identity-bound provider readback proves `provider=published` with `external_verified=true`; the recovered form additionally requires preserved earlier non-green attempt evidence.
+
+Manual action, workflow success, API acceptance, duplicate ambiguity, partial stages, unknown provider state, and missing readback are not green weekly evidence. Under this model W39 remains non-green because it was not dispatched and has no provider readback. W38's successful public outcome remains authoritative comparative evidence, while its failed automatic attempt remains intact; a machine state of `published_verified_recovered` requires the exact provider readback rather than inference from the manual workflow alone.
+
 ## Research protocol and initial boundary
 
 - Required sequence: Wider → Deeper → Contrarian.

@@ -20,6 +20,10 @@
 
 The original critique assessed the plan language available at the time. Current disposition must use the repository owner's authoritative correction: W39 is the sole missed-publication incident; W38 ultimately published successfully after a blocked automatic path and manual recovery run `34958522782` reached Azure. Any critique wording that grouped W38 and W39 as equivalent incidents is superseded by this section. The findings about identity, durability, monitoring, and delivery evidence remain valid.
 
+## Authoritative state-model clarification — 2026-09-22
+
+The critique's terminal-success findings apply to the derived weekly identity, not to mutation of historical attempt records. Attempt outcomes remain immutable. Only exact identity-bound provider readback with `provider=published` and `external_verified=true` can produce the green weekly states `published_verified` or `published_verified_recovered`; the latter preserves and acknowledges an earlier non-green attempt. Partial, unknown, manual-only, duplicate-ambiguous, or missing-readback evidence remains non-green. This clarification preserves the original critique findings and requires no second critique.
+
 ## Coverage Assessment
 
 | Requirement, research, phase, or task ID | Coverage | Evidence or concern |

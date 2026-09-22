@@ -14,21 +14,22 @@
 * Declared invocation scope: Full plan
 * Completed scope markers: P01, P01-T01, P01-T02, P02, P02-T01, P02-T02, P03, P03-T01, P03-T02, P04-T01, P05, P05-T01, P05-T02
 * All remaining active-plan markers: P04, P04-T02
-* Status basis: Authorized continuation resumes at P04-T02 from current `origin/main` in a fresh dedicated worktree. The next boundary is semantic application of validated commit `0a412d5`, focused validation, push, and a non-draft follow-up PR; no merge is authorized.
+* Status basis: Authorized continuation resumes at P04-T02 from current `origin/main` in a fresh dedicated worktree. Validated source commit `0a412d5` is applied semantically; focused validation, push, non-draft follow-up PR creation, and hosted readiness inspection remain.
 
 ## Execution Summary
 
-Implementation is active in the isolated worktree `/home/azureuser/source/SquadScope-w39-weekly-state-followup` on `fix/w39-weekly-state-followup`, created from current `origin/main` at `574e4e4`. The write boundary is limited to directly related SquadScope state semantics/tests and canonical RPI evidence. No Podcaster repository changes are permitted.
+Implementation resumed in the isolated worktree `/home/azureuser/source/SquadScope-w39-weekly-state-followup` on `fix/w39-weekly-state-followup`, created from current `origin/main` at `574e4e4`. The write boundary is limited to directly related SquadScope state semantics/tests and the existing correction artifacts. No Podcaster repository changes are permitted.
 
 ### Authorized hosted-delivery resumption — 2026-09-22
 
 * Related phase or task: P04-T02; full-plan continuation.
-* Source reconciliation: `origin/main` contains merged `jmservera/SquadScope#772` at `574e4e4`; validated correction commit `0a412d5` is absent. Commit `27b7f20` records a now-superseded external delivery blocker and will not be cherry-picked wholesale.
-* First execution boundary: semantically cherry-pick `0a412d5` while retaining newer mainline fixes and avoiding duplicated W39/W38 narrative.
-* Approved write boundary: `/home/azureuser/source/SquadScope-w39-weekly-state-followup`; directly related state helper/tests and existing canonical evidence artifacts only.
-* Validation intent: focused state-model tests, semantic/whitespace checks for changed evidence, push verification, and follow-up PR checks/review/thread inspection.
-* Delivery intent: open a non-draft PR against `main`, link `jmservera/SquadScope#772`, describe W39 as missed/not-dispatched and W38 only as successful comparison/recovery evidence, and do not merge.
-* Current blockers: none. Exact identity-bound provider readback remains an external prerequisite for either green weekly state.
+* Resumed worktree/branch: `/home/azureuser/source/SquadScope-w39-weekly-state-followup` on `fix/w39-weekly-state-followup`, based on current `origin/main` at `574e4e4`.
+* Source reconciliation: `origin/main` contains merged `jmservera/SquadScope#772`; validated correction `0a412d5` is applied semantically, and stale blocker-only commit `27b7f20` is excluded.
+* First incomplete marker: P04-T02, because P01-P03, P04-T01, and P05 have completion evidence while fresh-branch validation and hosted follow-up PR evidence remain.
+* Approved write boundary: directly related state helper/tests and the existing research, plan, details, critique, changes, review, W38 historical, and session artifacts in this worktree only.
+* Validation intent: focused state-model tests, directly relevant semantic/diff/Markdown checks, hosted checks, PR metadata, and unresolved-thread inspection.
+* Current blockers: none. Exact provider readback remains required before any weekly identity can be green.
+* State-model intent: preserve immutable attempt outcomes; derive the weekly identity separately; permit only `published_verified` and `published_verified_recovered` as green states after exact `provider=published` and `external_verified=true` readback. Partial, unknown, manual action without readback, duplicate ambiguity, and missing readback remain non-green.
 
 ### Authoritative incident-scope correction — 2026-09-21
 
@@ -38,6 +39,25 @@ Implementation is active in the isolated worktree `/home/azureuser/source/SquadS
 * Historical-record handling: Earlier implementation entries and review evidence remain intact. Any earlier wording that grouped W38 with W39 as a missed-publication incident is superseded by this correction and must not be used in current acceptance or PR narrative.
 * Runtime impact: None. Existing W38 detector regression remains valid because it models unrelated-run identity scoping without asserting a missed publication.
 * Validation: The four dispatch-focused test modules report `203 passed`; `git diff --check` passes; the ten affected repository/session Markdown files pass tab and trailing-whitespace checks; prohibited-claim searches find no false W38 missed-publication or five-consecutive-failure statement.
+
+### Finalized attempt-versus-weekly identity model — 2026-09-22
+
+* Related phase or task: P04-T02.
+* Files: `scripts/podcast_dispatch_state.py`, `tests/test_podcast_dispatch_state.py`, and the existing correction research/plan/details/critique/changes/review/W38/session artifacts.
+* What changed and why: Added one canonical derived-weekly-state helper while preserving receipt/attempt records unchanged. Only exact validated provider readback can yield `published_verified` or `published_verified_recovered`; the recovered state additionally requires preserved prior non-green attempt evidence.
+* Non-green behavior: partial stages, provider failure/unknown, identity mismatch, manual action without readback, duplicate ambiguity, and missing readback remain explicit non-green states.
+* Incident truth: W39 remains the sole missed/not-dispatched incident and non-green. W38 remains successful comparative/recovery evidence, while its blocked automatic attempt remains immutable; workflow completion alone is not substituted for exact provider readback.
+* Completion evidence: focused and full validation pending in this resumed correction batch.
+
+### Completed resumed local validation — 2026-09-22
+
+* Related phase or task: P04-T02.
+* Focused semantics: `python3 -m pytest -q tests/test_podcast_dispatch_state.py tests/test_auto_dispatch_detect.py tests/test_podcaster_handoff.py tests/test_pipeline.py` passed `205`.
+* Full tests: `python3 -m pytest -q tests/` passed `1,819` with two existing URL-image warnings.
+* Formatting/lint: Ruff 0.15.7 passed `ruff check .` and `ruff format --check .`; 196 files were already formatted after formatting the changed state helper.
+* Dependency/security: pip-audit 2.10.1 found no known vulnerabilities; Bandit 1.9.4 exited 0 with existing informational comment-token warnings; Checkov 3.2.533 reported 1,073 passed, 0 failed, 7 skipped; Zizmor 1.25.2 reported no findings with 8 ignored and 97 suppressed by the existing configuration.
+* Documentation/diff: `git diff --check` passed; all ten correction Markdown artifacts contain no tabs or trailing whitespace; semantic searches preserve W39-only incident scope and W38 comparative/recovery scope.
+* Gate integrity: no dependency manifest, scanner baseline, workflow gate, or unrelated source was changed.
 
 ### Activated PR review and hosted-failure correction batch
 
@@ -415,6 +435,14 @@ Implementation is active in the isolated worktree `/home/azureuser/source/SquadS
 | Credential/budget Bandit | Repository | Passed | Exit 0; existing informational comment-token warnings only |
 | Credential/budget Checkov | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 existing skips |
 | Credential/budget Zizmor | All workflows | Passed | No findings; existing ignored/suppressed baseline retained |
+| Resumed focused dispatch tests | Attempt/weekly state and dispatch surfaces | Passed | 205 passed |
+| Resumed full repository tests | Repository | Passed | 1,819 passed; 2 existing URL-image warnings |
+| Resumed repository Ruff 0.15.7 | Repository | Passed | All checks passed; 196 files formatted |
+| Resumed pip-audit 2.10.1 | `requirements.txt` | Passed | No known vulnerabilities found using the retained session venv |
+| Resumed Bandit 1.9.4 | Repository | Passed | Exit 0; existing informational comment-token warnings only |
+| Resumed Checkov 3.2.533 | GitHub Actions, Dockerfile, secrets | Passed | 1,073 passed, 0 failed, 7 skipped |
+| Resumed Zizmor 1.25.2 | All workflows | Passed | No findings; 8 ignored and 97 suppressed by existing configuration |
+| Resumed diff and Markdown checks | Correction diff and ten artifacts | Passed | No whitespace errors, tabs, or trailing whitespace |
 
 ## Pre-Review Reconciliation
 
