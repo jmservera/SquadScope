@@ -161,6 +161,7 @@ class MonitorResult:
     warning_emitted: bool = False
     detail: str = ""
     cleanup_budget_seconds: float = 0
+    terminal_status: TerminalStatus | None = None
 
 
 class TerminalEvidenceError(ValueError):
@@ -733,6 +734,7 @@ def monitor_terminal_outcome(
                     warning_emitted,
                     result.detail,
                     max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+                    latest,
                 )
         elapsed = accepted_elapsed_at_start + (monotonic() - started)
         if (
@@ -762,6 +764,7 @@ def monitor_terminal_outcome(
         warning_emitted,
         "",
         max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+        latest,
     )
 
 
@@ -1139,18 +1142,56 @@ def main(argv: list[str] | None = None) -> int:
 
     result = monitor_terminal_outcome(parsed, args.endpoint, api_key, warning=warn)
     cleanup_deadline = _bounded_incident_deadline(result.cleanup_budget_seconds)
+    prior_non_green_attempt = False
+    prior_attempt_history_available = False
+    if result.success and args.repo and token:
+        try:
+            receipts = list_ledger_receipts(
+                args.repo,
+                token,
+                deadline=min(
+                    cleanup_deadline,
+                    time.monotonic() + REQUEST_TIMEOUT_SECONDS,
+                ),
+            )
+        except (OSError, TimeoutError, ValueError, error.HTTPError, error.URLError) as exc:
+            print(
+                "::warning::Prior attempt history could not be loaded; "
+                f"weekly recovery classification is unavailable: {type(exc).__name__}"
+            )
+        else:
+            prior_attempt_history_available = True
+            prior_non_green_attempt = any(
+                receipt.identity == parsed.identity and receipt.attempt_id != parsed.attempt_id
+                for receipt in receipts
+            )
+    receipt_classification = receipt_retry_classification([parsed])
+    weekly_state = derive_weekly_identity_state(
+        parsed.identity,
+        result.terminal_status,
+        prior_non_green_attempt=prior_non_green_attempt,
+        manual_action=(
+            parsed.receipt_state != "accepted" and receipt_classification != "ambiguous_exact"
+        ),
+        duplicate_ambiguous=receipt_classification == "ambiguous_exact",
+    )
+    weekly_success = weekly_state in WEEKLY_GREEN_STATES
     summary = (
         f"## Podcast dispatch reconciliation\n\n"
         f"- Identity key: `{canonical_identity_key(parsed.identity)}`\n"
         f"- Result: `{result.stage}/{result.state}`\n"
-        f"- Terminal success: `{str(result.success).lower()}`\n"
+        f"- Weekly identity state: `{weekly_state}`\n"
+        f"- Terminal success: `{str(weekly_success).lower()}`\n"
+        f"- Prior attempt history available: "
+        f"`{str(prior_attempt_history_available).lower()}`\n"
+        f"- Prior non-green attempt: `{str(prior_non_green_attempt).lower()}`\n"
         f"- Synthesis latency seconds: `{result.synthesis_latency_seconds}`\n"
         f"- Synthesis warning incident: `{warning_urls[-1] if warning_urls else 'none'}`\n"
     )
     if args.summary:
         with args.summary.open("a", encoding="utf-8") as output:
             output.write(summary)
-    if result.success:
+    if weekly_success:
         if args.repo and token:
             reconcile_identity_incidents(
                 args.repo,

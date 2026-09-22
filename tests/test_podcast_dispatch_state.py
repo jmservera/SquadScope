@@ -663,6 +663,32 @@ class PodcastDispatchStateTests(unittest.TestCase):
         )
         self.assertFalse(result.success)
         self.assertEqual((result.stage, result.state), ("provider", "timeout"))
+        self.assertEqual(
+            result.terminal_status,
+            self.terminal(
+                synthesis="started", video="succeeded", provider="pending", verified=False
+            ),
+        )
+
+    def test_monitor_preserves_verified_terminal_status_for_weekly_state(self) -> None:
+        terminal = self.terminal()
+        result = state.monitor_terminal_outcome(
+            self.receipt(),
+            "https://example.invalid/status",
+            "secret",
+            fetch=lambda *args: terminal,
+            wall_time=lambda: datetime.now(UTC).timestamp(),
+        )
+        self.assertTrue(result.success)
+        self.assertIs(result.terminal_status, terminal)
+        self.assertEqual(
+            state.derive_weekly_identity_state(
+                self.identity,
+                result.terminal_status,
+                prior_non_green_attempt=True,
+            ),
+            "published_verified_recovered",
+        )
 
     def test_incident_upsert_deduplicates_existing_marker(self) -> None:
         key = state.incident_key(self.identity, "provider", "timeout")
