@@ -441,8 +441,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--disable-builtin-mcps", run_analysis)
         self.assertIn('"$WORKSPACE_GUARD" snapshot', run_analysis)
         self.assertIn('"$WORKSPACE_GUARD" verify', run_analysis)
-        self.assertIn("status --porcelain=v1 --untracked-files=all", run_analysis)
-        self.assertIn('cmp -s "$COPILOT_REPO_BASELINE"', run_analysis)
+        self.assertIn('"$WORKSPACE_GUARD" git-snapshot', run_analysis)
+        self.assertIn('"$WORKSPACE_GUARD" git-verify', run_analysis)
         self.assertIn('--token-file "$CANARY_FILE"', run_analysis)
         self.assertIn('--allow "analysis-output.md"', run_analysis)
         self.assertIn('--allow "copilot-transcript.md"', run_analysis)
@@ -491,8 +491,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('SYNTHESIS_SANDBOX="$(mktemp -d', synthesis_run)
         self.assertIn('-C "$SYNTHESIS_SANDBOX"', synthesis_run)
         self.assertIn("--disallow-temp-dir", synthesis_run)
-        self.assertIn("status --porcelain=v1 --untracked-files=all", synthesis_run)
-        self.assertIn('cmp -s "$SYNTHESIS_REPO_BASELINE"', synthesis_run)
+        self.assertIn('"$WORKSPACE_GUARD" git-snapshot', synthesis_run)
+        self.assertIn('"$WORKSPACE_GUARD" git-verify', synthesis_run)
         synthesis_verify = synthesis_run.index('"$WORKSPACE_GUARD" verify')
         synthesis_validate = synthesis_run.index(
             "scripts/ai_output_guard.py validate", synthesis_verify

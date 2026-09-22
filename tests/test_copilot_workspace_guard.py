@@ -1,6 +1,7 @@
+import subprocess
 from pathlib import Path
 
-from scripts.copilot_workspace_guard import snapshot, verify
+from scripts.copilot_workspace_guard import git_worktree_snapshot, snapshot, verify
 
 
 def test_verify_allows_only_declared_regular_output(tmp_path: Path):
@@ -59,3 +60,21 @@ def test_verify_rejects_deletion_and_rename(tmp_path: Path):
         "input.txt",
         "renamed.txt",
     ]
+
+
+def test_git_worktree_snapshot_detects_changes_to_already_dirty_paths(tmp_path: Path):
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    tracked = tmp_path / "tracked.txt"
+    untracked = tmp_path / "untracked.txt"
+    tracked.write_text("baseline", encoding="utf-8")
+    subprocess.run(["git", "add", "tracked.txt"], cwd=tmp_path, check=True)
+    tracked.write_text("already dirty", encoding="utf-8")
+    untracked.write_text("already untracked", encoding="utf-8")
+    baseline = git_worktree_snapshot(tmp_path)
+
+    tracked.write_text("changed again", encoding="utf-8")
+    untracked.write_text("changed again", encoding="utf-8")
+    current = git_worktree_snapshot(tmp_path)
+
+    assert baseline["tracked.txt"] != current["tracked.txt"]
+    assert baseline["untracked.txt"] != current["untracked.txt"]
