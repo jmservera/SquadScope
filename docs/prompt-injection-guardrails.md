@@ -342,10 +342,9 @@ The following summarizes the complete defense chain from data ingestion to publi
   cannot guarantee model compliance against novel or obfuscated attacks.
 - Phrase-based sanitization can miss multilingual, encoded, or semantically
   equivalent injections and can also truncate benign text.
-- Canary non-leakage is not proof of safety; a manipulated output may avoid
-  reproducing the canary.
-- Copilot CLI does not expose the same immediate response-validation hook as the
-  fallback/API helpers, so production relies on persisted prompt evidence and
-  downstream quality/publication gates.
+- Production runs `ai_output_guard.py validate` immediately after each Copilot
+  CLI invocation and rejects canary leakage or configured unsafe output before
+  acceptance. A well-formed manipulated output can still pass these checks, so
+  downstream editorial and publication gates remain necessary.
 - External facts can still be false, biased, stale, or coordinated even after
   their text is safely bounded. Editorial verification remains necessary.
