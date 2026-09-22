@@ -11,9 +11,9 @@
 
 - All three Ralph loops were running.
 - PR #775 was the only open pull request.
-- Its unchanged CI, security, Hugo, Pagefind, responsive, accessibility, Lighthouse, and visual-structure gates passed.
+- Check status is authoritative on PR #775 and must be green on the final head before merge.
 - No feature, pipeline, generated-data, or release behavior changed.
 
 ## Outcome
 
-The PRD and historical priority backlog remains complete. The next actionable work depends on a new immutable release candidate and genuine live screen-reader evidence for #714.
+The PRD and historical priority backlogs remain complete. The next actionable work depends on a new immutable release candidate and genuine live screen-reader evidence for #714.
