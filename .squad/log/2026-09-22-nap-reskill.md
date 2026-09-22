@@ -12,6 +12,9 @@
 - All three Ralph loops were running.
 - PR #775 was the only open pull request.
 - Check status is authoritative on PR #775 and must be green on the final head before merge.
+- `decisions.md` changed from 23,354 bytes before nap to 1,286 bytes after retaining active conditions.
+- Decision inbox entries processed: 0.
+- History files summarized: 0; Ralph and Scribe histories received current-session records only.
 - No feature, pipeline, generated-data, or release behavior changed.
 
 ## Outcome
