@@ -596,6 +596,31 @@ def derive_weekly_identity_state(
     return "readback_missing"
 
 
+def has_prior_non_green_attempt(
+    receipts: Iterable[DispatchReceipt],
+    current: DispatchReceipt,
+) -> bool:
+    """Return true only for explicit non-green evidence from an earlier attempt."""
+    attempts: dict[str, list[DispatchReceipt]] = {}
+    for receipt in receipts:
+        if receipt.identity == current.identity and receipt.attempt_id != current.attempt_id:
+            attempts.setdefault(receipt.attempt_id, []).append(receipt)
+    for attempt_receipts in attempts.values():
+        if any(
+            receipt.stage == "provider" and receipt.state == "published"
+            for receipt in attempt_receipts
+        ):
+            continue
+        if any(
+            receipt.stage is not None or receipt.state is not None for receipt in attempt_receipts
+        ):
+            return True
+        states = {receipt.receipt_state for receipt in attempt_receipts}
+        if "accepted" not in states and states != {"observation_only"}:
+            return True
+    return False
+
+
 def fetch_terminal_status(
     endpoint: str,
     token: str,
@@ -722,6 +747,7 @@ def monitor_terminal_outcome(
                     warning_emitted,
                     "",
                     max(0.0, TOTAL_MONITOR_BUDGET_SECONDS - elapsed),
+                    latest,
                 )
         else:
             if latest.synthesis_state in {"started", "succeeded"} and synthesis_latency is None:
@@ -1164,10 +1190,7 @@ def main(argv: list[str] | None = None) -> int:
             )
         else:
             prior_attempt_history_available = True
-            prior_non_green_attempt = any(
-                receipt.identity == parsed.identity and receipt.attempt_id != parsed.attempt_id
-                for receipt in receipts
-            )
+            prior_non_green_attempt = has_prior_non_green_attempt(receipts, parsed)
     receipt_classification = receipt_retry_classification([parsed])
     weekly_state = derive_weekly_identity_state(
         parsed.identity,
@@ -1184,7 +1207,8 @@ def main(argv: list[str] | None = None) -> int:
         f"- Identity key: `{canonical_identity_key(parsed.identity)}`\n"
         f"- Result: `{result.stage}/{result.state}`\n"
         f"- Weekly identity state: `{weekly_state}`\n"
-        f"- Terminal success: `{str(weekly_success).lower()}`\n"
+        f"- Terminal monitor success: `{str(result.success).lower()}`\n"
+        f"- Weekly identity green: `{str(weekly_success).lower()}`\n"
         f"- Prior attempt history available: "
         f"`{str(prior_attempt_history_available).lower()}`\n"
         f"- Prior non-green attempt: `{str(prior_non_green_attempt).lower()}`\n"

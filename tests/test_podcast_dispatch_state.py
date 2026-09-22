@@ -213,6 +213,46 @@ class PodcastDispatchStateTests(unittest.TestCase):
                 )
                 self.assertIn(expected, state.WEEKLY_NON_GREEN_STATES)
 
+    def test_prior_non_green_attempt_requires_explicit_evidence(self) -> None:
+        accepted = self.receipt()
+        prior_accepted = state.DispatchReceipt(
+            **{
+                **accepted.__dict__,
+                "receipt_id": "receipt-prior",
+                "attempt_id": "35562322880-0",
+            }
+        )
+        self.assertFalse(state.has_prior_non_green_attempt([prior_accepted, accepted], accepted))
+
+        prior_failed = state.DispatchReceipt(
+            **{
+                **prior_accepted.__dict__,
+                "stage": "provider",
+                "state": "failed",
+            }
+        )
+        self.assertTrue(state.has_prior_non_green_attempt([prior_failed, accepted], accepted))
+
+        prior_verified = state.DispatchReceipt(
+            **{
+                **prior_accepted.__dict__,
+                "stage": "provider",
+                "state": "published",
+            }
+        )
+        self.assertFalse(state.has_prior_non_green_attempt([prior_verified, accepted], accepted))
+
+        prior_pre_submit = state.DispatchReceipt(
+            **{
+                **prior_accepted.__dict__,
+                "receipt_state": "pre_submit_failed",
+                "api_status": None,
+                "podcaster_job_id": None,
+                "correlation_id": None,
+            }
+        )
+        self.assertTrue(state.has_prior_non_green_attempt([prior_pre_submit, accepted], accepted))
+
     def test_status_validation_rejects_identity_mismatch(self) -> None:
         payload = {
             "schema_version": state.STATUS_SCHEMA_VERSION_V1,
@@ -553,6 +593,38 @@ class PodcastDispatchStateTests(unittest.TestCase):
         )
         self.assertTrue(all(0 < timeout <= 10 for timeout in timeouts))
         self.assertLessEqual(clock[0], 45)
+
+    def test_monitor_preserves_latest_status_when_error_budget_is_exhausted(self) -> None:
+        clock = [0.0]
+        latest = self.terminal(
+            synthesis="started",
+            video="pending",
+            provider="pending",
+            verified=False,
+        )
+        responses = iter([latest, *(OSError("unavailable") for _ in range(5))])
+
+        def fetch(*args):
+            value = next(responses)
+            if isinstance(value, Exception):
+                raise value
+            return value
+
+        result = state.monitor_terminal_outcome(
+            self.receipt(),
+            "https://example.invalid/status",
+            "secret",
+            fetch=fetch,
+            monotonic=lambda: clock[0],
+            sleep=lambda seconds: clock.__setitem__(0, clock[0] + seconds),
+            evidence_deadline=300,
+            poll_interval=1,
+        )
+        self.assertEqual(
+            (result.stage, result.state),
+            ("evidence_unavailable", "error_budget_exhausted"),
+        )
+        self.assertIs(result.terminal_status, latest)
 
     def test_monitor_uses_accepted_time_for_deadline_and_cleanup_reserve(self) -> None:
         accepted_at = datetime(2026, 9, 21, 20, 0, tzinfo=UTC)
