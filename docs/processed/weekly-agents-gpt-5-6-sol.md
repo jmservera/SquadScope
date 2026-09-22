@@ -24,10 +24,11 @@ Version 1.2 | Status **Implemented and archived 2026-09-22** — jmservera appro
 
 ## 1. Problem and Context
 
-SquadScope runs a two-step Copilot CLI analysis every week:
+At the time of this proposal, SquadScope ran a two-step Copilot CLI analysis
+with the following baseline:
 
-- `weekly-synthesis` (`.github/agents/weekly-synthesis.agent.md`, currently `model: gpt-5.5`)
-- `weekly-analysis` (`.github/agents/weekly-analysis.agent.md`, currently `model: gpt-5.5`)
+- `weekly-synthesis` (`.github/agents/weekly-synthesis.agent.md`, then `model: gpt-5.5`)
+- `weekly-analysis` (`.github/agents/weekly-analysis.agent.md`, then `model: gpt-5.5`)
 
 Analysis is Copilot-only with no GitHub Models/OpenAI operational fallback, so each
 weekly run consumes AI Credits at a measurable, recurring cost. `gpt-5.6-sol` is now
@@ -80,7 +81,7 @@ parallel processes. No latency figure is a reliable serial measurement.
 
 | Model | W33 score | W34 score | Average | vs. baseline |
 |-------|-----------|-----------|---------|--------------|
-| gpt-5.5 (current) | 7.3 | 7.6 | 7.45 | — |
+| gpt-5.5 (proposal baseline) | 7.3 | 7.6 | 7.45 | — |
 | gpt-5.6-sol | 8.2 | 9.0 | 8.60 | **+1.15 points** |
 | gpt-6-astra | 8.7 | 8.6 | 8.65 | +1.20 points |
 
@@ -99,7 +100,7 @@ Full verdict: `blinded-review/editorial-verdict.md` in session files.
 Pricing source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing (fetched 2026-09-08).
 These are Copilot CLI billing rates, NOT direct Azure/OpenAI API prices.
 
-| Dimension | gpt-5.5 (current) | gpt-5.6-sol (proposed) | gpt-6-astra (rejected) |
+| Dimension | gpt-5.5 (proposal baseline) | gpt-5.6-sol (proposed) | gpt-6-astra (rejected) |
 |-----------|-------------------|------------------------|------------------------|
 | Availability | GA | GA, Copilot CLI | GA, Copilot CLI |
 | Avg cost / weekly run | $0.456 | $0.462 (+1.2%) | $1.094 (+140%) |
