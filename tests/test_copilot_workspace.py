@@ -125,6 +125,15 @@ def test_detects_index_mutation_even_for_allowed_file(repository: Path, tmp_path
     assert ("<git-index>", "modified") in _changes(snapshot)
 
 
+def test_detects_directory_mode_mutation(repository: Path, tmp_path: Path) -> None:
+    snapshot = _snapshot(repository, tmp_path, "data/candidates/output.md")
+    scripts = repository / "scripts"
+
+    scripts.chmod(scripts.stat().st_mode ^ 0o020)
+
+    assert ("scripts", "directory-mode-changed") in _changes(snapshot)
+
+
 @pytest.mark.parametrize(
     ("metadata_path", "expected_change"),
     [(".git/config", "modified"), (".git/hooks/post-checkout", "added")],

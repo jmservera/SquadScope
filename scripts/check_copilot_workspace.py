@@ -14,7 +14,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any, Sequence
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 ALLOWED_ARTIFACT_PREFIXES = ("data/candidates/", "data/metrics/")
 ALLOWED_ARTIFACT_SUFFIXES = (".log", ".md")
 
@@ -23,7 +23,16 @@ ALLOWED_ARTIFACT_SUFFIXES = (".log", ".md")
 class FileState:
     kind: str
     mode: int
+    uid: int
+    gid: int
     sha256: str
+
+
+@dataclass(frozen=True)
+class DirectoryState:
+    mode: int
+    uid: int
+    gid: int
 
 
 @dataclass(frozen=True)
@@ -31,7 +40,7 @@ class WorkspaceSnapshot:
     schema_version: int
     root: str
     allowed_paths: list[str]
-    directories: list[str]
+    directories: dict[str, DirectoryState]
     files: dict[str, FileState]
     index_sha256: str
 
@@ -112,14 +121,31 @@ def _file_state(path: Path) -> FileState:
     metadata = path.lstat()
     mode = stat.S_IMODE(metadata.st_mode)
     if stat.S_ISREG(metadata.st_mode):
-        return FileState(kind="file", mode=mode, sha256=_sha256(path.read_bytes()))
+        return FileState(
+            kind="file",
+            mode=mode,
+            uid=metadata.st_uid,
+            gid=metadata.st_gid,
+            sha256=_sha256(path.read_bytes()),
+        )
     if stat.S_ISLNK(metadata.st_mode):
         return FileState(
             kind="symlink",
             mode=mode,
+            uid=metadata.st_uid,
+            gid=metadata.st_gid,
             sha256=_sha256(os.readlink(path).encode("utf-8", errors="surrogateescape")),
         )
     raise WorkspaceError(f"unsupported workspace entry type: {path}")
+
+
+def _directory_state(path: Path) -> DirectoryState:
+    metadata = path.stat()
+    return DirectoryState(
+        mode=stat.S_IMODE(metadata.st_mode),
+        uid=metadata.st_uid,
+        gid=metadata.st_gid,
+    )
 
 
 def capture_workspace(
@@ -132,7 +158,7 @@ def capture_workspace(
     allowed = validate_allowed_paths(
         root, allowed_paths, check_existing_entries=check_allowed_entries
     )
-    directories: list[str] = []
+    directories: dict[str, DirectoryState] = {".": _directory_state(root)}
     files: dict[str, FileState] = {}
 
     for current, directory_names, file_names in os.walk(root, topdown=True, followlinks=False):
@@ -146,7 +172,7 @@ def capture_workspace(
             if path.is_symlink():
                 files[relative] = _file_state(path)
             else:
-                directories.append(relative)
+                directories[relative] = _directory_state(path)
         directory_names[:] = [
             name for name in directory_names if not (current_path / name).is_symlink()
         ]
@@ -159,7 +185,7 @@ def capture_workspace(
         schema_version=SCHEMA_VERSION,
         root=str(root),
         allowed_paths=allowed,
-        directories=sorted(directories),
+        directories=dict(sorted(directories.items())),
         files=dict(sorted(files.items())),
         index_sha256=_sha256(index_state),
     )
@@ -188,12 +214,16 @@ def read_snapshot(path: Path) -> WorkspaceSnapshot:
         payload = json.loads(path.read_text(encoding="utf-8"))
         if payload.get("schema_version") != SCHEMA_VERSION:
             raise WorkspaceError("unsupported snapshot schema version")
+        directories = {
+            directory_path: DirectoryState(**state)
+            for directory_path, state in payload["directories"].items()
+        }
         files = {file_path: FileState(**state) for file_path, state in payload["files"].items()}
         return WorkspaceSnapshot(
             schema_version=payload["schema_version"],
             root=payload["root"],
             allowed_paths=payload["allowed_paths"],
-            directories=payload["directories"],
+            directories=directories,
             files=files,
             index_sha256=payload["index_sha256"],
         )
@@ -217,6 +247,18 @@ def verify_workspace(snapshot: WorkspaceSnapshot) -> list[dict[str, str]]:
         changes.append({"path": path, "change": "directory-deleted"})
     for path in sorted(new_directories - old_directories):
         changes.append({"path": path, "change": "directory-added"})
+    for path in sorted(old_directories & new_directories):
+        before = snapshot.directories[path]
+        after = current.directories[path]
+        if before == after:
+            continue
+        if before.mode != after.mode:
+            change = "directory-mode-changed"
+        elif (before.uid, before.gid) != (after.uid, after.gid):
+            change = "directory-owner-changed"
+        else:
+            change = "directory-metadata-changed"
+        changes.append({"path": path, "change": change})
 
     all_files = sorted(set(snapshot.files) | set(current.files))
     for path in all_files:
@@ -236,6 +278,8 @@ def verify_workspace(snapshot: WorkspaceSnapshot) -> list[dict[str, str]]:
             change = "type-changed"
         elif before.mode != after.mode:
             change = "mode-changed"
+        elif before.uid != after.uid or before.gid != after.gid:
+            change = "owner-changed"
         else:
             change = "modified"
         changes.append({"path": path, "change": change})
