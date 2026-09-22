@@ -392,15 +392,28 @@ class TestFormatDivergencesReaderMode:
             ],
         }
 
-    def test_ai_mode_has_instructions(self):
+    def test_ai_mode_contains_only_divergence_evidence(self):
         result = format_divergences(self._divergences(), reader_mode=False)
-        assert "#### Divergence Instructions" in result
-        assert "Use divergences to identify" in result
+        assert "quantum-computing" in result
+        assert "wasm-tooling" in result
+        assert "#### Divergence Instructions" not in result
+        assert "Use divergences to identify" not in result
 
     def test_reader_mode_no_instructions(self):
         result = format_divergences(self._divergences(), reader_mode=True)
         assert "#### Divergence Instructions" not in result
         assert "Use divergences to identify" not in result
+
+    def test_rendered_prompt_keeps_divergence_guidance_outside_untrusted_fence(self):
+        result = render_press_context(
+            {"articles": []},
+            {"correlations": [], "divergences": self._divergences()},
+            "2026-W21",
+        )
+
+        assert result.index("</untrusted-content>") < result.index(
+            "Use divergence evidence to identify:"
+        )
 
     def test_reader_mode_has_narrative(self):
         result = format_divergences(self._divergences(), reader_mode=True)

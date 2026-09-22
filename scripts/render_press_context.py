@@ -541,8 +541,9 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
     Args:
         divergences: Divergence data dict.
         reader_mode: When True, renders narrative paragraphs with inline repo/article
-                     links instead of raw bullet lists. When False (AI prompt mode),
-                     the original bullet-list format is preserved unchanged.
+                     links instead of raw bullet lists. When False, renders only
+                     the external divergence evidence for the prompt's untrusted
+                     content fence.
     """
     if not divergences:
         return ""
@@ -567,7 +568,7 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
             lines.append(_format_unpublicized_narrative(unpublicized))
             lines.append("")
     else:
-        # AI prompt mode: full raw data for model consumption — keep unchanged
+        # AI prompt mode: full external data for model consumption.
         if uncovered:
             lines.append("#### 🔍 Tech Trends Without Dev Activity")
             lines.append(
@@ -601,12 +602,6 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
                 )
                 lines.append(f"- **{topic}**: {repo_refs}")
             lines.append("")
-
-        lines.append("#### Divergence Instructions")
-        lines.append("Use divergences to identify:")
-        lines.append("- 🔮 Where industry is moving but devs haven't caught up")
-        lines.append("- 💡 Where devs are innovating ahead of media attention")
-        lines.append("- 📊 Opportunity gaps between narrative and reality")
 
     return "\n".join(lines)
 
