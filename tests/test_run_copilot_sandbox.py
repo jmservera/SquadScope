@@ -49,6 +49,10 @@ def test_builds_minimal_read_only_runtime_with_exact_output_bind(tmp_path: Path)
     assert "/proc" not in command
     assert command[command.index("--user") + 1] == "#1001"
     assert command[command.index("--group") + 1] == "#1001"
+    assert command[command.index("--group") + 2 : command.index("--group") + 4] == [
+        "--",
+        "/usr/bin/bwrap",
+    ]
     assert "--unshare-user" in command
     assert command[command.index("--uid") + 1] == "0"
     assert command[command.index("--gid") + 1] == "0"

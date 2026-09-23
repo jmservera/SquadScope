@@ -83,6 +83,7 @@ def build_sandbox_command(
         f"#{runner_uid}",
         "--group",
         f"#{runner_gid}",
+        "--",
         str(bwrap),
         "--die-with-parent",
         "--new-session",
@@ -91,6 +92,7 @@ def build_sandbox_command(
         "--unshare-ipc",
         "--unshare-uts",
         "--uid",
+        # Namespace root maps to the already-dropped runner identity on the host.
         "0",
         "--gid",
         "0",
