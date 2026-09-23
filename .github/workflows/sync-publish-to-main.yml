@@ -78,8 +78,6 @@ jobs:
             content/yearly/
           rm -f data/metrics/copilot-transcript.md
 
-          rm -f data/metrics/copilot-transcript.md
-
           # Preserve curated seed hubs from main and carry only hubs explicitly
           # created by the dynamic lifecycle on publish.
           while IFS= read -r hub; do
