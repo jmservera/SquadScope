@@ -23,11 +23,11 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from scripts.analysis_content_security import normalize_evidence_url
+    from scripts.analysis_content_security import load_external_url_allowlist
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
 except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scripts.analysis_content_security import normalize_evidence_url
+    from scripts.analysis_content_security import load_external_url_allowlist
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
 
 COMPARISON_SCHEMA = "comparison_report_v1"
@@ -112,28 +112,6 @@ def compute_evidence_coverage_from_ledgers(
     if total_input == 0:
         return 0.0
     return total_mapped / total_input
-
-
-def press_url_inventory(candidate_dir: Path) -> set[str]:
-    path = candidate_dir / "maps" / "press_correlations.json"
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
-        return set()
-    inventory: set[str] = set()
-    for url in payload.get("coverage", {}).get("article_urls_seen", []):
-        normalized = normalize_evidence_url(url) if isinstance(url, str) else None
-        if normalized is not None:
-            inventory.add(normalized)
-    for finding in payload.get("findings", []):
-        for ref in finding.get("evidence_refs", []):
-            if not isinstance(ref, dict) or ref.get("type") != "article":
-                continue
-            url = ref.get("url")
-            normalized = normalize_evidence_url(url) if isinstance(url, str) else None
-            if normalized is not None:
-                inventory.add(normalized)
-    return inventory
 
 
 def analyze_single_pass(
@@ -499,6 +477,16 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Map/reduce candidate output directory.",
     )
     parser.add_argument(
+        "--external-news-json",
+        type=Path,
+        help="Exact run-scoped external-news artifact used by both analysis paths.",
+    )
+    parser.add_argument(
+        "--correlations-json",
+        type=Path,
+        help="Exact run-scoped correlation artifact used by both analysis paths.",
+    )
+    parser.add_argument(
         "--current-datetime",
         default=datetime.now(UTC).isoformat(),
         help="ISO-8601 timestamp for the comparison run.",
@@ -521,7 +509,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     raw_payload = json.loads(args.raw_json.read_text(encoding="utf-8"))
     week = raw_payload.get("week", "unknown")
 
-    allowed_external_urls = press_url_inventory(args.candidate_dir)
+    allowed_external_urls, evidence_errors = load_external_url_allowlist(
+        [args.external_news_json, args.correlations_json]
+    )
+    if evidence_errors:
+        raise ValueError("; ".join(evidence_errors))
     single_pass = analyze_single_pass(
         args.single_pass_summary,
         raw_payload,
@@ -584,7 +576,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     try:
         report = run(args)
-    except FileNotFoundError as exc:
+    except (FileNotFoundError, ValueError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
 

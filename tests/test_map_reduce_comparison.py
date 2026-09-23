@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from datetime import UTC, datetime
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -431,6 +432,56 @@ class TestArtifactLoading:
 
 
 class TestMain:
+    def test_run_uses_structured_source_allowlist(self, tmp_path, monkeypatch):
+        raw_path = tmp_path / "2026-W24.json"
+        raw_path.write_text(json.dumps({"week": "2026-W24"}), encoding="utf-8")
+        external_news = tmp_path / "2026-W24-external-news.json"
+        correlations = tmp_path / "2026-W24-correlations.json"
+        candidate_dir = tmp_path / "candidate"
+        candidate_dir.mkdir()
+        approved = {"https://press.example/story"}
+        received: list[set[str]] = []
+
+        monkeypatch.setattr(
+            comparison,
+            "load_external_url_allowlist",
+            lambda paths: (approved, []) if paths == [external_news, correlations] else (set(), []),
+        )
+        monkeypatch.setattr(
+            comparison,
+            "analyze_single_pass",
+            lambda _path, _raw, _now, allowed: received.append(allowed) or _make_artifact_info(),
+        )
+        monkeypatch.setattr(
+            comparison,
+            "analyze_map_reduce",
+            lambda _path, _raw, _now, allowed: (
+                received.append(allowed) or _make_artifact_info(),
+                {},
+            ),
+        )
+        monkeypatch.setattr(
+            comparison,
+            "generate_comparison_report",
+            lambda **_kwargs: {"week": "2026-W24", "verdict": "pass"},
+        )
+        monkeypatch.setattr(comparison, "should_rollback", lambda _report: (False, ""))
+
+        comparison.run(
+            SimpleNamespace(
+                raw_json=raw_path,
+                external_news_json=external_news,
+                correlations_json=correlations,
+                single_pass_summary=tmp_path / "summary.md",
+                candidate_dir=candidate_dir,
+                current_datetime="2026-06-14T07:00:00+00:00",
+                output=None,
+                check_promotion=False,
+            )
+        )
+
+        assert received == [approved, approved]
+
     def test_returns_nonzero_on_failed_verdict(self, monkeypatch):
         monkeypatch.setattr(comparison, "parse_args", lambda _argv=None: SimpleNamespace())
         monkeypatch.setattr(
@@ -440,3 +491,23 @@ class TestMain:
         )
 
         assert main([]) == 1
+
+
+def test_parse_args_accepts_structured_evidence_paths(tmp_path: Path) -> None:
+    args = comparison.parse_args(
+        [
+            "--raw-json",
+            str(tmp_path / "raw.json"),
+            "--single-pass-summary",
+            str(tmp_path / "summary.md"),
+            "--candidate-dir",
+            str(tmp_path / "candidate"),
+            "--external-news-json",
+            str(tmp_path / "external-news.json"),
+            "--correlations-json",
+            str(tmp_path / "correlations.json"),
+        ]
+    )
+
+    assert args.external_news_json == tmp_path / "external-news.json"
+    assert args.correlations_json == tmp_path / "correlations.json"

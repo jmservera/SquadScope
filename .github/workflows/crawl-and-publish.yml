@@ -378,6 +378,10 @@ jobs:
         run: |
           set -euo pipefail
           WEEK="${REBUILD_WEEK:-$(date -u +%G-W%V)}"
+          if ! [[ "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
+            echo "::error::Invalid week format while clearing analyze evidence: $WEEK"
+            exit 1
+          fi
           rm -f -- \
             "data/raw/${WEEK}-external-news.json" \
             "data/raw/${WEEK}-techcrunch.json"
