@@ -22,6 +22,7 @@ from scripts.publish_hydration import GENERATED_PATHS, check_publish_references
 
 COMMIT_STEP_NAME = "Commit generated content to data branch"
 PROOF_PATH = "data/derived/observatory/atomic-publish-proof.json"
+RETIRED_PUBLISH_PATHS = ("data/metrics/copilot-transcript.md",)
 REQUIRED_COMMIT_FRAGMENTS = (
     'CURRENT_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")',
     'if [ "$GENERATED_STATE_CHANGED" = false ]; then',
@@ -154,6 +155,9 @@ def hydrate_generated_paths(repo: Path, publish_ref: str, paths: Sequence[str]) 
             run_git(repo, "checkout", publish_ref, "--", path)
         elif run_git(repo, "ls-tree", "-r", "--name-only", "HEAD", "--", path):
             preserved.append(path)
+    # Mirror workflow hydration: retired agent-authored files are never rehydrated.
+    for retired in RETIRED_PUBLISH_PATHS:
+        (repo / retired).unlink(missing_ok=True)
     return preserved
 
 

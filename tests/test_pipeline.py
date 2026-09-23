@@ -205,7 +205,15 @@ class WorkflowSecurityTests(unittest.TestCase):
             'git cat-file -e "origin/$DATA_BRANCH:data/metrics/copilot-transcript.md"'
         )
         no_change_exit = commit_run.index('git status --short -- "${GENERATED_PATHS[@]}"')
+        candidate_cleanup = commit_run.index("rm -f data/metrics/copilot-transcript.md")
+        archive = commit_run.index('tar -cf generated-state.tar "${ARCHIVE_PATHS[@]}"')
+        self.assertLess(candidate_cleanup, archive)
         self.assertLess(stale_detection, no_change_exit)
+        self.assertIn(
+            'git ls-remote --exit-code --heads origin "$DATA_BRANCH"',
+            commit_run[:stale_detection],
+        )
+        self.assertIn('if [ "$LS_REMOTE_STATUS" -ne 2 ]; then', commit_run[:no_change_exit])
         self.assertIn(
             '[ "$PUBLISH_HAS_RETIRED_TRANSCRIPT" = false ]',
             commit_run[stale_detection:no_change_exit],
