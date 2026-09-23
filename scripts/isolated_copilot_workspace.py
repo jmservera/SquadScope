@@ -15,7 +15,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path, PurePosixPath
 from typing import Sequence
 
-from scripts.path_safety import find_symlink_component
+from scripts.path_safety import find_symlink_component, open_directory_nofollow
 
 SCHEMA_VERSION = 1
 
@@ -275,18 +275,30 @@ def copy_verified_output(
     except ValueError as error:
         raise WorkspaceError(f"destination escapes approved root: {destination}") from error
 
-    source = Path(state.root).joinpath(*PurePosixPath(normalized).parts)
-    source_fd = os.open(source, os.O_RDONLY | os.O_NOFOLLOW)
-    directory_fd = os.open(
-        destination_root,
-        os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
-    )
+    source_parts = PurePosixPath(normalized).parts
+    source_directory_fd = open_directory_nofollow(Path(state.root))
+    source_fd: int | None = None
+    directory_fd: int | None = None
     output_fd: int | None = None
     created = False
     try:
+        directory_fd = open_directory_nofollow(destination_root)
+        for component in source_parts[:-1]:
+            next_fd = os.open(
+                component,
+                os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                dir_fd=source_directory_fd,
+            )
+            os.close(source_directory_fd)
+            source_directory_fd = next_fd
+        source_fd = os.open(
+            source_parts[-1],
+            os.O_RDONLY | os.O_NOFOLLOW,
+            dir_fd=source_directory_fd,
+        )
         source_metadata = os.fstat(source_fd)
         if not stat.S_ISREG(source_metadata.st_mode) or source_metadata.st_nlink != 1:
-            raise WorkspaceError(f"verified output must be a regular file: {source}")
+            raise WorkspaceError(f"verified output must be a regular file: {normalized}")
         for component in relative_destination.parts[:-1]:
             try:
                 os.mkdir(component, mode=0o755, dir_fd=directory_fd)
@@ -312,14 +324,17 @@ def copy_verified_output(
                 written = os.write(output_fd, view)
                 view = view[written:]
     except OSError as error:
-        if created:
+        if created and directory_fd is not None:
             os.unlink(relative_destination.name, dir_fd=directory_fd)
         raise WorkspaceError(f"failed to copy verified output safely: {error}") from error
     finally:
         if output_fd is not None:
             os.close(output_fd)
-        os.close(directory_fd)
-        os.close(source_fd)
+        if directory_fd is not None:
+            os.close(directory_fd)
+        if source_fd is not None:
+            os.close(source_fd)
+        os.close(source_directory_fd)
 
 
 def cleanup_workspace(root: Path) -> None:

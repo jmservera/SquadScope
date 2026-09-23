@@ -220,6 +220,38 @@ def test_refuses_to_replace_existing_destination(tmp_path: Path) -> None:
     assert destination.read_text(encoding="utf-8") == "preserve\n"
 
 
+def test_rejects_source_parent_swapped_to_symlink_after_verification(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, state_path, _ = _prepare(tmp_path, "output/analysis.md")
+    (root / "output" / "analysis.md").write_text("expected\n", encoding="utf-8")
+    state = isolated._read_state(state_path, _sha256(state_path))
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    (outside / "analysis.md").write_text("untrusted\n", encoding="utf-8")
+    checkout = tmp_path / "checkout"
+    checkout.mkdir()
+    original_verify = isolated.verify_workspace
+
+    def verify_then_swap(current: isolated.WorkspaceState) -> list[dict[str, object]]:
+        changes = original_verify(current)
+        root.chmod(0o755)
+        (root / "output").rename(root / "verified-output")
+        (root / "output").symlink_to(outside, target_is_directory=True)
+        return changes
+
+    monkeypatch.setattr(isolated, "verify_workspace", verify_then_swap)
+
+    with pytest.raises(isolated.WorkspaceError, match="copy verified output safely"):
+        isolated.copy_verified_output(
+            state,
+            "output/analysis.md",
+            checkout / "analysis.md",
+            checkout,
+        )
+    assert not (checkout / "analysis.md").exists()
+
+
 def test_cleanup_removes_read_only_workspace_for_retry(tmp_path: Path) -> None:
     root, _, _ = _prepare(tmp_path, "output/analysis.md")
     (root / "output" / "analysis.md").write_text("first attempt\n", encoding="utf-8")
