@@ -25,6 +25,7 @@ _HTML_UNQUOTED_URL_ATTRIBUTE_PATTERN = re.compile(
 _EXPLICIT_SCHEME_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 _CHARACTER_REFERENCE_PATTERN = re.compile(r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);")
 _MARKDOWN_CONTROL_PATTERN = re.compile(r"[*_~`]+")
+_HTML_COMMENT_PATTERN = re.compile(r"<!--(.*?)-->", re.DOTALL)
 _HTML_TAG_PATTERN = re.compile(r"<[^>]*>")
 _ZERO_WIDTH_PATTERN = re.compile(r"[\u200b-\u200f\u2060\ufeff]")
 
@@ -269,10 +270,10 @@ def external_url_provenance_errors(
         )
     }
     for raw_target in sorted(extract_document_url_targets(document)):
-        if _CHARACTER_REFERENCE_PATTERN.search(raw_target):
+        target = html.unescape(raw_target)
+        if target != raw_target or _CHARACTER_REFERENCE_PATTERN.search(raw_target):
             errors.append(f"generated content contains an ambiguously encoded URL: {raw_target}")
             continue
-        target = html.unescape(raw_target)
         if _CONTROL_CHARACTER_PATTERN.search(target) or "\\" in target:
             errors.append(f"generated content contains a malformed external URL: {raw_target}")
             continue
@@ -305,6 +306,7 @@ def _normalize_directive_text(document: str) -> str:
     normalized = html.unescape(unicodedata.normalize("NFKC", document))
     normalized = _ZERO_WIDTH_PATTERN.sub("", normalized)
     normalized = _MARKDOWN_LINK_TEXT_PATTERN.sub(r"\1", normalized)
+    normalized = _HTML_COMMENT_PATTERN.sub(r"\1", normalized)
     normalized = _HTML_TAG_PATTERN.sub("", normalized)
     normalized = _MARKDOWN_CONTROL_PATTERN.sub("", normalized)
     return re.sub(r"[^\S\n]+", " ", normalized)

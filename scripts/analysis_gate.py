@@ -616,7 +616,7 @@ def compute_objective_quality(
                 re.IGNORECASE,
             ):
                 continue
-            if allowed_external_urls is None or normalized in allowed_external_urls:
+            if normalized in (allowed_external_urls or set()):
                 external_urls.add(normalized)
         press_citations = len(external_urls)
         press = round(min(15, press_citations / 3 * 15))

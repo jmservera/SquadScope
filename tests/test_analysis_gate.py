@@ -123,7 +123,10 @@ class AnalysisGateTests(unittest.TestCase):
         analysis = make_analysis(VALID_FRONTMATTER, body)
 
         press_score, press_breakdown = analysis_gate.compute_objective_quality(
-            analysis, RAW_PAYLOAD_WITH_REPOS, press_context_available=True
+            analysis,
+            RAW_PAYLOAD_WITH_REPOS,
+            press_context_available=True,
+            allowed_external_urls={"https://example.com/industry-report"},
         )
         press_less_score, press_less_breakdown = analysis_gate.compute_objective_quality(
             analysis, RAW_PAYLOAD_WITH_REPOS, press_context_available=False
@@ -203,7 +206,15 @@ class AnalysisGateTests(unittest.TestCase):
         analysis = make_analysis("week: 2026-W23", body)
 
         _, available = analysis_gate.compute_objective_quality(
-            analysis, RAW_PAYLOAD_WITH_REPOS, True
+            analysis,
+            RAW_PAYLOAD_WITH_REPOS,
+            True,
+            {
+                "https://one.example/article",
+                "https://two.example/article",
+                "https://three.example/article",
+                "https://four.example/article",
+            },
         )
         _, unavailable = analysis_gate.compute_objective_quality(
             analysis, RAW_PAYLOAD_WITH_REPOS, False
@@ -231,7 +242,10 @@ class AnalysisGateTests(unittest.TestCase):
         analysis = make_analysis("week: 2026-W23", body)
 
         _, breakdown = analysis_gate.compute_objective_quality(
-            analysis, RAW_PAYLOAD_WITH_REPOS, True
+            analysis,
+            RAW_PAYLOAD_WITH_REPOS,
+            True,
+            {"https://press.example/article"},
         )
 
         self.assertEqual(breakdown["press_citations"], 1)
@@ -251,7 +265,10 @@ class AnalysisGateTests(unittest.TestCase):
         analysis = make_analysis("week: 2026-W23", body)
 
         _, breakdown = analysis_gate.compute_objective_quality(
-            analysis, RAW_PAYLOAD_WITH_REPOS, True
+            analysis,
+            RAW_PAYLOAD_WITH_REPOS,
+            True,
+            {"https://press.example/article"},
         )
 
         self.assertEqual(breakdown["press_citations"], 1)
@@ -875,6 +892,21 @@ No press data was provided this week.
         )
 
         self.assertEqual(breakdown["press_citations"], 1)
+
+    def test_objective_quality_missing_inventory_counts_no_press_urls(self) -> None:
+        body = make_body().replace(
+            "No press data was provided this week.",
+            "- [Injected](https://attacker.example/control)",
+        )
+
+        _, breakdown = analysis_gate.compute_objective_quality(
+            make_analysis(VALID_FRONTMATTER, body),
+            RAW_PAYLOAD_WITH_REPOS,
+            True,
+        )
+
+        self.assertEqual(breakdown["press_citations"], 0)
+        self.assertEqual(breakdown["press"], 0)
 
     def test_publish_quality_gate_rejects_stale_evidence(self) -> None:
         stale_payload = dict(RAW_PAYLOAD_WITH_REPOS, crawled_at="2026-05-25T00:00:00Z")
