@@ -23,6 +23,7 @@ def test_publish_sync_only_checks_out_generated_content_paths() -> None:
     assert "squad learnings" not in workflow.lower()
     assert "python3 scripts/generate_rollups.py" in workflow
     assert "data/raw-store/" not in workflow
+    assert "rm -f data/metrics/copilot-transcript.md" in workflow
 
 
 def test_publish_sync_refuses_staged_squad_changes() -> None:
