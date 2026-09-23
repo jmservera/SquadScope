@@ -43,6 +43,8 @@ def test_builds_minimal_read_only_runtime_with_exact_output_bind(tmp_path: Path)
         for index, source in enumerate(command)
         if index > 0 and command[index - 1] == "--ro-bind"
     ]
+    assert "--proc" not in command
+    assert "/proc" not in command
     assert str(runtime) in command
     assert str(workspace) in command
     bind_index = command.index("--bind")
@@ -66,6 +68,27 @@ def test_rejects_copilot_entry_outside_node_runtime(tmp_path: Path) -> None:
     with pytest.raises(sandbox.SandboxError, match="outside Node runtime"):
         sandbox.build_sandbox_command(
             workspace=workspace,
+            agent="weekly-analysis",
+            prompt="prompt",
+            share=None,
+            sudo=Path("/usr/bin/sudo"),
+            bwrap=Path("/usr/bin/bwrap"),
+            node=node,
+            copilot_entry=copilot,
+        )
+
+
+def test_rejects_workspace_with_symlink_component(tmp_path: Path) -> None:
+    _, node, copilot = _runtime(tmp_path)
+    real_parent = tmp_path / "real-parent"
+    workspace = real_parent / "workspace"
+    (workspace / "output").mkdir(parents=True)
+    linked_parent = tmp_path / "linked-parent"
+    linked_parent.symlink_to(real_parent, target_is_directory=True)
+
+    with pytest.raises(sandbox.SandboxError, match="symlink components"):
+        sandbox.build_sandbox_command(
+            workspace=linked_parent / "workspace",
             agent="weekly-analysis",
             prompt="prompt",
             share=None,

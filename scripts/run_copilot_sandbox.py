@@ -27,6 +27,15 @@ def _required_executable(name: str) -> Path:
     return Path(executable).resolve(strict=True)
 
 
+def _reject_symlink_components(path: Path, *, label: str) -> None:
+    absolute = path.absolute()
+    current = Path(absolute.anchor)
+    for part in absolute.parts[1:]:
+        current /= part
+        if current.is_symlink():
+            raise SandboxError(f"{label} cannot contain symlink components: {current}")
+
+
 def build_sandbox_command(
     *,
     workspace: Path,
@@ -38,9 +47,10 @@ def build_sandbox_command(
     node: Path,
     copilot_entry: Path,
 ) -> list[str]:
+    _reject_symlink_components(workspace, label="workspace")
     workspace = workspace.resolve(strict=True)
     output = workspace / "output"
-    if workspace.is_symlink() or not workspace.is_dir():
+    if not workspace.is_dir():
         raise SandboxError(f"workspace must be a regular directory: {workspace}")
     if output.is_symlink() or not output.is_dir():
         raise SandboxError(f"workspace output must be a regular directory: {output}")
@@ -107,8 +117,6 @@ def build_sandbox_command(
         "/workspace",
         "--dev",
         "/dev",
-        "--proc",
-        "/proc",
         "--tmpfs",
         SANDBOX_TMP,
         "--dir",

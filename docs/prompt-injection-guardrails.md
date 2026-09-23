@@ -129,9 +129,10 @@ production inference path.
   `sudo`, avoiding reliance on unprivileged user namespaces. The namespace
   exposes only the read-only system runtime, read-only Node/Copilot runtime,
   narrowly selected network/TLS configuration, an ephemeral private `/tmp`,
-  and the isolated workspace. The repository checkout, runner home, and other
-  runner-temporary files are not mounted. Only the isolated `output/`
-  directory is bind-mounted writable.
+  `/dev`, and the isolated workspace. It does not mount `/proc`, preventing
+  model-controlled file reads from reaching the Copilot process environment.
+  The repository checkout, runner home, and other runner-temporary files are
+  not mounted. Only the isolated `output/` directory is bind-mounted writable.
 - `scripts/run_copilot_sandbox.py` owns the single production mount policy for
   both agents and fails fast unless the Copilot entry point is inside the
   resolved Node runtime being mounted.
