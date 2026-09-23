@@ -15,6 +15,11 @@ class SandboxError(ValueError):
     """Raised when the Copilot runtime cannot be safely mounted."""
 
 
+# This path exists only inside Bubblewrap's private tmpfs, never on the host.
+SANDBOX_TMP = "/tmp"  # nosec B108
+SANDBOX_HOME = f"{SANDBOX_TMP}/copilot-home"
+
+
 def _required_executable(name: str) -> Path:
     executable = shutil.which(name)
     if executable is None:
@@ -105,21 +110,21 @@ def build_sandbox_command(
         "--proc",
         "/proc",
         "--tmpfs",
-        "/tmp",
+        SANDBOX_TMP,
         "--dir",
-        "/tmp/copilot-home",
+        SANDBOX_HOME,
         "--setenv",
         "HOME",
-        "/tmp/copilot-home",
+        SANDBOX_HOME,
         "--setenv",
         "PATH",
         "/runtime/bin:/usr/bin:/bin",
         "--setenv",
         "XDG_CONFIG_HOME",
-        "/tmp/copilot-home/.config",
+        f"{SANDBOX_HOME}/.config",
         "--setenv",
         "XDG_CACHE_HOME",
-        "/tmp/copilot-home/.cache",
+        f"{SANDBOX_HOME}/.cache",
         "--bind",
         str(output),
         "/workspace/output",
