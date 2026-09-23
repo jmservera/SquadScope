@@ -126,11 +126,12 @@ production inference path.
 
 - Capability isolation is the primary write boundary. Each synthesis and
   analysis invocation runs under Bubblewrap through the runner's passwordless
-  `sudo`, avoiding reliance on unprivileged user namespaces. The host
-  filesystem is mounted read-only, `/tmp` is private and ephemeral, and only
-  the isolated `output/` directory is bind-mounted writable. The workspace
-  contains only a read-only prompt, the selected read-only agent definition,
-  optional read-only retry diagnostics, and the writable output directory.
+  `sudo`, avoiding reliance on unprivileged user namespaces. The namespace
+  exposes only the read-only system runtime, read-only Node/Copilot runtime,
+  narrowly selected network/TLS configuration, an ephemeral private `/tmp`,
+  and the isolated workspace. The repository checkout, runner home, and other
+  runner-temporary files are not mounted. Only the isolated `output/`
+  directory is bind-mounted writable.
 - The isolated workspace root and all input directories are read-only. Only
   enumerated regular files below `output/` may be created. Unexpected files,
   directories, symlinks, hard links, input changes, path traversal, and output

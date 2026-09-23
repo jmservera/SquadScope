@@ -566,7 +566,10 @@ jobs:
             SYNTHESIS_ISOLATED_ROOT="${RUNNER_TEMP}/copilot-synthesis-isolated"
             SYNTHESIS_ISOLATED_STATE="${RUNNER_TEMP}/copilot-synthesis-isolated.json"
             SYNTHESIS_ISOLATED_OUTPUT="$SYNTHESIS_ISOLATED_ROOT/output/narrative.md"
-            COPILOT_BIN="$(command -v copilot)"
+            NODE_BIN="$(readlink -f "$(command -v node)")"
+            NODE_RUNTIME_ROOT="$(dirname "$(dirname "$NODE_BIN")")"
+            COPILOT_ENTRY="$(readlink -f "$(command -v copilot)")"
+            COPILOT_ENTRY_RELATIVE="${COPILOT_ENTRY#"$NODE_RUNTIME_ROOT"/}"
             rm -f "$SYNTHESIS_FILE" "$SYNTHESIS_LOG"
             rm -rf "$SYNTHESIS_ISOLATED_ROOT"
             rm -f "$SYNTHESIS_ISOLATED_STATE"
@@ -593,18 +596,31 @@ jobs:
               --unshare-pid \
               --unshare-ipc \
               --unshare-uts \
-              --ro-bind / / \
+              --ro-bind /usr /usr \
+              --symlink usr/bin /bin \
+              --symlink usr/lib /lib \
+              --symlink usr/lib64 /lib64 \
+              --dir /etc \
+              --ro-bind /etc/ssl /etc/ssl \
+              --ro-bind /etc/resolv.conf /etc/resolv.conf \
+              --ro-bind /etc/hosts /etc/hosts \
+              --ro-bind /etc/nsswitch.conf /etc/nsswitch.conf \
+              --ro-bind /etc/passwd /etc/passwd \
+              --ro-bind /etc/group /etc/group \
+              --ro-bind /etc/ld.so.cache /etc/ld.so.cache \
+              --ro-bind "$NODE_RUNTIME_ROOT" /runtime \
+              --ro-bind "$SYNTHESIS_ISOLATED_ROOT" /workspace \
               --dev /dev \
               --proc /proc \
               --tmpfs /tmp \
               --dir /tmp/copilot-home \
               --setenv HOME /tmp/copilot-home \
-              --setenv PATH "$PATH" \
+              --setenv PATH /runtime/bin:/usr/bin:/bin \
               --setenv XDG_CONFIG_HOME /tmp/copilot-home/.config \
               --setenv XDG_CACHE_HOME /tmp/copilot-home/.cache \
-              --bind "$SYNTHESIS_ISOLATED_ROOT/output" "$SYNTHESIS_ISOLATED_ROOT/output" \
-              --chdir "$SYNTHESIS_ISOLATED_ROOT" \
-              "$COPILOT_BIN" \
+              --bind "$SYNTHESIS_ISOLATED_ROOT/output" /workspace/output \
+              --chdir /workspace \
+              /runtime/bin/node "/runtime/$COPILOT_ENTRY_RELATIVE" \
                 --agent weekly-synthesis \
                 -p "Read input/prompt.md. Write the compact industry narrative to output/narrative.md. Max 2000 tokens. Do not delegate." \
                 -s \
@@ -775,7 +791,10 @@ jobs:
           install -m 0444 scripts/check_copilot_workspace.py "$COPILOT_WORKSPACE_VERIFIER"
           COPILOT_VERIFIER_SHA256="$(sha256sum "$COPILOT_WORKSPACE_VERIFIER" | cut -d' ' -f1)"
           COPILOT_ISOLATION_TOOL="${GITHUB_WORKSPACE}/scripts/isolated_copilot_workspace.py"
-          COPILOT_BIN="$(command -v copilot || true)"
+          NODE_BIN="$(readlink -f "$(command -v node)")"
+          NODE_RUNTIME_ROOT="$(dirname "$(dirname "$NODE_BIN")")"
+          COPILOT_ENTRY="$(readlink -f "$(command -v copilot || true)")"
+          COPILOT_ENTRY_RELATIVE="${COPILOT_ENTRY#"$NODE_RUNTIME_ROOT"/}"
           PROMPT_FILE="$IN_PROMPT_FILE"
           CANARY_FILE="$IN_CANARY_FILE"
           LEGACY_PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
@@ -907,18 +926,31 @@ jobs:
               --unshare-pid \
               --unshare-ipc \
               --unshare-uts \
-              --ro-bind / / \
+              --ro-bind /usr /usr \
+              --symlink usr/bin /bin \
+              --symlink usr/lib /lib \
+              --symlink usr/lib64 /lib64 \
+              --dir /etc \
+              --ro-bind /etc/ssl /etc/ssl \
+              --ro-bind /etc/resolv.conf /etc/resolv.conf \
+              --ro-bind /etc/hosts /etc/hosts \
+              --ro-bind /etc/nsswitch.conf /etc/nsswitch.conf \
+              --ro-bind /etc/passwd /etc/passwd \
+              --ro-bind /etc/group /etc/group \
+              --ro-bind /etc/ld.so.cache /etc/ld.so.cache \
+              --ro-bind "$NODE_RUNTIME_ROOT" /runtime \
+              --ro-bind "$COPILOT_ISOLATED_ROOT" /workspace \
               --dev /dev \
               --proc /proc \
               --tmpfs /tmp \
               --dir /tmp/copilot-home \
               --setenv HOME /tmp/copilot-home \
-              --setenv PATH "$PATH" \
+              --setenv PATH /runtime/bin:/usr/bin:/bin \
               --setenv XDG_CONFIG_HOME /tmp/copilot-home/.config \
               --setenv XDG_CACHE_HOME /tmp/copilot-home/.cache \
-              --bind "$COPILOT_ISOLATED_ROOT/output" "$COPILOT_ISOLATED_ROOT/output" \
-              --chdir "$COPILOT_ISOLATED_ROOT" \
-              "$COPILOT_BIN" \
+              --bind "$COPILOT_ISOLATED_ROOT/output" /workspace/output \
+              --chdir /workspace \
+              /runtime/bin/node "/runtime/$COPILOT_ENTRY_RELATIVE" \
                 --agent weekly-analysis \
                 -p "Read input/prompt.md. Write the complete weekly analysis markdown to output/analysis.md. The first bytes must be --- and the run is incomplete until output/analysis.md exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary.${REPAIR_CONTEXT}" \
                 -s \
