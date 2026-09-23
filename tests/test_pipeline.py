@@ -106,6 +106,11 @@ class WorkflowSecurityTests(unittest.TestCase):
             step for step in analyze_steps if step.get("name") == "Run synthesis step (Step 1)"
         )
         analysis = next(step for step in analyze_steps if step.get("name") == "Run analysis")
+        prompt_preflight_step = next(
+            step
+            for step in analyze_steps
+            if step.get("name") == "Render and preflight analysis prompt"
+        )
 
         for step in (synthesis, analysis):
             script = step["run"]
@@ -129,6 +134,14 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn('--allow-output "output/analysis.md"', analysis["run"])
         self.assertNotIn('--allow-output "output/transcript.md"', analysis["run"])
         self.assertNotIn('--share "output/transcript.md"', analysis["run"])
+        prompt_preflight_run = prompt_preflight_step["run"]
+        metrics_hydration = prompt_preflight_run.index(
+            "git checkout origin/publish -- data/metrics/"
+        )
+        transcript_cleanup = prompt_preflight_run.index("rm -f data/metrics/copilot-transcript.md")
+        prompt_preflight = prompt_preflight_run.index("SYNTHESIS_ARGS=()")
+        self.assertLess(metrics_hydration, transcript_cleanup)
+        self.assertLess(transcript_cleanup, prompt_preflight)
 
     def test_production_copilot_outputs_are_validated_before_acceptance(self) -> None:
         workflow = yaml.safe_load(

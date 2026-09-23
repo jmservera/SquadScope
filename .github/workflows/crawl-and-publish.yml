@@ -708,6 +708,7 @@ jobs:
           # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
           git fetch origin publish 2>/dev/null && \
             git checkout origin/publish -- data/metrics/ 2>/dev/null || true
+          rm -f data/metrics/copilot-transcript.md
           SYNTHESIS_ARGS=()
           if [ "${IN_SYNTHESIS_AVAILABLE:-false}" = "true" ] && [ -f "${IN_SYNTHESIS_FILE:-}" ]; then
             SYNTHESIS_ARGS=(--synthesis-input "$IN_SYNTHESIS_FILE")
@@ -1071,8 +1072,6 @@ jobs:
             ANALYSIS_SOURCE="no-ai"
             ANALYSIS_MODEL="none"
           fi
-
-          rm -f data/metrics/copilot-transcript.md
 
           python3 scripts/track_token_usage.py \
             --stage analysis \
