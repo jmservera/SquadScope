@@ -15,6 +15,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path, PurePosixPath
 from typing import Sequence
 
+from scripts.path_safety import find_symlink_component
+
 SCHEMA_VERSION = 1
 
 
@@ -54,12 +56,9 @@ def _normalize_relative(raw_path: str, *, label: str) -> str:
 
 
 def _reject_symlink_components(path: Path, *, label: str) -> None:
-    absolute = path.absolute()
-    current = Path(absolute.anchor)
-    for part in absolute.parts[1:]:
-        current /= part
-        if current.is_symlink():
-            raise WorkspaceError(f"{label} cannot contain symlink components: {current}")
+    symlink = find_symlink_component(path)
+    if symlink is not None:
+        raise WorkspaceError(f"{label} cannot contain symlink components: {symlink}")
 
 
 def _reject_hard_link(path: Path, *, label: str) -> None:
@@ -272,18 +271,55 @@ def copy_verified_output(
     destination_root = destination_root.resolve(strict=True)
     destination = destination.resolve()
     try:
-        destination.relative_to(destination_root)
+        relative_destination = destination.relative_to(destination_root)
     except ValueError as error:
         raise WorkspaceError(f"destination escapes approved root: {destination}") from error
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    parent = destination.parent.resolve(strict=True)
-    try:
-        parent.relative_to(destination_root)
-    except ValueError as error:
-        raise WorkspaceError(f"destination parent escapes approved root: {parent}") from error
 
     source = Path(state.root).joinpath(*PurePosixPath(normalized).parts)
-    shutil.copyfile(source, destination, follow_symlinks=False)
+    source_fd = os.open(source, os.O_RDONLY | os.O_NOFOLLOW)
+    directory_fd = os.open(
+        destination_root,
+        os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+    )
+    output_fd: int | None = None
+    created = False
+    try:
+        source_metadata = os.fstat(source_fd)
+        if not stat.S_ISREG(source_metadata.st_mode) or source_metadata.st_nlink != 1:
+            raise WorkspaceError(f"verified output must be a regular file: {source}")
+        for component in relative_destination.parts[:-1]:
+            try:
+                os.mkdir(component, mode=0o755, dir_fd=directory_fd)
+            except FileExistsError:
+                pass
+            next_fd = os.open(
+                component,
+                os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                dir_fd=directory_fd,
+            )
+            os.close(directory_fd)
+            directory_fd = next_fd
+        output_fd = os.open(
+            relative_destination.name,
+            os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+            0o600,
+            dir_fd=directory_fd,
+        )
+        created = True
+        while chunk := os.read(source_fd, 1024 * 1024):
+            view = memoryview(chunk)
+            while view:
+                written = os.write(output_fd, view)
+                view = view[written:]
+    except OSError as error:
+        if created:
+            os.unlink(relative_destination.name, dir_fd=directory_fd)
+        raise WorkspaceError(f"failed to copy verified output safely: {error}") from error
+    finally:
+        if output_fd is not None:
+            os.close(output_fd)
+        os.close(directory_fd)
+        os.close(source_fd)
 
 
 def cleanup_workspace(root: Path) -> None:

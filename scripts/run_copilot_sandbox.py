@@ -4,11 +4,14 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess  # nosec B404
 import sys
 from pathlib import Path
 from typing import Sequence
+
+from scripts.path_safety import find_symlink_component
 
 
 class SandboxError(ValueError):
@@ -28,12 +31,16 @@ def _required_executable(name: str) -> Path:
 
 
 def _reject_symlink_components(path: Path, *, label: str) -> None:
-    absolute = path.absolute()
-    current = Path(absolute.anchor)
-    for part in absolute.parts[1:]:
-        current /= part
-        if current.is_symlink():
-            raise SandboxError(f"{label} cannot contain symlink components: {current}")
+    symlink = find_symlink_component(path)
+    if symlink is not None:
+        raise SandboxError(f"{label} cannot contain symlink components: {symlink}")
+
+
+def _runtime_root(node: Path) -> Path:
+    root = node.parent.parent
+    if root == Path(root.anchor):
+        raise SandboxError("Node runtime root cannot be the filesystem root")
+    return root
 
 
 def build_sandbox_command(
@@ -46,6 +53,8 @@ def build_sandbox_command(
     bwrap: Path,
     node: Path,
     copilot_entry: Path,
+    runner_uid: int,
+    runner_gid: int,
 ) -> list[str]:
     _reject_symlink_components(workspace, label="workspace")
     workspace = workspace.resolve(strict=True)
@@ -57,12 +66,9 @@ def build_sandbox_command(
 
     node = node.resolve(strict=True)
     copilot_entry = copilot_entry.resolve(strict=True)
-    node_runtime_root = node.parent.parent
-    if str(node_runtime_root) == node_runtime_root.anchor:
-        raise SandboxError(
-            f"Node executable {node} resolves to a runtime root of {node_runtime_root}, "
-            "which would mount the entire host filesystem into the sandbox"
-        )
+    node_runtime_root = _runtime_root(node)
+    if not copilot_entry.is_file() or copilot_entry.suffix != ".js":
+        raise SandboxError(f"Copilot entry must be a JavaScript file: {copilot_entry}")
     try:
         copilot_relative = copilot_entry.relative_to(node_runtime_root)
     except ValueError as error:
@@ -79,6 +85,10 @@ def build_sandbox_command(
         "--unshare-pid",
         "--unshare-ipc",
         "--unshare-uts",
+        "--uid",
+        str(runner_uid),
+        "--gid",
+        str(runner_gid),
         "--ro-bind",
         "/usr",
         "/usr",
@@ -122,10 +132,10 @@ def build_sandbox_command(
         "/workspace",
         "--dev",
         "/dev",
+        "--perms",
+        "01777",
         "--tmpfs",
         SANDBOX_TMP,
-        "--dir",
-        SANDBOX_HOME,
         "--setenv",
         "HOME",
         SANDBOX_HOME,
@@ -180,6 +190,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             bwrap=_required_executable("bwrap"),
             node=_required_executable("node"),
             copilot_entry=_required_executable("copilot"),
+            runner_uid=os.getuid(),
+            runner_gid=os.getgid(),
         )
     except (OSError, SandboxError) as error:
         print(f"Copilot sandbox setup failed: {error}", file=sys.stderr)

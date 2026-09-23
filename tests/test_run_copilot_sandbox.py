@@ -34,6 +34,8 @@ def test_builds_minimal_read_only_runtime_with_exact_output_bind(tmp_path: Path)
         bwrap=Path("/usr/bin/bwrap"),
         node=node,
         copilot_entry=copilot,
+        runner_uid=1001,
+        runner_gid=1001,
     )
 
     assert "--ro-bind" in command
@@ -45,6 +47,8 @@ def test_builds_minimal_read_only_runtime_with_exact_output_bind(tmp_path: Path)
     ]
     assert "--proc" not in command
     assert "/proc" not in command
+    assert command[command.index("--uid") + 1] == "1001"
+    assert command[command.index("--gid") + 1] == "1001"
     assert str(runtime) in command
     assert str(workspace) in command
     bind_index = command.index("--bind")
@@ -75,6 +79,8 @@ def test_rejects_copilot_entry_outside_node_runtime(tmp_path: Path) -> None:
             bwrap=Path("/usr/bin/bwrap"),
             node=node,
             copilot_entry=copilot,
+            runner_uid=1001,
+            runner_gid=1001,
         )
 
 
@@ -126,4 +132,33 @@ def test_rejects_workspace_with_symlink_component(tmp_path: Path) -> None:
             bwrap=Path("/usr/bin/bwrap"),
             node=node,
             copilot_entry=copilot,
+            runner_uid=1001,
+            runner_gid=1001,
+        )
+
+
+def test_rejects_filesystem_root_as_node_runtime(tmp_path: Path) -> None:
+    with pytest.raises(sandbox.SandboxError, match="filesystem root"):
+        sandbox._runtime_root(Path("/node"))
+
+
+def test_rejects_non_javascript_copilot_entry(tmp_path: Path) -> None:
+    _, node, _ = _runtime(tmp_path)
+    copilot = node.parent / "copilot"
+    copilot.write_text("#!/bin/sh\n", encoding="utf-8")
+    workspace = tmp_path / "workspace"
+    (workspace / "output").mkdir(parents=True)
+
+    with pytest.raises(sandbox.SandboxError, match="JavaScript file"):
+        sandbox.build_sandbox_command(
+            workspace=workspace,
+            agent="weekly-analysis",
+            prompt="prompt",
+            share=None,
+            sudo=Path("/usr/bin/sudo"),
+            bwrap=Path("/usr/bin/bwrap"),
+            node=node,
+            copilot_entry=copilot,
+            runner_uid=1001,
+            runner_gid=1001,
         )

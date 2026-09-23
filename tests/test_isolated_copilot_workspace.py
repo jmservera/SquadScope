@@ -201,6 +201,25 @@ def test_rejects_hard_linked_destination(tmp_path: Path) -> None:
     assert outside.read_text(encoding="utf-8") == "preserve\n"
 
 
+def test_refuses_to_replace_existing_destination(tmp_path: Path) -> None:
+    root, state_path, _ = _prepare(tmp_path, "output/analysis.md")
+    (root / "output" / "analysis.md").write_text("expected\n", encoding="utf-8")
+    state = isolated._read_state(state_path, _sha256(state_path))
+    checkout = tmp_path / "checkout"
+    destination = checkout / "data" / "analysis.md"
+    destination.parent.mkdir(parents=True)
+    destination.write_text("preserve\n", encoding="utf-8")
+
+    with pytest.raises(isolated.WorkspaceError, match="copy verified output safely"):
+        isolated.copy_verified_output(
+            state,
+            "output/analysis.md",
+            destination,
+            checkout,
+        )
+    assert destination.read_text(encoding="utf-8") == "preserve\n"
+
+
 def test_cleanup_removes_read_only_workspace_for_retry(tmp_path: Path) -> None:
     root, _, _ = _prepare(tmp_path, "output/analysis.md")
     (root / "output" / "analysis.md").write_text("first attempt\n", encoding="utf-8")

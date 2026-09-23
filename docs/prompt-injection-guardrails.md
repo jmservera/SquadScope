@@ -133,6 +133,8 @@ production inference path.
   model-controlled file reads from reaching the Copilot process environment.
   The repository checkout, runner home, and other runner-temporary files are
   not mounted. Only the isolated `output/` directory is bind-mounted writable.
+  Although `sudo` starts the privileged Bubblewrap setup, the sandboxed
+  Copilot process explicitly runs as the original runner UID and GID.
 - `scripts/run_copilot_sandbox.py` owns the single production mount policy for
   both agents and fails fast unless the Copilot entry point is inside the
   resolved Node runtime being mounted.
