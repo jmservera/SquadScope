@@ -9,8 +9,10 @@ import yaml
 
 from scripts.atomic_publish_proof import (
     GENERATED_PATHS,
+    RETIRED_PUBLISH_PATHS,
     extract_commit_step,
     generated_tree_manifest,
+    hydrate_generated_paths,
     run_commit_step,
     run_git,
 )
@@ -72,6 +74,42 @@ def test_generated_tree_manifest_tracks_modes_deletions_and_order(tmp_path: Path
         "generated/c.txt",
     ]
     assert committed["digest"] != working["digest"]
+
+
+@pytest.mark.parametrize("as_symlink", [False, True])
+def test_hydration_drops_retired_transcript_from_publish(tmp_path: Path, as_symlink: bool) -> None:
+    transcript = "data/metrics/copilot-transcript.md"
+    assert transcript in RETIRED_PUBLISH_PATHS
+    seed = tmp_path / "seed"
+    seed.mkdir()
+    run_git(seed, "init", "-b", "main")
+    run_git(seed, "config", "user.name", "Proof Test")
+    run_git(seed, "config", "user.email", "proof@example.invalid")
+    metrics = seed / "data/metrics"
+    metrics.mkdir(parents=True)
+    (metrics / "token-usage.jsonl").write_text("{}\n", encoding="utf-8")
+    run_git(seed, "add", "data")
+    run_git(seed, "commit", "-m", "main")
+    run_git(seed, "checkout", "-b", "publish")
+    (metrics / "token-usage.jsonl").write_text('{"published": true}\n', encoding="utf-8")
+    if as_symlink:
+        (seed / transcript).symlink_to("missing-target.md")
+    else:
+        (seed / transcript).write_text("agent-authored transcript\n", encoding="utf-8")
+    run_git(seed, "add", "data")
+    run_git(seed, "commit", "-m", "publish")
+    origin = tmp_path / "origin.git"
+    run_git(tmp_path, "clone", "--bare", str(seed), str(origin))
+    clone = tmp_path / "clone"
+    run_git(tmp_path, "clone", "--branch", "main", str(origin), str(clone))
+
+    hydrate_generated_paths(clone, "refs/remotes/origin/publish", ["data/metrics/"])
+
+    assert not (clone / transcript).exists()
+    assert not (clone / transcript).is_symlink()
+    assert (clone / "data/metrics/token-usage.jsonl").read_text(encoding="utf-8") == (
+        '{"published": true}\n'
+    )
 
 
 def test_commit_step_rejects_non_local_origin(tmp_path: Path) -> None:

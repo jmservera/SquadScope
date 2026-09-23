@@ -1580,7 +1580,7 @@ jobs:
           # The publish checkout restores the retired agent-authored transcript;
           # remove it before comparison/backup so the deletion is committed.
           GENERATED_STATE_CHANGED=false
-          if [ -e data/metrics/copilot-transcript.md ]; then
+          if [ -e data/metrics/copilot-transcript.md ] || [ -L data/metrics/copilot-transcript.md ]; then
             rm -f data/metrics/copilot-transcript.md
             GENERATED_STATE_CHANGED=true
           fi
