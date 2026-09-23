@@ -13,6 +13,7 @@ _INVALID_PERCENT_PATTERN = re.compile(r"%(?![0-9A-Fa-f]{2})")
 _PLAIN_HTTP_URL_PATTERN = re.compile(r"https?://[^\s<>()\[\]{}\"']+", re.IGNORECASE)
 _PLAIN_WWW_URL_PATTERN = re.compile(r"\bwww\.[^\s<>()\[\]{}\"']+", re.IGNORECASE)
 _MARKDOWN_DESTINATION_PATTERN = re.compile(r"!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?")
+_MARKDOWN_REFERENCE_DEFINITION_PATTERN = re.compile(r"(?m)^\s{0,3}\[[^\]]+\]:\s*<?([^\s>]+)>?")
 _MARKDOWN_LINK_TEXT_PATTERN = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
 _AUTOLINK_PATTERN = re.compile(r"<([A-Za-z][A-Za-z0-9+.-]*:[^>\s]+)>")
 _HTML_QUOTED_URL_ATTRIBUTE_PATTERN = re.compile(
@@ -56,6 +57,15 @@ _DIRECTIVE_PATTERNS = (
     ),
     (
         re.compile(r"(?i)\b(?:you|the\s+assistant|the\s+model)\s+(?:are|must|should)\s+now\b"),
+        "generated content contains a role-change directive.",
+    ),
+    (
+        re.compile(
+            r"(?i)\b(?:pretend\s+to\s+be|roleplay\s+as|"
+            r"act\s+as(?:\s+if\s+you\s+(?:are|were))?)\s+"
+            r"(?:the\s+|an?\s+)?(?:podcast\s+)?"
+            r"(?:host|presenter|podcaster|narrator|assistant|system|developer|model)\b"
+        ),
         "generated content contains a role-change directive.",
     ),
     (
@@ -226,6 +236,7 @@ def extract_document_url_targets(document: str) -> set[str]:
         match.group(1).strip()
         for pattern in (
             _MARKDOWN_DESTINATION_PATTERN,
+            _MARKDOWN_REFERENCE_DEFINITION_PATTERN,
             _AUTOLINK_PATTERN,
             _HTML_QUOTED_URL_ATTRIBUTE_PATTERN,
             _HTML_UNQUOTED_URL_ATTRIBUTE_PATTERN,
@@ -258,10 +269,10 @@ def external_url_provenance_errors(
         )
     }
     for raw_target in sorted(extract_document_url_targets(document)):
-        target = html.unescape(raw_target)
-        if _CHARACTER_REFERENCE_PATTERN.search(target):
+        if _CHARACTER_REFERENCE_PATTERN.search(raw_target):
             errors.append(f"generated content contains an ambiguously encoded URL: {raw_target}")
             continue
+        target = html.unescape(raw_target)
         if _CONTROL_CHARACTER_PATTERN.search(target) or "\\" in target:
             errors.append(f"generated content contains a malformed external URL: {raw_target}")
             continue
