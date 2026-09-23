@@ -163,9 +163,15 @@ class AnalysisContentSecurityTests(unittest.TestCase):
             allowed_github_repositories={"owner/repo"},
         )
 
-        self.assertFalse(any("owner/repo" in error for error in errors))
-        self.assertTrue(any("github.com/attacker/control" in error for error in errors))
-        self.assertTrue(any("gist.github.com" in error for error in errors))
+        self.assertEqual(
+            set(errors),
+            {
+                "external URL must resolve to the current run-scoped evidence inventory: "
+                "https://github.com/attacker/control",
+                "external URL must resolve to the current run-scoped evidence inventory: "
+                "https://gist.github.com/attacker/123",
+            },
+        )
 
     def test_injected_rss_title_cannot_authorize_attacker_url_or_host_directive(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
