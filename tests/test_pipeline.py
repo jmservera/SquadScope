@@ -141,9 +141,18 @@ class WorkflowSecurityTests(unittest.TestCase):
 
         self.assertIn("external_news_json=$TC_FILE", press_context["run"])
         self.assertIn("correlations_json=$CORRELATIONS_FILE", press_context["run"])
+        self.assertIn('rm -f -- "$CORRELATIONS_FILE"', press_context["run"])
         for step in (run_analysis, quality_check):
             self.assertIn("--external-news-json", step["run"])
             self.assertIn("--correlations-json", step["run"])
+
+        clear_step = next(
+            step
+            for step in workflow["jobs"]["crawl"]["steps"]
+            if step.get("name") == "Clear run-scoped external evidence destinations"
+        )
+        self.assertIn('"data/raw/${WEEK}-external-news.json"', clear_step["run"])
+        self.assertIn('"data/raw/${WEEK}-techcrunch.json"', clear_step["run"])
 
     def test_analysis_artifacts_and_promotion_are_run_scoped(self) -> None:
         workflow = yaml.safe_load(

@@ -23,7 +23,12 @@ _INVALID_PERCENT_PATTERN = re.compile(r"%(?![0-9A-Fa-f]{2})")
 _PLAIN_HTTP_URL_PATTERN = re.compile(r"https?://[^\s<>()\[\]{}\"']+", re.IGNORECASE)
 _MARKDOWN_DESTINATION_PATTERN = re.compile(r"!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?")
 _AUTOLINK_PATTERN = re.compile(r"<([A-Za-z][A-Za-z0-9+.-]*:[^>\s]+)>")
-_HTML_URL_ATTRIBUTE_PATTERN = re.compile(r"\b(?:href|src)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE)
+_HTML_QUOTED_URL_ATTRIBUTE_PATTERN = re.compile(
+    r"\b(?:href|src)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE
+)
+_HTML_UNQUOTED_URL_ATTRIBUTE_PATTERN = re.compile(
+    r"\b(?:href|src)\s*=\s*([^\s\"'=<>`]+)", re.IGNORECASE
+)
 _EXPLICIT_SCHEME_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 _CHARACTER_REFERENCE_PATTERN = re.compile(r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);")
 _MARKDOWN_CONTROL_PATTERN = re.compile(r"[*_~`]+")
@@ -227,7 +232,8 @@ def extract_document_url_targets(document: str) -> set[str]:
         for pattern in (
             _MARKDOWN_DESTINATION_PATTERN,
             _AUTOLINK_PATTERN,
-            _HTML_URL_ATTRIBUTE_PATTERN,
+            _HTML_QUOTED_URL_ATTRIBUTE_PATTERN,
+            _HTML_UNQUOTED_URL_ATTRIBUTE_PATTERN,
         )
         for match in pattern.finditer(document)
     }

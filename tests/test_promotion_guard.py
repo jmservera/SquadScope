@@ -824,6 +824,38 @@ class PromotionGuardTests(unittest.TestCase):
                 "gate_results must include passing evidence_citation.", raised.exception.reasons
             )
 
+    def test_nested_manifest_failing_content_security_blocks_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            install_existing_good_article(root)
+            manifest_path = nested_manifest_for(
+                root,
+                "failing-content-security",
+                validation={
+                    "gate_report": {
+                        "present": True,
+                        "passed": False,
+                        "gates": {
+                            "structural_schema": {"passed": True, "errors": []},
+                            "ai_provenance": {"passed": True, "errors": []},
+                            "evidence_citation": {"passed": True, "errors": []},
+                            "content_security": {
+                                "passed": False,
+                                "errors": ["unapproved external URL"],
+                            },
+                            "editorial_quality": {"passed": True, "errors": []},
+                        },
+                    }
+                },
+            )
+
+            with self.assertRaises(promotion_guard.PromotionBlocked) as raised:
+                promotion_guard.promote_candidate(manifest_path, root=root)
+
+            self.assertIn("validation.gate_report.passed must be true.", raised.exception.reasons)
+            self.assertIn("content_security must pass.", raised.exception.reasons)
+
 
 if __name__ == "__main__":
     unittest.main()

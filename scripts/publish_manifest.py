@@ -589,6 +589,7 @@ def load_gate_report(path: Path | None) -> dict[str, Any]:
         "structural_schema",
         "ai_provenance",
         "evidence_citation",
+        "content_security",
         "editorial_quality",
     ):
         gate = gates.get(gate_name)
@@ -611,6 +612,7 @@ def gate_reasons(report: dict[str, Any]) -> list[str]:
         "structural_schema",
         "ai_provenance",
         "evidence_citation",
+        "content_security",
         "editorial_quality",
     ):
         if required_gate not in gates:
@@ -1028,6 +1030,7 @@ def assert_eligible(args: argparse.Namespace) -> int:
         "structural_schema",
         "ai_provenance",
         "evidence_citation",
+        "content_security",
         "editorial_quality",
     ):
         gate = (

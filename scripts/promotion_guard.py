@@ -316,6 +316,7 @@ def _validate_manifest(
             "structural_schema",
             "ai_provenance",
             "evidence_citation",
+            "content_security",
             "editorial_quality",
         ):
             if gate not in gate_results:

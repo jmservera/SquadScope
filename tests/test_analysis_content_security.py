@@ -78,6 +78,7 @@ class AnalysisContentSecurityTests(unittest.TestCase):
 [Injected](https://attacker.example/control)
 [Unsafe](javascript:alert(1))
 <img src="data:text/plain,unsafe">
+<a href=javascript:alert(2)>unsafe</a>
 """
         errors = external_url_provenance_errors(document, {"https://press.example/story"})
 
