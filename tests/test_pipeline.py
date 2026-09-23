@@ -113,18 +113,9 @@ class WorkflowSecurityTests(unittest.TestCase):
             self.assertIn(" prepare \\", script)
             self.assertIn(" verify \\", script)
             self.assertIn(" copy \\", script)
-            self.assertIn("bwrap \\", script)
-            self.assertIn(
-                "sudo --preserve-env=GITHUB_TOKEN,COPILOT_GITHUB_TOKEN bwrap \\",
-                script,
-            )
-            self.assertNotIn("--ro-bind / /", script)
-            self.assertIn("--ro-bind /usr /usr", script)
-            self.assertIn('--ro-bind "$NODE_RUNTIME_ROOT" /runtime', script)
-            self.assertIn("--tmpfs /tmp", script)
-            self.assertIn('--bind "$', script)
-            self.assertIn("--chdir /workspace", script)
-            self.assertIn('/runtime/bin/node "/runtime/$COPILOT_ENTRY_RELATIVE"', script)
+            self.assertIn("python3 scripts/run_copilot_sandbox.py", script)
+            self.assertNotIn("sudo --preserve-env", script)
+            self.assertNotIn("--ro-bind", script)
 
         self.assertNotIn('--allow "$SYNTHESIS_FILE"', synthesis["run"])
         self.assertNotIn('--allow "$OUTPUT_FILE"', analysis["run"])
@@ -524,7 +515,7 @@ class WorkflowConfigTests(unittest.TestCase):
             synthesis_snapshot,
         )
         synthesis_invocation = synthesis_run.index(
-            '/runtime/bin/node "/runtime/$COPILOT_ENTRY_RELATIVE" \\\n',
+            "python3 scripts/run_copilot_sandbox.py \\\n",
             synthesis_snapshot,
         )
         synthesis_status = synthesis_run.index("SYNTH_STATUS=$?", synthesis_invocation)
@@ -573,7 +564,7 @@ class WorkflowConfigTests(unittest.TestCase):
             analysis_snapshot,
         )
         analysis_invocation = run_analysis.index(
-            '/runtime/bin/node "/runtime/$COPILOT_ENTRY_RELATIVE" \\\n',
+            "python3 scripts/run_copilot_sandbox.py \\\n",
             analysis_snapshot,
         )
         analysis_status = run_analysis.index("COPILOT_STATUS=$?", analysis_invocation)

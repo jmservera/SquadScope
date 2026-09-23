@@ -147,7 +147,7 @@ def _read_state(path: Path, expected_sha256: str) -> WorkspaceState:
             allowed_outputs=payload["allowed_outputs"],
         )
     except (KeyError, TypeError, json.JSONDecodeError) as error:
-        raise WorkspaceError(f"invalid isolated workspace state: {path}") from error
+        raise WorkspaceError(f"invalid isolated workspace state {path}: {error}") from error
 
 
 def prepare_workspace(

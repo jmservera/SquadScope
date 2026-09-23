@@ -132,6 +132,9 @@ production inference path.
   and the isolated workspace. The repository checkout, runner home, and other
   runner-temporary files are not mounted. Only the isolated `output/`
   directory is bind-mounted writable.
+- `scripts/run_copilot_sandbox.py` owns the single production mount policy for
+  both agents and fails fast unless the Copilot entry point is inside the
+  resolved Node runtime being mounted.
 - The isolated workspace root and all input directories are read-only. Only
   enumerated regular files below `output/` may be created. Unexpected files,
   directories, symlinks, hard links, input changes, path traversal, and output
