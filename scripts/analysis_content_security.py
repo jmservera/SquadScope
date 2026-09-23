@@ -15,6 +15,7 @@ _PLAIN_WWW_URL_PATTERN = re.compile(r"\bwww\.[^\s<>()\[\]{}\"']+", re.IGNORECASE
 _MARKDOWN_DESTINATION_PATTERN = re.compile(r"!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?")
 _MARKDOWN_REFERENCE_DEFINITION_PATTERN = re.compile(r"(?m)^\s{0,3}\[[^\]]+\]:\s*<?([^\s>]+)>?")
 _MARKDOWN_LINK_TEXT_PATTERN = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
+_MARKDOWN_REFERENCE_LINK_TEXT_PATTERN = re.compile(r"!?\[([^\]]*)\]\[[^\]]*\]")
 _AUTOLINK_PATTERN = re.compile(r"<([A-Za-z][A-Za-z0-9+.-]*:[^>\s]+)>")
 _HTML_QUOTED_URL_ATTRIBUTE_PATTERN = re.compile(
     r"\b(?:href|src)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE
@@ -36,7 +37,7 @@ _ZERO_WIDTH_PATTERN = re.compile(r"[\u200b-\u200f\u2060\ufeff]")
 _DIRECTIVE_PATTERNS = (
     (
         re.compile(
-            r"(?mi)^\s*(?:(?:[-*+]|\d+[.)])\s+|>\s*)*"
+            r"(?mi)^\s*(?:(?:[-*+]|\d+[.)]|#{1,6})\s+|>\s*)*"
             r"(?:system|developer|assistant|user)\s*:"
         ),
         "generated content contains a role-prefixed instruction line.",
@@ -69,7 +70,7 @@ _DIRECTIVE_PATTERNS = (
     ),
     (
         re.compile(
-            r"(?i)\b(?:you|the\s+assistant|the\s+model)\s+"
+            r"(?i)\b(?:you|(?:the\s+)?(?:assistant|model|system|developer))\s+"
             r"(?:are|is|become|will\s+be|must\s+be|should\s+be)\s+(?:now\s+)?"
             r"(?:the\s+|an?\s+)?(?:podcast\s+)?"
             r"(?:host|presenter|podcaster|narrator|assistant|system|developer|model)\b"
@@ -327,6 +328,7 @@ def external_url_provenance_errors(
 def _normalize_directive_text(document: str) -> str:
     normalized = html.unescape(unicodedata.normalize("NFKC", document))
     normalized = _ZERO_WIDTH_PATTERN.sub("", normalized)
+    normalized = _MARKDOWN_REFERENCE_LINK_TEXT_PATTERN.sub(r"\1", normalized)
     normalized = _MARKDOWN_LINK_TEXT_PATTERN.sub(r"\1", normalized)
     normalized = _HTML_COMMENT_PATTERN.sub(r"\1", normalized)
     normalized = _HTML_BLOCK_BREAK_PATTERN.sub(" ", normalized)

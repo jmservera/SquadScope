@@ -966,6 +966,33 @@ def validate_exact_release_payload(
         raise PodcasterHandoffError(
             f"Exact release payload failed generated-content security validation: {violations[0]}"
         )
+    expected_title = _extract_frontmatter_field(article_content, "title") or _extract_title(
+        article_content
+    )
+    article_title = payload.get("article_title")
+    if not isinstance(article_title, str) or article_title != expected_title:
+        raise PodcasterHandoffError(
+            "Exact release payload article_title does not match the promoted article."
+        )
+    title_violations = downstream_directive_errors(article_title)
+    if title_violations:
+        raise PodcasterHandoffError(
+            "Exact release payload article_title failed generated-content security validation: "
+            f"{title_violations[0]}"
+        )
+    expected_summary = _extract_frontmatter_field(article_content, "summary")
+    if "article_summary" in payload:
+        article_summary = payload["article_summary"]
+        if not isinstance(article_summary, str) or article_summary != expected_summary:
+            raise PodcasterHandoffError(
+                "Exact release payload article_summary does not match the promoted article."
+            )
+        summary_violations = downstream_directive_errors(article_summary)
+        if summary_violations:
+            raise PodcasterHandoffError(
+                "Exact release payload article_summary failed generated-content security "
+                f"validation: {summary_violations[0]}"
+            )
     expected_values = {
         "week": week,
         "article_url": article_url,
