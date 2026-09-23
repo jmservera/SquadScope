@@ -26,12 +26,19 @@ _EXPLICIT_SCHEME_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 _CHARACTER_REFERENCE_PATTERN = re.compile(r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);")
 _MARKDOWN_CONTROL_PATTERN = re.compile(r"[*_~`]+")
 _HTML_COMMENT_PATTERN = re.compile(r"<!--(.*?)-->", re.DOTALL)
-_HTML_TAG_PATTERN = re.compile(r"<[^>]*>")
+_HTML_BLOCK_BREAK_PATTERN = re.compile(
+    r"</?(?:br|p|div|li|ul|ol|h[1-6]|blockquote|pre|hr)\b[^>]*>",
+    re.IGNORECASE,
+)
+_HTML_TAG_PATTERN = re.compile(r"<(?!/?untrusted-content\b)[^>]*>", re.IGNORECASE)
 _ZERO_WIDTH_PATTERN = re.compile(r"[\u200b-\u200f\u2060\ufeff]")
 
 _DIRECTIVE_PATTERNS = (
     (
-        re.compile(r"(?mi)^\s*(?:system|developer|assistant|user)\s*:"),
+        re.compile(
+            r"(?mi)^\s*(?:(?:[-*+]|\d+[.)])\s+|>\s*)*"
+            r"(?:system|developer|assistant|user)\s*:"
+        ),
         "generated content contains a role-prefixed instruction line.",
     ),
     (
@@ -320,6 +327,7 @@ def _normalize_directive_text(document: str) -> str:
     normalized = _ZERO_WIDTH_PATTERN.sub("", normalized)
     normalized = _MARKDOWN_LINK_TEXT_PATTERN.sub(r"\1", normalized)
     normalized = _HTML_COMMENT_PATTERN.sub(r"\1", normalized)
+    normalized = _HTML_BLOCK_BREAK_PATTERN.sub(" ", normalized)
     normalized = _HTML_TAG_PATTERN.sub("", normalized)
     normalized = _MARKDOWN_CONTROL_PATTERN.sub("", normalized)
     return re.sub(r"[^\S\n]+", " ", normalized)
