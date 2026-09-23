@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from scripts.analysis_content_security import normalize_evidence_url
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
     from scripts.analyze_fallback import find_previous_summary
     from scripts.model_pricing import estimate_cost_usd
@@ -34,6 +35,7 @@ try:
     from scripts.sanitize_repo_content import sanitize_repo_payload
 except ModuleNotFoundError:  # pragma: no cover - script execution path
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from scripts.analysis_content_security import normalize_evidence_url
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
     from scripts.analyze_fallback import find_previous_summary
     from scripts.model_pricing import estimate_cost_usd
@@ -355,6 +357,23 @@ def extract_press_articles(press_context: str) -> list[dict[str, str]]:
         title = next((line[:120] for line in lines if url in line), url)
         articles.append({"url": url, "title": title})
     return articles
+
+
+def press_url_inventory(press_map: dict[str, Any]) -> set[str]:
+    inventory: set[str] = set()
+    for url in press_map.get("coverage", {}).get("article_urls_seen", []):
+        normalized = normalize_evidence_url(url) if isinstance(url, str) else None
+        if normalized is not None:
+            inventory.add(normalized)
+    for finding in press_map.get("findings", []):
+        for ref in finding.get("evidence_refs", []):
+            if not isinstance(ref, dict) or ref.get("type") != "article":
+                continue
+            url = ref.get("url")
+            normalized = normalize_evidence_url(url) if isinstance(url, str) else None
+            if normalized is not None:
+                inventory.add(normalized)
+    return inventory
 
 
 def map_press(
@@ -939,10 +958,15 @@ def build_qa_report(
     baseline_summary: Path | None,
     source: str,
     model: str,
+    allowed_external_urls: set[str],
 ) -> dict[str, Any]:
     structural_errors, word_count = validate_analysis(candidate_text, raw_payload, current_datetime)
     publish_errors, gates = validate_publish_quality(
-        candidate_text, raw_payload, source=source, model=model
+        candidate_text,
+        raw_payload,
+        source=source,
+        model=model,
+        allowed_external_urls=allowed_external_urls,
     )
     non_provenance_errors = [
         error for error in publish_errors if not error.startswith("AI provenance")
@@ -1137,6 +1161,7 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
         baseline_summary=args.baseline_summary,
         source=args.analysis_source,
         model=args.analysis_model,
+        allowed_external_urls=press_url_inventory(maps["press_correlations"]),
     )
     reduce_duration = round(time.monotonic() - reduce_started, 3)
     reduce_input_tokens = sum(metric.output_tokens for metric in map_stage_metrics)

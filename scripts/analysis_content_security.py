@@ -285,6 +285,9 @@ def external_url_provenance_errors(
         if explicit_scheme and explicit_scheme.group(0)[:-1].lower() not in {"http", "https"}:
             errors.append(f"generated content contains an unsupported URL scheme: {target}")
             continue
+        if explicit_scheme and not target.lower().startswith(("http://", "https://")):
+            errors.append(f"generated content contains a malformed external URL: {target}")
+            continue
         if not target.lower().startswith(("http://", "https://")):
             continue
         normalized = normalize_evidence_url(target)

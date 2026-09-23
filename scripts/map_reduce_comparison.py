@@ -23,9 +23,11 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from scripts.analysis_content_security import normalize_evidence_url
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
 except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from scripts.analysis_content_security import normalize_evidence_url
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
 
 COMPARISON_SCHEMA = "comparison_report_v1"
@@ -112,14 +114,43 @@ def compute_evidence_coverage_from_ledgers(
     return total_mapped / total_input
 
 
+def press_url_inventory(candidate_dir: Path) -> set[str]:
+    path = candidate_dir / "maps" / "press_correlations.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return set()
+    inventory: set[str] = set()
+    for url in payload.get("coverage", {}).get("article_urls_seen", []):
+        normalized = normalize_evidence_url(url) if isinstance(url, str) else None
+        if normalized is not None:
+            inventory.add(normalized)
+    for finding in payload.get("findings", []):
+        for ref in finding.get("evidence_refs", []):
+            if not isinstance(ref, dict) or ref.get("type") != "article":
+                continue
+            url = ref.get("url")
+            normalized = normalize_evidence_url(url) if isinstance(url, str) else None
+            if normalized is not None:
+                inventory.add(normalized)
+    return inventory
+
+
 def analyze_single_pass(
-    summary_path: Path, raw_payload: dict[str, Any], current_datetime: str
+    summary_path: Path,
+    raw_payload: dict[str, Any],
+    current_datetime: str,
+    allowed_external_urls: set[str] | None = None,
 ) -> ArtifactInfo:
     """Analyze the single-pass baseline artifact."""
     text = summary_path.read_text(encoding="utf-8")
     structural_errors, word_count = validate_analysis(text, raw_payload, current_datetime)
     publish_errors, _gates = validate_publish_quality(
-        text, raw_payload, source="copilot-cli", model="claude-sonnet-4.6"
+        text,
+        raw_payload,
+        source="copilot-cli",
+        model="claude-sonnet-4.6",
+        allowed_external_urls=allowed_external_urls or set(),
     )
     non_provenance = [e for e in publish_errors if not e.startswith("AI provenance")]
     gate_passed = not structural_errors and not non_provenance
@@ -135,7 +166,10 @@ def analyze_single_pass(
 
 
 def analyze_map_reduce(
-    candidate_dir: Path, raw_payload: dict[str, Any], current_datetime: str
+    candidate_dir: Path,
+    raw_payload: dict[str, Any],
+    current_datetime: str,
+    allowed_external_urls: set[str] | None = None,
 ) -> tuple[ArtifactInfo, dict[str, Any]]:
     """Analyze the map/reduce candidate artifact and QA report."""
     week = str(raw_payload.get("week") or "").strip()
@@ -155,7 +189,11 @@ def analyze_map_reduce(
     text = candidate_path.read_text(encoding="utf-8")
     structural_errors, word_count = validate_analysis(text, raw_payload, current_datetime)
     publish_errors, _gates = validate_publish_quality(
-        text, raw_payload, source="map-reduce-dry-run", model="local-deterministic"
+        text,
+        raw_payload,
+        source="map-reduce-dry-run",
+        model="local-deterministic",
+        allowed_external_urls=allowed_external_urls or set(),
     )
     non_provenance = [e for e in publish_errors if not e.startswith("AI provenance")]
     gate_passed = not structural_errors and not non_provenance
@@ -483,9 +521,18 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     raw_payload = json.loads(args.raw_json.read_text(encoding="utf-8"))
     week = raw_payload.get("week", "unknown")
 
-    single_pass = analyze_single_pass(args.single_pass_summary, raw_payload, args.current_datetime)
+    allowed_external_urls = press_url_inventory(args.candidate_dir)
+    single_pass = analyze_single_pass(
+        args.single_pass_summary,
+        raw_payload,
+        args.current_datetime,
+        allowed_external_urls,
+    )
     map_reduce, mr_extra = analyze_map_reduce(
-        args.candidate_dir, raw_payload, args.current_datetime
+        args.candidate_dir,
+        raw_payload,
+        args.current_datetime,
+        allowed_external_urls,
     )
 
     report = generate_comparison_report(

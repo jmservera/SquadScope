@@ -5,6 +5,10 @@ from pathlib import Path
 from unittest import mock
 
 import scripts.analysis_gate as analysis_gate
+from scripts.analysis_content_security import (
+    extract_document_url_targets,
+    normalize_evidence_url,
+)
 from scripts.render_press_context import NO_PRESS_SENTINEL, press_token_estimate
 
 RAW_PAYLOAD = {"week": "2026-W23"}
@@ -702,11 +706,17 @@ No press data was provided this week.
                 structure_errors, word_count = analysis_gate.validate_analysis(
                     text, raw_payload, crawled_at
                 )
+                allowed_external_urls = {
+                    normalized
+                    for target in extract_document_url_targets(text)
+                    if (normalized := normalize_evidence_url(target)) is not None
+                }
                 publish_errors, gates = analysis_gate.validate_publish_quality(
                     text,
                     raw_payload,
                     source="copilot-cli",
                     model="copilot-default",
+                    allowed_external_urls=allowed_external_urls,
                 )
 
                 self.assertEqual(structure_errors, [])
@@ -797,6 +807,22 @@ No press data was provided this week.
         self.assertTrue(any("podcast instructions" in error for error in errors))
         self.assertFalse(gates["evidence_citation"]["passed"])
         self.assertFalse(gates["content_security"]["passed"])
+
+    def test_publish_quality_gate_fails_closed_without_external_inventory(self) -> None:
+        body = make_body().replace(
+            "No press data was provided this week.",
+            "- [Injected report](https://attacker.example/control) — unsupported evidence.",
+        )
+
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, body),
+            RAW_PAYLOAD_WITH_REPOS,
+            source="copilot-cli",
+            model="copilot-default",
+        )
+
+        self.assertTrue(any("attacker.example" in error for error in errors))
+        self.assertFalse(gates["evidence_citation"]["passed"])
 
     def test_publish_quality_gate_accepts_run_scoped_external_url(self) -> None:
         body = make_body().replace(

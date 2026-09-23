@@ -130,6 +130,8 @@ class AnalysisContentSecurityTests(unittest.TestCase):
         for target in (
             "java&#10;script:alert(1)",
             "//attacker.example/control",
+            "http:attacker.example/control",
+            "https:attacker.example/control",
             "https://attacker.example\\control",
         ):
             with self.subTest(target=target):
