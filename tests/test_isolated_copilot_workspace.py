@@ -107,6 +107,36 @@ def test_rejects_destination_escape(tmp_path: Path) -> None:
         )
 
 
+def test_rejects_symlink_input_before_resolution(tmp_path: Path) -> None:
+    real_prompt = tmp_path / "real-prompt.md"
+    real_prompt.write_text("untrusted target\n", encoding="utf-8")
+    prompt_link = tmp_path / "prompt-link.md"
+    os.symlink(real_prompt, prompt_link)
+    agent = tmp_path / "weekly.agent.md"
+    agent.write_text("---\nname: Weekly\n---\n", encoding="utf-8")
+
+    with pytest.raises(isolated.WorkspaceError, match="symlink components"):
+        isolated.prepare_workspace(
+            tmp_path / "workspace",
+            tmp_path / "state.json",
+            [
+                f"{prompt_link}=input/prompt.md",
+                f"{agent}=.github/agents/weekly.agent.md",
+            ],
+            ["output/analysis.md"],
+        )
+
+
+def test_rejects_tampered_state_with_original_hash(tmp_path: Path) -> None:
+    _, state_path, _ = _prepare(tmp_path, "output/analysis.md")
+    expected_sha256 = _sha256(state_path)
+    state_path.chmod(0o644)
+    state_path.write_text("{}\n", encoding="utf-8")
+
+    with pytest.raises(isolated.WorkspaceError, match="integrity check failed"):
+        isolated._read_state(state_path, expected_sha256)
+
+
 def test_rejects_modified_read_only_input(tmp_path: Path) -> None:
     root, _, state = _prepare(tmp_path, "output/analysis.md")
     prompt = root / "input" / "prompt.md"

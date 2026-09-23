@@ -53,12 +53,23 @@ def _normalize_relative(raw_path: str, *, label: str) -> str:
     return normalized
 
 
+def _reject_symlink_components(path: Path, *, label: str) -> None:
+    absolute = path.absolute()
+    current = Path(absolute.anchor)
+    for part in absolute.parts[1:]:
+        current /= part
+        if current.is_symlink():
+            raise WorkspaceError(f"{label} cannot contain symlink components: {current}")
+
+
 def _parse_copy_spec(raw_spec: str) -> tuple[Path, str]:
     source_text, separator, destination_text = raw_spec.partition("=")
     if not separator:
         raise WorkspaceError(f"copy specification must be SOURCE=DESTINATION: {raw_spec!r}")
-    source = Path(source_text).resolve(strict=True)
-    if source.is_symlink() or not source.is_file():
+    source_path = Path(source_text)
+    _reject_symlink_components(source_path, label="workspace input")
+    source = source_path.resolve(strict=True)
+    if not source.is_file():
         raise WorkspaceError(f"workspace input must be a regular non-symlink file: {source}")
     destination = _normalize_relative(destination_text, label="workspace input path")
     return source, destination
@@ -97,6 +108,7 @@ def _inventory(root: Path) -> tuple[dict[str, int], dict[str, FileState]]:
 
 
 def _write_state(state: WorkspaceState, output: Path) -> None:
+    _reject_symlink_components(output, label="state output")
     output = output.resolve()
     root = Path(state.root)
     if output == root or root in output.parents:
@@ -111,6 +123,7 @@ def _write_state(state: WorkspaceState, output: Path) -> None:
 
 
 def _read_state(path: Path, expected_sha256: str) -> WorkspaceState:
+    _reject_symlink_components(path, label="state file")
     serialized = path.read_bytes()
     if not hmac.compare_digest(_sha256(serialized), expected_sha256.lower()):
         raise WorkspaceError("isolated workspace state integrity check failed")
@@ -135,6 +148,7 @@ def prepare_workspace(
     copy_specs: Sequence[str],
     allowed_outputs: Sequence[str],
 ) -> WorkspaceState:
+    _reject_symlink_components(root, label="workspace root")
     root = root.resolve()
     if root.exists():
         if root.is_symlink() or not root.is_dir():
@@ -194,7 +208,12 @@ def prepare_workspace(
 
 
 def verify_workspace(state: WorkspaceState) -> list[dict[str, str]]:
-    root = Path(state.root).resolve(strict=True)
+    root_path = Path(state.root)
+    try:
+        _reject_symlink_components(root_path, label="workspace root")
+    except WorkspaceError as error:
+        return [{"path": "<workspace>", "change": str(error)}]
+    root = root_path.resolve(strict=True)
     changes: list[dict[str, str]] = []
     try:
         directories, files = _inventory(root)
@@ -239,6 +258,8 @@ def copy_verified_output(
     if normalized not in state.allowed_outputs:
         raise WorkspaceError(f"output is not allowed by workspace state: {normalized}")
 
+    _reject_symlink_components(destination_root, label="destination root")
+    _reject_symlink_components(destination, label="destination")
     destination_root = destination_root.resolve(strict=True)
     destination = destination.resolve()
     try:
@@ -246,8 +267,6 @@ def copy_verified_output(
     except ValueError as error:
         raise WorkspaceError(f"destination escapes approved root: {destination}") from error
     destination.parent.mkdir(parents=True, exist_ok=True)
-    if destination.is_symlink():
-        raise WorkspaceError(f"destination cannot be a symlink: {destination}")
     parent = destination.parent.resolve(strict=True)
     try:
         parent.relative_to(destination_root)

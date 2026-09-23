@@ -677,7 +677,7 @@ jobs:
           fi
           python3 scripts/analyze_fallback.py \
             --raw-json "$WEEK_FILE" \
-            --output "$OUTPUT_FILE" \
+            --output "output/analysis.md" \
             --current-datetime "$CURRENT_DATETIME" \
             --press-context "$PRESS_FILE" \
             --prompt-token-budget "${ANALYSIS_PROMPT_TOKEN_BUDGET:-90000}" \

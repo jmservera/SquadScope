@@ -466,6 +466,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--prompt-token-budget", preflight_run)
         self.assertIn("--preflight-report-json", preflight_run)
         self.assertIn("--preflight-report-md", preflight_run)
+        self.assertIn('--output "output/analysis.md"', preflight_run)
         self.assertIn('--print-prompt > "$PROMPT_FILE"', preflight_run)
         self.assertIn('--context-files "$PROMPT_FILE"', preflight_run)
         self.assertIn("promotion_policy=", preflight_run)
