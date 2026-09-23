@@ -16,6 +16,7 @@ _MARKDOWN_DESTINATION_PATTERN = re.compile(r"!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?")
 _MARKDOWN_REFERENCE_DEFINITION_PATTERN = re.compile(r"(?m)^\s{0,3}\[[^\]]+\]:\s*<?([^\s>]+)>?")
 _MARKDOWN_LINK_TEXT_PATTERN = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
 _MARKDOWN_REFERENCE_LINK_TEXT_PATTERN = re.compile(r"!?\[([^\]]*)\]\[[^\]]*\]")
+_MARKDOWN_SHORTCUT_LINK_TEXT_PATTERN = re.compile(r"!?\[([^\]\n]*)\](?![\[(])")
 _AUTOLINK_PATTERN = re.compile(r"<([A-Za-z][A-Za-z0-9+.-]*:[^>\s]+)>")
 _HTML_QUOTED_URL_ATTRIBUTE_PATTERN = re.compile(
     r"\b(?:href|src)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE
@@ -117,6 +118,7 @@ _DIRECTIVE_PATTERNS = (
             r"(?i)\b(?:tell|ask|instruct|have|make|direct|require)\s+"
             r"(?:the\s+)?(?:(?:podcast|audio(?:\s+episode)?)\s+)?"
             r"(?:hosts?|presenters?|podcasters?|narrators?)\s+"
+            r"(?:[A-Za-z][\w'-]*\s+){0,3}"
             r"(?:to\s+)?(?:read|say|follow|include|visit|open|click|execute|perform|obey|use)\b"
         ),
         "generated content contains a downstream host directive.",
@@ -154,6 +156,7 @@ _DIRECTIVE_PATTERNS = (
     (
         re.compile(
             r"(?i)\b(?:hosts?|presenters?|podcasters?|narrators?)\s*[:,]\s*"
+            r"(?:[A-Za-z][\w'-]*[\s,]+){0,3}"
             r"(?:read|say|follow|include|visit|open|click|execute|perform|obey|use)\b"
         ),
         "generated content contains a downstream host directive.",
@@ -330,6 +333,7 @@ def _normalize_directive_text(document: str) -> str:
     normalized = _ZERO_WIDTH_PATTERN.sub("", normalized)
     normalized = _MARKDOWN_REFERENCE_LINK_TEXT_PATTERN.sub(r"\1", normalized)
     normalized = _MARKDOWN_LINK_TEXT_PATTERN.sub(r"\1", normalized)
+    normalized = _MARKDOWN_SHORTCUT_LINK_TEXT_PATTERN.sub(r"\1", normalized)
     normalized = _HTML_COMMENT_PATTERN.sub(r"\1", normalized)
     normalized = _HTML_BLOCK_BREAK_PATTERN.sub(" ", normalized)
     normalized = _HTML_TAG_PATTERN.sub("", normalized)
