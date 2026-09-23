@@ -58,6 +58,11 @@ def build_sandbox_command(
     node = node.resolve(strict=True)
     copilot_entry = copilot_entry.resolve(strict=True)
     node_runtime_root = node.parent.parent
+    if str(node_runtime_root) == node_runtime_root.anchor:
+        raise SandboxError(
+            f"Node executable {node} resolves to a runtime root of {node_runtime_root}, "
+            "which would mount the entire host filesystem into the sandbox"
+        )
     try:
         copilot_relative = copilot_entry.relative_to(node_runtime_root)
     except ValueError as error:
