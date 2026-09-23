@@ -560,25 +560,39 @@ jobs:
             SYNTHESIS_LOG="$DIAGNOSTICS_DIR/synthesis-copilot.log"
             SYNTHESIS_WORKSPACE_SNAPSHOT="${RUNNER_TEMP}/copilot-synthesis-workspace.json"
             SYNTHESIS_WORKSPACE_VERIFIER="${RUNNER_TEMP}/copilot-synthesis-workspace-verifier.py"
+            SYNTHESIS_ISOLATED_ROOT="${RUNNER_TEMP}/copilot-synthesis-isolated"
+            SYNTHESIS_ISOLATED_STATE="${RUNNER_TEMP}/copilot-synthesis-isolated.json"
+            SYNTHESIS_ISOLATED_OUTPUT="$SYNTHESIS_ISOLATED_ROOT/output/narrative.md"
             rm -f "$SYNTHESIS_FILE" "$SYNTHESIS_LOG"
+            rm -rf "$SYNTHESIS_ISOLATED_ROOT"
+            rm -f "$SYNTHESIS_ISOLATED_STATE"
             install -m 0444 scripts/check_copilot_workspace.py "$SYNTHESIS_WORKSPACE_VERIFIER"
             SYNTHESIS_VERIFIER_SHA256="$(sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER" | cut -d' ' -f1)"
+            python3 scripts/isolated_copilot_workspace.py prepare \
+              --root "$SYNTHESIS_ISOLATED_ROOT" \
+              --state "$SYNTHESIS_ISOLATED_STATE" \
+              --copy "$SYNTHESIS_PROMPT=input/prompt.md" \
+              --copy "$GITHUB_WORKSPACE/.github/agents/weekly-synthesis.agent.md=.github/agents/weekly-synthesis.agent.md" \
+              --allow-output "output/narrative.md"
+            chmod 0444 "$SYNTHESIS_ISOLATED_STATE"
+            SYNTHESIS_ISOLATED_SHA256="$(sha256sum "$SYNTHESIS_ISOLATED_STATE" | cut -d' ' -f1)"
             python3 "$SYNTHESIS_WORKSPACE_VERIFIER" snapshot \
               --root "$GITHUB_WORKSPACE" \
               --output "$SYNTHESIS_WORKSPACE_SNAPSHOT" \
-              --allow "$SYNTHESIS_FILE" \
               --allow "$SYNTHESIS_LOG"
             chmod 0444 "$SYNTHESIS_WORKSPACE_SNAPSHOT"
             SYNTHESIS_SNAPSHOT_SHA256="$(sha256sum "$SYNTHESIS_WORKSPACE_SNAPSHOT" | cut -d' ' -f1)"
             set +e
-            copilot \
-              --agent weekly-synthesis \
-              -p "Read the synthesis prompt at ${SYNTHESIS_PROMPT}. Write the compact industry narrative to ${SYNTHESIS_FILE}. Max 2000 tokens. Do not delegate." \
-              -s \
-              --no-ask-user \
-              --allow-tool=read \
-              --allow-tool=write \
-              > "$SYNTHESIS_LOG" 2>&1
+            (
+              cd "$SYNTHESIS_ISOLATED_ROOT"
+              copilot \
+                --agent weekly-synthesis \
+                -p "Read input/prompt.md. Write the compact industry narrative to output/narrative.md. Max 2000 tokens. Do not delegate." \
+                -s \
+                --no-ask-user \
+                --allow-tool=read \
+                --allow-tool=write
+            ) > "$SYNTHESIS_LOG" 2>&1
             SYNTH_STATUS=$?
             set -e
             if [ "$(sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER" | cut -d' ' -f1)" != "$SYNTHESIS_VERIFIER_SHA256" ]; then
@@ -595,18 +609,30 @@ jobs:
               echo "::error::Copilot synthesis mutated the workspace outside its exact output and log files."
               exit 1
             fi
+            if ! python3 scripts/isolated_copilot_workspace.py verify \
+              --state "$SYNTHESIS_ISOLATED_STATE" \
+              --expected-sha256 "$SYNTHESIS_ISOLATED_SHA256"; then
+              echo "::error::Copilot synthesis wrote outside its isolated output contract."
+              exit 1
+            fi
             if [ "$SYNTH_STATUS" -ne 0 ]; then
               SYNTHESIS_STATUS="failed"
               echo "::warning::Synthesis Copilot CLI failed (exit=$SYNTH_STATUS); required synthesis is failed."
-            elif [ ! -s "$SYNTHESIS_FILE" ]; then
+            elif [ ! -s "$SYNTHESIS_ISOLATED_OUTPUT" ]; then
               SYNTHESIS_STATUS="empty"
               echo "::warning::Synthesis Copilot CLI produced no narrative content; required synthesis is empty."
             elif ! python3 scripts/ai_output_guard.py validate \
-              --output "$SYNTHESIS_FILE" \
+              --output "$SYNTHESIS_ISOLATED_OUTPUT" \
               --token-file "$SYNTHESIS_CANARY"; then
               SYNTHESIS_STATUS="failed"
               echo "::error::Synthesis output failed prompt-injection safety validation."
             else
+              python3 scripts/isolated_copilot_workspace.py copy \
+                --state "$SYNTHESIS_ISOLATED_STATE" \
+                --expected-sha256 "$SYNTHESIS_ISOLATED_SHA256" \
+                --output "output/narrative.md" \
+                --destination "$SYNTHESIS_FILE" \
+                --destination-root "$GITHUB_WORKSPACE"
               SYNTHESIS_STATUS="available"
             fi
           fi
@@ -729,6 +755,7 @@ jobs:
           COPILOT_WORKSPACE_VERIFIER="${RUNNER_TEMP}/copilot-analysis-workspace-verifier.py"
           install -m 0444 scripts/check_copilot_workspace.py "$COPILOT_WORKSPACE_VERIFIER"
           COPILOT_VERIFIER_SHA256="$(sha256sum "$COPILOT_WORKSPACE_VERIFIER" | cut -d' ' -f1)"
+          COPILOT_ISOLATION_TOOL="${GITHUB_WORKSPACE}/scripts/isolated_copilot_workspace.py"
           PROMPT_FILE="$IN_PROMPT_FILE"
           CANARY_FILE="$IN_CANARY_FILE"
           LEGACY_PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
@@ -815,36 +842,56 @@ jobs:
             COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-attempt-${ATTEMPT}.log"
             COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-attempt-${ATTEMPT}.json"
             COPILOT_WORKSPACE_SNAPSHOT="${RUNNER_TEMP}/copilot-analysis-workspace-${ATTEMPT}.json"
+            COPILOT_ISOLATED_ROOT="${RUNNER_TEMP}/copilot-analysis-isolated-${ATTEMPT}"
+            COPILOT_ISOLATED_STATE="${RUNNER_TEMP}/copilot-analysis-isolated-${ATTEMPT}.json"
+            COPILOT_ISOLATED_OUTPUT="$COPILOT_ISOLATED_ROOT/output/analysis.md"
+            COPILOT_ISOLATED_TRANSCRIPT="$COPILOT_ISOLATED_ROOT/output/transcript.md"
             rm -f "$OUTPUT_FILE" "$TRANSCRIPT_FILE" "$COPILOT_LOG" "$COPILOT_FAILURE_REPORT"
+            rm -rf "$COPILOT_ISOLATED_ROOT"
+            rm -f "$COPILOT_ISOLATED_STATE"
             REPAIR_CONTEXT=""
+            COPILOT_ISOLATED_COPY_ARGS=(
+              --copy "$PROMPT_FILE=input/prompt.md"
+              --copy "$GITHUB_WORKSPACE/.github/agents/weekly-analysis.agent.md=.github/agents/weekly-analysis.agent.md"
+            )
             if [ "$ATTEMPT" -gt 0 ]; then
               PREVIOUS_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-$((ATTEMPT - 1)).json"
               if [ -f "$PREVIOUS_REPORT" ]; then
-                REPAIR_CONTEXT=" Previous gate report: ${PREVIOUS_REPORT}. Correct exactly those validation errors; do not regenerate unrelated content."
+                COPILOT_ISOLATED_COPY_ARGS+=(--copy "$PREVIOUS_REPORT=input/previous-gate.json")
+                REPAIR_CONTEXT=" Previous gate report: input/previous-gate.json. Correct exactly those validation errors; do not regenerate unrelated content."
               fi
             fi
 
-            # Copilot has no path-scoped write capability. This baseline and the
-            # immediate verification below provide post-invocation containment.
+            python3 "$COPILOT_ISOLATION_TOOL" prepare \
+              --root "$COPILOT_ISOLATED_ROOT" \
+              --state "$COPILOT_ISOLATED_STATE" \
+              "${COPILOT_ISOLATED_COPY_ARGS[@]}" \
+              --allow-output "output/analysis.md" \
+              --allow-output "output/transcript.md"
+            chmod 0444 "$COPILOT_ISOLATED_STATE"
+            COPILOT_ISOLATED_SHA256="$(sha256sum "$COPILOT_ISOLATED_STATE" | cut -d' ' -f1)"
+
+            # Retain checkout snapshot verification as defense in depth against
+            # any write-tool escape beyond the isolated working directory.
             python3 "$COPILOT_WORKSPACE_VERIFIER" snapshot \
               --root "$GITHUB_WORKSPACE" \
               --output "$COPILOT_WORKSPACE_SNAPSHOT" \
-              --allow "$OUTPUT_FILE" \
-              --allow "$TRANSCRIPT_FILE" \
               --allow "$COPILOT_LOG"
             chmod 0444 "$COPILOT_WORKSPACE_SNAPSHOT"
             COPILOT_SNAPSHOT_SHA256="$(sha256sum "$COPILOT_WORKSPACE_SNAPSHOT" | cut -d' ' -f1)"
             # Model is configured in .github/agents/weekly-analysis.agent.md (gpt-5.6-sol)
             set +e
-            copilot \
-              --agent weekly-analysis \
-              -p "Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}. The first bytes must be --- and the run is incomplete until ${OUTPUT_FILE} exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary.${REPAIR_CONTEXT}" \
-              -s \
-              --no-ask-user \
-              --allow-tool=read \
-              --allow-tool=write \
-              --share="$TRANSCRIPT_FILE" \
-              > "$COPILOT_LOG" 2>&1
+            (
+              cd "$COPILOT_ISOLATED_ROOT"
+              copilot \
+                --agent weekly-analysis \
+                -p "Read input/prompt.md. Write the complete weekly analysis markdown to output/analysis.md. The first bytes must be --- and the run is incomplete until output/analysis.md exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary.${REPAIR_CONTEXT}" \
+                -s \
+                --no-ask-user \
+                --allow-tool=read \
+                --allow-tool=write \
+                --share="output/transcript.md"
+            ) > "$COPILOT_LOG" 2>&1
             COPILOT_STATUS=$?
             set -e
             if [ "$(sha256sum "$COPILOT_WORKSPACE_VERIFIER" | cut -d' ' -f1)" != "$COPILOT_VERIFIER_SHA256" ]; then
@@ -859,6 +906,12 @@ jobs:
               --snapshot "$COPILOT_WORKSPACE_SNAPSHOT" \
               --expected-sha256 "$COPILOT_SNAPSHOT_SHA256"; then
               echo "::error::Copilot analysis mutated the workspace outside its exact output, transcript, and log files."
+              exit 1
+            fi
+            if ! python3 "$COPILOT_ISOLATION_TOOL" verify \
+              --state "$COPILOT_ISOLATED_STATE" \
+              --expected-sha256 "$COPILOT_ISOLATED_SHA256"; then
+              echo "::error::Copilot analysis wrote outside its isolated output contract."
               exit 1
             fi
             if [ "$COPILOT_STATUS" -ne 0 ]; then
@@ -885,21 +938,35 @@ jobs:
               continue
             fi
 
-            if ! test -s "$OUTPUT_FILE"; then
+            if ! test -s "$COPILOT_ISOLATED_OUTPUT"; then
               FINAL_FAILURE_CLASS="writer_contract_failure"
-              echo "::warning::Copilot analysis completed without writing ${OUTPUT_FILE}; class=${FINAL_FAILURE_CLASS}"
+              echo "::warning::Copilot analysis completed without writing output/analysis.md; class=${FINAL_FAILURE_CLASS}"
               ATTEMPT=$((ATTEMPT + 1))
               continue
             fi
 
             if ! python3 scripts/ai_output_guard.py validate \
-              --output "$OUTPUT_FILE" \
+              --output "$COPILOT_ISOLATED_OUTPUT" \
               --token-file "$CANARY_FILE"; then
               FINAL_FAILURE_CLASS="prompt_security_failure"
               echo "::error::Copilot analysis output failed prompt-injection safety validation."
-              rm -f "$OUTPUT_FILE"
               ATTEMPT=$((ATTEMPT + 1))
               continue
+            fi
+
+            python3 "$COPILOT_ISOLATION_TOOL" copy \
+              --state "$COPILOT_ISOLATED_STATE" \
+              --expected-sha256 "$COPILOT_ISOLATED_SHA256" \
+              --output "output/analysis.md" \
+              --destination "$OUTPUT_FILE" \
+              --destination-root "$GITHUB_WORKSPACE"
+            if [ -s "$COPILOT_ISOLATED_TRANSCRIPT" ]; then
+              python3 "$COPILOT_ISOLATION_TOOL" copy \
+                --state "$COPILOT_ISOLATED_STATE" \
+                --expected-sha256 "$COPILOT_ISOLATED_SHA256" \
+                --output "output/transcript.md" \
+                --destination "$TRANSCRIPT_FILE" \
+                --destination-root "$GITHUB_WORKSPACE"
             fi
 
             FINAL_FAILURE_CLASS=""
@@ -1108,7 +1175,9 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: analyzed-data
-          path: data/analyzed/
+          path: |
+            data/analyzed/${{ steps.analysis-context.outputs.week }}-correlations.json
+            data/analyzed/${{ steps.analysis-context.outputs.week }}-press-context.md
           if-no-files-found: warn
 
       - name: Upload analysis candidate
@@ -1116,7 +1185,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: analysis-candidate
-          path: data/candidates/
+          path: data/candidates/${{ steps.analysis-context.outputs.week }}/${{ github.run_id }}/
           if-no-files-found: warn
 
       - name: Upload token usage ledger
@@ -1223,7 +1292,10 @@ jobs:
       - name: Download analysis candidate artifact
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 scripts/download_run_artifact.py --artifact analysis-candidate --destination data/candidates/
+        run: >-
+          python3 scripts/download_run_artifact.py
+          --artifact analysis-candidate
+          --destination "data/candidates/${{ needs.analyze.outputs.week }}/${{ github.run_id }}/"
 
       - name: Download raw crawl artifact
         env:
@@ -1402,8 +1474,10 @@ jobs:
             content/yearly/
             content/topics/
             content/data/
-            data/analyzed/
-            data/candidates/
+            "data/analyzed/${WEEK}-summary.md"
+            "data/analyzed/${WEEK}-correlations.json"
+            "data/analyzed/${WEEK}-press-context.md"
+            "data/candidates/${WEEK}/${GITHUB_RUN_ID}/"
             data/metrics/
             data/published/
             data/taxonomy/
@@ -1554,7 +1628,10 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: promoted-analyzed-data
-          path: data/analyzed/
+          path: |
+            data/analyzed/${{ needs.analyze.outputs.week }}-summary.md
+            data/analyzed/${{ needs.analyze.outputs.week }}-correlations.json
+            data/analyzed/${{ needs.analyze.outputs.week }}-press-context.md
           if-no-files-found: warn
 
   deploy:
@@ -1680,7 +1757,10 @@ jobs:
       - name: Download analysis candidate artifact
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 scripts/download_run_artifact.py --artifact analysis-candidate --destination data/candidates/
+        run: >-
+          python3 scripts/download_run_artifact.py
+          --artifact analysis-candidate
+          --destination "data/candidates/${{ needs.analyze.outputs.week }}/${{ github.run_id }}/"
 
       - name: Create GitHub Release
         env:

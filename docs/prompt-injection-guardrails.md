@@ -124,6 +124,20 @@ production inference path.
 
 **Applied to production Copilot CLI prompts:**
 
+- Capability isolation is the primary write boundary. Each synthesis and
+  analysis invocation runs from a newly prepared workspace containing only a
+  read-only prompt, the selected read-only agent definition, optional
+  read-only retry diagnostics, and an `output/` directory.
+- The isolated workspace root and all input directories are read-only. Only
+  enumerated regular files below `output/` may be created. Unexpected files,
+  directories, symlinks, hard links, input changes, path traversal, and output
+  destinations outside the checkout fail closed.
+- Outputs are validated inside the isolated workspace and copied into the
+  checkout only after the exact-file verification and prompt-output safety
+  checks succeed.
+- Workflow transfer and promotion are scoped to the current week's analyzed
+  files and the current run's candidate directory rather than whole mutable
+  `data/analyzed/` and `data/candidates/` trees.
 - Recursive repository-payload sanitization.
 - Source-specific caps for press, rolling, previous-week, monthly, yearly,
   continuity, and synthesis content.
@@ -136,9 +150,9 @@ production inference path.
   invocation; its SHA-256 must still match before post-invocation verification.
 - A read-only baseline snapshot outside the checkout whose SHA-256 is retained
   in the invoking shell and rechecked before the verifier trusts it.
-- Fail-closed workspace snapshots covering file content, types, permissions,
-  ownership, directory metadata, the Git index, and `.git` metadata. Only the
-  exact declared output and diagnostic artifacts may be created.
+- Fail-closed checkout snapshots covering file content, types, permissions,
+  ownership, directory metadata, the Git index, and `.git` metadata remain as
+  defense in depth against an escape from the isolated working directory.
 - Direct workflow calls to `ai_output_guard.py validate` immediately after both
   production Copilot CLI invocations. Each call uses that invocation's canary
   token and rejects canary leaks or escaped boundary markers before the
@@ -341,7 +355,12 @@ The following summarizes the complete defense chain from data ingestion to publi
 - Boundary tags and instruction repetition reduce instruction confusion but
   cannot guarantee model compliance against novel or obfuscated attacks.
 - Phrase-based sanitization can miss multilingual, encoded, or semantically
-  equivalent injections and can also truncate benign text.
+  equivalent injections and can also truncate benign text. It is telemetry and
+  defense in depth, not the capability boundary.
+- Copilot CLI itself is still a privileged dependency running as the workflow
+  user. The minimal working directory, read-only inputs, exact output
+  verification, and retained checkout-diff gate reduce the writable surface,
+  but runner-level sandboxing remains outside this repository's controls.
 - Production runs `ai_output_guard.py validate` immediately after each Copilot
   CLI invocation and rejects canary leakage or configured unsafe output before
   acceptance. A well-formed manipulated output can still pass these checks, so

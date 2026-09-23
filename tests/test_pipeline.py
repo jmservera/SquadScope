@@ -93,6 +93,58 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn("npm install -g @github/copilot@1.0.76", install_step["run"])
         self.assertNotIn("npm install -g @github/copilot\n", install_step["run"])
 
+    def test_production_copilot_runs_use_isolated_workspaces(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        analyze_steps = workflow["jobs"]["analyze"]["steps"]
+        synthesis = next(
+            step for step in analyze_steps if step.get("name") == "Run synthesis step (Step 1)"
+        )
+        analysis = next(step for step in analyze_steps if step.get("name") == "Run analysis")
+
+        for step in (synthesis, analysis):
+            script = step["run"]
+            self.assertIn("isolated_copilot_workspace.py", script)
+            self.assertIn(" prepare \\", script)
+            self.assertIn(" verify \\", script)
+            self.assertIn(" copy \\", script)
+            self.assertIn('cd "$', script)
+
+        self.assertNotIn('--allow "$SYNTHESIS_FILE"', synthesis["run"])
+        self.assertNotIn('--allow "$OUTPUT_FILE"', analysis["run"])
+        self.assertIn('--allow "$SYNTHESIS_LOG"', synthesis["run"])
+        self.assertIn('--allow "$COPILOT_LOG"', analysis["run"])
+
+    def test_analysis_artifacts_and_promotion_are_run_scoped(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        analyze_steps = workflow["jobs"]["analyze"]["steps"]
+        analyzed_upload = next(
+            step for step in analyze_steps if step.get("name") == "Upload analyzed data"
+        )
+        candidate_upload = next(
+            step for step in analyze_steps if step.get("name") == "Upload analysis candidate"
+        )
+        commit_step = next(
+            step
+            for step in workflow["jobs"]["generate"]["steps"]
+            if step.get("name") == "Commit generated content to data branch"
+        )
+
+        self.assertNotEqual(analyzed_upload["with"]["path"], "data/analyzed/")
+        self.assertIn("-correlations.json", analyzed_upload["with"]["path"])
+        self.assertIn("-press-context.md", analyzed_upload["with"]["path"])
+        self.assertEqual(
+            candidate_upload["with"]["path"],
+            "data/candidates/${{ steps.analysis-context.outputs.week }}/${{ github.run_id }}/",
+        )
+        self.assertNotIn("\n            data/analyzed/\n", commit_step["run"])
+        self.assertNotIn("\n            data/candidates/\n", commit_step["run"])
+        self.assertIn('"data/analyzed/${WEEK}-summary.md"', commit_step["run"])
+        self.assertIn('"data/candidates/${WEEK}/${GITHUB_RUN_ID}/"', commit_step["run"])
+
 
 class _FakeHTTPResponse(io.BytesIO):
     def __enter__(self):
@@ -463,8 +515,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertLess(synthesis_integrity, synthesis_snapshot_integrity)
         self.assertLess(synthesis_snapshot_integrity, synthesis_verify)
         self.assertLess(synthesis_verify, synthesis_classification)
-        self.assertIn('--allow "$SYNTHESIS_FILE"', synthesis_run)
+        self.assertNotIn('--allow "$SYNTHESIS_FILE"', synthesis_run)
         self.assertIn('--allow "$SYNTHESIS_LOG"', synthesis_run)
+        self.assertIn('--allow-output "output/narrative.md"', synthesis_run)
 
         self.assertIn("python3 scripts/track_token_usage.py", run_analysis)
         self.assertIn('ANALYSIS_MODEL="gpt-5.6-sol"', run_analysis)
@@ -508,15 +561,17 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertLess(analysis_integrity, analysis_snapshot_integrity)
         self.assertLess(analysis_snapshot_integrity, analysis_verify)
         self.assertLess(analysis_verify, analysis_classification)
-        self.assertIn('--allow "$OUTPUT_FILE"', run_analysis)
-        self.assertIn('--allow "$TRANSCRIPT_FILE"', run_analysis)
+        self.assertNotIn('--allow "$OUTPUT_FILE"', run_analysis)
+        self.assertNotIn('--allow "$TRANSCRIPT_FILE"', run_analysis)
         self.assertIn('--allow "$COPILOT_LOG"', run_analysis)
+        self.assertIn('--allow-output "output/analysis.md"', run_analysis)
+        self.assertIn('--allow-output "output/transcript.md"', run_analysis)
         self.assertNotIn("git checkout -- .squad", run_analysis)
         self.assertIn(
-            "Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}.",
+            "Read input/prompt.md. Write the complete weekly analysis markdown to output/analysis.md.",
             run_analysis,
         )
-        self.assertIn('if ! test -s "$OUTPUT_FILE"; then', run_analysis)
+        self.assertIn('if ! test -s "$COPILOT_ISOLATED_OUTPUT"; then', run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS="writer_contract_failure"', run_analysis)
         self.assertNotIn("--allow-tool=glob", run_analysis)
         self.assertNotIn("--allow-tool=grep", run_analysis)
