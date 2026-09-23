@@ -863,7 +863,13 @@ def validate_publish_quality(
     if body:
         errors.extend(evidence_citation_errors(body, raw_payload))
         if allowed_external_urls is not None:
-            errors.extend(external_url_provenance_errors(text, allowed_external_urls))
+            errors.extend(
+                external_url_provenance_errors(
+                    text,
+                    allowed_external_urls,
+                    allowed_github_repositories=raw_repo_names(raw_payload),
+                )
+            )
         errors.extend(downstream_directive_errors(text))
         errors.extend(editorial_quality_errors(body))
         errors.extend(contradiction_errors(body))

@@ -8,16 +8,6 @@ from pathlib import Path
 from typing import Any
 from urllib import parse
 
-GITHUB_OWNED_HOSTS = frozenset(
-    {
-        "github.com",
-        "api.github.com",
-        "gist.github.com",
-        "raw.githubusercontent.com",
-        "githubusercontent.com",
-    }
-)
-
 _CONTROL_CHARACTER_PATTERN = re.compile(r"[\x00-\x20\x7f]")
 _INVALID_PERCENT_PATTERN = re.compile(r"%(?![0-9A-Fa-f]{2})")
 _PLAIN_HTTP_URL_PATTERN = re.compile(r"https?://[^\s<>()\[\]{}\"']+", re.IGNORECASE)
@@ -154,17 +144,6 @@ def normalize_evidence_url(value: str) -> str | None:
     return parse.urlunsplit((scheme, netloc, path, parsed.query, ""))
 
 
-def is_github_owned_url(value: str) -> bool:
-    try:
-        hostname = parse.urlsplit(value).hostname
-    except ValueError:
-        return False
-    if not hostname:
-        return False
-    normalized = hostname.lower()
-    return normalized in GITHUB_OWNED_HOSTS or normalized.endswith(".githubusercontent.com")
-
-
 def _load_json_object(path: Path) -> dict[str, Any]:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -244,17 +223,32 @@ def extract_document_url_targets(document: str) -> set[str]:
     return {target for target in targets if target}
 
 
-def external_url_provenance_errors(document: str, allowed_external_urls: set[str]) -> list[str]:
+def external_url_provenance_errors(
+    document: str,
+    allowed_external_urls: set[str],
+    allowed_github_repositories: set[str] | None = None,
+) -> list[str]:
     errors: list[str] = []
+    allowed_github_urls = {
+        candidate
+        for repository in allowed_github_repositories or set()
+        for candidate in (
+            f"https://github.com/{repository}",
+            f"https://github.com/{repository}/",
+        )
+    }
     for raw_target in sorted(extract_document_url_targets(document)):
         target = html.unescape(raw_target)
         if _CHARACTER_REFERENCE_PATTERN.search(target):
             errors.append(f"generated content contains an ambiguously encoded URL: {raw_target}")
             continue
-        if target.startswith(("#", "/", "./", "../")):
+        if _CONTROL_CHARACTER_PATTERN.search(target) or "\\" in target:
+            errors.append(f"generated content contains a malformed external URL: {raw_target}")
             continue
         if target.startswith("//"):
             errors.append(f"external URL uses unsupported scheme-relative syntax: {target}")
+            continue
+        if target.startswith(("#", "/", "./", "../")):
             continue
         explicit_scheme = _EXPLICIT_SCHEME_PATTERN.match(target)
         if explicit_scheme and explicit_scheme.group(0)[:-1].lower() not in {"http", "https"}:
@@ -266,9 +260,7 @@ def external_url_provenance_errors(document: str, allowed_external_urls: set[str
         if normalized is None:
             errors.append(f"generated content contains a malformed external URL: {target}")
             continue
-        if is_github_owned_url(normalized):
-            continue
-        if normalized not in allowed_external_urls:
+        if normalized not in allowed_external_urls and normalized not in allowed_github_urls:
             errors.append(
                 f"external URL must resolve to the current run-scoped evidence inventory: {target}"
             )

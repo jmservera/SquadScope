@@ -98,6 +98,31 @@ class AnalysisContentSecurityTests(unittest.TestCase):
                 errors = external_url_provenance_errors(f"[Injected]({target})", set())
                 self.assertTrue(errors)
 
+    def test_external_url_provenance_rejects_obfuscated_and_scheme_relative_targets(self) -> None:
+        for target in (
+            "java&#10;script:alert(1)",
+            "//attacker.example/control",
+            "https://attacker.example\\control",
+        ):
+            with self.subTest(target=target):
+                self.assertTrue(external_url_provenance_errors(f"[Injected]({target})", set()))
+
+    def test_github_exemption_is_limited_to_raw_inventory_repository_urls(self) -> None:
+        document = """
+[Allowed repo](https://github.com/owner/repo)
+[Injected path](https://github.com/attacker/control)
+[Injected gist](https://gist.github.com/attacker/123)
+"""
+        errors = external_url_provenance_errors(
+            document,
+            set(),
+            allowed_github_repositories={"owner/repo"},
+        )
+
+        self.assertFalse(any("owner/repo" in error for error in errors))
+        self.assertTrue(any("github.com/attacker/control" in error for error in errors))
+        self.assertTrue(any("gist.github.com" in error for error in errors))
+
     def test_injected_rss_title_cannot_authorize_attacker_url_or_host_directive(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             news = Path(tmpdir) / "news.json"
