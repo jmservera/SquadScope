@@ -201,6 +201,15 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn(
             "GENERATED_STATE_CHANGED=true", commit_run[transcript_cleanup:state_comparison]
         )
+        stale_detection = commit_run.index(
+            'git cat-file -e "origin/$DATA_BRANCH:data/metrics/copilot-transcript.md"'
+        )
+        no_change_exit = commit_run.index('git status --short -- "${GENERATED_PATHS[@]}"')
+        self.assertLess(stale_detection, no_change_exit)
+        self.assertIn(
+            '[ "$PUBLISH_HAS_RETIRED_TRANSCRIPT" = false ]',
+            commit_run[stale_detection:no_change_exit],
+        )
 
     def test_analysis_gates_receive_run_scoped_external_evidence(self) -> None:
         workflow = yaml.safe_load(

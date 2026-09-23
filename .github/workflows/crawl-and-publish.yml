@@ -1532,7 +1532,13 @@ jobs:
             static/datasets/open-source-ai-github-projects-2026/
             static/tools/star-velocity-explorer.json
           )
-          if ! git status --short -- "${GENERATED_PATHS[@]}" | grep -q .; then
+          PUBLISH_HAS_RETIRED_TRANSCRIPT=false
+          if git fetch origin "$DATA_BRANCH" 2>/dev/null && \
+            git cat-file -e "origin/$DATA_BRANCH:data/metrics/copilot-transcript.md" 2>/dev/null; then
+            PUBLISH_HAS_RETIRED_TRANSCRIPT=true
+          fi
+          if [ "$PUBLISH_HAS_RETIRED_TRANSCRIPT" = false ] && \
+            ! git status --short -- "${GENERATED_PATHS[@]}" | grep -q .; then
             echo "No promoted analysis or generated Observatory changes to commit."
             rm -f publish-safety-tool.py promotion-guard-tool.py
             exit 0
