@@ -154,8 +154,12 @@ def normalize_evidence_url(value: str) -> str | None:
         port = parsed.port
     except ValueError:
         return None
+    if parsed.netloc.endswith(":"):
+        return None
     scheme = parsed.scheme.lower()
     if scheme not in {"http", "https"} or not hostname:
+        return None
+    if parsed.netloc.endswith(":"):
         return None
     if parsed.username is not None or parsed.password is not None:
         return None

@@ -22,12 +22,22 @@ class AnalysisContentSecurityTests(unittest.TestCase):
         for value in (
             "//press.example/story",
             "https://user:secret@press.example/story",
+            "https://press.example:/story",
             "https://press.example/bad\\path",
             "https://press.example/%zz",
+            "https://press.example:/story",
             "file:///tmp/story",
         ):
             with self.subTest(value=value):
                 self.assertIsNone(normalize_evidence_url(value))
+
+    def test_empty_port_cannot_match_allowlisted_canonical_url(self) -> None:
+        errors = external_url_provenance_errors(
+            "[Injected](https://press.example:/story)",
+            {"https://press.example/story"},
+        )
+
+        self.assertTrue(any("malformed external URL" in error for error in errors))
 
     def test_allowlist_loads_news_and_correlation_urls(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
