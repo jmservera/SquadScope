@@ -102,6 +102,7 @@ jobs:
               git checkout origin/publish -- "$path"
             fi
           done <<< "$GENERATED_PATHS"
+          rm -f data/metrics/copilot-transcript.md
 
       - name: Validate hydrated references (NFR-011 / NFR-012)
         run: python3 -m scripts.publish_hydration check

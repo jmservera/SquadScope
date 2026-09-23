@@ -1016,6 +1016,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn(
             'git checkout origin/publish -- "$path" 2>/dev/null || true', deploy_hydrate
         )
+        self.assertIn("rm -f data/metrics/copilot-transcript.md", deploy_hydrate)
 
         self.assertIn("--force-with-lease", commit)
         self.assertIn("git diff --cached --quiet && exit 0", commit)
@@ -1230,6 +1231,7 @@ class WorkflowConfigTests(unittest.TestCase):
 
         self.assertIn("data/taxonomy/tags.json", sync_run)
         self.assertIn("data/taxonomy/topic-candidates.json", sync_run)
+        self.assertIn("rm -f data/metrics/copilot-transcript.md", sync_run)
         self.assertIn("dynamic_topic: true", sync_run)
         self.assertIn("grep '/_index.md$' || true", sync_run)
         self.assertIn("python3 scripts/taxonomy_registry.py", sync_run)

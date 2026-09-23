@@ -137,6 +137,7 @@ jobs:
               git checkout origin/publish -- "$path"
             fi
           done
+          rm -f data/metrics/copilot-transcript.md
           echo "Hydrated from publish:"
           ls content/weekly/2026/ 2>/dev/null || true
 
