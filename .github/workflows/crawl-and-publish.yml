@@ -372,6 +372,16 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
 
+      - name: Clear analyze run-scoped external evidence destinations
+        env:
+          REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
+        run: |
+          set -euo pipefail
+          WEEK="${REBUILD_WEEK:-$(date -u +%G-W%V)}"
+          rm -f -- \
+            "data/raw/${WEEK}-external-news.json" \
+            "data/raw/${WEEK}-techcrunch.json"
+
       - name: Download raw crawl artifact
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

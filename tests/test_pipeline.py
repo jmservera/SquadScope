@@ -154,6 +154,20 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn('"data/raw/${WEEK}-external-news.json"', clear_step["run"])
         self.assertIn('"data/raw/${WEEK}-techcrunch.json"', clear_step["run"])
 
+        analyze_clear_step = next(
+            step
+            for step in analyze_steps
+            if step.get("name") == "Clear analyze run-scoped external evidence destinations"
+        )
+        analyze_download_index = next(
+            index
+            for index, step in enumerate(analyze_steps)
+            if step.get("name") == "Download raw crawl artifact"
+        )
+        self.assertLess(analyze_steps.index(analyze_clear_step), analyze_download_index)
+        self.assertIn('"data/raw/${WEEK}-external-news.json"', analyze_clear_step["run"])
+        self.assertIn('"data/raw/${WEEK}-techcrunch.json"', analyze_clear_step["run"])
+
     def test_analysis_artifacts_and_promotion_are_run_scoped(self) -> None:
         workflow = yaml.safe_load(
             Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
