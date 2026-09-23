@@ -264,67 +264,6 @@ class TrackTokenUsageTests(unittest.TestCase):
             self.assertIn("Manifest is degraded/compacted", validation["reason"])
 
 
-class ParseCopilotTranscriptTests(unittest.TestCase):
-    def test_parses_input_output_tokens_pattern(self) -> None:
-        tests_root = Path(__file__).resolve().parent
-        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
-            transcript = Path(tmpdir) / "transcript.md"
-            transcript.write_text(
-                "# Copilot Session\n\nSome content here.\n\n"
-                "---\nInput tokens: 1500\nOutput tokens: 800\n",
-                encoding="utf-8",
-            )
-            result = track_token_usage.parse_copilot_transcript(transcript)
-            self.assertEqual(result, (1500, 800))
-
-    def test_parses_prompt_completion_tokens_pattern(self) -> None:
-        tests_root = Path(__file__).resolve().parent
-        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
-            transcript = Path(tmpdir) / "transcript.md"
-            transcript.write_text(
-                '```json\n{"prompt_tokens": 2000, "completion_tokens": 950}\n```\n',
-                encoding="utf-8",
-            )
-            result = track_token_usage.parse_copilot_transcript(transcript)
-            self.assertEqual(result, (2000, 950))
-
-    def test_parses_tokens_used_combined_pattern(self) -> None:
-        tests_root = Path(__file__).resolve().parent
-        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
-            transcript = Path(tmpdir) / "transcript.md"
-            transcript.write_text(
-                "## Summary\nTokens used: 3000 input, 1200 output\n",
-                encoding="utf-8",
-            )
-            result = track_token_usage.parse_copilot_transcript(transcript)
-            self.assertEqual(result, (3000, 1200))
-
-    def test_parses_usage_slash_pattern(self) -> None:
-        tests_root = Path(__file__).resolve().parent
-        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
-            transcript = Path(tmpdir) / "transcript.md"
-            transcript.write_text(
-                "Usage: 500/200 tokens (input/output)\n",
-                encoding="utf-8",
-            )
-            result = track_token_usage.parse_copilot_transcript(transcript)
-            self.assertEqual(result, (500, 200))
-
-    def test_returns_none_when_no_pattern_found(self) -> None:
-        tests_root = Path(__file__).resolve().parent
-        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
-            transcript = Path(tmpdir) / "transcript.md"
-            transcript.write_text(
-                "# Just a normal transcript\nNo usage info here.\n", encoding="utf-8"
-            )
-            result = track_token_usage.parse_copilot_transcript(transcript)
-            self.assertIsNone(result)
-
-    def test_returns_none_for_missing_file(self) -> None:
-        result = track_token_usage.parse_copilot_transcript(Path("/nonexistent/path.md"))
-        self.assertIsNone(result)
-
-
 class ParseApiResponseTests(unittest.TestCase):
     def test_parses_openai_compatible_usage(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -369,46 +308,7 @@ class ParseApiResponseTests(unittest.TestCase):
 
 
 class TokenSourcePriorityTests(unittest.TestCase):
-    """Test the priority ordering: explicit > transcript/api > file-size estimate."""
-
-    def test_transcript_overrides_file_estimate(self) -> None:
-        tests_root = Path(__file__).resolve().parent
-        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
-            base = Path(tmpdir)
-            usage_file = base / "token-usage.jsonl"
-            prompt_path = base / "prompt.txt"
-            output_path = base / "output.md"
-            transcript = base / "transcript.md"
-            prompt_path.write_text("x" * 400, encoding="utf-8")
-            output_path.write_text("y" * 200, encoding="utf-8")
-            transcript.write_text("Input tokens: 5000\nOutput tokens: 2500\n", encoding="utf-8")
-
-            exit_code = track_token_usage.main(
-                [
-                    "--stage",
-                    "analysis",
-                    "--source",
-                    "copilot-cli",
-                    "--model",
-                    "claude-sonnet-4",
-                    "--current-datetime",
-                    "2026-05-19T08:00:00Z",
-                    "--prompt-file",
-                    str(prompt_path),
-                    "--output-file",
-                    str(output_path),
-                    "--transcript",
-                    str(transcript),
-                    "--usage-file",
-                    str(usage_file),
-                ]
-            )
-
-            self.assertEqual(exit_code, 0)
-            record = json.loads(usage_file.read_text(encoding="utf-8").strip())
-            self.assertEqual(record["input_tokens"], 5000)
-            self.assertEqual(record["output_tokens"], 2500)
-            self.assertFalse(record["estimated"])
+    """Test the priority ordering: explicit > trusted API response > estimate."""
 
     def test_api_response_overrides_file_estimate(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -456,13 +356,23 @@ class TokenSourcePriorityTests(unittest.TestCase):
             self.assertEqual(record["output_tokens"], 300)
             self.assertFalse(record["estimated"])
 
-    def test_explicit_tokens_override_transcript(self) -> None:
+    def test_explicit_tokens_override_api_response(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
             usage_file = base / "token-usage.jsonl"
-            transcript = base / "transcript.md"
-            transcript.write_text("Input tokens: 5000\nOutput tokens: 2500\n", encoding="utf-8")
+            api_response = base / "response.json"
+            api_response.write_text(
+                json.dumps(
+                    {
+                        "usage": {
+                            "prompt_tokens": 5000,
+                            "completion_tokens": 2500,
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
 
             exit_code = track_token_usage.main(
                 [
@@ -478,8 +388,8 @@ class TokenSourcePriorityTests(unittest.TestCase):
                     "9999",
                     "--output-tokens",
                     "4444",
-                    "--transcript",
-                    str(transcript),
+                    "--api-response",
+                    str(api_response),
                     "--usage-file",
                     str(usage_file),
                 ]
@@ -490,45 +400,6 @@ class TokenSourcePriorityTests(unittest.TestCase):
             self.assertEqual(record["input_tokens"], 9999)
             self.assertEqual(record["output_tokens"], 4444)
             self.assertFalse(record["estimated"])
-
-    def test_fallback_to_estimate_when_transcript_has_no_usage(self) -> None:
-        tests_root = Path(__file__).resolve().parent
-        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
-            base = Path(tmpdir)
-            usage_file = base / "token-usage.jsonl"
-            prompt_path = base / "prompt.txt"
-            output_path = base / "output.md"
-            transcript = base / "transcript.md"
-            prompt_path.write_text("x" * 40, encoding="utf-8")
-            output_path.write_text("y" * 20, encoding="utf-8")
-            transcript.write_text("# No usage info here\n", encoding="utf-8")
-
-            exit_code = track_token_usage.main(
-                [
-                    "--stage",
-                    "analysis",
-                    "--source",
-                    "copilot-cli",
-                    "--model",
-                    "claude-sonnet-4",
-                    "--current-datetime",
-                    "2026-05-19T08:00:00Z",
-                    "--prompt-file",
-                    str(prompt_path),
-                    "--output-file",
-                    str(output_path),
-                    "--transcript",
-                    str(transcript),
-                    "--usage-file",
-                    str(usage_file),
-                ]
-            )
-
-            self.assertEqual(exit_code, 0)
-            record = json.loads(usage_file.read_text(encoding="utf-8").strip())
-            self.assertEqual(record["input_tokens"], 10)
-            self.assertEqual(record["output_tokens"], 5)
-            self.assertTrue(record["estimated"])
 
 
 class ModelPricingTests(unittest.TestCase):

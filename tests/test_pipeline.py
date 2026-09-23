@@ -125,6 +125,42 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertNotIn('rm -rf "$COPILOT_ISOLATED_ROOT"', analysis["run"])
         self.assertIn('--allow "$SYNTHESIS_LOG"', synthesis["run"])
         self.assertIn('--allow "$COPILOT_LOG"', analysis["run"])
+        self.assertIn('--allow-output "output/narrative.md"', synthesis["run"])
+        self.assertIn('--allow-output "output/analysis.md"', analysis["run"])
+        self.assertNotIn('--allow-output "output/transcript.md"', analysis["run"])
+        self.assertNotIn('--share "output/transcript.md"', analysis["run"])
+
+    def test_production_copilot_outputs_are_validated_before_acceptance(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        analyze_steps = workflow["jobs"]["analyze"]["steps"]
+        synthesis_run = next(
+            step["run"]
+            for step in analyze_steps
+            if step.get("name") == "Run synthesis step (Step 1)"
+        )
+        analysis_run = next(
+            step["run"] for step in analyze_steps if step.get("name") == "Run analysis"
+        )
+
+        synthesis_validation = synthesis_run.index("python3 scripts/ai_output_guard.py validate")
+        synthesis_copy = synthesis_run.index(
+            "python3 scripts/isolated_copilot_workspace.py copy",
+            synthesis_validation,
+        )
+        analysis_validation = analysis_run.index("python3 scripts/ai_output_guard.py validate")
+        analysis_copy = analysis_run.index(
+            'python3 "$COPILOT_ISOLATION_TOOL" copy',
+            analysis_validation,
+        )
+
+        self.assertLess(synthesis_validation, synthesis_copy)
+        self.assertLess(analysis_validation, analysis_copy)
+        self.assertIn('--output "$SYNTHESIS_ISOLATED_OUTPUT"', synthesis_run)
+        self.assertIn('--token-file "$SYNTHESIS_CANARY"', synthesis_run)
+        self.assertIn('--output "$COPILOT_ISOLATED_OUTPUT"', analysis_run)
+        self.assertIn('--token-file "$CANARY_FILE"', analysis_run)
 
     def test_analysis_gates_receive_run_scoped_external_evidence(self) -> None:
         workflow = yaml.safe_load(
@@ -650,7 +686,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn('--allow "$TRANSCRIPT_FILE"', run_analysis)
         self.assertIn('--allow "$COPILOT_LOG"', run_analysis)
         self.assertIn('--allow-output "output/analysis.md"', run_analysis)
-        self.assertIn('--allow-output "output/transcript.md"', run_analysis)
+        self.assertNotIn('--allow-output "output/transcript.md"', run_analysis)
+        self.assertNotIn('--share "output/transcript.md"', run_analysis)
         self.assertNotIn("git checkout -- .squad", run_analysis)
         self.assertIn(
             "Read input/prompt.md. Write the complete weekly analysis markdown to output/analysis.md.",
@@ -806,6 +843,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertGreater(download_index, hydrate_index)
         self.assertLess(download_index, summary_index)
         self.assertLess(summary_index, commit_index)
+
+        hydrate_step = generate_job["steps"][hydrate_index]
+        self.assertIn("rm -f data/metrics/copilot-transcript.md", hydrate_step["run"])
 
         download_step = generate_job["steps"][download_index]
         self.assertIn("scripts/download_run_artifact.py", download_step["run"])

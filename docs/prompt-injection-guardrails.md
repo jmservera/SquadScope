@@ -138,10 +138,12 @@ production inference path.
 - `scripts/run_copilot_sandbox.py` owns the single production mount policy for
   both agents and fails fast unless the Copilot entry point is inside the
   resolved Node runtime being mounted.
-- The isolated workspace root and all input directories are read-only. Only
-  enumerated regular files below `output/` may be created. Unexpected files,
-  directories, symlinks, hard links, input changes, path traversal, and output
-  destinations outside the checkout fail closed.
+- The isolated workspace root and all input directories are read-only. Each
+  invocation has exactly one writable artifact contract: synthesis may create
+  only `output/narrative.md`, and analysis may create only
+  `output/analysis.md`. Unexpected files, directories, symlinks, hard links,
+  input changes, path traversal, and output destinations outside the checkout
+  fail closed.
 - Outputs are validated inside the isolated workspace and copied into the
   checkout only after the exact-file verification and prompt-output safety
   checks succeed.
@@ -178,11 +180,14 @@ production inference path.
   validation must not be described as a production Copilot CLI runtime control.
 
 Copilot CLI output is validated directly in `crawl-and-publish.yml` immediately
-after each invocation, then evaluated by the production workflow's analysis
-gate and publication validation. This workflow control is distinct from the
-in-process `validate_output_safety()` calls used by GitHub Models API helpers.
-Canary presence in a prompt is preventive and diagnostic; acceptance requires
-the post-invocation validator to reject leaks and escaped boundaries.
+after each invocation and before the exact output is copied from its isolated
+workspace. The synthesis and article paths both invoke
+`scripts/ai_output_guard.py validate`, which reuses
+`validate_output_safety()` to reject the current canary, unknown canary
+patterns, untrusted-boundary markers, and downstream directives. The accepted
+article then proceeds through the production analysis gate and publication
+validation. Canary presence in a prompt is preventive and diagnostic;
+acceptance requires this post-invocation validation to pass.
 
 ## Scope
 
@@ -232,9 +237,15 @@ Post-generation validation checks for:
   rejects role-prefixed lines, instruction overrides, role changes, and
   explicit downstream podcast/host/narration directives
 
-This is automatically called after the GitHub Models fallback/API functions
-return. Copilot CLI output follows a separate workflow path, but the authoritative
-analysis gate applies the same directive policy before publication.
+This is called in-process after the GitHub Models fallback/API functions return.
+Production Copilot CLI invokes the same policy through
+`scripts/ai_output_guard.py validate` for both synthesis and article output
+before either artifact is accepted from its isolated workspace.
+
+Copilot session transcripts are not accepted as token-usage evidence because
+they can contain agent-authored and externally supplied text. Per-agent
+telemetry must come from a workflow-owned structured provider or CLI channel,
+not from an artifact writable by the model.
 
 ### 7. Run-Scoped URL Provenance (`scripts/analysis_content_security.py`)
 

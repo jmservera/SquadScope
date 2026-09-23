@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import re
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -41,11 +40,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--input-tokens", type=int, help="Explicit input token count.")
     parser.add_argument("--output-tokens", type=int, help="Explicit output token count.")
-    parser.add_argument(
-        "--transcript",
-        type=Path,
-        help="Copilot CLI --share transcript file for parsing token usage.",
-    )
     parser.add_argument(
         "--api-response",
         type=Path,
@@ -90,47 +84,6 @@ def estimate_tokens_from_path(path: Path | None) -> int:
     return estimate_tokens_from_text(path.read_text(encoding="utf-8"))
 
 
-def parse_copilot_transcript(path: Path) -> tuple[int, int] | None:
-    """Parse a Copilot CLI --share transcript for token usage metadata.
-
-    Searches for patterns like:
-      - "Input tokens: 1234" / "Output tokens: 567"
-      - "prompt_tokens: 1234" / "completion_tokens: 567"
-      - "Tokens used: 1234 input, 567 output"
-    Returns (input_tokens, output_tokens) or None if not found.
-    """
-    if not path.exists():
-        return None
-    try:
-        text = path.read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError):
-        return None
-
-    # Pattern: "Input tokens: N" and "Output tokens: N"
-    m_input = re.search(r"[Ii]nput[\s_]tokens[\s:]+(\d+)", text)
-    m_output = re.search(r"[Oo]utput[\s_]tokens[\s:]+(\d+)", text)
-    if m_input and m_output:
-        return int(m_input.group(1)), int(m_output.group(1))
-
-    # Pattern: "prompt_tokens: N" and "completion_tokens: N"
-    m_prompt = re.search(r"prompt_tokens[\"'\s:]+(\d+)", text)
-    m_completion = re.search(r"completion_tokens[\"'\s:]+(\d+)", text)
-    if m_prompt and m_completion:
-        return int(m_prompt.group(1)), int(m_completion.group(1))
-
-    # Pattern: "Tokens used: N input, N output"
-    m_combined = re.search(r"[Tt]okens\s+used[\s:]+(\d+)\s+input[,;\s]+(\d+)\s+output", text)
-    if m_combined:
-        return int(m_combined.group(1)), int(m_combined.group(2))
-
-    # Pattern: "Usage: N/N tokens (input/output)"
-    m_usage = re.search(r"[Uu]sage[\s:]+(\d+)\s*/\s*(\d+)\s*tokens", text)
-    if m_usage:
-        return int(m_usage.group(1)), int(m_usage.group(2))
-
-    return None
-
-
 def parse_api_response(path: Path) -> tuple[int, int] | None:
     """Parse a GitHub Models API response JSON for usage data.
 
@@ -167,7 +120,8 @@ def build_record(args: argparse.Namespace) -> dict[str, object]:
     if run_attempt is not None and run_attempt < 1:
         raise ValueError("run attempt must be at least 1")
 
-    # Priority: 1) explicit flags, 2) transcript/api-response, 3) file-size estimate
+    # Priority: 1) explicit flags, 2) trusted API response, 3) file-size estimate.
+    # Never derive authoritative usage from agent-authored output.
     estimated = True
     input_tokens: int | None = None
     output_tokens: int | None = None
@@ -178,14 +132,11 @@ def build_record(args: argparse.Namespace) -> dict[str, object]:
         output_tokens = args.output_tokens
         estimated = False
 
-    # Second priority: parsed from transcript or API response
+    # Second priority: parsed from a structured provider response.
     if input_tokens is None or output_tokens is None:
         parsed = None
-        transcript_path = getattr(args, "transcript", None)
         api_response_path = getattr(args, "api_response", None)
-        if transcript_path is not None:
-            parsed = parse_copilot_transcript(transcript_path)
-        if parsed is None and api_response_path is not None:
+        if api_response_path is not None:
             parsed = parse_api_response(api_response_path)
         if parsed is not None:
             input_tokens = parsed[0]
