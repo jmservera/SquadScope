@@ -96,6 +96,7 @@ jobs:
               git checkout "${REVIEWED_PUBLISH_SHA}" -- "${path}"
             fi
           done <<< "${generated_paths}"
+          rm -f data/metrics/copilot-transcript.md
 
       - name: Verify hydrated references and disabled rollouts
         run: |

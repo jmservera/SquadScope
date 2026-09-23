@@ -486,6 +486,13 @@ def test_workflow_admits_only_immutable_reviewed_inputs() -> None:
     assert text.index(topic_exclusion) < text.index('rm -rf -- "${path}"')
     assert "scripts.publish_hydration paths" in text
     assert "scripts.publish_hydration check" in text
+    # Transcript telemetry is retired; the retired file must be removed
+    # immediately after the publish-branch hydration restores data/metrics/,
+    # before the hydrated corpus is validated or measured.
+    hydration_loop = text.index('git checkout "${REVIEWED_PUBLISH_SHA}" -- "${path}"')
+    transcript_cleanup = text.index("rm -f data/metrics/copilot-transcript.md")
+    hydration_check = text.index("scripts.publish_hydration check")
+    assert hydration_loop < transcript_cleanup < hydration_check
     assert "--expected-repository-pages" in text
     assert 'git ls-tree -r --name-only "${REVIEWED_PUBLISH_SHA}" -- content/repo' in text
 
