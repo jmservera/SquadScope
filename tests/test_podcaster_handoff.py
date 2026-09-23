@@ -1,6 +1,7 @@
 import hashlib
 import io
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -61,6 +62,18 @@ class _BalancedHtmlParser(HTMLParser):
 
 
 class PodcasterHandoffTests(unittest.TestCase):
+    def test_cli_direct_execution_loads_security_module(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        result = subprocess.run(
+            [sys.executable, "scripts/podcaster_handoff.py", "--help"],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def _write_manifest(
         self,
         base: Path,

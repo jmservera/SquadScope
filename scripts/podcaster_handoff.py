@@ -6,12 +6,19 @@ import hashlib
 import json
 import os
 import re
+import sys
 from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
 from urllib import error, request
 from urllib.parse import urljoin, urlparse
+
+try:
+    from scripts.analysis_content_security import downstream_directive_errors
+except ModuleNotFoundError:  # pragma: no cover - script execution path
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from scripts.analysis_content_security import downstream_directive_errors
 
 AUTH_HEADER = "x-podcaster-api-key"
 DEFAULT_TIMEOUT_SECONDS = 180
@@ -699,8 +706,6 @@ def _read_article_content(
         )
     if not content.strip():
         return None, None, None
-    from scripts.analysis_content_security import downstream_directive_errors
-
     violations = downstream_directive_errors(content)
     if violations:
         raise PodcasterHandoffError(
@@ -956,8 +961,6 @@ def validate_exact_release_payload(
         raise PodcasterHandoffError(
             f"Exact release payload is missing required fields: {', '.join(missing)}"
         )
-    from scripts.analysis_content_security import downstream_directive_errors
-
     article_content = payload.get("article_content")
     if not isinstance(article_content, str):
         raise PodcasterHandoffError("Exact release payload article_content must be a string.")
