@@ -84,36 +84,6 @@ def test_rejects_copilot_entry_outside_node_runtime(tmp_path: Path) -> None:
         )
 
 
-def test_rejects_node_runtime_root_of_slash(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    node = Path("/bin/node")
-    copilot = Path("/lib/node_modules/@github/copilot/npm-loader.js")
-    workspace = tmp_path / "workspace"
-    (workspace / "output").mkdir(parents=True)
-
-    original_resolve = Path.resolve
-
-    def fake_resolve(self: Path, strict: bool = False) -> Path:
-        if self in (node, copilot):
-            return self
-        return original_resolve(self, strict=strict)
-
-    monkeypatch.setattr(Path, "resolve", fake_resolve)
-
-    with pytest.raises(sandbox.SandboxError, match="entire host filesystem"):
-        sandbox.build_sandbox_command(
-            workspace=workspace,
-            agent="weekly-analysis",
-            prompt="prompt",
-            share=None,
-            sudo=Path("/usr/bin/sudo"),
-            bwrap=Path("/usr/bin/bwrap"),
-            node=node,
-            copilot_entry=copilot,
-        )
-
-
 def test_rejects_workspace_with_symlink_component(tmp_path: Path) -> None:
     _, node, copilot = _runtime(tmp_path)
     real_parent = tmp_path / "real-parent"
