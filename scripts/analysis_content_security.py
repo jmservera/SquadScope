@@ -63,7 +63,7 @@ _DIRECTIVE_PATTERNS = (
     (
         re.compile(
             r"(?i)\b(?:you|the\s+assistant|the\s+model)\s+"
-            r"(?:are|become|will\s+be|must\s+be|should\s+be)\s+(?:now\s+)?"
+            r"(?:are|is|become|will\s+be|must\s+be|should\s+be)\s+(?:now\s+)?"
             r"(?:the\s+|an?\s+)?(?:podcast\s+)?"
             r"(?:host|presenter|podcaster|narrator|assistant|system|developer|model)\b"
         ),

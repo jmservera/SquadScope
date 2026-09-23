@@ -375,23 +375,6 @@ def extract_press_articles(press_context: str) -> list[dict[str, str]]:
     return articles
 
 
-def press_url_inventory(press_map: dict[str, Any]) -> set[str]:
-    inventory: set[str] = set()
-    for url in press_map.get("coverage", {}).get("article_urls_seen", []):
-        normalized = normalize_evidence_url(url) if isinstance(url, str) else None
-        if normalized is not None:
-            inventory.add(normalized)
-    for finding in press_map.get("findings", []):
-        for ref in finding.get("evidence_refs", []):
-            if not isinstance(ref, dict) or ref.get("type") != "article":
-                continue
-            url = ref.get("url")
-            normalized = normalize_evidence_url(url) if isinstance(url, str) else None
-            if normalized is not None:
-                inventory.add(normalized)
-    return inventory
-
-
 def map_press(
     *,
     run_id: str,
@@ -1188,7 +1171,7 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
         baseline_summary=args.baseline_summary,
         source=args.analysis_source,
         model=args.analysis_model,
-        allowed_external_urls=press_url_inventory(maps["press_correlations"]),
+        allowed_external_urls=allowed_external_urls,
     )
     reduce_duration = round(time.monotonic() - reduce_started, 3)
     reduce_input_tokens = sum(metric.output_tokens for metric in map_stage_metrics)
