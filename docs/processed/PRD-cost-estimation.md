@@ -299,7 +299,14 @@ Savings: $0.232 per run = 77% reduction on the JSON portion
 
 ### Per-Run Token Tracking
 
-1. **Copilot CLI transcript:** The `--share=PATH` flag exports a session transcript. Parse it post-run to extract actual token counts.
+> **Archived design note:** Transcript-derived telemetry was retired in September
+> 2026 because the shared transcript is agent-writable, can contain untrusted
+> external text, and did not expose parseable token metadata in production runs.
+> The current pipeline estimates usage from workflow-owned prompt/output files.
+> Future measured telemetry must use a structured provider or CLI channel that
+> the model cannot write.
+
+1. **Workflow-owned estimates:** Estimate weekly Copilot CLI input and output usage from the final prompt and validated output files.
 2. **API-compatible response metadata (general tooling only):** The cost ledger can parse OpenAI-compatible `usage` JSON for non-analysis experiments, but weekly analysis remains Copilot-only and does not use GitHub Models/OpenAI fallback.
 3. **Workflow annotations:** Log token estimates and actuals as workflow summary annotations.
 
@@ -309,13 +316,14 @@ Savings: $0.232 per run = 77% reduction on the JSON portion
 - name: Log token usage
   if: always()
   run: |
-    # Parse Copilot CLI transcript for usage data
-    if [ -f copilot-session.md ]; then
-      python3 scripts/track_token_usage.py \
-        --transcript copilot-session.md \
-        --stage analysis \
-        --week "$WEEK"
-    fi
+    python3 scripts/track_token_usage.py \
+      --stage analysis \
+      --source copilot-cli \
+      --model "$MODEL" \
+      --current-datetime "$CURRENT_DATETIME" \
+      --week "$WEEK" \
+      --prompt-file "$PROMPT_FILE" \
+      --output-file "$OUTPUT_FILE"
 ```
 
 ### Usage Dashboard
@@ -416,7 +424,7 @@ def estimate_cost(input_tokens: int, output_estimate: int, model: str) -> float 
 
 | # | Question | Impact | Proposed Resolution |
 |---|----------|--------|---------------------|
-| OQ1 | Does Copilot CLI expose actual token usage in transcript or exit metadata? | High — needed for accurate tracking | Spike: parse `--share` output for usage data |
+| OQ1 | Does Copilot CLI expose actual token usage through a workflow-owned structured channel or exit metadata? | High — needed for accurate tracking | Review structured CLI output and billing exports; do not parse agent-writable transcripts |
 | OQ2 | Does `copilot-requests: write` permission on GITHUB_TOKEN consume from org pool or personal allowance? | High — affects billing entity | Test in workflow with usage monitoring |
 | OQ3 | Is prompt caching available for Copilot CLI in non-interactive mode? | Medium — could save 77% on JSON input | Monitor GitHub changelog |
 | OQ4 | What's the actual token count for the raw JSON? (estimated 86K, need actuals) | Medium — calibration | Add tokenizer count in pre-flight step |
