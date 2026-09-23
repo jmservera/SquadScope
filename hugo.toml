@@ -159,6 +159,10 @@ ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/.*\\.md$', 'data/metrics/
     target = 'archetypes'
 
 [markup]
+  [markup.goldmark.extensions]
+    # Bare generated domains must not become links outside provenance validation.
+    linkify = false
+
   [markup.goldmark.renderer]
     # unsafe = false: AI-generated content must not render raw HTML.
     # Use Hugo shortcodes or layouts for any intentional HTML embeds.

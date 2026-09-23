@@ -115,6 +115,7 @@ def test_topic_titles_are_non_interactive_labels() -> None:
 def test_unsafe_markdown_remains_disabled() -> None:
     cfg = _read(ROOT / "hugo.toml")
     assert "unsafe = false" in cfg
+    assert "linkify = false" in cfg
 
 
 def test_visuals_keep_claracle_brand() -> None:

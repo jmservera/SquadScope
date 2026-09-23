@@ -14,6 +14,13 @@ def test_primary_navigation_begins_with_weekly_monthly_yearly() -> None:
     assert [item["url"] for item in menu[:3]] == ["/weekly/", "/monthly/", "/yearly/"]
 
 
+def test_generated_bare_domains_are_not_automatically_linkified() -> None:
+    with (ROOT / "hugo.toml").open("rb") as handle:
+        config = tomllib.load(handle)
+
+    assert config["markup"]["goldmark"]["extensions"]["linkify"] is False
+
+
 def test_weekly_article_footer_has_prefilled_correction_report_link() -> None:
     footer = (ROOT / "layouts/partials/article-footer.html").read_text(encoding="utf-8")
 

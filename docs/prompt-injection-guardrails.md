@@ -228,7 +228,9 @@ Post-generation validation checks for:
 - **Canary token leaks** — specific token from the current invocation
 - **Unknown canary patterns** — catches leaks from prior invocations or cross-contamination
 - **Boundary marker reproduction** — detects if the model leaked `<untrusted-content>` or `</untrusted-content>` tags from prompt framing
-- **Role and instruction leakage** — rejects role-prefixed lines, instruction overrides, role changes, and explicit downstream podcast/host directives
+- **Role and instruction leakage** — normalizes Markdown/HTML visible text, then
+  rejects role-prefixed lines, instruction overrides, role changes, and
+  explicit downstream podcast/host/narration directives
 
 This is automatically called after the GitHub Models fallback/API functions
 return. Copilot CLI output follows a separate workflow path, but the authoritative
@@ -240,6 +242,8 @@ The publication gate receives the exact external-news and correlation artifacts
 selected for the run. It normalizes their article URLs conservatively and rejects:
 
 - External HTTP(S) links that are absent from that run-scoped inventory
+- Bare `www.` domains that are absent from the inventory; Hugo automatic
+  linkification is disabled so unvalidated text cannot become an active link
 - Credentials, control characters, invalid percent encoding, backslash forms,
   scheme-relative links, and malformed hosts or ports
 - Explicit non-HTTP(S) link schemes in Markdown, autolinks, or HTML attributes

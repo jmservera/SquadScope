@@ -11,7 +11,9 @@ from urllib import parse
 _CONTROL_CHARACTER_PATTERN = re.compile(r"[\x00-\x20\x7f]")
 _INVALID_PERCENT_PATTERN = re.compile(r"%(?![0-9A-Fa-f]{2})")
 _PLAIN_HTTP_URL_PATTERN = re.compile(r"https?://[^\s<>()\[\]{}\"']+", re.IGNORECASE)
+_PLAIN_WWW_URL_PATTERN = re.compile(r"\bwww\.[^\s<>()\[\]{}\"']+", re.IGNORECASE)
 _MARKDOWN_DESTINATION_PATTERN = re.compile(r"!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?")
+_MARKDOWN_LINK_TEXT_PATTERN = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
 _AUTOLINK_PATTERN = re.compile(r"<([A-Za-z][A-Za-z0-9+.-]*:[^>\s]+)>")
 _HTML_QUOTED_URL_ATTRIBUTE_PATTERN = re.compile(
     r"\b(?:href|src)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE
@@ -22,6 +24,7 @@ _HTML_UNQUOTED_URL_ATTRIBUTE_PATTERN = re.compile(
 _EXPLICIT_SCHEME_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 _CHARACTER_REFERENCE_PATTERN = re.compile(r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);")
 _MARKDOWN_CONTROL_PATTERN = re.compile(r"[*_~`]+")
+_HTML_TAG_PATTERN = re.compile(r"<[^>]*>")
 _ZERO_WIDTH_PATTERN = re.compile(r"[\u200b-\u200f\u2060\ufeff]")
 
 _DIRECTIVE_PATTERNS = (
@@ -104,6 +107,19 @@ _DIRECTIVE_PATTERNS = (
             r"visit|open|click|execute|perform|obey|use)\b"
         ),
         "generated content contains a downstream podcast directive.",
+    ),
+    (
+        re.compile(
+            r"(?i)\b(?:during|in|for)\s+(?:the\s+)?"
+            r"(?:podcast|audio\s+episode|episode)\s*[:,]\s*"
+            r"(?:announce|read|say|tell|ask|instruct|include|visit|open|click|"
+            r"execute|perform|obey|use)\b"
+        ),
+        "generated content contains a downstream podcast directive.",
+    ),
+    (
+        re.compile(r"(?i)\bread\s+(?:this|the\s+following)\s+verbatim\b"),
+        "generated content contains a downstream narration directive.",
     ),
     (
         re.compile(
@@ -220,6 +236,10 @@ def extract_document_url_targets(document: str) -> set[str]:
         _strip_trailing_plain_url_punctuation(match.group(0))
         for match in _PLAIN_HTTP_URL_PATTERN.finditer(document)
     )
+    targets.update(
+        f"https://{_strip_trailing_plain_url_punctuation(match.group(0))}"
+        for match in _PLAIN_WWW_URL_PATTERN.finditer(document)
+    )
     return {target for target in targets if target}
 
 
@@ -270,6 +290,8 @@ def external_url_provenance_errors(
 def _normalize_directive_text(document: str) -> str:
     normalized = html.unescape(unicodedata.normalize("NFKC", document))
     normalized = _ZERO_WIDTH_PATTERN.sub("", normalized)
+    normalized = _MARKDOWN_LINK_TEXT_PATTERN.sub(r"\1", normalized)
+    normalized = _HTML_TAG_PATTERN.sub("", normalized)
     normalized = _MARKDOWN_CONTROL_PATTERN.sub("", normalized)
     return re.sub(r"[^\S\n]+", " ", normalized)
 
