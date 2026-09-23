@@ -199,3 +199,12 @@ def test_rejects_hard_linked_destination(tmp_path: Path) -> None:
             checkout,
         )
     assert outside.read_text(encoding="utf-8") == "preserve\n"
+
+
+def test_cleanup_removes_read_only_workspace_for_retry(tmp_path: Path) -> None:
+    root, _, _ = _prepare(tmp_path, "output/analysis.md")
+    (root / "output" / "analysis.md").write_text("first attempt\n", encoding="utf-8")
+
+    isolated.cleanup_workspace(root)
+
+    assert not root.exists()

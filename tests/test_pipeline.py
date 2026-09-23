@@ -119,6 +119,10 @@ class WorkflowSecurityTests(unittest.TestCase):
 
         self.assertNotIn('--allow "$SYNTHESIS_FILE"', synthesis["run"])
         self.assertNotIn('--allow "$OUTPUT_FILE"', analysis["run"])
+        self.assertIn("isolated_copilot_workspace.py cleanup", synthesis["run"])
+        self.assertIn('"$COPILOT_ISOLATION_TOOL" cleanup', analysis["run"])
+        self.assertNotIn('rm -rf "$SYNTHESIS_ISOLATED_ROOT"', synthesis["run"])
+        self.assertNotIn('rm -rf "$COPILOT_ISOLATED_ROOT"', analysis["run"])
         self.assertIn('--allow "$SYNTHESIS_LOG"', synthesis["run"])
         self.assertIn('--allow "$COPILOT_LOG"', analysis["run"])
 

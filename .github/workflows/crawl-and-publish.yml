@@ -567,7 +567,8 @@ jobs:
             SYNTHESIS_ISOLATED_STATE="${RUNNER_TEMP}/copilot-synthesis-isolated.json"
             SYNTHESIS_ISOLATED_OUTPUT="$SYNTHESIS_ISOLATED_ROOT/output/narrative.md"
             rm -f "$SYNTHESIS_FILE" "$SYNTHESIS_LOG"
-            rm -rf "$SYNTHESIS_ISOLATED_ROOT"
+            python3 scripts/isolated_copilot_workspace.py cleanup \
+              --root "$SYNTHESIS_ISOLATED_ROOT"
             rm -f "$SYNTHESIS_ISOLATED_STATE"
             install -m 0444 scripts/check_copilot_workspace.py "$SYNTHESIS_WORKSPACE_VERIFIER"
             SYNTHESIS_VERIFIER_SHA256="$(sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER" | cut -d' ' -f1)"
@@ -845,7 +846,8 @@ jobs:
             COPILOT_ISOLATED_OUTPUT="$COPILOT_ISOLATED_ROOT/output/analysis.md"
             COPILOT_ISOLATED_TRANSCRIPT="$COPILOT_ISOLATED_ROOT/output/transcript.md"
             rm -f "$OUTPUT_FILE" "$TRANSCRIPT_FILE" "$COPILOT_LOG" "$COPILOT_FAILURE_REPORT"
-            rm -rf "$COPILOT_ISOLATED_ROOT"
+            python3 "$COPILOT_ISOLATION_TOOL" cleanup \
+              --root "$COPILOT_ISOLATED_ROOT"
             rm -f "$COPILOT_ISOLATED_STATE"
             REPAIR_CONTEXT=""
             COPILOT_ISOLATED_COPY_ARGS=(

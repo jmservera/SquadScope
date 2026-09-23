@@ -286,6 +286,22 @@ def copy_verified_output(
     shutil.copyfile(source, destination, follow_symlinks=False)
 
 
+def cleanup_workspace(root: Path) -> None:
+    _reject_symlink_components(root, label="workspace root")
+    if not root.exists():
+        return
+    if root.is_symlink() or not root.is_dir():
+        raise WorkspaceError(f"workspace root must be a regular directory: {root}")
+    for current, directory_names, _ in os.walk(root, topdown=False, followlinks=False):
+        current_path = Path(current)
+        for directory_name in directory_names:
+            directory = current_path / directory_name
+            if not directory.is_symlink():
+                directory.chmod(0o700)
+        current_path.chmod(0o700)
+    shutil.rmtree(root)
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -306,6 +322,9 @@ def _build_parser() -> argparse.ArgumentParser:
     copy.add_argument("--output", required=True)
     copy.add_argument("--destination", type=Path, required=True)
     copy.add_argument("--destination-root", type=Path, required=True)
+
+    cleanup = subparsers.add_parser("cleanup")
+    cleanup.add_argument("--root", type=Path, required=True)
     return parser
 
 
@@ -315,6 +334,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "prepare":
             state = prepare_workspace(args.root, args.state, args.copy, args.allow_output)
             result = {"status": "prepared", "allowed_outputs": state.allowed_outputs}
+        elif args.command == "cleanup":
+            cleanup_workspace(args.root)
+            result = {"status": "cleaned", "root": str(args.root)}
         else:
             state = _read_state(args.state, args.expected_sha256)
             if args.command == "verify":
