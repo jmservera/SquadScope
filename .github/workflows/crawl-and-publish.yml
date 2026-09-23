@@ -179,7 +179,7 @@ jobs:
           REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
         run: |
           set -euo pipefail
-          WEEK="${REBUILD_WEEK:-$(date -u +%Y-W%V)}"
+          WEEK="${REBUILD_WEEK:-$(date -u +%G-W%V)}"
           if ! [[ "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
             echo "::error::Invalid week format while clearing run-scoped evidence: $WEEK"
             exit 1
@@ -209,7 +209,7 @@ jobs:
           SOURCE_REFRESH_POLICY: ${{ steps.rerun-mode.outputs.source_refresh_policy }}
         run: |
           set -euo pipefail
-          WEEK=$(date -u +%Y-W%V)
+          WEEK=$(date -u +%G-W%V)
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           CODE_SHA=$(git hash-object scripts/crawl.py squadscope.topic.yml 2>/dev/null | sha256sum | cut -d' ' -f1)
           python scripts/crawl.py \
@@ -226,7 +226,7 @@ jobs:
         env:
           SOURCE_REFRESH_POLICY: ${{ steps.rerun-mode.outputs.source_refresh_policy }}
         run: |
-          WEEK=$(date -u +%Y-W%V)
+          WEEK=$(date -u +%G-W%V)
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           SINCE=$(date -u -d '7 days ago' +%Y-%m-%d)
           UNTIL=$(date -u +%Y-%m-%d)
@@ -313,7 +313,7 @@ jobs:
           cp -r crawl-raw-backup/* data/raw/ 2>/dev/null || true
           cp -r crawl-snapshots-backup/* data/snapshots/ 2>/dev/null || true
           rm -rf crawl-raw-backup crawl-snapshots-backup
-          WEEK=$(date -u +%Y-W%V)
+          WEEK=$(date -u +%G-W%V)
           RAW_PATH_ARGS=(--path "data/raw/${WEEK}.json")
           for optional_raw in \
             "data/raw/${WEEK}-external-news.json" \

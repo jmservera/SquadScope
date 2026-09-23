@@ -167,6 +167,9 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertLess(analyze_steps.index(analyze_clear_step), analyze_download_index)
         self.assertIn('"data/raw/${WEEK}-external-news.json"', analyze_clear_step["run"])
         self.assertIn('"data/raw/${WEEK}-techcrunch.json"', analyze_clear_step["run"])
+        workflow_text = Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        self.assertNotIn("%Y-W%V", workflow_text)
+        self.assertGreaterEqual(workflow_text.count("%G-W%V"), 5)
 
     def test_analysis_artifacts_and_promotion_are_run_scoped(self) -> None:
         workflow = yaml.safe_load(
