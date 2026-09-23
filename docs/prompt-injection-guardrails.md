@@ -125,9 +125,12 @@ production inference path.
 **Applied to production Copilot CLI prompts:**
 
 - Capability isolation is the primary write boundary. Each synthesis and
-  analysis invocation runs from a newly prepared workspace containing only a
-  read-only prompt, the selected read-only agent definition, optional
-  read-only retry diagnostics, and an `output/` directory.
+  analysis invocation runs under Bubblewrap through the runner's passwordless
+  `sudo`, avoiding reliance on unprivileged user namespaces. The host
+  filesystem is mounted read-only, `/tmp` is private and ephemeral, and only
+  the isolated `output/` directory is bind-mounted writable. The workspace
+  contains only a read-only prompt, the selected read-only agent definition,
+  optional read-only retry diagnostics, and the writable output directory.
 - The isolated workspace root and all input directories are read-only. Only
   enumerated regular files below `output/` may be created. Unexpected files,
   directories, symlinks, hard links, input changes, path traversal, and output
@@ -357,10 +360,11 @@ The following summarizes the complete defense chain from data ingestion to publi
 - Phrase-based sanitization can miss multilingual, encoded, or semantically
   equivalent injections and can also truncate benign text. It is telemetry and
   defense in depth, not the capability boundary.
-- Copilot CLI itself is still a privileged dependency running as the workflow
-  user. The minimal working directory, read-only inputs, exact output
-  verification, and retained checkout-diff gate reduce the writable surface,
-  but runner-level sandboxing remains outside this repository's controls.
+- Copilot CLI remains a privileged network client, and Bubblewrap does not
+  constrain outbound network access. The mount sandbox prevents filesystem
+  writes outside its output bind and ephemeral scratch space; exact output
+  verification, canary validation, and the retained checkout-diff gate provide
+  additional containment and detection.
 - Production runs `ai_output_guard.py validate` immediately after each Copilot
   CLI invocation and rejects canary leakage or configured unsafe output before
   acceptance. A well-formed manipulated output can still pass these checks, so

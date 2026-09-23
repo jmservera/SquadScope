@@ -507,9 +507,12 @@ jobs:
         id: install-copilot
         run: |
           set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install --yes --no-install-recommends bubblewrap
           npm install -g @github/copilot@1.0.76
           # Verify the CLI actually installed and is runnable before any step
           # (including synthesis) is allowed to depend on it.
+          bwrap --version
           copilot --version
 
       - name: Run synthesis step (Step 1)
@@ -563,6 +566,7 @@ jobs:
             SYNTHESIS_ISOLATED_ROOT="${RUNNER_TEMP}/copilot-synthesis-isolated"
             SYNTHESIS_ISOLATED_STATE="${RUNNER_TEMP}/copilot-synthesis-isolated.json"
             SYNTHESIS_ISOLATED_OUTPUT="$SYNTHESIS_ISOLATED_ROOT/output/narrative.md"
+            COPILOT_BIN="$(command -v copilot)"
             rm -f "$SYNTHESIS_FILE" "$SYNTHESIS_LOG"
             rm -rf "$SYNTHESIS_ISOLATED_ROOT"
             rm -f "$SYNTHESIS_ISOLATED_STATE"
@@ -583,16 +587,31 @@ jobs:
             chmod 0444 "$SYNTHESIS_WORKSPACE_SNAPSHOT"
             SYNTHESIS_SNAPSHOT_SHA256="$(sha256sum "$SYNTHESIS_WORKSPACE_SNAPSHOT" | cut -d' ' -f1)"
             set +e
-            (
-              cd "$SYNTHESIS_ISOLATED_ROOT"
-              copilot \
+            sudo --preserve-env=GITHUB_TOKEN,COPILOT_GITHUB_TOKEN bwrap \
+              --die-with-parent \
+              --new-session \
+              --unshare-pid \
+              --unshare-ipc \
+              --unshare-uts \
+              --ro-bind / / \
+              --dev /dev \
+              --proc /proc \
+              --tmpfs /tmp \
+              --dir /tmp/copilot-home \
+              --setenv HOME /tmp/copilot-home \
+              --setenv PATH "$PATH" \
+              --setenv XDG_CONFIG_HOME /tmp/copilot-home/.config \
+              --setenv XDG_CACHE_HOME /tmp/copilot-home/.cache \
+              --bind "$SYNTHESIS_ISOLATED_ROOT/output" "$SYNTHESIS_ISOLATED_ROOT/output" \
+              --chdir "$SYNTHESIS_ISOLATED_ROOT" \
+              "$COPILOT_BIN" \
                 --agent weekly-synthesis \
                 -p "Read input/prompt.md. Write the compact industry narrative to output/narrative.md. Max 2000 tokens. Do not delegate." \
                 -s \
                 --no-ask-user \
                 --allow-tool=read \
-                --allow-tool=write
-            ) > "$SYNTHESIS_LOG" 2>&1
+                --allow-tool=write \
+              > "$SYNTHESIS_LOG" 2>&1
             SYNTH_STATUS=$?
             set -e
             if [ "$(sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER" | cut -d' ' -f1)" != "$SYNTHESIS_VERIFIER_SHA256" ]; then
@@ -756,6 +775,7 @@ jobs:
           install -m 0444 scripts/check_copilot_workspace.py "$COPILOT_WORKSPACE_VERIFIER"
           COPILOT_VERIFIER_SHA256="$(sha256sum "$COPILOT_WORKSPACE_VERIFIER" | cut -d' ' -f1)"
           COPILOT_ISOLATION_TOOL="${GITHUB_WORKSPACE}/scripts/isolated_copilot_workspace.py"
+          COPILOT_BIN="$(command -v copilot || true)"
           PROMPT_FILE="$IN_PROMPT_FILE"
           CANARY_FILE="$IN_CANARY_FILE"
           LEGACY_PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
@@ -881,17 +901,32 @@ jobs:
             COPILOT_SNAPSHOT_SHA256="$(sha256sum "$COPILOT_WORKSPACE_SNAPSHOT" | cut -d' ' -f1)"
             # Model is configured in .github/agents/weekly-analysis.agent.md (gpt-5.6-sol)
             set +e
-            (
-              cd "$COPILOT_ISOLATED_ROOT"
-              copilot \
+            sudo --preserve-env=GITHUB_TOKEN,COPILOT_GITHUB_TOKEN bwrap \
+              --die-with-parent \
+              --new-session \
+              --unshare-pid \
+              --unshare-ipc \
+              --unshare-uts \
+              --ro-bind / / \
+              --dev /dev \
+              --proc /proc \
+              --tmpfs /tmp \
+              --dir /tmp/copilot-home \
+              --setenv HOME /tmp/copilot-home \
+              --setenv PATH "$PATH" \
+              --setenv XDG_CONFIG_HOME /tmp/copilot-home/.config \
+              --setenv XDG_CACHE_HOME /tmp/copilot-home/.cache \
+              --bind "$COPILOT_ISOLATED_ROOT/output" "$COPILOT_ISOLATED_ROOT/output" \
+              --chdir "$COPILOT_ISOLATED_ROOT" \
+              "$COPILOT_BIN" \
                 --agent weekly-analysis \
                 -p "Read input/prompt.md. Write the complete weekly analysis markdown to output/analysis.md. The first bytes must be --- and the run is incomplete until output/analysis.md exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary.${REPAIR_CONTEXT}" \
                 -s \
                 --no-ask-user \
                 --allow-tool=read \
                 --allow-tool=write \
-                --share="output/transcript.md"
-            ) > "$COPILOT_LOG" 2>&1
+                --share="output/transcript.md" \
+              > "$COPILOT_LOG" 2>&1
             COPILOT_STATUS=$?
             set -e
             if [ "$(sha256sum "$COPILOT_WORKSPACE_VERIFIER" | cut -d' ' -f1)" != "$COPILOT_VERIFIER_SHA256" ]; then
@@ -1481,6 +1516,7 @@ jobs:
             "data/analyzed/${WEEK}-correlations.json"
             "data/analyzed/${WEEK}-press-context.md"
             "data/candidates/${WEEK}/${GITHUB_RUN_ID}/${WEEK}-summary.md"
+            "data/candidates/${WEEK}/${GITHUB_RUN_ID}/${WEEK}-content.md"
             "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
             "data/candidates/${WEEK}/${GITHUB_RUN_ID}/analysis-gate-report.json"
             data/metrics/

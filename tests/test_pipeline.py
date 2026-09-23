@@ -91,6 +91,10 @@ class WorkflowSecurityTests(unittest.TestCase):
         )
 
         self.assertIn("npm install -g @github/copilot@1.0.76", install_step["run"])
+        self.assertIn(
+            "apt-get install --yes --no-install-recommends bubblewrap", install_step["run"]
+        )
+        self.assertIn("bwrap --version", install_step["run"])
         self.assertNotIn("npm install -g @github/copilot\n", install_step["run"])
 
     def test_production_copilot_runs_use_isolated_workspaces(self) -> None:
@@ -109,7 +113,15 @@ class WorkflowSecurityTests(unittest.TestCase):
             self.assertIn(" prepare \\", script)
             self.assertIn(" verify \\", script)
             self.assertIn(" copy \\", script)
-            self.assertIn('cd "$', script)
+            self.assertIn("bwrap \\", script)
+            self.assertIn(
+                "sudo --preserve-env=GITHUB_TOKEN,COPILOT_GITHUB_TOKEN bwrap \\",
+                script,
+            )
+            self.assertIn("--ro-bind / /", script)
+            self.assertIn("--tmpfs /tmp", script)
+            self.assertIn('--bind "$', script)
+            self.assertIn('--chdir "$', script)
 
         self.assertNotIn('--allow "$SYNTHESIS_FILE"', synthesis["run"])
         self.assertNotIn('--allow "$OUTPUT_FILE"', analysis["run"])
@@ -146,6 +158,10 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn('"data/analyzed/${WEEK}-summary.md"', commit_step["run"])
         self.assertIn(
             '"data/candidates/${WEEK}/${GITHUB_RUN_ID}/${WEEK}-summary.md"',
+            commit_step["run"],
+        )
+        self.assertIn(
+            '"data/candidates/${WEEK}/${GITHUB_RUN_ID}/${WEEK}-content.md"',
             commit_step["run"],
         )
         self.assertIn(
@@ -504,7 +520,7 @@ class WorkflowConfigTests(unittest.TestCase):
             'SYNTHESIS_SNAPSHOT_SHA256="$(sha256sum "$SYNTHESIS_WORKSPACE_SNAPSHOT"',
             synthesis_snapshot,
         )
-        synthesis_invocation = synthesis_run.index("copilot \\\n", synthesis_snapshot)
+        synthesis_invocation = synthesis_run.index('"$COPILOT_BIN" \\\n', synthesis_snapshot)
         synthesis_status = synthesis_run.index("SYNTH_STATUS=$?", synthesis_invocation)
         synthesis_integrity = synthesis_run.index(
             'sha256sum "$SYNTHESIS_WORKSPACE_VERIFIER"', synthesis_status
@@ -550,7 +566,7 @@ class WorkflowConfigTests(unittest.TestCase):
             'COPILOT_SNAPSHOT_SHA256="$(sha256sum "$COPILOT_WORKSPACE_SNAPSHOT"',
             analysis_snapshot,
         )
-        analysis_invocation = run_analysis.index("copilot \\\n", analysis_snapshot)
+        analysis_invocation = run_analysis.index('"$COPILOT_BIN" \\\n', analysis_snapshot)
         analysis_status = run_analysis.index("COPILOT_STATUS=$?", analysis_invocation)
         analysis_integrity = run_analysis.index(
             'sha256sum "$COPILOT_WORKSPACE_VERIFIER"', analysis_status
