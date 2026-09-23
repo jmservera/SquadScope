@@ -90,6 +90,7 @@ def write_gate_report(root: Path, path: Path, *, passed: bool = True) -> None:
         "structural_schema": {"passed": True, "errors": []},
         "ai_provenance": {"passed": True, "errors": []},
         "evidence_citation": {"passed": passed, "errors": [] if passed else ["missing evidence"]},
+        "content_security": {"passed": True, "errors": []},
         "editorial_quality": {"passed": True, "errors": []},
     }
     write_file(
@@ -236,6 +237,7 @@ def manifest_for(root: Path, name: str, **overrides) -> Path:
             "structural_schema": True,
             "ai_provenance": True,
             "evidence_citation": True,
+            "content_security": True,
             "editorial_quality": True,
         },
         "source_artifacts": [
@@ -289,6 +291,7 @@ def nested_manifest_for(root: Path, name: str, **overrides) -> Path:
                     "structural_schema": {"passed": True, "errors": []},
                     "ai_provenance": {"passed": True, "errors": []},
                     "evidence_citation": {"passed": True, "errors": []},
+                    "content_security": {"passed": True, "errors": []},
                     "editorial_quality": {"passed": True, "errors": []},
                 },
             },
@@ -778,6 +781,7 @@ class PromotionGuardTests(unittest.TestCase):
                             "structural_schema": {"passed": True, "errors": []},
                             "ai_provenance": {"passed": True, "errors": []},
                             "evidence_citation": {"passed": False, "errors": ["missing evidence"]},
+                            "content_security": {"passed": True, "errors": []},
                             "editorial_quality": {"passed": True, "errors": []},
                         },
                     }

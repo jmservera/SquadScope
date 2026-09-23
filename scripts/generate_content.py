@@ -10,6 +10,7 @@ from pathlib import Path
 
 import yaml
 
+from scripts.analysis_content_security import downstream_directive_errors
 from scripts.sanitize_repo_content import INJECTION_PHRASES
 from scripts.topic_paths import analyzed_dir
 
@@ -70,6 +71,10 @@ def _validate_frontmatter_safety(frontmatter: dict[str, object]) -> None:
                     f"Frontmatter field '{field}' contains suspicious phrase "
                     f"'{phrase}'. Possible prompt injection artifact."
                 )
+    frontmatter_text = yaml.safe_dump(frontmatter, sort_keys=True)
+    violations = downstream_directive_errors(frontmatter_text)
+    if violations:
+        raise GenerationError(violations[0])
 
 
 def parse_args() -> argparse.Namespace:
@@ -330,6 +335,9 @@ def render_frontmatter(data: dict[str, object]) -> str:
 
 def transform_summary(frontmatter: dict[str, object], body: str) -> str:
     _validate_frontmatter_safety(frontmatter)
+    body_violations = downstream_directive_errors(body)
+    if body_violations:
+        raise GenerationError(body_violations[0])
     tags = ensure_list(frontmatter["tags"], field_name="tags")
     categories = ensure_list(frontmatter["categories"], field_name="categories")
     if "weekly" not in categories:

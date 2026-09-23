@@ -82,6 +82,7 @@ def write_gate_report(path: Path, *, passed: bool = True, errors: list[str] | No
         "structural_schema": {"passed": passed, "errors": gate_errors if not passed else []},
         "ai_provenance": {"passed": True, "errors": []},
         "evidence_citation": {"passed": True, "errors": []},
+        "content_security": {"passed": True, "errors": []},
         "editorial_quality": {"passed": True, "errors": []},
     }
     path.write_text(

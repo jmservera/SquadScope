@@ -11,6 +11,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from scripts.analysis_content_security import (
+    downstream_directive_errors,
+    external_url_provenance_errors,
+    load_external_url_allowlist,
+    normalize_evidence_url,
+)
 from scripts.render_press_context import NO_PRESS_SENTINEL_MARKER
 
 try:  # pragma: no cover - optional dependency on runners
@@ -166,6 +172,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=None,
         help="Optional token estimate for the week's press context; a value > 0 marks the "
         "press context as populated even without the rendered file.",
+    )
+    parser.add_argument(
+        "--external-news-json",
+        type=Path,
+        default=None,
+        help="Exact run-scoped external-news JSON artifact used to render press context.",
+    )
+    parser.add_argument(
+        "--correlations-json",
+        type=Path,
+        default=None,
+        help="Exact run-scoped correlations JSON artifact used to render press context.",
     )
     return parser.parse_args(argv)
 
@@ -560,7 +578,10 @@ def raw_repo_names(raw_payload: dict[str, Any]) -> set[str]:
 
 
 def compute_objective_quality(
-    text: str, raw_payload: dict, press_context_available: bool
+    text: str,
+    raw_payload: dict,
+    press_context_available: bool,
+    allowed_external_urls: set[str] | None = None,
 ) -> tuple[int, dict]:
     _, body = extract_frontmatter(text)
     words = len(WORD_PATTERN.findall(body))
@@ -584,15 +605,19 @@ def compute_objective_quality(
         if next_subsection:
             press_section = press_section[: next_subsection.start()]
         urls = set(re.findall(r"https?://[^\s)\]]+", press_section))
-        external_urls = {
-            url
-            for url in urls
-            if not re.match(
+        external_urls = set()
+        for url in urls:
+            normalized = normalize_evidence_url(url)
+            if normalized is None:
+                continue
+            if re.match(
                 r"https?://(?:[^/\s]+\.)?(?:github\.com|githubusercontent\.com)(?:[/:?#]|$)",
-                url,
+                normalized,
                 re.IGNORECASE,
-            )
-        }
+            ):
+                continue
+            if allowed_external_urls is None or normalized in allowed_external_urls:
+                external_urls.add(normalized)
         press_citations = len(external_urls)
         press = round(min(15, press_citations / 3 * 15))
 
@@ -644,7 +669,10 @@ def raw_artifact_week_errors(raw_payload: dict[str, Any], expected_week: Any) ->
     return []
 
 
-def evidence_citation_errors(body: str, raw_payload: dict[str, Any]) -> list[str]:
+def evidence_citation_errors(
+    body: str,
+    raw_payload: dict[str, Any],
+) -> list[str]:
     errors: list[str] = []
     repos = raw_repo_names(raw_payload)
     linked_repos = set(REPO_LINK_PATTERN.findall(body))
@@ -772,9 +800,23 @@ def categorize_gate_error(error: str) -> str:
     if error.startswith("AI provenance"):
         return "ai_provenance"
     if error.startswith(
-        ("evidence citations", "Key References", "raw evidence", "repository links")
+        (
+            "evidence citations",
+            "Key References",
+            "raw evidence",
+            "repository links",
+            "external URL",
+            "generated content contains a malformed external URL",
+            "generated content contains an unsupported URL scheme",
+        )
     ):
         return "evidence_citation"
+    if (
+        error.startswith("generated content contains")
+        or error.startswith("external evidence artifact")
+        or error.startswith("unable to read external evidence artifact")
+    ):
+        return "content_security"
     if (
         error.startswith(("editorial analysis", "contradictory claim", "stale press claim"))
         or "section is too thin" in error
@@ -791,6 +833,7 @@ def build_gate_results(errors: list[str]) -> dict[str, dict[str, Any]]:
         "structural_schema": {"passed": True, "errors": []},
         "ai_provenance": {"passed": True, "errors": []},
         "evidence_citation": {"passed": True, "errors": []},
+        "content_security": {"passed": True, "errors": []},
         "editorial_quality": {"passed": True, "errors": []},
     }
     for error in errors:
@@ -807,6 +850,8 @@ def validate_publish_quality(
     source: str,
     model: str,
     press_context_available: bool = False,
+    allowed_external_urls: set[str] | None = None,
+    evidence_artifact_errors: list[str] | None = None,
 ) -> tuple[list[str], dict[str, dict[str, Any]]]:
     try:
         _, body = extract_frontmatter(text)
@@ -814,8 +859,12 @@ def validate_publish_quality(
         body = ""
     errors: list[str] = []
     errors.extend(ai_provenance_errors(source, model))
+    errors.extend(evidence_artifact_errors or [])
     if body:
         errors.extend(evidence_citation_errors(body, raw_payload))
+        if allowed_external_urls is not None:
+            errors.extend(external_url_provenance_errors(text, allowed_external_urls))
+        errors.extend(downstream_directive_errors(text))
         errors.extend(editorial_quality_errors(body))
         errors.extend(contradiction_errors(body))
         errors.extend(
@@ -1024,6 +1073,9 @@ def main(argv: list[str] | None = None) -> int:
     press_context_available = press_context_is_populated(
         args.press_context_path, args.press_token_estimate
     )
+    allowed_external_urls, evidence_artifact_errors = load_external_url_allowlist(
+        [args.external_news_json, args.correlations_json]
+    )
     errors_before, word_count = validate_analysis(text, raw_payload, args.current_datetime)
     publish_errors_before, _ = validate_publish_quality(
         text,
@@ -1031,6 +1083,8 @@ def main(argv: list[str] | None = None) -> int:
         source=args.source,
         model=args.model,
         press_context_available=press_context_available,
+        allowed_external_urls=allowed_external_urls,
+        evidence_artifact_errors=evidence_artifact_errors,
     )
     combined_errors_before = errors_before + [
         error for error in publish_errors_before if error not in errors_before
@@ -1057,7 +1111,7 @@ def main(argv: list[str] | None = None) -> int:
     quality_breakdown: dict | None = None
     try:
         objective_score, quality_breakdown = compute_objective_quality(
-            text, raw_payload, press_context_available
+            text, raw_payload, press_context_available, allowed_external_urls
         )
         rewritten = set_frontmatter_quality_score(text, objective_score)
     except ValueError:
@@ -1074,6 +1128,8 @@ def main(argv: list[str] | None = None) -> int:
         source=args.source,
         model=args.model,
         press_context_available=press_context_available,
+        allowed_external_urls=allowed_external_urls,
+        evidence_artifact_errors=evidence_artifact_errors,
     )
     errors = errors + [error for error in publish_errors if error not in errors]
     gate_results = build_gate_results(errors)

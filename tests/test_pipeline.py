@@ -126,6 +126,25 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn('--allow "$SYNTHESIS_LOG"', synthesis["run"])
         self.assertIn('--allow "$COPILOT_LOG"', analysis["run"])
 
+    def test_analysis_gates_receive_run_scoped_external_evidence(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        analyze_steps = workflow["jobs"]["analyze"]["steps"]
+        press_context = next(
+            step
+            for step in analyze_steps
+            if step.get("name") == "Run correlation and press context"
+        )
+        run_analysis = next(step for step in analyze_steps if step.get("name") == "Run analysis")
+        quality_check = next(step for step in analyze_steps if step.get("name") == "quality-check")
+
+        self.assertIn("external_news_json=$TC_FILE", press_context["run"])
+        self.assertIn("correlations_json=$CORRELATIONS_FILE", press_context["run"])
+        for step in (run_analysis, quality_check):
+            self.assertIn("--external-news-json", step["run"])
+            self.assertIn("--correlations-json", step["run"])
+
     def test_analysis_artifacts_and_promotion_are_run_scoped(self) -> None:
         workflow = yaml.safe_load(
             Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")

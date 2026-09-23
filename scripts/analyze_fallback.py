@@ -1800,6 +1800,9 @@ def validate_output_safety(output: str, canary: str | None = None) -> list[str]:
             "model may have leaked prompt structure"
         )
 
+    from scripts.analysis_content_security import downstream_directive_errors
+
+    violations.extend(downstream_directive_errors(output))
     return violations
 
 

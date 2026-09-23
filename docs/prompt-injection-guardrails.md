@@ -191,6 +191,7 @@ This document covers the complete Phase 1, Phase 2, and pipeline integration gua
 - **Phase 1** (complete): Sanitization, boundary fencing, closing constraints, and lint enforcement for all prompt placeholders — including previously semi-trusted variables (`{{WISDOM}}`, `{{SKILLS}}`, `{{WISDOM_CONTENT}}`, `{{TOPIC_DESCRIPTION}}`).
 - **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
 - **Pipeline Integration** (complete): Production prompt rendering supports unique per-invocation canaries for Copilot CLI prompt artifacts, and `crawl-and-publish.yml` runs `ai_output_guard.py validate` immediately after synthesis and analysis to reject canary or boundary violations before acceptance. Separately, GitHub Models fallback/API callers run in-process `validate_output_safety()` checks on API output.
+- **Generated Content Provenance** (complete): `analysis_gate.py` builds a normalized external-URL allowlist from the exact run-scoped news and correlation artifacts. Generated HTTP(S) links outside that inventory, malformed URLs, unsupported schemes, prompt-role leakage, and downstream podcast directives block publication. The same directive policy is reapplied before Hugo generation and Podcaster handoff.
 - **Preprocess Sanitization** (complete): `preprocess_for_analysis.py` now calls `sanitize_description()` on all repo descriptions during compaction, ensuring injection attempts are detected, truncated, and boundary-escaped before reaching prompt templates.
 - **Correlation Sanitization** (complete): `correlate.py` now applies `sanitize_text()` to article titles, URLs, source names, and repo names at correlation output time, providing defense-in-depth before content reaches `render_press_context.py`.
 - **Reskill Boundary Escaping** (complete): All `reskill.py` render functions (`render_wisdom`, `render_skills`, `render_recent_analyses`, `render_snapshot_context`) now apply `_escape_untrusted_boundaries()` before returning content. `track_quality.build_quality_report()` and `load_scorecard.render_scorecard_section()` also escape boundaries in their output.
@@ -227,12 +228,28 @@ Post-generation validation checks for:
 - **Canary token leaks** — specific token from the current invocation
 - **Unknown canary patterns** — catches leaks from prior invocations or cross-contamination
 - **Boundary marker reproduction** — detects if the model leaked `<untrusted-content>` or `</untrusted-content>` tags from prompt framing
+- **Role and instruction leakage** — rejects role-prefixed lines, instruction overrides, role changes, and explicit downstream podcast/host directives
 
 This is automatically called after the GitHub Models fallback/API functions
-return. It is not automatically applied to Copilot CLI output by
-`call_github_models()` because Copilot CLI does not use that function.
+return. Copilot CLI output follows a separate workflow path, but the authoritative
+analysis gate applies the same directive policy before publication.
 
-### 7. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
+### 7. Run-Scoped URL Provenance (`scripts/analysis_content_security.py`)
+
+The publication gate receives the exact external-news and correlation artifacts
+selected for the run. It normalizes their article URLs conservatively and rejects:
+
+- External HTTP(S) links that are absent from that run-scoped inventory
+- Credentials, control characters, invalid percent encoding, backslash forms,
+  scheme-relative links, and malformed hosts or ports
+- Explicit non-HTTP(S) link schemes in Markdown, autolinks, or HTML attributes
+
+GitHub repository citations remain subject to the independent raw-repository
+inventory check. Only allowlisted external citations contribute to the objective
+press score. Missing press artifacts are valid for press-less weeks, but any
+generated external link then fails closed.
+
+### 8. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
 
 Automated test suite with 18 known prompt injection strings across 7 attack categories, plus boundary-escape validation tests for all reskill render functions:
 
@@ -353,6 +370,7 @@ The following summarizes the complete defense chain from data ingestion to publi
 | Red-team corpus test with known injection strings | ✅ | `test_redteam_corpus.py` (7 categories) + `test_prompt_injection_redteam.py` (18 strings) |
 | Evaluate Garak, LLM Guard, Azure Prompt Shields | ✅ | Tool Evaluation section above with verdicts |
 | Validate generated output schema/frontmatter | ✅ | `generate_content._validate_frontmatter_safety()` + `validate_output_safety()` |
+| Validate generated URL provenance and downstream directives | ✅ | `analysis_content_security.py` + `analysis_gate.py` + Hugo/Podcaster defense-in-depth checks |
 
 ## Phase 3 Follow-up Work
 
@@ -374,7 +392,8 @@ The following summarizes the complete defense chain from data ingestion to publi
   additional containment and detection.
 - Production runs `ai_output_guard.py validate` immediately after each Copilot
   CLI invocation and rejects canary leakage or configured unsafe output before
-  acceptance. A well-formed manipulated output can still pass these checks, so
-  downstream editorial and publication gates remain necessary.
+  acceptance. The downstream analysis gate additionally rejects unprovenanced
+  external links and high-confidence control directives, but novel semantic or
+  obfuscated manipulation can still require editorial review.
 - External facts can still be false, biased, stale, or coordinated even after
   their text is safely bounded. Editorial verification remains necessary.
