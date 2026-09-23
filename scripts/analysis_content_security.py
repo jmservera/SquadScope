@@ -114,14 +114,16 @@ _DIRECTIVE_PATTERNS = (
     (
         re.compile(
             r"(?i)\b(?:tell|ask|instruct|have|make|direct|require)\s+"
-            r"(?:the\s+)?(?:hosts?|presenters?|podcasters?|narrators?)\s+"
+            r"(?:the\s+)?(?:(?:podcast|audio(?:\s+episode)?)\s+)?"
+            r"(?:hosts?|presenters?|podcasters?|narrators?)\s+"
             r"(?:to\s+)?(?:read|say|follow|include|visit|open|click|execute|perform|obey|use)\b"
         ),
         "generated content contains a downstream host directive.",
     ),
     (
         re.compile(
-            r"(?i)\b(?:the\s+)?(?:hosts?|presenters?|podcasters?|narrators?)\s+"
+            r"(?i)\b(?:the\s+)?(?:(?:podcast|audio(?:\s+episode)?)\s+)?"
+            r"(?:hosts?|presenters?|podcasters?|narrators?)\s+"
             r"(?:must|should|need\s+to|are\s+required\s+to)\s+"
             r"(?:read|say|follow|include|visit|open|click|execute|perform|obey|use)\b"
         ),
