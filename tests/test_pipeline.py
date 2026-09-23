@@ -136,14 +136,26 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertNotEqual(analyzed_upload["with"]["path"], "data/analyzed/")
         self.assertIn("-correlations.json", analyzed_upload["with"]["path"])
         self.assertIn("-press-context.md", analyzed_upload["with"]["path"])
-        self.assertEqual(
-            candidate_upload["with"]["path"],
-            "data/candidates/${{ steps.analysis-context.outputs.week }}/${{ github.run_id }}/",
-        )
+        candidate_paths = candidate_upload["with"]["path"]
+        self.assertIn("candidate_output_file", candidate_paths)
+        self.assertIn("publish_manifest_file", candidate_paths)
+        self.assertIn("analysis_gate_report_file", candidate_paths)
+        self.assertNotIn("${{ github.run_id }}/", candidate_paths)
         self.assertNotIn("\n            data/analyzed/\n", commit_step["run"])
         self.assertNotIn("\n            data/candidates/\n", commit_step["run"])
         self.assertIn('"data/analyzed/${WEEK}-summary.md"', commit_step["run"])
-        self.assertIn('"data/candidates/${WEEK}/${GITHUB_RUN_ID}/"', commit_step["run"])
+        self.assertIn(
+            '"data/candidates/${WEEK}/${GITHUB_RUN_ID}/${WEEK}-summary.md"',
+            commit_step["run"],
+        )
+        self.assertIn(
+            '"data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"',
+            commit_step["run"],
+        )
+        self.assertIn(
+            '"data/candidates/${WEEK}/${GITHUB_RUN_ID}/analysis-gate-report.json"',
+            commit_step["run"],
+        )
 
 
 class _FakeHTTPResponse(io.BytesIO):

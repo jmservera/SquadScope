@@ -1185,7 +1185,10 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: analysis-candidate
-          path: data/candidates/${{ steps.analysis-context.outputs.week }}/${{ github.run_id }}/
+          path: |
+            ${{ steps.analysis-context.outputs.candidate_output_file }}
+            ${{ steps.analysis-context.outputs.publish_manifest_file }}
+            ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
           if-no-files-found: warn
 
       - name: Upload token usage ledger
@@ -1477,7 +1480,9 @@ jobs:
             "data/analyzed/${WEEK}-summary.md"
             "data/analyzed/${WEEK}-correlations.json"
             "data/analyzed/${WEEK}-press-context.md"
-            "data/candidates/${WEEK}/${GITHUB_RUN_ID}/"
+            "data/candidates/${WEEK}/${GITHUB_RUN_ID}/${WEEK}-summary.md"
+            "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
+            "data/candidates/${WEEK}/${GITHUB_RUN_ID}/analysis-gate-report.json"
             data/metrics/
             data/published/
             data/taxonomy/

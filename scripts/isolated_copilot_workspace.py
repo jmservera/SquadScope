@@ -62,12 +62,18 @@ def _reject_symlink_components(path: Path, *, label: str) -> None:
             raise WorkspaceError(f"{label} cannot contain symlink components: {current}")
 
 
+def _reject_hard_link(path: Path, *, label: str) -> None:
+    if path.exists() and path.lstat().st_nlink != 1:
+        raise WorkspaceError(f"{label} cannot be hard-linked: {path}")
+
+
 def _parse_copy_spec(raw_spec: str) -> tuple[Path, str]:
     source_text, separator, destination_text = raw_spec.partition("=")
     if not separator:
         raise WorkspaceError(f"copy specification must be SOURCE=DESTINATION: {raw_spec!r}")
     source_path = Path(source_text)
     _reject_symlink_components(source_path, label="workspace input")
+    _reject_hard_link(source_path, label="workspace input")
     source = source_path.resolve(strict=True)
     if not source.is_file():
         raise WorkspaceError(f"workspace input must be a regular non-symlink file: {source}")
@@ -109,6 +115,7 @@ def _inventory(root: Path) -> tuple[dict[str, int], dict[str, FileState]]:
 
 def _write_state(state: WorkspaceState, output: Path) -> None:
     _reject_symlink_components(output, label="state output")
+    _reject_hard_link(output, label="state output")
     output = output.resolve()
     root = Path(state.root)
     if output == root or root in output.parents:
@@ -124,6 +131,7 @@ def _write_state(state: WorkspaceState, output: Path) -> None:
 
 def _read_state(path: Path, expected_sha256: str) -> WorkspaceState:
     _reject_symlink_components(path, label="state file")
+    _reject_hard_link(path, label="state file")
     serialized = path.read_bytes()
     if not hmac.compare_digest(_sha256(serialized), expected_sha256.lower()):
         raise WorkspaceError("isolated workspace state integrity check failed")
@@ -260,6 +268,7 @@ def copy_verified_output(
 
     _reject_symlink_components(destination_root, label="destination root")
     _reject_symlink_components(destination, label="destination")
+    _reject_hard_link(destination, label="destination")
     destination_root = destination_root.resolve(strict=True)
     destination = destination.resolve()
     try:

@@ -127,6 +127,26 @@ def test_rejects_symlink_input_before_resolution(tmp_path: Path) -> None:
         )
 
 
+def test_rejects_hard_linked_input(tmp_path: Path) -> None:
+    real_prompt = tmp_path / "real-prompt.md"
+    real_prompt.write_text("untrusted target\n", encoding="utf-8")
+    prompt_link = tmp_path / "prompt-hard-link.md"
+    os.link(real_prompt, prompt_link)
+    agent = tmp_path / "weekly.agent.md"
+    agent.write_text("---\nname: Weekly\n---\n", encoding="utf-8")
+
+    with pytest.raises(isolated.WorkspaceError, match="cannot be hard-linked"):
+        isolated.prepare_workspace(
+            tmp_path / "workspace",
+            tmp_path / "state.json",
+            [
+                f"{prompt_link}=input/prompt.md",
+                f"{agent}=.github/agents/weekly.agent.md",
+            ],
+            ["output/analysis.md"],
+        )
+
+
 def test_rejects_tampered_state_with_original_hash(tmp_path: Path) -> None:
     _, state_path, _ = _prepare(tmp_path, "output/analysis.md")
     expected_sha256 = _sha256(state_path)
@@ -158,3 +178,24 @@ def test_rejects_directory_permission_changes(tmp_path: Path) -> None:
         "path": "output",
         "change": "directory-mode-changed",
     } in isolated.verify_workspace(state)
+
+
+def test_rejects_hard_linked_destination(tmp_path: Path) -> None:
+    root, state_path, _ = _prepare(tmp_path, "output/analysis.md")
+    (root / "output" / "analysis.md").write_text("expected\n", encoding="utf-8")
+    state = isolated._read_state(state_path, _sha256(state_path))
+    checkout = tmp_path / "checkout"
+    destination = checkout / "data" / "analysis.md"
+    destination.parent.mkdir(parents=True)
+    outside = tmp_path / "outside.md"
+    outside.write_text("preserve\n", encoding="utf-8")
+    os.link(outside, destination)
+
+    with pytest.raises(isolated.WorkspaceError, match="cannot be hard-linked"):
+        isolated.copy_verified_output(
+            state,
+            "output/analysis.md",
+            destination,
+            checkout,
+        )
+    assert outside.read_text(encoding="utf-8") == "preserve\n"

@@ -136,8 +136,8 @@ production inference path.
   checkout only after the exact-file verification and prompt-output safety
   checks succeed.
 - Workflow transfer and promotion are scoped to the current week's analyzed
-  files and the current run's candidate directory rather than whole mutable
-  `data/analyzed/` and `data/candidates/` trees.
+  files plus the current run's summary, eligibility manifest, and gate report
+  rather than whole mutable `data/analyzed/` and `data/candidates/` trees.
 - Recursive repository-payload sanitization.
 - Source-specific caps for press, rolling, previous-week, monthly, yearly,
   continuity, and synthesis content.
