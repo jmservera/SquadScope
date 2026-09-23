@@ -175,6 +175,33 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn('--output "$COPILOT_ISOLATED_OUTPUT"', analysis_run)
         self.assertIn('--token-file "$CANARY_FILE"', analysis_run)
 
+    def test_publish_promotion_purges_retired_transcript_after_publish_checkout(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        commit_run = next(
+            step["run"]
+            for step in workflow["jobs"]["generate"]["steps"]
+            if step.get("name") == "Commit generated content to data branch"
+        )
+
+        publish_checkout = commit_run.index(
+            'git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"'
+        )
+        transcript_cleanup = commit_run.index(
+            "rm -f data/metrics/copilot-transcript.md", publish_checkout
+        )
+        state_comparison = commit_run.index('diff -qr --no-dereference "$candidate_path"')
+        backup = commit_run.index("python3 publish-safety-tool.py backup-existing")
+        stage = commit_run.index('git add -A -- "${ADD_PATHS[@]}"')
+
+        self.assertLess(transcript_cleanup, state_comparison)
+        self.assertLess(transcript_cleanup, backup)
+        self.assertLess(transcript_cleanup, stage)
+        self.assertIn(
+            "GENERATED_STATE_CHANGED=true", commit_run[transcript_cleanup:state_comparison]
+        )
+
     def test_analysis_gates_receive_run_scoped_external_evidence(self) -> None:
         workflow = yaml.safe_load(
             Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
