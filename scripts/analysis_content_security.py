@@ -62,6 +62,15 @@ _DIRECTIVE_PATTERNS = (
     ),
     (
         re.compile(
+            r"(?i)\b(?:you|the\s+assistant|the\s+model)\s+"
+            r"(?:are|become|will\s+be|must\s+be|should\s+be)\s+(?:now\s+)?"
+            r"(?:the\s+|an?\s+)?(?:podcast\s+)?"
+            r"(?:host|presenter|podcaster|narrator|assistant|system|developer|model)\b"
+        ),
+        "generated content contains a role-change directive.",
+    ),
+    (
+        re.compile(
             r"(?i)\b(?:pretend\s+to\s+be|roleplay\s+as|"
             r"act\s+as(?:\s+if\s+you\s+(?:are|were))?)\s+"
             r"(?:the\s+|an?\s+)?(?:podcast\s+)?"

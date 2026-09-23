@@ -145,6 +145,12 @@ class WorkflowSecurityTests(unittest.TestCase):
         for step in (run_analysis, quality_check):
             self.assertIn("--external-news-json", step["run"])
             self.assertIn("--correlations-json", step["run"])
+        self.assertIn(
+            'MAP_REDUCE_ARGS+=(--external-news-json "$EXTERNAL_NEWS_JSON")', run_analysis["run"]
+        )
+        self.assertIn(
+            'MAP_REDUCE_ARGS+=(--correlations-json "$CORRELATIONS_JSON")', run_analysis["run"]
+        )
 
         clear_step = next(
             step

@@ -828,13 +828,21 @@ jobs:
               exit 1
             fi
             MAP_REDUCE_DIR="$(dirname "$OUTPUT_FILE")/map-reduce"
-            python3 scripts/map_reduce_dry_run.py \
+            MAP_REDUCE_ARGS=(
               --raw-json "$WEEK_FILE" \
               --press-context "$PRESS_FILE" \
               --output-dir "$MAP_REDUCE_DIR" \
               --current-datetime "$CURRENT_DATETIME" \
               --run-id "${GITHUB_RUN_ID:-local}" \
               --baseline-summary "$PUBLISHED_SUMMARY"
+            )
+            if [ -n "$EXTERNAL_NEWS_JSON" ]; then
+              MAP_REDUCE_ARGS+=(--external-news-json "$EXTERNAL_NEWS_JSON")
+            fi
+            if [ -n "$CORRELATIONS_JSON" ]; then
+              MAP_REDUCE_ARGS+=(--correlations-json "$CORRELATIONS_JSON")
+            fi
+            python3 scripts/map_reduce_dry_run.py "${MAP_REDUCE_ARGS[@]}"
             cp "$MAP_REDUCE_DIR/${WEEK}-map-reduce-candidate.md" "$OUTPUT_FILE"
             ANALYSIS_SOURCE="map-reduce-dry-run"
             ANALYSIS_MODEL="local-deterministic"

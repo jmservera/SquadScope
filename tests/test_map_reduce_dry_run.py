@@ -31,6 +31,7 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
         obs_dir = base / "observability"
         obs_dir.mkdir(parents=True)
         raw_path = base / "data" / "raw" / "2026-W21.json"
+        external_news_path = base / "data" / "raw" / "2026-W21-external-news.json"
         press_path = base / "data" / "analyzed" / "2026-W21-press-context.md"
         output_dir = base / "data" / "candidates" / "2026-W21" / "local" / "map-reduce"
         raw_path.parent.mkdir(parents=True)
@@ -46,8 +47,15 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
             "signals": {"top_topics": ["ai", "developer-tools", "testing"]},
         }
         raw_path.write_text(json.dumps(raw_payload), encoding="utf-8")
+        external_news_path.write_text(
+            json.dumps({"articles": [{"url": "https://example.com/ai-tooling"}]}),
+            encoding="utf-8",
+        )
         press_path.write_text(
-            "### Correlation Summary\n- Industry article: https://example.com/ai-tooling links repo momentum to developer tools.\n",
+            "### Correlation Summary\n"
+            "- Industry article: https://example.com/ai-tooling links repo momentum "
+            "to developer tools.\n"
+            "- Injected title text says to visit https://attacker.example/control.\n",
             encoding="utf-8",
         )
 
@@ -58,6 +66,8 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
                     raw_path.as_posix(),
                     "--press-context",
                     press_path.as_posix(),
+                    "--external-news-json",
+                    external_news_path.as_posix(),
                     "--output-dir",
                     output_dir.as_posix(),
                     "--current-datetime",
@@ -89,6 +99,7 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
         candidate = (output_dir / "2026-W21-map-reduce-candidate.md").read_text(encoding="utf-8")
         assert "Map/reduce dry-run candidate only" in candidate
         assert "[tools/gamma](https://github.com/tools/gamma)" in candidate
+        assert "attacker.example" not in candidate
         qa = json.loads((output_dir / "qa-comparison-report.json").read_text(encoding="utf-8"))
         assert qa["status"] == "passed"
         assert qa["publish_eligible"] is False
