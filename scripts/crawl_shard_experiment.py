@@ -695,6 +695,9 @@ def validate_item(
     try:
         if not client.has_readme(full_name):
             return None, "missing_readme"
+    except (ShardBudgetExceeded, ExperimentAbort):
+        # Let the worker requeue the item instead of silently dropping the repo.
+        raise
     except RuntimeError as exc:
         client.record_error(f"README lookup failed for {full_name}: {exc}")
         return None, "readme_lookup_failed"

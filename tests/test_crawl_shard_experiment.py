@@ -493,3 +493,53 @@ def test_report_records_cache_mode(mode: str) -> None:
 
     assert report["cache_mode"] == mode
     assert report["partial_failures"] == {"baseline": [], "shard": []}
+
+
+class _ReadmeClient:
+    def __init__(self, exc: Exception) -> None:
+        self._exc = exc
+        self.errors: list[str] = []
+
+    def has_readme(self, full_name: str) -> bool:
+        raise self._exc
+
+    def record_error(self, message: str) -> None:
+        self.errors.append(message)
+
+
+def _item() -> Any:
+    return experiment.ValidationItem(
+        repo_group="trending", sequence=0, repo={"full_name": "octo/repo"}
+    )
+
+
+@pytest.mark.parametrize(
+    "exc",
+    [
+        experiment.ShardBudgetExceeded("validate-1 exceeded its wall-clock budget."),
+        experiment.ExperimentAbort("secondary rate limit"),
+    ],
+)
+def test_validate_item_propagates_budget_and_abort_for_requeue(
+    monkeypatch: pytest.MonkeyPatch, exc: Exception
+) -> None:
+    monkeypatch.setattr(experiment, "significance_skip_reason", lambda repo: None)
+    client = _ReadmeClient(exc)
+
+    with pytest.raises(type(exc)):
+        experiment.validate_item(client, _item(), previous_stars=None, trending_cutoff=None)
+
+    assert client.errors == []
+
+
+def test_validate_item_records_ordinary_readme_failure(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(experiment, "significance_skip_reason", lambda repo: None)
+    client = _ReadmeClient(RuntimeError("HTTP 500"))
+
+    record, reason = experiment.validate_item(
+        client, _item(), previous_stars=None, trending_cutoff=None
+    )
+
+    assert record is None
+    assert reason == "readme_lookup_failed"
+    assert client.errors == ["README lookup failed for octo/repo: HTTP 500"]
