@@ -628,7 +628,17 @@ def _run_jobs(repo: str, token: str, run_id: int) -> list[dict[str, Any]]:
     url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/jobs?per_page=100"
     payload = _github_api_json(url, token)
     jobs = payload.get("jobs", [])
-    if not isinstance(jobs, list) or not all(isinstance(job, dict) for job in jobs):
+    if not isinstance(jobs, list) or not all(
+        isinstance(job, dict)
+        and (
+            "steps" not in job
+            or (
+                isinstance(job["steps"], list)
+                and all(isinstance(step, dict) for step in job["steps"])
+            )
+        )
+        for job in jobs
+    ):
         raise ValueError(f"GitHub jobs response was malformed for run {run_id}")
     return jobs
 
@@ -1547,6 +1557,15 @@ def _scan_candidate_runs(
                 reason="unknown_receipt_state",
             )
         if matched_receipt or receipts:
+            if (
+                strict
+                and matched_receipt
+                and not (
+                    _legacy_auto_pre_submit_only(run, jobs)
+                    or _legacy_manual_pre_submit_only(run, jobs)
+                )
+            ):
+                return _unverifiable(run, "derived_verdict_source_unverifiable")
             continue
 
         if jobs_unreadable or logs_unreadable:

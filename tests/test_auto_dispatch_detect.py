@@ -2157,6 +2157,22 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
             },
             "source_jobs_empty": {"source_jobs": []},
             "source_jobs_malformed": {"source_jobs": ["trigger-podcast"]},
+            "source_steps_null": {"source_jobs": self._source_jobs(steps=None)},
+            "source_step_not_object": {"source_jobs": self._source_jobs(steps=["Set up job"])},
+            "source_pre_submit_receipt_but_handoff_ran": {
+                "source_jobs": self._source_jobs(
+                    conclusion="success",
+                    runner_id=7,
+                    runner_name="GitHub Actions 7",
+                    steps=[
+                        {
+                            "name": "Trigger podcast generation with existing manifest",
+                            "conclusion": "success",
+                        }
+                    ],
+                ),
+                "source_log": "PRE_SUBMIT",
+            },
             "source_jobs_unreadable_with_pre_submit_receipt": {
                 "drop_source_jobs": True,
                 "source_log": "PRE_SUBMIT",
