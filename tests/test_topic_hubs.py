@@ -1142,11 +1142,8 @@ def test_reverting_the_canary_transaction_with_the_flag_off_is_a_stable_fixed_po
 
         assert not (WORKSPACE / "content" / "topics" / "quantum-tooling").exists()
         assert all(_weekly_topics(week) == [] for week in [*weeks, "32"])
-        term = json.loads(registry_path.read_text(encoding="utf-8"))["terms"].get(
-            "quantum-tooling", {}
-        )
-        assert not term.get("is_hub")
-        assert not term.get("promoted")
+        terms = json.loads(registry_path.read_text(encoding="utf-8"))["terms"]
+        assert "quantum-tooling" not in terms
 
 
 def test_partial_canary_revert_that_keeps_weekly_topics_fails_closed() -> None:
