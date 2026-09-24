@@ -381,8 +381,10 @@ tracked in [#798](https://github.com/jmservera/SquadScope/issues/798).
 * Rollback, verified by tests in `tests/test_topic_hubs.py`: setting `enabled = false`
   stops new promotions only. The always-on `backfill_weekly_topics.py` step keeps
   assigning the promoted topic to new weeks while the registry term stays promoted. A full
-  rollback must therefore remove the hub, reset or remove the registry term, strip the
-  weekly `topics` entries, and remove the slug from `allow_topics`. That reverted state is
+  rollback must therefore remove the hub, remove the registry term (clearing `is_hub` and
+  `promoted` is not enough, because backfill still derives the topic from every registry
+  term and then fails on the missing hub), strip the weekly `topics` entries, and remove
+  the slug from `allow_topics`. That reverted state is
   a stable fixed point across `manage_topic_hubs`, `backfill_weekly_topics`, and
   `taxonomy_registry`, even with the flag re-enabled. A partial revert that leaves weekly
   topics in place fails closed (`GenerationError`, "outside the canonical vocabulary").

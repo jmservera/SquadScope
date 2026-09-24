@@ -1155,12 +1155,46 @@ def test_partial_canary_revert_that_keeps_weekly_topics_fails_closed() -> None:
     from scripts.backfill_weekly_topics import backfill_weekly_topics
     from scripts.generate_content import GenerationError
 
-    _promote_quantum_canary()
+    config_path = _promote_quantum_canary()
+    config_path.write_text(
+        config_path.read_text(encoding="utf-8").replace("enabled = true", "enabled = false"),
+        encoding="utf-8",
+    )
     shutil.rmtree(WORKSPACE / "content" / "topics" / "quantum-tooling")
     registry_path = WORKSPACE / "data" / "taxonomy" / "topics.json"
     registry = json.loads(registry_path.read_text(encoding="utf-8"))
     del registry["terms"]["quantum-tooling"]
     registry_path.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", "utf-8")
 
+    # Production order: promote/assign (disabled, no-op) runs before backfill.
+    assert (
+        create_dynamic_hubs(
+            root=WORKSPACE, config_path=config_path, current_date="2026-08-05T12:00:00Z"
+        )
+        == []
+    )
     with pytest.raises(GenerationError, match="outside the canonical vocabulary"):
+        backfill_weekly_topics(root=WORKSPACE)
+
+
+def test_canary_revert_that_only_resets_the_registry_term_fails_closed() -> None:
+    # Clearing is_hub/promoted without removing the term leaves it in the canonical
+    # vocabulary, so a later tagged week derives the topic and hits the missing hub.
+    from scripts.backfill_weekly_topics import backfill_weekly_topics
+
+    _promote_quantum_canary()
+    shutil.rmtree(WORKSPACE / "content" / "topics" / "quantum-tooling")
+    registry_path = WORKSPACE / "data" / "taxonomy" / "topics.json"
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    registry["terms"]["quantum-tooling"].update({"is_hub": False, "promoted": False})
+    registry_path.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", "utf-8")
+    for week in ["28", "29", "30", "31"]:
+        path = WORKSPACE / "content" / "weekly" / "2026" / f"W{week}.md"
+        path.write_text(
+            path.read_text(encoding="utf-8").replace('topics: ["Quantum Tooling"]', "topics: []"),
+            encoding="utf-8",
+        )
+    _write_new_week_tagged_with_canary("32")
+
+    with pytest.raises(ValueError, match="canonical topic hub does not exist"):
         backfill_weekly_topics(root=WORKSPACE)
