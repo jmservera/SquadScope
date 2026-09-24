@@ -2303,6 +2303,42 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
                 result, _ = self._check(**history)
                 self.assertBlocked(result, "derived_verdict_source_unverifiable")
 
+    def test_two_run_verdict_cycle_fails_closed(self):
+        history = self._w39_history()
+        other = self._SELF_RUN_ID - 1
+        history["trigger_runs"] = []
+        history["auto_runs"].append(self._auto_run(other))
+        history["jobs"][other] = self._w39_jobs()
+        history["logs"][self._SELF_RUN_ID] = self._receipt(
+            "ambiguous_prior_submission", prior_run_url=self._url(other)
+        )
+        history["logs"][other] = self._receipt(
+            "ambiguous_prior_submission", run_id=other, prior_run_url=self._url(self._SELF_RUN_ID)
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result, "derived_verdict_source_cycle")
+
+    def test_in_lookback_verdict_source_metadata_is_validated(self):
+        for name, overrides in {
+            "foreign_html_url": {
+                "html_url": f"https://github.com/other/repo/actions/runs/{self._SOURCE_RUN_ID}"
+            },
+            "missing_html_url": {"html_url": None},
+        }.items():
+            for position in ("before", "after"):
+                with self.subTest(case=name, position=position):
+                    history = self._w39_history()
+                    source = self._source_run(**overrides)
+                    history["trigger_runs"] = []
+                    if position == "before":
+                        history["auto_runs"].insert(0, {**source, "path": source["path"]})
+                    else:
+                        history["trigger_runs"] = [source]
+                    result, _ = self._check(**history)
+                    self.assertBlocked(result, "derived_verdict_source_unverifiable")
+
     def test_verdict_source_chain_is_bounded_and_cycle_safe(self):
         history = self._w39_history()
         history["trigger_runs"] = []

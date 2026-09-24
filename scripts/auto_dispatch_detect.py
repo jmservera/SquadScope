@@ -1377,7 +1377,8 @@ def _scan_candidate_runs(
 ) -> DuplicateCheckResult:
     """Classify workflow history for ``identity``; append ignored self-blocked runs."""
     queue: list[dict[str, Any]] = [run for run in candidate_runs if isinstance(run.get("id"), int)]
-    queued_ids: set[int] = {run["id"] for run in queue}
+    queued_runs: dict[int, dict[str, Any]] = {run["id"]: run for run in queue}
+    verdict_ignored_ids: set[int] = set()
     # Verdict sources must be re-proven from their own evidence; they may not be
     # skipped merely because their evidence is unreadable or unassociated.
     strict_ids: set[int] = set()
@@ -1394,6 +1395,16 @@ def _scan_candidate_runs(
             reason=reason,
         )
 
+    def _valid_source_run(source_run: dict[str, Any], source_id: int) -> bool:
+        return (
+            source_run.get("id") == source_id
+            and source_run.get("html_url")
+            == f"https://github.com/{repository}/actions/runs/{source_id}"
+            and str(source_run.get("path") or "")
+            in (AUTO_DISPATCH_WORKFLOW_PATH, TRIGGER_PODCAST_WORKFLOW_PATH)
+            and source_run.get("status") == "completed"
+        )
+
     def _require_verdict_source(
         verdict_run: dict[str, Any], receipt: dict[str, Any]
     ) -> DuplicateCheckResult | None:
@@ -1403,12 +1414,16 @@ def _scan_candidate_runs(
             return None
         if kind != "run" or source_id is None or source_id == verdict_run.get("id"):
             return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
+        if source_id in verdict_ignored_ids:
+            return _unverifiable(verdict_run, "derived_verdict_source_cycle")
         if source_id in processed_ids:
-            if source_id in lenient_skipped_ids:
+            if source_id in lenient_skipped_ids or not _valid_source_run(
+                queued_runs[source_id], source_id
+            ):
                 return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
             return None
         strict_ids.add(source_id)
-        if source_id in queued_ids:
+        if source_id in queued_runs:
             return None
         if source_fetches >= MAX_VERDICT_SOURCE_FETCHES:
             return _unverifiable(verdict_run, "derived_verdict_source_chain_too_long")
@@ -1427,7 +1442,7 @@ def _scan_candidate_runs(
         ):
             return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
         queue.append(source_run)
-        queued_ids.add(source_id)
+        queued_runs[source_id] = source_run
         return None
 
     index = 0
@@ -1437,7 +1452,7 @@ def _scan_candidate_runs(
         run_id_value = run["id"]
         processed_ids.add(run_id_value)
         strict = run_id_value in strict_ids
-        if strict and run.get("status") != "completed":
+        if strict and not _valid_source_run(run, run_id_value):
             return _unverifiable(run, "derived_verdict_source_unverifiable")
 
         jobs: list[dict[str, Any]] = []
@@ -1511,6 +1526,7 @@ def _scan_candidate_runs(
                 if source_result is not None:
                     return source_result
                 run_url = _run_url(run)
+                verdict_ignored_ids.add(run_id_value)
                 if run_url not in ignored:
                     ignored.append(run_url)
                 continue
