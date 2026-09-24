@@ -226,7 +226,7 @@ report-only, no blocking budget; only the `repository_pages` corpus is material,
 stays disabled, so build cost is dismissed as a launch gate. Re-evaluate only if a
 meaningful repository-page corpus is retained or regenerated.
 
-Readiness (2026-08-08): the experiment's workload guard now passes locally
+Historical readiness (2026-08-08; cleared by run 31305223877 on 2026-08-09): the experiment's workload guard now passes locally
 (`EXPECTED_CLASS_COUNTS` corrected to `topic_hubs` 5, `data_pages` 3,
 `repository_pages` 266; `discover_workload()` returns without raising). The only
 remaining step is the manual `build-cost-experiment.yml` `workflow_dispatch` on `main`
