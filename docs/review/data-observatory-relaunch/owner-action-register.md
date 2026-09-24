@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Owner Action Register
 description: Sequenced owner actions and evidence requirements for Claracle relaunch gates that cannot be completed by repository automation
 author: SquadScope Squad
-ms.date: 2026-08-08
+ms.date: 2026-09-24
 ms.topic: reference
 keywords:
   - launch gates
@@ -216,6 +216,16 @@ Required actions:
 
 Completion evidence: retained experiment artifacts and a dated budget-owner conclusion.
 
+**Completed 2026-08-09** (status reconciled 2026-09-24): run
+[31305223877](https://github.com/jmservera/SquadScope/actions/runs/31305223877) on `main`
+`8f680f4` with reviewed `publish` `4120078d` and 3 repetitions succeeded; artifact
+`hugo-pagefind-cost-31305223877-1` is retained until 2026-11-07. jmservera's dated
+budget-owner conclusion is recorded in
+[the consolidation changes log](../../../.copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md#q-01nfr-009-budget-owner-conclusion-jmservera-2026-08-09):
+report-only, no blocking budget; only the `repository_pages` corpus is material, and it
+stays disabled, so build cost is dismissed as a launch gate. Re-evaluate only if a
+meaningful repository-page corpus is retained or regenerated.
+
 Readiness (2026-08-08): the experiment's workload guard now passes locally
 (`EXPECTED_CLASS_COUNTS` corrected to `topic_hubs` 5, `data_pages` 3,
 `repository_pages` 266; `discover_workload()` returns without raising). The only
@@ -294,7 +304,7 @@ Record a separate decision for each flag. Do not use one blanket approval.
 
 | Flag | Decision | Reviewed revision and evidence | Conditions | Date |
 | ---- | -------- | ------------------------------ | ---------- | ---- |
-| `dynamic_topic_creation` | Approved (sponsor); technical preconditions outstanding | See Planning Log WI-03 for status | Non-mutating preview (`--dry-run`, `#670`) and the `allow_topics` allowlist now exist; a reviewed canary slug plus Hermes and sponsor approval of the exact revision are still required before activation | 2026-08-05 |
+| `dynamic_topic_creation` | Approved and activated for `local-first` only | [PR #684](https://github.com/jmservera/SquadScope/pull/684) (`bd1cf04`); Hermes and URL re-review of head `72782f5`; sponsor approval of the exact revision | Bounded by `allow_topics = ["local-first"]`; each further slug requires its own reviewed PR; rollback owner jmservera | 2026-08-09 |
 | `repo_pages` | Approved | [PR #668](https://github.com/jmservera/SquadScope/pull/668) - identity backfill, duplicate-identity consolidation, and corpus regeneration; 266 qualified pages, 0 `--seed-lifecycle` mismatches, byte-identical two-run check, 1459 tests passing | Stable identity and lifecycle evidence required (satisfied by PR #668) | 2026-08-05 |
 
 Completion evidence: dated approve, reject, or defer decisions identifying the exact
@@ -326,6 +336,17 @@ with `enabled = false`. A `--dry-run` against this revision promotes exactly one
 (`local-first`) and skips the other 2,500 candidates with `not-in-allowlist`; both rollout
 flags remain disabled. This is the exact revision for Hermes and sponsor review; enabling
 requires their approval.
+
+**Activated 2026-08-09** (status reconciled 2026-09-24): PR #684 (`bd1cf04`) set
+`enabled = true` after Hermes and URL re-reviewed the exact head and the sponsor approved it.
+The next pipeline run promoted only `local-first` (`created=1`, all other candidates
+`not-in-allowlist`; see `data/topic-hubs/dynamic-topic-creation.log`), creating
+`content/topics/local-first/_index.md` with evidence weeks `2026-W27` through `2026-W33`.
+Later runs, including W38 and W39, report `created=0` and only assign the promoted topic.
+Rollback has two parts: disable the flag and revert the generated promotion transaction
+(hub page, taxonomy promotion, weekly assignments, registries, and log). Remaining work is
+a recorded post-activation review of that transaction and one-slug-at-a-time expansion,
+tracked in [#798](https://github.com/jmservera/SquadScope/issues/798).
 
 ### Staged repo_pages activation (2026-08-08)
 
