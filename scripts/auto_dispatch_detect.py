@@ -1396,6 +1396,9 @@ def _scan_candidate_runs(
     # Runs skipped without positive evidence (unreadable or empty history).
     lenient_skipped_ids: set[int] = set()
     processed_ids: set[int] = set()
+    # Processed runs whose evidence would fail strict verdict-source rules;
+    # consulted when a later verdict names an already-processed source.
+    strict_unproven_ids: set[int] = set()
     source_fetches = 0
 
     def _unverifiable(run: dict[str, Any], reason: str) -> DuplicateCheckResult:
@@ -1428,8 +1431,10 @@ def _scan_candidate_runs(
         if source_id in verdict_ignored_ids:
             return _unverifiable(verdict_run, "derived_verdict_source_cycle")
         if source_id in processed_ids:
-            if source_id in lenient_skipped_ids or not _valid_source_run(
-                queued_runs[source_id], source_id
+            if (
+                source_id in lenient_skipped_ids
+                or source_id in strict_unproven_ids
+                or not _valid_source_run(queued_runs[source_id], source_id)
             ):
                 return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
             return None
@@ -1478,8 +1483,10 @@ def _scan_candidate_runs(
             log_text = _run_logs(repository, token, run_id_value)
         except Exception:
             logs_unreadable = True
-        if strict and (jobs_unreadable or not jobs):
-            return _unverifiable(run, "derived_verdict_source_unverifiable")
+        if jobs_unreadable or not jobs:
+            if strict:
+                return _unverifiable(run, "derived_verdict_source_unverifiable")
+            strict_unproven_ids.add(run_id_value)
 
         receipts = _parse_dispatch_receipts(log_text)
         derived_verdict_count = sum(
@@ -1557,15 +1564,12 @@ def _scan_candidate_runs(
                 reason="unknown_receipt_state",
             )
         if matched_receipt or receipts:
-            if (
-                strict
-                and matched_receipt
-                and not (
-                    _legacy_auto_pre_submit_only(run, jobs)
-                    or _legacy_manual_pre_submit_only(run, jobs)
-                )
+            if matched_receipt and not (
+                _legacy_auto_pre_submit_only(run, jobs) or _legacy_manual_pre_submit_only(run, jobs)
             ):
-                return _unverifiable(run, "derived_verdict_source_unverifiable")
+                if strict:
+                    return _unverifiable(run, "derived_verdict_source_unverifiable")
+                strict_unproven_ids.add(run_id_value)
             continue
 
         if jobs_unreadable or logs_unreadable:
@@ -1613,7 +1617,7 @@ def _scan_candidate_runs(
             identity,
             repo_root,
         )
-        if strict and compatibility == "ignore" and compat_identity is None:
+        if compatibility == "ignore" and compat_identity is None:
             attempted_publish_run_id = _extract_publish_run_id_from_log_text(log_text)
             if not (
                 _legacy_auto_pre_submit_only(run, jobs)
@@ -1623,7 +1627,9 @@ def _scan_candidate_runs(
                     and attempted_publish_run_id != identity.publish_run_id
                 )
             ):
-                return _unverifiable(run, "derived_verdict_source_unverifiable")
+                if strict:
+                    return _unverifiable(run, "derived_verdict_source_unverifiable")
+                strict_unproven_ids.add(run_id_value)
         if (
             compatibility == "blocking"
             and compat_identity is not None

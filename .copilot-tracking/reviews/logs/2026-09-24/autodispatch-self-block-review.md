@@ -24,6 +24,11 @@
 2. Independent re-review of the delta: no findings.
 3. Copilot PR reviewer: 4 + 2 comments; 5 hardening fixes applied, 1 rebutted with a test
    (ignored runs are preserved on early returns).
+4. Copilot PR reviewer, later rounds: hardening applied for verdict-source cycles, source-run
+   metadata validation, exactly-one-relevant-job legacy proofs, nested step validation, positive
+   evidence for strict sources, and queue-order-independent strict revalidation of
+   already-processed sources (`strict_unproven_ids`, with a reversed-order regression test).
+   Claims contradicted by live API evidence were rebutted with that evidence.
 
 ## Follow-up
 

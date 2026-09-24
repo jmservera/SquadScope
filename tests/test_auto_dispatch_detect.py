@@ -2355,6 +2355,28 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
                 result, _ = self._check(**history)
                 self.assertNotEqual(result.status, "clear")
 
+    def test_already_processed_source_is_reproven_strictly(self):
+        """A source scanned before its referencing verdict still needs strict proof."""
+        ran = {
+            "name": "Protected podcast dispatch",
+            "status": "completed",
+            "conclusion": "success",
+            "steps": [{"name": "Dispatch", "status": "completed", "conclusion": "success"}],
+        }
+        detect_job = {"name": "Detect publication", "status": "completed", "conclusion": "success"}
+        source = self._auto_run(self._SOURCE_RUN_ID, conclusion="success")
+        history = self._w39_history()
+        history["trigger_runs"] = []
+        history["auto_runs"] = [source, self._auto_run()]
+        history["jobs"][self._SOURCE_RUN_ID] = [detect_job, ran]
+        history["logs"][self._SOURCE_RUN_ID] = self._receipt(
+            "pre_submit_failed", run_id=self._SOURCE_RUN_ID, prior_run_url=""
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result, "derived_verdict_source_unverifiable")
+
     def test_two_run_verdict_cycle_fails_closed(self):
         history = self._w39_history()
         other = self._SELF_RUN_ID - 1
