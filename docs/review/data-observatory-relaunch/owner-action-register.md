@@ -356,7 +356,8 @@ without per-candidate skip reasons; see `data/topic-hubs/dynamic-topic-creation.
 `content/topics/local-first/_index.md` with evidence weeks `2026-W27` through `2026-W33`.
 Later runs, including W38 and W39, report `created=0` and only assign the promoted topic.
 Rollback has two parts: disable the flag and revert the generated promotion transaction
-(hub page, taxonomy promotion, weekly assignments, registries, and log). Remaining work is
+(hub page, taxonomy promotion, weekly assignments, and registries). Keep the append-only
+creation log as the audit trail; see the rollback note below. Remaining work is
 a recorded post-activation review of that transaction and one-slug-at-a-time expansion,
 tracked in [#798](https://github.com/jmservera/SquadScope/issues/798).
 
@@ -384,7 +385,12 @@ tracked in [#798](https://github.com/jmservera/SquadScope/issues/798).
   weekly `topics` entries, and remove the slug from `allow_topics`. That reverted state is
   a stable fixed point across `manage_topic_hubs`, `backfill_weekly_topics`, and
   `taxonomy_registry`, even with the flag re-enabled. A partial revert that leaves weekly
-  topics in place fails closed.
+  topics in place fails closed (`GenerationError`, "outside the canonical vocabulary").
+* Creation log during rollback: `data/topic-hubs/dynamic-topic-creation.log` is
+  append-only and no pipeline step reads it. Do not rewrite or truncate it during a
+  rollback. Keep the original `promote-topic` event as audit history, and record the
+  rollback in its PR and in this register. Later runs append new check and summary lines
+  only.
 
 Result: no findings block the canary. Expansion remains one reviewed slug per PR, held
 until the coordinator production boundary lifts (W40 verified).

@@ -1162,5 +1162,5 @@ def test_partial_canary_revert_that_keeps_weekly_topics_fails_closed() -> None:
     del registry["terms"]["quantum-tooling"]
     registry_path.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", "utf-8")
 
-    with pytest.raises((GenerationError, ValueError)):
+    with pytest.raises(GenerationError, match="outside the canonical vocabulary"):
         backfill_weekly_topics(root=WORKSPACE)
