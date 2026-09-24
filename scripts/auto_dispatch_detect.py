@@ -50,7 +50,7 @@ import re
 import subprocess  # nosec B404
 import sys
 import zipfile
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 from urllib import request
@@ -106,6 +106,18 @@ PROVEN_NO_SUBMISSION_RECEIPT_STATES = frozenset(
         "observation_only",
     }
 )
+# Receipt states that record a dedup *verdict* of the emitting run rather than
+# evidence that the emitting run touched the Podcaster.
+DERIVED_VERDICT_RECEIPT_STATES = frozenset({"ambiguous_prior_submission"})
+# A week may ignore at most this many of its own provably pre-handoff,
+# self-blocked attempts; the next attempt fails closed for manual review.
+MAX_IGNORED_SELF_BLOCKED_ATTEMPTS = 2
+MAX_VERDICT_SOURCE_FETCHES = 5
+PRE_HANDOFF_PROOF_EVENTS = frozenset({"workflow_run", "workflow_dispatch"})
+PRE_HANDOFF_PROOF_CONCLUSIONS = frozenset({"failure", "cancelled"})
+DETECT_JOB_NAME = "Detect eligible weekly publication"
+DEDUP_STEP_NAME = "Check for duplicate dispatch"
+DISPATCH_JOB_NAME = "Protected podcast dispatch"
 _EVIDENCE_CONFIG_UNSET = object()
 
 
@@ -123,6 +135,7 @@ class DuplicateCheckResult:
     is_duplicate: bool
     prior_run_url: str | None = None
     reason: str | None = None
+    ignored_pre_handoff_runs: tuple[str, ...] = ()
 
 
 def _base_identity_matches(left: DispatchIdentity, right: DispatchIdentity) -> bool:
@@ -403,12 +416,11 @@ def _legacy_run_single_attempt(run: dict[str, Any]) -> bool:
 
 def _legacy_auto_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
     """Return whether job evidence proves the protected dispatch never ran."""
+    dispatch_jobs = [job for job in jobs if job.get("name") == DISPATCH_JOB_NAME]
+    if len(dispatch_jobs) != 1:
+        return False
     return _legacy_run_single_attempt(run) and (
-        any(
-            job.get("name") == "Protected podcast dispatch"
-            and str(job.get("conclusion") or "") == "skipped"
-            for job in jobs
-        )
+        str(dispatch_jobs[0].get("conclusion") or "") == "skipped"
         or _step_conclusion(
             jobs,
             "Protected podcast dispatch",
@@ -418,14 +430,33 @@ def _legacy_auto_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]
     )
 
 
+def _job_never_started(job: dict[str, Any]) -> bool:
+    """Return whether a completed job provably never ran on a runner.
+
+    GitHub reports ``runner_id == 0``, an empty ``runner_name`` and no steps for a
+    job cancelled before a runner picked it up (e.g. while awaiting environment
+    approval), so none of its steps can have executed.
+    """
+    return (
+        job.get("status") == "completed"
+        and job.get("conclusion") == "cancelled"
+        and job.get("runner_id") == 0
+        and job.get("runner_name") == ""
+        and job.get("steps") == []
+    )
+
+
 def _legacy_manual_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
     """Return whether a single-attempt manual run was stopped before handoff."""
     if not _legacy_run_single_attempt(run):
+        return False
+    if sum(1 for job in jobs if job.get("name") == "trigger-podcast") != 1:
         return False
     return any(
         job.get("name") == "trigger-podcast"
         and (
             str(job.get("conclusion") or "") == "skipped"
+            or _job_never_started(job)
             or _step_conclusion(
                 jobs,
                 "trigger-podcast",
@@ -435,6 +466,80 @@ def _legacy_manual_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any
         )
         for job in jobs
     )
+
+
+def _run_proves_no_handoff(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
+    """Return whether job evidence proves this auto-dispatch run stopped at dedup.
+
+    Every condition must be positively observed; missing or unexpected evidence
+    means the handoff outcome is unknown and the run must keep blocking.
+    """
+    if str(run.get("path") or "") != AUTO_DISPATCH_WORKFLOW_PATH:
+        return False
+    if run.get("status") != "completed":
+        return False
+    if run.get("conclusion") not in PRE_HANDOFF_PROOF_CONCLUSIONS:
+        return False
+    if not _legacy_run_single_attempt(run):
+        return False
+    if run.get("head_branch") != "main" or run.get("event") not in PRE_HANDOFF_PROOF_EVENTS:
+        return False
+    if not all(isinstance(job, dict) for job in jobs):
+        return False
+    dispatch_jobs = [job for job in jobs if job.get("name") == DISPATCH_JOB_NAME]
+    detect_jobs = [job for job in jobs if job.get("name") == DETECT_JOB_NAME]
+    if len(dispatch_jobs) != 1 or len(detect_jobs) != 1:
+        return False
+    dispatch_job = dispatch_jobs[0]
+    if str(dispatch_job.get("conclusion") or "") != "skipped":
+        return False
+    steps = dispatch_job.get("steps")
+    if not isinstance(steps, list) or any(
+        not isinstance(step, dict) or str(step.get("conclusion") or "") != "skipped"
+        for step in steps
+    ):
+        return False
+    detect_steps = detect_jobs[0].get("steps")
+    if not isinstance(detect_steps, list) or not all(
+        isinstance(step, dict) for step in detect_steps
+    ):
+        return False
+    return _step_conclusion(detect_jobs, DETECT_JOB_NAME, DEDUP_STEP_NAME) == "failure"
+
+
+def _receipt_state(receipt: dict[str, Any] | DispatchReceipt) -> str:
+    if isinstance(receipt, DispatchReceipt):
+        return receipt.receipt_state
+    return str(receipt.get("receipt_state") or "")
+
+
+def _receipt_self_emitted(receipt: dict[str, Any] | DispatchReceipt, run: dict[str, Any]) -> bool:
+    run_url = _run_url(run)
+    return (
+        isinstance(receipt, dict)
+        and bool(run_url)
+        and receipt.get("workflow") == "auto-podcast-dispatch"
+        and receipt.get("actions_run_url") == run_url
+    )
+
+
+def _verdict_source_run_id(receipt: dict[str, Any], repo: str) -> tuple[str, int | None]:
+    """Classify a verdict receipt's ``prior_run_url`` as none, a run ID, or invalid."""
+    prior_run_url = receipt.get("prior_run_url")
+    if prior_run_url in (None, ""):
+        return "none", None
+    if not isinstance(prior_run_url, str):
+        return "invalid", None
+    match = re.fullmatch(
+        rf"https://github\.com/{re.escape(repo)}/actions/runs/([0-9]+)", prior_run_url
+    )
+    if match is None:
+        return "invalid", None
+    return "run", int(match.group(1))
+
+
+def _fetch_run(repo: str, token: str, run_id: int) -> dict[str, Any]:
+    return _github_api_json(f"https://api.github.com/repos/{repo}/actions/runs/{run_id}", token)
 
 
 def _compat_identity_for_run(
@@ -480,6 +585,12 @@ def _compat_identity_for_run(
     if handoff_conclusion != "success":
         if _legacy_manual_pre_submit_only(run, jobs):
             return "ignore", None
+        attempted_publish_run_id = _extract_publish_run_id_from_log_text(log_text)
+        if (
+            attempted_publish_run_id is not None
+            and attempted_publish_run_id != requested_identity.publish_run_id
+        ):
+            return "ignore", None
         return "ambiguous", None
 
     publish_run_id = _extract_publish_run_id_from_log_text(log_text)
@@ -517,7 +628,19 @@ def _run_jobs(repo: str, token: str, run_id: int) -> list[dict[str, Any]]:
     url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/jobs?per_page=100"
     payload = _github_api_json(url, token)
     jobs = payload.get("jobs", [])
-    return jobs if isinstance(jobs, list) else []
+    if not isinstance(jobs, list) or not all(
+        isinstance(job, dict)
+        and (
+            "steps" not in job
+            or (
+                isinstance(job["steps"], list)
+                and all(isinstance(step, dict) for step in job["steps"])
+            )
+        )
+        for job in jobs
+    ):
+        raise ValueError(f"GitHub jobs response was malformed for run {run_id}")
+    return jobs
 
 
 def _run_logs(repo: str, token: str, run_id: int) -> str:
@@ -794,6 +917,55 @@ def detect(args: argparse.Namespace) -> None:
     print(f"  manifest_sha256: {manifest_sha256}")
 
 
+def _report_dedup_decision(
+    result: DuplicateCheckResult,
+    *,
+    week: str,
+    publish_run_id: str,
+    article_sha256: str,
+    manifest_sha256: str,
+) -> None:
+    """Log and summarize why the dedup gate let a dispatch proceed or blocked it."""
+    for run_url in result.ignored_pre_handoff_runs:
+        print(
+            "::notice::Ignoring own earlier auto-dispatch attempt for this identity: "
+            f"{run_url} stopped at the dedup step and its protected dispatch job was "
+            "skipped, so it never handed off to the Podcaster."
+        )
+    decision = {
+        "clear": "✅ Dispatch may proceed",
+        "duplicate": "⛔ Blocked: prior real submission",
+    }.get(result.status, "⛔ Blocked: prior submission outcome unknown (fail closed)")
+    lines = [
+        "## Podcast dispatch dedup decision",
+        "",
+        f"- **Decision:** {decision}",
+        f"- **Status:** `{result.status}`",
+        f"- **Reason:** `{result.reason or 'no_prior_submission_evidence'}`",
+        f"- **Prior run:** {result.prior_run_url or 'none'}",
+        f"- **Identity:** `{week}` / `{publish_run_id}` / `{article_sha256}` / `{manifest_sha256}`",
+        (
+            f"- **Ignored own pre-handoff attempts:** {len(result.ignored_pre_handoff_runs)}"
+            f" (budget {MAX_IGNORED_SELF_BLOCKED_ATTEMPTS})"
+        ),
+    ]
+    lines.extend(f"  - {run_url}" for run_url in result.ignored_pre_handoff_runs)
+    if result.status != "clear":
+        lines.extend(
+            [
+                "",
+                "Recover with a new `workflow_dispatch` after manual review. Re-running a "
+                "failed run creates attempt > 1, which cannot be proven pre-handoff and keeps "
+                "blocking this identity.",
+            ]
+        )
+    print("  dedup decision: " + " ".join(line.strip() for line in lines[2:6]))
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with open(summary_path, "a", encoding="utf-8") as fh:
+            fh.write("\n".join(lines) + "\n")
+
+
 def _check_duplicate_cli(args: argparse.Namespace) -> None:
     """Check GitHub Actions for prior real dispatches of the same publication."""
     week = args.week
@@ -851,6 +1023,14 @@ def _check_duplicate_cli(args: argparse.Namespace) -> None:
         article_sha256,
         gh_token,
         repo,
+        manifest_sha256=manifest_sha256,
+    )
+
+    _report_dedup_decision(
+        result,
+        week=week,
+        publish_run_id=publish_run_id,
+        article_sha256=article_sha256,
         manifest_sha256=manifest_sha256,
     )
 
@@ -1191,10 +1371,105 @@ def check_duplicate_result(
                 "ambiguous_prior_submission", False, reason="exact_identity_uncertain"
             )
 
-    for run in candidate_runs:
-        run_id_value = run.get("id")
-        if not isinstance(run_id_value, int):
-            continue
+    ignored: list[str] = []
+    result = _scan_candidate_runs(candidate_runs, identity, repository, token, repo_root, ignored)
+    if ignored:
+        result = replace(result, ignored_pre_handoff_runs=tuple(ignored))
+    return result
+
+
+def _scan_candidate_runs(
+    candidate_runs: list[dict[str, Any]],
+    identity: DispatchIdentity,
+    repository: str,
+    token: str,
+    repo_root: "Path | str",
+    ignored: list[str],
+) -> DuplicateCheckResult:
+    """Classify workflow history for ``identity``; append ignored self-blocked runs."""
+    queue: list[dict[str, Any]] = [run for run in candidate_runs if isinstance(run.get("id"), int)]
+    queued_runs: dict[int, dict[str, Any]] = {run["id"]: run for run in queue}
+    verdict_ignored_ids: set[int] = set()
+    # Verdict sources must be re-proven from their own evidence; they may not be
+    # skipped merely because their evidence is unreadable or unassociated.
+    strict_ids: set[int] = set()
+    # Runs skipped without positive evidence (unreadable or empty history).
+    lenient_skipped_ids: set[int] = set()
+    processed_ids: set[int] = set()
+    # Processed runs whose evidence would fail strict verdict-source rules;
+    # consulted when a later verdict names an already-processed source.
+    strict_unproven_ids: set[int] = set()
+    source_fetches = 0
+
+    def _unverifiable(run: dict[str, Any], reason: str) -> DuplicateCheckResult:
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            prior_run_url=_run_url(run) or None,
+            reason=reason,
+        )
+
+    def _valid_source_run(source_run: dict[str, Any], source_id: int) -> bool:
+        return (
+            source_run.get("id") == source_id
+            and source_run.get("html_url")
+            == f"https://github.com/{repository}/actions/runs/{source_id}"
+            and str(source_run.get("path") or "")
+            in (AUTO_DISPATCH_WORKFLOW_PATH, TRIGGER_PODCAST_WORKFLOW_PATH)
+            and source_run.get("status") == "completed"
+        )
+
+    def _require_verdict_source(
+        verdict_run: dict[str, Any], receipt: dict[str, Any]
+    ) -> DuplicateCheckResult | None:
+        nonlocal source_fetches
+        kind, source_id = _verdict_source_run_id(receipt, repository)
+        if kind == "none":
+            return None
+        if kind != "run" or source_id is None or source_id == verdict_run.get("id"):
+            return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
+        if source_id in verdict_ignored_ids:
+            return _unverifiable(verdict_run, "derived_verdict_source_cycle")
+        if source_id in processed_ids:
+            if (
+                source_id in lenient_skipped_ids
+                or source_id in strict_unproven_ids
+                or not _valid_source_run(queued_runs[source_id], source_id)
+            ):
+                return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
+            return None
+        strict_ids.add(source_id)
+        if source_id in queued_runs:
+            return None
+        if source_fetches >= MAX_VERDICT_SOURCE_FETCHES:
+            return _unverifiable(verdict_run, "derived_verdict_source_chain_too_long")
+        source_fetches += 1
+        try:
+            source_run = _fetch_run(repository, token, source_id)
+        except Exception:
+            return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
+        if (
+            source_run.get("id") != source_id
+            or source_run.get("html_url")
+            != f"https://github.com/{repository}/actions/runs/{source_id}"
+        ) or str(source_run.get("path") or "") not in (
+            AUTO_DISPATCH_WORKFLOW_PATH,
+            TRIGGER_PODCAST_WORKFLOW_PATH,
+        ):
+            return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
+        queue.append(source_run)
+        queued_runs[source_id] = source_run
+        return None
+
+    index = 0
+    while index < len(queue):
+        run = queue[index]
+        index += 1
+        run_id_value = run["id"]
+        processed_ids.add(run_id_value)
+        strict = run_id_value in strict_ids
+        if strict and not _valid_source_run(run, run_id_value):
+            return _unverifiable(run, "derived_verdict_source_unverifiable")
 
         jobs: list[dict[str, Any]] = []
         log_text = ""
@@ -1208,15 +1483,18 @@ def check_duplicate_result(
             log_text = _run_logs(repository, token, run_id_value)
         except Exception:
             logs_unreadable = True
+        if jobs_unreadable or not jobs:
+            if strict:
+                return _unverifiable(run, "derived_verdict_source_unverifiable")
+            strict_unproven_ids.add(run_id_value)
 
         receipts = _parse_dispatch_receipts(log_text)
+        derived_verdict_count = sum(
+            1 for receipt in receipts if _receipt_state(receipt) in DERIVED_VERDICT_RECEIPT_STATES
+        )
         matched_receipt = False
         for receipt in receipts:
-            state = (
-                receipt.receipt_state
-                if isinstance(receipt, DispatchReceipt)
-                else str(receipt.get("receipt_state") or "")
-            )
+            state = _receipt_state(receipt)
             if _receipt_identity_conflicts(receipt, identity):
                 return DuplicateCheckResult(
                     status="ambiguous_prior_submission",
@@ -1254,6 +1532,22 @@ def check_duplicate_result(
                     prior_run_url=_run_url(run) or None,
                     reason=state,
                 )
+            if (
+                state in DERIVED_VERDICT_RECEIPT_STATES
+                and isinstance(receipt, dict)
+                and derived_verdict_count == 1
+                and not jobs_unreadable
+                and _receipt_self_emitted(receipt, run)
+                and _run_proves_no_handoff(run, jobs)
+            ):
+                source_result = _require_verdict_source(run, receipt)
+                if source_result is not None:
+                    return source_result
+                run_url = _run_url(run)
+                verdict_ignored_ids.add(run_id_value)
+                if run_url not in ignored:
+                    ignored.append(run_url)
+                continue
             if state in AMBIGUOUS_RECEIPT_STATES:
                 return DuplicateCheckResult(
                     status="ambiguous_prior_submission",
@@ -1270,6 +1564,12 @@ def check_duplicate_result(
                 reason="unknown_receipt_state",
             )
         if matched_receipt or receipts:
+            if matched_receipt and not (
+                _legacy_auto_pre_submit_only(run, jobs) or _legacy_manual_pre_submit_only(run, jobs)
+            ):
+                if strict:
+                    return _unverifiable(run, "derived_verdict_source_unverifiable")
+                strict_unproven_ids.add(run_id_value)
             continue
 
         if jobs_unreadable or logs_unreadable:
@@ -1300,7 +1600,15 @@ def check_duplicate_result(
                     prior_run_url=_run_url(run) or None,
                     reason="related_history_evidence_unavailable",
                 )
+            if strict:
+                return _unverifiable(run, "derived_verdict_source_unverifiable")
+            lenient_skipped_ids.add(run_id_value)
             continue
+
+        if not jobs and not log_text:
+            if strict:
+                return _unverifiable(run, "derived_verdict_source_unverifiable")
+            lenient_skipped_ids.add(run_id_value)
 
         compatibility, compat_identity = _compat_identity_for_run(
             run,
@@ -1309,6 +1617,19 @@ def check_duplicate_result(
             identity,
             repo_root,
         )
+        if compatibility == "ignore" and compat_identity is None:
+            attempted_publish_run_id = _extract_publish_run_id_from_log_text(log_text)
+            if not (
+                _legacy_auto_pre_submit_only(run, jobs)
+                or _legacy_manual_pre_submit_only(run, jobs)
+                or (
+                    attempted_publish_run_id is not None
+                    and attempted_publish_run_id != identity.publish_run_id
+                )
+            ):
+                if strict:
+                    return _unverifiable(run, "derived_verdict_source_unverifiable")
+                strict_unproven_ids.add(run_id_value)
         if (
             compatibility == "blocking"
             and compat_identity is not None
@@ -1340,6 +1661,13 @@ def check_duplicate_result(
                 reason="legacy_submission_without_canonical_receipt",
             )
 
+    if len(ignored) > MAX_IGNORED_SELF_BLOCKED_ATTEMPTS:
+        return DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            prior_run_url=ignored[0],
+            reason="pre_handoff_retry_budget_exhausted",
+        )
     return DuplicateCheckResult(status="clear", is_duplicate=False)
 
 

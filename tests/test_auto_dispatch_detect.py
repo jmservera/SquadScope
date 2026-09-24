@@ -1801,6 +1801,726 @@ class TestDuplicateCheck(unittest.TestCase):
 
 
 # ---------------------------------------------------------------------------
+# TestSelfBlockedPreHandoffRetry — W39 run 35562322880 regression
+# ---------------------------------------------------------------------------
+
+
+class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
+    """A week's own provably pre-handoff dedup failure must not block its retry."""
+
+    _GH_TOKEN = "ghp_faketoken"
+    _REPO = "example/squadscope"
+    _SELF_RUN_ID = 35562322880
+    _SOURCE_RUN_ID = 32730109166
+    _API = "https://api.github.com/repos/example/squadscope"
+
+    def _url(self, run_id: int) -> str:
+        return f"https://github.com/{self._REPO}/actions/runs/{run_id}"
+
+    def _auto_run(self, run_id: int = _SELF_RUN_ID, **overrides) -> dict:
+        run = {
+            "id": run_id,
+            "run_attempt": 1,
+            "path": detect.AUTO_DISPATCH_WORKFLOW_PATH,
+            "name": "Auto-dispatch: main",
+            "display_title": "Auto-dispatch: main",
+            "head_branch": "main",
+            "event": "workflow_run",
+            "status": "completed",
+            "conclusion": "failure",
+            "head_sha": "1a3d888f7a430721935d597c168a7c25aadf4672",
+            "html_url": self._url(run_id),
+        }
+        run.update(overrides)
+        return run
+
+    def _source_run(self, run_id: int = _SOURCE_RUN_ID, **overrides) -> dict:
+        run = {
+            "id": run_id,
+            "run_attempt": 1,
+            "path": detect.TRIGGER_PODCAST_WORKFLOW_PATH,
+            "name": "Trigger podcast generation",
+            "display_title": "Trigger podcast generation",
+            "head_branch": "main",
+            "event": "workflow_dispatch",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "head_sha": "def456",
+            "html_url": self._url(run_id),
+        }
+        run.update(overrides)
+        return run
+
+    def _w39_jobs(self, *, dispatch_conclusion: str = "skipped", dispatch_steps=None) -> list:
+        """Job shape observed for W39 run 35562322880."""
+        return [
+            {
+                "name": "Detect eligible weekly publication",
+                "conclusion": "failure",
+                "steps": [
+                    {"name": "Detect eligible manifest", "conclusion": "success"},
+                    {"name": "Check for duplicate dispatch", "conclusion": "failure"},
+                    {"name": "Emit detect receipt", "conclusion": "success"},
+                    {"name": "Record ambiguous prior dispatch notice", "conclusion": "success"},
+                ],
+            },
+            {
+                "name": "Protected podcast dispatch",
+                "conclusion": dispatch_conclusion,
+                "steps": dispatch_steps or [],
+            },
+            {"name": "Observe-only summary", "conclusion": "skipped", "steps": []},
+        ]
+
+    def _source_jobs(self, **overrides) -> list:
+        """Job shape observed for cancelled trigger-podcast run 32730109166."""
+        job = {
+            "name": "trigger-podcast",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "runner_id": 0,
+            "runner_name": "",
+            "steps": [],
+        }
+        job.update(overrides)
+        return [job]
+
+    def _receipt(self, state: str, *, run_id: int = _SELF_RUN_ID, **overrides) -> str:
+        payload = {
+            "schema_version": detect.RECEIPT_SCHEMA_VERSION,
+            "workflow": "auto-podcast-dispatch",
+            "receipt_state": state,
+            "week": WEEK,
+            "publish_run_id": RUN_ID,
+            "article_sha256": KNOWN_SHA256,
+            "manifest_sha256": KNOWN_MANIFEST_SHA256,
+            "prior_run_url": self._url(self._SOURCE_RUN_ID),
+            "actions_run_url": self._url(run_id),
+        }
+        payload.update(overrides)
+        encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+        return f"{detect.RECEIPT_PREFIX}{encoded}\n"
+
+    def _check(
+        self,
+        *,
+        auto_runs: list,
+        trigger_runs: list | None = None,
+        jobs: dict | None = None,
+        logs: dict | None = None,
+        runs_by_id: dict | None = None,
+    ):
+        routes = {
+            f"{self._API}/issues?state=all&per_page=100&page=1": lambda: b"[]",
+            (
+                f"{self._API}/actions/workflows/{detect.AUTO_DISPATCH_WORKFLOW}/runs"
+                f"?per_page={detect.WORKFLOW_LOOKBACK_RUNS}"
+            ): lambda: json.dumps({"workflow_runs": auto_runs}).encode(),
+            (
+                f"{self._API}/actions/workflows/{detect.TRIGGER_PODCAST_WORKFLOW}/runs"
+                f"?per_page={detect.WORKFLOW_LOOKBACK_RUNS}"
+            ): lambda: json.dumps({"workflow_runs": trigger_runs or []}).encode(),
+        }
+        for run_id, run_jobs in (jobs or {}).items():
+            routes[f"{self._API}/actions/runs/{run_id}/jobs?per_page=100"] = (
+                lambda run_jobs=run_jobs: json.dumps({"jobs": run_jobs}).encode()
+            )
+        for run_id, log_text in (logs or {}).items():
+            routes[f"{self._API}/actions/runs/{run_id}/logs"] = lambda log_text=log_text: (
+                _gh_logs_response(log_text).getvalue()
+            )
+        for run_id, run in (runs_by_id or {}).items():
+            routes[f"{self._API}/actions/runs/{run_id}"] = lambda run=run: json.dumps(run).encode()
+        fetched: list[str] = []
+
+        def _open(req, timeout=20):
+            fetched.append(req.full_url)
+            body = routes.get(req.full_url)
+            if body is None:
+                raise OSError(f"unavailable in fixture: {req.full_url}")
+            return _FakeHTTPResponse(body())
+
+        with (
+            mock.patch.object(detect, "fetch_publish_branch"),
+            mock.patch("urllib.request.urlopen", side_effect=_open),
+        ):
+            result = _check_duplicate_result(WEEK, RUN_ID, KNOWN_SHA256, self._GH_TOKEN, self._REPO)
+        return result, fetched
+
+    def _w39_history(self, **run_overrides) -> dict:
+        return {
+            "auto_runs": [self._auto_run(**run_overrides)],
+            "trigger_runs": [self._source_run()],
+            "jobs": {
+                self._SELF_RUN_ID: self._w39_jobs(),
+                self._SOURCE_RUN_ID: self._source_jobs(),
+            },
+            "logs": {
+                self._SELF_RUN_ID: self._receipt("ambiguous_prior_submission"),
+                self._SOURCE_RUN_ID: "",
+            },
+        }
+
+    def assertBlocked(self, result, reason: str | None = None) -> None:
+        self.assertNotEqual(result.status, "clear")
+        if reason is not None:
+            self.assertEqual(result.reason, reason)
+
+    # -- R1: provable pre-handoff failure does not block ---------------------
+
+    def test_w39_own_pre_handoff_verdict_does_not_block_retry(self):
+        result, _ = self._check(**self._w39_history())
+
+        self.assertEqual(result.status, "clear")
+        self.assertFalse(result.is_duplicate)
+        self.assertEqual(result.ignored_pre_handoff_runs, (self._url(self._SELF_RUN_ID),))
+
+    def test_verdict_without_source_does_not_block_retry(self):
+        history = self._w39_history()
+        history["logs"][self._SELF_RUN_ID] = self._receipt(
+            "ambiguous_prior_submission", prior_run_url=""
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertEqual(result.status, "clear")
+
+    def test_verdict_source_outside_lookback_is_fetched_and_reproven(self):
+        history = self._w39_history()
+        history["trigger_runs"] = []
+        history["runs_by_id"] = {self._SOURCE_RUN_ID: self._source_run()}
+
+        result, fetched = self._check(**history)
+
+        self.assertEqual(result.status, "clear")
+        self.assertIn(f"{self._API}/actions/runs/{self._SOURCE_RUN_ID}", fetched)
+
+    def test_budget_allows_two_ignored_self_blocked_attempts(self):
+        history = self._w39_history()
+        second = self._SELF_RUN_ID + 1
+        history["auto_runs"].insert(0, self._auto_run(second))
+        history["jobs"][second] = self._w39_jobs()
+        history["logs"][second] = self._receipt("ambiguous_prior_submission", run_id=second)
+
+        result, _ = self._check(**history)
+
+        self.assertEqual(result.status, "clear")
+        self.assertEqual(len(result.ignored_pre_handoff_runs), 2)
+
+    # -- R4: bounded retries -------------------------------------------------
+
+    def test_budget_blocks_after_three_ignored_self_blocked_attempts(self):
+        history = self._w39_history()
+        for offset in (1, 2):
+            run_id = self._SELF_RUN_ID + offset
+            history["auto_runs"].insert(0, self._auto_run(run_id))
+            history["jobs"][run_id] = self._w39_jobs()
+            history["logs"][run_id] = self._receipt("ambiguous_prior_submission", run_id=run_id)
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result, "pre_handoff_retry_budget_exhausted")
+        self.assertEqual(len(result.ignored_pre_handoff_runs), 3)
+
+    # -- R2: handed off still blocks ------------------------------------------
+
+    def test_handed_off_attempt_still_blocks(self):
+        history = self._w39_history()
+        history["jobs"][self._SELF_RUN_ID] = self._w39_jobs(
+            dispatch_conclusion="success",
+            dispatch_steps=[{"name": "Trigger podcast generation", "conclusion": "success"}],
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result, "ambiguous_prior_submission")
+        self.assertEqual(result.ignored_pre_handoff_runs, ())
+
+    def test_handoff_receipt_for_identity_in_later_run_still_blocks(self):
+        history = self._w39_history()
+        later = self._SELF_RUN_ID + 1
+        history["auto_runs"].insert(0, self._auto_run(later, conclusion="success"))
+        history["jobs"][later] = self._w39_jobs(dispatch_conclusion="success")
+        history["logs"][later] = self._receipt("submitted", run_id=later)
+
+        result, _ = self._check(**history)
+
+        self.assertEqual(result.status, "duplicate")
+        self.assertTrue(result.is_duplicate)
+
+    def test_verdict_source_with_real_submission_still_blocks(self):
+        history = self._w39_history()
+        history["trigger_runs"] = []
+        source = self._auto_run(self._SOURCE_RUN_ID, conclusion="success")
+        history["auto_runs"].append(source)
+        history["jobs"][self._SOURCE_RUN_ID] = self._w39_jobs(dispatch_conclusion="success")
+        history["logs"][self._SOURCE_RUN_ID] = self._receipt(
+            "handoff_entered", run_id=self._SOURCE_RUN_ID
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result, "handoff_entered")
+        self.assertEqual(result.ignored_pre_handoff_runs, (self._url(self._SELF_RUN_ID),))
+
+    # -- R2: unknown handoff outcome still blocks (UNKNOWN != FAILED) --------
+
+    def test_unknown_outcome_variants_still_block(self):
+        cases = {
+            "rerun_attempt": {"run_attempt": 2},
+            "in_progress": {"status": "in_progress", "conclusion": None},
+            "succeeded": {"conclusion": "success"},
+            "non_main_branch": {"head_branch": "feature"},
+            "unexpected_event": {"event": "push"},
+        }
+        for name, overrides in cases.items():
+            with self.subTest(case=name):
+                result, _ = self._check(**self._w39_history(**overrides))
+                self.assertBlocked(result, "ambiguous_prior_submission")
+                self.assertEqual(result.ignored_pre_handoff_runs, ())
+
+    def test_unreadable_or_incomplete_job_evidence_still_blocks(self):
+        job_cases = {
+            "jobs_unreadable": None,
+            "dispatch_job_missing": [self._w39_jobs()[0]],
+            "duplicate_dispatch_job": self._w39_jobs() + [self._w39_jobs()[1]],
+            "dedup_step_not_failed": [
+                {
+                    **self._w39_jobs()[0],
+                    "steps": [{"name": "Check for duplicate dispatch", "conclusion": "success"}],
+                },
+                *self._w39_jobs()[1:],
+            ],
+            "dispatch_steps_missing": [
+                self._w39_jobs()[0],
+                {"name": "Protected podcast dispatch", "conclusion": "skipped"},
+                self._w39_jobs()[2],
+            ],
+            "dispatch_steps_null": [
+                self._w39_jobs()[0],
+                {"name": "Protected podcast dispatch", "conclusion": "skipped", "steps": None},
+                self._w39_jobs()[2],
+            ],
+            "detect_steps_null": [
+                {**self._w39_jobs()[0], "steps": None},
+                *self._w39_jobs()[1:],
+            ],
+            "detect_step_not_object": [
+                {**self._w39_jobs()[0], "steps": ["Check for duplicate dispatch"]},
+                *self._w39_jobs()[1:],
+            ],
+            "job_not_object": [*self._w39_jobs(), "Protected podcast dispatch"],
+            "dispatch_step_ran": self._w39_jobs(
+                dispatch_steps=[{"name": "Set up job", "conclusion": "success"}]
+            ),
+        }
+        for name, run_jobs in job_cases.items():
+            with self.subTest(case=name):
+                history = self._w39_history()
+                if run_jobs is None:
+                    del history["jobs"][self._SELF_RUN_ID]
+                else:
+                    history["jobs"][self._SELF_RUN_ID] = run_jobs
+                result, _ = self._check(**history)
+                self.assertBlocked(result, "ambiguous_prior_submission")
+
+    def test_receipt_not_emitted_by_carrying_run_still_blocks(self):
+        for name, overrides in {
+            "foreign_actions_run_url": {"actions_run_url": self._url(99)},
+            "missing_actions_run_url": {"actions_run_url": ""},
+            "foreign_workflow": {"workflow": "trigger-podcast"},
+        }.items():
+            with self.subTest(case=name):
+                history = self._w39_history()
+                history["logs"][self._SELF_RUN_ID] = self._receipt(
+                    "ambiguous_prior_submission", **overrides
+                )
+                result, _ = self._check(**history)
+                self.assertBlocked(result, "ambiguous_prior_submission")
+
+    def test_multiple_verdict_receipts_in_one_run_still_block(self):
+        history = self._w39_history()
+        receipt = self._receipt("ambiguous_prior_submission")
+        history["logs"][self._SELF_RUN_ID] = receipt + receipt
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result, "ambiguous_prior_submission")
+
+    def test_unverifiable_verdict_source_still_blocks(self):
+        cases = {
+            "source_fetch_fails": {"trigger_runs": [], "runs_by_id": {}},
+            "source_logs_expired_after_handoff": {"source_handoff_ran": True},
+            "source_jobs_unreadable": {"drop_source_jobs": True},
+            "source_in_progress": {
+                "trigger_runs": [self._source_run(status="in_progress", conclusion=None)]
+            },
+            "source_jobs_empty": {"source_jobs": []},
+            "source_jobs_malformed": {"source_jobs": ["trigger-podcast"]},
+            "source_steps_null": {"source_jobs": self._source_jobs(steps=None)},
+            "source_step_not_object": {"source_jobs": self._source_jobs(steps=["Set up job"])},
+            "source_pre_submit_receipt_but_handoff_ran": {
+                "source_jobs": self._source_jobs(
+                    conclusion="success",
+                    runner_id=7,
+                    runner_name="GitHub Actions 7",
+                    steps=[
+                        {
+                            "name": "Trigger podcast generation with existing manifest",
+                            "conclusion": "success",
+                        }
+                    ],
+                ),
+                "source_log": "PRE_SUBMIT",
+            },
+            "source_jobs_unreadable_with_pre_submit_receipt": {
+                "drop_source_jobs": True,
+                "source_log": "PRE_SUBMIT",
+            },
+            "source_foreign_html_url": {
+                "trigger_runs": [],
+                "runs_by_id": {
+                    self._SOURCE_RUN_ID: self._source_run(
+                        html_url=f"https://github.com/other/repo/actions/runs/{self._SOURCE_RUN_ID}"
+                    )
+                },
+            },
+            "source_missing_html_url": {
+                "trigger_runs": [],
+                "runs_by_id": {self._SOURCE_RUN_ID: self._source_run(html_url=None)},
+            },
+            "source_foreign_workflow": {
+                "trigger_runs": [],
+                "runs_by_id": {
+                    self._SOURCE_RUN_ID: self._source_run(path=".github/workflows/ci.yml")
+                },
+            },
+        }
+        for name, change in cases.items():
+            with self.subTest(case=name):
+                history = self._w39_history()
+                if change.pop("source_handoff_ran", False):
+                    del history["logs"][self._SOURCE_RUN_ID]
+                    history["jobs"][self._SOURCE_RUN_ID] = self._source_jobs(
+                        runner_id=7,
+                        runner_name="GitHub Actions 7",
+                        steps=[
+                            {
+                                "name": "Trigger podcast generation with existing manifest",
+                                "conclusion": "success",
+                            }
+                        ],
+                    )
+                if change.pop("drop_source_jobs", False):
+                    del history["jobs"][self._SOURCE_RUN_ID]
+                if "source_jobs" in change:
+                    history["jobs"][self._SOURCE_RUN_ID] = change.pop("source_jobs")
+                if change.pop("source_log", None) == "PRE_SUBMIT":
+                    history["logs"][self._SOURCE_RUN_ID] = self._receipt(
+                        "pre_submit_failed", run_id=self._SOURCE_RUN_ID
+                    )
+                history.update(change)
+                result, _ = self._check(**history)
+                self.assertBlocked(result, "derived_verdict_source_unverifiable")
+
+    def test_cancelled_source_job_that_got_a_runner_still_blocks(self):
+        for name, overrides in {
+            "runner_assigned": {"runner_id": 7, "runner_name": "GitHub Actions 7"},
+            "runner_fields_missing": {"runner_id": None, "runner_name": None},
+            "not_cancelled": {"conclusion": "failure"},
+        }.items():
+            with self.subTest(case=name):
+                history = self._w39_history()
+                history["jobs"][self._SOURCE_RUN_ID] = self._source_jobs(**overrides)
+                result, _ = self._check(**history)
+                self.assertBlocked(result, "legacy_submission_without_canonical_receipt")
+
+    def test_unrelated_never_started_manual_run_does_not_block_first_dispatch(self):
+        result, _ = self._check(
+            auto_runs=[],
+            trigger_runs=[self._source_run()],
+            jobs={self._SOURCE_RUN_ID: self._source_jobs()},
+            logs={self._SOURCE_RUN_ID: ""},
+        )
+
+        self.assertEqual(result.status, "clear")
+        self.assertEqual(result.ignored_pre_handoff_runs, ())
+
+    def test_manual_handoff_failure_is_scoped_to_its_publish_run(self):
+        failed_handoff = self._source_jobs(
+            conclusion="failure",
+            runner_id=7,
+            runner_name="GitHub Actions 7",
+            steps=[
+                {
+                    "name": "Trigger podcast generation with existing manifest",
+                    "conclusion": "failure",
+                }
+            ],
+        )
+        for name, log_text, expected in (
+            (
+                "other_publish_run",
+                "::notice::Using manifest from crawl-and-publish run 29744859230 (x)\n",
+                "clear",
+            ),
+            (
+                "same_publish_run",
+                f"::notice::Using manifest from crawl-and-publish run {RUN_ID} (x)\n",
+                "ambiguous_prior_submission",
+            ),
+            ("publish_run_not_logged", "", "ambiguous_prior_submission"),
+        ):
+            with self.subTest(case=name):
+                result, _ = self._check(
+                    auto_runs=[],
+                    trigger_runs=[self._source_run(conclusion="failure")],
+                    jobs={self._SOURCE_RUN_ID: failed_handoff},
+                    logs={self._SOURCE_RUN_ID: log_text},
+                )
+                self.assertEqual(result.status, expected)
+
+    def test_w39_pre_recovery_history_replay_allows_retry(self):
+        """Replay of the W39 history shape before the manual recovery dispatch."""
+        unrelated_failed = 30162265246
+        history = self._w39_history()
+        history["trigger_runs"].append(self._source_run(unrelated_failed, conclusion="failure"))
+        history["jobs"][unrelated_failed] = self._source_jobs(
+            conclusion="failure",
+            runner_id=1000091927,
+            runner_name="GitHub Actions 1000091927",
+            steps=[
+                {
+                    "name": "Trigger podcast generation with existing manifest",
+                    "conclusion": "failure",
+                }
+            ],
+        )
+        history["logs"][unrelated_failed] = (
+            "::notice::Using manifest from crawl-and-publish run 29744859230 (x)\n"
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertEqual(result.status, "clear")
+        self.assertEqual(result.ignored_pre_handoff_runs, (self._url(self._SELF_RUN_ID),))
+
+    def test_verdict_source_url_must_be_a_distinct_same_repo_run(self):
+        for name, prior_run_url in {
+            "self_reference": self._url(self._SELF_RUN_ID),
+            "foreign_repo": f"https://github.com/other/repo/actions/runs/{self._SOURCE_RUN_ID}",
+            "not_a_run_url": "https://example.com/runs/1",
+        }.items():
+            with self.subTest(case=name):
+                history = self._w39_history()
+                history["logs"][self._SELF_RUN_ID] = self._receipt(
+                    "ambiguous_prior_submission", prior_run_url=prior_run_url
+                )
+                result, _ = self._check(**history)
+                self.assertBlocked(result, "derived_verdict_source_unverifiable")
+
+    def test_contradictory_source_job_evidence_fails_closed(self):
+        skipped = {"name": "Protected podcast dispatch", "conclusion": "skipped", "steps": []}
+        ran = {"name": "Protected podcast dispatch", "conclusion": "success", "steps": []}
+        cases = {
+            "auto_source_skipped_and_ran": (
+                self._auto_run(self._SOURCE_RUN_ID, conclusion="success"),
+                [skipped, ran],
+            ),
+            "manual_source_duplicate_job": (
+                self._source_run(),
+                self._source_jobs()
+                + self._source_jobs(
+                    conclusion="success",
+                    runner_id=7,
+                    runner_name="GitHub Actions 7",
+                    steps=[
+                        {
+                            "name": "Trigger podcast generation with existing manifest",
+                            "conclusion": "success",
+                        }
+                    ],
+                ),
+            ),
+        }
+        for name, (source, source_jobs) in cases.items():
+            with self.subTest(case=name):
+                history = self._w39_history()
+                history["trigger_runs"] = []
+                if source["path"] == detect.AUTO_DISPATCH_WORKFLOW_PATH:
+                    history["auto_runs"].append(source)
+                else:
+                    history["trigger_runs"] = [source]
+                history["jobs"][self._SOURCE_RUN_ID] = source_jobs
+                result, _ = self._check(**history)
+                self.assertNotEqual(result.status, "clear")
+
+    def test_already_processed_source_is_reproven_strictly(self):
+        """A source scanned before its referencing verdict still needs strict proof."""
+        ran = {
+            "name": "Protected podcast dispatch",
+            "status": "completed",
+            "conclusion": "success",
+            "steps": [{"name": "Dispatch", "status": "completed", "conclusion": "success"}],
+        }
+        detect_job = {"name": "Detect publication", "status": "completed", "conclusion": "success"}
+        source = self._auto_run(self._SOURCE_RUN_ID, conclusion="success")
+        history = self._w39_history()
+        history["trigger_runs"] = []
+        history["auto_runs"] = [source, self._auto_run()]
+        history["jobs"][self._SOURCE_RUN_ID] = [detect_job, ran]
+        history["logs"][self._SOURCE_RUN_ID] = self._receipt(
+            "pre_submit_failed", run_id=self._SOURCE_RUN_ID, prior_run_url=""
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result, "derived_verdict_source_unverifiable")
+
+    def test_two_run_verdict_cycle_fails_closed(self):
+        history = self._w39_history()
+        other = self._SELF_RUN_ID - 1
+        history["trigger_runs"] = []
+        history["auto_runs"].append(self._auto_run(other))
+        history["jobs"][other] = self._w39_jobs()
+        history["logs"][self._SELF_RUN_ID] = self._receipt(
+            "ambiguous_prior_submission", prior_run_url=self._url(other)
+        )
+        history["logs"][other] = self._receipt(
+            "ambiguous_prior_submission", run_id=other, prior_run_url=self._url(self._SELF_RUN_ID)
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result, "derived_verdict_source_cycle")
+
+    def test_in_lookback_verdict_source_metadata_is_validated(self):
+        for name, overrides in {
+            "foreign_html_url": {
+                "html_url": f"https://github.com/other/repo/actions/runs/{self._SOURCE_RUN_ID}"
+            },
+            "missing_html_url": {"html_url": None},
+        }.items():
+            for position in ("before", "after"):
+                with self.subTest(case=name, position=position):
+                    history = self._w39_history()
+                    source = self._source_run(**overrides)
+                    history["trigger_runs"] = []
+                    if position == "before":
+                        history["auto_runs"].insert(0, {**source, "path": source["path"]})
+                    else:
+                        history["trigger_runs"] = [source]
+                    result, _ = self._check(**history)
+                    self.assertBlocked(result, "derived_verdict_source_unverifiable")
+
+    def test_verdict_source_chain_is_bounded_and_cycle_safe(self):
+        history = self._w39_history()
+        history["trigger_runs"] = []
+        chain = [
+            self._SOURCE_RUN_ID + offset for offset in range(detect.MAX_VERDICT_SOURCE_FETCHES + 1)
+        ]
+        history["runs_by_id"] = {}
+        previous = self._SELF_RUN_ID
+        for run_id in chain:
+            history["logs"][previous] = self._receipt(
+                "ambiguous_prior_submission", run_id=previous, prior_run_url=self._url(run_id)
+            )
+            history["jobs"][run_id] = self._w39_jobs()
+            history["runs_by_id"][run_id] = self._auto_run(run_id)
+            previous = run_id
+        history["logs"][previous] = self._receipt(
+            "ambiguous_prior_submission", run_id=previous, prior_run_url=self._url(chain[0])
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertBlocked(result)
+
+    # -- R3: identity scope ----------------------------------------------------
+
+    def test_verdict_for_other_identity_is_not_counted(self):
+        history = self._w39_history()
+        other = self._SELF_RUN_ID + 1
+        history["auto_runs"].insert(0, self._auto_run(other))
+        history["jobs"][other] = self._w39_jobs()
+        history["logs"][other] = self._receipt(
+            "ambiguous_prior_submission", run_id=other, week="2026-W38"
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertEqual(result.status, "clear")
+        self.assertEqual(result.ignored_pre_handoff_runs, (self._url(self._SELF_RUN_ID),))
+
+    # -- R5: loud logs and summary --------------------------------------------
+
+    def test_cli_summary_explains_proceed_decision_without_receipt_prefix(self):
+        result = detect.DuplicateCheckResult(
+            status="clear",
+            is_duplicate=False,
+            ignored_pre_handoff_runs=(self._url(self._SELF_RUN_ID),),
+        )
+        self._assert_cli_summary(result, ["✅ Dispatch may proceed", self._url(self._SELF_RUN_ID)])
+
+    def test_cli_summary_explains_blocked_decision(self):
+        result = detect.DuplicateCheckResult(
+            status="ambiguous_prior_submission",
+            is_duplicate=False,
+            prior_run_url=self._url(self._SELF_RUN_ID),
+            reason="pre_handoff_retry_budget_exhausted",
+        )
+        self._assert_cli_summary(
+            result,
+            ["⛔ Blocked", "pre_handoff_retry_budget_exhausted", "workflow_dispatch"],
+            expect_exit=True,
+        )
+
+    def _assert_cli_summary(self, result, needles, *, expect_exit=False) -> None:
+        TEST_WORKSPACES_ROOT.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=TEST_WORKSPACES_ROOT) as tmp:
+            summary = Path(tmp) / "summary.md"
+            output = Path(tmp) / "output.txt"
+            env = {
+                "GH_TOKEN": self._GH_TOKEN,
+                "GITHUB_REPOSITORY": self._REPO,
+                "GITHUB_STEP_SUMMARY": str(summary),
+                "GITHUB_OUTPUT": str(output),
+            }
+            argv = [
+                "--check-duplicate",
+                "--week",
+                WEEK,
+                "--publish-run-id",
+                RUN_ID,
+                "--article-sha256",
+                KNOWN_SHA256,
+                "--manifest-sha256",
+                KNOWN_MANIFEST_SHA256,
+            ]
+            stdout = io.StringIO()
+            with (
+                mock.patch.dict(os.environ, env),
+                mock.patch.object(detect, "check_duplicate_result", return_value=result),
+                mock.patch("sys.stdout", stdout),
+                mock.patch("sys.stderr", io.StringIO()),
+            ):
+                if expect_exit:
+                    with self.assertRaises(SystemExit):
+                        detect.main(argv)
+                else:
+                    detect.main(argv)
+            text = summary.read_text(encoding="utf-8")
+        self.assertIn("## Podcast dispatch dedup decision", text)
+        for needle in needles:
+            self.assertIn(needle, text)
+        self.assertNotIn(detect.RECEIPT_PREFIX, text)
+        self.assertNotIn(detect.RECEIPT_PREFIX, stdout.getvalue())
+        for run_url in result.ignored_pre_handoff_runs:
+            self.assertIn("::notice::Ignoring own earlier auto-dispatch attempt", stdout.getvalue())
+            self.assertIn(run_url, stdout.getvalue())
+
+
+# ---------------------------------------------------------------------------
 # TestWeekExtraction
 # ---------------------------------------------------------------------------
 
