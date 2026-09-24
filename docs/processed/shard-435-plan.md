@@ -76,13 +76,13 @@ python -m scripts.crawl_shard_experiment \
 
 The runs below were local-only and nothing was published. Raw payloads are not committed. Each run used `--api-budget-multiplier 1.1`, the default isolated cache mode, and a GitHub REST token. The windows were the three most recent complete weeks.
 
-| Run | Window | Shards | Budget | Baseline s | Shard s | Speedup | API calls (b/s) | Rate-limit events (b/s) | Repo sets equal | Verdict |
-|---|---|---|---|---|---|---|---|---|---|---|
-| b1500-W38 | 2026-09-14→21 | 3 | 1500 | 333.5 | 318.6 | 4.5% ❌ | 447 / 447 (0%) ✅ | 0 / 0 ✅ | yes | fail |
-| b1500-W37 | 2026-09-07→14 | 3 | 1500 | 331.3 | 317.5 | 4.2% ❌ | 444 / 444 (0%) ✅ | 0 / 0 ✅ | yes | fail |
-| b1500-W36 | 2026-08-31→09-07 | 3 | 1500 | 334.0 | 314.2 | 5.9% ❌ | 447 / 447 (0%) ✅ | 0 / 0 ✅ | yes | fail |
-| s5-W38 (supplementary) | 2026-09-14→21 | 5 | 1500 | 337.1 | 117.6 | 65.1% ✅ | 447 / 447 (0%) ✅ | 0 / 0 ✅ | yes | fail (byte-stability) |
-| s5-W37 (supplementary) | 2026-09-07→14 | 5 | 1500 | 338.9 | 122.7 | 63.8% ✅ | 444 / 444 (0%) ✅ | 0 / 0 ✅ | yes | fail (byte-stability) |
+| Run | Window | Shards | Budget | Baseline s | Shard s | Speedup | API calls (b/s) | Rate-limit events (b/s) | Byte-stable fan-in | Repo sets equal | Verdict |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| b1500-W38 | 2026-09-14→21 | 3 | 1500 | 333.5 | 318.6 | 4.5% ❌ | 447 / 447 (0%) ✅ | 0 / 0 ✅ | no ❌ (live drift) | yes | fail |
+| b1500-W37 | 2026-09-07→14 | 3 | 1500 | 331.3 | 317.5 | 4.2% ❌ | 444 / 444 (0%) ✅ | 0 / 0 ✅ | no ❌ (live drift) | yes | fail |
+| b1500-W36 | 2026-08-31→09-07 | 3 | 1500 | 334.0 | 314.2 | 5.9% ❌ | 447 / 447 (0%) ✅ | 0 / 0 ✅ | no ❌ (live drift) | yes | fail |
+| s5-W38 (supplementary) | 2026-09-14→21 | 5 | 1500 | 337.1 | 117.6 | 65.1% ✅ | 447 / 447 (0%) ✅ | 0 / 0 ✅ | no ❌ (live drift) | yes | fail (byte-stability) |
+| s5-W37 (supplementary) | 2026-09-07→14 | 5 | 1500 | 338.9 | 122.7 | 63.8% ✅ | 444 / 444 (0%) ✅ | 0 / 0 ✅ | no ❌ (live drift) | yes | fail (byte-stability) |
 
 Findings:
 
