@@ -360,6 +360,35 @@ Rollback has two parts: disable the flag and revert the generated promotion tran
 a recorded post-activation review of that transaction and one-slug-at-a-time expansion,
 tracked in [#798](https://github.com/jmservera/SquadScope/issues/798).
 
+**Post-activation review (2026-09-24, Hermes/Amy, against `main` `0829ca7`)**:
+
+* Transaction: the log records exactly one `promote-topic` event (`local-first`, evidence
+  weeks `2026-W27` to `W33`, nine sources, five supporting signals). Every later run records
+  `created=0` and only `assign-promoted-topics` events.
+* Assignments: 15 weekly issues carry `topics: [..., "Local First"]` (W22, W24, W27 to W39),
+  matching the registry `weekly_issue_count = 15`. Each one traces to a weekly tag, an
+  analysis-summary signal, or a raw repository `topics` entry. W22 and W24 predate the
+  promotion evidence window because `assign_promoted_topics_from_sources` scans every stored
+  week. This is expected taxonomy backfill, not an unreviewed promotion.
+* Sanitization and YAML: the hub title passes `safe_candidate_title`, and the hub and all
+  assigned weekly frontmatter parse as YAML. The hub body is fixed template text with no
+  imported prose.
+* Rendering: a local `hugo --minify` build renders `/topics/local-first/` with 15 linked
+  weekly issues, a 15-item RSS feed, a canonical link, and no external images. The hub
+  description still says "7 weekly issues". That is the creation-time count and is
+  intentionally durable.
+* Rollback, verified by tests in `tests/test_topic_hubs.py`: setting `enabled = false`
+  stops new promotions only. The always-on `backfill_weekly_topics.py` step keeps
+  assigning the promoted topic to new weeks while the registry term stays promoted. A full
+  rollback must therefore remove the hub, reset or remove the registry term, strip the
+  weekly `topics` entries, and remove the slug from `allow_topics`. That reverted state is
+  a stable fixed point across `manage_topic_hubs`, `backfill_weekly_topics`, and
+  `taxonomy_registry`, even with the flag re-enabled. A partial revert that leaves weekly
+  topics in place fails closed.
+
+Result: no findings block the canary. Expansion remains one reviewed slug per PR, held
+until the coordinator production boundary lifts (W40 verified).
+
 ### Staged repo_pages activation (2026-08-08)
 
 `repo_pages` is sponsor-approved (ID-02) and its content is already regenerated to match

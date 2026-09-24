@@ -1041,3 +1041,126 @@ draft: false
     assert topic_page.exists(), "Hugo must render a taxonomy page for an unpaged topic"
     topic_html = topic_page.read_text(encoding="utf-8")
     assert "Unpaged Topic" in topic_html
+
+
+def _promote_quantum_canary() -> Path:
+    _write_allowlist_workspace(["quantum-tooling"], enabled=True)
+    config_path = WORKSPACE / "config" / "observatory.toml"
+    created = create_dynamic_hubs(
+        root=WORKSPACE, config_path=config_path, current_date="2026-07-29T12:57:30Z"
+    )
+    assert [path.parent.name for path in created] == ["quantum-tooling"]
+    return config_path
+
+
+def _weekly_topics(week: str) -> list[str]:
+    document = (WORKSPACE / "content" / "weekly" / "2026" / f"W{week}.md").read_text(
+        encoding="utf-8"
+    )
+    return yaml.safe_load(document.split("---")[1])["topics"]
+
+
+def _write_new_week_tagged_with_canary(week: str) -> None:
+    (WORKSPACE / "content" / "weekly" / "2026" / f"W{week}.md").write_text(
+        f'---\ntitle: "2026-W{week}"\ndate: 2026-08-03\nweek: "2026-W{week}"\n'
+        'tags: ["quantum-tooling"]\ncategories: ["weekly"]\ntopics: []\n---\nBody\n',
+        encoding="utf-8",
+    )
+
+
+def test_disabling_the_canary_flag_stops_promotion_but_not_backfill_assignment() -> None:
+    # Rollback step 1 (flag off) only halts new promotions. The already-promoted
+    # registry term keeps mapping matching tags onto new weekly issues through the
+    # always-on backfill step, so a real rollback must also revert the transaction.
+    from scripts.backfill_weekly_topics import backfill_weekly_topics
+
+    config_path = _promote_quantum_canary()
+    config_path.write_text(
+        config_path.read_text(encoding="utf-8").replace("enabled = true", "enabled = false"),
+        encoding="utf-8",
+    )
+    _write_new_week_tagged_with_canary("32")
+
+    assert (
+        create_dynamic_hubs(
+            root=WORKSPACE, config_path=config_path, current_date="2026-08-05T12:00:00Z"
+        )
+        == []
+    )
+    assert _weekly_topics("32") == []
+
+    backfill_weekly_topics(root=WORKSPACE)
+    assert _weekly_topics("32") == ["Quantum Tooling"]
+
+
+def test_reverting_the_canary_transaction_with_the_flag_off_is_a_stable_fixed_point() -> None:
+    # Rollback step 2: remove the hub, reset the registry term, strip the weekly
+    # topic, and drop the slug from the allowlist. Every always-on pipeline step
+    # must then leave the reverted state untouched, even if the flag is re-enabled.
+    from scripts.backfill_weekly_topics import backfill_weekly_topics
+    from scripts.taxonomy_registry import update_taxonomy_registries
+
+    config_path = _promote_quantum_canary()
+    weeks = ["28", "29", "30", "31"]
+    assert all(_weekly_topics(week) == ["Quantum Tooling"] for week in weeks)
+
+    shutil.rmtree(WORKSPACE / "content" / "topics" / "quantum-tooling")
+    registry_path = WORKSPACE / "data" / "taxonomy" / "topics.json"
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    del registry["terms"]["quantum-tooling"]
+    registry_path.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", "utf-8")
+    for week in weeks:
+        path = WORKSPACE / "content" / "weekly" / "2026" / f"W{week}.md"
+        path.write_text(
+            path.read_text(encoding="utf-8").replace('topics: ["Quantum Tooling"]', "topics: []"),
+            encoding="utf-8",
+        )
+    config_path.write_text(
+        config_path.read_text(encoding="utf-8")
+        .replace("enabled = true", "enabled = false")
+        .replace('allow_topics = ["quantum-tooling"]', 'allow_topics = ["wasm-runtimes-held"]'),
+        encoding="utf-8",
+    )
+    _write_new_week_tagged_with_canary("32")
+
+    for enabled in (False, True):
+        if enabled:
+            config_path.write_text(
+                config_path.read_text(encoding="utf-8").replace(
+                    "enabled = false", "enabled = true"
+                ),
+                encoding="utf-8",
+            )
+        assert (
+            create_dynamic_hubs(
+                root=WORKSPACE, config_path=config_path, current_date="2026-08-05T12:00:00Z"
+            )
+            == []
+        )
+        assert backfill_weekly_topics(root=WORKSPACE) == []
+        update_taxonomy_registries(root=WORKSPACE, config_path=config_path)
+
+        assert not (WORKSPACE / "content" / "topics" / "quantum-tooling").exists()
+        assert all(_weekly_topics(week) == [] for week in [*weeks, "32"])
+        term = json.loads(registry_path.read_text(encoding="utf-8"))["terms"].get(
+            "quantum-tooling", {}
+        )
+        assert not term.get("is_hub")
+        assert not term.get("promoted")
+
+
+def test_partial_canary_revert_that_keeps_weekly_topics_fails_closed() -> None:
+    # Deleting the hub and registry term without stripping weekly frontmatter must
+    # stop the pipeline instead of publishing topics that point at a missing hub.
+    from scripts.backfill_weekly_topics import backfill_weekly_topics
+    from scripts.generate_content import GenerationError
+
+    _promote_quantum_canary()
+    shutil.rmtree(WORKSPACE / "content" / "topics" / "quantum-tooling")
+    registry_path = WORKSPACE / "data" / "taxonomy" / "topics.json"
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    del registry["terms"]["quantum-tooling"]
+    registry_path.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", "utf-8")
+
+    with pytest.raises((GenerationError, ValueError)):
+        backfill_weekly_topics(root=WORKSPACE)
