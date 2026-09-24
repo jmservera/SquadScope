@@ -627,7 +627,9 @@ def _run_jobs(repo: str, token: str, run_id: int) -> list[dict[str, Any]]:
     url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/jobs?per_page=100"
     payload = _github_api_json(url, token)
     jobs = payload.get("jobs", [])
-    return jobs if isinstance(jobs, list) else []
+    if not isinstance(jobs, list) or not all(isinstance(job, dict) for job in jobs):
+        raise ValueError(f"GitHub jobs response was malformed for run {run_id}")
+    return jobs
 
 
 def _run_logs(repo: str, token: str, run_id: int) -> str:

@@ -2156,6 +2156,7 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
                 "trigger_runs": [self._source_run(status="in_progress", conclusion=None)]
             },
             "source_jobs_empty": {"source_jobs": []},
+            "source_jobs_malformed": {"source_jobs": ["trigger-podcast"]},
             "source_jobs_unreadable_with_pre_submit_receipt": {
                 "drop_source_jobs": True,
                 "source_log": "PRE_SUBMIT",
