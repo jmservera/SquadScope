@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import json
 import os
 import re
@@ -311,7 +312,13 @@ class GitHubClient:
                     attempt, headers, body, query, retry_limit, max_delay_seconds
                 )
                 attempt += 1
-            except (error.URLError, TimeoutError) as exc:
+            except (
+                error.URLError,
+                TimeoutError,
+                ConnectionError,
+                http.client.HTTPException,
+            ) as exc:
+                # Dropped connections (e.g. RemoteDisconnected, IncompleteRead) are transient.
                 if attempt >= retry_limit:
                     if stale_fallback is not None:
                         self.stale_cache_hits += 1

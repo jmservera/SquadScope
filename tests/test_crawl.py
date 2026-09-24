@@ -156,6 +156,44 @@ class CrawlTests(unittest.TestCase):
 
         crawl.validate_payload(payload)
 
+    def test_get_json_entry_retries_dropped_connections(self) -> None:
+        response = mock.MagicMock()
+        response.__enter__.return_value = response
+        response.status = 200
+        response.headers = {}
+        response.read.return_value = b'{"ok": true}'
+        with tempfile.TemporaryDirectory() as tmp:
+            client = crawl.GitHubClient("token", cache_dir=Path(tmp), max_retries=2)
+            with (
+                mock.patch(
+                    "scripts.crawl.request.urlopen",
+                    side_effect=[
+                        crawl.http.client.RemoteDisconnected("closed"),
+                        ConnectionResetError("reset"),
+                        response,
+                    ],
+                ) as urlopen_mock,
+                mock.patch.object(client, "_sleep_before_retry") as sleep_mock,
+            ):
+                entry = client.get_json_entry("https://api.github.com/repos/o/r")
+
+        self.assertEqual(entry.payload, {"ok": True})
+        self.assertEqual(urlopen_mock.call_count, 3)
+        self.assertEqual(sleep_mock.call_count, 2)
+
+    def test_get_json_entry_raises_after_exhausting_dropped_connection_retries(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            client = crawl.GitHubClient("token", cache_dir=Path(tmp), max_retries=1)
+            with (
+                mock.patch(
+                    "scripts.crawl.request.urlopen",
+                    side_effect=crawl.http.client.RemoteDisconnected("closed"),
+                ),
+                mock.patch.object(client, "_sleep_before_retry"),
+                self.assertRaisesRegex(RuntimeError, "GitHub API request failed"),
+            ):
+                client.get_json_entry("https://api.github.com/repos/o/r")
+
     def test_pause_for_rate_limit_cools_down_without_reset_hint(self) -> None:
         client = crawl.GitHubClient("token")
         client.rate_limit_limit = 5000
