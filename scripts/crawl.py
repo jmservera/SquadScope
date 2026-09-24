@@ -161,6 +161,11 @@ class ResponseCache:
         return self.root / f"{label}-{digest}.json"
 
 
+def _is_saml_block(status: int, lowered_body: str) -> bool:
+    """A SAML-enforcement 403 is a permanent token/org policy denial, not a rate limit."""
+    return status == 403 and "saml enforcement" in lowered_body
+
+
 class GitHubClient:
     def __init__(
         self, token: str, *, cache_dir: Path = CACHE_ROOT, timeout: int = 30, max_retries: int = 6
@@ -281,7 +286,7 @@ class GitHubClient:
                 self._update_rate_limit(headers)
                 body = exc.read().decode("utf-8", errors="replace")
                 lowered_body = body.lower()
-                if (
+                if not _is_saml_block(exc.code, lowered_body) and (
                     exc.code in {403, 429}
                     or "rate limit" in lowered_body
                     or "abuse" in lowered_body
@@ -404,6 +409,8 @@ class GitHubClient:
 
     def _should_retry(self, status: int, body: str) -> bool:
         lowered = body.lower()
+        if _is_saml_block(status, lowered):
+            return False
         return status in RETRYABLE_STATUSES or "secondary rate limit" in lowered
 
     def _sleep_before_retry(

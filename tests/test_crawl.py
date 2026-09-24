@@ -1,3 +1,4 @@
+import io
 import json
 import tempfile
 import unittest
@@ -193,6 +194,31 @@ class CrawlTests(unittest.TestCase):
                 self.assertRaisesRegex(RuntimeError, "GitHub API request failed"),
             ):
                 client.get_json_entry("https://api.github.com/repos/o/r")
+
+    def test_has_readme_does_not_retry_saml_blocked_org(self) -> None:
+        body = (
+            b'{"message":"Resource protected by organization SAML enforcement. You must '
+            b'grant your OAuth token access to this organization.","status":"403"}'
+        )
+        saml_error = crawl.error.HTTPError(
+            "https://api.github.com/repos/o/r/readme", 403, "Forbidden", {}, io.BytesIO(body)
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            client = crawl.GitHubClient("token", cache_dir=Path(tmp))
+            with (
+                mock.patch("scripts.crawl.request.urlopen", side_effect=saml_error) as urlopen_mock,
+                mock.patch.object(client, "_sleep_before_retry") as sleep_mock,
+            ):
+                self.assertFalse(client.has_readme("o/r"))
+
+        self.assertEqual(urlopen_mock.call_count, 1)
+        sleep_mock.assert_not_called()
+        self.assertEqual(client.rate_limit_events, 0)
+
+    def test_should_retry_still_retries_plain_403(self) -> None:
+        client = crawl.GitHubClient("token")
+        self.assertTrue(client._should_retry(403, '{"message":"API rate limit exceeded"}'))
+        self.assertTrue(client._should_retry(403, '{"message":"Forbidden"}'))
 
     def test_pause_for_rate_limit_cools_down_without_reset_hint(self) -> None:
         client = crawl.GitHubClient("token")
