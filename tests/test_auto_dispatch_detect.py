@@ -2061,6 +2061,7 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
         result, _ = self._check(**history)
 
         self.assertBlocked(result, "handoff_entered")
+        self.assertEqual(result.ignored_pre_handoff_runs, (self._url(self._SELF_RUN_ID),))
 
     # -- R2: unknown handoff outcome still blocks (UNKNOWN != FAILED) --------
 
@@ -2089,6 +2090,16 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
                     "steps": [{"name": "Check for duplicate dispatch", "conclusion": "success"}],
                 },
                 *self._w39_jobs()[1:],
+            ],
+            "dispatch_steps_missing": [
+                self._w39_jobs()[0],
+                {"name": "Protected podcast dispatch", "conclusion": "skipped"},
+                self._w39_jobs()[2],
+            ],
+            "dispatch_steps_null": [
+                self._w39_jobs()[0],
+                {"name": "Protected podcast dispatch", "conclusion": "skipped", "steps": None},
+                self._w39_jobs()[2],
             ],
             "dispatch_step_ran": self._w39_jobs(
                 dispatch_steps=[{"name": "Set up job", "conclusion": "success"}]
@@ -2135,6 +2146,11 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
             "source_in_progress": {
                 "trigger_runs": [self._source_run(status="in_progress", conclusion=None)]
             },
+            "source_jobs_empty": {"source_jobs": []},
+            "source_jobs_unreadable_with_pre_submit_receipt": {
+                "drop_source_jobs": True,
+                "source_log": "PRE_SUBMIT",
+            },
             "source_foreign_workflow": {
                 "trigger_runs": [],
                 "runs_by_id": {
@@ -2159,6 +2175,12 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
                     )
                 if change.pop("drop_source_jobs", False):
                     del history["jobs"][self._SOURCE_RUN_ID]
+                if "source_jobs" in change:
+                    history["jobs"][self._SOURCE_RUN_ID] = change.pop("source_jobs")
+                if change.pop("source_log", None) == "PRE_SUBMIT":
+                    history["logs"][self._SOURCE_RUN_ID] = self._receipt(
+                        "pre_submit_failed", run_id=self._SOURCE_RUN_ID
+                    )
                 history.update(change)
                 result, _ = self._check(**history)
                 self.assertBlocked(result, "derived_verdict_source_unverifiable")

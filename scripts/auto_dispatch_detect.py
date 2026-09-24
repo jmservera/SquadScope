@@ -490,7 +490,7 @@ def _run_proves_no_handoff(run: dict[str, Any], jobs: list[dict[str, Any]]) -> b
     dispatch_job = dispatch_jobs[0]
     if str(dispatch_job.get("conclusion") or "") != "skipped":
         return False
-    steps = dispatch_job.get("steps") or []
+    steps = dispatch_job.get("steps")
     if not isinstance(steps, list) or any(
         not isinstance(step, dict) or str(step.get("conclusion") or "") != "skipped"
         for step in steps
@@ -1439,6 +1439,8 @@ def _scan_candidate_runs(
             log_text = _run_logs(repository, token, run_id_value)
         except Exception:
             logs_unreadable = True
+        if strict and (jobs_unreadable or not jobs):
+            return _unverifiable(run, "derived_verdict_source_unverifiable")
 
         receipts = _parse_dispatch_receipts(log_text)
         derived_verdict_count = sum(
