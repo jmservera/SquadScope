@@ -1872,19 +1872,18 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
             {"name": "Observe-only summary", "conclusion": "skipped", "steps": []},
         ]
 
-    def _source_jobs(self) -> list:
-        return [
-            {
-                "name": "trigger-podcast",
-                "conclusion": "cancelled",
-                "steps": [
-                    {
-                        "name": "Trigger podcast generation with existing manifest",
-                        "conclusion": "skipped",
-                    }
-                ],
-            }
-        ]
+    def _source_jobs(self, **overrides) -> list:
+        """Job shape observed for cancelled trigger-podcast run 32730109166."""
+        job = {
+            "name": "trigger-podcast",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "runner_id": 0,
+            "runner_name": "",
+            "steps": [],
+        }
+        job.update(overrides)
+        return [job]
 
     def _receipt(self, state: str, *, run_id: int = _SELF_RUN_ID, **overrides) -> str:
         payload = {
@@ -2148,12 +2147,103 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
                 history = self._w39_history()
                 if change.pop("source_handoff_ran", False):
                     del history["logs"][self._SOURCE_RUN_ID]
-                    history["jobs"][self._SOURCE_RUN_ID][0]["steps"][0]["conclusion"] = "success"
+                    history["jobs"][self._SOURCE_RUN_ID] = self._source_jobs(
+                        runner_id=7,
+                        runner_name="GitHub Actions 7",
+                        steps=[
+                            {
+                                "name": "Trigger podcast generation with existing manifest",
+                                "conclusion": "success",
+                            }
+                        ],
+                    )
                 if change.pop("drop_source_jobs", False):
                     del history["jobs"][self._SOURCE_RUN_ID]
                 history.update(change)
                 result, _ = self._check(**history)
                 self.assertBlocked(result, "derived_verdict_source_unverifiable")
+
+    def test_cancelled_source_job_that_got_a_runner_still_blocks(self):
+        for name, overrides in {
+            "runner_assigned": {"runner_id": 7, "runner_name": "GitHub Actions 7"},
+            "runner_fields_missing": {"runner_id": None, "runner_name": None},
+            "not_cancelled": {"conclusion": "failure"},
+        }.items():
+            with self.subTest(case=name):
+                history = self._w39_history()
+                history["jobs"][self._SOURCE_RUN_ID] = self._source_jobs(**overrides)
+                result, _ = self._check(**history)
+                self.assertBlocked(result, "legacy_submission_without_canonical_receipt")
+
+    def test_unrelated_never_started_manual_run_does_not_block_first_dispatch(self):
+        result, _ = self._check(
+            auto_runs=[],
+            trigger_runs=[self._source_run()],
+            jobs={self._SOURCE_RUN_ID: self._source_jobs()},
+            logs={self._SOURCE_RUN_ID: ""},
+        )
+
+        self.assertEqual(result.status, "clear")
+        self.assertEqual(result.ignored_pre_handoff_runs, ())
+
+    def test_manual_handoff_failure_is_scoped_to_its_publish_run(self):
+        failed_handoff = self._source_jobs(
+            conclusion="failure",
+            runner_id=7,
+            runner_name="GitHub Actions 7",
+            steps=[
+                {
+                    "name": "Trigger podcast generation with existing manifest",
+                    "conclusion": "failure",
+                }
+            ],
+        )
+        for name, log_text, expected in (
+            (
+                "other_publish_run",
+                "::notice::Using manifest from crawl-and-publish run 29744859230 (x)\n",
+                "clear",
+            ),
+            (
+                "same_publish_run",
+                f"::notice::Using manifest from crawl-and-publish run {RUN_ID} (x)\n",
+                "ambiguous_prior_submission",
+            ),
+            ("publish_run_not_logged", "", "ambiguous_prior_submission"),
+        ):
+            with self.subTest(case=name):
+                result, _ = self._check(
+                    auto_runs=[],
+                    trigger_runs=[self._source_run(conclusion="failure")],
+                    jobs={self._SOURCE_RUN_ID: failed_handoff},
+                    logs={self._SOURCE_RUN_ID: log_text},
+                )
+                self.assertEqual(result.status, expected)
+
+    def test_w39_pre_recovery_history_replay_allows_retry(self):
+        """Replay of the W39 history shape before the manual recovery dispatch."""
+        unrelated_failed = 30162265246
+        history = self._w39_history()
+        history["trigger_runs"].append(self._source_run(unrelated_failed, conclusion="failure"))
+        history["jobs"][unrelated_failed] = self._source_jobs(
+            conclusion="failure",
+            runner_id=1000091927,
+            runner_name="GitHub Actions 1000091927",
+            steps=[
+                {
+                    "name": "Trigger podcast generation with existing manifest",
+                    "conclusion": "failure",
+                }
+            ],
+        )
+        history["logs"][unrelated_failed] = (
+            "::notice::Using manifest from crawl-and-publish run 29744859230 (x)\n"
+        )
+
+        result, _ = self._check(**history)
+
+        self.assertEqual(result.status, "clear")
+        self.assertEqual(result.ignored_pre_handoff_runs, (self._url(self._SELF_RUN_ID),))
 
     def test_verdict_source_url_must_be_a_distinct_same_repo_run(self):
         for name, prior_run_url in {

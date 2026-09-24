@@ -431,6 +431,22 @@ def _legacy_auto_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]
     )
 
 
+def _job_never_started(job: dict[str, Any]) -> bool:
+    """Return whether a completed job provably never ran on a runner.
+
+    GitHub reports ``runner_id == 0``, an empty ``runner_name`` and no steps for a
+    job cancelled before a runner picked it up (e.g. while awaiting environment
+    approval), so none of its steps can have executed.
+    """
+    return (
+        job.get("status") == "completed"
+        and job.get("conclusion") == "cancelled"
+        and job.get("runner_id") == 0
+        and job.get("runner_name") == ""
+        and job.get("steps") == []
+    )
+
+
 def _legacy_manual_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
     """Return whether a single-attempt manual run was stopped before handoff."""
     if not _legacy_run_single_attempt(run):
@@ -439,6 +455,7 @@ def _legacy_manual_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any
         job.get("name") == "trigger-podcast"
         and (
             str(job.get("conclusion") or "") == "skipped"
+            or _job_never_started(job)
             or _step_conclusion(
                 jobs,
                 "trigger-podcast",
@@ -559,6 +576,12 @@ def _compat_identity_for_run(
     )
     if handoff_conclusion != "success":
         if _legacy_manual_pre_submit_only(run, jobs):
+            return "ignore", None
+        attempted_publish_run_id = _extract_publish_run_id_from_log_text(log_text)
+        if (
+            attempted_publish_run_id is not None
+            and attempted_publish_run_id != requested_identity.publish_run_id
+        ):
             return "ignore", None
         return "ambiguous", None
 
