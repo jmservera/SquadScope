@@ -483,6 +483,8 @@ def _run_proves_no_handoff(run: dict[str, Any], jobs: list[dict[str, Any]]) -> b
         return False
     if run.get("head_branch") != "main" or run.get("event") not in PRE_HANDOFF_PROOF_EVENTS:
         return False
+    if not all(isinstance(job, dict) for job in jobs):
+        return False
     dispatch_jobs = [job for job in jobs if job.get("name") == DISPATCH_JOB_NAME]
     detect_jobs = [job for job in jobs if job.get("name") == DETECT_JOB_NAME]
     if len(dispatch_jobs) != 1 or len(detect_jobs) != 1:
@@ -494,6 +496,11 @@ def _run_proves_no_handoff(run: dict[str, Any], jobs: list[dict[str, Any]]) -> b
     if not isinstance(steps, list) or any(
         not isinstance(step, dict) or str(step.get("conclusion") or "") != "skipped"
         for step in steps
+    ):
+        return False
+    detect_steps = detect_jobs[0].get("steps")
+    if not isinstance(detect_steps, list) or not all(
+        isinstance(step, dict) for step in detect_steps
     ):
         return False
     return _step_conclusion(detect_jobs, DETECT_JOB_NAME, DEDUP_STEP_NAME) == "failure"
@@ -1408,7 +1415,11 @@ def _scan_candidate_runs(
             source_run = _fetch_run(repository, token, source_id)
         except Exception:
             return _unverifiable(verdict_run, "derived_verdict_source_unverifiable")
-        if source_run.get("id") != source_id or str(source_run.get("path") or "") not in (
+        if (
+            source_run.get("id") != source_id
+            or source_run.get("html_url")
+            != f"https://github.com/{repository}/actions/runs/{source_id}"
+        ) or str(source_run.get("path") or "") not in (
             AUTO_DISPATCH_WORKFLOW_PATH,
             TRIGGER_PODCAST_WORKFLOW_PATH,
         ):

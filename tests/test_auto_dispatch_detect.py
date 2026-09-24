@@ -2101,6 +2101,15 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
                 {"name": "Protected podcast dispatch", "conclusion": "skipped", "steps": None},
                 self._w39_jobs()[2],
             ],
+            "detect_steps_null": [
+                {**self._w39_jobs()[0], "steps": None},
+                *self._w39_jobs()[1:],
+            ],
+            "detect_step_not_object": [
+                {**self._w39_jobs()[0], "steps": ["Check for duplicate dispatch"]},
+                *self._w39_jobs()[1:],
+            ],
+            "job_not_object": [*self._w39_jobs(), "Protected podcast dispatch"],
             "dispatch_step_ran": self._w39_jobs(
                 dispatch_steps=[{"name": "Set up job", "conclusion": "success"}]
             ),
@@ -2150,6 +2159,18 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
             "source_jobs_unreadable_with_pre_submit_receipt": {
                 "drop_source_jobs": True,
                 "source_log": "PRE_SUBMIT",
+            },
+            "source_foreign_html_url": {
+                "trigger_runs": [],
+                "runs_by_id": {
+                    self._SOURCE_RUN_ID: self._source_run(
+                        html_url=f"https://github.com/other/repo/actions/runs/{self._SOURCE_RUN_ID}"
+                    )
+                },
+            },
+            "source_missing_html_url": {
+                "trigger_runs": [],
+                "runs_by_id": {self._SOURCE_RUN_ID: self._source_run(html_url=None)},
             },
             "source_foreign_workflow": {
                 "trigger_runs": [],
