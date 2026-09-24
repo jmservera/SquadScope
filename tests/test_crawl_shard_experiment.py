@@ -436,10 +436,10 @@ class TestArmCacheIsolation:
 
     def test_isolated_mode_gives_each_arm_an_identical_private_seed(self, tmp_path: Any) -> None:
         context = self._context(tmp_path)
-        experiment_dir = tmp_path / "exp"
-        experiment_dir.mkdir()
+        scratch_dir = tmp_path / "scratch"
+        scratch_dir.mkdir()
 
-        experiment.prepare_arm_caches(context, experiment_dir, "isolated")
+        experiment.prepare_arm_caches(context, scratch_dir, "isolated")
 
         assert context.baseline_cache != context.shard_cache
         assert context.topic_cache not in {context.baseline_cache, context.shard_cache}
@@ -452,6 +452,44 @@ class TestArmCacheIsolation:
     def test_shared_mode_keeps_live_topic_cache(self, tmp_path: Any) -> None:
         context = self._context(tmp_path)
 
-        experiment.prepare_arm_caches(context, tmp_path / "exp", "shared")
+        experiment.prepare_arm_caches(context, tmp_path / "scratch", "shared")
 
         assert context.baseline_cache == context.topic_cache == context.shard_cache
+
+
+@pytest.mark.parametrize(
+    "bad_id", ["", "..", "../escape", "a/b", "a\\b", ".hidden", "x..y", "a" * 200]
+)
+def test_experiment_id_must_be_single_safe_component(bad_id: str) -> None:
+    with pytest.raises(ValueError):
+        experiment.validate_experiment_id(bad_id)
+
+
+@pytest.mark.parametrize("good_id", ["run1-W38", "shard-435-run-001", "a.b_c"])
+def test_experiment_id_accepts_safe_names(good_id: str) -> None:
+    assert experiment.validate_experiment_id(good_id) == good_id
+
+
+@pytest.mark.parametrize("mode", ["isolated", "shared"])
+def test_report_records_cache_mode(mode: str) -> None:
+    def run(name: str) -> Any:
+        return experiment.RunResult(
+            name=name,
+            payload={"week": "2026-W38", "new_repos": [], "trending_repos": [], "signals": {}},
+            snapshot_payload={"week": "2026-W38", "repository_count": 0, "stars": {}},
+            api_calls=10,
+            cache_hits=0,
+            stale_cache_hits=0,
+            rate_limit_events=0,
+            secondary_rate_limit_events=0,
+            partial_failures=[],
+            wall_clock_s=1.0,
+            shards_used=3,
+            completed=True,
+            guardrail_events=[],
+        )
+
+    report = experiment.build_report("run-x", run("baseline"), run("shard"), cache_mode=mode)
+
+    assert report["cache_mode"] == mode
+    assert report["partial_failures"] == {"baseline": [], "shard": []}
