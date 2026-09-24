@@ -25,7 +25,7 @@
 ### P01 Dedup gate change (`scripts/auto_dispatch_detect.py`)
 
 * P01-T01 Add `DERIVED_VERDICT_RECEIPT_STATES = {"ambiguous_prior_submission"}`,
-  `MAX_PRE_HANDOFF_SELF_BLOCKED_RETRIES = 3`, and helper
+  `MAX_IGNORED_SELF_BLOCKED_ATTEMPTS = 2` (see F6 disposition), and helper
   `_run_proves_no_handoff(run, jobs)`: path is `auto-podcast-dispatch.yml`; `status == completed`;
   `conclusion ∈ {failure, cancelled}`; `run_attempt == 1`; a `Protected podcast dispatch` job is
   present with conclusion `skipped` and no step concluded other than `skipped`.
@@ -41,8 +41,8 @@
   one of the two dispatch workflows; fetch failure/foreign workflow → `ambiguous_prior_submission`
   reason `derived_verdict_source_unverifiable`), and continue with the run's other receipts.
   Otherwise keep the existing fail-closed `ambiguous_prior_submission` return.
-* P01-T05 Retry budget: when ignored self-blocked attempts for the identity reach
-  `MAX_PRE_HANDOFF_SELF_BLOCKED_RETRIES`, return `ambiguous_prior_submission` reason
+* P01-T05 Retry budget: when ignored self-blocked attempts for the identity exceed
+  `MAX_IGNORED_SELF_BLOCKED_ATTEMPTS` (2 clear, 3 block), return `ambiguous_prior_submission` reason
   `pre_handoff_retry_budget_exhausted`.
 * P01-T06 `DuplicateCheckResult.ignored_pre_handoff_runs: tuple[str, ...] = ()`, populated on every
   return path after scanning begins.
@@ -92,3 +92,13 @@
 * F7, F9, F10 — accepted as documented residual behavior.
 * F8 — accepted: summary/log text never contains the receipt prefix; summary is written before
   the blocking exit.
+
+## Review-driven revisions
+
+* Manual `trigger-podcast` jobs cancelled before a runner started (`runner_id 0`, empty
+  `runner_name`, `steps: []`) are positive pre-handoff proof; failed manual handoffs are scoped by
+  the logged publish run.
+* Strict verdict sources: metadata (id, same-repo `html_url`, workflow path, completed) validated
+  for queued, processed, and fetched runs; cycles fail closed; `ignore` and identity-matching
+  no-submission receipts require positive job evidence; malformed jobs/steps payloads are
+  unreadable; legacy proofs require exactly one relevant job.
