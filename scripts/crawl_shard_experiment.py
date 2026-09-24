@@ -7,6 +7,7 @@ import argparse
 import json
 import math
 import os
+import shutil
 import threading
 import time
 from collections import Counter
@@ -96,6 +97,8 @@ class CrawlContext:
     topic_raw: Path
     topic_snapshots: Path
     topic_cache: Path
+    baseline_cache: Path
+    shard_cache: Path
     crawled_at: datetime
     run_started_at: datetime
     since: datetime
@@ -456,6 +459,16 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output-dir", default=str(EXPERIMENT_ROOT))
     parser.add_argument("--experiment-id", default=None)
+    parser.add_argument(
+        "--cache-mode",
+        choices=("isolated", "shared"),
+        default="isolated",
+        help=(
+            "isolated (default): each arm gets its own copy of the topic cache taken before "
+            "either arm runs, so the shard arm cannot reuse responses fetched by the baseline. "
+            "shared: both arms use the live topic cache (legacy; biases the shard arm)."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -479,6 +492,8 @@ def build_context(args: argparse.Namespace, experiment_dir: Path) -> CrawlContex
         topic_raw=raw_dir(topic_id),
         topic_snapshots=snapshots_dir(topic_id),
         topic_cache=cache_dir(topic_id),
+        baseline_cache=cache_dir(topic_id),
+        shard_cache=cache_dir(topic_id),
         crawled_at=crawled_at,
         run_started_at=crawled_at,
         since=since,
@@ -493,6 +508,21 @@ def build_context(args: argparse.Namespace, experiment_dir: Path) -> CrawlContex
         shard_output_path=experiment_dir / "shard-raw.json",
         shard_snapshot_path=experiment_dir / "shard-stars.json",
     )
+
+
+def prepare_arm_caches(context: CrawlContext, experiment_dir: Path, mode: str) -> None:
+    """Point each arm at its own cache seeded from the same topic-cache snapshot."""
+    if mode == "shared":
+        return
+    for arm in ("baseline", "shard"):
+        arm_cache = experiment_dir / f"{arm}-cache"
+        if arm_cache.exists():
+            shutil.rmtree(arm_cache)
+        if context.topic_cache.is_dir():
+            shutil.copytree(context.topic_cache, arm_cache)
+        else:
+            arm_cache.mkdir(parents=True)
+        setattr(context, f"{arm}_cache", arm_cache)
 
 
 def next_experiment_id(output_dir: Path) -> str:
@@ -813,7 +843,9 @@ def build_payload(
 def run_baseline(context: CrawlContext, token: str) -> RunResult:
     started_at = time.monotonic()
     search_plans = build_search_plans(context)
-    client = InstrumentedGitHubClient(token, cache_dir=context.topic_cache, shard_name="baseline")
+    client = InstrumentedGitHubClient(
+        token, cache_dir=context.baseline_cache, shard_name="baseline"
+    )
     previous_stars = load_previous_star_snapshot(
         context.topic_snapshots,
         context.week,
@@ -920,7 +952,7 @@ def run_sharded(context: CrawlContext, token: str, baseline_api_calls: int) -> R
                     plan,
                     InstrumentedGitHubClient(
                         token,
-                        cache_dir=context.topic_cache,
+                        cache_dir=context.shard_cache,
                         shard_name=plan.shard_name,
                         coordinator=coordinator,
                         deadline=time.monotonic() + int(context.args.wall_clock_budget),
@@ -962,7 +994,7 @@ def run_sharded(context: CrawlContext, token: str, baseline_api_calls: int) -> R
                         validation_queue,
                         InstrumentedGitHubClient(
                             token,
-                            cache_dir=context.topic_cache,
+                            cache_dir=context.shard_cache,
                             shard_name=f"validate-{index + 1}",
                             coordinator=coordinator,
                             deadline=time.monotonic() + int(context.args.wall_clock_budget),
@@ -1144,6 +1176,8 @@ def build_report(experiment_id: str, baseline: RunResult, shard: RunResult) -> d
         "baseline": {
             "wall_clock_s": baseline.wall_clock_s,
             "api_calls": baseline.api_calls,
+            "cache_hits": baseline.cache_hits,
+            "stale_cache_hits": baseline.stale_cache_hits,
             "rate_limit_events": baseline.rate_limit_events,
             "repos_new": len(baseline.payload.get("new_repos", [])),
             "repos_trending": len(baseline.payload.get("trending_repos", [])),
@@ -1151,6 +1185,8 @@ def build_report(experiment_id: str, baseline: RunResult, shard: RunResult) -> d
         "shard": {
             "wall_clock_s": shard.wall_clock_s,
             "api_calls": shard.api_calls,
+            "cache_hits": shard.cache_hits,
+            "stale_cache_hits": shard.stale_cache_hits,
             "rate_limit_events": shard.rate_limit_events,
             "shards_used": shard.shards_used,
             "repos_new": len(shard.payload.get("new_repos", [])),
@@ -1164,6 +1200,10 @@ def build_report(experiment_id: str, baseline: RunResult, shard: RunResult) -> d
             > baseline.secondary_rate_limit_events,
         },
         "verdict": verdict,
+        "partial_failures": {
+            "baseline": list(baseline.partial_failures),
+            "shard": list(shard.partial_failures),
+        },
         "guardrail_events": shard.guardrail_events,
     }
 
@@ -1189,6 +1229,7 @@ def main() -> int:
     experiment_dir = output_dir / experiment_id
     experiment_dir.mkdir(parents=True, exist_ok=True)
     context = build_context(args, experiment_dir)
+    prepare_arm_caches(context, experiment_dir, args.cache_mode)
     baseline = run_baseline(context, token)
     shard = run_sharded(context, token, baseline.api_calls)
     report = build_report(experiment_id, baseline, shard)

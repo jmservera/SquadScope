@@ -411,3 +411,47 @@ class TestExperimentReport:
             }
         )
         assert _verdict(report) == "inconclusive"
+
+
+class TestArmCacheIsolation:
+    def _context(self, tmp_path: Any) -> Any:
+        topic_cache = tmp_path / "topic-cache"
+        topic_cache.mkdir()
+        (topic_cache / "entry.json").write_text('{"seed": true}', encoding="utf-8")
+        return dataclasses.replace(
+            experiment.build_context(
+                experiment.argparse.Namespace(
+                    since="2026-09-12",
+                    as_of="2026-09-19",
+                    max_results=10,
+                    topic=None,
+                    config=None,
+                ),
+                tmp_path / "exp",
+            ),
+            topic_cache=topic_cache,
+            baseline_cache=topic_cache,
+            shard_cache=topic_cache,
+        )
+
+    def test_isolated_mode_gives_each_arm_an_identical_private_seed(self, tmp_path: Any) -> None:
+        context = self._context(tmp_path)
+        experiment_dir = tmp_path / "exp"
+        experiment_dir.mkdir()
+
+        experiment.prepare_arm_caches(context, experiment_dir, "isolated")
+
+        assert context.baseline_cache != context.shard_cache
+        assert context.topic_cache not in {context.baseline_cache, context.shard_cache}
+        for arm_cache in (context.baseline_cache, context.shard_cache):
+            assert (arm_cache / "entry.json").read_text(encoding="utf-8") == '{"seed": true}'
+        (context.baseline_cache / "baseline-only.json").write_text("{}", encoding="utf-8")
+        assert not (context.shard_cache / "baseline-only.json").exists()
+        assert not (context.topic_cache / "baseline-only.json").exists()
+
+    def test_shared_mode_keeps_live_topic_cache(self, tmp_path: Any) -> None:
+        context = self._context(tmp_path)
+
+        experiment.prepare_arm_caches(context, tmp_path / "exp", "shared")
+
+        assert context.baseline_cache == context.topic_cache == context.shard_cache
