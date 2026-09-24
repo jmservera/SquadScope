@@ -226,6 +226,18 @@ report-only, no blocking budget; only the `repository_pages` corpus is material,
 stays disabled, so build cost is dismissed as a launch gate. Re-evaluate only if a
 meaningful repository-page corpus is retained or regenerated.
 
+Durable aggregate report: [evidence/build-cost-31305223877/](evidence/build-cost-31305223877/)
+retains `summary.md` and `summary.json` unchanged from the run artifact, with their
+`SHA256SUMS` entries, so the evidence remains after the artifact expires.
+
+Budget-owner conclusion (jmservera, 2026-08-09), quoted from the changes log:
+
+> Report-only; no blocking build-cost budget is set. [...] the only material generation
+> cost is the `repository_pages` corpus (Hugo median 3116 ms, marginal ~8.8 ms/page;
+> Pagefind median 803 ms, marginal ~2.4 ms/page). `topic_hubs` and `data_pages` are
+> negligible [...]. Build cost is therefore dismissed as a launch gate. Re-evaluate only
+> if Phase 3 retains or regenerates a repository-page corpus of meaningful size.
+
 Historical readiness (2026-08-08; cleared by run 31305223877 on 2026-08-09): the experiment's workload guard now passes locally
 (`EXPECTED_CLASS_COUNTS` corrected to `topic_hubs` 5, `data_pages` 3,
 `repository_pages` 266; `discover_workload()` returns without raising). The only

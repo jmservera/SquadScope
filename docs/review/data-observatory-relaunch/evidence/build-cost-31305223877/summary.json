@@ -1,0 +1,159 @@
+{
+  "blocking_threshold_ms": null,
+  "mode": "report-only",
+  "nearest_rank_note": "With three or five samples, nearest-rank p95 is the observed maximum.",
+  "provenance": {
+    "main_sha": "8f680f445488170cd25ab186496bc9a765412236",
+    "publish_sha": "4120078d2615463ad8ae99af1e7801be65c4b11d",
+    "workflow_sha": "8f680f445488170cd25ab186496bc9a765412236"
+  },
+  "runner": {
+    "arch": "X64",
+    "image_os": "ubuntu24",
+    "image_version": "20260720.247.2",
+    "os": "Linux"
+  },
+  "sample_count_per_variant": 3,
+  "sample_quality": "minimum",
+  "schema_version": "claracle_build_cost_summary_v1",
+  "stages": {
+    "hugo": [
+      {
+        "absolute_delta_ms": null,
+        "marginal_ms_per_added_page": null,
+        "median_ms": 804,
+        "p95_ms": 947.0,
+        "paired_delta_median_ms": null,
+        "paired_delta_p95_ms": null,
+        "paired_deltas_ms": [],
+        "percent_delta": null,
+        "predecessor": null,
+        "sample_count": 3,
+        "variant": "baseline"
+      },
+      {
+        "absolute_delta_ms": 2,
+        "marginal_ms_per_added_page": 0.4,
+        "median_ms": 806,
+        "p95_ms": 856.0,
+        "paired_delta_median_ms": -28,
+        "paired_delta_p95_ms": 66.0,
+        "paired_deltas_ms": [
+          -141,
+          66,
+          -28
+        ],
+        "percent_delta": 0.24875621890547264,
+        "predecessor": "baseline",
+        "sample_count": 3,
+        "variant": "topic_hubs"
+      },
+      {
+        "absolute_delta_ms": 2,
+        "marginal_ms_per_added_page": 0.6666666666666666,
+        "median_ms": 808,
+        "p95_ms": 838.0,
+        "paired_delta_median_ms": 2,
+        "paired_delta_p95_ms": 62.0,
+        "paired_deltas_ms": [
+          2,
+          -68,
+          62
+        ],
+        "percent_delta": 0.24813895781637718,
+        "predecessor": "topic_hubs",
+        "sample_count": 3,
+        "variant": "data_pages"
+      },
+      {
+        "absolute_delta_ms": 2308,
+        "marginal_ms_per_added_page": 8.775665399239545,
+        "median_ms": 3116,
+        "p95_ms": 3156.0,
+        "paired_delta_median_ms": 2318,
+        "paired_delta_p95_ms": 2328.0,
+        "paired_deltas_ms": [
+          2301,
+          2328,
+          2318
+        ],
+        "percent_delta": 285.64356435643566,
+        "predecessor": "data_pages",
+        "sample_count": 3,
+        "variant": "repository_pages"
+      }
+    ],
+    "pagefind": [
+      {
+        "absolute_delta_ms": null,
+        "marginal_ms_per_added_page": null,
+        "median_ms": 153,
+        "p95_ms": 155.0,
+        "paired_delta_median_ms": null,
+        "paired_delta_p95_ms": null,
+        "paired_deltas_ms": [],
+        "percent_delta": null,
+        "predecessor": null,
+        "sample_count": 3,
+        "variant": "baseline"
+      },
+      {
+        "absolute_delta_ms": 0,
+        "marginal_ms_per_added_page": 0.0,
+        "median_ms": 153,
+        "p95_ms": 154.0,
+        "paired_delta_median_ms": -1,
+        "paired_delta_p95_ms": 1.0,
+        "paired_deltas_ms": [
+          1,
+          -1,
+          -3
+        ],
+        "percent_delta": 0.0,
+        "predecessor": "baseline",
+        "sample_count": 3,
+        "variant": "topic_hubs"
+      },
+      {
+        "absolute_delta_ms": 15,
+        "marginal_ms_per_added_page": 5.0,
+        "median_ms": 168,
+        "p95_ms": 171.0,
+        "paired_delta_median_ms": 17,
+        "paired_delta_p95_ms": 18.0,
+        "paired_deltas_ms": [
+          18,
+          14,
+          17
+        ],
+        "percent_delta": 9.803921568627452,
+        "predecessor": "topic_hubs",
+        "sample_count": 3,
+        "variant": "data_pages"
+      },
+      {
+        "absolute_delta_ms": 635,
+        "marginal_ms_per_added_page": 2.414448669201521,
+        "median_ms": 803,
+        "p95_ms": 979.0,
+        "paired_delta_median_ms": 632,
+        "paired_delta_p95_ms": 812.0,
+        "paired_deltas_ms": [
+          632,
+          627,
+          812
+        ],
+        "percent_delta": 377.9761904761905,
+        "predecessor": "data_pages",
+        "sample_count": 3,
+        "variant": "repository_pages"
+      }
+    ]
+  },
+  "tools": {
+    "hugo": "hugo v0.161.1-ea8f66a7ce988664dcc84c052fc96757042e2e4a+extended linux/amd64 BuildDate=2026-04-29T13:56:01Z VendorInfo=gohugoio",
+    "node": "v24.18.0",
+    "pagefind": "pagefind 1.5.2",
+    "python": "3.12.13"
+  }
+}
