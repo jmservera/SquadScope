@@ -416,12 +416,11 @@ def _legacy_run_single_attempt(run: dict[str, Any]) -> bool:
 
 def _legacy_auto_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
     """Return whether job evidence proves the protected dispatch never ran."""
+    dispatch_jobs = [job for job in jobs if job.get("name") == DISPATCH_JOB_NAME]
+    if len(dispatch_jobs) != 1:
+        return False
     return _legacy_run_single_attempt(run) and (
-        any(
-            job.get("name") == "Protected podcast dispatch"
-            and str(job.get("conclusion") or "") == "skipped"
-            for job in jobs
-        )
+        str(dispatch_jobs[0].get("conclusion") or "") == "skipped"
         or _step_conclusion(
             jobs,
             "Protected podcast dispatch",
@@ -450,6 +449,8 @@ def _job_never_started(job: dict[str, Any]) -> bool:
 def _legacy_manual_pre_submit_only(run: dict[str, Any], jobs: list[dict[str, Any]]) -> bool:
     """Return whether a single-attempt manual run was stopped before handoff."""
     if not _legacy_run_single_attempt(run):
+        return False
+    if sum(1 for job in jobs if job.get("name") == "trigger-podcast") != 1:
         return False
     return any(
         job.get("name") == "trigger-podcast"
@@ -1593,6 +1594,17 @@ def _scan_candidate_runs(
             identity,
             repo_root,
         )
+        if strict and compatibility == "ignore" and compat_identity is None:
+            attempted_publish_run_id = _extract_publish_run_id_from_log_text(log_text)
+            if not (
+                _legacy_auto_pre_submit_only(run, jobs)
+                or _legacy_manual_pre_submit_only(run, jobs)
+                or (
+                    attempted_publish_run_id is not None
+                    and attempted_publish_run_id != identity.publish_run_id
+                )
+            ):
+                return _unverifiable(run, "derived_verdict_source_unverifiable")
         if (
             compatibility == "blocking"
             and compat_identity is not None

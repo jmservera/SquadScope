@@ -2303,6 +2303,42 @@ class TestSelfBlockedPreHandoffRetry(unittest.TestCase):
                 result, _ = self._check(**history)
                 self.assertBlocked(result, "derived_verdict_source_unverifiable")
 
+    def test_contradictory_source_job_evidence_fails_closed(self):
+        skipped = {"name": "Protected podcast dispatch", "conclusion": "skipped", "steps": []}
+        ran = {"name": "Protected podcast dispatch", "conclusion": "success", "steps": []}
+        cases = {
+            "auto_source_skipped_and_ran": (
+                self._auto_run(self._SOURCE_RUN_ID, conclusion="success"),
+                [skipped, ran],
+            ),
+            "manual_source_duplicate_job": (
+                self._source_run(),
+                self._source_jobs()
+                + self._source_jobs(
+                    conclusion="success",
+                    runner_id=7,
+                    runner_name="GitHub Actions 7",
+                    steps=[
+                        {
+                            "name": "Trigger podcast generation with existing manifest",
+                            "conclusion": "success",
+                        }
+                    ],
+                ),
+            ),
+        }
+        for name, (source, source_jobs) in cases.items():
+            with self.subTest(case=name):
+                history = self._w39_history()
+                history["trigger_runs"] = []
+                if source["path"] == detect.AUTO_DISPATCH_WORKFLOW_PATH:
+                    history["auto_runs"].append(source)
+                else:
+                    history["trigger_runs"] = [source]
+                history["jobs"][self._SOURCE_RUN_ID] = source_jobs
+                result, _ = self._check(**history)
+                self.assertNotEqual(result.status, "clear")
+
     def test_two_run_verdict_cycle_fails_closed(self):
         history = self._w39_history()
         other = self._SELF_RUN_ID - 1
