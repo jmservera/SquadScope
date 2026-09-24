@@ -351,8 +351,8 @@ requires their approval.
 
 **Activated 2026-08-09** (status reconciled 2026-09-24): PR #684 (`bd1cf04`) set
 `enabled = true` after Hermes and URL re-reviewed the exact head and the sponsor approved it.
-The next pipeline run promoted only `local-first` (`created=1`, all other candidates
-`not-in-allowlist`; see `data/topic-hubs/dynamic-topic-creation.log`), creating
+The next pipeline run promoted only `local-first` (the log records `created=1 skipped=2999`
+without per-candidate skip reasons; see `data/topic-hubs/dynamic-topic-creation.log`), creating
 `content/topics/local-first/_index.md` with evidence weeks `2026-W27` through `2026-W33`.
 Later runs, including W38 and W39, report `created=0` and only assign the promoted topic.
 Rollback has two parts: disable the flag and revert the generated promotion transaction
