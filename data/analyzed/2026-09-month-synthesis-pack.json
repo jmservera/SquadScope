@@ -93,11 +93,37 @@
       "title": "Typed Decisions Challenge the General-Purpose Agent",
       "top_repo": "mizorewww/laya-mlx",
       "week": "2026-W39"
+    },
+    {
+      "conclusion": "Watch whether last-mile skills acquire permission manifests, dry runs, and auditable rollback rather than merely adding integrations. Creative-code skills should be judged by reuse across independent projects after the Opus 5.5 launch wave fades. Local decision serving is the quieter durable arc: if [ollaya-dev/ollaya](https://github.com/ollaya-dev/ollaya) gains integrations beyond Jev-branded projects, it would turn last week's thesis into infrastructure. Without that independent adoption, specialization may remain a coordinated launch narrative rather than a platform shift.",
+      "featured_repos": [
+        "mikehasa/golive-skill",
+        "ollaya-dev/ollaya",
+        "dzhng/jevgrep",
+        "alexgreensh/anidoodle",
+        "feitangyuan/onetake"
+      ],
+      "gaps": "Authorization remains the largest absence. A deployment skill can touch domains, payments, and databases, yet this sample offers no visible companion layer for least-privilege credentials, replayable approvals, tamper-evident action logs, or incident forensics. Memory projects such as [supermemoryai/company-brain](https://github.com/supermemoryai/company-brain) also raise retention and access-control questions that repository attention does not answer. The gap between press and code is equally wide in physical AI safety, healthcare validation, and energy-aware infrastructure. Industry coverage treats robotics safety, diagnostics, and data-center power as deployment constraints; the top new repositories remain concentrated in media, coding, and workflow convenience. The absence suggests open-source attention is still following fast demos rather than the harder assurance layers needed for regulated or physical systems.",
+      "noise": "",
+      "signal": "The best signals expose concrete boundaries. [mikehasa/golive-skill](https://github.com/mikehasa/golive-skill) names approval and verification around real infrastructure operations; [ollaya-dev/ollaya](https://github.com/ollaya-dev/ollaya) specifies model classes, runtime technology, and API shape; [Aureliengmz/clearwater](https://github.com/Aureliengmz/clearwater) delivers a legible WebGL2 result without libraries or a build step. [alexgreensh/anidoodle](https://github.com/alexgreensh/anidoodle)'s emphasis on deterministic renders similarly makes its creative claims more testable than a gallery of generated examples. Attention is less convincing where multiple repositories orbit the same promotional event. [mexicat/pdoom-video](https://github.com/mexicat/pdoom-video) and [JohnHeibel/PDoomVideo](https://github.com/JohnHeibel/PDoomVideo) split one music-video phenomenon across near-identical first-week totals, while [yihui-dev/awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos) and [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar) amplify the same model-branded wave. That does not invalidate the artifacts, but it makes launch-week stars poor evidence of durable adoption. [asokurasu/text-humanizer](https://github.com/asokurasu/text-humanizer) explicitly targets detector bypass, and [SpecterLouse/CapCut-Pro-macOS-Windows](https://github.com/SpecterLouse/CapCut-Pro-macOS-Windows) advertises unlocked commercial software; both are exploit-heavy churn, not ecosystem progress.",
+      "summary": "Agents moved beyond chat into deployment and creative production, while security and proof of adoption continued to lag.",
+      "tags": [
+        "agent-skills",
+        "creative-coding",
+        "local-ai",
+        "decision-models",
+        "deployment",
+        "security"
+      ],
+      "title": "Agents Leave Chat and Start Shipping Artifacts",
+      "top_repo": "mikehasa/golive-skill",
+      "week": "2026-W40"
     }
   ],
   "weeks_covered": [
     "2026-W37",
     "2026-W38",
-    "2026-W39"
+    "2026-W39",
+    "2026-W40"
   ]
 }
