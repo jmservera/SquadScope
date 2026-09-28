@@ -1,0 +1,1085 @@
+{
+  "created_at": "2026-09-28T06:02:40.088816Z",
+  "files": [
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/analyzed/2026-W40-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W40-summary.md",
+      "sha256": "3724d23f08b12d39da008cee3ebf069d36eef462e02b8b0eab87ecca4bcfa63a",
+      "size_bytes": 11958
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/analyzed/2026-W40-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W40-correlations.json",
+      "sha256": "2326ac8b675fecf2351434ddcb82e94ecd8358f10b618d9142a50a360faee85a",
+      "size_bytes": 200646
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/analyzed/2026-W40-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W40-press-context.md",
+      "sha256": "0c4e062f0f04c2120322141e8f70c62a287d7f6d9ea7a2fb649e0514a05d8074",
+      "size_bytes": 32445
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W40/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W40/promotion-manifest.json",
+      "sha256": "8c10cfacda71826b05265a7734535178313df7020e47aca39e3c34ef1b1bf1c7",
+      "size_bytes": 17481
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W40.md",
+      "existed": true,
+      "path": "content/weekly/2026/W40.md",
+      "sha256": "79b71a4ee562197c2a64e8c43adae13f808d818a20fba0e10d1dcb43af36f880",
+      "size_bytes": 11610
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W21.md",
+      "existed": true,
+      "path": "content/weekly/2026/W21.md",
+      "sha256": "2fe1b3bee4715ea5517e8981054b679ca0dd71e3d4918a6d63c1b3c06fe8ed56",
+      "size_bytes": 13569
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W22.md",
+      "existed": true,
+      "path": "content/weekly/2026/W22.md",
+      "sha256": "5b7fa43f6736b7083d9b1ebaa311997e48479bb545d23631f9f2acb3df641d14",
+      "size_bytes": 13758
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W23.md",
+      "existed": true,
+      "path": "content/weekly/2026/W23.md",
+      "sha256": "c370f8e9675c36fef17f8449054ebb3d21c31f0748c834ac25f3bb5fece645f9",
+      "size_bytes": 15938
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W24.md",
+      "existed": true,
+      "path": "content/weekly/2026/W24.md",
+      "sha256": "8870cb3a9b9e914c830ee6a3c28b1debd72f2aad9b1e470dee83c3307da96200",
+      "size_bytes": 16699
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W25.md",
+      "existed": true,
+      "path": "content/weekly/2026/W25.md",
+      "sha256": "15c976ff053da781487b23475b55fcb6b87f1f4bece69bc8d2a8499a13faf08e",
+      "size_bytes": 11993
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W26.md",
+      "existed": true,
+      "path": "content/weekly/2026/W26.md",
+      "sha256": "0ca6cb502cf1a65c298e7f2da1119e8f036e58bacdef5a89b320ffd1fb002962",
+      "size_bytes": 11015
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W27.md",
+      "existed": true,
+      "path": "content/weekly/2026/W27.md",
+      "sha256": "908974eef89422322be35ab58d4d4d8834ad90446699f395bf0354fedb539311",
+      "size_bytes": 10398
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W28.md",
+      "existed": true,
+      "path": "content/weekly/2026/W28.md",
+      "sha256": "7f73e772f30b320ba2b462a0f33b44fc5c7b0c1e5f586479418be99c9f1f14b3",
+      "size_bytes": 11569
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W29.md",
+      "existed": true,
+      "path": "content/weekly/2026/W29.md",
+      "sha256": "398468489fcc00c49c1f4b9df50cd1707d66a1f7a035d5ce3c9106ce55a1fa6b",
+      "size_bytes": 12247
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W30.md",
+      "existed": true,
+      "path": "content/weekly/2026/W30.md",
+      "sha256": "93ba089ed7a7c90d140a5da1d99aafa0718df6df492591d9ecb0eaf57904f451",
+      "size_bytes": 13328
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W31.md",
+      "existed": true,
+      "path": "content/weekly/2026/W31.md",
+      "sha256": "7f316cbfdf19810cea7fe91959df82dcf2964d3fbb313f06033e1882bdb77281",
+      "size_bytes": 12231
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W32.md",
+      "existed": true,
+      "path": "content/weekly/2026/W32.md",
+      "sha256": "94c495e4077075f99806982be820ace7c29132d723984d784393c8bed48a347b",
+      "size_bytes": 11861
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W33.md",
+      "existed": true,
+      "path": "content/weekly/2026/W33.md",
+      "sha256": "a34420e5af9892ae531b7ea9ebec73e17bba03e1bd3bc28e19d04ab83c60feb1",
+      "size_bytes": 12768
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W34.md",
+      "existed": true,
+      "path": "content/weekly/2026/W34.md",
+      "sha256": "af6e35e6c4951850ac620ab02bdb89e7f1d801c1a12a6b202248b87a9285f2e0",
+      "size_bytes": 12239
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W35.md",
+      "existed": true,
+      "path": "content/weekly/2026/W35.md",
+      "sha256": "419a17d51fe43a1faa31c205db149686753c84fdf25dd790ae8ad76ad24c1be4",
+      "size_bytes": 12167
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W36.md",
+      "existed": true,
+      "path": "content/weekly/2026/W36.md",
+      "sha256": "9f07e508d5edfae7f993e37d659028c9d590af87db66c5df5cb942dcc34880c5",
+      "size_bytes": 11358
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W37.md",
+      "existed": true,
+      "path": "content/weekly/2026/W37.md",
+      "sha256": "fff67a320acafd2341dca4c2ff5cd6c74a3862d8f035a326f5562cb2d0d604f1",
+      "size_bytes": 11815
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W38.md",
+      "existed": true,
+      "path": "content/weekly/2026/W38.md",
+      "sha256": "c935702d6887c2a9f88fc919ba74acbbc874278436b24d0872388f2e0322e1ef",
+      "size_bytes": 11582
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W39.md",
+      "existed": true,
+      "path": "content/weekly/2026/W39.md",
+      "sha256": "f666483812ea7f72f6c8bf9972cd5a748d3434679789490117e7f674c51a506c",
+      "size_bytes": 11647
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/2026/W40.md",
+      "existed": true,
+      "path": "content/weekly/2026/W40.md",
+      "sha256": "79b71a4ee562197c2a64e8c43adae13f808d818a20fba0e10d1dcb43af36f880",
+      "size_bytes": 11610
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/weekly/_index.md",
+      "existed": true,
+      "path": "content/weekly/_index.md",
+      "sha256": "92258c42ee84063c956a1174e31db3c911da78d2da9ba70216f0e78782768665",
+      "size_bytes": 260
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/monthly/2026/05.md",
+      "existed": true,
+      "path": "content/monthly/2026/05.md",
+      "sha256": "a7ac0050876068cafb8591c205b1de45a13a4d51a531c9112171780f59db6540",
+      "size_bytes": 13219
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/monthly/2026/06.md",
+      "existed": true,
+      "path": "content/monthly/2026/06.md",
+      "sha256": "9dd8dd9695c7290a4ab4a4acbeafe4b4a6cf422a8678d55d22733bc9800b3671",
+      "size_bytes": 31560
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/monthly/2026/07.md",
+      "existed": true,
+      "path": "content/monthly/2026/07.md",
+      "sha256": "91efa5a0720e34080b079b8373070da92197d4aa08cdd735e9c4d7399c5c933a",
+      "size_bytes": 20572
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/monthly/2026/08.md",
+      "existed": true,
+      "path": "content/monthly/2026/08.md",
+      "sha256": "99ce0a4b0c58abc5ed9838a46d7ab20f416309de04a3b071dfb62a52118b0944",
+      "size_bytes": 22605
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/monthly/2026/09.md",
+      "existed": true,
+      "path": "content/monthly/2026/09.md",
+      "sha256": "1ac86fe1f02df3336f0081f34daade67eb22b421c0b071ba521f4ba36f9f42bd",
+      "size_bytes": 16159
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/monthly/_index.md",
+      "existed": true,
+      "path": "content/monthly/_index.md",
+      "sha256": "69638062d7d17832f7e32ba98de202ef3e9b49482add82f8cecb6f07308f1672",
+      "size_bytes": 257
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/yearly/2026.md",
+      "existed": true,
+      "path": "content/yearly/2026.md",
+      "sha256": "99c014be7959f561d2850e9bae225ab8deb239f01d5686340d6f42434ad80753",
+      "size_bytes": 10950
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/yearly/_index.md",
+      "existed": true,
+      "path": "content/yearly/_index.md",
+      "sha256": "9c70bdd75222757f78616ecf7bc28e4a610d908f12df933101d17c8755d7d190",
+      "size_bytes": 274
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/topics/_index.md",
+      "existed": true,
+      "path": "content/topics/_index.md",
+      "sha256": "25d4b62b17985cfe1b7b7de5351484f06e992264ad8eb1aac08368c187514973",
+      "size_bytes": 747
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/topics/ai-agents-in-healthcare/_index.md",
+      "existed": true,
+      "path": "content/topics/ai-agents-in-healthcare/_index.md",
+      "sha256": "bc54509b6f2f881eeefaf7dc85b5a3f5972e435e51e4ce6a416aa6bfa4ff1f14",
+      "size_bytes": 1508
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/topics/ai-coding-agents/_index.md",
+      "existed": true,
+      "path": "content/topics/ai-coding-agents/_index.md",
+      "sha256": "c74d7d10da19cf8ae230750e820c3bef6d55e59e2ffbea2eb1c95cccc452805d",
+      "size_bytes": 1403
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/topics/ai-ml/_index.md",
+      "existed": true,
+      "path": "content/topics/ai-ml/_index.md",
+      "sha256": "ad7e10f5bb0b9b8d7455e21c28a6f77fb534047862f2e75bcf00858946928880",
+      "size_bytes": 515
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/topics/developer-tools/_index.md",
+      "existed": true,
+      "path": "content/topics/developer-tools/_index.md",
+      "sha256": "85e10dfde481fff9b9a53343d78526f2f81f6970e28154d6b551921ace5648d3",
+      "size_bytes": 1453
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/topics/local-first/_index.md",
+      "existed": true,
+      "path": "content/topics/local-first/_index.md",
+      "sha256": "150ad5eb3640e1f650b2e9d9152dc00f1089c6c58e089acad069913acb4d5912",
+      "size_bytes": 947
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/topics/mcp-ecosystem/_index.md",
+      "existed": true,
+      "path": "content/topics/mcp-ecosystem/_index.md",
+      "sha256": "b5bf4a4e11ec778bbf5d98babfa9687f346136aa5c72dc2762a887aa9323b802",
+      "size_bytes": 1416
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/topics/open-source-llms/_index.md",
+      "existed": true,
+      "path": "content/topics/open-source-llms/_index.md",
+      "sha256": "a27361c475ae3be881f53a57bbd1d36dae8e97f1e91eda7976ad24c8dd0117a9",
+      "size_bytes": 1420
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/data/_index.md",
+      "existed": true,
+      "path": "content/data/_index.md",
+      "sha256": "f8211044b86b4c23358be39b3dc0fac76287fec0edcd1588a0fe9094f1377a4a",
+      "size_bytes": 482
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/data/fastest-growing-ai-repositories-this-year/index.md",
+      "existed": true,
+      "path": "content/data/fastest-growing-ai-repositories-this-year/index.md",
+      "sha256": "f6549e66e629a19def9396184e89a719594066080f04edd6b8c7d767d35a5b85",
+      "size_bytes": 77056
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/data/most-starred-mcp-projects/index.md",
+      "existed": true,
+      "path": "content/data/most-starred-mcp-projects/index.md",
+      "sha256": "cd52e504178ab086ed39e5955706f77fdeb448b10ce79ea7f8eb0fac8432b735",
+      "size_bytes": 76835
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/content/data/top-ai-repositories-this-month/index.md",
+      "existed": true,
+      "path": "content/data/top-ai-repositories-this-month/index.md",
+      "sha256": "355e21b95f68431577f0ba8c7776d3c5f880c85596d444050216c5f580d6d696",
+      "size_bytes": 69297
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/analyzed/2026-W40-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W40-summary.md",
+      "sha256": "3724d23f08b12d39da008cee3ebf069d36eef462e02b8b0eab87ecca4bcfa63a",
+      "size_bytes": 11958
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/analyzed/2026-W40-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W40-correlations.json",
+      "sha256": "2326ac8b675fecf2351434ddcb82e94ecd8358f10b618d9142a50a360faee85a",
+      "size_bytes": 200646
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/analyzed/2026-W40-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W40-press-context.md",
+      "sha256": "0c4e062f0f04c2120322141e8f70c62a287d7f6d9ea7a2fb649e0514a05d8074",
+      "size_bytes": 32445
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/candidates/2026-W40/36383884999/2026-W40-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W40/36383884999/2026-W40-summary.md",
+      "sha256": "3724d23f08b12d39da008cee3ebf069d36eef462e02b8b0eab87ecca4bcfa63a",
+      "size_bytes": 11958
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/candidates/2026-W40/36383884999/2026-W40-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W40/36383884999/2026-W40-content.md",
+      "sha256": "79b71a4ee562197c2a64e8c43adae13f808d818a20fba0e10d1dcb43af36f880",
+      "size_bytes": 11610
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/candidates/2026-W40/36383884999/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W40/36383884999/publish-manifest.json",
+      "sha256": "0174b783e2032b6e61b87f851244687bb4be3d36510b599a36649765be8b9f56",
+      "size_bytes": 31599
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/candidates/2026-W40/36383884999/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W40/36383884999/analysis-gate-report.json",
+      "sha256": "34573ea53f7d00fe4a38e71f16f3df0cd19384e6b90be868378c078b9911d110",
+      "size_bytes": 1007
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/metrics/.gitkeep",
+      "existed": true,
+      "path": "data/metrics/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/metrics/cost-summary.json",
+      "existed": true,
+      "path": "data/metrics/cost-summary.json",
+      "sha256": "fea5610f1de604d289001af416913d56a16744d1a463b8c54b9733155ffc3005",
+      "size_bytes": 1771
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/metrics/momentum-2026-W21.json",
+      "existed": true,
+      "path": "data/metrics/momentum-2026-W21.json",
+      "sha256": "eb0dfda902611772b86e905a4c0354179b4af2b5914b720f3d71621285d98579",
+      "size_bytes": 18424
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/metrics/scorecards/2026-W23-scorecard.json",
+      "existed": true,
+      "path": "data/metrics/scorecards/2026-W23-scorecard.json",
+      "sha256": "faaeffcc68805a9671be6bdef8699187e941886c7b28065ed8973ebe9900c2ba",
+      "size_bytes": 16132
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/metrics/token-usage.jsonl",
+      "existed": true,
+      "path": "data/metrics/token-usage.jsonl",
+      "sha256": "185c72dd950ce9f165bee36806589e750dfa01756e4bc4e414811a322e8afe16",
+      "size_bytes": 5287
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W24/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W24/promotion-manifest.json",
+      "sha256": "fef288a82214359c228ebd8822e20bc2e27d3a3e30f511cad61646821b138468",
+      "size_bytes": 17325
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W25/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W25/promotion-manifest.json",
+      "sha256": "40d92fd3b309497f9671e8ed13f7ec6045564ba50e89b0cbee49176ea47a5e12",
+      "size_bytes": 18691
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W26/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W26/promotion-manifest.json",
+      "sha256": "c3999b2ddf1b72f2acc27dbae2c4f51281b158c32b3275cdd6908bf39947dd5b",
+      "size_bytes": 18761
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W27/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W27/promotion-manifest.json",
+      "sha256": "81d26cd8baa83837a43b1ed4b25cb37d3375372799bd08bf34dbc90ef836f91d",
+      "size_bytes": 17395
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W28/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W28/promotion-manifest.json",
+      "sha256": "c956b4e08950b7a03056e488900397e23e3e6b82f3c6a0b26f44efb8cbec5fcc",
+      "size_bytes": 17324
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W29/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W29/promotion-manifest.json",
+      "sha256": "80719e543ce01a0cf48bd26cd77c6823513acc8e5bf2aa6167f86a0802a8993b",
+      "size_bytes": 17322
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W30/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W30/promotion-manifest.json",
+      "sha256": "15784ef9f45a8fb3759667f57cd462cd42489b96c3001eef06030cb64ef64aae",
+      "size_bytes": 17331
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W31/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W31/promotion-manifest.json",
+      "sha256": "060c14c54354729147b252c582db7bdb7c9768444d3d8004da1724cdf5fd4113",
+      "size_bytes": 17324
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W32/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W32/promotion-manifest.json",
+      "sha256": "32250489d1697517f68717ef194769c718a41f8cbbbaed73820adf5c7ebc235c",
+      "size_bytes": 17394
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W33/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W33/promotion-manifest.json",
+      "sha256": "f4585d5b7b31a77204fc972d1ddd259e3109853a9347fd605ce1e56a155f8474",
+      "size_bytes": 17394
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W34/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W34/promotion-manifest.json",
+      "sha256": "286e977eac40fb288435c9c0a938eb67d766e6f254016fddc72fb1559085a9ad",
+      "size_bytes": 17391
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W35/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W35/promotion-manifest.json",
+      "sha256": "d3819695f3ed47ed47223d134a013e2ed2764800a6a34b309d9281311318e054",
+      "size_bytes": 17395
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W36/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W36/promotion-manifest.json",
+      "sha256": "0dc8a3e3544f8851836c1be28bce3c51fc8e5fcfef91707c33406df57e251bab",
+      "size_bytes": 17394
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W37/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W37/promotion-manifest.json",
+      "sha256": "4de53348f3af6e6151c8b7af5fa1d27bc70f59863bb39ef8c7f45403acdc0f9c",
+      "size_bytes": 17393
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W38/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W38/promotion-manifest.json",
+      "sha256": "9503fad359e84fe4e13e7ec6febec07f1b7ed8d8599b725c2edcf0b2aecd1dd5",
+      "size_bytes": 17381
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W39/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W39/promotion-manifest.json",
+      "sha256": "291b140a51d095818e29e22f2100d47762b144adcf20d9a8de2f03083980e959",
+      "size_bytes": 17382
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/published/2026-W40/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W40/promotion-manifest.json",
+      "sha256": "8c10cfacda71826b05265a7734535178313df7020e47aca39e3c34ef1b1bf1c7",
+      "size_bytes": 17481
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/taxonomy/tags.json",
+      "existed": true,
+      "path": "data/taxonomy/tags.json",
+      "sha256": "a23b508f873c42960f655f94b4a552b30b7e8b135132b0046e4da78c57912f18",
+      "size_bytes": 2577570
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/taxonomy/topic-candidates.json",
+      "existed": true,
+      "path": "data/taxonomy/topic-candidates.json",
+      "sha256": "dcd030a7904a94d89a11a13b1312b65400eeb141a9785dd6ded068cdd15435a3",
+      "size_bytes": 5723303
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/taxonomy/topics.json",
+      "existed": true,
+      "path": "data/taxonomy/topics.json",
+      "sha256": "967820d64a6c12ec1346287e06b2a825e720a4f6bbdc0dafad18c6502fdc211a",
+      "size_bytes": 3074
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/topic-hubs/dynamic-topic-creation.log",
+      "existed": true,
+      "path": "data/topic-hubs/dynamic-topic-creation.log",
+      "sha256": "7f0cb2e54563b4be1ba150424cd609194c5de8e63f12ae3ceea76107eb2ecaee",
+      "size_bytes": 3299
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/derived/observatory/repo-identity-backfill.json",
+      "existed": true,
+      "path": "data/derived/observatory/repo-identity-backfill.json",
+      "sha256": "16cec3a4d7d657dd3fe2e9fc4823313109827ea71ed6031fa2f159fe42887837",
+      "size_bytes": 366791
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/derived/observatory/repositories.json",
+      "existed": true,
+      "path": "data/derived/observatory/repositories.json",
+      "sha256": "5280e8fe593e8a7b80c7e343d1688c220bf7186a9da1b7e2ae235f15e1e3b4b0",
+      "size_bytes": 1954731
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/derived/observatory/repository-disposition-candidate.json",
+      "existed": true,
+      "path": "data/derived/observatory/repository-disposition-candidate.json",
+      "sha256": "b63c687e7ff188369ea7b9cefa508d4179f9d43df5d90c86bd0529b568d476ac",
+      "size_bytes": 182033
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/derived/observatory/repository-external-evidence.json",
+      "existed": true,
+      "path": "data/derived/observatory/repository-external-evidence.json",
+      "sha256": "81946f7e235ec12ded03de8655180d62e88e751a447bc89606c3d24c1b79a877",
+      "size_bytes": 1981
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/derived/observatory/repository-lifecycle.json",
+      "existed": true,
+      "path": "data/derived/observatory/repository-lifecycle.json",
+      "sha256": "5e3cd00b661c8ad4ffc5fed701504ade2a9d99c2582304c8ac8e3671dcb97c71",
+      "size_bytes": 6136846
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/derived/observatory/repository-production-snapshot.json",
+      "existed": true,
+      "path": "data/derived/observatory/repository-production-snapshot.json",
+      "sha256": "4a76f90d7296800bbae70360dfc0605216a17b24a797ff4f50bf25b78b1685b7",
+      "size_bytes": 52744
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/derived/observatory/repository-url-inspection.json",
+      "existed": true,
+      "path": "data/derived/observatory/repository-url-inspection.json",
+      "sha256": "feca9dbccecfcbb02038aa32c312f1c10a5f23f34337b57211532fe9a0ff0fc4",
+      "size_bytes": 198591
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/derived/observatory/repository-url-inventory.json",
+      "existed": true,
+      "path": "data/derived/observatory/repository-url-inventory.json",
+      "sha256": "74eb22ecca0e3113d1172917fc7157b9a0ad93a2f96aa9449eb7a1b6618935ea",
+      "size_bytes": 731860
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/observatory/ranking_summary.json",
+      "existed": true,
+      "path": "data/observatory/ranking_summary.json",
+      "sha256": "0ba02bd5af6f0a81f003ff20624714c9b22d4f0cecb2e56bb49e4a615b8bee27",
+      "size_bytes": 1179
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/data/metrics/cost-summary.json",
+      "existed": true,
+      "path": "data/metrics/cost-summary.json",
+      "sha256": "fea5610f1de604d289001af416913d56a16744d1a463b8c54b9733155ffc3005",
+      "size_bytes": 1771
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/static/data/rankings/fastest-growing-ai-repositories-this-year.json",
+      "existed": true,
+      "path": "static/data/rankings/fastest-growing-ai-repositories-this-year.json",
+      "sha256": "772bf482b3bf168304684bf0e0d81d2f5d34c8bbecf1c5675be1f19b377cfb0e",
+      "size_bytes": 72164
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/static/data/rankings/most-starred-mcp-projects.json",
+      "existed": true,
+      "path": "static/data/rankings/most-starred-mcp-projects.json",
+      "sha256": "d709243d26c3a574cf3680eda743f32f5c0d6a51c71f257af2739ee49f19b3af",
+      "size_bytes": 76475
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/static/data/rankings/top-ai-repositories-this-month.json",
+      "existed": true,
+      "path": "static/data/rankings/top-ai-repositories-this-month.json",
+      "sha256": "b8c3a0a7f2669b120562bd39f1002f21f62a04c5e49523bd6a2784efc58dbe88",
+      "size_bytes": 67526
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/static/datasets/open-source-ai-github-projects-2026/CITATION.md",
+      "existed": true,
+      "path": "static/datasets/open-source-ai-github-projects-2026/CITATION.md",
+      "sha256": "f7925a5e84381fa6f11568dfb66fa45aae4d9282b9283795edc6d15f8c4a9a56",
+      "size_bytes": 1582
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/static/datasets/open-source-ai-github-projects-2026/LICENSE.txt",
+      "existed": true,
+      "path": "static/datasets/open-source-ai-github-projects-2026/LICENSE.txt",
+      "sha256": "a9d4034d7607db76031d6ec08f5eb0fe3c080741172ef3eceebddffbf8e8c744",
+      "size_bytes": 1069
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/static/datasets/open-source-ai-github-projects-2026/dataset-metadata.json",
+      "existed": true,
+      "path": "static/datasets/open-source-ai-github-projects-2026/dataset-metadata.json",
+      "sha256": "d91ed57141f5e0bfd3bd68ca649aa7ad60727a7105af048fd9a5ae73e3ce2f87",
+      "size_bytes": 9462
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/static/datasets/open-source-ai-github-projects-2026/top-github-projects.csv",
+      "existed": true,
+      "path": "static/datasets/open-source-ai-github-projects-2026/top-github-projects.csv",
+      "sha256": "89df45a2eaba6a095c24bc9b329337f18e2e760afd1fb7d9a417766e3872b8a7",
+      "size_bytes": 120524
+    },
+    {
+      "backup_path": "data/backups/2026-W40/36383884999/content/files/static/tools/star-velocity-explorer.json",
+      "existed": true,
+      "path": "static/tools/star-velocity-explorer.json",
+      "sha256": "527dea7d8df34bf1830448bcf3d24a95948fc1c2143931a728e9e709054ffc1f",
+      "size_bytes": 190268
+    }
+  ],
+  "kind": "content",
+  "publish_ref": {
+    "actual": "b6a0cc76c8ec992d9d4103ba2445340201f29b1c",
+    "expected": "b6a0cc76c8ec992d9d4103ba2445340201f29b1c"
+  },
+  "run_id": "36383884999",
+  "schema_version": "publish_backup_v1",
+  "source_manifest": {
+    "analysis": {
+      "ai_status": "ai",
+      "model": "gpt-5.6-sol",
+      "model_status": "available",
+      "preflight": {
+        "degradation_reason": "Prompt was deterministically compacted to fit the configured token budget.",
+        "degraded": true,
+        "path": "data/candidates/2026-W40/36383884999/diagnostics/analysis-input-manifest.json",
+        "promotion_policy": "normal-promotion",
+        "prompt_checksum_sha256": "969cdd57d39ce5de5c6e454331951a25c2fe9e7298eb28a7901443c38365f11d",
+        "prompt_token_budget": 90000,
+        "prompt_tokens": 25567,
+        "publish_eligible": true
+      },
+      "provenance": {
+        "attempted_ai_paths": [],
+        "authorship": "ai-authored",
+        "current_datetime": "2026-09-28T06:00:04Z",
+        "degraded": true,
+        "fallback_reason": null,
+        "model": "gpt-5.6-sol",
+        "provider": "copilot-cli",
+        "run_id": "36383884999"
+      },
+      "provider": "copilot-cli",
+      "source": "copilot-cli"
+    },
+    "candidate": {
+      "ai_status": "ai",
+      "content_path": "data/candidates/2026-W40/36383884999/2026-W40-content.md",
+      "content_sha256": "79b71a4ee562197c2a64e8c43adae13f808d818a20fba0e10d1dcb43af36f880",
+      "published_summary_path": "data/analyzed/2026-W40-summary.md",
+      "quality_score": 100,
+      "summary_path": "data/candidates/2026-W40/36383884999/2026-W40-summary.md",
+      "summary_sha256": "3724d23f08b12d39da008cee3ebf069d36eef462e02b8b0eab87ecca4bcfa63a"
+    },
+    "path": "publish-manifest-tool.json",
+    "sha256": "0174b783e2032b6e61b87f851244687bb4be3d36510b599a36649765be8b9f56",
+    "source_artifacts": [
+      {
+        "artifact_checksum": "de35e6d3afab3f7e0d3343c6893b7b9ffe60d09019a6e73e40463512d33a609d",
+        "crawled_at": "2026-09-28T05:54:05Z",
+        "exists": true,
+        "freshness": {
+          "reasons": [],
+          "status": "fresh"
+        },
+        "generated_at": "2026-09-28T05:54:05Z",
+        "path": "data/raw/2026-W40.json",
+        "provenance": {
+          "artifact_checksum": "de35e6d3afab3f7e0d3343c6893b7b9ffe60d09019a6e73e40463512d33a609d",
+          "generated_at": "2026-09-28T05:54:05Z",
+          "path": "data/raw/2026-W40.json",
+          "same_day_reuse": {
+            "source": "github",
+            "source_id": "github-search",
+            "status": "not_reused"
+          },
+          "sha256": "7cf26392b14b042dcc3f19280abc6f644c4b177c2788279e7009e91fcf9325d5"
+        },
+        "role": "raw_github",
+        "same_day_reuse": {
+          "source": "github",
+          "source_id": "github-search",
+          "status": "not_reused"
+        },
+        "schema_checksum": "5b0091e9cbcc1e21a5abf2da41fedc34a86b35fab0645ef438401ccf83667d71",
+        "sha256": "7cf26392b14b042dcc3f19280abc6f644c4b177c2788279e7009e91fcf9325d5",
+        "size_bytes": 412087,
+        "week": "2026-W40"
+      },
+      {
+        "artifact_checksum": "de054925bc578985a1eb366a8f79c06ca7ea6f26de8c9f837bedb9ce5194260d",
+        "crawled_at": "2026-09-28T05:59:35.363260Z",
+        "exists": true,
+        "freshness": {
+          "reasons": [],
+          "status": "fresh"
+        },
+        "generated_at": "2026-09-28T05:59:35.363260Z",
+        "path": "data/raw/2026-W40-external-news.json",
+        "provenance": {
+          "artifact_checksum": "de054925bc578985a1eb366a8f79c06ca7ea6f26de8c9f837bedb9ce5194260d",
+          "generated_at": "2026-09-28T05:59:35.363260Z",
+          "path": "data/raw/2026-W40-external-news.json",
+          "same_day_reuse": {
+            "source": "artifact-metadata",
+            "status": "not_reused"
+          },
+          "sha256": "6272ae606a45fe4da85b1e01dd5ab9fbcd9102a3b1e471a80214fa54b3dbe402"
+        },
+        "role": "external_news",
+        "same_day_reuse": {
+          "source": "artifact-metadata",
+          "status": "not_reused"
+        },
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "sha256": "6272ae606a45fe4da85b1e01dd5ab9fbcd9102a3b1e471a80214fa54b3dbe402",
+        "size_bytes": 54734,
+        "source_artifact_provenance": [
+          {
+            "action": "refreshed",
+            "artifact_checksum": "9642e6166b3d2c1ec85067c1306a206e84d19f1aee337545802139052b1d4645",
+            "artifact_path": "data/raw/2026-W40-external-news.json",
+            "content_checksum": "cb52a58031c92d7e19c21348c2a99b5bb486f96bf55dcd9b6c8171dca4b87827",
+            "crawl_window": {
+              "since": "2026-09-21T00:00:00Z",
+              "until": "2026-09-28T00:00:00Z"
+            },
+            "date": "2026-09-28",
+            "evaluated_at": "2026-09-28T05:59:35.363260Z",
+            "original_crawled_at": "2026-09-28T05:59:35.363260Z",
+            "original_run_id": "36383884999",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "github_blog",
+            "week": "2026-W40"
+          },
+          {
+            "action": "refreshed",
+            "artifact_checksum": "9642e6166b3d2c1ec85067c1306a206e84d19f1aee337545802139052b1d4645",
+            "artifact_path": "data/raw/2026-W40-external-news.json",
+            "content_checksum": "93e5535f1e4e5d180739e2125a6d38769cccdadc73a8e558c5e26a5a57872fc7",
+            "crawl_window": {
+              "since": "2026-09-21T00:00:00Z",
+              "until": "2026-09-28T00:00:00Z"
+            },
+            "date": "2026-09-28",
+            "evaluated_at": "2026-09-28T05:59:35.363260Z",
+            "original_crawled_at": "2026-09-28T05:59:35.363260Z",
+            "original_run_id": "36383884999",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "hugging_face_blog",
+            "week": "2026-W40"
+          },
+          {
+            "action": "refreshed",
+            "artifact_checksum": "9642e6166b3d2c1ec85067c1306a206e84d19f1aee337545802139052b1d4645",
+            "artifact_path": "data/raw/2026-W40-external-news.json",
+            "content_checksum": "f6605f5c8394c873c1778e45035c8fbfbfef9eb6c062cd7b332f35277ec2105e",
+            "crawl_window": {
+              "since": "2026-09-21T00:00:00Z",
+              "until": "2026-09-28T00:00:00Z"
+            },
+            "date": "2026-09-28",
+            "evaluated_at": "2026-09-28T05:59:35.363260Z",
+            "original_crawled_at": "2026-09-28T05:59:35.363260Z",
+            "original_run_id": "36383884999",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "mit_technology_review",
+            "week": "2026-W40"
+          },
+          {
+            "action": "refreshed",
+            "artifact_checksum": "9642e6166b3d2c1ec85067c1306a206e84d19f1aee337545802139052b1d4645",
+            "artifact_path": "data/raw/2026-W40-external-news.json",
+            "content_checksum": "e816f74f36185f380adc6cfb2ca37fc73a21ac7617e1f10f33bc564de7f67e36",
+            "crawl_window": {
+              "since": "2026-09-21T00:00:00Z",
+              "until": "2026-09-28T00:00:00Z"
+            },
+            "date": "2026-09-28",
+            "evaluated_at": "2026-09-28T05:59:35.363260Z",
+            "original_crawled_at": "2026-09-28T05:59:35.363260Z",
+            "original_run_id": "36383884999",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "nvidia_blog",
+            "week": "2026-W40"
+          },
+          {
+            "action": "refreshed",
+            "artifact_checksum": "9642e6166b3d2c1ec85067c1306a206e84d19f1aee337545802139052b1d4645",
+            "artifact_path": "data/raw/2026-W40-external-news.json",
+            "content_checksum": "fc24ac3006e66b5c21b96ce64cc70cf777f2172f87d258d8f1d71fc47df622a9",
+            "crawl_window": {
+              "since": "2026-09-21T00:00:00Z",
+              "until": "2026-09-28T00:00:00Z"
+            },
+            "date": "2026-09-28",
+            "evaluated_at": "2026-09-28T05:59:35.363260Z",
+            "original_crawled_at": "2026-09-28T05:59:35.363260Z",
+            "original_run_id": "36383884999",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "techcrunch",
+            "week": "2026-W40"
+          }
+        ],
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "source_reuse_summary": [
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "github_blog"
+          },
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "hugging_face_blog"
+          },
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "mit_technology_review"
+          },
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "nvidia_blog"
+          },
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "techcrunch"
+          }
+        ],
+        "source_status": [
+          {
+            "attempts": 1,
+            "duration_seconds": 0.756,
+            "ended_at": "2026-09-28T05:59:36.141075Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 6,
+            "host": "github.blog",
+            "relevant_articles": 6,
+            "source": "github_blog",
+            "started_at": "2026-09-28T05:59:35.384925Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 6
+          },
+          {
+            "attempts": 1,
+            "duration_seconds": 0.523,
+            "ended_at": "2026-09-28T05:59:35.905107Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 0,
+            "host": "huggingface.co",
+            "relevant_articles": 1,
+            "source": "hugging_face_blog",
+            "started_at": "2026-09-28T05:59:35.382220Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 7
+          },
+          {
+            "attempts": 1,
+            "duration_seconds": 0.273,
+            "ended_at": "2026-09-28T05:59:35.656255Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 0,
+            "host": "www.technologyreview.com",
+            "relevant_articles": 4,
+            "source": "mit_technology_review",
+            "started_at": "2026-09-28T05:59:35.383131Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 10
+          },
+          {
+            "attempts": 1,
+            "duration_seconds": 0.626,
+            "ended_at": "2026-09-28T05:59:36.007918Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 6,
+            "host": "blogs.nvidia.com",
+            "relevant_articles": 8,
+            "source": "nvidia_blog",
+            "started_at": "2026-09-28T05:59:35.381656Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 10
+          },
+          {
+            "attempts": 1,
+            "duration_seconds": 0.222,
+            "ended_at": "2026-09-28T05:59:35.603128Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 0,
+            "host": "techcrunch.com",
+            "relevant_articles": 6,
+            "source": "techcrunch",
+            "started_at": "2026-09-28T05:59:35.380734Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 19
+          }
+        ],
+        "sources_failed": [],
+        "sources_requested": [
+          "github_blog",
+          "hugging_face_blog",
+          "mit_technology_review",
+          "nvidia_blog",
+          "techcrunch"
+        ],
+        "sources_succeeded": [
+          "github_blog",
+          "hugging_face_blog",
+          "mit_technology_review",
+          "nvidia_blog",
+          "techcrunch"
+        ],
+        "week": "2026-W40"
+      },
+      {
+        "artifact_checksum": null,
+        "crawled_at": null,
+        "exists": true,
+        "freshness": {
+          "reasons": [],
+          "status": "fresh"
+        },
+        "generated_at": "2026-09-28T06:00:04Z",
+        "path": "data/analyzed/2026-W40-correlations.json",
+        "provenance": {
+          "artifact_checksum": null,
+          "generated_at": "2026-09-28T06:00:04Z",
+          "path": "data/analyzed/2026-W40-correlations.json",
+          "same_day_reuse": {
+            "details": "No same-day reuse marker was present on this artifact.",
+            "source": "default",
+            "status": "not_reused"
+          },
+          "sha256": "2326ac8b675fecf2351434ddcb82e94ecd8358f10b618d9142a50a360faee85a"
+        },
+        "role": "correlations",
+        "same_day_reuse": {
+          "details": "No same-day reuse marker was present on this artifact.",
+          "source": "default",
+          "status": "not_reused"
+        },
+        "sha256": "2326ac8b675fecf2351434ddcb82e94ecd8358f10b618d9142a50a360faee85a",
+        "size_bytes": 200646,
+        "week": "2026-W40"
+      },
+      {
+        "artifact_checksum": null,
+        "crawled_at": null,
+        "exists": true,
+        "freshness": {
+          "reasons": [],
+          "status": "not_applicable"
+        },
+        "generated_at": "2026-09-28T06:00:04Z",
+        "path": "data/analyzed/2026-W40-press-context.md",
+        "provenance": {
+          "artifact_checksum": null,
+          "generated_at": "2026-09-28T06:00:04Z",
+          "path": "data/analyzed/2026-W40-press-context.md",
+          "same_day_reuse": {
+            "details": "No same-day reuse marker was present on this artifact.",
+            "source": "default",
+            "status": "not_reused"
+          },
+          "sha256": "0c4e062f0f04c2120322141e8f70c62a287d7f6d9ea7a2fb649e0514a05d8074"
+        },
+        "role": "press_context",
+        "same_day_reuse": {
+          "details": "No same-day reuse marker was present on this artifact.",
+          "source": "default",
+          "status": "not_reused"
+        },
+        "sha256": "0c4e062f0f04c2120322141e8f70c62a287d7f6d9ea7a2fb649e0514a05d8074",
+        "size_bytes": 32445,
+        "week": null
+      }
+    ]
+  },
+  "week": "2026-W40"
+}
