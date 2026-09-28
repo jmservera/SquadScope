@@ -1,0 +1,34 @@
+{
+  "created_at": "2026-09-28T05:59:46.837859Z",
+  "files": [
+    {
+      "artifact_id": "10954180557",
+      "head_sha": "05ad1a6c3396303d2cc41f4f714e84ba795487e7",
+      "original_path": "data/raw/2026-W40-external-news.json",
+      "sha256": "6272ae606a45fe4da85b1e01dd5ab9fbcd9102a3b1e471a80214fa54b3dbe402",
+      "size_bytes": 54734,
+      "source_run_id": "36383884999",
+      "stored_path": "data/raw-store/2026-W40/36383884999/files/data/raw/2026-W40-external-news.json",
+      "week": "2026-W40"
+    },
+    {
+      "artifact_id": "10954180557",
+      "head_sha": "05ad1a6c3396303d2cc41f4f714e84ba795487e7",
+      "original_path": "data/raw/2026-W40.json",
+      "sha256": "7cf26392b14b042dcc3f19280abc6f644c4b177c2788279e7009e91fcf9325d5",
+      "size_bytes": 412087,
+      "source_run_id": "36383884999",
+      "stored_path": "data/raw-store/2026-W40/36383884999/files/data/raw/2026-W40.json",
+      "week": "2026-W40"
+    }
+  ],
+  "schema_version": "raw_store_v1",
+  "source_artifact": {
+    "head_sha": "05ad1a6c3396303d2cc41f4f714e84ba795487e7",
+    "id": "10954180557",
+    "name": "raw-data",
+    "retention_days": 90
+  },
+  "source_run_id": "36383884999",
+  "week": "2026-W40"
+}
