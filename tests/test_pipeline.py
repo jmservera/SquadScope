@@ -111,7 +111,8 @@ class WorkflowSecurityTests(unittest.TestCase):
 
         self.assertIn('if not report.get("publish_eligible"):', run)
         self.assertIn("::warning::Analysis preflight is publish-ineligible;", run)
-        self.assertIn("output will remain staged/candidate-only", run)
+        self.assertIn("output will remain staged/candidate-only.", run)
+        self.assertNotIn("unless an explicit promotion policy allows it", run)
         self.assertIn('elif report.get("degraded"):', run)
         self.assertIn("prompt was compacted to fit the token budget", run)
         self.assertIn("remains publish-eligible under normal promotion", run)

@@ -746,7 +746,7 @@ jobs:
           if not report.get("publish_eligible"):
               print(
                   "::warning::Analysis preflight is publish-ineligible; "
-                  "output will remain staged/candidate-only unless an explicit promotion policy allows it."
+                  "output will remain staged/candidate-only."
               )
           elif report.get("degraded"):
               print(
