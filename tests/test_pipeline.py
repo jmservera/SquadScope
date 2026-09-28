@@ -95,6 +95,7 @@ class WorkflowSecurityTests(unittest.TestCase):
             "apt-get install --yes --no-install-recommends bubblewrap", install_step["run"]
         )
         self.assertIn("bwrap --version", install_step["run"])
+        self.assertIn("python3 scripts/run_copilot_sandbox.py --self-test", install_step["run"])
         self.assertNotIn("npm install -g @github/copilot\n", install_step["run"])
 
     def test_production_copilot_runs_use_isolated_workspaces(self) -> None:

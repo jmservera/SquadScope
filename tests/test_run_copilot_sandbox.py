@@ -32,6 +32,7 @@ def test_builds_minimal_read_only_runtime_with_exact_output_bind(tmp_path: Path)
         share="output/transcript.md",
         sudo=Path("/usr/bin/sudo"),
         bwrap=Path("/usr/bin/bwrap"),
+        setpriv=Path("/usr/bin/setpriv"),
         node=node,
         copilot_entry=copilot,
         runner_uid=1001,
@@ -49,8 +50,8 @@ def test_builds_minimal_read_only_runtime_with_exact_output_bind(tmp_path: Path)
     assert "/proc" not in command
     assert command[command.index("--preserve-env=GITHUB_TOKEN,COPILOT_GITHUB_TOKEN") + 1] == "--"
     assert "--unshare-user" not in command
-    assert command[command.index("--uid") + 1] == "1001"
-    assert command[command.index("--gid") + 1] == "1001"
+    assert "--uid" not in command
+    assert "--gid" not in command
     assert str(runtime) in command
     assert str(workspace) in command
     bind_index = command.index("--bind")
@@ -58,8 +59,21 @@ def test_builds_minimal_read_only_runtime_with_exact_output_bind(tmp_path: Path)
         str(workspace / "output"),
         "/workspace/output",
     ]
-    assert "/runtime/bin/node" in command
-    assert "/runtime/lib/node_modules/@github/copilot/npm-loader.js" in command
+    setpriv_index = command.index("/usr/bin/setpriv")
+    assert command[setpriv_index : setpriv_index + 8] == [
+        "/usr/bin/setpriv",
+        "--reuid=1001",
+        "--regid=1001",
+        "--clear-groups",
+        "--no-new-privs",
+        "--inh-caps=-all",
+        "--bounding-set=-all",
+        "--",
+    ]
+    assert command[setpriv_index + 8 : setpriv_index + 10] == [
+        "/runtime/bin/node",
+        "/runtime/lib/node_modules/@github/copilot/npm-loader.js",
+    ]
     assert "--share=output/transcript.md" in command
 
 
@@ -79,6 +93,7 @@ def test_rejects_copilot_entry_outside_node_runtime(tmp_path: Path) -> None:
             share=None,
             sudo=Path("/usr/bin/sudo"),
             bwrap=Path("/usr/bin/bwrap"),
+            setpriv=Path("/usr/bin/setpriv"),
             node=node,
             copilot_entry=copilot,
             runner_uid=1001,
@@ -111,6 +126,7 @@ def test_rejects_node_runtime_root_of_slash(
             share=None,
             sudo=Path("/usr/bin/sudo"),
             bwrap=Path("/usr/bin/bwrap"),
+            setpriv=Path("/usr/bin/setpriv"),
             node=node,
             copilot_entry=copilot,
             runner_uid=1001,
@@ -134,6 +150,7 @@ def test_rejects_workspace_with_symlink_component(tmp_path: Path) -> None:
             share=None,
             sudo=Path("/usr/bin/sudo"),
             bwrap=Path("/usr/bin/bwrap"),
+            setpriv=Path("/usr/bin/setpriv"),
             node=node,
             copilot_entry=copilot,
             runner_uid=1001,
@@ -161,6 +178,7 @@ def test_rejects_non_javascript_copilot_entry(tmp_path: Path) -> None:
             share=None,
             sudo=Path("/usr/bin/sudo"),
             bwrap=Path("/usr/bin/bwrap"),
+            setpriv=Path("/usr/bin/setpriv"),
             node=node,
             copilot_entry=copilot,
             runner_uid=1001,

@@ -552,6 +552,7 @@ jobs:
           # (including synthesis) is allowed to depend on it.
           bwrap --version
           copilot --version
+          python3 scripts/run_copilot_sandbox.py --self-test
 
       - name: Run synthesis step (Step 1)
         id: synthesis
