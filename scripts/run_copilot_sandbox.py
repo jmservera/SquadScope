@@ -251,7 +251,15 @@ def _run_self_test() -> int:
             )
             return 1
         output_file = workspace / "output" / "sandbox-self-test"
-        stat = output_file.stat()
+        try:
+            stat = output_file.stat()
+        except OSError as error:
+            print(
+                "Copilot sandbox self-test failed: "
+                f"cannot stat output file {output_file}: {error}.",
+                file=sys.stderr,
+            )
+            return 1
         if stat.st_uid != runner_uid or stat.st_gid != runner_gid:
             print(
                 "Copilot sandbox self-test failed: output owner "
