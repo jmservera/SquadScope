@@ -40,6 +40,9 @@ def test_restore_publish_backup_workflow_uses_immutable_backup_manifest() -> Non
 
     assert "backup_manifest" in workflow
     assert "python3 ../workflow-source/scripts/publish_safety.py restore-backup" in workflow
+    assert (
+        r"^data/backups/[0-9]{4}-W[0-9]{2}/[0-9]+/content/manifest\.json$" in workflow
+    )
     assert "--force-with-lease" in workflow
     assert "ref: publish" in workflow
 

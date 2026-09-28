@@ -478,6 +478,7 @@ def test_workflow_admits_only_immutable_reviewed_inputs() -> None:
     assert set(inputs) == {"reviewed_main_sha", "reviewed_publish_sha", "repetitions"}
     assert inputs["repetitions"]["options"] == ["3", "5"]
     assert "refs/heads/main" in workflow["jobs"]["report"]["if"]
+    assert "ref: ${{ github.sha }}" in text
     assert "reviewed_main_sha must equal" in text
     assert "merge-base --is-ancestor" in text
     assert 'git checkout "${REVIEWED_PUBLISH_SHA}"' in text

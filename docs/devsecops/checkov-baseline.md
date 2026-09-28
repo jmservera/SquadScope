@@ -2,7 +2,9 @@
 
 > Issue: jmservera/SquadScope#541 (Phase A) · jmservera/SquadScope#543 (Phase B fixes)
 > Epic: jmservera/SquadScope-Coordinator#33
-> Status: **Phase B complete** — 0 failed checks (4 justified `checkov:skip`).
+> Status: **Phase C enforced** — 0 failed checks; justified `checkov:skip`
+> suppressions are honored by the blocking CLI gate and removed from uploaded
+> SARIF before GitHub Code Scanning ingestion.
 
 Checkov scans IaC, container, and GitHub Actions configuration for
 misconfigurations. SquadScope currently has **no Dockerfiles, Terraform/Bicep,
@@ -13,36 +15,46 @@ when container/IaC files are added.
 
 ## CI behaviour
 
-`.github/workflows/checkov.yml` runs Checkov with `--soft-fail` and
-`continue-on-error: true` (non-blocking), uploads SARIF to GitHub Code Scanning,
-and attaches the SARIF as a build artifact.
+`.github/workflows/checkov.yml` runs Checkov as a blocking gate, uploads SARIF
+to GitHub Code Scanning, and attaches the SARIF as a build artifact. The CLI
+report remains the enforcement source. Before upload, the workflow runs
+`scripts/filter_checkov_sarif.py` to remove only results that Checkov already
+marked with in-source suppressions from justified inline `checkov:skip`
+comments. Unsuppressed findings remain in SARIF and fail the Checkov step.
 
 ## Baseline snapshot
 
 - **Tool:** checkov 3.2.533
-- **Date:** 2026-06-26
+- **Date:** 2026-09-28
 - **Frameworks:** github_actions, dockerfile, secrets
-- **github_actions (current):** 604 passed, **0 failed**, 4 skipped
+- **github_actions (current):** local targeted CKV_GHA_7 scan reports
+  20 passed, **0 failed**, 7 skipped
 - **CRITICAL/HIGH:** 0
 
-### Phase A findings (resolved in Phase B)
+### Accepted CKV_GHA_7 findings
 
-| Count | Check ID | Description | Phase B resolution |
+| Count | Check ID | Description | Resolution |
 |------:|----------|-------------|--------------------|
-| 4 | CKV_GHA_7 | `workflow_dispatch` inputs should be empty (SLSA build-integrity) | Justified `# checkov:skip=CKV_GHA_7:...` inline comments |
+| 7 | CKV_GHA_7 | `workflow_dispatch` inputs should be empty (SLSA build-integrity) | Justified `# checkov:skip=CKV_GHA_7:...` inline comments; suppressed SARIF results filtered before Code Scanning upload |
 
-The four affected workflows are operational/dispatch workflows (not release
-builds); their inputs select retained operational evidence (including the required
-Podcaster publish run ID), a manifest, or a dry-run mode. They do not alter build
-output, so a justified skip is the correct disposition:
+The affected workflows are operational/dispatch workflows (not release builds);
+their inputs select retained operational evidence (including the required
+Podcaster publish run ID), immutable reviewed SHAs, a manifest, observe-only
+mode, bounded smoke-test limits, or a dry-run mode. They do not alter build
+output, so a justified skip is the correct disposition when inputs are validated:
 
+- `.github/workflows/auto-podcast-dispatch.yml`
+- `.github/workflows/build-cost-experiment.yml`
+- `.github/workflows/podcaster-handoff-smoke.yml`
+- `.github/workflows/repo-identity-backfill.yml`
 - `.github/workflows/restore-publish-backup.yml`
 - `.github/workflows/squad-promote.yml`
 - `.github/workflows/trigger-podcast.yml`
-- `.github/workflows/podcaster-handoff-smoke.yml`
 
 > Each skip carries an inline justification next to the `workflow_dispatch`
 > block. Re-run `checkov` after any workflow change to confirm 0 failures.
+> Re-run the Checkov workflow to confirm uploaded SARIF no longer contains
+> accepted in-source suppressions as open Code Scanning alerts.
 
 The real Podcaster workflow binds credentials to the
 `podcaster-real-generation` environment. Repository administrators must create

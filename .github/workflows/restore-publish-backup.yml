@@ -41,6 +41,10 @@ jobs:
           BACKUP_MANIFEST: ${{ inputs.backup_manifest }}
         run: |
           set -euo pipefail
+          if [[ ! "$BACKUP_MANIFEST" =~ ^data/backups/[0-9]{4}-W[0-9]{2}/[0-9]+/content/manifest\.json$ ]]; then
+            echo "::error::backup_manifest must match data/backups/YYYY-WNN/RUN_ID/content/manifest.json (got: $BACKUP_MANIFEST)"
+            exit 1
+          fi
           cd publish
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

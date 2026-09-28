@@ -83,10 +83,33 @@ jobs:
         # while the promoted article, its promotion record, and the source
         # manifest that record references all live on publish.
         env:
+          WEEK: ${{ inputs.week }}
+          ARTICLE_URL: ${{ inputs.article_url }}
           ARTICLE_PATH: ${{ inputs.article_path }}
+          ARTICLE_SHA256: ${{ inputs.article_sha256 }}
           PROMOTION_REFERENCE: ${{ inputs.promotion_reference }}
         run: |
           set -euo pipefail
+          if [[ ! "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
+            echo "::error::week must match YYYY-WNN (got: $WEEK)"
+            exit 1
+          fi
+          if [[ ! "$ARTICLE_URL" =~ ^https://claracle\.com/weekly/[0-9]{4}/w[0-9]{2}/$ ]]; then
+            echo "::error::article_url must be a Claracle weekly URL (got: $ARTICLE_URL)"
+            exit 1
+          fi
+          if [[ ! "$ARTICLE_PATH" =~ ^content/weekly/[0-9]{4}/W[0-9]{2}\.md$ ]]; then
+            echo "::error::article_path must match content/weekly/YYYY/WNN.md (got: $ARTICLE_PATH)"
+            exit 1
+          fi
+          if [[ ! "$ARTICLE_SHA256" =~ ^[0-9a-f]{64}$ ]]; then
+            echo "::error::article_sha256 must be exactly 64 lowercase hexadecimal characters"
+            exit 1
+          fi
+          if [[ ! "$PROMOTION_REFERENCE" =~ ^data/published/[0-9]{4}-W[0-9]{2}/promotion-manifest\.json$ && ! "$PROMOTION_REFERENCE" =~ ^data/candidates/[0-9]{4}-W[0-9]{2}/[0-9]+/publish-manifest\.json$ ]]; then
+            echo "::error::promotion_reference must be a retained promotion manifest or candidate publish manifest (got: $PROMOTION_REFERENCE)"
+            exit 1
+          fi
           git fetch origin publish
           git checkout FETCH_HEAD -- "$ARTICLE_PATH" "$PROMOTION_REFERENCE"
           # promotion_transaction_v1 records reference a source manifest whose
