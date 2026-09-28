@@ -743,10 +743,15 @@ jobs:
               f"promotion_policy={report.get('promotion_policy', 'unspecified')} "
               f"checksum={report['prompt_checksum_sha256'][:12]}"
           )
-          if report.get("degraded") or not report.get("publish_eligible"):
+          if not report.get("publish_eligible"):
               print(
-                  "::warning::Analysis preflight is degraded/compacted or publish-ineligible; "
+                  "::warning::Analysis preflight is publish-ineligible; "
                   "output will remain staged/candidate-only unless an explicit promotion policy allows it."
+              )
+          elif report.get("degraded"):
+              print(
+                  "::notice::Analysis preflight prompt was compacted to fit the token budget "
+                  "and remains publish-eligible under normal promotion."
               )
           PY
           echo "prompt_file=$PROMPT_FILE" >> "$GITHUB_OUTPUT"

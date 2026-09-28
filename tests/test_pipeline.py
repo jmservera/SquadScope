@@ -98,6 +98,25 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn("python3 scripts/run_copilot_sandbox.py --self-test", install_step["run"])
         self.assertNotIn("npm install -g @github/copilot\n", install_step["run"])
 
+    def test_analysis_preflight_compaction_message_keeps_publish_eligible_normal(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        prompt_preflight_step = next(
+            step
+            for step in workflow["jobs"]["analyze"]["steps"]
+            if step.get("name") == "Render and preflight analysis prompt"
+        )
+        run = prompt_preflight_step["run"]
+
+        self.assertIn('if not report.get("publish_eligible"):', run)
+        self.assertIn("::warning::Analysis preflight is publish-ineligible;", run)
+        self.assertIn("output will remain staged/candidate-only", run)
+        self.assertIn('elif report.get("degraded"):', run)
+        self.assertIn("prompt was compacted to fit the token budget", run)
+        self.assertIn("remains publish-eligible under normal promotion", run)
+        self.assertNotIn("degraded/compacted or publish-ineligible", run)
+
     def test_production_copilot_runs_use_isolated_workspaces(self) -> None:
         workflow = yaml.safe_load(
             Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")

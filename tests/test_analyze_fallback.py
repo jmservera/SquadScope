@@ -411,6 +411,10 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertTrue(report["publish_eligible"])
             self.assertEqual(report["promotion_policy"], "normal-promotion")
             self.assertIn("no-ai is diagnostic/staged-only", report["fallback_policy"])
+            self.assertIn("compaction applies deterministic reductions", report["fallback_policy"])
+            self.assertIn(
+                "over-budget prompts are staged/candidate-only", report["fallback_policy"]
+            )
             components = {component["name"]: component for component in report["components"]}
             self.assertEqual(
                 components["new_repos"]["inclusion_reason"],
@@ -496,6 +500,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertTrue(report["publish_eligible"])
             self.assertEqual("normal-promotion", report["promotion_policy"])
             self.assertIn("compacted", report["degradation_reason"])
+            self.assertIn("remains publish-eligible when within budget", report["fallback_policy"])
             report_markdown = report_md_path.read_text(encoding="utf-8")
             self.assertIn("Degraded/compacted: `true`", report_markdown)
             self.assertIn("Publish eligible: `true`", report_markdown)

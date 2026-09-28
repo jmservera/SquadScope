@@ -1601,7 +1601,8 @@ def _build_prompt(
         degradation_reason=degradation_reason,
         fallback_policy=(
             "copilot-only; no GitHub Models/OpenAI fallback. no-ai is diagnostic/staged-only and publish-ineligible. "
-            "degraded/compacted prompts are staged/candidate-only by default."
+            "compaction applies deterministic reductions and remains publish-eligible when within budget; "
+            "over-budget prompts are staged/candidate-only by default."
         ),
         components=components,
         deterministic_slices=[

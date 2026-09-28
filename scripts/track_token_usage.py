@@ -203,7 +203,8 @@ def validate_input_manifest(path: Path | None, input_tokens: int) -> dict[str, o
         )
         if degraded:
             reason += (
-                " Manifest is degraded/compacted, so the run is already marked candidate-only."
+                " Manifest is compacted or over budget, so token-usage validation records "
+                "the drift without adding a new failure."
             )
     return {
         "manifest_path": path.as_posix(),

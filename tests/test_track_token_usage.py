@@ -261,7 +261,8 @@ class TrackTokenUsageTests(unittest.TestCase):
             validation = record["input_manifest_validation"]
             self.assertFalse(validation["within_10_percent"])
             self.assertTrue(validation["degraded_or_compacted"])
-            self.assertIn("Manifest is degraded/compacted", validation["reason"])
+            self.assertIn("Manifest is compacted or over budget", validation["reason"])
+            self.assertNotIn("candidate-only", validation["reason"])
 
 
 class ParseApiResponseTests(unittest.TestCase):
