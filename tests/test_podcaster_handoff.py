@@ -364,6 +364,46 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(payload["article_title"], "Week 23 Report")
         self.assertEqual(payload["article_summary"], "Week 23 summary.")
 
+    def test_shared_podcaster_handoff_fixture_matches_emitted_contract_shape(self) -> None:
+        fixture = json.loads(
+            (
+                Path(__file__).resolve().parent
+                / "fixtures"
+                / "squadscope_podcaster_handoff_request.json"
+            ).read_text(encoding="utf-8")
+        )
+
+        self.assertEqual(fixture["publish_mode"], "normal")
+        self.assertTrue(fixture["dry_run"])
+        self.assertRegex(fixture["publish_run_id"], r"^[0-9]+$")
+        self.assertRegex(fixture["article_sha256"], r"^[0-9a-f]{64}$")
+        self.assertEqual(
+            hashlib.sha256(fixture["article_content"].encode("utf-8")).hexdigest(),
+            fixture["article_sha256"],
+        )
+        self.assertRegex(fixture["manifest_sha256"], r"^[0-9a-f]{64}$")
+        self.assertEqual(fixture["source_artifacts"][0]["role"], "raw")
+        self.assertEqual(
+            set(fixture).issuperset(
+                {
+                    "week",
+                    "article_url",
+                    "article_path",
+                    "publish_run_id",
+                    "manifest_sha256",
+                    "article_sha256",
+                    "article_title",
+                    "article_summary",
+                    "article_content",
+                    "source_artifacts",
+                    "podcast_config",
+                    "script_directions",
+                    "dry_run",
+                }
+            ),
+            True,
+        )
+
     def test_release_smoke_payload_preserves_exact_promoted_article_bytes(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

@@ -35,12 +35,14 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: requirements.txt
+          cache-dependency-path: |
+            requirements.txt
+            requirements.lock
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt pytest pip-audit
+          python -m pip install -r requirements.lock pytest pip-audit
 
       - name: Audit Python dependencies
         run: python -m pip_audit -r requirements.txt
@@ -61,6 +63,34 @@ jobs:
 
       - name: Validate content images (no hotlinks/secrets)
         run: python scripts/validate_content_images.py
+
+  lockfile:
+    name: Lockfile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: python -m pip install --upgrade uv==0.10.11
+
+      - name: Verify requirements.lock is current
+        run: |
+          uv pip compile requirements.txt --python-version 3.12 \
+            --no-header --no-cache -o requirements.lock.check
+          if ! diff -u requirements.lock requirements.lock.check; then
+            echo "::error::requirements.lock is out of date. Regenerate with:"
+            echo "  uv pip compile requirements.txt --python-version 3.12 --no-header --no-cache -o requirements.lock"
+            exit 1
+          fi
 
   publish-hydration-parity:
     name: Publish hydration parity

@@ -1,0 +1,40 @@
+{
+  "week": "2026-W23",
+  "article_url": "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+  "article_path": "content/weekly/2026/W23.md",
+  "publish_run_id": "36382570435",
+  "publish_mode": "normal",
+  "manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "article_sha256": "04210996169e66cc219a9d759e211aa1fb9ab22144b4d125bbfb7e0e228d2a13",
+  "article_title": "Week 23 Report",
+  "article_summary": "Week 23 summary.",
+  "article_content": "This fixture represents the request shape emitted by SquadScope's post-publish Podcaster handoff after release evidence is verified. It is deliberately long enough to exercise the Podcaster article validation path instead of the legacy short-body fallback.",
+  "source_artifacts": [
+    {
+      "role": "raw",
+      "path": "data/raw/2026-W23.json",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "generated_at": "2026-06-08T10:15:00Z",
+      "freshness": {
+        "status": "fresh",
+        "reasons": []
+      },
+      "provenance": {
+        "path": "data/raw/2026-W23.json",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
+  ],
+  "podcast_config": {
+    "name": "Claracle",
+    "spoken_site": "Claracle",
+    "url": "https://jmservera.github.io/SquadScope/"
+  },
+  "script_directions": {
+    "historical_context": {
+      "month_synthesis": "## Month Synthesis GitHub agent packaging and trust boundaries kept accelerating.",
+      "yearly_narrative": "## Year in Review Tooling increasingly converged on verifiable autonomous work."
+    }
+  },
+  "dry_run": true
+}
