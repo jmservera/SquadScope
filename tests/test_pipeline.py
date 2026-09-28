@@ -1639,7 +1639,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn(r"^https://claracle\.com/weekly/[0-9]{4}/w[0-9]{2}/$", hydrate["run"])
         self.assertIn(r"^content/weekly/[0-9]{4}/W[0-9]{2}\.md$", hydrate["run"])
         self.assertIn(r"^[0-9a-f]{64}$", hydrate["run"])
-        self.assertIn(r"^data/published/[0-9]{4}-W[0-9]{2}/promotion-manifest\.json$", hydrate["run"])
+        self.assertIn(
+            r"^data/published/[0-9]{4}-W[0-9]{2}/promotion-manifest\.json$", hydrate["run"]
+        )
         self.assertIn(
             r"^data/candidates/[0-9]{4}-W[0-9]{2}/[0-9]+/publish-manifest\.json$",
             hydrate["run"],
