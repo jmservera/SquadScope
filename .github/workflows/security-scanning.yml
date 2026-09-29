@@ -10,6 +10,7 @@
 name: Security Scanning
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main

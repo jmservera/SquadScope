@@ -2,6 +2,7 @@ name: Squad CI
 # python project — configure build/test commands below
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [dev, preview, main, insider]
     types: [opened, synchronize, reopened]

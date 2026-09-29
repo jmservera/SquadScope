@@ -19,6 +19,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
+      actions: write # dispatch required checks for the GITHUB_TOKEN-authored sync branch
       contents: write # force-push the sync/publish-to-main branch
       pull-requests: write # open/update the sync PR into main
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
@@ -126,6 +127,11 @@ jobs:
           from the publish branch."
 
           git push -f origin "$SYNC_BRANCH"
+          HEAD_SHA=$(git rev-parse HEAD)
+
+          for workflow in ci.yml lint.yml checkov.yml security-scanning.yml squad-ci.yml; do
+            gh workflow run "$workflow" --ref "$SYNC_BRANCH"
+          done
 
           # Create or update PR
           PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --json number --jq '.[0].number // empty')
@@ -171,22 +177,44 @@ jobs:
             exit 0
           fi
 
-          HEAD_SHA=$(git rev-parse HEAD)
-          CHECK_COUNT=0
+          REQUIRED_CHECKS=(
+            "Python"
+            "Lockfile"
+            "Publish hydration parity"
+            "Production site build"
+            "Production site (Axe and responsive browser gates)"
+            "Production site (Lighthouse gates)"
+            "Production site (Visual structure gate)"
+            "Ruff"
+            "Checkov IaC/container scan"
+            "Bandit Python security scan"
+            "GitHub Actions Security Scan (zizmor)"
+            "test"
+          )
+
+          MISSING_CHECKS=""
           for _ in $(seq 1 30); do
-            # `gh pr checks` exits non-zero ("no checks reported") until checks
-            # register; tolerate that under `set -e` so we keep polling instead of
-            # killing the whole sync job (the bug that left the sync PR unmerged).
-            CHECK_COUNT=$(gh pr checks "$PR_NUMBER" --json name --jq 'length' || echo 0)
-            if [ "$CHECK_COUNT" -gt 0 ]; then
+            CHECK_NAMES="$(gh api \
+              "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/check-runs" \
+              --paginate \
+              --jq '.check_runs[] | select(.app.id == 15368) | .name' || true)"
+            MISSING_CHECKS=""
+            for check in "${REQUIRED_CHECKS[@]}"; do
+              if ! grep -Fx -- "$check" <<< "$CHECK_NAMES" >/dev/null; then
+                MISSING_CHECKS="${MISSING_CHECKS}${check}"$'\n'
+              fi
+            done
+            if [ -z "$MISSING_CHECKS" ]; then
               break
             fi
-            echo "Waiting for PR #${PR_NUMBER} checks to register..."
+            echo "Waiting for required checks to register on ${HEAD_SHA}:"
+            printf '%s' "$MISSING_CHECKS"
             sleep 10
           done
 
-          if [ "$CHECK_COUNT" -eq 0 ]; then
-            echo "::error::No status checks registered for PR #${PR_NUMBER}; refusing to merge without validation."
+          if [ -n "$MISSING_CHECKS" ]; then
+            echo "::error::Required checks did not register for PR #${PR_NUMBER}; refusing to merge without validation."
+            printf '%s' "$MISSING_CHECKS"
             exit 1
           fi
 
