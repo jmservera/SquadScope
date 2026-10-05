@@ -634,6 +634,18 @@ def test_published_identity_only_resolves_recorded_renames() -> None:
     )
 
 
+def test_published_identity_requires_stable_id_for_renames() -> None:
+    published = {("Old-Org/Repo", "old-org-repo")}
+    fallback = _history("name:new-org/repo", "new-org/Repo", priors=("Old-Org/Repo",))
+
+    assert fallback.github_id is None
+    assert observatory_repos.published_identity(fallback, published) == (
+        "new-org/Repo",
+        "new-org-repo",
+    )
+    assert observatory_repos.published_identities([fallback], published) != published
+
+
 def test_published_identities_rejects_two_histories_claiming_one_identity() -> None:
     published = {("Old-Org/Repo", "old-org-repo")}
     renamed = _history("42", "new-org/Repo", priors=("Old-Org/Repo",))
