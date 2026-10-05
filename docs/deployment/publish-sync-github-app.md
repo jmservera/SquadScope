@@ -26,8 +26,9 @@ those checks only with check runs from its own `statusCheckRollup`: suites that 
 Pushes and PRs from a GitHub App start ordinary `pull_request` runs without approval. The App is
 **not** a ruleset bypass actor and cannot skip any check. The ruleset stays unchanged.
 
-If the App is not configured, the first step of the workflow fails with an error that links to
-this page. It does not fall back to `GITHUB_TOKEN`.
+If the App is not configured, or `PUBLISH_SYNC_APP_PRIVATE_KEY` is not a full PEM private key,
+the first step of the workflow fails with an error that links to this page. It does not fall
+back to `GITHUB_TOKEN`.
 
 ## One-time setup (repository owner)
 
@@ -41,7 +42,15 @@ this page. It does not fall back to `GITHUB_TOKEN`.
      permission at *No access*, including Workflows, Actions, Checks, and Administration.
    - **Where can this GitHub App be installed?** select *Only on this account*.
 2. **Copy the Client ID** from the App's **General** page. It looks like `Iv23li…`.
-3. **Generate a private key** under **Private keys** and download the `.pem` file.
+3. **Generate a private key.** On the App's page (**Settings → Developer settings → GitHub
+   Apps → your App**), scroll to **Private keys** and click **Generate a private key**. The
+   browser downloads a `.pem` file that starts with `-----BEGIN RSA PRIVATE KEY-----` and ends
+   with `-----END RSA PRIVATE KEY-----`. This file is the value of
+   `PUBLISH_SYNC_APP_PRIVATE_KEY`.
+
+   > [!IMPORTANT]
+   > Do **not** use **Client secrets → Generate a new client secret**. A client secret is for
+   > the OAuth web flow. It cannot sign the App's JWT, so the token mint step fails.
 4. **Install the App.** On the **Install App** page, choose *Only select repositories* →
    `jmservera/SquadScope`.
 5. **Create the `publish-sync` environment.** Restrict it to `main`, with no required
@@ -64,7 +73,9 @@ this page. It does not fall back to `GITHUB_TOKEN`.
      --repo jmservera/SquadScope < claracle-publish-sync.private-key.pem
    ```
 
-   Then delete the local `.pem` file.
+   Always set the secret from the file with `<`, as shown. If you run `gh secret set` without
+   input and paste the key at the prompt, only the first line is stored, and the stored value
+   is not a usable key. Then delete the local `.pem` file.
 
 ## Verify
 
@@ -79,6 +90,11 @@ this page. It does not fall back to `GITHUB_TOKEN`.
   come from `pull_request` runs with no "approval required" banner, and the
   `Wait for required checks and merge` step should merge it.
 
+Validated end to end on 2026-10-05: run
+[37381144815](https://github.com/jmservera/SquadScope/actions/runs/37381144815) opened sync PR
+jmservera/SquadScope#828 as `app/squadscope-pr-app`, waited for the required checks, and merged
+it. The podcast auto-dispatch dedup then skipped W41, which already had an episode.
+
 ## Operations
 
 - **Key rotation:** generate a new private key, update `PUBLISH_SYNC_APP_PRIVATE_KEY`, then
@@ -88,3 +104,13 @@ this page. It does not fall back to `GITHUB_TOKEN`.
 - **Merge failure:** the merge step prints the PR's `mergeStateStatus`. Typical causes are a
   failed required check, an unresolved review thread (the ruleset requires thread resolution),
   or a CodeQL alert. Fix the cause and re-run the workflow. Never merge with `--admin`.
+
+## Troubleshooting
+
+- **`Invalid keyData` or `ERR_OSSL_ASN1_NOT_ENOUGH_DATA` in `Mint publish-sync GitHub App
+  token`:** `PUBLISH_SYNC_APP_PRIVATE_KEY` is not a full PEM private key. Usually it holds an
+  OAuth client secret, or a paste that kept only the first line. Generate a private key (step 3),
+  set the secret from the `.pem` file with `< key.pem` (step 6), and re-run the workflow. The
+  configuration gate now catches both cases before the mint step: it fails with
+  "PUBLISH_SYNC_APP_PRIVATE_KEY is not a PEM private key" when the secret has no
+  `-----BEGIN … PRIVATE KEY-----` or `-----END … PRIVATE KEY-----` line.

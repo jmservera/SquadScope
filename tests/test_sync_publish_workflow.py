@@ -143,6 +143,11 @@ def test_publish_sync_pushes_and_opens_pr_with_github_app_token() -> None:
     assert "docs/deployment/publish-sync-github-app.md" in gate_run
     assert "PUBLISH_SYNC_APP_CLIENT_ID" in gate_run
     assert "PUBLISH_SYNC_APP_PRIVATE_KEY" in gate_run
+    gate_env = job["steps"][gate]["env"]
+    assert gate_env["SYNC_APP_PRIVATE_KEY"] == "${{ secrets.PUBLISH_SYNC_APP_PRIVATE_KEY }}"
+    assert "-----BEGIN .*PRIVATE KEY-----" in gate_run
+    assert "-----END .*PRIVATE KEY-----" in gate_run
+    assert "echo \"$SYNC_APP_PRIVATE_KEY" not in gate_run
 
     checkout = _step("Check out main")
     assert checkout["with"]["persist-credentials"] is False

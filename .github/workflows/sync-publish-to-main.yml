@@ -34,17 +34,24 @@ jobs:
       - name: Require publish-sync GitHub App configuration
         env:
           SYNC_APP_CLIENT_ID: ${{ vars.PUBLISH_SYNC_APP_CLIENT_ID }}
-          SYNC_APP_KEY_PRESENT: ${{ secrets.PUBLISH_SYNC_APP_PRIVATE_KEY != '' }}
+          SYNC_APP_PRIVATE_KEY: ${{ secrets.PUBLISH_SYNC_APP_PRIVATE_KEY }}
         run: |
           missing=""
           if [ -z "$SYNC_APP_CLIENT_ID" ]; then
             missing="${missing} variable PUBLISH_SYNC_APP_CLIENT_ID,"
           fi
-          if [ "$SYNC_APP_KEY_PRESENT" != "true" ]; then
+          if [ -z "$SYNC_APP_PRIVATE_KEY" ]; then
             missing="${missing} secret PUBLISH_SYNC_APP_PRIVATE_KEY,"
           fi
           if [ -n "$missing" ]; then
             echo "::error title=Publish-sync GitHub App not configured::Missing${missing%,} in the publish-sync environment. Without the App, the sync PR cannot run its required pull_request checks (jmservera/SquadScope#826). Follow docs/deployment/publish-sync-github-app.md, then re-run this workflow with workflow_dispatch."
+            exit 1
+          fi
+          # Shape check only; the key is never printed. Requiring the END line also
+          # catches a paste that kept only the first line of the .pem file.
+          if ! grep -q -- '-----BEGIN .*PRIVATE KEY-----' <<<"$SYNC_APP_PRIVATE_KEY" \
+            || ! grep -q -- '-----END .*PRIVATE KEY-----' <<<"$SYNC_APP_PRIVATE_KEY"; then
+            echo "::error title=PUBLISH_SYNC_APP_PRIVATE_KEY is not a PEM private key::The secret must be the full .pem file (BEGIN to END lines) from the App's Private keys section (Generate a private key), not an OAuth client secret. Set it from the file: gh secret set PUBLISH_SYNC_APP_PRIVATE_KEY --env publish-sync --repo jmservera/SquadScope < key.pem. See docs/deployment/publish-sync-github-app.md."
             exit 1
           fi
 
