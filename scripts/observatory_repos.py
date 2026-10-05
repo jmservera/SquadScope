@@ -10,6 +10,7 @@ import tempfile
 import tomllib
 import unicodedata
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass, field, replace
 from datetime import date
 from pathlib import Path
@@ -933,6 +934,47 @@ def existing_repository_identities(root: Path) -> tuple[set[tuple[str, str]], se
     return page_identities, derived_identities
 
 
+def published_identity(
+    history: RepositoryHistory, published: set[tuple[str, str]]
+) -> tuple[str, str]:
+    """Return the identity under which ``history`` appears in a frozen published surface.
+
+    While repository pages are disabled, ``repositories.json`` and the page tree keep the
+    identities they were generated with. An upstream rename observed later (same stable key,
+    recorded in ``prior_full_names``/``prior_slugs``) must still resolve to that frozen record
+    instead of looking like a dropped repository plus an unknown new one. Only a single prior
+    (name, slug) pair that was recorded for this history may match; otherwise the current
+    identity is returned so any unrelated drift still fails parity.
+    """
+    current = (history.display_name, history.slug)
+    if current in published:
+        return current
+    candidates = {
+        (name, repo_slug(name))
+        for name in history.prior_full_names
+        if repo_slug(name) in history.prior_slugs
+    } & published
+    if len(candidates) == 1:
+        return next(iter(candidates))
+    return current
+
+
+def published_identities(
+    histories: Iterable[RepositoryHistory], published: set[tuple[str, str]]
+) -> set[tuple[str, str]]:
+    """Map histories to their frozen published identities, rejecting ambiguous claims."""
+    claimed: dict[tuple[str, str], str] = {}
+    for history in histories:
+        identity = published_identity(history, published)
+        if identity in claimed and claimed[identity] != history.key:
+            raise ValueError(
+                f"Published identity {identity!r} is claimed by both "
+                f"{claimed[identity]!r} and {history.key!r}"
+            )
+        claimed[identity] = history.key
+    return set(claimed)
+
+
 def write_json_atomically(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary_path: Path | None = None
@@ -984,14 +1026,14 @@ def seed_lifecycle(
             history.lifecycle["deletion_confirmed_at"] = confirmed.isoformat()
             history.lifecycle["retained_until"] = retained_until.isoformat()
 
-    qualified_identities = {
-        (history.display_name, history.slug) for history in histories.values() if history.qualified
-    }
+    qualified = [history for history in histories.values() if history.qualified]
     page_identities, derived_identities = existing_repository_identities(root)
-    if qualified_identities != page_identities or qualified_identities != derived_identities:
+    if published_identities(qualified, page_identities) != page_identities or (
+        published_identities(qualified, derived_identities) != derived_identities
+    ):
         raise ValueError(
             "Lifecycle seed parity mismatch: "
-            f"qualified={len(qualified_identities)}, pages={len(page_identities)}, "
+            f"qualified={len(qualified)}, pages={len(page_identities)}, "
             f"derived={len(derived_identities)}"
         )
 
@@ -999,7 +1041,7 @@ def seed_lifecycle(
     counts = {
         "fallback_histories": sum(key.startswith("name:") for key in histories),
         "stable_id_histories": sum(not key.startswith("name:") for key in histories),
-        "qualified_histories": len(qualified_identities),
+        "qualified_histories": len(qualified),
         "existing_pages": len(page_identities),
         "mismatches": 0,
     }
