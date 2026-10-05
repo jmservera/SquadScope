@@ -90,7 +90,12 @@ def test_backfill_document_preserves_body_and_unrelated_frontmatter() -> None:
 def test_backfill_is_idempotent_and_assigns_expected_topics(tmp_path: Path) -> None:
     weekly_root = tmp_path / "content" / "weekly" / "2026"
     weekly_root.mkdir(parents=True)
-    for source in sorted((ROOT / "content" / "weekly" / "2026").glob("W*.md")):
+    # Frozen corpus: weeks published after this fixture arrive via the weekly
+    # publish sync and are covered by `backfill_weekly_topics.py --check` in
+    # crawl-and-publish, so they must not break this fixture.
+    for name in sorted(EXPECTED_TOPICS):
+        source = ROOT / "content" / "weekly" / "2026" / name
+        assert source.is_file(), f"frozen corpus week missing: {name}"
         (weekly_root / source.name).write_text(
             _without_seed_topics(source.read_text(encoding="utf-8")), encoding="utf-8"
         )

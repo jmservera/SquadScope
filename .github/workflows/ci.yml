@@ -89,7 +89,7 @@ jobs:
             --no-header --no-cache -o requirements.lock.check
           if ! diff -u requirements.lock requirements.lock.check; then
             echo "::error::requirements.lock is out of date. Regenerate with:"
-            echo "  uv pip compile requirements.txt --python-version 3.12 --no-header --no-cache -o requirements.lock"
+            echo "  uv pip compile requirements.txt --python-version 3.12 --no-header --no-cache --upgrade -o requirements.lock"
             exit 1
           fi
 

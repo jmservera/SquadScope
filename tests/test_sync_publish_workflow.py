@@ -93,3 +93,19 @@ def test_crawl_workflow_stages_raw_store_before_cached_diff_evaluation() -> None
     stage = workflow.index("git add data/raw/ data/snapshots/ data/raw-store/")
     cached_diff = workflow.index("if git diff --cached --quiet; then", stage)
     assert stage < cached_diff
+
+
+def test_publish_sync_regenerates_observatory_artifacts_after_rollups() -> None:
+    workflow = WORKFLOW.read_text(encoding="utf-8")
+    sequence = [
+        "python3 scripts/generate_rollups.py",
+        "python3 scripts/observatory_repos.py",
+        "python3 scripts/generate_repository_summary.py --from-crawl",
+        "python3 scripts/generate_data_pages.py",
+        "python3 scripts/generate_ranking_artifacts.py",
+        "python3 scripts/export_observatory_dataset.py",
+        "python3 scripts/export_trend_explorer_data.py",
+        "git add -A",
+    ]
+    positions = [workflow.index(step) for step in sequence]
+    assert positions == sorted(positions)
