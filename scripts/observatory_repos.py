@@ -592,6 +592,14 @@ def load_repository_histories(
                 if history is None:
                     # Step 1.1: Check reverse index for a migrated history before minting a duplicate
                     canonical_key = full_name_to_key.get(normalize_full_name(observation.full_name))
+                    if (
+                        canonical_key is not None
+                        and observation.github_id is not None
+                        and histories[canonical_key].github_id not in (None, observation.github_id)
+                    ):
+                        # The name was released by a rename and re-registered by a different
+                        # repository; never merge a different stable ID into that history.
+                        canonical_key = None
                     if canonical_key is not None:
                         history = histories[canonical_key]
                         current_keys.add(canonical_key)
@@ -968,6 +976,11 @@ def published_identities(
     """Map histories to their frozen published identities, rejecting ambiguous claims."""
     claimed: dict[tuple[str, str], str] = {}
     for history in histories:
+        if not history.key.startswith("name:") and history.github_id != history.key:
+            raise ValueError(
+                f"Repository history {history.key!r} carries mismatched GitHub ID "
+                f"{history.github_id!r}"
+            )
         identity = published_identity(history, published)
         if identity in claimed and claimed[identity] != history.key:
             raise ValueError(

@@ -621,6 +621,59 @@ def test_seed_lifecycle_rejects_frozen_surfaces_on_different_rename_steps() -> N
         assert ledger_path.read_bytes() == original_ledger
 
 
+def test_seed_lifecycle_keeps_reregistered_old_name_as_a_separate_repository() -> None:
+    # After Old-Org/Repo (ID 42) is renamed, a different repository (ID 99) re-registers the
+    # old name. It must become its own history instead of being merged into ID 42's history.
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        weeks = ("2026-W21", "2026-W22", "2026-W23", "2026-W24")
+        for index, week in enumerate(weeks):
+            write_week(root, week, [repo_record("Old-Org/Repo", 30 + index, github_id=42)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        config_path = config_dir / "observatory.toml"
+        config_path.write_text("[repo_pages]\nenabled = true\n", encoding="utf-8")
+        observatory_repos.generate(root)
+        config_path.write_text("[repo_pages]\nenabled = false\n", encoding="utf-8")
+        write_week(root, "2026-W25", [repo_record("new-org/Repo", 40, github_id=42)])
+        write_week(root, "2026-W26", [repo_record("Old-Org/Repo", 5, github_id=99)])
+
+        observatory_repos.seed_lifecycle(root)
+
+        ledger = json.loads(
+            (root / "data/derived/observatory/repository-lifecycle.json").read_text(
+                encoding="utf-8"
+            )
+        )["repositories"]
+        assert ledger["42"]["github_id"] == "42"
+        assert ledger["42"]["current_full_name"] == "new-org/Repo"
+        assert {item["full_name"] for item in ledger["42"]["observations"]} == {
+            "Old-Org/Repo",
+            "new-org/Repo",
+        }
+        assert all(item["github_id"] == "42" for item in ledger["42"]["observations"])
+        assert ledger["99"]["github_id"] == "99"
+        assert ledger["99"]["current_full_name"] == "Old-Org/Repo"
+        assert len(ledger["99"]["observations"]) == 1
+
+        # Once the re-registered repository also qualifies, both histories claim the same
+        # frozen identity and the seed must stop.
+        for index, week in enumerate(("2026-W27", "2026-W28", "2026-W29")):
+            write_week(root, week, [repo_record("Old-Org/Repo", 6 + index, github_id=99)])
+        with pytest.raises(ValueError, match="claimed by both"):
+            observatory_repos.seed_lifecycle(root)
+
+
+def test_published_identities_rejects_key_and_github_id_mismatch() -> None:
+    published = {("Old-Org/Repo", "old-org-repo")}
+    corrupted = _history("42", "Old-Org/Repo")
+    corrupted.github_id = "99"
+
+    with pytest.raises(ValueError, match="mismatched GitHub ID"):
+        observatory_repos.published_identities([corrupted], published)
+
+
 def _observation(full_name: str, week: str, github_id: str | None) -> object:
     owner, repo = full_name.split("/", 1)
     return observatory_repos.RepoObservation(
