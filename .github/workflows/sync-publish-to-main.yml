@@ -193,7 +193,7 @@ jobs:
           PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --state open --json number --jq '.[0].number // empty')
           if [ -n "$PR_NUMBER" ]; then
             PR_AUTHOR=$(gh pr view "$PR_NUMBER" --json author --jq '.author.login')
-            if [ "$PR_AUTHOR" != "app/${APP_SLUG}" ]; then
+            if [ "$PR_AUTHOR" != "app/${APP_SLUG}" ] && [ "$PR_AUTHOR" != "${APP_SLUG}[bot]" ]; then
               echo "Closing sync PR #${PR_NUMBER} opened by ${PR_AUTHOR}; it is replaced by an App-authored PR."
               gh pr close "$PR_NUMBER" --comment "Superseded by an App-authored sync PR so required pull_request checks run without approval (jmservera/SquadScope#826)."
               PR_NUMBER=""

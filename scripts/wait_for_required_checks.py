@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
+import subprocess  # nosec B404
 import sys
 import time
 from collections.abc import Callable, Iterable
@@ -107,7 +107,9 @@ def parse_required_checks(rules: Iterable[dict]) -> list[RequiredCheck]:
                 raise ConfigurationError(f"required status check without a context: {entry!r}")
             integration_id = entry.get("integration_id")
             if integration_id is not None and not isinstance(integration_id, int):
-                raise ConfigurationError(f"invalid integration_id for {context!r}")
+                raise ConfigurationError(
+                    f"invalid integration_id {integration_id!r} for {context!r}: {entry!r}"
+                )
             check = RequiredCheck(context, integration_id)
             found[(check.context, check.integration_id)] = check
     return sorted(found.values(), key=lambda c: (c.context, c.integration_id or 0))
@@ -205,7 +207,7 @@ def evaluate(required: list[RequiredCheck], contexts: list[CheckResult]) -> Eval
 
 
 def gh_json(args: list[str]) -> object:
-    completed = subprocess.run(
+    completed = subprocess.run(  # nosec B603 B607 - fixed gh argv, no shell, gh is a controlled tool
         ["gh", *args], check=True, capture_output=True, text=True, timeout=120
     )
     return json.loads(completed.stdout)
@@ -213,8 +215,12 @@ def gh_json(args: list[str]) -> object:
 
 def fetch_required_checks(repo: str, branch: str) -> list[RequiredCheck]:
     rules = gh_json(["api", f"repos/{repo}/rules/branches/{branch}", "--paginate", "--slurp"])
-    flat = [rule for page in rules for rule in page] if isinstance(rules, list) else []
-    return parse_required_checks(flat)
+    if not isinstance(rules, list) or not all(isinstance(page, list) for page in rules):
+        raise ConfigurationError(
+            f"unexpected branch rules response for {repo}@{branch}: {type(rules).__name__} "
+            f"{str(rules)[:300]}"
+        )
+    return parse_required_checks([rule for page in rules for rule in page])
 
 
 def fetch_rollup(repo: str, number: int) -> dict:

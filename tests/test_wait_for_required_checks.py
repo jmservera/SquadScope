@@ -193,3 +193,28 @@ def test_transient_api_error_is_retried():
         log=lambda _: None,
     )
     assert code == 0
+
+
+def test_unexpected_rules_response_is_a_configuration_error(monkeypatch):
+    monkeypatch.setattr(w, "gh_json", lambda args: {"message": "Not Found"})
+    try:
+        w.fetch_required_checks("o/r", "main")
+    except w.ConfigurationError as exc:
+        assert "Not Found" in str(exc)
+    else:
+        raise AssertionError("expected ConfigurationError")
+
+
+def test_invalid_integration_id_is_reported():
+    rules = [
+        {
+            "type": "required_status_checks",
+            "parameters": {"required_status_checks": [{"context": "x", "integration_id": "1"}]},
+        }
+    ]
+    try:
+        w.parse_required_checks(rules)
+    except w.ConfigurationError as exc:
+        assert "'1'" in str(exc)
+    else:
+        raise AssertionError("expected ConfigurationError")
