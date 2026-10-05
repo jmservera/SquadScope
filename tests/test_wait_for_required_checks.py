@@ -7,10 +7,16 @@ HEAD = "a" * 40
 
 
 def check_run(
-    name, status="COMPLETED", conclusion="SUCCESS", started="2026-10-05T10:00:00Z", app=ACTIONS
+    name,
+    status="COMPLETED",
+    conclusion="SUCCESS",
+    started="2026-10-05T10:00:00Z",
+    app=ACTIONS,
+    database_id=1,
 ):
     return {
         "__typename": "CheckRun",
+        "databaseId": database_id,
         "name": name,
         "status": status,
         "conclusion": conclusion,
@@ -251,3 +257,41 @@ def test_main_returns_2_when_rules_cannot_be_read(monkeypatch):
 
     monkeypatch.setattr(w, "fetch_required_checks", boom)
     assert w.main(["--repo", "o/r", "--pr", "1", "--head-sha", HEAD]) == 2
+
+
+def test_same_start_time_prefers_higher_database_id():
+    nodes = [
+        check_run("Ruff"),
+        check_run("Python", conclusion="FAILURE", database_id=5),
+        check_run("Python", database_id=9),
+    ]
+    assert run_wait([payload(nodes)])[0] == 0
+    nodes = [
+        check_run("Ruff"),
+        check_run("Python", database_id=5),
+        check_run("Python", conclusion="FAILURE", database_id=9),
+    ]
+    assert run_wait([payload(nodes)])[0] == 1
+
+
+def test_queued_rerun_without_start_time_is_pending_not_hidden():
+    old_failure = check_run("Python", conclusion="FAILURE", database_id=5)
+    queued = check_run("Python", status="QUEUED", conclusion=None, started=None, database_id=9)
+    code, logs = run_wait(
+        [
+            payload([check_run("Ruff"), old_failure, queued]),
+            payload([check_run("Ruff"), old_failure, check_run("Python", database_id=9)]),
+        ]
+    )
+    assert code == 0
+    assert any("Python (queued)" in line for line in logs)
+
+
+def test_malformed_pull_request_payload_is_a_configuration_error():
+    bad = {"data": {"repository": {"pullRequest": {"state": "OPEN"}}}}
+    try:
+        w.parse_rollup(bad)
+    except w.ConfigurationError as exc:
+        assert "KeyError" in str(exc)
+    else:
+        raise AssertionError("expected ConfigurationError")

@@ -47,6 +47,7 @@ query($owner: String!, $name: String!, $number: Int!) {
                     name
                     status
                     conclusion
+                    databaseId
                     startedAt
                     checkSuite { app { databaseId } }
                   }
@@ -87,7 +88,7 @@ class CheckResult:
     app_id: int | None
     completed: bool
     passed: bool
-    order_key: str
+    order_key: tuple[str, int]
     detail: str
 
 
@@ -119,12 +120,23 @@ def parse_required_checks(rules: Iterable[dict]) -> list[RequiredCheck]:
     return sorted(found.values(), key=lambda c: (c.context, c.integration_id or 0))
 
 
+# A check run that has not started yet (a queued re-run) sorts after every
+# started run, so a pending re-run is never hidden behind an older result.
+NOT_STARTED = "\uffff"
+
+
 def parse_rollup(payload: dict) -> tuple[str, str, list[CheckResult]]:
     """Return ``(pr_state, head_sha, contexts)`` from the GraphQL payload."""
     try:
-        pull_request = payload["data"]["repository"]["pullRequest"]
-    except (KeyError, TypeError) as exc:
-        raise ConfigurationError(f"unexpected GraphQL response: {payload!r}") from exc
+        return _parse_rollup(payload)
+    except (KeyError, TypeError, AttributeError) as exc:
+        raise ConfigurationError(
+            f"unexpected GraphQL response ({type(exc).__name__}: {exc}): {str(payload)[:300]}"
+        ) from exc
+
+
+def _parse_rollup(payload: dict) -> tuple[str, str, list[CheckResult]]:
+    pull_request = payload["data"]["repository"]["pullRequest"]
     if pull_request is None:
         raise ConfigurationError("pull request not found")
 
@@ -159,7 +171,7 @@ def parse_rollup(payload: dict) -> tuple[str, str, list[CheckResult]]:
                     app_id=app.get("databaseId"),
                     completed=completed,
                     passed=completed and conclusion in PASSING_CONCLUSIONS,
-                    order_key=node.get("startedAt") or "",
+                    order_key=(node.get("startedAt") or NOT_STARTED, node.get("databaseId") or 0),
                     detail=(conclusion or node.get("status") or "UNKNOWN").lower(),
                 )
             )
@@ -171,7 +183,7 @@ def parse_rollup(payload: dict) -> tuple[str, str, list[CheckResult]]:
                     app_id=None,
                     completed=status_state not in {"PENDING", "EXPECTED"},
                     passed=status_state == "SUCCESS",
-                    order_key=node.get("createdAt") or "",
+                    order_key=(node.get("createdAt") or NOT_STARTED, 0),
                     detail=status_state.lower(),
                 )
             )
