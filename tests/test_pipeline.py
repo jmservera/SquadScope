@@ -1303,9 +1303,9 @@ class WorkflowConfigTests(unittest.TestCase):
             "content/weekly/",
             "content/monthly/",
             "content/yearly/",
-            "content/topics/",
         ):
             self.assertIn(generated_path, sync_run)
+        self.assertIn("origin/publish -- content/topics", sync_run)
 
         self.assertIn("data/taxonomy/tags.json", sync_run)
         self.assertIn("data/taxonomy/topic-candidates.json", sync_run)
@@ -1328,8 +1328,18 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIn("Refusing to sync .squad state from publish to main.", sync_run)
         self.assertLess(sync_run.index("Refusing to sync .squad"), sync_run.index("git commit -m"))
-        self.assertIn("**Explicitly NOT synced:**", sync_run)
-        self.assertIn(".squad/**", sync_run)
+        pr_step = next(
+            (
+                s
+                for s in sync_job["steps"]
+                if s.get("name") == "Push sync branch and open PR as the App"
+            ),
+            None,
+        )
+        self.assertIsNotNone(pr_step)
+        self.assertIn("**Explicitly NOT synced:**", pr_step["run"])
+        self.assertIn(".squad/**", pr_step["run"])
+        self.assertIn("content/topics/", pr_step["run"])
         self.assertNotIn("git checkout origin/publish -- .squad", sync_run)
         self.assertNotIn("git ls-tree -r --name-only origin/publish -- .squad", sync_run)
         self.assertNotIn(".squad/decisions.md", sync_run)

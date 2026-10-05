@@ -109,3 +109,73 @@ def test_publish_sync_regenerates_observatory_artifacts_after_rollups() -> None:
     ]
     positions = [workflow.index(step) for step in sequence]
     assert positions == sorted(positions)
+
+
+def _sync_steps() -> list[dict]:
+    import yaml
+
+    workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+    return workflow["jobs"]["sync"]["steps"]
+
+
+def _step(name: str) -> dict:
+    return next(step for step in _sync_steps() if step.get("name") == name)
+
+
+def test_publish_sync_pushes_and_opens_pr_with_github_app_token() -> None:
+    """jmservera/SquadScope#826: GITHUB_TOKEN-authored PR runs need approval and
+    dispatched suites never count, so the App must push and open the PR."""
+    import yaml
+
+    workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+    job = workflow["jobs"]["sync"]
+    text = WORKFLOW.read_text(encoding="utf-8")
+
+    assert job["environment"] == "publish-sync"
+    assert "actions" not in job["permissions"]
+    assert "gh workflow run" not in text
+
+    names = [step.get("name") for step in job["steps"]]
+    gate = names.index("Require publish-sync GitHub App configuration")
+    assert gate == 0
+    gate_run = job["steps"][gate]["run"]
+    assert "exit 1" in gate_run
+    assert "docs/deployment/publish-sync-github-app.md" in gate_run
+    assert "PUBLISH_SYNC_APP_CLIENT_ID" in gate_run
+    assert "PUBLISH_SYNC_APP_PRIVATE_KEY" in gate_run
+
+    checkout = _step("Check out main")
+    assert checkout["with"]["persist-credentials"] is False
+
+    mint = _step("Mint publish-sync GitHub App token")
+    assert mint["uses"].startswith("actions/create-github-app-token@")
+    assert len(mint["uses"].split("@", 1)[1].split()[0]) == 40
+    assert mint["with"]["client-id"] == "${{ vars.PUBLISH_SYNC_APP_CLIENT_ID }}"
+    assert mint["with"]["private-key"] == "${{ secrets.PUBLISH_SYNC_APP_PRIVATE_KEY }}"
+    permissions = {k: v for k, v in mint["with"].items() if k.startswith("permission-")}
+    assert permissions == {"permission-contents": "write", "permission-pull-requests": "write"}
+
+    pr_step = _step("Push sync branch and open PR as the App")
+    assert pr_step["env"]["GH_TOKEN"] == "${{ steps.app-token.outputs.token }}"
+    assert "push --force origin" in pr_step["run"]
+    assert "gh pr create" in pr_step["run"]
+    assert "app/${APP_SLUG}" in pr_step["run"]
+
+    sync_run = _step("Sync data from publish")["run"]
+    assert "git push" not in sync_run
+    assert "GH_TOKEN" not in _step("Sync data from publish").get("env", {})
+    assert names.index("Sync data from publish") < names.index("Mint publish-sync GitHub App token")
+
+
+def test_publish_sync_waits_for_required_checks_by_name_before_merging() -> None:
+    merge = _step("Wait for required checks and merge")
+    run = merge["run"]
+
+    assert merge["env"]["GH_TOKEN"] == "${{ github.token }}"
+    assert "--watch" not in run
+    assert "--auto" not in run
+    assert "--admin" not in run
+    assert run.index("python3 scripts/wait_for_required_checks.py") < run.index("gh pr merge")
+    assert 'gh pr merge "$PR_NUMBER" --squash --match-head-commit "$HEAD_SHA"' in run
+    assert '"MERGED" ]; then' in run
+    assert "exit 1" in run

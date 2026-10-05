@@ -18,17 +18,42 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    # The sync branch is pushed and the sync PR opened by a GitHub App, not by
+    # GITHUB_TOKEN. pull_request runs for github-actions[bot] changes wait for
+    # human approval (GitHub change of 2026-06-11), and check runs from
+    # workflow_dispatch suites are not part of the PR's check rollup, so the
+    # ruleset's required checks can never be met with GITHUB_TOKEN alone
+    # (jmservera/SquadScope#826). Setup: docs/deployment/publish-sync-github-app.md
+    environment: publish-sync
     permissions:
-      actions: write # dispatch required checks for the GITHUB_TOKEN-authored sync branch
-      contents: write # force-push the sync/publish-to-main branch
-      pull-requests: write # open/update the sync PR into main
+      checks: read # read the PR check rollup while waiting for required checks
+      contents: write # squash-merge the sync PR; a GITHUB_TOKEN merge keeps push-to-main workflows quiet
+      pull-requests: write # merge the sync PR
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Check out main # zizmor: ignore[artipacked] sync job force-pushes the sync branch; checkout token is reused by git push
+      - name: Require publish-sync GitHub App configuration
+        env:
+          SYNC_APP_CLIENT_ID: ${{ vars.PUBLISH_SYNC_APP_CLIENT_ID }}
+          SYNC_APP_KEY_PRESENT: ${{ secrets.PUBLISH_SYNC_APP_PRIVATE_KEY != '' }}
+        run: |
+          missing=""
+          if [ -z "$SYNC_APP_CLIENT_ID" ]; then
+            missing="${missing} variable PUBLISH_SYNC_APP_CLIENT_ID,"
+          fi
+          if [ "$SYNC_APP_KEY_PRESENT" != "true" ]; then
+            missing="${missing} secret PUBLISH_SYNC_APP_PRIVATE_KEY,"
+          fi
+          if [ -n "$missing" ]; then
+            echo "::error title=Publish-sync GitHub App not configured::Missing${missing%,} in the publish-sync environment. Without the App, the sync PR cannot run its required pull_request checks (jmservera/SquadScope#826). Follow docs/deployment/publish-sync-github-app.md, then re-run this workflow with workflow_dispatch."
+            exit 1
+          fi
+
+      - name: Check out main
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           ref: main
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
@@ -43,7 +68,6 @@ jobs:
       - name: Sync data from publish
         id: sync
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SYNC_BRANCH: sync/publish-to-main
         run: |
           set -euo pipefail
@@ -117,6 +141,7 @@ jobs:
           git add -A
           if git diff --cached --quiet; then
             echo "No changes to sync."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -128,6 +153,7 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "No changes to sync after staging."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -136,15 +162,49 @@ jobs:
           Automated sync of crawl data, analysis, and content
           from the publish branch."
 
-          git push -f origin "$SYNC_BRANCH"
-          HEAD_SHA=$(git rev-parse HEAD)
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-          for workflow in ci.yml lint.yml checkov.yml security-scanning.yml squad-ci.yml; do
-            gh workflow run "$workflow" --ref "$SYNC_BRANCH"
-          done
+      - name: Mint publish-sync GitHub App token
+        id: app-token
+        if: steps.sync.outputs.changed == 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.PUBLISH_SYNC_APP_CLIENT_ID }}
+          private-key: ${{ secrets.PUBLISH_SYNC_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
 
-          # Create or update PR
-          PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --json number --jq '.[0].number // empty')
+      - name: Push sync branch and open PR as the App
+        id: pr
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          # The App identity makes pushes and PR events trigger the normal,
+          # unapproved pull_request checks that the ruleset counts.
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          HEAD_SHA: ${{ steps.sync.outputs.head_sha }}
+          SYNC_BRANCH: sync/publish-to-main
+        run: |
+          set -euo pipefail
+
+          # A sync PR opened earlier by github-actions[bot] would keep holding
+          # its pull_request runs for approval; replace it with an App-authored PR.
+          PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --state open --json number --jq '.[0].number // empty')
+          if [ -n "$PR_NUMBER" ]; then
+            PR_AUTHOR=$(gh pr view "$PR_NUMBER" --json author --jq '.author.login')
+            if [ "$PR_AUTHOR" != "app/${APP_SLUG}" ]; then
+              echo "Closing sync PR #${PR_NUMBER} opened by ${PR_AUTHOR}; it is replaced by an App-authored PR."
+              gh pr close "$PR_NUMBER" --comment "Superseded by an App-authored sync PR so required pull_request checks run without approval (jmservera/SquadScope#826)."
+              PR_NUMBER=""
+            fi
+          fi
+
+          AUTH_HEADER="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          echo "::add-mask::${AUTH_HEADER#AUTHORIZATION: basic }"
+          git -c "http.https://github.com/.extraheader=${AUTH_HEADER}" \
+            push --force origin "${HEAD_SHA}:refs/heads/${SYNC_BRANCH}"
+
           if [ -n "$PR_NUMBER" ]; then
             echo "Updated existing PR #${PR_NUMBER}"
           else
@@ -152,7 +212,7 @@ jobs:
               --base main \
               --head "$SYNC_BRANCH" \
               --title "sync: publish data → main" \
-              --body "Automated sync of generated content and data subtrees from the publish branch to main.
+            --body "Automated sync of generated content and data subtrees from the publish branch to main.
 
           This PR keeps main up-to-date with generated data and content from the crawl/publish pipeline.
 
@@ -171,73 +231,54 @@ jobs:
           - Publish is authoritative for replaced synced paths. Hand-edits on main to these paths WILL be overwritten.
           - Topic hubs are overlaid so durable seed pages absent from publish are preserved.
 
-          Safe to merge — contains only generated data, no code changes." \
-              --label "squad"
-            PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --json number --jq '.[0].number')
+          Safe to merge — contains only generated data, no code changes."
+            PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --state open --json number --jq '.[0].number // empty')
+            if [ -n "$PR_NUMBER" ]; then
+              gh api --silent "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/labels" -f "labels[]=squad" || echo "::warning::Could not add the squad label to sync PR #${PR_NUMBER}."
+            fi
           fi
 
           if [ -z "$PR_NUMBER" ]; then
             echo "::error::Could not determine PR number for sync branch $SYNC_BRANCH"
             exit 1
           fi
+          echo "number=${PR_NUMBER}" >> "$GITHUB_OUTPUT"
 
-          # Short-circuit if the PR has already been merged (e.g. by a prior run).
-          if [ "$(gh pr view "$PR_NUMBER" --json state --jq '.state')" = "MERGED" ]; then
-            echo "::notice::PR #${PR_NUMBER} is already merged; nothing to do."
-            exit 0
-          fi
+      - name: Wait for required checks and merge
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ steps.sync.outputs.head_sha }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+        run: |
+          set -euo pipefail
 
-          REQUIRED_CHECKS=(
-            "Python"
-            "Lockfile"
-            "Publish hydration parity"
-            "Production site build"
-            "Production site (Axe and responsive browser gates)"
-            "Production site (Lighthouse gates)"
-            "Production site (Visual structure gate)"
-            "Ruff"
-            "Checkov IaC/container scan"
-            "Bandit Python security scan"
-            "GitHub Actions Security Scan (zizmor)"
-            "test"
-          )
+          # Poll every ruleset-required check by name until all have completed.
+          # `gh pr checks` in watch mode returns as soon as the checks it can
+          # already see finish, which can be before required checks register.
+          python3 scripts/wait_for_required_checks.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --pr "$PR_NUMBER" \
+            --head-sha "$HEAD_SHA" \
+            --base main
 
-          MISSING_CHECKS=""
-          for _ in $(seq 1 30); do
-            CHECK_NAMES="$(gh api \
-              "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/check-runs" \
-              --paginate \
-              --jq '.check_runs[] | select(.app.id == 15368) | .name' || true)"
-            MISSING_CHECKS=""
-            for check in "${REQUIRED_CHECKS[@]}"; do
-              if ! grep -Fx -- "$check" <<< "$CHECK_NAMES" >/dev/null; then
-                MISSING_CHECKS="${MISSING_CHECKS}${check}"$'\n'
-              fi
-            done
-            if [ -z "$MISSING_CHECKS" ]; then
+          # Merge with GITHUB_TOKEN. Retry briefly in case another gate, such as
+          # code scanning results, is still settling after the checks pass.
+          for attempt in 1 2 3 4 5 6; do
+            STATE=$(gh pr view "$PR_NUMBER" --json state --jq '.state')
+            if [ "$STATE" = "MERGED" ]; then
               break
             fi
-            echo "Waiting for required checks to register on ${HEAD_SHA}:"
-            printf '%s' "$MISSING_CHECKS"
-            sleep 10
+            if gh pr merge "$PR_NUMBER" --squash --match-head-commit "$HEAD_SHA"; then
+              break
+            fi
+            echo "Merge attempt ${attempt} did not succeed; retrying in 30s."
+            sleep 30
           done
 
-          if [ -n "$MISSING_CHECKS" ]; then
-            echo "::error::Required checks did not register for PR #${PR_NUMBER}; refusing to merge without validation."
-            printf '%s' "$MISSING_CHECKS"
+          STATE=$(gh pr view "$PR_NUMBER" --json state,mergeStateStatus --jq '.state + " " + .mergeStateStatus')
+          if [ "${STATE%% *}" != "MERGED" ]; then
+            echo "::error::Sync PR #${PR_NUMBER} did not merge (state: ${STATE})."
             exit 1
           fi
-
-          # Only now that we have confirmed required checks are configured do we
-          # enable auto-merge, so the PR cannot merge immediately by bypassing the
-          # "refusing to merge without validation" guard above. Emit a warning (not
-          # a silent `|| true`) if auto-merge cannot be enabled.
-          gh pr merge "$PR_NUMBER" --auto --squash || echo "::warning::Could not enable auto-merge for PR #${PR_NUMBER} — will attempt explicit merge after checks pass."
-
-          gh pr checks "$PR_NUMBER" --watch --fail-fast
-          # Auto-merge may have already squashed the PR once checks passed; if the
-          # explicit merge fails, confirm the PR did in fact merge before succeeding.
-          gh pr merge "$PR_NUMBER" --squash --match-head-commit "$HEAD_SHA" || \
-            gh pr view "$PR_NUMBER" --json state --jq '.state' | grep -qx MERGED
-
-          # Real Podcaster generation is admitted only by trigger-podcast.yml.
+          echo "Sync PR #${PR_NUMBER} merged."

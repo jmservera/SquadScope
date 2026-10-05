@@ -28,6 +28,13 @@ gh secret set GSC_SITE_VERIFICATION --body "PASTE_GOOGLE_VALUE_HERE"
 After the next deploy, click **Verify** in Google Search Console and submit the sitemap:
 `https://claracle.com/sitemap.xml`.
 
+### `PUBLISH_SYNC_APP_CLIENT_ID` / `PUBLISH_SYNC_APP_PRIVATE_KEY`
+
+The weekly `Sync publish data to main` workflow needs a GitHub App to open the sync PR. Without
+it, the PR's required checks never run (jmservera/SquadScope#826). Store both values in the
+`publish-sync` environment, as described in
+[docs/deployment/publish-sync-github-app.md](deployment/publish-sync-github-app.md).
+
 ## Fork-safety behavior
 
 `hugo.toml` defaults `params.ga_measurement_id` and `params.gsc_site_verification` to empty strings.
