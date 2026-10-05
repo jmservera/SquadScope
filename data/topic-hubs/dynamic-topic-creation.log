@@ -24,3 +24,6 @@ dynamic-topic-summary created=0 skipped=4695
 dynamic-topic-check enabled=true threshold=4 lookback_days=62 current_date=2026-09-28 allowlist=['local-first']
 {"assigned_paths": ["content/weekly/2026/W40.md"], "event": "assign-promoted-topics"}
 dynamic-topic-summary created=0 skipped=4910
+dynamic-topic-check enabled=true threshold=4 lookback_days=62 current_date=2026-10-05 allowlist=['local-first']
+{"assigned_paths": ["content/weekly/2026/W41.md"], "event": "assign-promoted-topics"}
+dynamic-topic-summary created=0 skipped=5853

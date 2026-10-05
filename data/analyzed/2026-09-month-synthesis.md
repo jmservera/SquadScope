@@ -4,10 +4,10 @@ date: "2026-09-28T06:00:04+00:00"
 month: "2026-09"
 weeks_covered: ["2026-W37", "2026-W38", "2026-W39", "2026-W40"]
 categories: ["monthly-synthesis"]
-summary: "September 2026 was defined by local ai, security, and agent skills. Later in the month, coding agents, creative coding, and decision models gathered pace."
+summary: "September 2026 was defined by security, local ai, and agent skills. Later in the month, coding agents, creative coding, and decision models gathered pace."
 status: "generated"
 source_checksum: "sha256:f8189266a021cedf8425a65c75214689bbc45ee0bdecc3f884ad731452803ec7"
-themes: ["local-ai", "security", "agent-skills", "developer-tools", "orchestration"]
+themes: ["security", "local-ai", "agent-skills", "developer-tools", "agent-memory"]
 persistent_themes: ["agent-skills", "local-ai", "security"]
 accelerating_themes: ["coding-agents", "creative-coding", "decision-models", "deployment", "evaluation", "typed-decisions", "agent-skills", "local-ai", "security"]
 weakening_themes: ["agent-memory", "ai-agents", "ai-infrastructure", "ai-video", "developer-tools", "formal-verification", "orchestration", "physical-ai", "privacy"]
