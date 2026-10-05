@@ -589,6 +589,38 @@ def test_seed_lifecycle_resolves_upstream_rename_to_frozen_identity() -> None:
         assert "old-org-repo" in entry["prior_slugs"]
 
 
+def test_seed_lifecycle_rejects_frozen_surfaces_on_different_rename_steps() -> None:
+    # Pages frozen at A and derived data frozen at B must not both resolve for a history
+    # renamed A -> B -> C; the two frozen surfaces have to agree first.
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        weeks = ("2026-W21", "2026-W22", "2026-W23", "2026-W24")
+        for index, week in enumerate(weeks):
+            write_week(root, week, [repo_record("a-org/Repo", 30 + index, github_id=42)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        config_path = config_dir / "observatory.toml"
+        config_path.write_text("[repo_pages]\nenabled = true\n", encoding="utf-8")
+        observatory_repos.generate(root)
+        config_path.write_text("[repo_pages]\nenabled = false\n", encoding="utf-8")
+        derived_path = root / "data/derived/observatory/repositories.json"
+        derived = json.loads(derived_path.read_text(encoding="utf-8"))
+        for item in derived:
+            item["repo_full_name"] = "b-org/Repo"
+            item["repo_slug"] = "b-org-repo"
+        derived_path.write_text(json.dumps(derived), encoding="utf-8")
+        write_week(root, "2026-W25", [repo_record("b-org/Repo", 40, github_id=42)])
+        write_week(root, "2026-W26", [repo_record("c-org/Repo", 41, github_id=42)])
+        ledger_path = root / "data/derived/observatory/repository-lifecycle.json"
+        original_ledger = ledger_path.read_bytes()
+
+        with pytest.raises(ValueError, match="Lifecycle seed parity mismatch"):
+            observatory_repos.seed_lifecycle(root)
+
+        assert ledger_path.read_bytes() == original_ledger
+
+
 def _observation(full_name: str, week: str, github_id: str | None) -> object:
     owner, repo = full_name.split("/", 1)
     return observatory_repos.RepoObservation(

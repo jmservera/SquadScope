@@ -1031,8 +1031,11 @@ def seed_lifecycle(
 
     qualified = [history for history in histories.values() if history.qualified]
     page_identities, derived_identities = existing_repository_identities(root)
-    if published_identities(qualified, page_identities) != page_identities or (
-        published_identities(qualified, derived_identities) != derived_identities
+    # Both frozen surfaces must agree with each other before renames are resolved against them,
+    # so a history can never map to different frozen identities on pages and derived data.
+    if (
+        page_identities != derived_identities
+        or published_identities(qualified, derived_identities) != derived_identities
     ):
         raise ValueError(
             "Lifecycle seed parity mismatch: "
