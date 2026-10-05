@@ -71,6 +71,10 @@ class ConfigurationError(Exception):
     """The inputs or GitHub responses cannot be evaluated safely."""
 
 
+class GhCommandError(Exception):
+    """A ``gh`` invocation failed, timed out, or returned non-JSON output."""
+
+
 @dataclass(frozen=True)
 class RequiredCheck:
     context: str
@@ -207,10 +211,22 @@ def evaluate(required: list[RequiredCheck], contexts: list[CheckResult]) -> Eval
 
 
 def gh_json(args: list[str]) -> object:
-    completed = subprocess.run(  # nosec B603 B607 - fixed gh argv, no shell, gh is a controlled tool
-        ["gh", *args], check=True, capture_output=True, text=True, timeout=120
-    )
-    return json.loads(completed.stdout)
+    command = " ".join(args[:2])
+    try:
+        completed = subprocess.run(  # nosec B603 B607 - fixed gh argv, no shell, gh is a controlled tool
+            ["gh", *args], check=True, capture_output=True, text=True, timeout=120
+        )
+    except subprocess.CalledProcessError as exc:
+        stderr = (exc.stderr or "").strip()[:300]
+        raise GhCommandError(f"gh {command} exited {exc.returncode}: {stderr}") from exc
+    except subprocess.TimeoutExpired as exc:
+        raise GhCommandError(f"gh {command} timed out") from exc
+    try:
+        return json.loads(completed.stdout)
+    except json.JSONDecodeError as exc:
+        raise GhCommandError(
+            f"gh {command} returned non-JSON output: {completed.stdout[:300]!r}"
+        ) from exc
 
 
 def fetch_required_checks(repo: str, branch: str) -> list[RequiredCheck]:
@@ -264,8 +280,8 @@ def wait_for_checks(
     while True:
         try:
             pr_state, pr_head, contexts = parse_rollup(fetch())
-        except subprocess.CalledProcessError as exc:
-            log(f"::warning::Could not read PR checks (exit {exc.returncode}); retrying.")
+        except GhCommandError as exc:
+            log(f"::warning::Could not read PR checks ({exc}); retrying.")
             pr_state, pr_head, contexts = "OPEN", head_sha, None
 
         if pr_state == "MERGED":
@@ -324,7 +340,7 @@ def main(argv: list[str] | None = None) -> int:
             timeout=args.timeout,
             interval=args.interval,
         )
-    except ConfigurationError as exc:
+    except (ConfigurationError, GhCommandError) as exc:
         print(f"::error::{exc}", file=sys.stderr)
         return 2
 

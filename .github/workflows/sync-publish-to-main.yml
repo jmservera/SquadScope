@@ -208,7 +208,7 @@ jobs:
           if [ -n "$PR_NUMBER" ]; then
             echo "Updated existing PR #${PR_NUMBER}"
           else
-            gh pr create \
+            PR_URL=$(gh pr create \
               --base main \
               --head "$SYNC_BRANCH" \
               --title "sync: publish data → main" \
@@ -231,8 +231,14 @@ jobs:
           - Publish is authoritative for replaced synced paths. Hand-edits on main to these paths WILL be overwritten.
           - Topic hubs are overlaid so durable seed pages absent from publish are preserved.
 
-          Safe to merge — contains only generated data, no code changes."
-            PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --state open --json number --jq '.[0].number // empty')
+          Safe to merge — contains only generated data, no code changes.")
+            PR_NUMBER="${PR_URL##*/}"
+            case "$PR_NUMBER" in
+              ''|*[!0-9]*)
+                echo "::error::Could not parse the PR number from gh pr create output: ${PR_URL}"
+                exit 1
+                ;;
+            esac
             if [ -n "$PR_NUMBER" ]; then
               gh api --silent "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/labels" -f "labels[]=squad" || echo "::warning::Could not add the squad label to sync PR #${PR_NUMBER}."
             fi

@@ -171,7 +171,7 @@ def test_no_required_checks_fails_closed():
 def test_transient_api_error_is_retried():
     calls = iter(
         [
-            subprocess.CalledProcessError(1, ["gh"]),
+            w.GhCommandError("gh api graphql exited 1: boom"),
             payload([check_run("Ruff"), check_run("Python")]),
         ]
     )
@@ -218,3 +218,36 @@ def test_invalid_integration_id_is_reported():
         assert "'1'" in str(exc)
     else:
         raise AssertionError("expected ConfigurationError")
+
+
+def test_gh_failures_become_gh_command_errors(monkeypatch):
+    def fail(*args, **kwargs):
+        raise subprocess.CalledProcessError(1, ["gh"], stderr="HTTP 403")
+
+    monkeypatch.setattr(w.subprocess, "run", fail)
+    try:
+        w.gh_json(["api", "x"])
+    except w.GhCommandError as exc:
+        assert "HTTP 403" in str(exc)
+    else:
+        raise AssertionError("expected GhCommandError")
+
+    monkeypatch.setattr(
+        w.subprocess,
+        "run",
+        lambda *a, **k: subprocess.CompletedProcess(a, 0, stdout="not json", stderr=""),
+    )
+    try:
+        w.gh_json(["api", "x"])
+    except w.GhCommandError as exc:
+        assert "non-JSON" in str(exc)
+    else:
+        raise AssertionError("expected GhCommandError")
+
+
+def test_main_returns_2_when_rules_cannot_be_read(monkeypatch):
+    def boom(repo, branch):
+        raise w.GhCommandError("gh api repos/o/r/rules/branches/main exited 1: HTTP 404")
+
+    monkeypatch.setattr(w, "fetch_required_checks", boom)
+    assert w.main(["--repo", "o/r", "--pr", "1", "--head-sha", HEAD]) == 2
