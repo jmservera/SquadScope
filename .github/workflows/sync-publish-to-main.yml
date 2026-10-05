@@ -103,6 +103,16 @@ jobs:
           # pages cannot drift from the weekly content in the generated sync PR.
           python3 scripts/generate_rollups.py
 
+          # Regenerate derived Observatory artifacts from the synced crawl data
+          # (same order as crawl-and-publish). The sync PR must pass the required
+          # Python freshness tests before it can merge (#820).
+          python3 scripts/observatory_repos.py
+          python3 scripts/generate_repository_summary.py --from-crawl
+          python3 scripts/generate_data_pages.py
+          python3 scripts/generate_ranking_artifacts.py
+          python3 scripts/export_observatory_dataset.py
+          python3 scripts/export_trend_explorer_data.py
+
           # Stage restored/generated files before evaluating the cached diff.
           git add -A
           if git diff --cached --quiet; then
