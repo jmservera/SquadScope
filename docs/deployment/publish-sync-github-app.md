@@ -26,8 +26,10 @@ those checks only with check runs from its own `statusCheckRollup`: suites that 
 Pushes and PRs from a GitHub App start ordinary `pull_request` runs without approval. The App is
 **not** a ruleset bypass actor and cannot skip any check. The ruleset stays unchanged.
 
-If the App is not configured, or `PUBLISH_SYNC_APP_PRIVATE_KEY` is not a full PEM private key,
-the first step of the workflow fails with an error that links to this page. It does not fall
+If the App is not configured, or `PUBLISH_SYNC_APP_PRIVATE_KEY` lacks the PEM
+`BEGIN`/`END … PRIVATE KEY-----` lines, the first step of the workflow fails with an error that
+links to this page. This is only a shape check. A key body that has both lines but is invalid
+still fails later, at the token mint step. It does not fall
 back to `GITHUB_TOKEN`.
 
 ## One-time setup (repository owner)
@@ -111,6 +113,6 @@ it. The podcast auto-dispatch dedup then skipped W41, which already had an episo
   token`:** `PUBLISH_SYNC_APP_PRIVATE_KEY` is not a full PEM private key. Usually it holds an
   OAuth client secret, or a paste that kept only the first line. Generate a private key (step 3),
   set the secret from the `.pem` file with `< key.pem` (step 6), and re-run the workflow. The
-  configuration gate now catches both cases before the mint step: it fails with
+  configuration gate catches both cases before the mint step with a shape check. It fails with
   "PUBLISH_SYNC_APP_PRIVATE_KEY is not a PEM private key" when the secret has no
   `-----BEGIN … PRIVATE KEY-----` or `-----END … PRIVATE KEY-----` line.
