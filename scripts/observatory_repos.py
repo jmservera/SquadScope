@@ -943,16 +943,19 @@ def published_identity(
     identities they were generated with. An upstream rename observed later (same stable key,
     recorded in ``prior_full_names``/``prior_slugs``) must still resolve to that frozen record
     instead of looking like a dropped repository plus an unknown new one. Only a history with a
-    stable GitHub ID may resolve, and only through a single prior (name, slug) pair recorded for
-    it; otherwise the current identity is returned so any unrelated drift still fails parity.
+    stable GitHub ID may resolve, and only through a single recorded prior (name, slug) pair that
+    was itself observed under that same ID (a configured merge of a different repository does not
+    qualify); otherwise the current identity is returned so any unrelated drift still fails parity.
     """
     current = (history.display_name, history.slug)
     if current in published or not history.github_id:
         return current
     candidates = {
-        (name, repo_slug(name))
-        for name in history.prior_full_names
-        if repo_slug(name) in history.prior_slugs
+        (observation.full_name, repo_slug(observation.full_name))
+        for observation in history.observations
+        if observation.github_id == history.github_id
+        and observation.full_name in history.prior_full_names
+        and repo_slug(observation.full_name) in history.prior_slugs
     } & published
     if len(candidates) == 1:
         return next(iter(candidates))

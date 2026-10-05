@@ -589,17 +589,51 @@ def test_seed_lifecycle_resolves_upstream_rename_to_frozen_identity() -> None:
         assert "old-org-repo" in entry["prior_slugs"]
 
 
-def _history(key: str, name: str, *, priors: tuple[str, ...] = ()) -> object:
+def _observation(full_name: str, week: str, github_id: str | None) -> object:
+    owner, repo = full_name.split("/", 1)
+    return observatory_repos.RepoObservation(
+        week=week,
+        source_bucket="trending_repos",
+        owner=owner,
+        name=repo,
+        full_name=full_name,
+        url=f"https://github.com/{full_name}",
+        description=None,
+        language="Python",
+        stars=10,
+        forks=1,
+        created_at="2026-01-01T00:00:00Z",
+        topics=(),
+        source_path=f"data/raw/{week}.json",
+        github_id=github_id,
+    )
+
+
+def _history(
+    key: str,
+    name: str,
+    *,
+    priors: tuple[str, ...] = (),
+    prior_github_id: str | None = None,
+) -> object:
     owner, repo = name.split("/", 1)
+    github_id = None if key.startswith("name:") else key
+    observed_id = prior_github_id if prior_github_id is not None else github_id
+    observations = [
+        _observation(prior, f"2026-W{20 + index:02d}", observed_id)
+        for index, prior in enumerate(priors)
+    ]
+    observations.append(_observation(name, "2026-W30", github_id))
     return observatory_repos.RepositoryHistory(
         key=key,
-        github_id=None if key.startswith("name:") else key,
+        github_id=github_id,
         node_id=None,
         display_name=name,
         owner=owner,
         name=repo,
         slug=observatory_repos.repo_slug(name),
         url=f"https://github.com/{name}",
+        observations=observations,
         prior_full_names=set(priors),
         prior_slugs={observatory_repos.repo_slug(prior) for prior in priors},
     )
@@ -644,6 +678,21 @@ def test_published_identity_requires_stable_id_for_renames() -> None:
         "new-org-repo",
     )
     assert observatory_repos.published_identities([fallback], published) != published
+
+
+def test_published_identity_rejects_prior_observed_under_a_different_id() -> None:
+    # apply_configured_renames() can merge a different repository into a stable-ID target and
+    # copy its name/slug into the target's priors; that is not proof of the same repository.
+    published = {("Old-Org/Repo", "old-org-repo")}
+    merged = _history("42", "new-org/Repo", priors=("Old-Org/Repo",), prior_github_id="77")
+    unidentified = _history("42", "new-org/Repo", priors=("Old-Org/Repo",), prior_github_id="")
+
+    for history in (merged, unidentified):
+        assert observatory_repos.published_identity(history, published) == (
+            "new-org/Repo",
+            "new-org-repo",
+        )
+        assert observatory_repos.published_identities([history], published) != published
 
 
 def test_published_identities_rejects_two_histories_claiming_one_identity() -> None:
