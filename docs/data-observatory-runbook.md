@@ -135,7 +135,10 @@ python scripts/observatory_repos.py --seed-lifecycle
 Keep production `repo_pages.enabled = false` during this operation. The seed loads checked-in
 observations and prior ledger state, then compares every qualified repository name and slug with
 the generated pages and `data/derived/observatory/repositories.json`. Any mismatch stops before a
-write and requires review. A successful seed atomically replaces only
+write and requires review. An upstream rename observed after the corpus was frozen (same stable GitHub ID,
+with the old name and slug recorded as the history's prior name and slug) resolves to the
+frozen identity, so it is not a mismatch; the ledger keeps the new current name. Two histories
+that resolve to the same frozen identity still stop the seed. A successful seed atomically replaces only
 `data/derived/observatory/repository-lifecycle.json`; it does not query GitHub, generate pages,
 refresh taxonomy, or rewrite derived repository data. Run the command twice and confirm that the
 second run leaves the ledger byte-identical.
