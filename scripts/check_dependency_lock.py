@@ -2,7 +2,7 @@
 
 import json
 import re
-import subprocess
+import subprocess  # nosec B404 - invoke the current Python's pip with fixed argv, no shell
 import sys
 from pathlib import Path
 
@@ -48,7 +48,7 @@ def main() -> None:
     pins = read_pins(lock)
     # stdout is JSON only; pip progress stays on stderr, and no report file or
     # download URL is exposed. Both inputs force pip to verify compatibility.
-    result = subprocess.run(
+    result = subprocess.run(  # nosec B603 - fixed argv and repository-owned paths, no shell
         [
             sys.executable,
             "-m",
