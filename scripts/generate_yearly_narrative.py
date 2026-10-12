@@ -459,12 +459,16 @@ def extract_labeled_values(
                 dated_blocks.append(((int(week[1]), int(week[2])), block))
         blocks = [block for _, block in sorted(dated_blocks, key=lambda item: item[0])]
     for block in blocks:
+        block_start = len(values)
         for line in block.group("body").splitlines():
             if not line.startswith(f"- {label}:"):
                 continue
             value = strip_markdown(line.split(":", 1)[1])
-            if value:
+            if value or chronological:
                 values.append(value)
+        if chronological and len(values) == block_start:
+            # A week without this label must still occupy its chronological slot.
+            values.append("")
     return values
 
 

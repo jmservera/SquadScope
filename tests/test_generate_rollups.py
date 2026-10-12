@@ -161,6 +161,8 @@ class GenerateRollupsTests(unittest.TestCase):
         )
         for weekly, expected in (
             ((), ""),
+            (("An earlier complete summary.", ""), ""),
+            (("An earlier complete summary.", "   "), ""),
             (("An earlier complete summary.", "Unterminated final fragment"), ""),
             (("An earlier complete summary.", " ".join(["Oversized"] * 90) + "."), ""),
             (("One short summary.",), "One short summary."),
@@ -273,6 +275,47 @@ class GenerateRollupsTests(unittest.TestCase):
                     self.assertNotIn(
                         "latest available weekly summary reported: Older recovered week.", chapter
                     )
+
+    def test_month_loader_does_not_promote_an_earlier_summary_past_an_empty_week(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            content_root = base / "content"
+            content_root.mkdir()
+            monthly_path = content_root / "06.md"
+            earlier = "Earlier weekly evidence."
+            for final_body in ("- Summary:", "- Summary:   \t", "- Other: No summary provided."):
+                for synthesis in ("", "## Month Synthesis\n\nMonthly synthesis context.\n\n"):
+                    for backfilled in (False, True):
+                        with self.subTest(
+                            final_body=final_body,
+                            synthesis=bool(synthesis),
+                            backfilled=backfilled,
+                        ):
+                            blocks = [
+                                f"### Week 2026-W26\n\n- Summary: {earlier}\n\n",
+                                f"### Week 2026-W27\n\n{final_body}\n\n",
+                            ]
+                            if backfilled:
+                                blocks.reverse()
+                            monthly_path.write_text(
+                                "---\nyear: 2026\nmonth: 6\ndate: 2026-06-30\n"
+                                'summary: "Monthly synthesis context."\n---\n\n'
+                                f"{synthesis}## Month Overview\n\n{''.join(blocks)}"
+                            )
+                            snapshot = (
+                                generate_yearly_narrative.load_month_snapshot_with_preference(
+                                    monthly_path, content_root
+                                )
+                            )
+                            self.assertEqual(snapshot.weekly_summaries, (earlier, ""))
+                            for budget in (45, 100):
+                                chapter = generate_yearly_narrative.build_month_chapter(
+                                    snapshot, budget
+                                )
+                                self.assertNotIn("latest", chapter)
+                                self.assertLessEqual(
+                                    generate_yearly_narrative.word_count(chapter), budget
+                                )
 
     def test_generate_rollups_creates_monthly_and_yearly_pages(self) -> None:
         with temporary_workspace() as tmpdir:
