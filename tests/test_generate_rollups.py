@@ -240,6 +240,40 @@ class GenerateRollupsTests(unittest.TestCase):
                     else:
                         self.assertNotIn("latest", chapter)
 
+    def test_yearly_endpoint_uses_week_order_after_backfill(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            content_root = base / "content"
+            content_root.mkdir()
+            monthly_path = content_root / "06.md"
+            overview = (
+                "### Week 2026-W27 — [Week 27](/weekly/2026/w27/)\n\n"
+                "- Summary: Latest weekly endpoint.\n\n"
+                "### Week 2026-W23 — [Week 23](/weekly/2026/w23/)\n\n"
+                "- Summary: Older recovered week.\n\n"
+                "### Unidentified context\n\n- Summary: Non-weekly context.\n"
+            )
+            for synthesis in ("", "## Month Synthesis\n\nMonthly synthesis context.\n\n"):
+                with self.subTest(synthesis=bool(synthesis)):
+                    monthly_path.write_text(
+                        "---\nyear: 2026\nmonth: 6\ndate: 2026-06-30\n"
+                        'summary: "Monthly synthesis context."\n---\n\n'
+                        f"{synthesis}## Month Overview\n\n{overview}"
+                    )
+                    snapshot = generate_yearly_narrative.load_month_snapshot(monthly_path)
+                    self.assertEqual(
+                        snapshot.weekly_summaries,
+                        ("Older recovered week.", "Latest weekly endpoint."),
+                    )
+                    chapter = generate_yearly_narrative.build_month_chapter(snapshot, 100)
+                    self.assertIn(
+                        "latest available weekly summary reported: Latest weekly endpoint.",
+                        chapter,
+                    )
+                    self.assertNotIn(
+                        "latest available weekly summary reported: Older recovered week.", chapter
+                    )
+
     def test_generate_rollups_creates_monthly_and_yearly_pages(self) -> None:
         with temporary_workspace() as tmpdir:
             base = Path(tmpdir)

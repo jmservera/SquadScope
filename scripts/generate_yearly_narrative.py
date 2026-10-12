@@ -34,7 +34,7 @@ from scripts.sanitize_repo_content import INJECTION_PHRASES
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_CONTENT_ROOT = PROJECT_ROOT / "content"
 MONTH_SECTION_PATTERN = re.compile(r"(?m)^##\s+(.+?)\s*$")
-WEEK_BLOCK_PATTERN = re.compile(r"(?ms)^###\s+.+?\s*$\n(.*?)(?=^###\s+|\Z)")
+WEEK_BLOCK_PATTERN = re.compile(r"(?ms)^###\s+(?P<heading>.+?)\s*$\n(?P<body>.*?)(?=^###\s+|\Z)")
 LINK_PATTERN = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 WORD_PATTERN = re.compile(r"\S+")
 HEADING_LINE_PATTERN = re.compile(r"(?m)^#+\s+")
@@ -446,10 +446,20 @@ def extract_prose_paragraphs(body: str) -> tuple[str, ...]:
     return tuple(paragraphs)
 
 
-def extract_labeled_values(section_body: str, label: str) -> list[str]:
+def extract_labeled_values(
+    section_body: str, label: str, *, chronological: bool = False
+) -> list[str]:
     values: list[str] = []
-    for block in WEEK_BLOCK_PATTERN.finditer(section_body):
-        for line in block.group(1).splitlines():
+    blocks = list(WEEK_BLOCK_PATTERN.finditer(section_body))
+    if chronological:
+        dated_blocks = []
+        for block in blocks:
+            week = re.match(r"Week\s+(\d{4})-W(\d{2})\b", block.group("heading"))
+            if week:
+                dated_blocks.append(((int(week[1]), int(week[2])), block))
+        blocks = [block for _, block in sorted(dated_blocks, key=lambda item: item[0])]
+    for block in blocks:
+        for line in block.group("body").splitlines():
             if not line.startswith(f"- {label}:"):
                 continue
             value = strip_markdown(line.split(":", 1)[1])
@@ -480,9 +490,11 @@ def frontmatter_list(frontmatter: dict[str, Any], key: str) -> list[str]:
 def load_month_snapshot(path: Path) -> MonthSnapshot:
     frontmatter, body = analysis_gate.extract_frontmatter(path.read_text(encoding="utf-8"))
     sections = split_sections(body)
+    weekly_summaries = extract_labeled_values(
+        sections.get("Month Overview", ""), "Summary", chronological=True
+    )
     month_synthesis = strip_markdown(sections.get("Month Synthesis", ""))
     if month_synthesis:
-        weekly_summaries = extract_labeled_values(sections.get("Month Overview", ""), "Summary")
         summaries = dedupe_preserving_order(
             [str(frontmatter.get("summary", "")).strip(), *weekly_summaries]
         )
@@ -557,9 +569,7 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
         closing_reads=tuple(
             extract_labeled_values(sections.get("Key Takeaways", ""), "Closing read")
         ),
-        weekly_summaries=tuple(
-            extract_labeled_values(sections.get("Month Overview", ""), "Summary")
-        ),
+        weekly_summaries=tuple(weekly_summaries),
     )
 
 
