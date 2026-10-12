@@ -3,7 +3,7 @@
   "prior_month_context": [
     {
       "month": "2026-09",
-      "summary": "September 2026 was defined by local ai, security, and agent skills. Later in the month, coding agents, creative coding, and decision models gathered pace.",
+      "summary": "September 2026 was defined by agent skills, local ai, and security. Later in the month, coding agents, creative coding, and decision models gathered pace.",
       "title": "Coding Agents and Creative Coding Surge \u2014 September 2026"
     },
     {
@@ -13,11 +13,11 @@
     },
     {
       "month": "2026-07",
-      "summary": "July 2026 was defined by security, agent skills, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace.",
+      "summary": "July 2026 was defined by agent skills, ai agents, and security. Later in the month, discovery noise, local ai, and robotics gathered pace.",
       "title": "Discovery Noise and Local AI Surge \u2014 July 2026"
     }
   ],
-  "synthesis_version": 8,
+  "synthesis_version": 9,
   "weeks": [
     {
       "conclusion": "Watch whether ambient agents add explicit permission manifests and external-state verification, or continue competing mainly on the number of surfaces they can inhabit. The dot-branded launch cluster needs sustained maintenance and real deployments to graduate from coordinated attention into a category. Local AI's next credible step is comparative evidence: latency, power, memory, and privacy tradeoffs across heterogeneous devices. Skills will likely keep specializing, especially beyond English, but provenance and safe installation will determine whether distribution outruns trust.",
@@ -43,9 +43,35 @@
       "title": "Agents Gain Reach Faster Than They Gain Restraint",
       "top_repo": "CopilotKit/OpenDots",
       "week": "2026-W41"
+    },
+    {
+      "conclusion": "Watch for the control layer to catch up: permission manifests, action logs, rollback primitives, and independent evaluations would turn device-operating agents from demonstrations into deployable systems. The ArtCraft cluster must next prove compatibility and contributor depth beyond one coordinated launch. Local-first search and data work look more durable, especially if projects expose measurable privacy, latency, and resource tradeoffs. The next meaningful signal will be verification around capability, not another capability claim.",
+      "featured_repos": [
+        "storytold/wordcraft",
+        "zhongerxin/iPhone-use",
+        "mhtsec/ARTEX",
+        "Fei2411/DeepSeek-Bot",
+        "storytold/gridcraft"
+      ],
+      "gaps": "**Agent authorization and recovery remain missing.** Neither the press narrative nor the leading new repositories show a meaningful open-source layer for least-privilege credentials, action receipts, reversible operations, or incident recovery. That absence matters because agents now touch phones, security tooling, company data, and scheduled tasks; without enforceable boundaries and rollback, every increase in reach enlarges operational risk. **Compatibility testing and migration tooling are also scarce.** Rust replacements for office, CAD, audio, and compiler software will succeed or fail on document fidelity, plugin behavior, accessibility, and reproducible conformance suites, yet those supporting categories are not visible. This matters because polished interfaces can attract attention while silent data loss or workflow incompatibility blocks real adoption. Finally, **energy and lifecycle accounting for local AI is absent** from both developer attention and the week's product-focused coverage. Local execution improves privacy and control, but without comparable measurements of power, hardware longevity, and total cost, practitioners cannot judge when moving inference onto personal devices is operationally or environmentally preferable.",
+      "noise": "",
+      "signal": "The strongest signal lies in projects with explicit technical boundaries. [ARahim3/DigUp](https://github.com/ARahim3/DigUp) names its on-device embedding stack and multimodal scope; [noahdunnagan/fsearch](https://github.com/noahdunnagan/fsearch) makes a measurable latency claim over a stated file count; and [HelixDB/helix-foundry](https://github.com/HelixDB/helix-foundry) identifies its local database foundations. The ArtCraft repositories also form a coherent application thesis across several domains. Their shared owner means they are not independent confirmation, but working code, permissive licensing, and active pushes make the cluster more substantive than a single landing-page launch. The attention metrics still require skepticism. [mhtsec/ARTEX](https://github.com/mhtsec/ARTEX) reached 3,310 stars but 5,731 forks within four days, while several ArtCraft projects show unusually high fork-to-star ratios: [storytold/cadcraft](https://github.com/storytold/cadcraft) has 1,304 forks against 2,834 stars and [storytold/deckcraft](https://github.com/storytold/deckcraft) has 1,102 against 2,113. That does not prove manipulation, but it prevents popularity from serving as evidence of adoption. [nullmoth/nvidia-macos-driver](https://github.com/nullmoth/nvidia-macos-driver) likewise makes an extraordinary compatibility claim without an asserted license in the crawl, demanding technical verification before trust. The durable conclusion is the category movement\u2014local tools, agent specialization, and Rust desktop software\u2014not the launch-week rankings.",
+      "summary": "Agents moved onto devices while Rust and local-first tools challenged incumbent desktop software, with governance still trailing autonomy.",
+      "tags": [
+        "ai-agents",
+        "rust",
+        "local-first",
+        "developer-tools",
+        "security",
+        "self-hosting"
+      ],
+      "title": "Agents Reach Devices as Rust Rebuilds the Desktop",
+      "top_repo": "storytold/wordcraft",
+      "week": "2026-W42"
     }
   ],
   "weeks_covered": [
-    "2026-W41"
+    "2026-W41",
+    "2026-W42"
   ]
 }

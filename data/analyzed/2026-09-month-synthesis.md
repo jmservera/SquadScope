@@ -4,10 +4,10 @@ date: "2026-09-28T06:00:04+00:00"
 month: "2026-09"
 weeks_covered: ["2026-W37", "2026-W38", "2026-W39", "2026-W40"]
 categories: ["monthly-synthesis"]
-summary: "September 2026 was defined by local ai, security, and agent skills. Later in the month, coding agents, creative coding, and decision models gathered pace."
+summary: "September 2026 was defined by agent skills, local ai, and security. Later in the month, coding agents, creative coding, and decision models gathered pace."
 status: "generated"
-source_checksum: "sha256:f8189266a021cedf8425a65c75214689bbc45ee0bdecc3f884ad731452803ec7"
-themes: ["local-ai", "security", "agent-skills", "agent-memory", "ai-agents"]
+source_checksum: "sha256:ed519dbd85e357ef360304fa01677832d3631d016fa02fd7657c9f00b11c2cfd"
+themes: ["agent-skills", "local-ai", "security", "agent-memory", "ai-agents"]
 persistent_themes: ["agent-skills", "local-ai", "security"]
 accelerating_themes: ["coding-agents", "creative-coding", "decision-models", "deployment", "evaluation", "typed-decisions", "agent-skills", "local-ai", "security"]
 weakening_themes: ["agent-memory", "ai-agents", "ai-infrastructure", "ai-video", "developer-tools", "formal-verification", "orchestration", "physical-ai", "privacy"]
@@ -17,7 +17,7 @@ top_repos: ["okf-memory/okf-agent-memory", "openai/NavierStokesAndEuler", "mizor
 
 ## Month Synthesis
 
-Recent monthly conclusions set the baseline: August 2026: August 2026 was defined by agent skills, ai agents, and developer tools. Later in the month, mcp, self hosting, and agent governance gathered pace; July 2026: July 2026 was defined by security, agent skills, and ai agents. Later in the month, discovery noise, local ai, and robotics gathered pace; June 2026: June 2026 was defined by agent skills, noise floor, and coding agents. Later in the month, security, agent frameworks, and ai agents gathered pace. Against that backdrop, September 2026 should be read for what advanced, reversed, or newly emerged rather than as a replay of the same monthly storyline. The opening report found: Agent tooling moved deeper into memory, skills, and orchestration while security churn and fork-heavy WARP repos distorted the signal. The closing report found: Agents moved beyond chat into deployment and creative production, while security and proof of adoption continued to lag. Together, they show that the center of gravity shifted without abandoning the strongest earlier signals.
+Recent monthly conclusions set the baseline: August 2026: August 2026 was defined by agent skills, ai agents, and developer tools. Later in the month, mcp, self hosting, and agent governance gathered pace; July 2026: July 2026 was defined by agent skills, ai agents, and security. Later in the month, discovery noise, local ai, and robotics gathered pace; June 2026: June 2026 was defined by agent skills, noise floor, and coding agents. Later in the month, security, agent frameworks, and ai agents gathered pace. Against that backdrop, September 2026 should be read for what advanced, reversed, or newly emerged rather than as a replay of the same monthly storyline. The opening report found: Agent tooling moved deeper into memory, skills, and orchestration while security churn and fork-heavy WARP repos distorted the signal. The closing report found: Agents moved beyond chat into deployment and creative production, while security and proof of adoption continued to lag. Together, they show that the center of gravity shifted without abandoning the strongest earlier signals.
 
 Persistent themes such as agent skills, local ai, and security stayed present across multiple weeks. Later reports pushed coding agents, creative coding, and decision models from interesting side threads into defining narratives. Early-month concerns around agent memory, ai agents, and ai infrastructure faded relative to the stronger follow-on trends. The month's anchor repos moved from okf-memory/okf-agent-memory, openai/NavierStokesAndEuler, and mizorewww/laya-mlx toward mikehasa/golive-skill, reinforcing that the winning projects were the ones narrowing scope while deepening practical utility.
 

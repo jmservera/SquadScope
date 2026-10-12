@@ -6,7 +6,7 @@ weeks_covered: ["2026-W23", "2026-W24", "2026-W25", "2026-W26", "2026-W27"]
 categories: ["monthly-synthesis"]
 summary: "June 2026 was defined by agent skills, noise floor, and coding agents. Later in the month, security, agent frameworks, and ai agents gathered pace."
 status: "generated"
-source_checksum: "sha256:7b7e5e101478beb7242abf49243dbbb13d4c871d7f887173f7417fa9a615819a"
+source_checksum: "sha256:5086de6455a532508831e95fbc5c8f54dba0c78dd109c0b831fd1cfd43af1b45"
 themes: ["agent-skills", "noise-floor", "coding-agents", "local-first", "security"]
 persistent_themes: ["agent-skills", "noise-floor", "coding-agents", "local-first", "security"]
 accelerating_themes: ["security", "agent-frameworks", "ai-agents", "ai-costs", "apple-intelligence", "evals", "fable", "local-ai", "mcp", "model-routing", "speculative-decoding", "supply-chain-security", "agent-skills", "noise-floor", "local-first"]
@@ -17,7 +17,7 @@ top_repos: ["pewdiepie-archdaemon/odysseus", "cpaczek/skylight", "DietrichGebert
 
 ## Month Synthesis
 
-Recent monthly conclusions set the baseline: May 2026: May 2026 was defined by open source, developer tooling, and ai. Later in the month, agent skills, ai memory, and coding agents gathered pace. Against that backdrop, June 2026 should be read for what advanced, reversed, or newly emerged rather than as a replay of the same monthly storyline. The opening report found: Week 23 amplifies two W22 trends — agent memory infrastructure and skills verticalization — while a suspicious 56k-star self-hosted AI workspace, a coordinated Russian censorship-bypass wave, and the heaviest offensive-security agent activity of the year reshape what noise looks like at scale. The closing report found: Week 27 shifts from agent packaging toward measurable inference, evaluation, and security while crypto and bypass bait keep rising. Together, they show that the center of gravity shifted without abandoning the strongest earlier signals.
+Recent monthly conclusions set the baseline: May 2026: May 2026 was defined by developer tooling, open source, and agent skills. Later in the month, agent skills, ai memory, and coding agents gathered pace. Against that backdrop, June 2026 should be read for what advanced, reversed, or newly emerged rather than as a replay of the same monthly storyline. The opening report found: Week 23 amplifies two W22 trends — agent memory infrastructure and skills verticalization — while a suspicious 56k-star self-hosted AI workspace, a coordinated Russian censorship-bypass wave, and the heaviest offensive-security agent activity of the year reshape what noise looks like at scale. The closing report found: Week 27 shifts from agent packaging toward measurable inference, evaluation, and security while crypto and bypass bait keep rising. Together, they show that the center of gravity shifted without abandoning the strongest earlier signals.
 
 Persistent themes such as agent skills, noise floor, and coding agents stayed present across multiple weeks. Later reports pushed security, agent frameworks, and ai agents from interesting side threads into defining narratives. Early-month concerns around coding agents, ai memory, and ai security faded relative to the stronger follow-on trends. The month's anchor repos moved from pewdiepie-archdaemon/odysseus, cpaczek/skylight, and DietrichGebert/ponytail toward vercel/eve, reinforcing that the winning projects were the ones narrowing scope while deepening practical utility.
 
