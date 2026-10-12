@@ -109,9 +109,112 @@ class GenerateRollupsTests(unittest.TestCase):
 
         self.assertNotIn("By month end", chapter)
         self.assertIn(
-            "By the latest weekly report, the emphasis had shifted: Local tools gained attention.",
+            "The latest available weekly summary reported: Local tools gained attention.",
             chapter,
         )
+
+    def test_yearly_chapter_reserves_actual_latest_summary_before_budgeting(self) -> None:
+        first = " ".join(["Opening"] * 24) + " baseline."
+        middle = " ".join(["Intermediate"] * 24) + " evidence."
+        last = "The month shifted toward measurable inference, evaluation, and security."
+        self.assertNotIn(
+            last, generate_yearly_narrative.complete_sentences((first, middle, last), 50)
+        )
+        for month_number in range(5, 13):
+            with self.subTest(month=month_number):
+                month = generate_yearly_narrative.MonthSnapshot(
+                    path=Path(f"2026-{month_number:02d}.md"),
+                    year=2026,
+                    month=month_number,
+                    title="Monthly report",
+                    date="2026-10-12",
+                    summaries=(first, middle, last),
+                    themes=(),
+                    signals=(),
+                    noise=(),
+                    gaps=(),
+                    closing_reads=(),
+                )
+
+                for budget in (45, 100):
+                    with self.subTest(budget=budget):
+                        chapter = generate_yearly_narrative.build_month_chapter(month, budget)
+
+                        self.assertIn(f"latest available weekly summary reported: {last}", chapter)
+                        self.assertNotIn(middle, chapter)
+                        self.assertLessEqual(generate_yearly_narrative.word_count(chapter), budget)
+
+    def test_yearly_chapter_does_not_promote_context_to_weekly_endpoint(self) -> None:
+        context = "Monthly context led the record. A second sentence supplied detail."
+        month = generate_yearly_narrative.MonthSnapshot(
+            path=Path("2026-06.md"),
+            year=2026,
+            month=6,
+            title="June",
+            date="2026-06-30",
+            summaries=(context, "An intermediate weekly report."),
+            themes=(),
+            signals=(),
+            noise=(),
+            gaps=(),
+            closing_reads=(),
+        )
+        for weekly, expected in (
+            ((), ""),
+            (("An earlier complete summary.", "Unterminated final fragment"), ""),
+            (("An earlier complete summary.", " ".join(["Oversized"] * 90) + "."), ""),
+            (("One short summary.",), "One short summary."),
+            (("Same summary.", "Intermediate summary.", "Same summary."), "Same summary."),
+            (None, "An intermediate weekly report."),
+        ):
+            with self.subTest(weekly=weekly):
+                snapshot = dataclasses.replace(month, weekly_summaries=weekly)
+                chapter = generate_yearly_narrative.build_month_chapter(snapshot, 100)
+                if expected:
+                    self.assertIn(f"latest available weekly summary reported: {expected}", chapter)
+                else:
+                    self.assertNotIn("latest", chapter)
+                self.assertNotIn("emphasis had shifted", chapter)
+                self.assertNotIn("opened", chapter)
+                self.assertLessEqual(generate_yearly_narrative.word_count(chapter), 100)
+
+    def test_month_loader_preserves_repeated_weekly_endpoints_and_synthesis_fallback(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            content_root = base / "content"
+            content_root.mkdir()
+            monthly_path = content_root / "06.md"
+            analyzed = base / "data" / "analyzed"
+            analyzed.mkdir(parents=True)
+            synthesis = analyzed / "2026-06-month-synthesis.md"
+            synthesis.write_text("Monthly synthesis context. Another monthly sentence.\n")
+            for summaries in (
+                ("Repeated endpoint.", "Intermediate report.", "Repeated endpoint."),
+                ("Single weekly summary.",),
+                (),
+            ):
+                with self.subTest(summaries=summaries):
+                    overview = "\n\n".join(
+                        f"### Week 2026-W{week}\n\n- Summary: {summary}"
+                        for week, summary in enumerate(summaries, 24)
+                    )
+                    monthly_path.write_text(
+                        "---\nyear: 2026\nmonth: 6\ndate: 2026-06-30\n"
+                        'summary: "Monthly synthesis context."\n---\n\n'
+                        "## Month Synthesis\n\nMonthly synthesis context.\n\n"
+                        f"## Month Overview\n\n{overview}\n"
+                    )
+                    snapshot = generate_yearly_narrative.load_month_snapshot_with_preference(
+                        monthly_path, content_root
+                    )
+                    self.assertEqual(snapshot.weekly_summaries, summaries)
+                    chapter = generate_yearly_narrative.build_month_chapter(snapshot, 100)
+                    if summaries:
+                        self.assertIn(
+                            f"latest available weekly summary reported: {summaries[-1]}", chapter
+                        )
+                    else:
+                        self.assertNotIn("latest", chapter)
 
     def test_generate_rollups_creates_monthly_and_yearly_pages(self) -> None:
         with temporary_workspace() as tmpdir:
@@ -721,7 +824,13 @@ The strongest thread was a shift from raw capability talk toward packaging, trus
             yearly = yearly_path.read_text(encoding="utf-8")
             self.assertIn("operating infrastructure with distribution consequences", yearly)
             self.assertNotIn(
-                "Fallback monthly summary that should not drive the yearly opening", yearly
+                "Fallback monthly summary that should not drive the yearly opening",
+                yearly.split("### May")[0],
+            )
+            self.assertIn(
+                "The latest available weekly summary reported: "
+                "Fallback monthly summary that should not drive the yearly opening.",
+                yearly,
             )
 
     def test_generate_rollups_replaces_placeholder_and_preserves_unknown_sections(self) -> None:

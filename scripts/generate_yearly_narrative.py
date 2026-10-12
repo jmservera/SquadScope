@@ -8,6 +8,10 @@ includes:
 - Meta description summaries (≤155 chars) extracted from narrative opening
 - Cross-links to each contributing monthly report
 - Structured frontmatter: months_covered, format, summary, categories
+
+Monthly chapters reserve summary space for the last available weekly source
+before selecting context. Monthly synthesis and budget-retained earlier reports
+are not chronological endpoints; prose does not infer a shift from their order.
 """
 
 from __future__ import annotations
@@ -110,6 +114,7 @@ class MonthSnapshot:
     gaps: tuple[str, ...]
     closing_reads: tuple[str, ...]
     synthesis_paragraphs: tuple[str, ...] = ()
+    weekly_summaries: tuple[str, ...] | None = None
 
     @property
     def month_name(self) -> str:
@@ -530,6 +535,7 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
             noise=noise,
             gaps=gaps,
             closing_reads=closing_reads,
+            weekly_summaries=tuple(weekly_summaries),
         )
 
     themes: list[str] = []
@@ -550,6 +556,9 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
         gaps=tuple(extract_labeled_values(sections.get("Key Takeaways", ""), "Gap to watch")),
         closing_reads=tuple(
             extract_labeled_values(sections.get("Key Takeaways", ""), "Closing read")
+        ),
+        weekly_summaries=tuple(
+            extract_labeled_values(sections.get("Month Overview", ""), "Summary")
         ),
     )
 
@@ -596,6 +605,7 @@ def load_month_snapshot_with_preference(path: Path, content_root: Path) -> Month
         gaps=snapshot.gaps,
         closing_reads=snapshot.closing_reads,
         synthesis_paragraphs=synthesis_paragraphs,
+        weekly_summaries=snapshot.weekly_summaries,
     )
 
 
@@ -927,24 +937,30 @@ def sentence_case(text: str) -> str:
 def build_month_chapter(month: MonthSnapshot, word_limit: int) -> str:
     paragraphs: list[str] = []
     style = (month.month - 1) % 4
-    summaries = complete_sentences(month.summaries, min(85, word_limit // 2))
-    if summaries:
+    summary_budget = min(85, word_limit // 2)
+    weekly_summaries = (
+        month.weekly_summaries if month.weekly_summaries is not None else month.summaries
+    )
+    # Preserve source chronology before budgeting; never promote a retained
+    # earlier sentence (or monthly synthesis) to the latest weekly report.
+    latest = (
+        complete_sentences([weekly_summaries[-1]], summary_budget)[:1] if weekly_summaries else []
+    )
+    remaining = summary_budget - sum(word_count(sentence) for sentence in latest)
+    context_summary = complete_sentences(month.summaries[:1], remaining)[:1]
+    opening_parts = []
+    if context_summary and context_summary != latest:
         opening_templates = (
-            f"{month.month_name} opened with a clear baseline: {{summary}}",
-            f"The first useful reading of {month.month_name} was direct: {{summary}}",
-            f"In {month.month_name}, the monthly record began here: {{summary}}",
-            f"{month.month_name}'s reports initially pointed to one conclusion: {{summary}}",
+            f"{month.month_name}'s reports supplied this context: {{summary}}",
+            f"The record for {month.month_name} supplied this context: {{summary}}",
+            f"In {month.month_name}, the monthly record noted: {{summary}}",
+            f"{month.month_name}'s available record pointed to this: {{summary}}",
         )
-        opening = opening_templates[style].format(summary=summaries[0])
-        if len(summaries) > 1:
-            transitions = (
-                "The final weekly report sharpened that picture:",
-                "By the latest weekly report, the emphasis had shifted:",
-                "The closing report changed the balance:",
-                "The last weekly read made the constraint clearer:",
-            )
-            opening += f" {transitions[style]} {summaries[-1]}"
-        paragraphs.append(opening)
+        opening_parts.append(opening_templates[style].format(summary=context_summary[0]))
+    if latest:
+        opening_parts.append(f"The latest available weekly summary reported: {latest[0]}")
+    if opening_parts:
+        paragraphs.append(" ".join(opening_parts))
 
     themes = short_labels(month.themes)
     context = ""
@@ -1013,7 +1029,7 @@ def build_month_chapter(month: MonthSnapshot, word_limit: int) -> str:
             if noise:
                 risk_parts.append(f"The period still carried noise from {noise_values}.")
             if gaps:
-                risk_parts.append(f"It closed with concrete gaps: {gap_values}")
+                risk_parts.append(f"The reports recorded concrete gaps: {gap_values}")
         risk = " ".join(risk_parts) + " The annual interpretation therefore remains provisional."
 
     opening = paragraphs[0] if paragraphs else ""
