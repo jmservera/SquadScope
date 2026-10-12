@@ -25,6 +25,7 @@ import sys
 import time
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
+from urllib.parse import quote
 
 PASSING_CONCLUSIONS = frozenset({"SUCCESS", "NEUTRAL", "SKIPPED"})
 
@@ -34,6 +35,17 @@ query($owner: String!, $name: String!, $number: Int!) {
     pullRequest(number: $number) {
       state
       headRefOid
+      reviews(last: 100) {
+        nodes { author { login } state submittedAt commit { oid } }
+      }
+      reviewRequests(first: 100) {
+        pageInfo { hasNextPage }
+        nodes { requestedReviewer { ... on Bot { login } ... on User { login } } }
+      }
+      reviewThreads(first: 100) {
+        pageInfo { hasNextPage }
+        nodes { isResolved }
+      }
       commits(last: 1) {
         nodes {
           commit {
@@ -272,6 +284,52 @@ def fetch_rollup(repo: str, number: int) -> dict:
     return payload
 
 
+def fetch_branch_head(repo: str, branch: str) -> str:
+    """Read the pushed ref independently of the eventually consistent PR view."""
+    payload = gh_json(["api", f"repos/{repo}/git/ref/heads/{quote(branch, safe='/')}"])
+    try:
+        return payload["object"]["sha"]
+    except (KeyError, TypeError) as exc:
+        raise ConfigurationError("unexpected branch ref response") from exc
+
+
+def pending_review_gates(payload: dict, head_sha: str) -> tuple[str, ...]:
+    """Require a submitted Copilot review on this head and resolved threads."""
+    try:
+        pr = payload["data"]["repository"]["pullRequest"]
+        reviews = [
+            review
+            for review in pr["reviews"]["nodes"]
+            if (review.get("author") or {}).get("login") == "copilot-pull-request-reviewer"
+            and (review.get("commit") or {}).get("oid") == head_sha
+        ]
+        latest = reviews[-1] if reviews else {}
+        requests = pr["reviewRequests"]
+        if requests["pageInfo"]["hasNextPage"]:
+            raise ConfigurationError("more than 100 review requests; refusing a partial set")
+        requested = any(
+            (entry.get("requestedReviewer") or {}).get("login") == "copilot-pull-request-reviewer"
+            for entry in requests["nodes"]
+        )
+        completed = (
+            latest.get("submittedAt")
+            and latest.get("state") in {"COMMENTED", "APPROVED"}
+            and not requested
+        )
+        threads = pr["reviewThreads"]
+        if threads["pageInfo"]["hasNextPage"]:
+            raise ConfigurationError("more than 100 review threads; refusing a partial set")
+        unresolved = sum(thread["isResolved"] is not True for thread in threads["nodes"])
+    except (KeyError, TypeError, AttributeError) as exc:
+        raise ConfigurationError("unexpected review gate response") from exc
+    pending = []
+    if not completed:
+        pending.append("completed Copilot review on expected head")
+    if unresolved:
+        pending.append(f"{unresolved} unresolved review thread(s)")
+    return tuple(pending)
+
+
 def wait_for_checks(
     *,
     required: list[RequiredCheck],
@@ -279,6 +337,10 @@ def wait_for_checks(
     fetch: Callable[[], dict],
     timeout: float,
     interval: float,
+    previous_head_sha: str | None = None,
+    fetch_ref: Callable[[], str] | None = None,
+    propagation_timeout: float = 120,
+    require_copilot_review: bool = False,
     clock: Callable[[], float] = time.monotonic,
     sleep: Callable[[float], None] = time.sleep,
     log: Callable[[str], None] = print,
@@ -287,24 +349,45 @@ def wait_for_checks(
         log("::error::No required status checks found for the base branch; refusing to merge.")
         return 2
 
-    deadline = clock() + timeout
+    started = clock()
+    deadline = started + timeout
+    acknowledged = False
     last_pending: tuple[str, ...] = ()
     while True:
         try:
-            pr_state, pr_head, contexts = parse_rollup(fetch())
+            payload = fetch()
+            pr_state, pr_head, contexts = parse_rollup(payload)
+            if pr_state == "OPEN" and fetch_ref is not None and fetch_ref() != head_sha:
+                log("::error::Pushed branch ref no longer matches the expected head.")
+                return 1
         except GhCommandError as exc:
             log(f"::warning::Could not read PR checks ({exc}); retrying.")
             pr_state, pr_head, contexts = "OPEN", head_sha, None
 
         if pr_state == "MERGED":
+            if pr_head != head_sha:
+                log("::error::Pull request merged with a different head than expected.")
+                return 1
             log("::notice::Pull request is already merged.")
             return 0
         if pr_state != "OPEN":
             log(f"::error::Pull request is {pr_state}; refusing to continue.")
             return 1
         if pr_head != head_sha:
-            log(f"::error::Pull request head moved to {pr_head}; expected {head_sha}.")
-            return 1
+            if (
+                not acknowledged
+                and previous_head_sha
+                and pr_head == previous_head_sha
+                and fetch_ref is not None
+                and clock() < min(deadline, started + propagation_timeout)
+            ):
+                last_pending = ("PR head propagation (pushed ref corroborated)",)
+                contexts = None
+            else:
+                log(f"::error::Pull request head moved to {pr_head}; expected {head_sha}.")
+                return 1
+        elif contexts is not None:
+            acknowledged = True
 
         if contexts is not None:
             result = evaluate(required, contexts)
@@ -314,9 +397,16 @@ def wait_for_checks(
                     log(f"  - {item}")
                 return 1
             if result.state == "passed":
-                log(f"All {len(result.passed)} required checks passed on {head_sha}.")
-                return 0
-            last_pending = result.pending
+                last_pending = (
+                    pending_review_gates(payload, head_sha) if require_copilot_review else ()
+                )
+                if not last_pending:
+                    log(
+                        f"All {len(result.passed)} required checks and review gates passed on {head_sha}."
+                    )
+                    return 0
+            else:
+                last_pending = result.pending
 
         if clock() >= deadline:
             log(f"::error::Timed out after {int(timeout)}s waiting for required checks:")
@@ -325,7 +415,7 @@ def wait_for_checks(
             return 1
         if last_pending:
             log(f"Waiting for {len(last_pending)} required check(s): " + "; ".join(last_pending))
-        sleep(interval)
+        sleep(min(interval, max(0, deadline - clock())))
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -336,10 +426,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--base", default="main", help="base branch whose rules apply")
     parser.add_argument("--timeout", type=float, default=2700.0, help="seconds to wait")
     parser.add_argument("--interval", type=float, default=20.0, help="seconds between polls")
+    parser.add_argument("--previous-head-sha", default="")
+    parser.add_argument("--head-branch", default="")
+    parser.add_argument("--propagation-timeout", type=float, default=120)
+    parser.add_argument("--require-copilot-review", action="store_true")
     args = parser.parse_args(argv)
 
     if "/" not in args.repo:
         print("::error::--repo must be owner/name", file=sys.stderr)
+        return 2
+    if args.timeout <= 0 or args.interval <= 0 or args.propagation_timeout <= 0:
+        print("::error::Wait durations must be positive.", file=sys.stderr)
+        return 2
+    if args.previous_head_sha and not args.head_branch:
+        print("::error::--previous-head-sha requires --head-branch.", file=sys.stderr)
         return 2
 
     try:
@@ -351,6 +451,14 @@ def main(argv: list[str] | None = None) -> int:
             fetch=lambda: fetch_rollup(args.repo, args.pr),
             timeout=args.timeout,
             interval=args.interval,
+            previous_head_sha=args.previous_head_sha,
+            fetch_ref=(
+                (lambda: fetch_branch_head(args.repo, args.head_branch))
+                if args.head_branch
+                else None
+            ),
+            propagation_timeout=args.propagation_timeout,
+            require_copilot_review=args.require_copilot_review,
         )
     except (ConfigurationError, GhCommandError) as exc:
         print(f"::error::{exc}", file=sys.stderr)

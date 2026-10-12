@@ -653,12 +653,166 @@ class PodcastDispatchStateTests(unittest.TestCase):
             "secret",
             fetch=fetch,
             monotonic=lambda: clock[0],
-            wall_time=lambda: accepted_at.timestamp() + 3470,
+            wall_time=lambda: accepted_at.timestamp() + state.EVIDENCE_DEADLINE_SECONDS - 10,
             sleep=lambda seconds: clock.__setitem__(0, clock[0] + seconds),
         )
         self.assertEqual(timeouts, [10])
         self.assertEqual((result.stage, result.state), ("synthesis", "timeout"))
         self.assertEqual(result.cleanup_budget_seconds, 120)
+
+    def test_preflight_requires_safe_status_configuration_without_network_or_secrets(self) -> None:
+        for endpoint in (
+            "",
+            "relative/status",
+            "http://remote.invalid/status",
+            "https://user:secret@example.invalid/status",
+            "https://example.invalid/status#secret",
+            "https://example.invalid:invalid/status",
+            "https://example.invalid/\nsecret",
+        ):
+            with (
+                mock.patch.dict(state.os.environ, {"PODCASTER_STATUS_ENDPOINT": endpoint}),
+                mock.patch.object(state.request, "urlopen") as urlopen,
+                mock.patch("builtins.print") as output,
+            ):
+                self.assertEqual(state.main(["validate-status-endpoint"]), 1)
+            urlopen.assert_not_called()
+            self.assertNotIn("secret", str(output.call_args_list))
+        for endpoint in ("https://example.invalid/api/status", "http://localhost:8000/status"):
+            state.validate_status_endpoint(endpoint)
+
+    def test_w41_trace_and_supported_video_budget_fit_real_pipeline_budget(self) -> None:
+        # W41 acceptance 14:58:05 -> completion 16:18:21 (80m16s).
+        for completion in (4816, 5400):
+            accepted_at = datetime(2026, 10, 5, 14, 58, 5, tzinfo=UTC)
+            receipt = state.DispatchReceipt(
+                **{**self.receipt().__dict__, "created_at": accepted_at.isoformat()}
+            )
+            clock = [0.0]
+
+            def fetch(*args):
+                if clock[0] >= completion:
+                    return self.terminal(synthesis="succeeded")
+                return self.terminal(video="pending", provider="pending", verified=False)
+
+            result = state.monitor_terminal_outcome(
+                receipt,
+                "https://example.invalid/status",
+                "secret",
+                fetch=fetch,
+                monotonic=lambda: clock[0],
+                wall_time=lambda: accepted_at.timestamp() + clock[0],
+                sleep=lambda seconds: clock.__setitem__(0, clock[0] + seconds),
+            )
+            self.assertTrue(result.success)
+            self.assertGreater(result.cleanup_budget_seconds, 120)
+
+    def test_w42_unlisted_youtube_and_published_spotify_status_contract(self) -> None:
+        payload = {
+            "schema_version": state.STATUS_SCHEMA_VERSION_V1,
+            "identity": self.identity.as_dict(),
+            "job_id": "job-1",
+            "correlation_id": "correlation-1",
+            "synthesis": {"state": "succeeded"},
+            "video": {"state": "succeeded"},
+            "provider": {
+                "state": "published",
+                "external_verified": True,
+                "youtube": {
+                    "video_id": "_ZD9E_zTjtM",
+                    "processing_status": "succeeded",
+                    "privacy_status": "unlisted",
+                },
+                "spotify": {"episode_id": "1TnRX8AhzPnfdM7CE9W8jc", "state": "published"},
+            },
+        }
+        response = mock.MagicMock()
+        response.__enter__.return_value.status = 200
+        response.__enter__.return_value.read.return_value = json.dumps(payload).encode()
+        with mock.patch.object(state.request, "urlopen", return_value=response) as urlopen:
+            terminal = state.fetch_terminal_status(
+                "https://example.invalid/api/status",
+                "protected-api-key",
+                self.identity,
+                "job-1",
+                "correlation-1",
+                10,
+            )
+        req = urlopen.call_args.args[0]
+        self.assertEqual(req.get_header("X-podcaster-api-key"), "protected-api-key")
+        self.assertEqual(
+            state.parse.parse_qs(state.parse.urlparse(req.full_url).query),
+            {
+                key: [value]
+                for key, value in {
+                    **self.identity.as_dict(),
+                    "job_id": "job-1",
+                    "correlation_id": "correlation-1",
+                }.items()
+            },
+        )
+        self.assertTrue(state.evaluate_terminal_status(terminal).success)
+
+    def test_real_deadline_exhaustion_preserves_cleanup_and_is_not_success(self) -> None:
+        self.assertEqual(state.EVIDENCE_DEADLINE_SECONDS, 7800)
+        self.assertEqual(state.TOTAL_MONITOR_BUDGET_SECONDS, 7920)
+        accepted_at = datetime(2026, 10, 5, 14, 58, 5, tzinfo=UTC)
+        receipt = state.DispatchReceipt(
+            **{**self.receipt().__dict__, "created_at": accepted_at.isoformat()}
+        )
+        clock = [0.0]
+        result = state.monitor_terminal_outcome(
+            receipt,
+            "https://example.invalid/status",
+            "secret",
+            fetch=lambda *args: self.terminal(video="pending", provider="pending", verified=False),
+            monotonic=lambda: clock[0],
+            wall_time=lambda: accepted_at.timestamp() + clock[0],
+            sleep=lambda seconds: clock.__setitem__(0, clock[0] + seconds),
+        )
+        self.assertEqual(clock[0], 7800)
+        self.assertEqual((result.success, result.stage, result.state), (False, "video", "timeout"))
+        self.assertEqual(result.cleanup_budget_seconds, 120)
+
+    def test_delayed_approval_does_not_consume_acceptance_relative_budget(self) -> None:
+        accepted_at = datetime(2026, 10, 12, 18, 0, tzinfo=UTC)
+        receipt = state.DispatchReceipt(
+            **{**self.receipt().__dict__, "created_at": accepted_at.isoformat()}
+        )
+        result = state.monitor_terminal_outcome(
+            receipt,
+            "https://example.invalid/status",
+            "secret",
+            fetch=lambda *args: self.terminal(),
+            monotonic=lambda: 100000,
+            wall_time=lambda: accepted_at.timestamp(),
+        )
+        self.assertTrue(result.success)
+        self.assertEqual(result.cleanup_budget_seconds, 7920)
+
+    def test_success_response_after_deadline_cannot_turn_timeout_green(self) -> None:
+        accepted_at = datetime(2026, 10, 12, 18, 0, tzinfo=UTC)
+        receipt = state.DispatchReceipt(
+            **{**self.receipt().__dict__, "created_at": accepted_at.isoformat()}
+        )
+        clock = [0.0]
+
+        def fetch(*args):
+            clock[0] += args[-1]
+            return self.terminal()
+
+        result = state.monitor_terminal_outcome(
+            receipt,
+            "https://example.invalid/status",
+            "secret",
+            fetch=fetch,
+            monotonic=lambda: clock[0],
+            wall_time=lambda: accepted_at.timestamp() + 7795,
+        )
+        self.assertFalse(result.success)
+        self.assertEqual(result.state, "timeout")
+        self.assertEqual(result.cleanup_budget_seconds, 120)
+        self.assertIsNone(result.terminal_status)
 
     def test_monitor_restart_reconstructs_latency_warning_from_accepted_time(self) -> None:
         accepted_at = datetime(2026, 9, 21, 20, 0, tzinfo=UTC)

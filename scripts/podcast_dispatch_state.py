@@ -38,8 +38,10 @@ RECEIPT_STATES = frozenset(
 )
 BLOCKING_STATES = frozenset({"handoff_entered", "accepted", "submission_unknown"})
 RETRYABLE_STATES = frozenset({"attempt_prepared", "pre_submit_failed", "observation_only"})
-EVIDENCE_DEADLINE_SECONDS = 3480
-TOTAL_MONITOR_BUDGET_SECONDS = 3600
+# Deployed synthesis/video replica limits are 30/90 minutes. Allow ten
+# additional minutes for queue pickup/startup, then reserve incident cleanup.
+EVIDENCE_DEADLINE_SECONDS = 600 + 1800 + 5400
+TOTAL_MONITOR_BUDGET_SECONDS = EVIDENCE_DEADLINE_SECONDS + 120
 POLL_INTERVAL_SECONDS = 30
 REQUEST_TIMEOUT_SECONDS = 10
 MAX_CONSECUTIVE_ERRORS = 5
@@ -621,20 +623,33 @@ def has_prior_non_green_attempt(
     return False
 
 
-def fetch_terminal_status(
-    endpoint: str,
-    token: str,
-    identity: CanonicalPublicationIdentity,
-    job_id: str,
-    correlation_id: str,
-    timeout: float,
-) -> TerminalStatus:
-    parsed_endpoint = parse.urlparse(endpoint)
-    if parsed_endpoint.scheme not in {"https", "http"} or not parsed_endpoint.netloc:
+def validate_status_endpoint(endpoint: str) -> None:
+    """Validate status configuration without emitting URLs or sending credentials."""
+    if not endpoint:
         raise TerminalEvidenceError(
             "status_contract",
             "invalid_configuration",
-            "PODCASTER_STATUS_ENDPOINT must be an absolute HTTP(S) URL",
+            "Requires PODCASTER_STATUS_ENDPOINT for podcast_publication_status_v1 before generation",
+        )
+    try:
+        parsed_endpoint = parse.urlparse(endpoint)
+        valid = (
+            endpoint == endpoint.strip()
+            and not any(character.isspace() for character in endpoint)
+            and parsed_endpoint.scheme in {"https", "http"}
+            and bool(parsed_endpoint.hostname)
+            and parsed_endpoint.username is None
+            and parsed_endpoint.password is None
+            and not parsed_endpoint.fragment
+        )
+        parsed_endpoint.port
+    except ValueError:
+        valid = False
+    if not valid:
+        raise TerminalEvidenceError(
+            "status_contract",
+            "invalid_configuration",
+            "PODCASTER_STATUS_ENDPOINT must be an absolute HTTP(S) URL without credentials or fragment",
         )
     if parsed_endpoint.scheme == "http" and parsed_endpoint.hostname not in {
         "localhost",
@@ -646,6 +661,17 @@ def fetch_terminal_status(
             "invalid_configuration",
             "PODCASTER_STATUS_ENDPOINT may use HTTP only for loopback addresses",
         )
+
+
+def fetch_terminal_status(
+    endpoint: str,
+    token: str,
+    identity: CanonicalPublicationIdentity,
+    job_id: str,
+    correlation_id: str,
+    timeout: float,
+) -> TerminalStatus:
+    validate_status_endpoint(endpoint)
     query = parse.urlencode(
         {
             **identity.as_dict(),
@@ -715,7 +741,7 @@ def monitor_terminal_outcome(
         if remaining <= 0:
             break
         try:
-            latest = fetch(
+            observed = fetch(
                 endpoint,
                 token,
                 receipt.identity,
@@ -750,6 +776,9 @@ def monitor_terminal_outcome(
                     latest,
                 )
         else:
+            if accepted_elapsed_at_start + (monotonic() - started) >= evidence_deadline:
+                break
+            latest = observed
             if latest.synthesis_state in {"started", "succeeded"} and synthesis_latency is None:
                 synthesis_latency = max(0, int(wall_time() - accepted_at))
             result = evaluate_terminal_status(latest)
@@ -1039,6 +1068,7 @@ def _add_identity_args(parser: argparse.ArgumentParser) -> None:
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers.add_parser("validate-status-endpoint")
     writer = subparsers.add_parser("write-receipt")
     _add_identity_args(writer)
     writer.add_argument("--state", required=True, choices=sorted(RECEIPT_STATES))
@@ -1078,6 +1108,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.command == "validate-status-endpoint":
+        try:
+            validate_status_endpoint(os.environ.get("PODCASTER_STATUS_ENDPOINT", ""))
+        except TerminalEvidenceError as exc:
+            print(f"::error::{exc}")
+            return 1
+        print("Status endpoint configuration validated for podcast_publication_status_v1.")
+        return 0
     if args.command == "write-receipt":
         receipt = _build_receipt(args)
         args.output.write_text(serialize_receipt(receipt) + "\n", encoding="utf-8")

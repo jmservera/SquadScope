@@ -2,7 +2,8 @@
 
 The `Sync publish data to main` workflow (`.github/workflows/sync-publish-to-main.yml`)
 pushes the `sync/publish-to-main` branch and opens the weekly sync PR with a GitHub App
-installation token. It then waits for the ruleset's required checks and squash-merges the PR
+installation token. It then waits for the ruleset's required checks, a completed
+Copilot review on the exact pushed head, and zero unresolved review threads, and squash-merges the PR
 with `GITHUB_TOKEN`. When the merge succeeds, the run succeeds, and `Auto-dispatch podcast after
 weekly article` starts from that run as before.
 
@@ -98,6 +99,21 @@ jmservera/SquadScope#828 as `app/squadscope-pr-app`, waited for the required che
 it. The podcast auto-dispatch dedup then skipped W41, which already had an episode.
 
 ## Operations
+
+- **Head propagation:** for an updated existing PR, the waiter allows at most
+  120 seconds for the PR API to acknowledge the pushed head, only while it still
+  reports the recorded predecessor and the independent branch ref equals the
+  expected head. Predecessor checks never count. An unexpected replacement,
+  moved branch ref, regression after acknowledgement, or persistent mismatch
+  fails the workflow rather than masking the failed sync.
+- **Copilot review:** pending, absent, dismissed, or old-head reviews cannot
+  satisfy the gate. Re-requested review and unresolved threads also block it.
+  Review gates are read again before every bounded merge attempt, which still
+  uses `--match-head-commit`. Request Copilot review through the PR's Reviewers
+  control if repository automation did not start it; never fabricate a human
+  review or bypass ruleset checks.
+- **Podcast readiness:** see [terminal monitor operations](podcast-terminal-monitor.md)
+  for status endpoint preflight and the acceptance-relative pipeline budget.
 
 - **Key rotation:** generate a new private key, update `PUBLISH_SYNC_APP_PRIVATE_KEY`, then
   delete the old key from the App.

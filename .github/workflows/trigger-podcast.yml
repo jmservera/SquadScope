@@ -132,6 +132,7 @@ jobs:
         id: handoff
         env:
           PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_STATUS_ENDPOINT: ${{ vars.PODCASTER_STATUS_ENDPOINT }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
           WEEK: ${{ inputs.week }}
           ARTICLE_URL: ${{ steps.derive.outputs.article_url }}
@@ -146,6 +147,7 @@ jobs:
             echo "::error::Requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
             exit 1
           fi
+          python3 scripts/podcast_dispatch_state.py validate-status-endpoint
           if [ ! -f "$ARTICLE_PATH" ]; then
             echo "::error::Article '$ARTICLE_PATH' is not merged on the default branch."
             exit 1
