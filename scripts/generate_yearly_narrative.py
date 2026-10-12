@@ -939,7 +939,7 @@ def build_month_chapter(month: MonthSnapshot, word_limit: int) -> str:
         if len(summaries) > 1:
             transitions = (
                 "The final weekly report sharpened that picture:",
-                "By month end, the emphasis had shifted:",
+                "By the latest weekly report, the emphasis had shifted:",
                 "The closing report changed the balance:",
                 "The last weekly read made the constraint clearer:",
             )

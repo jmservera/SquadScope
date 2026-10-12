@@ -8,6 +8,9 @@ artifact with:
   Trend Arc (persistent/accelerating/weakening theme bullets), Prediction Review
 - Summary field (≤28 words) suitable for SEO meta descriptions
 - Source checksum for idempotent regeneration (skips if input unchanged)
+
+Themes count each tag once per week, ranked by descending count then tag name.
+Increment SYNTHESIS_VERSION when rendering changes to invalidate cached artifacts.
 """
 
 import hashlib
@@ -37,7 +40,7 @@ MONTH_NAMES = {
 
 SECTION_PATTERN = re.compile(r"(?m)^##\s+(.+?)\s*$")
 WORD_PATTERN = re.compile(r"\S+")
-SYNTHESIS_VERSION = 8
+SYNTHESIS_VERSION = 9
 PRIOR_MONTH_CONTEXT_LIMIT = 3
 
 
@@ -252,14 +255,14 @@ def write_month_synthesis_pack(pack: str, analyzed_dir: Path, year: int, month: 
 def _theme_trajectory(
     items: list[Any],
 ) -> tuple[list[str], list[str], list[str], list[str], list[str]]:
-    tag_counts = Counter(tag for item in items for tag in set(item.tags))
+    tag_counts = Counter(tag for item in items for tag in sorted(set(item.tags)))
+    ordered_themes = sorted(tag_counts, key=lambda tag: (-tag_counts[tag], tag))[:5]
     weeks_per_tag: dict[str, list[int]] = {}
     if len(items) == 1:
-        ordered_themes = [tag for tag, _ in tag_counts.most_common(5)]
         return ordered_themes, [], [], [], []
     midpoint = max(1, len(items) // 2)
     for index, item in enumerate(items):
-        for tag in set(item.tags):
+        for tag in sorted(set(item.tags)):
             weeks_per_tag.setdefault(tag, []).append(index)
 
     persistent: list[str] = []
@@ -283,7 +286,6 @@ def _theme_trajectory(
         ):
             accelerating.append(tag)
 
-    ordered_themes = [tag for tag, _ in tag_counts.most_common(5)]
     persistent.sort(key=lambda tag: (-tag_counts[tag], tag))
     accelerating.sort(key=lambda tag: (-tag_counts[tag], tag))
     weakening.sort(key=lambda tag: (-tag_counts[tag], tag))

@@ -1,6 +1,9 @@
 import dataclasses
 import io
 import json
+import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from datetime import UTC, datetime
@@ -87,6 +90,29 @@ def temporary_workspace() -> tempfile.TemporaryDirectory[str]:
 
 
 class GenerateRollupsTests(unittest.TestCase):
+    def test_october_chapter_does_not_claim_the_month_has_ended(self) -> None:
+        month = generate_yearly_narrative.MonthSnapshot(
+            path=Path("2026-10.md"),
+            year=2026,
+            month=10,
+            title="October 2026",
+            date="2026-10-12",
+            summaries=("Agents led the opening report.", "Local tools gained attention."),
+            themes=(),
+            signals=(),
+            noise=(),
+            gaps=(),
+            closing_reads=(),
+        )
+
+        chapter = generate_yearly_narrative.build_month_chapter(month, 300)
+
+        self.assertNotIn("By month end", chapter)
+        self.assertIn(
+            "By the latest weekly report, the emphasis had shifted: Local tools gained attention.",
+            chapter,
+        )
+
     def test_generate_rollups_creates_monthly_and_yearly_pages(self) -> None:
         with temporary_workspace() as tmpdir:
             base = Path(tmpdir)
@@ -987,6 +1013,112 @@ class GenerateMonthlyTitleTests(unittest.TestCase):
 
         self.assertEqual(title, "Developer Tooling And Cloud Infrastructure: Top Theme — May 2026")
         self.assertLessEqual(len(title), 70)
+
+
+class MonthSynthesisDeterminismTests(unittest.TestCase):
+    def test_theme_counts_dedupe_each_week_and_break_ties_alphabetically(self) -> None:
+        items = [
+            SimpleNamespace(tags=("zeta", "zeta", "beta", "alpha")),
+            SimpleNamespace(tags=("zeta", "beta", "gamma")),
+            SimpleNamespace(tags=("beta", "delta", "gamma")),
+            SimpleNamespace(tags=("beta", "delta", "epsilon")),
+        ]
+
+        self.assertEqual(
+            month_synthesis._theme_trajectory(items),
+            (
+                ["beta", "delta", "gamma", "zeta", "alpha"],
+                ["beta", "delta", "gamma", "zeta"],
+                ["beta", "gamma"],
+                ["zeta", "alpha"],
+                ["delta", "epsilon"],
+            ),
+        )
+        self.assertEqual(
+            month_synthesis._theme_trajectory([items[0]]),
+            (["alpha", "beta", "zeta"], [], [], [], []),
+        )
+
+    def test_rendered_synthesis_is_identical_across_hash_seeds(self) -> None:
+        with temporary_workspace() as tmpdir:
+            analyzed_dir = Path(tmpdir)
+            for week, date, tags in (
+                ("2026-W40", "2026-10-02", ("zeta", "beta", "alpha", "gamma", "delta", "eta")),
+                ("2026-W41", "2026-10-09", ("zeta", "beta", "alpha", "gamma", "delta", "eta")),
+            ):
+                (analyzed_dir / f"{week}-summary.md").write_text(
+                    make_summary(
+                        week=week,
+                        date=f"{date}T12:00:00+00:00",
+                        tags=tags,
+                        top_repo="octo/tool",
+                        summary="Operational tools led the week.",
+                        signal="Bounded automation remained useful.",
+                        noise="Discovery noise persisted.",
+                        gaps="Permission controls remained missing.",
+                        conclusion="Watch measured adoption.",
+                    ),
+                    encoding="utf-8",
+                )
+            script = """
+import json
+import sys
+from pathlib import Path
+from scripts.generate_rollups import load_weekly_summaries
+from scripts.month_synthesis import render_month_synthesis, synthesize_month
+items = load_weekly_summaries(Path(sys.argv[1]))
+print(json.dumps([
+    render_month_synthesis(synthesize_month(items[:1], Path("data/analyzed"))),
+    render_month_synthesis(synthesize_month(items, Path("data/analyzed"))),
+]))
+"""
+            outputs = [
+                subprocess.run(
+                    [sys.executable, "-c", script, str(analyzed_dir)],
+                    env={**os.environ, "PYTHONHASHSEED": str(seed)},
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout
+                for seed in (1, 2, 7, 42, 101)
+            ]
+            self.assertEqual(len(set(outputs)), 1)
+            for rendered in json.loads(outputs[0]):
+                frontmatter, _ = generate_rollups.analysis_gate.extract_frontmatter(rendered)
+                self.assertEqual(frontmatter["themes"], ["alpha", "beta", "delta", "eta", "gamma"])
+
+    def test_new_synthesis_version_invalidates_cached_output(self) -> None:
+        with temporary_workspace() as tmpdir:
+            analyzed_dir = Path(tmpdir)
+            path = analyzed_dir / "2026-W40-summary.md"
+            path.write_text(
+                make_summary(
+                    week="2026-W40",
+                    date="2026-10-02T12:00:00+00:00",
+                    tags=("zeta", "beta", "alpha"),
+                    top_repo="octo/tool",
+                    summary="Operational tools led the week.",
+                    signal="Bounded automation remained useful.",
+                    noise="Discovery noise persisted.",
+                    gaps="Permission controls remained missing.",
+                    conclusion="Watch measured adoption.",
+                ),
+                encoding="utf-8",
+            )
+            items = [generate_rollups.load_summary(path)]
+            with mock.patch.object(
+                month_synthesis, "SYNTHESIS_VERSION", month_synthesis.SYNTHESIS_VERSION - 1
+            ):
+                cached = month_synthesis.ensure_month_synthesis(items, analyzed_dir)
+            stale = dataclasses.replace(cached, themes=("zeta", "beta", "alpha"))
+            month_synthesis.write_month_synthesis(stale)
+
+            refreshed = month_synthesis.ensure_month_synthesis(items, analyzed_dir)
+
+            self.assertNotEqual(refreshed.source_checksum, cached.source_checksum)
+            self.assertEqual(refreshed.themes, ("alpha", "beta", "zeta"))
+            self.assertEqual(month_synthesis.load_month_synthesis(refreshed.path), refreshed)
+            self.assertEqual(month_synthesis.ensure_month_synthesis(items, analyzed_dir), refreshed)
 
 
 class MonthSynthesisTrimWordsTests(unittest.TestCase):
