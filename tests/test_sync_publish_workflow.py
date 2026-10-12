@@ -122,6 +122,19 @@ def _step(name: str) -> dict:
     return next(step for step in _sync_steps() if step.get("name") == name)
 
 
+def test_sync_merge_requires_corroborated_propagation_and_latest_head_review():
+    push = _step("Push sync branch and open PR as the App")
+    wait = _step("Wait for required checks and merge")
+    assert push["run"].index("PREVIOUS_HEAD_SHA=$(gh pr view") < push["run"].index("push --force")
+    assert "previous_head_sha=" in push["run"]
+    assert "--previous-head-sha" in wait["run"]
+    assert "--head-branch sync/publish-to-main" in wait["run"]
+    assert wait["run"].count("--require-copilot-review") == 2
+    assert "--match-head-commit" in wait["run"]
+    assert "set -euo pipefail" in wait["run"]
+    assert "|| true" not in wait["run"]
+
+
 def test_publish_sync_pushes_and_opens_pr_with_github_app_token() -> None:
     """jmservera/SquadScope#826: GITHUB_TOKEN-authored PR runs need approval and
     dispatched suites never count, so the App must push and open the PR."""

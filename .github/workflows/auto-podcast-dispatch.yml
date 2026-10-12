@@ -429,12 +429,15 @@ jobs:
       - name: Validate Podcaster configuration
         env:
           PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_STATUS_ENDPOINT: ${{ vars.PODCASTER_STATUS_ENDPOINT }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
         run: |
+          set -euo pipefail
           if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
             echo "::error::Requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
             exit 1
           fi
+          python3 scripts/podcast_dispatch_state.py validate-status-endpoint
 
       - name: Prepare mutation receipt
         id: prepare-receipt
@@ -680,7 +683,8 @@ jobs:
        (needs.detect.outputs.eligible == 'true' &&
         needs.real-generation.result != 'skipped'))
     runs-on: ubuntu-latest
-    timeout-minutes: 61
+    # 130m acceptance-relative evidence + 2m cleanup + 3m setup/ledger allowance.
+    timeout-minutes: 135
     permissions:
       actions: read
       contents: read

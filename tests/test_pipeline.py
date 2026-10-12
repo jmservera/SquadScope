@@ -1539,6 +1539,7 @@ class WorkflowConfigTests(unittest.TestCase):
         steps = real_generation["steps"]
         positions = {step.get("name"): index for index, step in enumerate(steps)}
         ordered = [
+            "Validate Podcaster configuration",
             "Prepare mutation receipt",
             "Persist prepared receipt",
             "Mirror prepared receipt",
@@ -1573,7 +1574,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("needs.detect.outputs.dedup_status == 'duplicate'", reconcile["if"])
         self.assertIn("needs.real-generation.result != 'skipped'", reconcile["if"])
         self.assertNotIn("outputs.handoff_entered", reconcile["if"])
-        self.assertEqual(reconcile["timeout-minutes"], 61)
+        self.assertEqual(reconcile["timeout-minutes"], 135)
+        self.assertLess(reconcile["timeout-minutes"], 360)
+        configuration = steps[positions["Validate Podcaster configuration"]]
+        self.assertIn("PODCASTER_STATUS_ENDPOINT", configuration["env"])
+        self.assertIn("validate-status-endpoint", configuration["run"])
+        self.assertNotIn("continue-on-error", configuration)
         self.assertEqual(reconcile["permissions"]["issues"], "write")
         reconcile_positions = {
             step.get("name"): index for index, step in enumerate(reconcile["steps"])
