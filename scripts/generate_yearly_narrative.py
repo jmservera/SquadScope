@@ -1037,14 +1037,16 @@ def build_month_chapter(month: MonthSnapshot, word_limit: int) -> str:
         paragraphs = [opening, " ".join(part for part in (context, evidence) if part), risk]
     elif style == 1:
         paragraphs = [
-            " ".join(part for part in (opening, risk) if part),
+            opening,
+            risk,
             " ".join(part for part in (evidence, context) if part),
         ]
     elif style == 2:
         paragraphs = [opening, evidence, " ".join(part for part in (context, risk) if part)]
     else:
         paragraphs = [
-            " ".join(part for part in (opening, evidence) if part),
+            opening,
+            evidence,
             " ".join(part for part in (context, risk) if part),
         ]
     paragraphs = [paragraph for paragraph in paragraphs if paragraph]

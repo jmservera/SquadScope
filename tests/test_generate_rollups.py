@@ -178,6 +178,30 @@ class GenerateRollupsTests(unittest.TestCase):
                 self.assertNotIn("opened", chapter)
                 self.assertLessEqual(generate_yearly_narrative.word_count(chapter), 100)
 
+    def test_yearly_endpoint_survives_risk_and_evidence_paragraph_budgets(self) -> None:
+        latest = " ".join(["Latest"] * 19) + " summary."
+        detail = " ".join(["Supporting"] * 14) + " detail."
+        for month_number in range(5, 13):
+            with self.subTest(month=month_number):
+                month = generate_yearly_narrative.MonthSnapshot(
+                    path=Path(f"2026-{month_number:02d}.md"),
+                    year=2026,
+                    month=month_number,
+                    title="Monthly report",
+                    date="2026-10-12",
+                    summaries=("Monthly context.", latest),
+                    themes=("agent tooling",),
+                    signals=(detail,),
+                    noise=("discovery spam",),
+                    gaps=(detail,),
+                    closing_reads=(),
+                )
+
+                chapter = generate_yearly_narrative.build_month_chapter(month, 45)
+
+                self.assertIn(f"latest available weekly summary reported: {latest}", chapter)
+                self.assertLessEqual(generate_yearly_narrative.word_count(chapter), 45)
+
     def test_month_loader_preserves_repeated_weekly_endpoints_and_synthesis_fallback(self) -> None:
         with temporary_workspace() as tmpdir:
             base = Path(tmpdir)
