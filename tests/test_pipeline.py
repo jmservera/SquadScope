@@ -1282,12 +1282,13 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIsNotNone(setup_python)
         self.assertEqual(setup_python["with"]["python-version"], "3.12")
+        self.assertEqual(setup_python["with"]["cache-dependency-path"], "requirements.lock")
         install = next(
             (s for s in sync_job["steps"] if s.get("name") == "Install Python dependencies"),
             None,
         )
         self.assertIsNotNone(install)
-        self.assertEqual(install["run"], "pip install -r requirements.txt")
+        self.assertEqual(install["run"], "python -m pip install -r requirements.lock")
 
         sync_step = next(
             (s for s in sync_job["steps"] if s.get("name") == "Sync data from publish"), None

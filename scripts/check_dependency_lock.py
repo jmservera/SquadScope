@@ -66,7 +66,7 @@ def main() -> None:
             str(lock),
         ],
         check=True,
-        capture_output=True,
+        stdout=subprocess.PIPE,
         text=True,
     )
     check_report(pins, json.loads(result.stdout))

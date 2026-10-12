@@ -115,7 +115,8 @@ it. The podcast auto-dispatch dedup then skipped W41, which already had an episo
   rejects missing, extra, or changed packages. Conflicting requirements also fail.
   A new release on PyPI alone must not invalidate a reviewed lock or block publishing.
   Dependency upgrades are separate reviewed changes to the lock, not part of the
-  weekly generated-data sync. Keep the dependency audit and required checks enabled.
+  weekly generated-data sync. The sync installs that same lock and keys its pip
+  cache on it. Keep the dependency audit and required checks enabled.
   After the fix is reviewed and merged, rerun `sync-publish-to-main.yml`; inspect
   its resulting auto-dispatch before manually triggering a podcast. If manual
   recovery is necessary, use `trigger-podcast.yml` with the original crawl run ID
