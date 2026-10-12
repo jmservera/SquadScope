@@ -46,7 +46,7 @@ jobs:
           python -m pip install -r requirements.lock pytest pip-audit
 
       - name: Audit Python dependencies
-        run: python -m pip_audit -r requirements.txt
+        run: python -m pip_audit --strict --disable-pip --no-deps -r requirements.lock
 
       - name: Run Python tests
         run: |

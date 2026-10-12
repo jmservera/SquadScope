@@ -42,12 +42,12 @@ def check_report(pins: dict[str, str], report: dict) -> None:
         raise ValueError("Incomplete or incompatible lock: " + ", ".join(differences))
 
 
-def main() -> None:
-    root = Path(__file__).resolve().parents[1]
-    lock = root / "requirements.lock"
+def validate_lock(requirements: Path, lock: Path) -> int:
+    """Resolve only requirement roots under lock constraints and verify exact closure."""
     pins = read_pins(lock)
     # stdout is JSON only; pip progress stays on stderr, and no report file or
-    # download URL is exposed. Both inputs force pip to verify compatibility.
+    # download URL is exposed. Constraints pin dependencies without adding roots,
+    # so an unrelated lock entry cannot make itself part of the resolved closure.
     result = subprocess.run(  # nosec B603 - fixed argv and repository-owned paths, no shell
         [
             sys.executable,
@@ -61,8 +61,8 @@ def main() -> None:
             "--report",
             "-",
             "-r",
-            str(root / "requirements.txt"),
-            "-r",
+            str(requirements),
+            "-c",
             str(lock),
         ],
         check=True,
@@ -70,7 +70,13 @@ def main() -> None:
         text=True,
     )
     check_report(pins, json.loads(result.stdout))
-    print(f"Verified {len(pins)} compatible exact dependency pins.")
+    return len(pins)
+
+
+def main() -> None:
+    root = Path(__file__).resolve().parents[1]
+    count = validate_lock(root / "requirements.txt", root / "requirements.lock")
+    print(f"Verified {count} compatible exact dependency pins.")
 
 
 if __name__ == "__main__":

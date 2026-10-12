@@ -111,12 +111,15 @@ it. The podcast auto-dispatch dedup then skipped W41, which already had an episo
 
 - **`Lockfile` blocks a weekly sync:** run `python3 scripts/check_dependency_lock.py`
   from a clean checkout with Python 3.12. The gate asks pip to resolve
-  `requirements.txt` together with every exact pin in `requirements.lock`, then
-  rejects missing, extra, or changed packages. Conflicting requirements also fail.
+  only the roots in `requirements.txt`, using `requirements.lock` as constraints,
+  then compares the complete resolved closure with the lock. Missing, orphaned,
+  or changed packages and conflicting requirements fail.
   A new release on PyPI alone must not invalidate a reviewed lock or block publishing.
   Dependency upgrades are separate reviewed changes to the lock, not part of the
   weekly generated-data sync. The sync installs that same lock and keys its pip
-  cache on it. Keep the dependency audit and required checks enabled.
+  cache on it. CI audits those exact deployed pins with strict failure on packages
+  that cannot be audited; vulnerabilities remain blocking. Keep the dependency
+  audit and required checks enabled.
   After the fix is reviewed and merged, rerun `sync-publish-to-main.yml`; inspect
   its resulting auto-dispatch before manually triggering a podcast. If manual
   recovery is necessary, use `trigger-podcast.yml` with the original crawl run ID
