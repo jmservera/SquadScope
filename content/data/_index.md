@@ -1,9 +1,9 @@
 +++
-title = "Data pages as of 2026-W41"
-date = "2026-10-05T05:19:42Z"
+title = "Data pages as of 2026-W42"
+date = "2026-10-12T05:40:21Z"
 draft = false
 summary = "Citable Claracle rankings generated from checked-in GitHub trend artifacts."
-description = "Browse read-only GitHub trend rankings with source provenance, metric definitions, and latest data as of 2026-W41."
+description = "Browse read-only GitHub trend rankings with source provenance, metric definitions, and latest data as of 2026-W42."
 categories = ["Data Observatory"]
 tags = ["data-pages", "github-trends"]
 +++
