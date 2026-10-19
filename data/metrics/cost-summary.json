@@ -62,11 +62,18 @@
       "stage": "analysis",
       "week": "2026-W42",
       "workflow_run_id": "38208941107"
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "run_attempt": 1,
+      "stage": "analysis",
+      "week": "2026-W43",
+      "workflow_run_id": "39199118589"
     }
   ],
   "covered_period": {
-    "end": "2026-W42",
-    "latest_record_at": "2026-10-12T05:45:26Z",
+    "end": "2026-W43",
+    "latest_record_at": "2026-10-19T04:27:15Z",
     "start": "2026-W34"
   },
   "currency": "USD",
@@ -75,7 +82,7 @@
     "model_none": 0,
     "superseded_attempts": 0
   },
-  "generated_at": "2026-10-12T05:45:26Z",
+  "generated_at": "2026-10-19T04:27:15Z",
   "pricing_basis": "scripts.track_token_usage.MODEL_PRICING_USD_PER_MILLION",
   "provenance": {
     "ledger": "data/metrics/token-usage.jsonl",
@@ -83,15 +90,15 @@
     "maximum_age_days": 30
   },
   "reconciliation": {
-    "accepted_records": 9,
-    "billable_records": 9,
-    "input_records": 15,
+    "accepted_records": 10,
+    "billable_records": 10,
+    "input_records": 16,
     "status": "reconciled"
   },
   "schema_version": "1.0.0",
   "totals": {
-    "cost": 1.29633,
-    "input_tokens": 227122,
-    "output_tokens": 27560
+    "cost": 1.457334,
+    "input_tokens": 252493,
+    "output_tokens": 30536
   }
 }
