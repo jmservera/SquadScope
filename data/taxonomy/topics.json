@@ -30,16 +30,16 @@
         "openai",
         "openhands"
       ],
-      "count": 22,
+      "count": 23,
       "display_name": "AI Coding Agents",
       "first_seen": "2026-05-21",
       "is_hub": true,
-      "last_used": "2026-10-12",
+      "last_used": "2026-10-19",
       "order": 0,
       "promoted": true,
       "slug": "ai-coding-agents",
-      "times_used": 22,
-      "weekly_issue_count": 22
+      "times_used": 23,
+      "weekly_issue_count": 23
     },
     "developer-tools": {
       "aliases": [
@@ -55,30 +55,30 @@
         "testing",
         "typescript"
       ],
-      "count": 11,
+      "count": 12,
       "display_name": "Developer Tools",
       "first_seen": "2026-05-25",
       "is_hub": true,
-      "last_used": "2026-10-12",
+      "last_used": "2026-10-19",
       "order": 3,
       "promoted": true,
       "slug": "developer-tools",
-      "times_used": 11,
-      "weekly_issue_count": 11
+      "times_used": 12,
+      "weekly_issue_count": 12
     },
     "local-first": {
       "aliases": [
         "local-first"
       ],
-      "count": 18,
+      "count": 19,
       "display_name": "Local First",
       "first_seen": "2026-05-25",
       "is_hub": true,
-      "last_used": "2026-10-12",
+      "last_used": "2026-10-19",
       "promoted": true,
       "slug": "local-first",
-      "times_used": 18,
-      "weekly_issue_count": 18
+      "times_used": 19,
+      "weekly_issue_count": 19
     },
     "mcp-ecosystem": {
       "aliases": [
@@ -108,16 +108,16 @@
         "open-source",
         "transformers"
       ],
-      "count": 8,
+      "count": 9,
       "display_name": "Open-Source LLMs",
       "first_seen": "2026-05-25",
       "is_hub": true,
-      "last_used": "2026-10-05",
+      "last_used": "2026-10-19",
       "order": 2,
       "promoted": true,
       "slug": "open-source-llms",
-      "times_used": 8,
-      "weekly_issue_count": 8
+      "times_used": 9,
+      "weekly_issue_count": 9
     }
   }
 }

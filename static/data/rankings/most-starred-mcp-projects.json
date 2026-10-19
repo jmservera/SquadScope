@@ -1,17 +1,17 @@
 {
   "artifact_type": "ranking",
   "covered_period": {
-    "end": "2026-10-12",
-    "label": "2026-W42",
+    "end": "2026-10-19",
+    "label": "2026-W43",
     "start": "2026-05-18"
   },
-  "generated_at": "2026-10-12T05:40:21Z",
+  "generated_at": "2026-10-19T04:22:25Z",
   "metric_definition": "Latest absolute GitHub stars for repositories with MCP or Model Context Protocol signals.",
   "metric_label": "Stars",
   "provenance": {
     "generator": "scripts/generate_ranking_artifacts.py",
     "methodology_url": "/methodology/",
-    "source_checksum": "52a6449699c4fb671d30b69d88f045ea852eea7a8d98efc06aaf5083c9b62acc",
+    "source_checksum": "6efc64a55dcfbf547998a1a5ed6a49ec76e1e03fb440af1defd919f305b09120",
     "source_paths": [
       "data/archive/recovered-W23-W29/2026-W23/2026-W23.json",
       "data/archive/recovered-W23-W29/2026-W24/2026-W24.json",
@@ -34,11 +34,26 @@
       "data/raw/2026-W39.json",
       "data/raw/2026-W40.json",
       "data/raw/2026-W41.json",
-      "data/raw/2026-W42.json"
+      "data/raw/2026-W42.json",
+      "data/raw/2026-W43.json"
     ]
   },
   "ranking_id": "most-starred-mcp-projects",
   "records": [
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Reverse engineer anything with agents, from app behavior down to native binaries.",
+      "context_summary": "Reverse engineer anything with agents, from app behavior down to native binaries.",
+      "full_name": "morluto/rea",
+      "github_url": "https://github.com/morluto/rea",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "324,835 stars",
+      "metric_value": 324835,
+      "rank": 1,
+      "repository_id": "morluto-rea"
+    },
     {
       "comparison_label": null,
       "comparison_value": null,
@@ -48,9 +63,9 @@
       "github_url": "https://github.com/affaan-m/ECC",
       "language": "JavaScript",
       "metric_key": "stars",
-      "metric_label": "277,354 stars",
-      "metric_value": 277354,
-      "rank": 1,
+      "metric_label": "283,403 stars",
+      "metric_value": 283403,
+      "rank": 2,
       "repository_id": "affaan-m-ecc"
     },
     {
@@ -62,9 +77,9 @@
       "github_url": "https://github.com/n8n-io/n8n",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "207,042 stars",
-      "metric_value": 207042,
-      "rank": 2,
+      "metric_label": "207,954 stars",
+      "metric_value": 207954,
+      "rank": 3,
       "repository_id": "n8n-io-n8n"
     },
     {
@@ -78,7 +93,7 @@
       "metric_key": "stars",
       "metric_label": "186,048 stars",
       "metric_value": 186048,
-      "rank": 3,
+      "rank": 4,
       "repository_id": "affaan-m-everything-claude-code"
     },
     {
@@ -90,9 +105,9 @@
       "github_url": "https://github.com/Snailclimb/JavaGuide",
       "language": "JavaScript",
       "metric_key": "stars",
-      "metric_label": "158,951 stars",
-      "metric_value": 158951,
-      "rank": 4,
+      "metric_label": "159,122 stars",
+      "metric_value": 159122,
+      "rank": 5,
       "repository_id": "snailclimb-javaguide"
     },
     {
@@ -102,11 +117,11 @@
       "context_summary": "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams\u2026",
       "full_name": "langgenius/dify",
       "github_url": "https://github.com/langgenius/dify",
-      "language": "TypeScript",
+      "language": "Python",
       "metric_key": "stars",
-      "metric_label": "158,191 stars",
-      "metric_value": 158191,
-      "rank": 5,
+      "metric_label": "158,835 stars",
+      "metric_value": 158835,
+      "rank": 6,
       "repository_id": "langgenius-dify"
     },
     {
@@ -118,9 +133,9 @@
       "github_url": "https://github.com/open-webui/open-webui",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "154,350 stars",
-      "metric_value": 154350,
-      "rank": 6,
+      "metric_label": "156,118 stars",
+      "metric_value": 156118,
+      "rank": 7,
       "repository_id": "open-webui-open-webui"
     },
     {
@@ -132,9 +147,9 @@
       "github_url": "https://github.com/farion1231/cc-switch",
       "language": "Rust",
       "metric_key": "stars",
-      "metric_label": "142,958 stars",
-      "metric_value": 142958,
-      "rank": 7,
+      "metric_label": "145,982 stars",
+      "metric_value": 145982,
+      "rank": 8,
       "repository_id": "farion1231-cc-switch"
     },
     {
@@ -146,24 +161,38 @@
       "github_url": "https://github.com/Graphify-Labs/graphify",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "125,617 stars",
-      "metric_value": 125617,
-      "rank": 8,
+      "metric_label": "128,518 stars",
+      "metric_value": 128518,
+      "rank": 9,
       "repository_id": "graphify-labs-graphify"
     },
     {
       "comparison_label": null,
       "comparison_value": null,
-      "context_accessible_text": "Reverse engineer anything with agents, from app behavior down to native binaries.",
-      "context_summary": "Reverse engineer anything with agents, from app behavior down to native binaries.",
-      "full_name": "morluto/rea",
-      "github_url": "https://github.com/morluto/rea",
+      "context_accessible_text": "Open-source Python library for AI browser agents, plus Browser Use Cloud: stealth browsers and a hosted agent API.",
+      "context_summary": "Open-source Python library for AI browser agents, plus Browser Use Cloud: stealth browsers and a hosted agent API.",
+      "full_name": "browser-use/browser-use",
+      "github_url": "https://github.com/browser-use/browser-use",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "118,444 stars",
+      "metric_value": 118444,
+      "rank": 10,
+      "repository_id": "browser-use-browser-use"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "The open-source app everyone uses to manage agents at work",
+      "context_summary": "The open-source app everyone uses to manage agents at work",
+      "full_name": "paperclipai/paperclip",
+      "github_url": "https://github.com/paperclipai/paperclip",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "115,994 stars",
-      "metric_value": 115994,
-      "rank": 9,
-      "repository_id": "morluto-rea"
+      "metric_label": "104,229 stars",
+      "metric_value": 104229,
+      "rank": 11,
+      "repository_id": "paperclipai-paperclip"
     },
     {
       "comparison_label": null,
@@ -174,9 +203,9 @@
       "github_url": "https://github.com/Panniantong/Agent-Reach",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "96,166 stars",
-      "metric_value": 96166,
-      "rank": 10,
+      "metric_label": "99,149 stars",
+      "metric_value": 99149,
+      "rank": 12,
       "repository_id": "panniantong-agent-reach"
     },
     {
@@ -188,9 +217,9 @@
       "github_url": "https://github.com/punkpeye/awesome-mcp-servers",
       "language": "Unknown",
       "metric_key": "stars",
-      "metric_label": "96,147 stars",
-      "metric_value": 96147,
-      "rank": 11,
+      "metric_label": "96,583 stars",
+      "metric_value": 96583,
+      "rank": 13,
       "repository_id": "punkpeye-awesome-mcp-servers"
     },
     {
@@ -202,9 +231,9 @@
       "github_url": "https://github.com/modelcontextprotocol/servers",
       "language": "JavaScript",
       "metric_key": "stars",
-      "metric_label": "91,157 stars",
-      "metric_value": 91157,
-      "rank": 12,
+      "metric_label": "91,357 stars",
+      "metric_value": 91357,
+      "rank": 14,
       "repository_id": "modelcontextprotocol-servers"
     },
     {
@@ -216,23 +245,23 @@
       "github_url": "https://github.com/koala73/worldmonitor",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "88,267 stars",
-      "metric_value": 88267,
-      "rank": 13,
+      "metric_label": "88,754 stars",
+      "metric_value": 88754,
+      "rank": 15,
       "repository_id": "koala73-worldmonitor"
     },
     {
       "comparison_label": null,
       "comparison_value": null,
-      "context_accessible_text": "\ud83d\udd77\ufe0f An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ and follow here for daily tips and tricks: https://x.com/Scrapling_dev",
-      "context_summary": "\ud83d\udd77\ufe0f An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here\u2026",
+      "context_accessible_text": "\ud83d\udd77\ufe0f A Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ and follow here for daily tips and tricks: https://x.com/Scrapling_dev",
+      "context_summary": "\ud83d\udd77\ufe0f A Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ and\u2026",
       "full_name": "D4Vinci/Scrapling",
       "github_url": "https://github.com/D4Vinci/Scrapling",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "86,892 stars",
-      "metric_value": 86892,
-      "rank": 14,
+      "metric_label": "88,520 stars",
+      "metric_value": 88520,
+      "rank": 16,
       "repository_id": "d4vinci-scrapling"
     },
     {
@@ -244,9 +273,9 @@
       "github_url": "https://github.com/unclecode/crawl4ai",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "85,304 stars",
-      "metric_value": 85304,
-      "rank": 15,
+      "metric_label": "85,800 stars",
+      "metric_value": 85800,
+      "rank": 17,
       "repository_id": "unclecode-crawl4ai"
     },
     {
@@ -258,9 +287,9 @@
       "github_url": "https://github.com/lobehub/lobehub",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "83,151 stars",
-      "metric_value": 83151,
-      "rank": 16,
+      "metric_label": "83,313 stars",
+      "metric_value": 83313,
+      "rank": 18,
       "repository_id": "lobehub-lobehub"
     },
     {
@@ -272,10 +301,38 @@
       "github_url": "https://github.com/netdata/netdata",
       "language": "Go",
       "metric_key": "stars",
-      "metric_label": "80,890 stars",
-      "metric_value": 80890,
-      "rank": 17,
+      "metric_label": "81,005 stars",
+      "metric_value": 81005,
+      "rank": 19,
       "repository_id": "netdata-netdata"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Never stop coding. Free MIT AI gateway: one endpoint, 375 providers (150+ free), 1,400+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline & Copilot. Quota-aware auto-fallback, RTK+Caveman compression saves 15-95% tokens, MCP/A2A, Desktop/PWA. Built by 900+ contributors",
+      "context_summary": "Never stop coding. Free MIT AI gateway: one endpoint, 375 providers (150+ free), 1,400+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with\u2026",
+      "full_name": "diegosouzapw/OmniRoute",
+      "github_url": "https://github.com/diegosouzapw/OmniRoute",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "78,202 stars",
+      "metric_value": 78202,
+      "rank": 20,
+      "repository_id": "diegosouzapw-omniroute"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers. Library, proxy, MCP server.",
+      "context_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers\u2026",
+      "full_name": "headroomlabs-ai/headroom",
+      "github_url": "https://github.com/headroomlabs-ai/headroom",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "75,921 stars",
+      "metric_value": 75921,
+      "rank": 21,
+      "repository_id": "headroomlabs-ai-headroom"
     },
     {
       "comparison_label": null,
@@ -288,50 +345,8 @@
       "metric_key": "stars",
       "metric_label": "75,407 stars",
       "metric_value": 75407,
-      "rank": 18,
+      "rank": 22,
       "repository_id": "composiohq-awesome-claude-skills"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Never stop coding. Free MIT AI gateway: one endpoint, 359 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline & Copilot. Quota-aware auto-fallback, RTK+Caveman compression saves 15-95% tokens, MCP/A2A, Desktop/PWA. Built by hundreds of contributors",
-      "context_summary": "Never stop coding. Free MIT AI gateway: one endpoint, 359 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with\u2026",
-      "full_name": "diegosouzapw/OmniRoute",
-      "github_url": "https://github.com/diegosouzapw/OmniRoute",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "75,393 stars",
-      "metric_value": 75393,
-      "rank": 19,
-      "repository_id": "diegosouzapw-omniroute"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers. Library, proxy, MCP server.",
-      "context_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers\u2026",
-      "full_name": "headroomlabs-ai/headroom",
-      "github_url": "https://github.com/headroomlabs-ai/headroom",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "75,086 stars",
-      "metric_value": 75086,
-      "rank": 20,
-      "repository_id": "headroomlabs-ai-headroom"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors",
-      "context_summary": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors",
-      "full_name": "upstash/context7",
-      "github_url": "https://github.com/upstash/context7",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "62,911 stars",
-      "metric_value": 62911,
-      "rank": 21,
-      "repository_id": "upstash-context7"
     },
     {
       "comparison_label": null,
@@ -342,10 +357,24 @@
       "github_url": "https://github.com/heygen-com/hyperframes",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "61,144 stars",
-      "metric_value": 61144,
-      "rank": 22,
+      "metric_label": "66,898 stars",
+      "metric_value": 66898,
+      "rank": 23,
       "repository_id": "heygen-com-hyperframes"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Context7 Platform -- Up-to-date docs for AI agents",
+      "context_summary": "Context7 Platform -- Up-to-date docs for AI agents",
+      "full_name": "upstash/context7",
+      "github_url": "https://github.com/upstash/context7",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "63,264 stars",
+      "metric_value": 63264,
+      "rank": 24,
+      "repository_id": "upstash-context7"
     },
     {
       "comparison_label": null,
@@ -358,7 +387,7 @@
       "metric_key": "stars",
       "metric_label": "59,326 stars",
       "metric_value": 59326,
-      "rank": 23,
+      "rank": 25,
       "repository_id": "mempalace-mempalace"
     },
     {
@@ -372,7 +401,7 @@
       "metric_key": "stars",
       "metric_label": "57,787 stars",
       "metric_value": 57787,
-      "rank": 24,
+      "rank": 26,
       "repository_id": "sansan0-trendradar"
     },
     {
@@ -386,7 +415,7 @@
       "metric_key": "stars",
       "metric_label": "57,490 stars",
       "metric_value": 57490,
-      "rank": 25,
+      "rank": 27,
       "repository_id": "zylon-ai-private-gpt"
     },
     {
@@ -400,7 +429,7 @@
       "metric_key": "stars",
       "metric_label": "3,314 stars",
       "metric_value": 3314,
-      "rank": 26,
+      "rank": 28,
       "repository_id": "rehan-remade-universal-modder"
     },
     {
@@ -414,7 +443,7 @@
       "metric_key": "stars",
       "metric_label": "2,605 stars",
       "metric_value": 2605,
-      "rank": 27,
+      "rank": 29,
       "repository_id": "feder-cr-dots"
     },
     {
@@ -428,7 +457,7 @@
       "metric_key": "stars",
       "metric_label": "2,453 stars",
       "metric_value": 2453,
-      "rank": 28,
+      "rank": 30,
       "repository_id": "copilotkit-openbot"
     },
     {
@@ -442,7 +471,7 @@
       "metric_key": "stars",
       "metric_label": "1,501 stars",
       "metric_value": 1501,
-      "rank": 29,
+      "rank": 31,
       "repository_id": "xiaoduoya-codex-with-chatgpt"
     },
     {
@@ -456,7 +485,7 @@
       "metric_key": "stars",
       "metric_label": "1,206 stars",
       "metric_value": 1206,
-      "rank": 30,
+      "rank": 32,
       "repository_id": "cinderline-northcinder"
     },
     {
@@ -470,8 +499,36 @@
       "metric_key": "stars",
       "metric_label": "903 stars",
       "metric_value": 903,
-      "rank": 31,
+      "rank": 33,
       "repository_id": "duty1g-x64dbg-mcp-server"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Ears for coding agents: let AI hear, review and make sound. CPU-only, open source.",
+      "context_summary": "Ears for coding agents: let AI hear, review and make sound. CPU-only, open source.",
+      "full_name": "Leonxlnx/earshot",
+      "github_url": "https://github.com/Leonxlnx/earshot",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "891 stars",
+      "metric_value": 891,
+      "rank": 34,
+      "repository_id": "leonxlnx-earshot"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "AI assistant and MCP server for Blender: visual chat, scene tools, multi-agent workflows. Works with OpenAI, ChatGPT, Claude, Gemini, Ollama, OpenCode. Blender AI addon and plugin, copilot for 3D, bpy Python scripting, MCP integration.",
+      "context_summary": "AI assistant and MCP server for Blender: visual chat, scene tools, multi-agent workflows. Works with OpenAI, ChatGPT, Claude, Gemini, Ollama, OpenCode\u2026",
+      "full_name": "LiCinCan/blender-ai-mcp-addon",
+      "github_url": "https://github.com/LiCinCan/blender-ai-mcp-addon",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "788 stars",
+      "metric_value": 788,
+      "rank": 35,
+      "repository_id": "licincan-blender-ai-mcp-addon"
     },
     {
       "comparison_label": null,
@@ -484,7 +541,7 @@
       "metric_key": "stars",
       "metric_label": "757 stars",
       "metric_value": 757,
-      "rank": 32,
+      "rank": 36,
       "repository_id": "denissergeevitch-agents-best-practices"
     },
     {
@@ -498,7 +555,7 @@
       "metric_key": "stars",
       "metric_label": "752 stars",
       "metric_value": 752,
-      "rank": 33,
+      "rank": 37,
       "repository_id": "openai-mcp-extensions"
     },
     {
@@ -512,7 +569,7 @@
       "metric_key": "stars",
       "metric_label": "739 stars",
       "metric_value": 739,
-      "rank": 34,
+      "rank": 38,
       "repository_id": "cbrock84-headcount"
     },
     {
@@ -526,7 +583,7 @@
       "metric_key": "stars",
       "metric_label": "702 stars",
       "metric_value": 702,
-      "rank": 35,
+      "rank": 39,
       "repository_id": "winsznx-theeleven"
     },
     {
@@ -540,8 +597,22 @@
       "metric_key": "stars",
       "metric_label": "694 stars",
       "metric_value": 694,
-      "rank": 36,
+      "rank": 40,
       "repository_id": "bherbruck-solidcraft"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "One 8 KB skill that replaces REA (Reverse Engineer Anything): plain CLI tools, no MCP. Benchmarked: 38% faster, 35% cheaper.",
+      "context_summary": "One 8 KB skill that replaces REA (Reverse Engineer Anything): plain CLI tools, no MCP. Benchmarked: 38% faster, 35% cheaper.",
+      "full_name": "aicodeking/leanrea",
+      "github_url": "https://github.com/aicodeking/leanrea",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "664 stars",
+      "metric_value": 664,
+      "rank": 41,
+      "repository_id": "aicodeking-leanrea"
     },
     {
       "comparison_label": null,
@@ -554,8 +625,22 @@
       "metric_key": "stars",
       "metric_label": "639 stars",
       "metric_value": 639,
-      "rank": 37,
+      "rank": 42,
       "repository_id": "rebel0789-codexpro"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "What The Function: your AI agent decompiles games you own into C that compiles to the exact same bytes. Runs locally.",
+      "context_summary": "What The Function: your AI agent decompiles games you own into C that compiles to the exact same bytes. Runs locally.",
+      "full_name": "i12bp8/decomp.wtf",
+      "github_url": "https://github.com/i12bp8/decomp.wtf",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "498 stars",
+      "metric_value": 498,
+      "rank": 43,
+      "repository_id": "i12bp8-decomp-wtf"
     },
     {
       "comparison_label": null,
@@ -568,8 +653,36 @@
       "metric_key": "stars",
       "metric_label": "497 stars",
       "metric_value": 497,
-      "rank": 38,
+      "rank": 44,
       "repository_id": "rgem227-knoweldge-base"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Reason Network: your team's coding agents, talking to each other. The engine behind `reason network`.",
+      "context_summary": "Reason Network: your team's coding agents, talking to each other. The engine behind `reason network`.",
+      "full_name": "reason-machines/reason-network",
+      "github_url": "https://github.com/reason-machines/reason-network",
+      "language": "Rust",
+      "metric_key": "stars",
+      "metric_label": "438 stars",
+      "metric_value": 438,
+      "rank": 45,
+      "repository_id": "reason-machines-reason-network"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Co-op Anything: point your AI agent at any single-player game and play it with friends (online and/or splitscreen!). MCP server and playbook to let you reverse engineer, fix, test, ship and share what it learns.",
+      "context_summary": "Co-op Anything: point your AI agent at any single-player game and play it with friends (online and/or splitscreen!). MCP server and playbook to let you\u2026",
+      "full_name": "cranebeaker/coop-anything",
+      "github_url": "https://github.com/cranebeaker/coop-anything",
+      "language": "C",
+      "metric_key": "stars",
+      "metric_label": "429 stars",
+      "metric_value": 429,
+      "rank": 46,
+      "repository_id": "cranebeaker-coop-anything"
     },
     {
       "comparison_label": null,
@@ -582,7 +695,7 @@
       "metric_key": "stars",
       "metric_label": "421 stars",
       "metric_value": 421,
-      "rank": 39,
+      "rank": 47,
       "repository_id": "muhammadqasimkalhoro94-blip-claude-zeroclaw-agentics"
     },
     {
@@ -596,7 +709,7 @@
       "metric_key": "stars",
       "metric_label": "387 stars",
       "metric_value": 387,
-      "rank": 40,
+      "rank": 48,
       "repository_id": "vshulcz-deja-vu"
     },
     {
@@ -610,7 +723,7 @@
       "metric_key": "stars",
       "metric_label": "381 stars",
       "metric_value": 381,
-      "rank": 41,
+      "rank": 49,
       "repository_id": "sv-number-mcp-server"
     },
     {
@@ -624,8 +737,22 @@
       "metric_key": "stars",
       "metric_label": "377 stars",
       "metric_value": 377,
-      "rank": 42,
+      "rank": 50,
       "repository_id": "okf-memory-okf-agent-memory"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "\u9ea6\u5f53\u52b3 MCP \u805a\u4f1a/\u56e2\u9910\u7ec4\u7ec7\u52a9\u624b \u2014 \u57fa\u4e8e Model Context Protocol \u7684\u6d3e\u5bf9\u9884\u8ba2\u4e0e\u56e2\u9910\u89c4\u5212 CLI/Skill",
+      "context_summary": "\u9ea6\u5f53\u52b3 MCP \u805a\u4f1a/\u56e2\u9910\u7ec4\u7ec7\u52a9\u624b \u2014 \u57fa\u4e8e Model Context Protocol \u7684\u6d3e\u5bf9\u9884\u8ba2\u4e0e\u56e2\u9910\u89c4\u5212 CLI/Skill",
+      "full_name": "zcbacxc/mcd-party-planner",
+      "github_url": "https://github.com/zcbacxc/mcd-party-planner",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "354 stars",
+      "metric_value": 354,
+      "rank": 51,
+      "repository_id": "zcbacxc-mcd-party-planner"
     },
     {
       "comparison_label": null,
@@ -638,7 +765,7 @@
       "metric_key": "stars",
       "metric_label": "342 stars",
       "metric_value": 342,
-      "rank": 43,
+      "rank": 52,
       "repository_id": "jdevalk-specification-website"
     },
     {
@@ -652,7 +779,7 @@
       "metric_key": "stars",
       "metric_label": "312 stars",
       "metric_value": 312,
-      "rank": 44,
+      "rank": 53,
       "repository_id": "testerlingcodo-gemini-antigravity-cli"
     },
     {
@@ -666,8 +793,22 @@
       "metric_key": "stars",
       "metric_label": "305 stars",
       "metric_value": 305,
-      "rank": 45,
+      "rank": 54,
       "repository_id": "adtexterry-lgtm-unigit-ecosystem"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Code graph and memory for your coding agents, in one Rust program. For Claude Code, Codex, Cursor and any MCP client.",
+      "context_summary": "Code graph and memory for your coding agents, in one Rust program. For Claude Code, Codex, Cursor and any MCP client.",
+      "full_name": "Graphicle-AI/graphicle",
+      "github_url": "https://github.com/Graphicle-AI/graphicle",
+      "language": "Rust",
+      "metric_key": "stars",
+      "metric_label": "301 stars",
+      "metric_value": 301,
+      "rank": 55,
+      "repository_id": "graphicle-ai-graphicle"
     },
     {
       "comparison_label": null,
@@ -680,7 +821,7 @@
       "metric_key": "stars",
       "metric_label": "287 stars",
       "metric_value": 287,
-      "rank": 46,
+      "rank": 56,
       "repository_id": "polymomentum-labs-github"
     },
     {
@@ -694,7 +835,7 @@
       "metric_key": "stars",
       "metric_label": "263 stars",
       "metric_value": 263,
-      "rank": 47,
+      "rank": 57,
       "repository_id": "superjj007-csswitch"
     },
     {
@@ -708,7 +849,7 @@
       "metric_key": "stars",
       "metric_label": "246 stars",
       "metric_value": 246,
-      "rank": 48,
+      "rank": 58,
       "repository_id": "placenl2026-best-of-algorithmic-trading"
     },
     {
@@ -722,7 +863,7 @@
       "metric_key": "stars",
       "metric_label": "245 stars",
       "metric_value": 245,
-      "rank": 49,
+      "rank": 59,
       "repository_id": "callous-0923-agent-study"
     },
     {
@@ -736,7 +877,7 @@
       "metric_key": "stars",
       "metric_label": "245 stars",
       "metric_value": 245,
-      "rank": 50,
+      "rank": 60,
       "repository_id": "eli-labz-godcoder"
     },
     {
@@ -750,7 +891,7 @@
       "metric_key": "stars",
       "metric_label": "236 stars",
       "metric_value": 236,
-      "rank": 51,
+      "rank": 61,
       "repository_id": "cristicretu-diri"
     },
     {
@@ -764,7 +905,7 @@
       "metric_key": "stars",
       "metric_label": "230 stars",
       "metric_value": 230,
-      "rank": 52,
+      "rank": 62,
       "repository_id": "dex-original-okx-agent-trade-kit"
     },
     {
@@ -778,7 +919,7 @@
       "metric_key": "stars",
       "metric_label": "221 stars",
       "metric_value": 221,
-      "rank": 53,
+      "rank": 63,
       "repository_id": "aresyn-codex-control-plane-mcp"
     },
     {
@@ -792,8 +933,22 @@
       "metric_key": "stars",
       "metric_label": "221 stars",
       "metric_value": 221,
-      "rank": 54,
+      "rank": 64,
       "repository_id": "zseven-w-dsh-ios"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Professional Blender 5.2 workflows as Agent Skills for Claude Code, Codex, Gemini CLI, Copilot and Cursor: modeling, UVs, PBR, baking, rigging, animation, export and QA.",
+      "context_summary": "Professional Blender 5.2 workflows as Agent Skills for Claude Code, Codex, Gemini CLI, Copilot and Cursor: modeling, UVs, PBR, baking, rigging, animation\u2026",
+      "full_name": "EL4CTEO/blender-skills",
+      "github_url": "https://github.com/EL4CTEO/blender-skills",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "220 stars",
+      "metric_value": 220,
+      "rank": 65,
+      "repository_id": "el4cteo-blender-skills"
     },
     {
       "comparison_label": null,
@@ -806,7 +961,7 @@
       "metric_key": "stars",
       "metric_label": "217 stars",
       "metric_value": 217,
-      "rank": 55,
+      "rank": 66,
       "repository_id": "kitze-skillbox"
     },
     {
@@ -820,7 +975,7 @@
       "metric_key": "stars",
       "metric_label": "211 stars",
       "metric_value": 211,
-      "rank": 56,
+      "rank": 67,
       "repository_id": "jordyzomer-lemmalog"
     },
     {
@@ -834,7 +989,7 @@
       "metric_key": "stars",
       "metric_label": "202 stars",
       "metric_value": 202,
-      "rank": 57,
+      "rank": 68,
       "repository_id": "lingcore-winshun"
     },
     {
@@ -848,7 +1003,7 @@
       "metric_key": "stars",
       "metric_label": "201 stars",
       "metric_value": 201,
-      "rank": 58,
+      "rank": 69,
       "repository_id": "vaderchen-yourdesk"
     },
     {
@@ -862,7 +1017,7 @@
       "metric_key": "stars",
       "metric_label": "199 stars",
       "metric_value": 199,
-      "rank": 59,
+      "rank": 70,
       "repository_id": "risa-labs-inc-bossconsole"
     },
     {
@@ -876,7 +1031,7 @@
       "metric_key": "stars",
       "metric_label": "192 stars",
       "metric_value": 192,
-      "rank": 60,
+      "rank": 71,
       "repository_id": "punkpeye-awesome-remote-mcp-servers"
     },
     {
@@ -890,7 +1045,7 @@
       "metric_key": "stars",
       "metric_label": "186 stars",
       "metric_value": 186,
-      "rank": 61,
+      "rank": 72,
       "repository_id": "niazmorshed2007-jev-review"
     },
     {
@@ -904,7 +1059,7 @@
       "metric_key": "stars",
       "metric_label": "180 stars",
       "metric_value": 180,
-      "rank": 62,
+      "rank": 73,
       "repository_id": "yolfinance-yolfi-agent"
     },
     {
@@ -918,7 +1073,7 @@
       "metric_key": "stars",
       "metric_label": "175 stars",
       "metric_value": 175,
-      "rank": 63,
+      "rank": 74,
       "repository_id": "0xwilliamortiz-openclaude-improved"
     },
     {
@@ -932,7 +1087,7 @@
       "metric_key": "stars",
       "metric_label": "175 stars",
       "metric_value": 175,
-      "rank": 64,
+      "rank": 75,
       "repository_id": "jkudish-jev-mcp"
     },
     {
@@ -946,7 +1101,7 @@
       "metric_key": "stars",
       "metric_label": "173 stars",
       "metric_value": 173,
-      "rank": 65,
+      "rank": 76,
       "repository_id": "ayzzz123-mcd-coupon-strategist"
     },
     {
@@ -960,7 +1115,7 @@
       "metric_key": "stars",
       "metric_label": "172 stars",
       "metric_value": 172,
-      "rank": 66,
+      "rank": 77,
       "repository_id": "sandbaseai-managed-agents"
     },
     {
@@ -974,7 +1129,7 @@
       "metric_key": "stars",
       "metric_label": "172 stars",
       "metric_value": 172,
-      "rank": 67,
+      "rank": 78,
       "repository_id": "xiaopuouo-openchatx-mcp"
     },
     {
@@ -988,7 +1143,7 @@
       "metric_key": "stars",
       "metric_label": "169 stars",
       "metric_value": 169,
-      "rank": 68,
+      "rank": 79,
       "repository_id": "oft3r-agentic-trading-desk"
     },
     {
@@ -1002,7 +1157,7 @@
       "metric_key": "stars",
       "metric_label": "168 stars",
       "metric_value": 168,
-      "rank": 69,
+      "rank": 80,
       "repository_id": "squall01337-mixamo-llm-mocap"
     },
     {
@@ -1016,7 +1171,7 @@
       "metric_key": "stars",
       "metric_label": "165 stars",
       "metric_value": 165,
-      "rank": 70,
+      "rank": 81,
       "repository_id": "kgoedecke-doop"
     },
     {
@@ -1030,7 +1185,7 @@
       "metric_key": "stars",
       "metric_label": "157 stars",
       "metric_value": 157,
-      "rank": 71,
+      "rank": 82,
       "repository_id": "ai4s-research-open-science"
     },
     {
@@ -1044,7 +1199,7 @@
       "metric_key": "stars",
       "metric_label": "155 stars",
       "metric_value": 155,
-      "rank": 72,
+      "rank": 83,
       "repository_id": "morluto-awesome-reverse-engineering"
     },
     {
@@ -1058,8 +1213,22 @@
       "metric_key": "stars",
       "metric_label": "151 stars",
       "metric_value": 151,
-      "rank": 73,
+      "rank": 84,
       "repository_id": "itsmostafa-typesafe-mcp"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "\u9ea6\u9ea6\u70ed\u91cf\u7ba1\u5bb6\uff1a\u51cf\u8102\u4e0d\u662f\u5c11\u5403\u4f60\u7231\u7684\uff0c\u662f\u5148\u6362\u6389\u4e0d\u503c\u8fd9\u53e3\u70ed\u91cf\u7684\u3002\u57fa\u4e8e\u9ea6\u5f53\u52b3 MCP \u7684\u5473\u70ed\u6bd4\u70b9\u9910 Skill\u3002",
+      "context_summary": "\u9ea6\u9ea6\u70ed\u91cf\u7ba1\u5bb6\uff1a\u51cf\u8102\u4e0d\u662f\u5c11\u5403\u4f60\u7231\u7684\uff0c\u662f\u5148\u6362\u6389\u4e0d\u503c\u8fd9\u53e3\u70ed\u91cf\u7684\u3002\u57fa\u4e8e\u9ea6\u5f53\u52b3 MCP \u7684\u5473\u70ed\u6bd4\u70b9\u9910 Skill\u3002",
+      "full_name": "WilderNoTrack/mcd-calorie-butler",
+      "github_url": "https://github.com/WilderNoTrack/mcd-calorie-butler",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "149 stars",
+      "metric_value": 149,
+      "rank": 85,
+      "repository_id": "wildernotrack-mcd-calorie-butler"
     },
     {
       "comparison_label": null,
@@ -1072,7 +1241,7 @@
       "metric_key": "stars",
       "metric_label": "142 stars",
       "metric_value": 142,
-      "rank": 74,
+      "rank": 86,
       "repository_id": "admte-orc-claude-plugin"
     },
     {
@@ -1086,7 +1255,7 @@
       "metric_key": "stars",
       "metric_label": "138 stars",
       "metric_value": 138,
-      "rank": 75,
+      "rank": 87,
       "repository_id": "ronglecat-grok-go"
     },
     {
@@ -1100,8 +1269,22 @@
       "metric_key": "stars",
       "metric_label": "133 stars",
       "metric_value": 133,
-      "rank": 76,
+      "rank": 88,
       "repository_id": "pueschel88-tradingview-mcp"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Analyze the Indonesian stock market (IDX/IHSG) from web terminal, CLI, or any AI agents via MCP server. IHSG Prices, Fundamentals, and Screening. Free and No API keys required. Changelog: https://github.com/fzn0x/idx/blob/main/CHANGELOG.md",
+      "context_summary": "Analyze the Indonesian stock market (IDX/IHSG) from web terminal, CLI, or any AI agents via MCP server. IHSG Prices, Fundamentals, and Screening. Free and No\u2026",
+      "full_name": "fzn0x/idx",
+      "github_url": "https://github.com/fzn0x/idx",
+      "language": "Rust",
+      "metric_key": "stars",
+      "metric_label": "132 stars",
+      "metric_value": 132,
+      "rank": 89,
+      "repository_id": "fzn0x-idx"
     },
     {
       "comparison_label": null,
@@ -1114,7 +1297,7 @@
       "metric_key": "stars",
       "metric_label": "132 stars",
       "metric_value": 132,
-      "rank": 77,
+      "rank": 90,
       "repository_id": "opentokenz-mcpx"
     },
     {
@@ -1128,7 +1311,7 @@
       "metric_key": "stars",
       "metric_label": "132 stars",
       "metric_value": 132,
-      "rank": 78,
+      "rank": 91,
       "repository_id": "penthertz-grimoire"
     },
     {
@@ -1142,7 +1325,7 @@
       "metric_key": "stars",
       "metric_label": "131 stars",
       "metric_value": 131,
-      "rank": 79,
+      "rank": 92,
       "repository_id": "kitforai-kitforai"
     },
     {
@@ -1156,7 +1339,7 @@
       "metric_key": "stars",
       "metric_label": "127 stars",
       "metric_value": 127,
-      "rank": 80,
+      "rank": 93,
       "repository_id": "qa10devteam-behive"
     },
     {
@@ -1170,7 +1353,7 @@
       "metric_key": "stars",
       "metric_label": "126 stars",
       "metric_value": 126,
-      "rank": 81,
+      "rank": 94,
       "repository_id": "placenl2026-okx-agent-trade-kit"
     },
     {
@@ -1184,7 +1367,7 @@
       "metric_key": "stars",
       "metric_label": "125 stars",
       "metric_value": 125,
-      "rank": 82,
+      "rank": 95,
       "repository_id": "xuanwo-agenvo"
     },
     {
@@ -1198,7 +1381,7 @@
       "metric_key": "stars",
       "metric_label": "124 stars",
       "metric_value": 124,
-      "rank": 83,
+      "rank": 96,
       "repository_id": "nhevers-project-r0x"
     },
     {
@@ -1212,7 +1395,7 @@
       "metric_key": "stars",
       "metric_label": "123 stars",
       "metric_value": 123,
-      "rank": 84,
+      "rank": 97,
       "repository_id": "romangojiberryai-gojiberryai-sales-os"
     },
     {
@@ -1226,8 +1409,22 @@
       "metric_key": "stars",
       "metric_label": "120 stars",
       "metric_value": 120,
-      "rank": 85,
+      "rank": 98,
       "repository_id": "daishuge-pcb-skill"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "ESP32 MCP firmware for iPhone USB input, built for M5Stack StopWatch with guided board adaptation",
+      "context_summary": "ESP32 MCP firmware for iPhone USB input, built for M5Stack StopWatch with guided board adaptation",
+      "full_name": "ananhq/anan-iphone-use",
+      "github_url": "https://github.com/ananhq/anan-iphone-use",
+      "language": "C",
+      "metric_key": "stars",
+      "metric_label": "119 stars",
+      "metric_value": 119,
+      "rank": 99,
+      "repository_id": "ananhq-anan-iphone-use"
     },
     {
       "comparison_label": null,
@@ -1240,204 +1437,8 @@
       "metric_key": "stars",
       "metric_label": "118 stars",
       "metric_value": 118,
-      "rank": 86,
-      "repository_id": "manavarya09-public-apis-live"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "\u8bb0\u5f97\u5979\u8bf4\u8fc7\u7684\u6bcf\u4e00\u53e5\u8bdd\uff0c\u4e5f\u8bb0\u5f97\u4f60\u7b54\u5e94\u8fc7\u7684\u6bcf\u4e00\u4ef6\u4e8b\u3002A self-hosted AI chief of staff for your chats \u2014 remembers what they said and what you promised.",
-      "context_summary": "\u8bb0\u5f97\u5979\u8bf4\u8fc7\u7684\u6bcf\u4e00\u53e5\u8bdd\uff0c\u4e5f\u8bb0\u5f97\u4f60\u7b54\u5e94\u8fc7\u7684\u6bcf\u4e00\u4ef6\u4e8b\u3002A self-hosted AI chief of staff for your chats \u2014 remembers what they said and what you promised.",
-      "full_name": "georgeding/Relate",
-      "github_url": "https://github.com/georgeding/Relate",
-      "language": "JavaScript",
-      "metric_key": "stars",
-      "metric_label": "117 stars",
-      "metric_value": 117,
-      "rank": 87,
-      "repository_id": "georgeding-relate"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Semrush SEO AI-powered analysis tool MCP server & CLI for keyword research, domain analytics, backlink analysis",
-      "context_summary": "Semrush SEO AI-powered analysis tool MCP server & CLI for keyword research, domain analytics, backlink analysis",
-      "full_name": "springvoiceswell/semrush-ai-tool",
-      "github_url": "https://github.com/springvoiceswell/semrush-ai-tool",
-      "language": "JavaScript",
-      "metric_key": "stars",
-      "metric_label": "115 stars",
-      "metric_value": 115,
-      "rank": 88,
-      "repository_id": "springvoiceswell-semrush-ai-tool"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Free Claude Code Api desktop \u2014 claude ai free cli anthropic ai claude pro coding claude fable free agent terminal claude fable 5 assistant open source git integration mcp server free api key setup guide config",
-      "context_summary": "Free Claude Code Api desktop \u2014 claude ai free cli anthropic ai claude pro coding claude fable free agent terminal claude fable 5 assistant open source git\u2026",
-      "full_name": "claude-code-ai-anthropic/free-claude-code-ai-desktop-app",
-      "github_url": "https://github.com/claude-code-ai-anthropic/free-claude-code-ai-desktop-app",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "113 stars",
-      "metric_value": 113,
-      "rank": 89,
-      "repository_id": "claude-code-ai-anthropic-free-claude-code-ai-desktop-app"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "A durable single-Agent Harness for TypeScript with recoverable Threads, explicit side-effect boundaries, and a native terminal UI.",
-      "context_summary": "A durable single-Agent Harness for TypeScript with recoverable Threads, explicit side-effect boundaries, and a native terminal UI.",
-      "full_name": "joe960913/Jixu",
-      "github_url": "https://github.com/joe960913/Jixu",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "113 stars",
-      "metric_value": 113,
-      "rank": 90,
-      "repository_id": "joe960913-jixu"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Bridge between QQ (SnowLuma OneBot v11) and DeepSeek Harness agents: social simulation, safe MCP tools, slang learning and more.",
-      "context_summary": "Bridge between QQ (SnowLuma OneBot v11) and DeepSeek Harness agents: social simulation, safe MCP tools, slang learning and more.",
-      "full_name": "Derpyu520/qq-bridge",
-      "github_url": "https://github.com/Derpyu520/qq-bridge",
-      "language": "JavaScript",
-      "metric_key": "stars",
-      "metric_label": "112 stars",
-      "metric_value": 112,
-      "rank": 91,
-      "repository_id": "derpyu520-qq-bridge"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "\ud83e\udd80\u26a1 Community skill pack & CLI for Genspark Claw, OpenClaw & Hermes agents \u2014 5 production-ready SKILL.md skills (deep research, reports, slides, browser automation, AI call prep), zero-dependency Node.js installer, MCP server, one-line install",
-      "context_summary": "\ud83e\udd80\u26a1 Community skill pack & CLI for Genspark Claw, OpenClaw & Hermes agents \u2014 5 production-ready SKILL.md skills (deep research, reports, slides, browser\u2026",
-      "full_name": "breakstageaxe61/genspark-claw",
-      "github_url": "https://github.com/breakstageaxe61/genspark-claw",
-      "language": "JavaScript",
-      "metric_key": "stars",
-      "metric_label": "111 stars",
-      "metric_value": 111,
-      "rank": 92,
-      "repository_id": "breakstageaxe61-genspark-claw"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "\ud83d\udee1\ufe0f Security audit CLI for Model Context Protocol (MCP) servers \u2014 scan AI agent configs for tool poisoning, rug pulls, hardcoded secrets, command injection & supply-chain risks. Pure Python, SARIF + CI ready.",
-      "context_summary": "\ud83d\udee1\ufe0f Security audit CLI for Model Context Protocol (MCP) servers \u2014 scan AI agent configs for tool poisoning, rug pulls, hardcoded secrets, command injection &\u2026",
-      "full_name": "graygnatconsole/mcp-audit-tool",
-      "github_url": "https://github.com/graygnatconsole/mcp-audit-tool",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "110 stars",
-      "metric_value": 110,
-      "rank": 93,
-      "repository_id": "graygnatconsole-mcp-audit-tool"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Assistant vocal local en francais : Claude ou Ollama (offline), domotique Hue, OBS, agenda, navigateur, appels Twilio, serveur MCP. Python.",
-      "context_summary": "Assistant vocal local en francais : Claude ou Ollama (offline), domotique Hue, OBS, agenda, navigateur, appels Twilio, serveur MCP. Python.",
-      "full_name": "sosoj92/jarvis-assistant-vocal",
-      "github_url": "https://github.com/sosoj92/jarvis-assistant-vocal",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "110 stars",
-      "metric_value": 110,
-      "rank": 94,
-      "repository_id": "sosoj92-jarvis-assistant-vocal"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Generate realistic teacher documents (ID cards, licenses, letters) for 13 countries via MCP.",
-      "context_summary": "Generate realistic teacher documents (ID cards, licenses, letters) for 13 countries via MCP.",
-      "full_name": "hirotomasato/yowes",
-      "github_url": "https://github.com/hirotomasato/yowes",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "107 stars",
-      "metric_value": 107,
-      "rank": 95,
-      "repository_id": "hirotomasato-yowes"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "\u7ed9 AI Coding Agent\uff08Claude Code / Cursor / Codex / Gemini CLI\uff09\u7528\u7684 **\u6280\u80fd\u7248 npm** \u2014\u2014 \u672c\u5730\u4f18\u5148\u3001\u6a21\u578b\u65e0\u5173\u3001MCP \u539f\u751f\u3002",
-      "context_summary": "\u7ed9 AI Coding Agent\uff08Claude Code / Cursor / Codex / Gemini CLI\uff09\u7528\u7684 **\u6280\u80fd\u7248 npm** \u2014\u2014 \u672c\u5730\u4f18\u5148\u3001\u6a21\u578b\u65e0\u5173\u3001MCP \u539f\u751f\u3002",
-      "full_name": "HaddenHunter/SkillForge",
-      "github_url": "https://github.com/HaddenHunter/SkillForge",
-      "language": "Unknown",
-      "metric_key": "stars",
-      "metric_label": "105 stars",
-      "metric_value": 105,
-      "rank": 96,
-      "repository_id": "haddenhunter-skillforge"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "An unofficial, categorized directory of 118 CoreClaw Worker APIs for web scraping, automation, lead generation, e-commerce, social data, and more.",
-      "context_summary": "An unofficial, categorized directory of 118 CoreClaw Worker APIs for web scraping, automation, lead generation, e-commerce, social data, and more.",
-      "full_name": "cporter202/coreclaw-api-directory",
-      "github_url": "https://github.com/cporter202/coreclaw-api-directory",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "104 stars",
-      "metric_value": 104,
-      "rank": 97,
-      "repository_id": "cporter202-coreclaw-api-directory"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Rust-native MCP server for Office document processing (Excel, Word, PowerPoint). Sub-millisecond, local-first, open source.",
-      "context_summary": "Rust-native MCP server for Office document processing (Excel, Word, PowerPoint). Sub-millisecond, local-first, open source.",
-      "full_name": "Aimino-Tech/opendocswork-mcp",
-      "github_url": "https://github.com/Aimino-Tech/opendocswork-mcp",
-      "language": "Rust",
-      "metric_key": "stars",
-      "metric_label": "102 stars",
-      "metric_value": 102,
-      "rank": 98,
-      "repository_id": "aimino-tech-opendocswork-mcp"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "MCP server for Digikala: search, compare and price-check products on Iran's largest marketplace. Read-only, no API key. 16 tools, hosted on Cloudflare Workers.",
-      "context_summary": "MCP server for Digikala: search, compare and price-check products on Iran's largest marketplace. Read-only, no API key. 16 tools, hosted on Cloudflare Workers.",
-      "full_name": "mmdju/digikala-mcp",
-      "github_url": "https://github.com/mmdju/digikala-mcp",
-      "language": "JavaScript",
-      "metric_key": "stars",
-      "metric_label": "96 stars",
-      "metric_value": 96,
-      "rank": 99,
-      "repository_id": "mmdju-digikala-mcp"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "On-demand Linux computers you can hand to an AI \u2014 real Firecracker microVMs with a browser, terminal, coding agents, and an AI that drives them.",
-      "context_summary": "On-demand Linux computers you can hand to an AI \u2014 real Firecracker microVMs with a browser, terminal, coding agents, and an AI that drives them.",
-      "full_name": "michaelshimeles/boring-computers",
-      "github_url": "https://github.com/michaelshimeles/boring-computers",
-      "language": "Go",
-      "metric_key": "stars",
-      "metric_label": "93 stars",
-      "metric_value": 93,
       "rank": 100,
-      "repository_id": "michaelshimeles-boring-computers"
+      "repository_id": "manavarya09-public-apis-live"
     }
   ],
   "schema_version": "1.0.0"

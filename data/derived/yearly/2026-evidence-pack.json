@@ -623,11 +623,39 @@
       "source_id": "SRC-2026-W42",
       "status": "resolved",
       "text": "Watch for the control layer to catch up: permission manifests, action logs, rollback primitives, and independent evaluations would turn device-operating agents from demonstrations into deployable systems. The ArtCraft cluster must next prove compatibility and contributor depth beyond one coordinated launch. Local-first search and data work look more durable, especially if projects expose measurable privacy, latency, and resource tradeoffs. The next meaningful signal will be verification around capability, not another capability claim."
+    },
+    {
+      "claim_id": "CLM-2026-W43-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W43",
+      "status": "resolved",
+      "text": "Agents moved below the interface into version control, reverse engineering, and creative tools, while governance and measurement lagged."
+    },
+    {
+      "claim_id": "CLM-2026-W43-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W43",
+      "status": "resolved",
+      "text": "The strongest signal comes from projects with bounded technical jobs and plausible practitioner value. [feder-cr/git-ai](https://github.com/feder-cr/git-ai) addresses a real coordination boundary; [datalab-to/indra](https://github.com/datalab-to/indra) specifies a CPU OCR pipeline rather than merely invoking \"AI\"; and [Zfinix/eleven](https://github.com/Zfinix/eleven) names concrete binary-analysis actions and platforms. The reverse-engineering cluster also has independent support from the established [morluto/rea](https://github.com/morluto/rea) appearing in the trending set. That does not prove weekly growth, but it gives the new tools an existing category rather than a fabricated market. The weaker material is defined less by obvious metric manipulation than by oversized claims and unstable packaging. [HeyPuter/everything](https://github.com/HeyPuter/everything) promises to rebuild the world's software, a scope too broad for its repository metadata to substantiate. [i12bp8/decomp.wtf](https://github.com/i12bp8/decomp.wtf) was created and archived within the same crawl week, making its 498 stars a record of attention rather than durability. [xscreensaver-official/xscreensaver](https://github.com/xscreensaver-official/xscreensaver) carries 870 stars despite metadata saying there is no official GitHub repository, with no language or license identified. None matches the prior weeks' extreme star-farm or 10:1 fork-inflation signatures, but each deserves exclusion from trend claims until code depth and continuity are clearer. The giant trending repositories are another kind of noise: without weekly deltas, lifetime popularity cannot rank this week's movement."
+    },
+    {
+      "claim_id": "CLM-2026-W43-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W43",
+      "status": "resolved",
+      "text": "Agent authorization remains the largest absence. As tools reach Git history, binaries, audio, and 3D scenes, there is no visible new cohort for least-privilege credentials, tamper-evident action logs, approval policies, or reliable rollback. Independent behavioral evaluation is similarly missing despite press reports of rogue activity. Local AI also lacks the unglamorous deployment layer: energy measurement, hardware portability, model-update provenance, and fleet management do not accompany this week's OCR and image-model work. Finally, sovereign-AI coverage emphasizes regional compute capacity, but the repository sample shows little new work on auditable data governance or cross-border workload policy. The ecosystem is expanding where agents can act faster than it is defining where they should."
+    },
+    {
+      "claim_id": "CLM-2026-W43-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W43",
+      "status": "resolved",
+      "text": "Watch whether agent-native version control becomes a category or remains a single launch, and whether reverse-engineering tools converge on shared protocols rather than competing wrappers. Specialized media skills have not peaked, but their next test is repeatable output and permission boundaries, not broader modality lists. The decisive signal would be a companion wave of provenance, evaluation, and rollback tooling; without it, October's control narrative will continue to mean operational reach rather than accountable control."
     }
   ],
   "counts": {
-    "claims": 89,
-    "sources": 22
+    "claims": 93,
+    "sources": 23
   },
   "months_covered": [
     "2026-05",
@@ -973,6 +1001,21 @@
       "title": "Agents Reach Devices as Rust Rebuilds the Desktop",
       "top_repo": "storytold/wordcraft",
       "week": "2026-W42"
+    },
+    {
+      "month": "2026-10",
+      "source_id": "SRC-2026-W43",
+      "tags": [
+        "ai-agents",
+        "developer-tools",
+        "reverse-engineering",
+        "local-ai",
+        "agent-skills",
+        "open-source"
+      ],
+      "title": "Agents Rewrite the Tools Beneath Their Work",
+      "top_repo": "feder-cr/git-ai",
+      "week": "2026-W43"
     }
   ],
   "year": 2026
