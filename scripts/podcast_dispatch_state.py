@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import json
 import os
 import re
@@ -45,6 +46,8 @@ REQUEST_TIMEOUT_SECONDS = 10
 MAX_CONSECUTIVE_ERRORS = 5
 SYNTHESIS_WARNING_SECONDS = 600
 MAX_GITHUB_PAGES = 100
+READ_RETRY_ATTEMPTS = 3
+READ_RETRY_BACKOFF_SECONDS = 1.0
 WEEKLY_GREEN_STATES = frozenset({"published_verified", "published_verified_recovered"})
 WEEKLY_NON_GREEN_STATES = frozenset(
     {
@@ -306,8 +309,17 @@ def _github_json(
     if payload is not None:
         headers["Content-Type"] = "application/json"
     req = request.Request(url, data=body, method=method, headers=headers)
-    with request.urlopen(req, timeout=timeout) as response:  # nosec B310
-        return json.loads(response.read())
+    # Only idempotent reads are retried; a replayed POST could duplicate an issue or comment.
+    attempts = READ_RETRY_ATTEMPTS if method == "GET" else 1
+    for attempt in range(1, attempts + 1):
+        try:
+            with request.urlopen(req, timeout=timeout) as response:  # nosec B310
+                return json.loads(response.read())
+        except (http.client.IncompleteRead, ConnectionError, TimeoutError):
+            if attempt == attempts:
+                raise
+            time.sleep(READ_RETRY_BACKOFF_SECONDS * attempt)
+    raise AssertionError("unreachable")
 
 
 def _remaining_timeout(
