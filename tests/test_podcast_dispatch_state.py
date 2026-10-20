@@ -134,6 +134,42 @@ class PodcastDispatchStateTests(unittest.TestCase):
                 state._github_json("https://api.github.com/x", "t", method="POST", payload={})
         self.assertEqual(post.call_count, 1)
 
+    def test_github_get_retry_handles_wrapped_errors_and_respects_deadline(self) -> None:
+        good = mock.MagicMock()
+        good.__enter__.return_value.read.return_value = b"[]"
+        wrapped = state.error.URLError(ConnectionResetError())
+        with (
+            mock.patch.object(state.time, "sleep"),
+            mock.patch.object(state.request, "urlopen", side_effect=[wrapped, good]) as urlopen,
+        ):
+            self.assertEqual(state._github_json("https://api.github.com/x", "t"), [])
+        self.assertEqual(urlopen.call_count, 2)
+
+        http_error = state.error.HTTPError("https://api.github.com/x", 500, "boom", {}, None)
+        with (
+            mock.patch.object(state.time, "sleep"),
+            mock.patch.object(state.request, "urlopen", side_effect=http_error) as urlopen,
+        ):
+            with self.assertRaises(state.error.HTTPError):
+                state._github_json("https://api.github.com/x", "t")
+        self.assertEqual(urlopen.call_count, 1)
+
+        with (
+            mock.patch.object(state.time, "sleep") as sleep,
+            mock.patch.object(
+                state.request, "urlopen", side_effect=http.client.IncompleteRead(b"x", 5)
+            ) as urlopen,
+        ):
+            with self.assertRaises(http.client.IncompleteRead):
+                state._github_json(
+                    "https://api.github.com/x",
+                    "t",
+                    deadline=10.0,
+                    monotonic=lambda: 9.5,
+                )
+        self.assertEqual(urlopen.call_count, 1)
+        sleep.assert_not_called()
+
     def test_retry_classification_is_monotonic(self) -> None:
         self.assertEqual(
             state.receipt_retry_classification([self.receipt("attempt_prepared")]),

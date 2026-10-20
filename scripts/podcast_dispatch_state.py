@@ -303,6 +303,8 @@ def _github_json(
     method: str = "GET",
     payload: dict[str, Any] | None = None,
     timeout: float = 20,
+    deadline: float | None = None,
+    monotonic: Callable[[], float] = time.monotonic,
 ) -> Any:
     body = None if payload is None else json.dumps(payload).encode()
     headers = _github_headers(token)
@@ -312,14 +314,28 @@ def _github_json(
     # Only idempotent reads are retried; a replayed POST could duplicate an issue or comment.
     attempts = READ_RETRY_ATTEMPTS if method == "GET" else 1
     for attempt in range(1, attempts + 1):
+        attempt_timeout = timeout
+        if attempt > 1 and deadline is not None:
+            attempt_timeout = _remaining_timeout(deadline, monotonic, timeout)
         try:
-            with request.urlopen(req, timeout=timeout) as response:  # nosec B310
+            with request.urlopen(req, timeout=attempt_timeout) as response:  # nosec B310
                 return json.loads(response.read())
-        except (http.client.IncompleteRead, ConnectionError, TimeoutError):
-            if attempt == attempts:
+        except (http.client.IncompleteRead, ConnectionError, TimeoutError, error.URLError) as exc:
+            if not _is_transient_read_error(exc) or attempt == attempts:
                 raise
-            time.sleep(READ_RETRY_BACKOFF_SECONDS * attempt)
+            backoff = READ_RETRY_BACKOFF_SECONDS * attempt
+            if deadline is not None and deadline - monotonic() <= backoff:
+                raise
+            time.sleep(backoff)
     raise AssertionError("unreachable")
+
+
+def _is_transient_read_error(exc: BaseException) -> bool:
+    if isinstance(exc, error.HTTPError):
+        return False
+    if isinstance(exc, error.URLError):
+        return isinstance(exc.reason, (ConnectionError, TimeoutError))
+    return True
 
 
 def _remaining_timeout(
@@ -356,6 +372,8 @@ def _iter_issue_pages(
             url,
             token,
             timeout=_remaining_timeout(deadline, monotonic),
+            deadline=deadline,
+            monotonic=monotonic,
         )
         if not isinstance(values, list):
             raise ValueError("issues response must be a list")
@@ -393,6 +411,8 @@ def _trusted_dispatch_run(
         f"https://api.github.com/repos/{repo}/actions/runs/{dispatch_run_id}",
         token,
         timeout=_remaining_timeout(deadline, monotonic),
+        deadline=deadline,
+        monotonic=monotonic,
     )
     repository = run.get("repository") if isinstance(run, dict) else None
     trusted = (
@@ -451,6 +471,8 @@ def list_ledger_receipts(
                 f"{comments_url}?per_page=100&page={page}",
                 token,
                 timeout=_remaining_timeout(deadline, monotonic),
+                deadline=deadline,
+                monotonic=monotonic,
             )
             if not isinstance(comments, list):
                 raise ValueError("comments response must be a list")
