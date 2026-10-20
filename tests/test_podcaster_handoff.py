@@ -1707,11 +1707,16 @@ class PodcasterHandoffTests(unittest.TestCase):
     def test_regeneration_requires_job_and_reason_and_reaches_payload(self) -> None:
         args = podcaster_handoff.parse_args(
             [
-                "--week", "2026-W23",
-                "--article-url", "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
-                "--article-path", "content/weekly/2026/W23.md",
-                "--publish-run-id", "123456789",
-                "--regenerate-of", "podcast-2026-W23-abc",
+                "--week",
+                "2026-W23",
+                "--article-url",
+                "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                "--article-path",
+                "content/weekly/2026/W23.md",
+                "--publish-run-id",
+                "123456789",
+                "--regenerate-of",
+                "podcast-2026-W23-abc",
             ]
         )
         with self.assertRaises(podcaster_handoff.PodcasterHandoffError):

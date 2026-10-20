@@ -829,7 +829,9 @@ def _regeneration_from_args(args: argparse.Namespace) -> dict[str, str] | None:
     if not supersedes and not reason:
         return None
     if not supersedes or not reason or not reason.strip():
-        raise PodcasterHandoffError("--regenerate-of and --regeneration-reason must be set together")
+        raise PodcasterHandoffError(
+            "--regenerate-of and --regeneration-reason must be set together"
+        )
     return {"supersedes_job_id": supersedes, "reason": reason.strip()}
 
 
