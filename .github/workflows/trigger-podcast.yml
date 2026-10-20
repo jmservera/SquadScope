@@ -16,6 +16,14 @@ on:
         description: 'Optional last-moment news or important information to include in this podcast episode.'
         required: false
         type: string
+      regenerate_of:
+        description: 'Job ID of a defective episode this run supersedes (e.g. placeholder script). Requires regeneration_reason.'
+        required: false
+        type: string
+      regeneration_reason:
+        description: 'Why the prior episode is being regenerated. Requires regenerate_of.'
+        required: false
+        type: string
 
 run-name: "Trigger podcast generation: ${{ inputs.week }} / ${{ inputs.publish_run_id }}"
 
@@ -59,6 +67,8 @@ jobs:
         env:
           WEEK: ${{ inputs.week }}
           BREAKING_NEWS: ${{ inputs.breaking_news || '' }}
+          REGENERATE_OF: ${{ inputs.regenerate_of || '' }}
+          REGENERATION_REASON: ${{ inputs.regeneration_reason || '' }}
         run: |
           set -euo pipefail
           if [[ ! "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
@@ -72,6 +82,16 @@ jobs:
           if [[ "$BREAKING_NEWS" =~ [[:cntrl:]] ]]; then
             echo "::error::breaking_news must not contain control characters"
             exit 1
+          fi
+          if [ -n "$REGENERATE_OF" ] || [ -n "$REGENERATION_REASON" ]; then
+            if [[ ! "$REGENERATE_OF" =~ ^podcast-[A-Za-z0-9_.-]{1,120}$ ]]; then
+              echo "::error::regenerate_of must be a podcast job ID"
+              exit 1
+            fi
+            if [ -z "$REGENERATION_REASON" ] || [ "${#REGENERATION_REASON}" -gt 500 ] || [[ "$REGENERATION_REASON" =~ [[:cntrl:]] ]]; then
+              echo "::error::regeneration_reason is required (<=500 chars, no control characters)"
+              exit 1
+            fi
           fi
 
           # 2026-W25 → year=2026, short=W25
@@ -140,6 +160,8 @@ jobs:
           PUBLISH_RUN_ID: ${{ steps.manifest-locate.outputs.publish_run_id }}
           TRIGGER_RUN_ID: ${{ github.run_id }}
           BREAKING_NEWS: ${{ inputs.breaking_news || '' }}
+          REGENERATE_OF: ${{ inputs.regenerate_of || '' }}
+          REGENERATION_REASON: ${{ inputs.regeneration_reason || '' }}
         run: |
           set -euo pipefail
           if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
@@ -159,6 +181,9 @@ jobs:
           BREAKING_ARGS=()
           if [ -n "$BREAKING_NEWS" ]; then
             BREAKING_ARGS=(--breaking-news "$BREAKING_NEWS")
+          fi
+          if [ -n "$REGENERATE_OF" ]; then
+            BREAKING_ARGS+=(--regenerate-of "$REGENERATE_OF" --regeneration-reason "$REGENERATION_REASON")
           fi
 
           # Trigger real podcast generation using the existing validated manifest

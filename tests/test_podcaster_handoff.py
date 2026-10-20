@@ -1704,6 +1704,34 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         self.assertEqual(payload["breaking_news"], "Major outage at GitHub Actions today")
 
+    def test_regeneration_requires_job_and_reason_and_reaches_payload(self) -> None:
+        args = podcaster_handoff.parse_args(
+            [
+                "--week", "2026-W23",
+                "--article-url", "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                "--article-path", "content/weekly/2026/W23.md",
+                "--publish-run-id", "123456789",
+                "--regenerate-of", "podcast-2026-W23-abc",
+            ]
+        )
+        with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
+            podcaster_handoff._regeneration_from_args(args)
+        args.regeneration_reason = " placeholder script "
+        regeneration = podcaster_handoff._regeneration_from_args(args)
+        self.assertEqual(
+            regeneration,
+            {"supersedes_job_id": "podcast-2026-W23-abc", "reason": "placeholder script"},
+        )
+        payload = podcaster_handoff.build_payload(
+            week="2026-W23",
+            article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+            article_path="content/weekly/2026/W23.md",
+            publish_run_id="123456789",
+            publish_mode="normal",
+            regeneration=regeneration,
+        )
+        self.assertEqual(payload["regeneration"], regeneration)
+
     def test_verify_article_merged_passes_on_match(self) -> None:
         import hashlib
 

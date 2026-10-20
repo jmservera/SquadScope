@@ -120,6 +120,16 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Optional last-moment news or important information to include in this podcast episode.",
     )
     parser.add_argument(
+        "--regenerate-of",
+        default=None,
+        help="Job ID of a defective prior episode that this run supersedes.",
+    )
+    parser.add_argument(
+        "--regeneration-reason",
+        default=None,
+        help="Operator reason for the regeneration (required with --regenerate-of).",
+    )
+    parser.add_argument(
         "--require-merged",
         action="store_true",
         help="Fail closed unless the article file exists locally and its sha256 matches the "
@@ -813,6 +823,16 @@ def _is_gated_replay(manifest: dict[str, Any], *, week: str) -> bool:
     return well_formed_promotable and gated_mode
 
 
+def _regeneration_from_args(args: argparse.Namespace) -> dict[str, str] | None:
+    supersedes = getattr(args, "regenerate_of", None)
+    reason = getattr(args, "regeneration_reason", None)
+    if not supersedes and not reason:
+        return None
+    if not supersedes or not reason or not reason.strip():
+        raise PodcasterHandoffError("--regenerate-of and --regeneration-reason must be set together")
+    return {"supersedes_job_id": supersedes, "reason": reason.strip()}
+
+
 def build_payload(
     *,
     week: str,
@@ -825,6 +845,7 @@ def build_payload(
     podcaster_dry_run: bool = False,
     repo_root: Path | None = None,
     breaking_news: str | None = None,
+    regeneration: dict[str, str] | None = None,
     require_merged: bool = False,
     exact_article_content: bool = False,
     manifest: dict[str, Any] | None = None,
@@ -922,6 +943,8 @@ def build_payload(
 
     if breaking_news:
         payload["breaking_news"] = breaking_news
+    if regeneration:
+        payload["regeneration"] = regeneration
 
     if podcaster_dry_run:
         payload["dry_run"] = True
@@ -1222,6 +1245,7 @@ def main(argv: list[str] | None = None) -> int:
                 podcast_config_path=args.podcast_config,
                 podcaster_dry_run=args.podcaster_dry_run,
                 breaking_news=args.breaking_news,
+                regeneration=_regeneration_from_args(args),
                 require_merged=args.require_merged,
                 exact_article_content=True,
                 manifest=exact_manifest,
@@ -1283,6 +1307,7 @@ def main(argv: list[str] | None = None) -> int:
                 podcast_config_path=args.podcast_config,
                 podcaster_dry_run=args.podcaster_dry_run,
                 breaking_news=args.breaking_news,
+                regeneration=_regeneration_from_args(args),
                 require_merged=args.require_merged,
                 manifest=manifest,
             )
