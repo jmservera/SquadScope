@@ -323,108 +323,38 @@ jobs:
         id: derive
         env:
           WEEK: ${{ needs.detect.outputs.week }}
+          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
           ARTICLE_PATH: ${{ needs.detect.outputs.article_path }}
           ARTICLE_URL: ${{ needs.detect.outputs.article_url }}
-        run: |
-          set -euo pipefail
-          # Validate machine-generated week slug before use in shell
-          if [[ ! "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
-            echo "::error::week must match YYYY-WNN (got: $WEEK)"
-            exit 1
-          fi
-          # Validate article path format
-          if [[ ! "$ARTICLE_PATH" =~ ^content/weekly/[0-9]{4}/W[0-9]{2}\.md$ ]]; then
-            echo "::error::article_path has unexpected format (got: $ARTICLE_PATH)"
-            exit 1
-          fi
-          echo "article_path=${ARTICLE_PATH}" >> "$GITHUB_OUTPUT"
-          echo "article_url=${ARTICLE_URL}" >> "$GITHUB_OUTPUT"
-
-      - name: Locate publish manifest from detection
-        id: manifest-locate
-        env:
-          WEEK: ${{ needs.detect.outputs.week }}
-          PUBLISH_RUN_ID: ${{ needs.detect.outputs.publish_run_id }}
           DETECT_MANIFEST_PATH: ${{ needs.detect.outputs.manifest_path }}
           DETECT_ARTICLE_SHA256: ${{ needs.detect.outputs.article_sha256 }}
           DETECT_MANIFEST_SHA256: ${{ needs.detect.outputs.manifest_sha256 }}
         run: |
           set -euo pipefail
-          if ! [[ "$PUBLISH_RUN_ID" =~ ^[0-9]+$ ]]; then
-            echo "::error::publish_run_id must be a numeric workflow run ID (got: $PUBLISH_RUN_ID)"
-            exit 1
-          fi
-          # Validate manifest path format (defense-in-depth; also checked in detect script)
-          if ! echo "$DETECT_MANIFEST_PATH" | grep -qE \
-            '^data/candidates/[^/]+/[^/]+/publish-manifest\.json$'; then
-            echo "::error::manifest_path has unexpected format (got: $DETECT_MANIFEST_PATH)"
-            exit 1
-          fi
-          if ! git fetch origin publish 2>/dev/null; then
-            echo "::error::Could not fetch publish branch. Has crawl-and-publish run yet?"
-            exit 1
-          fi
-          MANIFEST="data/candidates/${WEEK}/${PUBLISH_RUN_ID}/publish-manifest.json"
-          # Verify exact path matches detection output
-          if [ "$MANIFEST" != "$DETECT_MANIFEST_PATH" ]; then
-            echo "::error::manifest path mismatch: expected $DETECT_MANIFEST_PATH got $MANIFEST"
-            exit 1
-          fi
-          if ! git checkout origin/publish -- "$MANIFEST" 2>/dev/null; then
-            echo "::error::Manifest not found at $MANIFEST for exact run $PUBLISH_RUN_ID"
-            exit 1
-          fi
-          # Mirror trigger-podcast.yml validation inline Python
-          python3 - "$MANIFEST" "$WEEK" "$PUBLISH_RUN_ID" "$DETECT_ARTICLE_SHA256" "$DETECT_MANIFEST_SHA256" <<'PY'
-          import hashlib
-          import json
-          import os
-          import sys
-          from pathlib import Path
+          python3 scripts/podcaster_handoff.py prepare-release \
+            --week "$WEEK" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --article-path "$ARTICLE_PATH" \
+            --article-url "$ARTICLE_URL" \
+            --manifest-path "$DETECT_MANIFEST_PATH" \
+            --expected-article-sha256 "$DETECT_ARTICLE_SHA256" \
+            --expected-manifest-sha256 "$DETECT_MANIFEST_SHA256"
 
-          manifest_path = Path(sys.argv[1])
-          requested_week = sys.argv[2]
-          requested_run_id = sys.argv[3]
-          expected_article_sha256 = sys.argv[4]
-          expected_manifest_sha256 = sys.argv[5]
-          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-
-          if manifest.get("week") != requested_week:
-              raise SystemExit(f"::error::Manifest week {manifest.get('week')!r} != {requested_week!r}")
-          if str(manifest.get("run_id")) != requested_run_id:
-              raise SystemExit(f"::error::Manifest run_id {manifest.get('run_id')!r} != {requested_run_id!r}")
-          if manifest.get("run_mode") != "normal":
-              raise SystemExit(f"::error::Manifest run_mode is not 'normal': {manifest.get('run_mode')!r}")
-
-          analysis = manifest.get("analysis") or {}
-          preflight = analysis.get("preflight") or {}
-          if not preflight.get("publish_eligible"):
-              raise SystemExit("::error::analysis.preflight.publish_eligible is not true")
-          if not manifest.get("promotion_eligible"):
-              raise SystemExit("::error::promotion_eligible is not true")
-
-          candidate = manifest.get("candidate") or {}
-          article_sha256 = candidate.get("content_sha256")
-          if not isinstance(article_sha256, str) or len(article_sha256) != 64:
-              raise SystemExit("::error::Manifest candidate.content_sha256 is missing or invalid")
-          if article_sha256 != expected_article_sha256:
-              raise SystemExit(
-                  f"::error::SHA-256 mismatch: manifest={article_sha256!r} detect={expected_article_sha256!r}"
-              )
-
-          manifest_sha256 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
-          if manifest_sha256 != expected_manifest_sha256:
-              raise SystemExit(
-                  f"::error::Manifest SHA-256 mismatch: fetched={manifest_sha256!r} "
-                  f"detect={expected_manifest_sha256!r}"
-              )
-
-          with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as out:
-              out.write(f"manifest_path={manifest_path}\n")
-              out.write(f"manifest_sha256={manifest_sha256}\n")
-              out.write(f"article_sha256={article_sha256}\n")
-              out.write(f"publish_run_id={requested_run_id}\n")
-          PY
+      - name: Locate publish manifest from detection
+        id: manifest-locate
+        env:
+          MANIFEST_PATH: ${{ steps.derive.outputs.manifest_path }}
+          MANIFEST_SHA256: ${{ steps.derive.outputs.manifest_sha256 }}
+          ARTICLE_SHA256: ${{ steps.derive.outputs.article_sha256 }}
+          PUBLISH_RUN_ID: ${{ steps.derive.outputs.publish_run_id }}
+        run: |
+          # Retain the historical step outputs used by dispatch evidence readers.
+          {
+            echo "manifest_path=$MANIFEST_PATH"
+            echo "manifest_sha256=$MANIFEST_SHA256"
+            echo "article_sha256=$ARTICLE_SHA256"
+            echo "publish_run_id=$PUBLISH_RUN_ID"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Validate Podcaster configuration
         env:
@@ -529,15 +459,6 @@ jobs:
           TRIGGER_RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
-          if [ ! -f "$ARTICLE_PATH" ]; then
-            echo "::error::Article '$ARTICLE_PATH' is not on the default branch."
-            exit 1
-          fi
-          if [ ! -f "$MANIFEST_FILE" ]; then
-            echo "::error::Manifest file not found: $MANIFEST_FILE"
-            exit 1
-          fi
-
           python3 scripts/podcaster_handoff.py \
             --week "$WEEK" \
             --article-url "$ARTICLE_URL" \
