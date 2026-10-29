@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess  # nosec B404
 import sys
 from datetime import date
 from html.parser import HTMLParser
@@ -835,6 +836,154 @@ def _regeneration_from_args(args: argparse.Namespace) -> dict[str, str] | None:
     return {"supersedes_job_id": supersedes, "reason": reason.strip()}
 
 
+def prepare_release(
+    *,
+    week: str,
+    publish_run_id: str,
+    article_path: str | None = None,
+    article_url: str | None = None,
+    manifest_path: str | None = None,
+    expected_article_sha256: str | None = None,
+    expected_manifest_sha256: str | None = None,
+    breaking_news: str | None = None,
+    regenerate_of: str | None = None,
+    regeneration_reason: str | None = None,
+    repo_root: Path = REPO_ROOT,
+) -> dict[str, str]:
+    """Prepare one exact, eligible merged release without contacting Podcaster."""
+    from scripts.auto_dispatch_detect import article_url_from_article_path, validate_manifest
+
+    if not re.fullmatch(r"[0-9]{4}-W[0-9]{2}", week):
+        raise PodcasterHandoffError("week must match YYYY-WNN.")
+    if not re.fullmatch(r"[0-9]+", publish_run_id):
+        raise PodcasterHandoffError("publish_run_id must be a numeric workflow run ID.")
+    year, short = week.split("-")
+    canonical_article = f"content/weekly/{year}/{short}.md"
+    canonical_url = article_url_from_article_path(canonical_article)
+    canonical_manifest = f"data/candidates/{week}/{publish_run_id}/publish-manifest.json"
+    for label, supplied, expected in (
+        ("article_path", article_path, canonical_article),
+        ("article_url", article_url, canonical_url),
+        ("manifest_path", manifest_path, canonical_manifest),
+    ):
+        if supplied is not None and supplied != expected:
+            raise PodcasterHandoffError(f"{label} does not match the requested release.")
+    for label, digest in (
+        ("expected_article_sha256", expected_article_sha256),
+        ("expected_manifest_sha256", expected_manifest_sha256),
+    ):
+        if digest is not None and not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise PodcasterHandoffError(f"{label} must be lowercase 64-character hex.")
+    for label, text in (
+        ("breaking_news", breaking_news),
+        ("regeneration_reason", regeneration_reason),
+    ):
+        if text and (len(text) > 500 or re.search(r"[\x00-\x1f\x7f-\x9f]", text)):
+            raise PodcasterHandoffError(f"{label} must be <=500 chars without control characters.")
+    if regenerate_of or regeneration_reason:
+        if not regenerate_of or not re.fullmatch(r"podcast-[A-Za-z0-9_.-]{1,120}", regenerate_of):
+            raise PodcasterHandoffError("regenerate_of must be a podcast job ID.")
+        _regeneration_from_args(
+            argparse.Namespace(regenerate_of=regenerate_of, regeneration_reason=regeneration_reason)
+        )
+
+    root = repo_root.resolve()
+    article = _repository_file(root, canonical_article, "article_path")
+    try:
+        article_bytes = article.read_bytes()
+        article_bytes.decode("utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        raise PodcasterHandoffError("article_path must contain readable UTF-8 bytes.") from exc
+    article_sha256 = hashlib.sha256(article_bytes).hexdigest()
+    if expected_article_sha256 is not None and article_sha256 != expected_article_sha256:
+        raise PodcasterHandoffError("Merged article SHA-256 does not match detection evidence.")
+
+    try:
+        subprocess.run(  # nosec B603 B607 - fixed argv, no shell
+            ["git", "fetch", "origin", "publish", "--no-tags"],
+            cwd=root,
+            capture_output=True,
+            check=True,
+        )
+        manifest_bytes = subprocess.run(  # nosec B603 B607 - validated exact repository path
+            ["git", "show", f"origin/publish:{canonical_manifest}"],
+            cwd=root,
+            capture_output=True,
+            check=True,
+        ).stdout
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise PodcasterHandoffError("Could not retrieve the exact publish manifest.") from exc
+    manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+    if expected_manifest_sha256 is not None and manifest_sha256 != expected_manifest_sha256:
+        raise PodcasterHandoffError("Manifest SHA-256 does not match detection evidence.")
+    try:
+        manifest = json.loads(manifest_bytes.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise PodcasterHandoffError("Publish manifest must be readable UTF-8 JSON.") from exc
+    if not isinstance(manifest, dict):
+        raise PodcasterHandoffError("Publish manifest must be a JSON object.")
+    for field in ("analysis", "candidate", "promotion"):
+        if not isinstance(manifest.get(field), dict):
+            raise PodcasterHandoffError(f"Publish manifest {field} must be a JSON object.")
+    if not isinstance(manifest["analysis"].get("preflight"), dict):
+        raise PodcasterHandoffError("Publish manifest analysis.preflight must be a JSON object.")
+    valid, reason = validate_manifest(manifest, week, publish_run_id, article_sha256)
+    if not valid:
+        raise PodcasterHandoffError(f"Publish manifest is not eligible: {reason}")
+    if not _manifest_allows_handoff(manifest, week=week, publish_mode="normal"):
+        raise PodcasterHandoffError("Publish manifest is not eligible for Podcaster handoff.")
+    verify_article_merged(canonical_article, manifest, repo_root=root)
+
+    destination = (root / canonical_manifest).resolve()
+    if not destination.is_relative_to(root):
+        raise PodcasterHandoffError("manifest_path must stay under the repository root.")
+    try:
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(manifest_bytes)
+    except OSError as exc:
+        raise PodcasterHandoffError("Could not hydrate the exact publish manifest.") from exc
+    return {
+        "week": week,
+        "publish_run_id": publish_run_id,
+        "article_path": canonical_article,
+        "article_url": canonical_url,
+        "article_sha256": article_sha256,
+        "manifest_path": canonical_manifest,
+        "manifest_sha256": manifest_sha256,
+    }
+
+
+def prepare_release_main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(description="Prepare an exact merged podcast release.")
+    parser.add_argument("--week", required=True)
+    parser.add_argument("--publish-run-id", required=True)
+    for option in (
+        "article-path",
+        "article-url",
+        "manifest-path",
+        "expected-article-sha256",
+        "expected-manifest-sha256",
+        "breaking-news",
+        "regenerate-of",
+        "regeneration-reason",
+    ):
+        parser.add_argument(f"--{option}")
+    parser.add_argument("--root", type=Path, default=REPO_ROOT)
+    args = vars(parser.parse_args(argv))
+    args["repo_root"] = args.pop("root")
+    try:
+        outputs = prepare_release(**args)
+        github_output = os.environ.get("GITHUB_OUTPUT")
+        if github_output:
+            with Path(github_output).open("a", encoding="utf-8") as output:
+                output.writelines(f"{key}={value}\n" for key, value in outputs.items())
+        print(json.dumps(outputs, sort_keys=True))
+    except (PodcasterHandoffError, OSError) as exc:
+        print(f"::error::Release preparation failed: {_escape_gha_data(str(exc))}")
+        return 1
+    return 0
+
+
 def build_payload(
     *,
     week: str,
@@ -1214,6 +1363,9 @@ def post_handoff(
 
 
 def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    if argv and argv[0] == "prepare-release":
+        return prepare_release_main(argv[1:])
     args = parse_args(argv)
     exact_payload: dict[str, Any] | None = None
     exact_manifest: dict[str, Any] | None = None

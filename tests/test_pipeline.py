@@ -1431,22 +1431,26 @@ class WorkflowConfigTests(unittest.TestCase):
         checkout = next(s for s in job["steps"] if _uses_action(s, "actions/checkout"))
         self.assertEqual(checkout["with"]["ref"], "${{ github.event.repository.default_branch }}")
         derive = next(s for s in job["steps"] if s.get("id") == "derive")
-        self.assertIn('SHORT_LOWER="${SHORT,,}"', derive["run"])
-        self.assertIn(
-            "article_url=https://claracle.com/weekly/${YEAR}/${SHORT_LOWER}/",
-            derive["run"],
-        )
+        self.assertIn("scripts/podcaster_handoff.py prepare-release", derive["run"])
+        self.assertIn('--week "$WEEK"', derive["run"])
+        self.assertIn('--publish-run-id "$PUBLISH_RUN_ID"', derive["run"])
+        self.assertIn('--regenerate-of "$REGENERATE_OF"', derive["run"])
+        self.assertIn('--regeneration-reason "$REGENERATION_REASON"', derive["run"])
 
         locate = next(s for s in job["steps"] if s.get("id") == "manifest-locate")
         locate_run = locate["run"]
-        self.assertIn("data/candidates/${WEEK}/${PUBLISH_RUN_ID}/publish-manifest.json", locate_run)
-        self.assertIn('manifest.get("week") != requested_week', locate_run)
-        self.assertIn('str(manifest.get("run_id")) != requested_run_id', locate_run)
+        self.assertEqual(
+            locate["env"]["MANIFEST_PATH"], "${{ steps.derive.outputs.manifest_path }}"
+        )
+        self.assertEqual(
+            locate["env"]["MANIFEST_SHA256"], "${{ steps.derive.outputs.manifest_sha256 }}"
+        )
+        self.assertIn('echo "manifest_path=$MANIFEST_PATH"', locate_run)
+        self.assertNotIn("git ", locate_run)
+        self.assertNotIn("python", locate_run)
         self.assertNotIn("find ", locate_run)
         self.assertNotIn("tail -1", locate_run)
         self.assertNotIn("most recent", locate_run)
-        manifest_script = locate_run.split("<<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
-        compile(manifest_script, str(workflow_path), "exec")
 
         handoff = next(s for s in job["steps"] if s.get("id") == "handoff")
         self.assertIn("--require-merged", handoff["run"])
@@ -1516,8 +1520,19 @@ class WorkflowConfigTests(unittest.TestCase):
         locate = next(
             step for step in real_generation["steps"] if step.get("id") == "manifest-locate"
         )
-        self.assertIn("DETECT_MANIFEST_SHA256", locate["env"])
-        self.assertIn("Manifest SHA-256 mismatch", locate["run"])
+        derive = next(step for step in real_generation["steps"] if step.get("id") == "derive")
+        self.assertIn("scripts/podcaster_handoff.py prepare-release", derive["run"])
+        self.assertEqual(
+            derive["env"]["DETECT_MANIFEST_SHA256"],
+            "${{ needs.detect.outputs.manifest_sha256 }}",
+        )
+        self.assertIn('--expected-manifest-sha256 "$DETECT_MANIFEST_SHA256"', derive["run"])
+        self.assertIn('--expected-article-sha256 "$DETECT_ARTICLE_SHA256"', derive["run"])
+        self.assertEqual(
+            locate["env"]["MANIFEST_SHA256"], "${{ steps.derive.outputs.manifest_sha256 }}"
+        )
+        self.assertNotIn("git ", locate["run"])
+        self.assertNotIn("python", locate["run"])
         post_ledger = next(
             step
             for step in real_generation["steps"]
