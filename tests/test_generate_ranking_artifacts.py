@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import json
 import shutil
+import tomllib
 from pathlib import Path
 
+import pytest
 from jsonschema import Draft202012Validator
 
 from scripts import generate_data_pages, generate_ranking_artifacts
@@ -160,6 +162,74 @@ def test_ranking_artifact_is_deterministic() -> None:
         assert first == second
     finally:
         shutil.rmtree(root, ignore_errors=True)
+
+
+def test_transferred_repository_refills_rankings_and_preserves_growth(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    for week, name, stars, increment in (
+        ("2026-W43", "diegosouzapw/OmniRoute", 78202, 0),
+        ("2026-W44", "cheaper-inference/OmniRoute", 81193, 1000),
+    ):
+        repos = [
+            {
+                **sample_repo(
+                    f"owner/mcp-{index:03}",
+                    description="AI MCP tools",
+                    language="Python",
+                    stars=1000 - index + increment,
+                    topics=["ai", "mcp"],
+                ),
+                "id": index + 1,
+            }
+            for index in range(100)
+        ]
+        repos.append(
+            {
+                **sample_repo(
+                    name,
+                    description="AI MCP gateway",
+                    language="TypeScript",
+                    stars=stars,
+                    topics=["ai", "mcp"],
+                ),
+                "id": 1157102282,
+            }
+        )
+        write_json(
+            tmp_path / f"data/raw/{week}.json",
+            base_payload(week, f"2026-10-{19 if week.endswith('43') else 26}T00:00:00Z", repos),
+        )
+
+    monkeypatch.setattr(generate_data_pages, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(generate_data_pages, "RAW_DIR", tmp_path / "data/raw")
+    monkeypatch.setattr(generate_data_pages, "ARCHIVE_DIR", tmp_path / "data/archive")
+    monkeypatch.setattr(generate_data_pages, "CONTENT_DIR", tmp_path / "content/data")
+    pages = generate_data_pages.build_pages()
+    payloads = generate_ranking_artifacts.build_ranking_payloads(tmp_path)
+    assert pages == generate_data_pages.build_pages()
+    assert payloads == generate_ranking_artifacts.build_ranking_payloads(tmp_path)
+
+    for ranking_id, payload in payloads.items():
+        records = payload["records"]
+        page = pages[tmp_path / "content/data" / ranking_id / "index.md"]
+        rows = tomllib.loads(page.split("+++", 2)[1])["ranking"]
+        assert len(records) == len(rows) == 100
+        assert [record["rank"] for record in records] == list(range(1, 101))
+        assert [(record["full_name"], record["metric_value"]) for record in records] == [
+            (row["repo"], row["metric_value"]) for row in rows
+        ]
+        assert "diegosouzapw/OmniRoute" not in [record["full_name"] for record in records]
+        assert records[0]["full_name"] == "cheaper-inference/OmniRoute"
+        assert records[-1]["full_name"] == "owner/mcp-098"
+        if ranking_id == "fastest-growing-ai-repositories-this-year":
+            assert records[0]["metric_value"] == 2991
+            assert records[0]["comparison_value"] == 78202
+        else:
+            assert records[0]["metric_value"] == 81193
+        load_schema("observatory-envelope.schema.json").validate(payload)
+        for record in records:
+            load_schema("ranking-record.schema.json").validate(record)
 
 
 def test_source_checksum_is_checkout_root_independent() -> None:

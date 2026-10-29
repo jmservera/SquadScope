@@ -9,7 +9,7 @@ import re
 import sys
 import unicodedata
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -77,6 +77,11 @@ class RepoObservation:
     forks: int | None
     created_at: str
     topics: tuple[str, ...]
+    github_id: int | None = None
+
+    @property
+    def identity(self) -> str:
+        return f"github:{self.github_id}" if self.github_id is not None else self.full_name.lower()
 
 
 def parse_datetime(value: str | None, week: str) -> datetime:
@@ -198,9 +203,25 @@ def coerce_int(value: Any) -> int:
         return 0
 
 
+def github_repo_id(value: Any) -> int | None:
+    if not re.fullmatch(r"[0-9]+", str(value)):
+        return None
+    return int(value) or None
+
+
+def observation_order(obs: RepoObservation) -> tuple:
+    return (
+        obs.week,
+        obs.crawled_at,
+        obs.stars,
+        obs.full_name.lower(),
+        obs.full_name,
+        obs.source_bucket,
+    )
+
+
 def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]:
     observations: list[RepoObservation] = []
-    seen_week_repo: dict[tuple[str, str], RepoObservation] = {}
     for artifact in artifacts:
         for bucket in ("trending_repos", "new_repos"):
             for repo in artifact.payload.get(bucket, []) or []:
@@ -209,7 +230,6 @@ def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]
                 ).strip("/")
                 if "/" not in full_name:
                     continue
-                key = (artifact.week, full_name.lower())
                 topics = tuple(str(topic) for topic in (repo.get("topics") or []))
                 observation = RepoObservation(
                     week=artifact.week,
@@ -225,19 +245,34 @@ def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]
                     forks=coerce_int(repo.get("forks")) if repo.get("forks") is not None else None,
                     created_at=str(repo.get("created_at") or ""),
                     topics=topics,
+                    github_id=github_repo_id(repo.get("id")),
                 )
-                existing = seen_week_repo.get(key)
-                if existing is None or observation.stars > existing.stars:
-                    seen_week_repo[key] = observation
-    observations.extend(seen_week_repo.values())
-    return sorted(observations, key=lambda item: (item.week, item.full_name.lower()))
+                observations.append(observation)
+
+    ids_by_name: dict[str, set[int]] = defaultdict(set)
+    for obs in observations:
+        if obs.github_id is not None:
+            ids_by_name[obs.full_name.lower()].add(obs.github_id)
+
+    seen_week_repo: dict[tuple[str, str], RepoObservation] = {}
+    for obs in observations:
+        ids = ids_by_name[obs.full_name.lower()]
+        # Bridge legacy history only when the name identifies one stable repository.
+        # Reused names must never join distinct IDs through a name-only observation.
+        if obs.github_id is None and len(ids) == 1:
+            obs = replace(obs, github_id=next(iter(ids)))
+        key = (obs.week, obs.identity)
+        existing = seen_week_repo.get(key)
+        if existing is None or observation_order(obs) > observation_order(existing):
+            seen_week_repo[key] = obs
+    return sorted(seen_week_repo.values(), key=observation_order)
 
 
 def latest_by_repo(observations: list[RepoObservation]) -> dict[str, RepoObservation]:
     latest: dict[str, RepoObservation] = {}
     for obs in observations:
-        key = obs.full_name.lower()
-        if key not in latest or (obs.week, obs.stars) > (latest[key].week, latest[key].stars):
+        key = obs.identity
+        if key not in latest or observation_order(obs) > observation_order(latest[key]):
             latest[key] = obs
     return latest
 
@@ -245,8 +280,8 @@ def latest_by_repo(observations: list[RepoObservation]) -> dict[str, RepoObserva
 def grouped_by_repo(observations: list[RepoObservation]) -> dict[str, list[RepoObservation]]:
     grouped: dict[str, list[RepoObservation]] = defaultdict(list)
     for obs in observations:
-        grouped[obs.full_name.lower()].append(obs)
-    return {key: sorted(value, key=lambda item: item.week) for key, value in grouped.items()}
+        grouped[obs.identity].append(obs)
+    return {key: sorted(value, key=observation_order) for key, value in grouped.items()}
 
 
 def format_int(value: int) -> str:
