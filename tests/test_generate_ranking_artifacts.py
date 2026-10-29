@@ -243,6 +243,102 @@ def test_historical_growth_json_remains_identical_to_committed_output() -> None:
     )
 
 
+@pytest.mark.parametrize("latest_is_ai", [False, True])
+def test_monthly_json_filters_ai_after_latest_identity(latest_is_ai: bool, tmp_path: Path) -> None:
+    for week, name, stars, topics in (
+        ("2026-W43", "old/ai-project", 100, ["ai"]),
+        ("2026-W44", "new/project", 120, ["ai"] if latest_is_ai else []),
+    ):
+        write_json(
+            tmp_path / f"data/raw/{week}.json",
+            base_payload(
+                week,
+                f"2026-10-{19 if week.endswith('43') else 26}T00:00:00Z",
+                [
+                    {
+                        **sample_repo(
+                            name,
+                            stars=stars,
+                            topics=topics,
+                            description="Current repository description",
+                            language="Rust",
+                        ),
+                        "id": 42,
+                    }
+                ],
+            ),
+        )
+    payload = generate_ranking_artifacts.build_ranking_payloads(tmp_path)[
+        "top-ai-repositories-this-month"
+    ]
+    assert payload["provenance"]["source_paths"] == [
+        "data/raw/2026-W43.json",
+        "data/raw/2026-W44.json",
+    ]
+    records = payload["records"]
+    assert all(record["full_name"] != "old/ai-project" for record in records)
+    if latest_is_ai:
+        assert [(record["full_name"], record["metric_value"]) for record in records] == [
+            ("new/project", 120)
+        ]
+        assert records[0]["github_url"] == "https://github.com/new/project"
+        assert records[0]["language"] == "Rust"
+        assert records[0]["context_summary"] == "Current repository description"
+    else:
+        assert records == []
+    load_schema("observatory-envelope.schema.json").validate(payload)
+    for record in records:
+        load_schema("ranking-record.schema.json").validate(record)
+
+
+def test_monthly_identity_and_provenance_exclude_older_month(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def repository(name: str, stars: int, github_id: int | None = None) -> dict:
+        repo = sample_repo(
+            name, stars=stars, topics=["ai"], description="AI tools", language="Python"
+        )
+        return {**repo, "id": github_id} if github_id is not None else repo
+
+    older_path = tmp_path / "data/raw/2026-W39.json"
+    write_json(
+        tmp_path / "data/raw/2026-W43.json",
+        base_payload("2026-W43", "2026-10-19T00:00:00Z", [repository("old/project", 100)]),
+    )
+    write_json(
+        tmp_path / "data/raw/2026-W44.json",
+        base_payload("2026-W44", "2026-10-26T00:00:00Z", [repository("new/project", 120, 42)]),
+    )
+    monkeypatch.setattr(generate_data_pages, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(generate_data_pages, "RAW_DIR", tmp_path / "data/raw")
+    monkeypatch.setattr(generate_data_pages, "ARCHIVE_DIR", tmp_path / "data/archive")
+    monkeypatch.setattr(generate_data_pages, "CONTENT_DIR", tmp_path / "content/data")
+    ranking_id = "top-ai-repositories-this-month"
+    page_path = tmp_path / "content/data" / ranking_id / "index.md"
+    results = []
+    for older_id in (42, 43):
+        write_json(
+            older_path,
+            base_payload(
+                "2026-W39", "2026-09-21T00:00:00Z", [repository("old/project", 90, older_id)]
+            ),
+        )
+        payload = generate_ranking_artifacts.build_ranking_payloads(tmp_path)[ranking_id]
+        page = generate_data_pages.build_pages()[page_path]
+        rows = tomllib.loads(page.split("+++", 2)[1])["ranking"]
+        expected = [("new/project", 120), ("old/project", 100)]
+        assert [(record["full_name"], record["metric_value"]) for record in payload["records"]] == (
+            expected
+        )
+        assert [(row["repo"], row["metric_value"]) for row in rows] == expected
+        assert payload["provenance"]["source_paths"] == [
+            "data/raw/2026-W43.json",
+            "data/raw/2026-W44.json",
+        ]
+        results.append((payload, page))
+    assert results[0] == results[1]
+
+
 def test_source_checksum_is_checkout_root_independent() -> None:
     first_root = ranking_fixture_root(".pytest-ranking-checksum-first-root")
     second_root = ranking_fixture_root(".pytest-ranking-checksum-second-root")

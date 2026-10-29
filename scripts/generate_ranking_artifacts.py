@@ -215,12 +215,14 @@ def build_ranking_payloads(
     latest_date = latest_artifact.crawled_at.date()
 
     month_observations = [
-        obs
-        for obs in observations
-        if obs.crawled_at.strftime("%Y-%m") == latest_month
-        and generate_data_pages.is_ai_project(obs)
+        obs for obs in observations if obs.crawled_at.strftime("%Y-%m") == latest_month
     ]
-    month_latest = generate_data_pages.latest_by_repo(month_observations)
+    # Include every in-month identity input in provenance, even if its latest state is not AI.
+    month_latest = [
+        obs
+        for obs in generate_data_pages.latest_by_repo(month_observations).values()
+        if generate_data_pages.is_ai_project(obs)
+    ]
     top_month_records = [
         ranking_record(
             rank=index,
@@ -230,7 +232,7 @@ def build_ranking_payloads(
             metric_label=f"{generate_data_pages.format_int(obs.stars)} stars",
         )
         for index, obs in enumerate(
-            sorted(month_latest.values(), key=lambda item: (-item.stars, item.full_name.lower()))[
+            sorted(month_latest, key=lambda item: (-item.stars, item.full_name.lower()))[
                 :MAX_RANKING_ROWS
             ],
             start=1,

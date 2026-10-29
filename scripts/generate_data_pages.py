@@ -414,11 +414,12 @@ def build_pages() -> dict[Path, str]:
 
     latest_month = latest_artifact.crawled_at.strftime("%Y-%m")
     month_observations = [
-        obs
-        for obs in observations
-        if obs.crawled_at.strftime("%Y-%m") == latest_month and is_ai_project(obs)
+        obs for obs in observations if obs.crawled_at.strftime("%Y-%m") == latest_month
     ]
-    month_latest = latest_by_repo(month_observations)
+    # Current-snapshot eligibility must not resurrect stale pre-transfer metadata.
+    month_latest = [
+        obs for obs in latest_by_repo(month_observations).values() if is_ai_project(obs)
+    ]
     top_month_rows = [
         row(
             rank=index,
@@ -430,7 +431,7 @@ def build_pages() -> dict[Path, str]:
             github_url=validate_github_url(obs.url),
         )
         for index, obs in enumerate(
-            sorted(month_latest.values(), key=lambda item: (-item.stars, item.full_name.lower()))[
+            sorted(month_latest, key=lambda item: (-item.stars, item.full_name.lower()))[
                 :MAX_RANKING_ROWS
             ],
             start=1,

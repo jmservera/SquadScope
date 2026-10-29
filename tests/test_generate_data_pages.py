@@ -6,6 +6,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -258,6 +259,43 @@ def test_historical_growth_keeps_weekly_name_and_highest_star_baseline() -> None
 def test_historical_growth_page_remains_byte_identical_to_committed_output() -> None:
     path = ROOT / "content/data/fastest-growing-ai-repositories-this-year/index.md"
     assert generate_data_pages.build_pages()[path] == path.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("latest_is_ai", [False, True])
+def test_monthly_page_filters_ai_after_latest_identity(
+    latest_is_ai: bool, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    artifacts = [
+        identity_artifact(
+            "2026-W43",
+            [{"id": 42, "full_name": "old/ai-project", "stars": 100, "topics": ["ai"]}],
+        ),
+        identity_artifact(
+            "2026-W44",
+            [
+                {
+                    "id": 42,
+                    "full_name": "new/project",
+                    "stars": 120,
+                    "topics": ["ai"] if latest_is_ai else [],
+                    "description": "Current repository description",
+                    "language": "Rust",
+                }
+            ],
+        ),
+    ]
+    monkeypatch.setattr(generate_data_pages, "discover_week_artifacts", lambda: artifacts)
+    monkeypatch.setattr(generate_data_pages, "CONTENT_DIR", tmp_path)
+    page = generate_data_pages.build_pages()[tmp_path / "top-ai-repositories-this-month/index.md"]
+    rows = tomllib.loads(page.split("+++", 2)[1]).get("ranking", [])
+    assert "old/ai-project" not in page
+    if latest_is_ai:
+        assert [(row["repo"], row["metric_value"]) for row in rows] == [("new/project", 120)]
+        assert rows[0]["github_url"] == "https://github.com/new/project"
+        assert rows[0]["language"] == "Rust"
+        assert rows[0]["context_summary"] == "Current repository description"
+    else:
+        assert rows == []
 
 
 def test_generation_is_deterministic_without_crawled_at(
