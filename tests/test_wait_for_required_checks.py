@@ -56,7 +56,7 @@ def payload(nodes, state="OPEN", head=HEAD, commit_oid=None, has_next=False):
 REQUIRED = [w.RequiredCheck("Python", ACTIONS), w.RequiredCheck("Ruff", ACTIONS)]
 
 
-def run_wait(payloads, timeout=100.0):
+def run_wait(payloads, timeout=100.0, **kwargs):
     remaining = list(payloads)
 
     def fetch():
@@ -77,6 +77,7 @@ def run_wait(payloads, timeout=100.0):
         clock=lambda: now[0],
         sleep=sleep,
         log=logs.append,
+        **kwargs,
     )
     return code, logs
 
@@ -295,3 +296,144 @@ def test_malformed_pull_request_payload_is_a_configuration_error():
         assert "KeyError" in str(exc)
     else:
         raise AssertionError("expected ConfigurationError")
+
+
+def reviewed_payload(*, head=HEAD, review_head=HEAD, review_state="COMMENTED", unresolved=0):
+    result = payload([check_run("Ruff"), check_run("Python")], head=head)
+    pr = result["data"]["repository"]["pullRequest"]
+    pr["reviews"] = {
+        "nodes": [
+            {
+                "author": {"login": "copilot-pull-request-reviewer"},
+                "state": review_state,
+                "submittedAt": None if review_state == "PENDING" else "2026-10-12T19:08:06Z",
+                "commit": {"oid": review_head},
+            }
+        ]
+    }
+    pr["reviewThreads"] = {
+        "pageInfo": {"hasNextPage": False},
+        "nodes": [{"isResolved": False}] * unresolved,
+    }
+    pr["reviewRequests"] = {"pageInfo": {"hasNextPage": False}, "nodes": []}
+    return result
+
+
+def test_predecessor_propagates_to_pending_then_green_on_corroborated_ref():
+    old = "b" * 40
+    code, logs = run_wait(
+        [
+            payload([check_run("Ruff"), check_run("Python")], head=old),
+            payload([check_run("Ruff")]),
+            payload([check_run("Ruff"), check_run("Python")]),
+        ],
+        previous_head_sha=old,
+        fetch_ref=lambda: HEAD,
+    )
+    assert code == 0
+    assert any("propagation" in line for line in logs)
+    assert any("Python (not registered)" in line for line in logs)
+
+
+def test_persistent_predecessor_green_never_passes():
+    code, _ = run_wait(
+        [payload([check_run("Ruff"), check_run("Python")], head="b" * 40)],
+        previous_head_sha="b" * 40,
+        fetch_ref=lambda: HEAD,
+        propagation_timeout=20,
+    )
+    assert code == 1
+
+
+def test_real_replacement_fails_even_during_propagation():
+    assert (
+        run_wait(
+            [payload([], head="c" * 40)],
+            previous_head_sha="b" * 40,
+            fetch_ref=lambda: HEAD,
+        )[0]
+        == 1
+    )
+    assert (
+        run_wait(
+            [payload([], head="b" * 40)],
+            previous_head_sha="b" * 40,
+            fetch_ref=lambda: "c" * 40,
+        )[0]
+        == 1
+    )
+
+
+def test_acknowledged_head_cannot_regress_to_predecessor():
+    assert (
+        run_wait(
+            [payload([]), payload([], head="b" * 40)],
+            previous_head_sha="b" * 40,
+            fetch_ref=lambda: HEAD,
+        )[0]
+        == 1
+    )
+
+
+def test_pending_missing_or_old_head_copilot_review_does_not_pass():
+    for result in (
+        reviewed_payload(review_state="PENDING"),
+        reviewed_payload(review_head="b" * 40),
+    ):
+        assert run_wait([result], timeout=10, require_copilot_review=True)[0] == 1
+    missing = reviewed_payload()
+    missing["data"]["repository"]["pullRequest"]["reviews"]["nodes"] = []
+    assert run_wait([missing], timeout=10, require_copilot_review=True)[0] == 1
+
+
+def test_review_and_new_threads_wait_until_resolved():
+    assert (
+        run_wait(
+            [
+                reviewed_payload(review_state="PENDING"),
+                reviewed_payload(unresolved=2),
+                reviewed_payload(),
+            ],
+            require_copilot_review=True,
+        )[0]
+        == 0
+    )
+
+
+def test_review_gate_rejects_head_movement_and_human_review_as_copilot():
+    assert (
+        run_wait(
+            [reviewed_payload(review_state="PENDING"), reviewed_payload(head="b" * 40)],
+            require_copilot_review=True,
+        )[0]
+        == 1
+    )
+    human = reviewed_payload()
+    human["data"]["repository"]["pullRequest"]["reviews"]["nodes"][0]["author"]["login"] = (
+        "jmservera"
+    )
+    assert run_wait([human], timeout=10, require_copilot_review=True)[0] == 1
+
+
+def test_review_gate_refuses_partial_threads():
+    import pytest
+
+    result = reviewed_payload()
+    result["data"]["repository"]["pullRequest"]["reviewThreads"]["pageInfo"]["hasNextPage"] = True
+    with pytest.raises(w.ConfigurationError, match="partial"):
+        run_wait([result], require_copilot_review=True)
+
+
+def test_rerequested_or_later_pending_review_blocks_prior_completion_on_same_head():
+    requested = reviewed_payload()
+    requested["data"]["repository"]["pullRequest"]["reviewRequests"]["nodes"] = [
+        {"requestedReviewer": {"login": "copilot-pull-request-reviewer"}}
+    ]
+    assert run_wait([requested], timeout=10, require_copilot_review=True)[0] == 1
+    pending = reviewed_payload()
+    pending["data"]["repository"]["pullRequest"]["reviews"]["nodes"].extend(
+        reviewed_payload(review_state="PENDING")["data"]["repository"]["pullRequest"]["reviews"][
+            "nodes"
+        ]
+    )
+    assert run_wait([pending], timeout=10, require_copilot_review=True)[0] == 1
