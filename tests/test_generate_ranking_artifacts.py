@@ -164,7 +164,7 @@ def test_ranking_artifact_is_deterministic() -> None:
         shutil.rmtree(root, ignore_errors=True)
 
 
-def test_transferred_repository_refills_rankings_and_preserves_growth(
+def test_transferred_repository_refills_latest_rankings_without_migrating_growth(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     for week, name, stars, increment in (
@@ -219,17 +219,28 @@ def test_transferred_repository_refills_rankings_and_preserves_growth(
         assert [(record["full_name"], record["metric_value"]) for record in records] == [
             (row["repo"], row["metric_value"]) for row in rows
         ]
-        assert "diegosouzapw/OmniRoute" not in [record["full_name"] for record in records]
-        assert records[0]["full_name"] == "cheaper-inference/OmniRoute"
-        assert records[-1]["full_name"] == "owner/mcp-098"
         if ranking_id == "fastest-growing-ai-repositories-this-year":
-            assert records[0]["metric_value"] == 2991
-            assert records[0]["comparison_value"] == 78202
+            assert all("OmniRoute" not in record["full_name"] for record in records)
+            assert records[0]["full_name"] == "owner/mcp-000"
+            assert records[0]["metric_value"] == 1000
+            assert records[0]["comparison_value"] == 1000
+            assert records[-1]["full_name"] == "owner/mcp-099"
         else:
+            assert "diegosouzapw/OmniRoute" not in [record["full_name"] for record in records]
+            assert records[0]["full_name"] == "cheaper-inference/OmniRoute"
+            assert records[-1]["full_name"] == "owner/mcp-098"
             assert records[0]["metric_value"] == 81193
         load_schema("observatory-envelope.schema.json").validate(payload)
         for record in records:
             load_schema("ranking-record.schema.json").validate(record)
+
+
+def test_historical_growth_json_remains_identical_to_committed_output() -> None:
+    ranking_id = "fastest-growing-ai-repositories-this-year"
+    path = ROOT / f"static/data/rankings/{ranking_id}.json"
+    assert generate_ranking_artifacts.build_ranking_payloads(ROOT)[ranking_id] == json.loads(
+        path.read_text(encoding="utf-8")
+    )
 
 
 def test_source_checksum_is_checkout_root_independent() -> None:

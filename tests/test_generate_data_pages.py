@@ -63,7 +63,7 @@ def identity_artifact(
     )
 
 
-def test_stable_identity_retains_transfer_history_and_latest_observation() -> None:
+def test_stable_identity_latest_dedup_does_not_merge_historical_growth() -> None:
     artifacts = [
         identity_artifact(
             "2026-W43",
@@ -80,12 +80,8 @@ def test_stable_identity_retains_transfer_history_and_latest_observation() -> No
         ("cheaper-inference/OmniRoute", 81193)
     ]
     history = list(generate_data_pages.grouped_by_repo(observations).values())
-    assert len(history) == 1
-    assert [obs.full_name for obs in history[0]] == [
-        "diegosouzapw/OmniRoute",
-        "cheaper-inference/OmniRoute",
-    ]
-    assert history[0][-1].stars - history[0][0].stars == 2991
+    assert len(history) == 2
+    assert all(len(group) == 1 for group in history)
 
 
 def test_stable_identity_uses_latest_crawl_before_highest_star_count() -> None:
@@ -112,11 +108,12 @@ def test_stable_identity_uses_latest_crawl_before_highest_star_count() -> None:
     ]
     for ordering in (artifacts, artifacts[::-1]):
         observations = generate_data_pages.collect_observations(ordering)
-        assert [(obs.full_name, obs.stars) for obs in observations] == [("new/project", 100)]
-        assert observations[0].description == "Latest MCP description"
-        assert observations[0].language == "Rust"
-        assert observations[0].topics == ("mcp",)
-        assert observations[0].url == "https://github.com/new/project"
+        latest = list(generate_data_pages.latest_by_repo(observations).values())
+        assert [(obs.full_name, obs.stars) for obs in latest] == [("new/project", 100)]
+        assert latest[0].description == "Latest MCP description"
+        assert latest[0].language == "Rust"
+        assert latest[0].topics == ("mcp",)
+        assert latest[0].url == "https://github.com/new/project"
 
 
 def test_stable_identity_deduplicates_names_across_source_buckets() -> None:
@@ -129,7 +126,8 @@ def test_stable_identity_deduplicates_names_across_source_buckets() -> None:
         {"id": 42, "full_name": "new/project", "stars": 150},
     ]
     observations = generate_data_pages.collect_observations([artifact])
-    assert [(obs.full_name, obs.stars) for obs in observations] == [("new/project", 200)]
+    latest = generate_data_pages.latest_by_repo(observations).values()
+    assert [(obs.full_name, obs.stars) for obs in latest] == [("new/project", 200)]
 
 
 @pytest.mark.parametrize("invalid_id", [None, 0, -1, True, 1.5, "", "invalid"])
@@ -177,14 +175,12 @@ def test_legacy_observations_join_only_unambiguous_stable_ids() -> None:
     ]
     for ordering in (artifacts, artifacts[::-1]):
         observations = generate_data_pages.collect_observations(ordering)
-        histories = list(generate_data_pages.grouped_by_repo(observations).values())
-        assert len(histories) == 4
-        transferred = next(history for history in histories if len(history) == 3)
-        assert [obs.stars for obs in transferred] == [10, 30, 50]
-        assert sorted(history[0].stars for history in histories if len(history) == 1) == [
-            20,
-            40,
-            60,
+        latest = generate_data_pages.latest_by_repo(observations).values()
+        assert sorted((obs.full_name, obs.stars) for obs in latest) == [
+            ("REUSED/Name", 60),
+            ("new/project", 50),
+            ("reused/name", 20),
+            ("reused/name", 40),
         ]
 
 
@@ -196,9 +192,72 @@ def test_distinct_stable_ids_are_not_collapsed_within_a_week() -> None:
             {"id": 2, "full_name": "owner/project", "stars": 90},
         ],
     )
-    observations = generate_data_pages.collect_observations([artifact])
-    assert len(generate_data_pages.latest_by_repo(observations)) == 2
-    assert len(generate_data_pages.grouped_by_repo(observations)) == 2
+    expected = generate_data_pages.latest_by_repo(
+        generate_data_pages.collect_observations([artifact])
+    )
+    artifact.payload["trending_repos"].reverse()
+    assert len(expected) == 2
+    assert (
+        generate_data_pages.latest_by_repo(generate_data_pages.collect_observations([artifact]))
+        == expected
+    )
+
+
+def test_latest_snapshot_ties_are_independent_of_input_order() -> None:
+    artifact = identity_artifact(
+        "2026-W44",
+        [
+            {"id": 42, "full_name": "owner/project", "stars": 100, "description": "AI tool"},
+            {"id": 42, "full_name": "owner/project", "stars": 100, "description": "MCP tool"},
+        ],
+    )
+    first = generate_data_pages.latest_by_repo(generate_data_pages.collect_observations([artifact]))
+    artifact.payload["trending_repos"].reverse()
+    assert (
+        generate_data_pages.latest_by_repo(generate_data_pages.collect_observations([artifact]))
+        == first
+    )
+
+
+def test_historical_growth_keeps_weekly_name_and_highest_star_baseline() -> None:
+    artifacts = [
+        identity_artifact(
+            "2026-W43",
+            [
+                {"id": 1, "full_name": "old/project", "stars": 100},
+                {"id": 2, "full_name": "reused/name", "stars": 50},
+            ],
+        ),
+        identity_artifact(
+            "2026-W44",
+            [
+                {"id": 1, "full_name": "old/project", "stars": 200},
+                {"id": 1, "full_name": "new/project", "stars": 300},
+                {"id": 3, "full_name": "REUSED/Name", "stars": 80},
+            ],
+            crawled_at="2026-10-26T01:00:00Z",
+        ),
+        identity_artifact(
+            "2026-W44",
+            [{"id": 1, "full_name": "old/project", "stars": 150}],
+            crawled_at="2026-10-26T02:00:00Z",
+        ),
+    ]
+    observations = generate_data_pages.collect_observations(artifacts)
+    latest = generate_data_pages.latest_by_repo(observations)
+    assert latest["github:1"].stars == 150
+    assert latest["github:1"].full_name == "old/project"
+    histories = generate_data_pages.grouped_by_repo(observations)
+    assert {name: [obs.stars for obs in group] for name, group in histories.items()} == {
+        "old/project": [100, 200],
+        "new/project": [300],
+        "reused/name": [50, 80],
+    }
+
+
+def test_historical_growth_page_remains_byte_identical_to_committed_output() -> None:
+    path = ROOT / "content/data/fastest-growing-ai-repositories-this-year/index.md"
+    assert generate_data_pages.build_pages()[path] == path.read_text(encoding="utf-8")
 
 
 def test_generation_is_deterministic_without_crawled_at(

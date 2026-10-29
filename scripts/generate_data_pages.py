@@ -9,7 +9,7 @@ import re
 import sys
 import unicodedata
 from collections import defaultdict
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -217,6 +217,12 @@ def observation_order(obs: RepoObservation) -> tuple:
         obs.full_name.lower(),
         obs.full_name,
         obs.source_bucket,
+        obs.description,
+        obs.language,
+        obs.forks if obs.forks is not None else -1,
+        obs.created_at,
+        obs.topics,
+        obs.source_path.as_posix(),
     )
 
 
@@ -249,39 +255,41 @@ def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]
                 )
                 observations.append(observation)
 
+    # Keep raw observations so historical metrics can retain their own aggregation contract.
+    return sorted(observations, key=lambda item: (item.week, item.full_name.lower()))
+
+
+def latest_by_repo(observations: list[RepoObservation]) -> dict[str, RepoObservation]:
+    """Deduplicate latest snapshots by stable ID without migrating historical metrics."""
     ids_by_name: dict[str, set[int]] = defaultdict(set)
     for obs in observations:
         if obs.github_id is not None:
             ids_by_name[obs.full_name.lower()].add(obs.github_id)
 
-    seen_week_repo: dict[tuple[str, str], RepoObservation] = {}
-    for obs in observations:
-        ids = ids_by_name[obs.full_name.lower()]
-        # Bridge legacy history only when the name identifies one stable repository.
-        # Reused names must never join distinct IDs through a name-only observation.
-        if obs.github_id is None and len(ids) == 1:
-            obs = replace(obs, github_id=next(iter(ids)))
-        key = (obs.week, obs.identity)
-        existing = seen_week_repo.get(key)
-        if existing is None or observation_order(obs) > observation_order(existing):
-            seen_week_repo[key] = obs
-    return sorted(seen_week_repo.values(), key=observation_order)
-
-
-def latest_by_repo(observations: list[RepoObservation]) -> dict[str, RepoObservation]:
     latest: dict[str, RepoObservation] = {}
     for obs in observations:
+        ids = ids_by_name[obs.full_name.lower()]
+        # Bridge legacy snapshots only when the name identifies one stable repository.
+        # Reused names must never join distinct IDs through a name-only observation.
         key = obs.identity
+        if obs.github_id is None and len(ids) == 1:
+            key = f"github:{next(iter(ids))}"
         if key not in latest or observation_order(obs) > observation_order(latest[key]):
             latest[key] = obs
-    return latest
+    return dict(sorted(latest.items()))
 
 
 def grouped_by_repo(observations: list[RepoObservation]) -> dict[str, list[RepoObservation]]:
-    grouped: dict[str, list[RepoObservation]] = defaultdict(list)
+    """Preserve historical growth's weekly name/highest-stars baseline until migration."""
+    seen_week_repo: dict[tuple[str, str], RepoObservation] = {}
     for obs in observations:
-        grouped[obs.identity].append(obs)
-    return {key: sorted(value, key=observation_order) for key, value in grouped.items()}
+        key = (obs.week, obs.full_name.lower())
+        if key not in seen_week_repo or obs.stars > seen_week_repo[key].stars:
+            seen_week_repo[key] = obs
+    grouped: dict[str, list[RepoObservation]] = defaultdict(list)
+    for obs in seen_week_repo.values():
+        grouped[obs.full_name.lower()].append(obs)
+    return {key: sorted(value, key=lambda item: item.week) for key, value in grouped.items()}
 
 
 def format_int(value: int) -> str:
