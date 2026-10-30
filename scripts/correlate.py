@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Cross-source correlation engine for SquadScope.
 
-Matches external news articles to GitHub repo activity using fuzzy matching
-heuristics to identify press-correlated repositories.
+Matches external news articles to GitHub repo activity using lexical and link
+evidence to identify press-correlated repositories.
 
 Usage:
     python scripts/correlate.py [--raw data/raw/ai-ml/2026-W21.json] \
@@ -129,24 +129,23 @@ def fuzzy_name_score(repo_name: str, text: str) -> float:
 def match_project_name(
     repo: dict[str, Any], articles: list[dict[str, Any]], threshold: float = 0.6
 ) -> list[dict[str, Any]]:
-    """Match articles by fuzzy matching repo name against title/entities."""
+    """Require the complete project name in a title or individual entity."""
     repo_name = repo.get("name") or ""
     if not repo_name or len(repo_name) < 3:
         return []
 
+    normalized_name = " ".join(re.findall(r"[^\W_]+", repo_name.lower()))
+    if not normalized_name:
+        return []
+
     matches = []
     for article in articles:
-        title = article.get("title") or ""
-        entities = article.get("entities", [])
-
-        # Check title
-        if fuzzy_name_score(repo_name, title) >= threshold:
-            matches.append(article)
-            continue
-
-        # Check individual entities
-        for entity in entities:
-            if fuzzy_name_score(repo_name, entity) >= threshold:
+        for text in [article.get("title") or "", *article.get("entities", [])]:
+            normalized_text = " ".join(re.findall(r"[^\W_]+", text.lower()))
+            if (
+                f" {normalized_name} " in f" {normalized_text} "
+                and fuzzy_name_score(normalized_name, normalized_text) >= threshold
+            ):
                 matches.append(article)
                 break
     return matches
@@ -364,7 +363,7 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
                 for a in matched_article_objs
             ]
 
-    # Priority 3: Project name fuzzy match (confidence 0.6)
+    # Priority 3: Complete project name match (confidence 0.6)
     if not matched_articles:
         fuzzy = match_project_name(repo, articles)
         if fuzzy:
