@@ -127,17 +127,71 @@ class TestOrgNameMatch:
 
 
 # ---------------------------------------------------------------------------
-# Heuristic 3: Project name fuzzy match
+# Heuristic 3: Complete project name match
 # ---------------------------------------------------------------------------
 
 
 class TestProjectNameMatch:
+    @pytest.mark.parametrize(
+        ("name", "title", "entities", "url"),
+        [
+            (
+                "Stirling-PDF",
+                "Starlink seems to be working normally again in Ukraine",
+                ["Starlink", "Ukraine"],
+                "https://techcrunch.com/2026/10/24/starlink-seems-to-be-working-normally-again-in-ukraine/",
+            ),
+            (
+                "bitcoin",
+                "Cloud Deployment Incoming: ‘Call of Duty: Modern Warfare 4’ Arrives on GeForce NOW",
+                [
+                    "Cloud",
+                    "Deployment",
+                    "Incoming",
+                    "Call",
+                    "Duty",
+                    "Modern",
+                    "Warfare",
+                    "Arrives",
+                    "GeForce",
+                ],
+                "https://blogs.nvidia.com/blog/geforce-now-thursday-call-of-duty-modern-warfare-4/",
+            ),
+        ],
+    )
+    def test_unrelated_w44_entities_do_not_create_correlations(self, name, title, entities, url):
+        repo = _repo(name=name)
+        article = _article(title=title, entities=entities, url=url)
+        assert match_project_name(repo, [article]) == []
+        assert correlate_repo(repo, [article]) is None
+
+    @pytest.mark.parametrize("name", ["Stirling-PDF", "bitcoin"])
+    @pytest.mark.parametrize("field", ["title", "entities"])
+    def test_complete_project_name_is_evidence(self, name, field):
+        article = _article(title="Project release")
+        article[field] = f"Announcing {name.upper()} today" if field == "title" else [name.upper()]
+        assert match_project_name(_repo(name=name), [article]) == [article]
+
+    @pytest.mark.parametrize(
+        ("title", "matches"),
+        [
+            ("Stirling_PDF: a new release", True),
+            ("Stirling-PDFTools: a different project", False),
+            ("New PDF tools", False),
+        ],
+    )
+    def test_complete_tokens_with_separator_and_substring_boundaries(self, title, matches):
+        article = _article(title=title)
+        assert match_project_name(_repo(name="Stirling-PDF"), [article]) == (
+            [article] if matches else []
+        )
+
     def test_exact_name_in_entity(self):
         repo = _repo(name="langchain")
         article = _article(entities=["LangChain"])
         assert match_project_name(repo, [article]) == [article]
 
-    def test_fuzzy_name_in_title(self):
+    def test_complete_name_in_title(self):
         repo = _repo(name="tensorflow")
         article = _article(title="TensorFlow 3.0 released with new features")
         assert match_project_name(repo, [article]) == [article]
