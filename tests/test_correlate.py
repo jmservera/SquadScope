@@ -132,6 +132,32 @@ class TestOrgNameMatch:
 
 
 class TestProjectNameMatch:
+    def test_reserved_github_name_does_not_identify_a_project(self):
+        repo = _repo(name=".github", owner="Release-DLSS-5-Swapper")
+        article = _article(
+            title="How 3 Java Champions are using GitHub Copilot for increased productivity",
+            entities=["Java", "Champions", "GitHub", "Copilot"],
+            github_links=[
+                "https://github.com/Pi4J/pi4j",
+                "https://github.com/features/copilot",
+            ],
+            url="https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
+        )
+        assert match_project_name(repo, [article]) == []
+        assert correlate_repo(repo, [article]) is None
+
+    @pytest.mark.parametrize("match_type", ["direct_link", "org_name"])
+    def test_reserved_github_name_retains_specific_evidence(self, match_type):
+        repo = _repo(name=".GITHUB", owner="Release-DLSS-5-Swapper")
+        article = _article(
+            title="GitHub project announcement",
+            github_links=[repo["url"]] if match_type == "direct_link" else [],
+            entities=[repo["owner"]] if match_type == "org_name" else ["GitHub"],
+        )
+        result = correlate_repo(repo, [article])
+        assert result is not None
+        assert result["match_type"] == match_type
+
     @pytest.mark.parametrize(
         ("name", "title", "entities", "url"),
         [
