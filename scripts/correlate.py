@@ -129,9 +129,9 @@ def fuzzy_name_score(repo_name: str, text: str) -> float:
 def match_project_name(
     repo: dict[str, Any], articles: list[dict[str, Any]], threshold: float = 0.6
 ) -> list[dict[str, Any]]:
-    """Require the complete project name in a title or individual entity."""
+    """Require a complete project name; profile repos need owner/link evidence."""
     repo_name = repo.get("name") or ""
-    if not repo_name or len(repo_name) < 3:
+    if not repo_name or len(repo_name) < 3 or repo_name.lower() == ".github":
         return []
 
     normalized_name = " ".join(re.findall(r"[^\W_]+", repo_name.lower()))
