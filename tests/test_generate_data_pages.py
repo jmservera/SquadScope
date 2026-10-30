@@ -6,6 +6,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -50,6 +51,251 @@ def test_missing_crawled_at_uses_stable_week_start() -> None:
     assert generate_data_pages.parse_datetime(None, "2026-W01").isoformat() == (
         "2025-12-29T00:00:00+00:00"
     )
+
+
+def identity_artifact(
+    week: str, repos: list[dict], *, crawled_at: str | None = None
+) -> generate_data_pages.WeekArtifact:
+    return generate_data_pages.WeekArtifact(
+        week=week,
+        crawled_at=generate_data_pages.parse_datetime(crawled_at, week),
+        path=ROOT / f"data/raw/{week}.json",
+        payload={"trending_repos": repos},
+    )
+
+
+def test_stable_identity_latest_dedup_does_not_merge_historical_growth() -> None:
+    artifacts = [
+        identity_artifact(
+            "2026-W43",
+            [{"id": 1157102282, "full_name": "diegosouzapw/OmniRoute", "stars": 78202}],
+        ),
+        identity_artifact(
+            "2026-W44",
+            [{"id": 1157102282, "full_name": "cheaper-inference/OmniRoute", "stars": 81193}],
+        ),
+    ]
+    observations = generate_data_pages.collect_observations(artifacts)
+    latest = list(generate_data_pages.latest_by_repo(observations).values())
+    assert [(obs.full_name, obs.stars) for obs in latest] == [
+        ("cheaper-inference/OmniRoute", 81193)
+    ]
+    history = list(generate_data_pages.grouped_by_repo(observations).values())
+    assert len(history) == 2
+    assert all(len(group) == 1 for group in history)
+
+
+def test_stable_identity_uses_latest_crawl_before_highest_star_count() -> None:
+    artifacts = [
+        identity_artifact(
+            "2026-W44",
+            [{"id": 42, "full_name": "old/project", "stars": 200}],
+            crawled_at="2026-10-26T01:00:00Z",
+        ),
+        identity_artifact(
+            "2026-W44",
+            [
+                {
+                    "id": "42",
+                    "full_name": "new/project",
+                    "stars": 100,
+                    "description": "Latest MCP description",
+                    "language": "Rust",
+                    "topics": ["mcp"],
+                }
+            ],
+            crawled_at="2026-10-26T02:00:00Z",
+        ),
+    ]
+    for ordering in (artifacts, artifacts[::-1]):
+        observations = generate_data_pages.collect_observations(ordering)
+        latest = list(generate_data_pages.latest_by_repo(observations).values())
+        assert [(obs.full_name, obs.stars) for obs in latest] == [("new/project", 100)]
+        assert latest[0].description == "Latest MCP description"
+        assert latest[0].language == "Rust"
+        assert latest[0].topics == ("mcp",)
+        assert latest[0].url == "https://github.com/new/project"
+
+
+def test_stable_identity_deduplicates_names_across_source_buckets() -> None:
+    artifact = identity_artifact(
+        "2026-W44",
+        [{"id": 42, "full_name": "old/project", "stars": 100}],
+    )
+    artifact.payload["new_repos"] = [
+        {"id": 42, "full_name": "new/project", "stars": 200},
+        {"id": 42, "full_name": "new/project", "stars": 150},
+    ]
+    observations = generate_data_pages.collect_observations([artifact])
+    latest = generate_data_pages.latest_by_repo(observations).values()
+    assert [(obs.full_name, obs.stars) for obs in latest] == [("new/project", 200)]
+
+
+@pytest.mark.parametrize("invalid_id", [None, 0, -1, True, 1.5, "", "invalid"])
+def test_identity_fallback_preserves_legacy_case_insensitive_names(invalid_id: object) -> None:
+    observations = generate_data_pages.collect_observations(
+        [
+            identity_artifact(
+                "2026-W43",
+                [{"id": invalid_id, "full_name": "Owner/Project", "stars": 50}],
+            ),
+            identity_artifact(
+                "2026-W44",
+                [{"full_name": "owner/project", "stars": 40}],
+            ),
+        ]
+    )
+    assert len(generate_data_pages.grouped_by_repo(observations)) == 1
+    latest = list(generate_data_pages.latest_by_repo(observations).values())
+    assert [(obs.full_name, obs.stars) for obs in latest] == [("owner/project", 40)]
+
+
+def test_legacy_observations_join_only_unambiguous_stable_ids() -> None:
+    artifacts = [
+        identity_artifact(
+            "2026-W42",
+            [
+                {"full_name": "old/project", "stars": 10},
+                {"full_name": "reused/name", "stars": 20},
+            ],
+        ),
+        identity_artifact(
+            "2026-W43",
+            [
+                {"id": 1, "full_name": "old/project", "stars": 30},
+                {"id": 2, "full_name": "reused/name", "stars": 40},
+            ],
+        ),
+        identity_artifact(
+            "2026-W44",
+            [
+                {"id": 1, "full_name": "new/project", "stars": 50},
+                {"id": 3, "full_name": "REUSED/Name", "stars": 60},
+            ],
+        ),
+    ]
+    for ordering in (artifacts, artifacts[::-1]):
+        observations = generate_data_pages.collect_observations(ordering)
+        latest = generate_data_pages.latest_by_repo(observations).values()
+        assert sorted((obs.full_name, obs.stars) for obs in latest) == [
+            ("REUSED/Name", 60),
+            ("new/project", 50),
+            ("reused/name", 20),
+            ("reused/name", 40),
+        ]
+
+
+def test_distinct_stable_ids_are_not_collapsed_within_a_week() -> None:
+    artifact = identity_artifact(
+        "2026-W44",
+        [
+            {"id": 1, "full_name": "owner/project", "stars": 100},
+            {"id": 2, "full_name": "owner/project", "stars": 90},
+        ],
+    )
+    expected = generate_data_pages.latest_by_repo(
+        generate_data_pages.collect_observations([artifact])
+    )
+    artifact.payload["trending_repos"].reverse()
+    assert len(expected) == 2
+    assert (
+        generate_data_pages.latest_by_repo(generate_data_pages.collect_observations([artifact]))
+        == expected
+    )
+
+
+def test_latest_snapshot_ties_are_independent_of_input_order() -> None:
+    artifact = identity_artifact(
+        "2026-W44",
+        [
+            {"id": 42, "full_name": "owner/project", "stars": 100, "description": "AI tool"},
+            {"id": 42, "full_name": "owner/project", "stars": 100, "description": "MCP tool"},
+        ],
+    )
+    first = generate_data_pages.latest_by_repo(generate_data_pages.collect_observations([artifact]))
+    artifact.payload["trending_repos"].reverse()
+    assert (
+        generate_data_pages.latest_by_repo(generate_data_pages.collect_observations([artifact]))
+        == first
+    )
+
+
+def test_historical_growth_keeps_weekly_name_and_highest_star_baseline() -> None:
+    artifacts = [
+        identity_artifact(
+            "2026-W43",
+            [
+                {"id": 1, "full_name": "old/project", "stars": 100},
+                {"id": 2, "full_name": "reused/name", "stars": 50},
+            ],
+        ),
+        identity_artifact(
+            "2026-W44",
+            [
+                {"id": 1, "full_name": "old/project", "stars": 200},
+                {"id": 1, "full_name": "new/project", "stars": 300},
+                {"id": 3, "full_name": "REUSED/Name", "stars": 80},
+            ],
+            crawled_at="2026-10-26T01:00:00Z",
+        ),
+        identity_artifact(
+            "2026-W44",
+            [{"id": 1, "full_name": "old/project", "stars": 150}],
+            crawled_at="2026-10-26T02:00:00Z",
+        ),
+    ]
+    observations = generate_data_pages.collect_observations(artifacts)
+    latest = generate_data_pages.latest_by_repo(observations)
+    assert latest["github:1"].stars == 150
+    assert latest["github:1"].full_name == "old/project"
+    histories = generate_data_pages.grouped_by_repo(observations)
+    assert {name: [obs.stars for obs in group] for name, group in histories.items()} == {
+        "old/project": [100, 200],
+        "new/project": [300],
+        "reused/name": [50, 80],
+    }
+
+
+def test_historical_growth_page_remains_byte_identical_to_committed_output() -> None:
+    path = ROOT / "content/data/fastest-growing-ai-repositories-this-year/index.md"
+    assert generate_data_pages.build_pages()[path] == path.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("latest_is_ai", [False, True])
+def test_monthly_page_filters_ai_after_latest_identity(
+    latest_is_ai: bool, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    artifacts = [
+        identity_artifact(
+            "2026-W43",
+            [{"id": 42, "full_name": "old/ai-project", "stars": 100, "topics": ["ai"]}],
+        ),
+        identity_artifact(
+            "2026-W44",
+            [
+                {
+                    "id": 42,
+                    "full_name": "new/project",
+                    "stars": 120,
+                    "topics": ["ai"] if latest_is_ai else [],
+                    "description": "Current repository description",
+                    "language": "Rust",
+                }
+            ],
+        ),
+    ]
+    monkeypatch.setattr(generate_data_pages, "discover_week_artifacts", lambda: artifacts)
+    monkeypatch.setattr(generate_data_pages, "CONTENT_DIR", tmp_path)
+    page = generate_data_pages.build_pages()[tmp_path / "top-ai-repositories-this-month/index.md"]
+    rows = tomllib.loads(page.split("+++", 2)[1]).get("ranking", [])
+    assert "old/ai-project" not in page
+    if latest_is_ai:
+        assert [(row["repo"], row["metric_value"]) for row in rows] == [("new/project", 120)]
+        assert rows[0]["github_url"] == "https://github.com/new/project"
+        assert rows[0]["language"] == "Rust"
+        assert rows[0]["context_summary"] == "Current repository description"
+    else:
+        assert rows == []
 
 
 def test_generation_is_deterministic_without_crawled_at(

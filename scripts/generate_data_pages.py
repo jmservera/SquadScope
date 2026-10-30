@@ -77,6 +77,11 @@ class RepoObservation:
     forks: int | None
     created_at: str
     topics: tuple[str, ...]
+    github_id: int | None = None
+
+    @property
+    def identity(self) -> str:
+        return f"github:{self.github_id}" if self.github_id is not None else self.full_name.lower()
 
 
 def parse_datetime(value: str | None, week: str) -> datetime:
@@ -198,9 +203,31 @@ def coerce_int(value: Any) -> int:
         return 0
 
 
+def github_repo_id(value: Any) -> int | None:
+    if not re.fullmatch(r"[0-9]+", str(value)):
+        return None
+    return int(value) or None
+
+
+def observation_order(obs: RepoObservation) -> tuple:
+    return (
+        obs.week,
+        obs.crawled_at,
+        obs.stars,
+        obs.full_name.lower(),
+        obs.full_name,
+        obs.source_bucket,
+        obs.description,
+        obs.language,
+        obs.forks if obs.forks is not None else -1,
+        obs.created_at,
+        obs.topics,
+        obs.source_path.as_posix(),
+    )
+
+
 def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]:
     observations: list[RepoObservation] = []
-    seen_week_repo: dict[tuple[str, str], RepoObservation] = {}
     for artifact in artifacts:
         for bucket in ("trending_repos", "new_repos"):
             for repo in artifact.payload.get(bucket, []) or []:
@@ -209,7 +236,6 @@ def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]
                 ).strip("/")
                 if "/" not in full_name:
                     continue
-                key = (artifact.week, full_name.lower())
                 topics = tuple(str(topic) for topic in (repo.get("topics") or []))
                 observation = RepoObservation(
                     week=artifact.week,
@@ -225,26 +251,43 @@ def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]
                     forks=coerce_int(repo.get("forks")) if repo.get("forks") is not None else None,
                     created_at=str(repo.get("created_at") or ""),
                     topics=topics,
+                    github_id=github_repo_id(repo.get("id")),
                 )
-                existing = seen_week_repo.get(key)
-                if existing is None or observation.stars > existing.stars:
-                    seen_week_repo[key] = observation
-    observations.extend(seen_week_repo.values())
+                observations.append(observation)
+
+    # Keep raw observations so historical metrics can retain their own aggregation contract.
     return sorted(observations, key=lambda item: (item.week, item.full_name.lower()))
 
 
 def latest_by_repo(observations: list[RepoObservation]) -> dict[str, RepoObservation]:
+    """Deduplicate latest snapshots by stable ID without migrating historical metrics."""
+    ids_by_name: dict[str, set[int]] = defaultdict(set)
+    for obs in observations:
+        if obs.github_id is not None:
+            ids_by_name[obs.full_name.lower()].add(obs.github_id)
+
     latest: dict[str, RepoObservation] = {}
     for obs in observations:
-        key = obs.full_name.lower()
-        if key not in latest or (obs.week, obs.stars) > (latest[key].week, latest[key].stars):
+        ids = ids_by_name[obs.full_name.lower()]
+        # Bridge legacy snapshots only when the name identifies one stable repository.
+        # Reused names must never join distinct IDs through a name-only observation.
+        key = obs.identity
+        if obs.github_id is None and len(ids) == 1:
+            key = f"github:{next(iter(ids))}"
+        if key not in latest or observation_order(obs) > observation_order(latest[key]):
             latest[key] = obs
-    return latest
+    return dict(sorted(latest.items()))
 
 
 def grouped_by_repo(observations: list[RepoObservation]) -> dict[str, list[RepoObservation]]:
-    grouped: dict[str, list[RepoObservation]] = defaultdict(list)
+    """Preserve historical growth's weekly name/highest-stars baseline until migration."""
+    seen_week_repo: dict[tuple[str, str], RepoObservation] = {}
     for obs in observations:
+        key = (obs.week, obs.full_name.lower())
+        if key not in seen_week_repo or obs.stars > seen_week_repo[key].stars:
+            seen_week_repo[key] = obs
+    grouped: dict[str, list[RepoObservation]] = defaultdict(list)
+    for obs in seen_week_repo.values():
         grouped[obs.full_name.lower()].append(obs)
     return {key: sorted(value, key=lambda item: item.week) for key, value in grouped.items()}
 
@@ -371,11 +414,12 @@ def build_pages() -> dict[Path, str]:
 
     latest_month = latest_artifact.crawled_at.strftime("%Y-%m")
     month_observations = [
-        obs
-        for obs in observations
-        if obs.crawled_at.strftime("%Y-%m") == latest_month and is_ai_project(obs)
+        obs for obs in observations if obs.crawled_at.strftime("%Y-%m") == latest_month
     ]
-    month_latest = latest_by_repo(month_observations)
+    # Current-snapshot eligibility must not resurrect stale pre-transfer metadata.
+    month_latest = [
+        obs for obs in latest_by_repo(month_observations).values() if is_ai_project(obs)
+    ]
     top_month_rows = [
         row(
             rank=index,
@@ -387,7 +431,7 @@ def build_pages() -> dict[Path, str]:
             github_url=validate_github_url(obs.url),
         )
         for index, obs in enumerate(
-            sorted(month_latest.values(), key=lambda item: (-item.stars, item.full_name.lower()))[
+            sorted(month_latest, key=lambda item: (-item.stars, item.full_name.lower()))[
                 :MAX_RANKING_ROWS
             ],
             start=1,
