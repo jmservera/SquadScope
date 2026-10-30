@@ -128,43 +128,6 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "Release-DLSS-5-Swapper/.github",
-      "repo_key": "Release-DLSS-5-Swapper/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
       "repo": "TheAlgorithms/Java",
       "repo_key": "TheAlgorithms/Java",
       "press_correlated": true,
@@ -191,154 +154,6 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "bg-tools-new/.github",
-      "repo_key": "bg-tools-new/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "cs-tool-s/.github",
-      "repo_key": "cs-tool-s/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "dex-tool-best/.github",
-      "repo_key": "dex-tool-best/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "df-tools-bn/.github",
-      "repo_key": "df-tools-bn/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
       "repo": "mattpocock/skills",
       "repo_key": "mattpocock/skills",
       "press_correlated": true,
@@ -356,302 +171,6 @@
           ],
           "published_at": "2026-10-22T17:21:30Z",
           "relevance_score": 0.2
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "onchain-trading-bot/.github",
-      "repo_key": "onchain-trading-bot/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "onchain-whale-tracker-pc-desktop/.github",
-      "repo_key": "onchain-whale-tracker-pc-desktop/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "qnzqfmbacrkk/.github",
-      "repo_key": "qnzqfmbacrkk/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "rjgyzakqgfiv/.github",
-      "repo_key": "rjgyzakqgfiv/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "rust-tools-new/.github",
-      "repo_key": "rust-tools-new/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "val-tools/.github",
-      "repo_key": "val-tools/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "wpeikxyrjnps/.github",
-      "repo_key": "wpeikxyrjnps/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
-        }
-      ],
-      "match_type": "project_name",
-      "correlation_strength": "weak",
-      "confidence_label": "weak",
-      "temporal_spike": false,
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "xynbspqmochf/.github",
-      "repo_key": "xynbspqmochf/.github",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-        "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/"
-      ],
-      "matched_article_details": [
-        {
-          "title": "How 3 Java Champions are using GitHub Copilot for increased productivity",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-20T16:05:03Z",
-          "relevance_score": 0.8
-        },
-        {
-          "title": "How to continue a GitHub Copilot app session in VS Code",
-          "url": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
-          "source": "github_blog",
-          "sources": [
-            "github_blog"
-          ],
-          "published_at": "2026-10-19T18:47:22Z",
-          "relevance_score": 1.0
         }
       ],
       "match_type": "project_name",
@@ -2279,6 +1798,916 @@
       "confidence_label": "weak",
       "temporal_spike": false,
       "hype_risk": "low"
+    },
+    {
+      "repo": "f/prompts.chat",
+      "repo_key": "f/prompts.chat",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "firecrawl/firecrawl",
+      "repo_key": "firecrawl/firecrawl",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "repo_key": "google-gemini/gemini-cli",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "h9-tec/ai-roadmap-2026",
+      "repo_key": "h9-tec/ai-roadmap-2026",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "hacksider/Deep-Live-Cam",
+      "repo_key": "hacksider/Deep-Live-Cam",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "headroomlabs-ai/headroom",
+      "repo_key": "headroomlabs-ai/headroom",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "heterodoxin/AbliteratedOutTheBox",
+      "repo_key": "heterodoxin/AbliteratedOutTheBox",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "hevnsnt/CVEngine",
+      "repo_key": "hevnsnt/CVEngine",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "heygen-com/hyperframes",
+      "repo_key": "heygen-com/hyperframes",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "hiyouga/LlamaFactory",
+      "repo_key": "hiyouga/LlamaFactory",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "huaxialucaicaizi/ai-startup-skills",
+      "repo_key": "huaxialucaicaizi/ai-startup-skills",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "infiniflow/ragflow",
+      "repo_key": "infiniflow/ragflow",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+        "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+        "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+        "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+        "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
+          "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T21:31:16Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "AI delivers ‘zero financial payoff’ to most companies, Apollo economist says",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T16:57:32Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The hottest AI wearables and gadgets you should know about",
+          "url": "https://techcrunch.com/2026/10/25/the-hottest-ai-wearables-and-gadgets-you-should-know-about/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-25T14:10:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+          "url": "https://techcrunch.com/2026/10/24/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T19:00:00Z",
+          "relevance_score": 0.4
+        },
+        {
+          "title": "Block’s new voice model sounds eerily human",
+          "url": "https://techcrunch.com/2026/10/24/blocks-new-voice-model-sounds-eerily-human/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T16:00:00Z",
+          "relevance_score": 0.4
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
+    },
+    {
+      "repo": "jaywcjlove/awesome-mac",
+      "repo_key": "jaywcjlove/awesome-mac",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/10/24/these-clever-apps-show-off-the-iphone-duos-potential/",
+        "https://www.technologyreview.com/2026/10/23/1147610/biotech-you-can-see-everything-theranos-holmes/",
+        "https://www.technologyreview.com/2026/10/22/1147591/permafrost-primer/",
+        "https://blogs.nvidia.com/blog/enterprise-platforms-agent-toolkit/",
+        "https://blogs.nvidia.com/blog/open-models-europe-industry/"
+      ],
+      "matched_article_details": [
+        {
+          "title": "These clever apps show off the iPhone Duo’s potential",
+          "url": "https://techcrunch.com/2026/10/24/these-clever-apps-show-off-the-iphone-duos-potential/",
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "published_at": "2026-10-24T15:00:00Z",
+          "relevance_score": 0.2
+        },
+        {
+          "title": "In the biotech world, you can’t see everything",
+          "url": "https://www.technologyreview.com/2026/10/23/1147610/biotech-you-can-see-everything-theranos-holmes/",
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "published_at": "2026-10-23T09:00:00Z",
+          "relevance_score": 0.0
+        },
+        {
+          "title": "Three things you should know about permafrost",
+          "url": "https://www.technologyreview.com/2026/10/22/1147591/permafrost-primer/",
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "published_at": "2026-10-22T10:00:00Z",
+          "relevance_score": 0.0
+        },
+        {
+          "title": "NVIDIA Agent Toolkit Expands, Grounding Enterprise Agents in Company Data",
+          "url": "https://blogs.nvidia.com/blog/enterprise-platforms-agent-toolkit/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-10-21T10:10:01Z",
+          "relevance_score": 1.0
+        },
+        {
+          "title": "NVIDIA Open Models Advance Europe’s Sovereign Intelligence Across Industries",
+          "url": "https://blogs.nvidia.com/blog/open-models-europe-industry/",
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "published_at": "2026-10-21T10:00:07Z",
+          "relevance_score": 1.0
+        }
+      ],
+      "match_type": "category",
+      "correlation_strength": "weak",
+      "confidence_label": "weak",
+      "temporal_spike": false,
+      "hype_risk": "low"
     }
   ],
   "divergences": {
@@ -2768,34 +3197,6 @@
         "signal": "No matching GitHub activity"
       },
       {
-        "topic": "Apps",
-        "news_articles": [
-          {
-            "title": "These clever apps show off the iPhone Duo’s potential",
-            "url": "https://techcrunch.com/2026/10/24/these-clever-apps-show-off-the-iphone-duos-potential/",
-            "source": "techcrunch",
-            "sources": [
-              "techcrunch"
-            ],
-            "published_at": "2026-10-24T15:00:00Z",
-            "relevance_score": 0.2
-          }
-        ],
-        "techcrunch_articles": [
-          {
-            "title": "These clever apps show off the iPhone Duo’s potential",
-            "url": "https://techcrunch.com/2026/10/24/these-clever-apps-show-off-the-iphone-duos-potential/",
-            "source": "techcrunch",
-            "sources": [
-              "techcrunch"
-            ],
-            "published_at": "2026-10-24T15:00:00Z",
-            "relevance_score": 0.2
-          }
-        ],
-        "signal": "No matching GitHub activity"
-      },
-      {
         "topic": "Hardware",
         "news_articles": [
           {
@@ -2846,34 +3247,6 @@
               "hugging_face_blog"
             ],
             "published_at": "2026-10-23T16:15:50Z",
-            "relevance_score": 0.0
-          }
-        ],
-        "signal": "No matching GitHub activity"
-      },
-      {
-        "topic": "Biotechnology and health",
-        "news_articles": [
-          {
-            "title": "In the biotech world, you can’t see everything",
-            "url": "https://www.technologyreview.com/2026/10/23/1147610/biotech-you-can-see-everything-theranos-holmes/",
-            "source": "mit_technology_review",
-            "sources": [
-              "mit_technology_review"
-            ],
-            "published_at": "2026-10-23T09:00:00Z",
-            "relevance_score": 0.0
-          }
-        ],
-        "techcrunch_articles": [
-          {
-            "title": "In the biotech world, you can’t see everything",
-            "url": "https://www.technologyreview.com/2026/10/23/1147610/biotech-you-can-see-everything-theranos-holmes/",
-            "source": "mit_technology_review",
-            "sources": [
-              "mit_technology_review"
-            ],
-            "published_at": "2026-10-23T09:00:00Z",
             "relevance_score": 0.0
           }
         ],
@@ -2936,34 +3309,6 @@
         "signal": "No matching GitHub activity"
       },
       {
-        "topic": "Climate change and energy",
-        "news_articles": [
-          {
-            "title": "Three things you should know about permafrost",
-            "url": "https://www.technologyreview.com/2026/10/22/1147591/permafrost-primer/",
-            "source": "mit_technology_review",
-            "sources": [
-              "mit_technology_review"
-            ],
-            "published_at": "2026-10-22T10:00:00Z",
-            "relevance_score": 0.0
-          }
-        ],
-        "techcrunch_articles": [
-          {
-            "title": "Three things you should know about permafrost",
-            "url": "https://www.technologyreview.com/2026/10/22/1147591/permafrost-primer/",
-            "source": "mit_technology_review",
-            "sources": [
-              "mit_technology_review"
-            ],
-            "published_at": "2026-10-22T10:00:00Z",
-            "relevance_score": 0.0
-          }
-        ],
-        "signal": "No matching GitHub activity"
-      },
-      {
         "topic": "Ensemble",
         "news_articles": [
           {
@@ -3018,17 +3363,96 @@
           }
         ],
         "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Specializing",
+        "news_articles": [
+          {
+            "title": "How Specializing the Vocabulary of SLMs Can Cut Inference Cost by 77% in Real Applications",
+            "url": "https://huggingface.co/blog/Dharma-AI/vocabx-vocabulary-specialization",
+            "source": "hugging_face_blog",
+            "sources": [
+              "hugging_face_blog"
+            ],
+            "published_at": "2026-10-21T17:35:36Z",
+            "relevance_score": 0.2
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "How Specializing the Vocabulary of SLMs Can Cut Inference Cost by 77% in Real Applications",
+            "url": "https://huggingface.co/blog/Dharma-AI/vocabx-vocabulary-specialization",
+            "source": "hugging_face_blog",
+            "sources": [
+              "hugging_face_blog"
+            ],
+            "published_at": "2026-10-21T17:35:36Z",
+            "relevance_score": 0.2
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Profiling",
+        "news_articles": [
+          {
+            "title": "Profiling TorchNeuron (Part 1): System-level profiling on AWS Trainium.",
+            "url": "https://huggingface.co/blog/amazon/profiling-torchneuron-part-1",
+            "source": "hugging_face_blog",
+            "sources": [
+              "hugging_face_blog"
+            ],
+            "published_at": "2026-10-21T16:04:43Z",
+            "relevance_score": 0.2
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "Profiling TorchNeuron (Part 1): System-level profiling on AWS Trainium.",
+            "url": "https://huggingface.co/blog/amazon/profiling-torchneuron-part-1",
+            "source": "hugging_face_blog",
+            "sources": [
+              "hugging_face_blog"
+            ],
+            "published_at": "2026-10-21T16:04:43Z",
+            "relevance_score": 0.2
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
+      {
+        "topic": "Granite",
+        "news_articles": [
+          {
+            "title": "Granite Speech 5.0: Transcribe, Translate, and Attribute more Accurately and Faster",
+            "url": "https://huggingface.co/blog/ibm-granite/granite-speech-5",
+            "source": "hugging_face_blog",
+            "sources": [
+              "hugging_face_blog"
+            ],
+            "published_at": "2026-10-21T14:58:18Z",
+            "relevance_score": 0.0
+          }
+        ],
+        "techcrunch_articles": [
+          {
+            "title": "Granite Speech 5.0: Transcribe, Translate, and Attribute more Accurately and Faster",
+            "url": "https://huggingface.co/blog/ibm-granite/granite-speech-5",
+            "source": "hugging_face_blog",
+            "sources": [
+              "hugging_face_blog"
+            ],
+            "published_at": "2026-10-21T14:58:18Z",
+            "relevance_score": 0.0
+          }
+        ],
+        "signal": "No matching GitHub activity"
       }
     ],
     "unpublicized_dev_activity": [
       {
         "topic": "ai",
         "github_repos": [
-          {
-            "full_name": "hevnsnt/CVEngine",
-            "stars": 191,
-            "stars_gained": null
-          },
           {
             "full_name": "verity-mods/verity-enhanced",
             "stars": 100,
@@ -3050,16 +3474,6 @@
             "stars_gained": null
           },
           {
-            "full_name": "firecrawl/firecrawl",
-            "stars": 195381,
-            "stars_gained": null
-          },
-          {
-            "full_name": "f/prompts.chat",
-            "stars": 174574,
-            "stars_gained": null
-          },
-          {
             "full_name": "open-webui/open-webui",
             "stars": 156765,
             "stars_gained": null
@@ -3075,18 +3489,8 @@
             "stars_gained": null
           },
           {
-            "full_name": "google-gemini/gemini-cli",
-            "stars": 108388,
-            "stars_gained": null
-          },
-          {
             "full_name": "thedotmack/claude-mem",
             "stars": 103164,
-            "stars_gained": null
-          },
-          {
-            "full_name": "hacksider/Deep-Live-Cam",
-            "stars": 97224,
             "stars_gained": null
           },
           {
@@ -3110,11 +3514,6 @@
             "stars_gained": null
           },
           {
-            "full_name": "heygen-com/hyperframes",
-            "stars": 72301,
-            "stars_gained": null
-          },
-          {
             "full_name": "microsoft/AI-For-Beginners",
             "stars": 70255,
             "stars_gained": null
@@ -3133,11 +3532,6 @@
           {
             "full_name": "lovisdotio/motion2code",
             "stars": 266,
-            "stars_gained": null
-          },
-          {
-            "full_name": "huaxialucaicaizi/ai-startup-skills",
-            "stars": 216,
             "stars_gained": null
           },
           {
@@ -3343,42 +3737,6 @@
         "signal": "No external press coverage"
       },
       {
-        "topic": "agent",
-        "github_repos": [
-          {
-            "full_name": "langgenius/dify",
-            "stars": 159542,
-            "stars_gained": null
-          },
-          {
-            "full_name": "koala73/worldmonitor",
-            "stars": 89532,
-            "stars_gained": null
-          },
-          {
-            "full_name": "lobehub/lobehub",
-            "stars": 83494,
-            "stars_gained": null
-          },
-          {
-            "full_name": "unslothai/unsloth",
-            "stars": 78568,
-            "stars_gained": null
-          },
-          {
-            "full_name": "headroomlabs-ai/headroom",
-            "stars": 77829,
-            "stars_gained": null
-          },
-          {
-            "full_name": "hiyouga/LlamaFactory",
-            "stars": 75732,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No external press coverage"
-      },
-      {
         "topic": "ai-agent",
         "github_repos": [
           {
@@ -3410,37 +3768,6 @@
         "signal": "No external press coverage"
       },
       {
-        "topic": "agents",
-        "github_repos": [
-          {
-            "full_name": "h9-tec/ai-roadmap-2026",
-            "stars": 163,
-            "stars_gained": null
-          },
-          {
-            "full_name": "langflow-ai/langflow",
-            "stars": 156024,
-            "stars_gained": null
-          },
-          {
-            "full_name": "langchain-ai/langchain",
-            "stars": 148464,
-            "stars_gained": null
-          },
-          {
-            "full_name": "Shubhamsaboo/awesome-llm-apps",
-            "stars": 143067,
-            "stars_gained": null
-          },
-          {
-            "full_name": "usestrix/strix",
-            "stars": 71922,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No external press coverage"
-      },
-      {
         "topic": "amd",
         "github_repos": [
           {
@@ -3461,6 +3788,58 @@
           {
             "full_name": "webpack/webpack",
             "stars": 65971,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agent",
+        "github_repos": [
+          {
+            "full_name": "langgenius/dify",
+            "stars": 159542,
+            "stars_gained": null
+          },
+          {
+            "full_name": "koala73/worldmonitor",
+            "stars": 89532,
+            "stars_gained": null
+          },
+          {
+            "full_name": "lobehub/lobehub",
+            "stars": 83494,
+            "stars_gained": null
+          },
+          {
+            "full_name": "unslothai/unsloth",
+            "stars": 78568,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "agents",
+        "github_repos": [
+          {
+            "full_name": "langflow-ai/langflow",
+            "stars": 156024,
+            "stars_gained": null
+          },
+          {
+            "full_name": "langchain-ai/langchain",
+            "stars": 148464,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Shubhamsaboo/awesome-llm-apps",
+            "stars": 143067,
+            "stars_gained": null
+          },
+          {
+            "full_name": "usestrix/strix",
+            "stars": 71922,
             "stars_gained": null
           }
         ],
@@ -3768,22 +4147,6 @@
           {
             "full_name": "opencv/opencv",
             "stars": 91322,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No external press coverage"
-      },
-      {
-        "topic": "app",
-        "github_repos": [
-          {
-            "full_name": "jaywcjlove/awesome-mac",
-            "stars": 117037,
-            "stars_gained": null
-          },
-          {
-            "full_name": "toeverything/AFFiNE",
-            "stars": 73849,
             "stars_gained": null
           }
         ],
@@ -4171,6 +4534,17 @@
         "signal": "No external press coverage"
       },
       {
+        "topic": "dlss",
+        "github_repos": [
+          {
+            "full_name": "Release-DLSS-5-Swapper/.github",
+            "stars": 425,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
         "topic": "Windows UNLOCK: RTX3090",
         "github_repos": [
           {
@@ -4490,10 +4864,32 @@
         "signal": "No external press coverage"
       },
       {
+        "topic": "cs2-ak-47-skin-changer",
+        "github_repos": [
+          {
+            "full_name": "cs-tool-s/.github",
+            "stars": 205,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
         "topic": "McReplay（麦回放）— Structural snapshots,",
         "github_repos": [
           {
             "full_name": "YoyoLin008/mcreplay",
+            "stars": 204,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "valorant-gun-changer",
+        "github_repos": [
+          {
+            "full_name": "val-tools/.github",
             "stars": 204,
             "stars_gained": null
           }
@@ -4941,10 +5337,43 @@
         "signal": "No external press coverage"
       },
       {
+        "topic": "free-grow-a-garden-script",
+        "github_repos": [
+          {
+            "full_name": "wpeikxyrjnps/.github",
+            "stars": 134,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "base-copy-trading",
+        "github_repos": [
+          {
+            "full_name": "dex-tool-best/.github",
+            "stars": 134,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
         "topic": "native port Monster",
         "github_repos": [
           {
             "full_name": "morerokk/MHGURecomp",
+            "stars": 134,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "pubg-cheats-2026",
+        "github_repos": [
+          {
+            "full_name": "bg-tools-new/.github",
             "stars": 134,
             "stars_gained": null
           }
@@ -4963,10 +5392,21 @@
         "signal": "No external press coverage"
       },
       {
-        "topic": "abliteration",
+        "topic": "brainrot-esp",
         "github_repos": [
           {
-            "full_name": "heterodoxin/AbliteratedOutTheBox",
+            "full_name": "qnzqfmbacrkk/.github",
+            "stars": 133,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "rust-admin-mod",
+        "github_repos": [
+          {
+            "full_name": "rust-tools-new/.github",
             "stars": 133,
             "stars_gained": null
           }
@@ -4985,10 +5425,32 @@
         "signal": "No external press coverage"
       },
       {
+        "topic": "defi-arbitrage-strategy",
+        "github_repos": [
+          {
+            "full_name": "df-tools-bn/.github",
+            "stars": 133,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
         "topic": "arbitrage-bot-download",
         "github_repos": [
           {
             "full_name": "tytpaskanvdc/cross-exchange-arbitrage-bot-pc-desktop",
+            "stars": 133,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "base-trading-bot",
+        "github_repos": [
+          {
+            "full_name": "onchain-trading-bot/.github",
             "stars": 133,
             "stars_gained": null
           }
@@ -5022,6 +5484,17 @@
         "github_repos": [
           {
             "full_name": "yesterdayfuture/confess",
+            "stars": 132,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "crypto-smart-money",
+        "github_repos": [
+          {
+            "full_name": "xynbspqmochf/.github",
             "stars": 132,
             "stars_gained": null
           }
@@ -5403,6 +5876,17 @@
         "signal": "No external press coverage"
       },
       {
+        "topic": "base-whale-tracker",
+        "github_repos": [
+          {
+            "full_name": "onchain-whale-tracker-pc-desktop/.github",
+            "stars": 107,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
         "topic": "麦门心事：把一句心事读成一顿麦当劳，再让三个陌生人决定这顿吃不吃。基于麦当劳中国 Skill 零依赖单文件演示页。",
         "github_repos": [
           {
@@ -5419,6 +5903,17 @@
           {
             "full_name": "xue-y-su/clove-api-1.0.6",
             "stars": 106,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "blox-fruits-auto-raid",
+        "github_repos": [
+          {
+            "full_name": "rjgyzakqgfiv/.github",
+            "stars": 104,
             "stars_gained": null
           }
         ],
@@ -6041,17 +6536,6 @@
         "signal": "No external press coverage"
       },
       {
-        "topic": "agent-harness",
-        "github_repos": [
-          {
-            "full_name": "infiniflow/ragflow",
-            "stars": 92866,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No external press coverage"
-      },
-      {
         "topic": "gpui",
         "github_repos": [
           {
@@ -6288,6 +6772,17 @@
           {
             "full_name": "danielmiessler/SecLists",
             "stars": 74352,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No external press coverage"
+      },
+      {
+        "topic": "app",
+        "github_repos": [
+          {
+            "full_name": "toeverything/AFFiNE",
+            "stars": 73849,
             "stars_gained": null
           }
         ],
@@ -6763,6 +7258,7 @@
     "lesnolie/Tigris",
     "LNPANDY/NX2Apple",
     "WoYun520/dsh-purge",
+    "Release-DLSS-5-Swapper/.github",
     "impacifist/Windows-GPU-UNLOCK",
     "songjianyang/xss-audit",
     "wangrongding/tv-fresh",
@@ -6799,8 +7295,10 @@
     "lklbar666/mcd-saver-checkup",
     "NelsonEU/arn0-tv",
     "llm-xiaoye/douyin-to-obsidian",
+    "cs-tool-s/.github",
     "xingjian-bai/opal",
     "YoyoLin008/mcreplay",
+    "val-tools/.github",
     "Xc1Ym/LumaDock",
     "eooce/Cloudflare-Tunnel-Panel",
     "vladocar/Sumi.css",
@@ -6843,13 +7341,21 @@
     "ios151/One-releases",
     "JulioNectar/Hackintosh-XPS13Plus-IrisXe-Tahoe",
     "hffgzktbcc-blip/ounce-core",
+    "wpeikxyrjnps/.github",
+    "dex-tool-best/.github",
     "morerokk/MHGURecomp",
+    "bg-tools-new/.github",
     "Hanmoy/mcsmart-butler",
+    "qnzqfmbacrkk/.github",
+    "rust-tools-new/.github",
     "aotoycffyxns/delta",
+    "df-tools-bn/.github",
     "tytpaskanvdc/cross-exchange-arbitrage-bot-pc-desktop",
+    "onchain-trading-bot/.github",
     "kqgzhkbiqutr/dex-sniper-bot-pc-desktop",
     "pmarket-14/polymarket-ai-trading-codex-and-claude-bot",
     "yesterdayfuture/confess",
+    "xynbspqmochf/.github",
     "cocombee/glass-tv",
     "guanmo-ai/design-style",
     "XRayLau1/maitaiyi",
@@ -6895,9 +7401,11 @@
     "BEN020406/maimen-order-manager",
     "Xenox-developer/invariant",
     "CH-LaTiao/lumina-guide",
+    "onchain-whale-tracker-pc-desktop/.github",
     "Tom123223/maimen-xinshi",
     "mokevnin/dev-quality-gates",
     "xue-y-su/clove-api-1.0.6",
+    "rjgyzakqgfiv/.github",
     "ChinaOpenClaw/mcd-nutrition-expert",
     "Dr-xu193/syncnote-community",
     "josiahg2502-glitch/BrawlRecompiled",
@@ -7085,7 +7593,7 @@
     "correlations_found": 50,
     "strong_correlations": 4,
     "weak_correlations": 46,
-    "articles_matched": 18,
+    "articles_matched": 23,
     "dedupe_count": 0,
     "limits": {
       "max_articles": 80,
@@ -7093,7 +7601,7 @@
       "max_matched_articles_per_repo": 5
     },
     "uncovered_tech_trends": 17,
-    "unpublicized_dev_activity": 292,
+    "unpublicized_dev_activity": 303,
     "news_sources": {
       "schema_version": 2,
       "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
