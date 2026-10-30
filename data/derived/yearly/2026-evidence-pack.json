@@ -651,11 +651,39 @@
       "source_id": "SRC-2026-W43",
       "status": "resolved",
       "text": "Watch whether agent-native version control becomes a category or remains a single launch, and whether reverse-engineering tools converge on shared protocols rather than competing wrappers. Specialized media skills have not peaked, but their next test is repeatable output and permission boundaries, not broader modality lists. The decisive signal would be a companion wave of provenance, evaluation, and rollback tooling; without it, October's control narrative will continue to mean operational reach rather than accountable control."
+    },
+    {
+      "claim_id": "CLM-2026-W44-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W44",
+      "status": "resolved",
+      "text": "Developers reclaimed TVs, phones, GPUs, and local workflows while agent skills specialized and a PHP disclosure triggered exploit-heavy churn."
+    },
+    {
+      "claim_id": "CLM-2026-W44-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W44",
+      "status": "resolved",
+      "text": "The strongest signal comes from independent projects solving bounded problems. The four consumer-control tools approach the same frustration from launchers, debloating, mobile control, and custom home screens rather than cloning one implementation. [xevrion/hatchzip](https://github.com/xevrion/hatchzip) addresses a concrete disk-space constraint across desktop platforms, and [colinhacks/reylo](https://github.com/colinhacks/reylo) offers a specific bridge from SQL files to TypeScript inference. [eagle-hq/EAGLE-4](https://github.com/eagle-hq/EAGLE-4) is similarly credible because it names an inference technique and integration targets instead of selling an undefined agent. Attention is less trustworthy around oversized promises and event-driven churn. [Jakeschincariol/day-trader-skill](https://github.com/Jakeschincariol/day-trader-skill) accumulated 1,700 stars and 365 forks despite a six-second creation-to-push interval and claims spanning chart scanning, news, timing, and replay; metadata alone cannot validate that breadth. [zita-ch/supermimic_vibed](https://github.com/zita-ch/supermimic_vibed) foregrounds one-hour implementation and minimal training as spectacle rather than evidence of durability. [Alejandros17487/ai-jailbreaks](https://github.com/Alejandros17487/ai-jailbreaks) is a prompt collection with no detected language or license, useful perhaps for ad hoc testing but weak as an engineering trend. The PHP cluster records urgent attention, not four independent durable products. None shows the classic 10:1 fork inflation or tightly matched zero-fork star farm, so skepticism should stop short of alleging manipulation."
+    },
+    {
+      "claim_id": "CLM-2026-W44-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W44",
+      "status": "resolved",
+      "text": "Agent-skill provenance remains missing. Neither the press nor the visible repositories offers a convincing package-signing, permission-manifest, dependency-audit, or reproducible-evaluation layer for skills that can trade, alter code, or research sensitive records. That absence becomes more serious as skills move from style advice into consequential professional workflows. Device-reclamation tooling also lacks a shared safety model: compatibility matrices, transactional rollback, and vendor-update testing are not emerging as a category despite firmware, ADB, hypervisor, and compatibility-layer work. Finally, maintenance economics are nearly invisible. Viral launch metrics say nothing about who will sustain model-specific inference code, vulnerability scanners, or hardware ports after the initial week."
+    },
+    {
+      "claim_id": "CLM-2026-W44-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W44",
+      "status": "resolved",
+      "text": "Watch whether consumer-control projects converge on reusable ADB, rollback, and compatibility infrastructure rather than remaining isolated hacks. The PHP wave should be judged by patch guidance and scanner maintenance after exploit attention fades. Agent skills will keep specializing, but the next meaningful advance will be verifiable packaging and behavior testing, not another directory of instructions. Inference tools with narrow claims are better positioned to persist than broad autonomous-agent promises."
     }
   ],
   "counts": {
-    "claims": 93,
-    "sources": 23
+    "claims": 97,
+    "sources": 24
   },
   "months_covered": [
     "2026-05",
@@ -1016,6 +1044,21 @@
       "title": "Agents Rewrite the Tools Beneath Their Work",
       "top_repo": "feder-cr/git-ai",
       "week": "2026-W43"
+    },
+    {
+      "month": "2026-10",
+      "source_id": "SRC-2026-W44",
+      "tags": [
+        "developer-tools",
+        "ai-agents",
+        "security",
+        "consumer-control",
+        "systems",
+        "agent-skills"
+      ],
+      "title": "Developers Reclaim the Machines Beneath the Agents",
+      "top_repo": "pengchujin/aerial-tv",
+      "week": "2026-W44"
     }
   ],
   "year": 2026
