@@ -1569,12 +1569,20 @@ class PodcasterHandoffTests(unittest.TestCase):
                 "  — 2026-W44 [ES] | W45invalid",
             ),
         ]
-        for headline, template, suffix in cases:
-            with self.subTest(headline=headline, template=template):
+        cases = [(headline, template, suffix, 44) for headline, template, suffix in cases]
+        cases.extend(
+            (headline, None, f" | W{week:02d}", week)
+            for headline in ("T" * 250, "é宇宙🤖" * 100)
+            for week in (1, 9)
+        )
+        cases.append(("T" * 250, "{article_title} | W{week:02d}", " | W01", 1))
+        for headline, template, suffix, week_number in cases:
+            week = f"2026-W{week_number:02d}"
+            with self.subTest(headline=headline, template=template, week=week):
                 with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as tmpdir:
                     root = Path(tmpdir)
                     manifest = self._write_manifest(root)
-                    article_path = "content/weekly/2026/W44.md"
+                    article_path = f"content/weekly/2026/W{week_number:02d}.md"
                     article = root / article_path
                     article.parent.mkdir(parents=True)
                     article.write_text(
@@ -1588,7 +1596,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                     original_bytes = article.read_bytes()
                     article_sha = hashlib.sha256(original_bytes).hexdigest()
                     manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
-                    manifest_data["week"] = "2026-W44"
+                    manifest_data["week"] = week
                     manifest_data["candidate"]["content_sha256"] = article_sha
                     manifest.write_text(json.dumps(manifest_data), encoding="utf-8")
                     selected_config = config_path
@@ -1598,8 +1606,8 @@ class PodcasterHandoffTests(unittest.TestCase):
                         selected_config = root / "podcast.json"
                         selected_config.write_text(json.dumps(config), encoding="utf-8")
                     payload = podcaster_handoff.build_payload(
-                        week="2026-W44",
-                        article_url="https://claracle.com/weekly/2026/w44/",
+                        week=week,
+                        article_url=f"https://claracle.com/weekly/2026/w{week_number:02d}/",
                         article_path=article_path,
                         publish_run_id="123456789",
                         manifest_path=manifest,
@@ -1609,7 +1617,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                         exact_article_content=True,
                     )
                     evidence = {
-                        "week": "2026-W44",
+                        "week": week,
                         "article_url": payload["article_url"],
                         "article_path": article_path,
                         "article_sha256": article_sha,
@@ -1625,6 +1633,8 @@ class PodcasterHandoffTests(unittest.TestCase):
                     title = payload["spotify_publish"]["title"]
                     self.assertTrue(title.endswith(suffix))
                     self.assertLessEqual(len(title), 200)
+                    self.assertEqual(payload["spotify_publish"]["episode_number"], week_number)
+                    self.assertIsInstance(payload["spotify_publish"]["episode_number"], int)
                     if template is None and len(headline) < 194:
                         self.assertEqual(title, headline + suffix)
                     with self.assertRaisesRegex(

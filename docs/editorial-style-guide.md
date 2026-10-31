@@ -78,6 +78,9 @@ of at most 70 characters. The executable caller configuration is
 `spotify_publish.title_template` in `config/podcast.json`, defaulting to
 `{article_title} | W{week}`. `script_directions` does not support an
 `episode_title` instruction; prose there cannot generate publication metadata.
+Title placeholders render the week with two digits (`W01`–`W09` included);
+the separate `episode_number` remains numeric. Existing explicit numeric
+format specifications in title templates remain supported.
 
 A human editor may use the existing supported title configuration for a
 grounded rewrite only when it meaningfully improves clarity or specificity.

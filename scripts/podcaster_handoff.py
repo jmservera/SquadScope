@@ -681,9 +681,17 @@ def _resolve_spotify_publish(
         "article_summary": article_summary or "",
     }
     resolved = _render_template_value(config, context)
-    title = resolved.pop("title_template", None)
+    title = config.get("title_template")
     if title is None:
-        title = resolved.get("title")
+        title = config.get("title")
+
+    class TitleWeek(int):
+        def __format__(self, format_spec: str) -> str:
+            return super().__format__(format_spec or "02d")
+
+    # Only title placeholders default to W01–W09; episode_number remains numeric.
+    title = _render_template_value(title, {**context, "week": TitleWeek(context["week"])})
+    resolved.pop("title_template", None)
     if isinstance(title, str):
         resolved["title"] = _truncate_spotify_title(title)
     elif title is not None:
