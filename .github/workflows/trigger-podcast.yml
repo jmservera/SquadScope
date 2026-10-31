@@ -115,6 +115,22 @@ jobs:
             echo "::error::Requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
             exit 1
           fi
+          PODCAST_CONFIG="config/podcast.json"
+          if [ "$WEEK" = "2026-W44" ]; then
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          config = json.loads(Path("config/podcast.json").read_text(encoding="utf-8"))
+          style = config["script_directions"]["episode_style"]
+          if style["format"].count("1200-1700 words.") != 1:
+              raise SystemExit("::error::W44 caller length baseline changed; reconcile before generation.")
+          style["format"] = style["format"].replace("1200-1700 words.", "1001-1700 spoken words.")
+          Path("config/podcast-2026-W44.json").write_text(json.dumps(config), encoding="utf-8")
+          print("::notice::W44 requested canonical host speech: 1001-1700 words inclusive.")
+          PY
+            PODCAST_CONFIG="config/podcast-2026-W44.json"
+          fi
           BREAKING_ARGS=()
           if [ -n "$BREAKING_NEWS" ]; then
             BREAKING_ARGS=(--breaking-news "$BREAKING_NEWS")
@@ -131,7 +147,7 @@ jobs:
             --publish-run-id "$PUBLISH_RUN_ID" \
             --publish-mode normal \
             --manifest "$MANIFEST_FILE" \
-            --podcast-config config/podcast.json \
+            --podcast-config "$PODCAST_CONFIG" \
             --require-merged \
             "${BREAKING_ARGS[@]}"
 

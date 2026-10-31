@@ -273,6 +273,58 @@ def test_real_wrappers_prepare_hydrate_and_dispatch_same_exact_release(release, 
     assert "Weekly news." in payload["article_content"]
     assert "dry_run" not in payload
     assert "regeneration" not in payload
+    expected_directions = json.loads((REPO_ROOT / "config/podcast.json").read_text())[
+        "script_directions"
+    ]
+    if wrapper == "manual":
+        expected_directions["episode_style"]["format"] = expected_directions["episode_style"][
+            "format"
+        ].replace("1200-1700 words.", "1001-1700 spoken words.")
+    assert payload["script_directions"] == expected_directions
+
+
+@pytest.mark.parametrize("week", ["2026-W43", "2027-W44"])
+def test_manual_length_override_does_not_apply_to_other_weeks(release, receiver, week):
+    result, _ = release.prepare("manual")
+    assert result.returncode == 0, result.stdout + result.stderr
+    year, short = week.split("-")
+    article_path = f"content/weekly/{year}/{short}.md"
+    article = release.root / article_path
+    article.parent.mkdir(parents=True, exist_ok=True)
+    article.write_bytes(ARTICLE)
+    manifest_path = f"data/candidates/{week}/{RUN_ID}/publish-manifest.json"
+    manifest = release.root / manifest_path
+    manifest.parent.mkdir(parents=True, exist_ok=True)
+    release.manifest["week"] = week
+    release.manifest["candidate"]["content_path"] = article_path
+    manifest.write_text(json.dumps(release.manifest))
+    release.context["inputs.week"] = week
+    release.context["steps.derive.outputs.article_path"] = article_path
+    release.context["steps.derive.outputs.article_url"] = (
+        f"https://claracle.com/weekly/{year}/{short.lower()}/"
+    )
+    release.context["steps.manifest-locate.outputs.manifest_path"] = manifest_path
+    result, _ = release.run_step("manual", "handoff")
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert len(receiver) == 1
+    assert (
+        receiver[0][2]["script_directions"]
+        == json.loads((REPO_ROOT / "config/podcast.json").read_text())["script_directions"]
+    )
+    assert not (release.root / "config/podcast-2026-W44.json").exists()
+
+
+def test_manual_w44_rejects_changed_length_baseline_before_submission(release, receiver):
+    result, _ = release.prepare("manual")
+    assert result.returncode == 0, result.stdout + result.stderr
+    path = release.root / "config/podcast.json"
+    config = json.loads(path.read_text())
+    config["script_directions"]["episode_style"]["format"] = "1200 words"
+    path.write_text(json.dumps(config))
+    result, _ = release.run_step("manual", "handoff")
+    assert result.returncode != 0
+    assert "W44 caller length baseline changed" in result.stdout + result.stderr
+    assert receiver == []
 
 
 @pytest.mark.parametrize("wrapper", WRAPPERS)

@@ -119,6 +119,15 @@ accepted, or obtain explicit authorization for the rerun. The workflow selects o
 manifest identity, and requires the article on the default branch to match the
 manifest digest before contacting Podcaster.
 
+For the authorized `2026-W44` audio/video restart, the manual workflow derives a
+runner-local caller configuration requesting **1001–1700 spoken words inclusive**.
+Podcaster uses that same format for prompt guidance and final canonical speech
+validation. Only this week's manual generation changes; the shared configuration,
+other weeks, grounding, section, review, provider, and media gates are unchanged.
+Use `regenerate_of` for the latest actually admitted predecessor and provide a
+nonblank `regeneration_reason`; a failed attempt without an admitted job is not a
+predecessor. Never rerun the article/crawl workflow to restart audio/video.
+
 The run summary retains the dispatcher, week, publish run ID, manifest path and
 digest, article path and digest, workflow outcome, Actions URL, and the accepted
 Podcaster status and job ID. It never retains the endpoint, API key, breaking-news
