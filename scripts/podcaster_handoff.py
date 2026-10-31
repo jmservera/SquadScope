@@ -562,8 +562,17 @@ def truncate_html(value: str, limit: int) -> str:
     return truncator.finish()
 
 
-def _truncate_text(value: str, limit: int) -> str:
-    return value[:limit]
+def _truncate_spotify_title(value: str) -> str:
+    if len(value) <= MAX_SPOTIFY_TITLE_CHARS:
+        return value
+    # Match the downstream YouTube boundary so upstream clipping cannot lose identity.
+    markers = list(re.finditer(r"\s*[|—–-]\s*(?:\d{4}-)?W\d{2}(?=\s|$)", value))
+    if not markers:
+        return value[:MAX_SPOTIFY_TITLE_CHARS]
+    suffix = value[markers[-1].start() :]
+    if len(suffix) >= MAX_SPOTIFY_TITLE_CHARS:
+        raise PodcasterHandoffError("Spotify weekly identity suffix exceeds title budget.")
+    return value[: MAX_SPOTIFY_TITLE_CHARS - len(suffix)].rstrip() + suffix
 
 
 def _truncate_words(value: str, limit: int) -> str:
@@ -672,9 +681,19 @@ def _resolve_spotify_publish(
         "article_summary": article_summary or "",
     }
     resolved = _render_template_value(config, context)
-    title = resolved.pop("title_template", None)
+    title = config.get("title_template")
+    if title is None:
+        title = config.get("title")
+
+    class TitleWeek(int):
+        def __format__(self, format_spec: str) -> str:
+            return super().__format__(format_spec or "02d")
+
+    # Only title placeholders default to W01–W09; episode_number remains numeric.
+    title = _render_template_value(title, {**context, "week": TitleWeek(context["week"])})
+    resolved.pop("title_template", None)
     if isinstance(title, str):
-        resolved["title"] = _truncate_text(title, MAX_SPOTIFY_TITLE_CHARS)
+        resolved["title"] = _truncate_spotify_title(title)
     elif title is not None:
         resolved["title"] = title
     description = resolved.pop("description_template", None)
