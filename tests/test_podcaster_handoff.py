@@ -1516,7 +1516,7 @@ class PodcasterHandoffTests(unittest.TestCase):
 
         self.assertEqual(
             payload["spotify_publish"]["title"],
-            "Why Skills Go Vertical Matters for AI, GitHub & Developer Trends | W24",
+            "Skills Go Vertical | W24",
         )
         self.assertIn(
             "This week we explore agent skills.", payload["spotify_publish"]["description"]
@@ -1546,7 +1546,7 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
 
         self.assertLessEqual(len(payload["spotify_publish"]["title"]), 200)
-        self.assertTrue(payload["spotify_publish"]["title"].startswith("Why "))
+        self.assertEqual(payload["spotify_publish"]["title"], "T" * 194 + " | W24")
         desc = payload["spotify_publish"]["description"]
         self.assertLessEqual(len(desc), 4000)
         self.assertTrue(desc.startswith("<p>"))
@@ -1555,6 +1555,105 @@ class PodcasterHandoffTests(unittest.TestCase):
         parser.close()
         self.assertEqual(parser.errors, [])
         self.assertEqual(parser.stack, [])
+
+    def test_exact_caller_title_flow_preserves_source_provenance(self) -> None:
+        config_path = Path(__file__).resolve().parents[1] / "config/podcast.json"
+        cases = [
+            ("Devices Reclaim Control as Agent Skills Specialize", None, " | W44"),
+            ("Why Agent Skills Need Clear Ownership", None, " | W44"),
+            ("T" * 250, None, " | W44"),
+            ("é宇宙🤖" * 100, None, " | W44"),
+            (
+                "Comparison | W42 " + "agent updates " * 30,
+                "{article_title}  — 2026-W{week} [ES] | W45invalid",
+                "  — 2026-W44 [ES] | W45invalid",
+            ),
+        ]
+        for headline, template, suffix in cases:
+            with self.subTest(headline=headline, template=template):
+                with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as tmpdir:
+                    root = Path(tmpdir)
+                    manifest = self._write_manifest(root)
+                    article_path = "content/weekly/2026/W44.md"
+                    article = root / article_path
+                    article.parent.mkdir(parents=True)
+                    article.write_text(
+                        f"---\ntitle: {json.dumps(headline, ensure_ascii=False)}\n"
+                        "summary: Source-backed weekly evidence.\n---\n"
+                        "# Weekly evidence\nConsumer control and agent skills depend on "
+                        "clear ownership, source provenance, and engineering tradeoffs. "
+                        "The weekly article distinguishes supported evidence from hype.\n",
+                        encoding="utf-8",
+                    )
+                    original_bytes = article.read_bytes()
+                    article_sha = hashlib.sha256(original_bytes).hexdigest()
+                    manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
+                    manifest_data["week"] = "2026-W44"
+                    manifest_data["candidate"]["content_sha256"] = article_sha
+                    manifest.write_text(json.dumps(manifest_data), encoding="utf-8")
+                    selected_config = config_path
+                    if template:
+                        config = json.loads(config_path.read_text(encoding="utf-8"))
+                        config["spotify_publish"]["title_template"] = template
+                        selected_config = root / "podcast.json"
+                        selected_config.write_text(json.dumps(config), encoding="utf-8")
+                    payload = podcaster_handoff.build_payload(
+                        week="2026-W44",
+                        article_url="https://claracle.com/weekly/2026/w44/",
+                        article_path=article_path,
+                        publish_run_id="123456789",
+                        manifest_path=manifest,
+                        podcast_config_path=selected_config,
+                        repo_root=root,
+                        podcaster_dry_run=True,
+                        exact_article_content=True,
+                    )
+                    evidence = {
+                        "week": "2026-W44",
+                        "article_url": payload["article_url"],
+                        "article_path": article_path,
+                        "article_sha256": article_sha,
+                        "manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
+                        "publish_run_id": "123456789",
+                        "repo_root": root,
+                    }
+                    podcaster_handoff.validate_exact_release_payload(payload, **evidence)
+                    self.assertEqual(payload["article_title"], headline)
+                    self.assertEqual(payload["article_sha256"], article_sha)
+                    self.assertEqual(payload["article_content"].encode("utf-8"), original_bytes)
+                    self.assertEqual(article.read_bytes(), original_bytes)
+                    title = payload["spotify_publish"]["title"]
+                    self.assertTrue(title.endswith(suffix))
+                    self.assertLessEqual(len(title), 200)
+                    if template is None and len(headline) < 194:
+                        self.assertEqual(title, headline + suffix)
+                    with self.assertRaisesRegex(
+                        podcaster_handoff.PodcasterHandoffError,
+                        "article_title does not match",
+                    ):
+                        podcaster_handoff.validate_exact_release_payload(
+                            {**payload, "article_title": title}, **evidence
+                        )
+
+    def test_spotify_title_suffix_budget_fails_closed_for_template_and_concrete_title(self) -> None:
+        for field in ("title_template", "title"):
+            for suffix_size in (99, 100, 199, 200, 201):
+                with self.subTest(field=field, suffix_size=suffix_size):
+                    suffix = " | W44 " + "é" * (suffix_size - 7)
+                    config = {field: ("topic " * 50).rstrip() + suffix}
+                    if suffix_size >= 200:
+                        with self.assertRaisesRegex(
+                            podcaster_handoff.PodcasterHandoffError, "identity suffix"
+                        ):
+                            podcaster_handoff._resolve_spotify_publish(
+                                config, week="2026-W44", article_title="Source", article_summary=""
+                            )
+                    else:
+                        resolved = podcaster_handoff._resolve_spotify_publish(
+                            config, week="2026-W44", article_title="Source", article_summary=""
+                        )
+                        self.assertLessEqual(len(resolved["title"]), 200)
+                        self.assertTrue(resolved["title"].endswith(suffix))
 
     def test_truncate_html_drops_partial_trailing_tag(self) -> None:
         html = "<p>" + ("x" * 3988) + '<a href="https://example.com/really/long/link">link</a></p>'

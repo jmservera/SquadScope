@@ -70,6 +70,35 @@ The show must NOT replicate or closely resemble:
 - Any named podcast's segment labels, jingles, recurring bits, or trademarked phrasing
 - No imitation of specific podcasters' speaking patterns or catchphrases
 
+### Publication Titles
+
+Reuse the original **first-party Claracle weekly article headline** by default:
+the upstream headline contract already calls for a punchy 5–12-word headline
+of at most 70 characters. The executable caller configuration is
+`spotify_publish.title_template` in `config/podcast.json`, defaulting to
+`{article_title} | W{week}`. `script_directions` does not support an
+`episode_title` instruction; prose there cannot generate publication metadata.
+
+A human editor may use the existing supported title configuration for a
+grounded rewrite only when it meaningfully improves clarity or specificity.
+Questions and genuine “Why” headlines are allowed when accurate; neither is
+mandatory. Do not add generic SEO wrappers, random rotation, forced variety,
+unsupported claims, or a new title-generation model.
+
+This first-party reuse rule does **not** authorize copying third-party
+expressive headlines or waive copyright, rights assessment, or human review.
+It does not authorize reading the source article verbatim into the dialogue.
+
+Keep the exact original `article_title`, article URL and SHA as source
+provenance, separate from the publication title. The caller reserves the full
+rightmost valid week/year-week suffix and any supplied locale or trailing
+identity text within the 200-character Spotify base-title budget; the existing
+YouTube path reserves it within 100 characters. Do not invent a locale.
+Impossible suffix budgets fail closed. Keep publication-digest decoration,
+the full `Publication {publication_digest}` description marker, and reviewed
+metadata hashes unchanged. Final title selection happens **before** exact
+media review; never rewrite an accepted outbox's metadata in place.
+
 ---
 
 ## 4. Source-Backed Claims
@@ -114,7 +143,7 @@ Show notes must include:
 | Category | Rule |
 |----------|------|
 | **Real-person mimicry** | Never model host voices, mannerisms, or catchphrases on identifiable real people |
-| **Copied expression** | Do not reproduce any recognizable expression, catchphrase, or verbatim quote from the source material, regardless of length. |
+| **Copied expression** | Do not reproduce recognizable third-party expression, catchphrases, or verbatim source quotes. First-party article-headline reuse is limited to publication metadata as described in §3; it is not permission to read the article verbatim. |
 | **Unsupported facts** | No claims without claim-ledger backing (see §4) |
 | **Defamatory motive claims** | Never attribute malicious intent to project maintainers, companies, or individuals |
 | **Fake sponsorship** | Never include language that implies paid sponsorship, affiliate relationships, or endorsement unless explicitly disclosed and real |
