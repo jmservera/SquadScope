@@ -332,14 +332,18 @@ def _load_podcast_config(path: Path | None) -> dict[str, Any]:
     return payload
 
 
-_WORD_RANGE_PATTERN = re.compile(r"\b\d+\s*-\s*\d+ (?:spoken )?words\b")
+_WORD_RANGE_PATTERN = re.compile(r"(?<![\d,.])\d+\s*-\s*\d+ (?:spoken )?words\b")
 
 
 def _apply_week_word_range(directions: dict[str, Any], overrides: Any, week: str) -> dict[str, Any]:
     """Rewrite the spoken-word range in episode_style.format for a configured week."""
-    if overrides is None or week not in overrides:
+    if overrides is None:
         return directions
-    if not isinstance(overrides, dict) or not isinstance(overrides[week], dict):
+    if not isinstance(overrides, dict):
+        raise PodcasterHandoffError("week_word_range_overrides must be a JSON object")
+    if week not in overrides:
+        return directions
+    if not isinstance(overrides[week], dict):
         raise PodcasterHandoffError("week_word_range_overrides must map weeks to objects")
     bounds = overrides[week]
     low, high = bounds.get("min"), bounds.get("max")
@@ -1122,6 +1126,9 @@ def build_payload(
         payload["script_directions"] = _apply_week_word_range(
             val, podcast_cfg.get("week_word_range_overrides"), week
         )
+    else:
+        # An active override must not be silently dropped when directions are absent.
+        _apply_week_word_range({}, podcast_cfg.get("week_word_range_overrides"), week)
     historical_context = _read_historical_context(week, root)
     if historical_context:
         if "script_directions" not in payload:

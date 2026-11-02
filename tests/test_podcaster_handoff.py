@@ -75,6 +75,41 @@ class PodcasterHandoffTests(unittest.TestCase):
             with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
                 podcaster_handoff._apply_week_word_range(directions, {"2026-W50": bad}, "2026-W50")
 
+    def test_week_word_range_override_fails_closed_on_bad_shapes(self) -> None:
+        apply = podcaster_handoff._apply_week_word_range
+        err = podcaster_handoff.PodcasterHandoffError
+        bounds = {"min": 1001, "max": 1700}
+        for bad in ([{"2026-W50": bounds}], 7, "x"):
+            with self.assertRaises(err):
+                apply({"episode_style": {"format": "1200-1700 words"}}, bad, "2026-W50")
+        for fmt in ("Two hosts, 1,200-1700 words.", "Two hosts, 1.200-1700 words."):
+            with self.assertRaises(err):
+                apply({"episode_style": {"format": fmt}}, {"2026-W50": bounds}, "2026-W50")
+        with self.assertRaises(err):
+            apply({}, {"2026-W50": bounds}, "2026-W50")
+        self.assertEqual(apply({}, {"2026-W50": bounds}, "2026-W51"), {})
+
+    def test_build_payload_rejects_active_override_without_script_directions(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest = self._write_manifest(Path(tmpdir))
+            cfg = Path(tmpdir) / "podcast.json"
+            cfg.write_text(
+                json.dumps({"week_word_range_overrides": {"2026-W23": {"min": 1001, "max": 1700}}}),
+                encoding="utf-8",
+            )
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
+                podcaster_handoff.build_payload(
+                    week="2026-W23",
+                    article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                    article_path="content/weekly/2026/W23.md",
+                    publish_run_id="123456789",
+                    publish_mode="normal",
+                    manifest_path=manifest,
+                    podcast_config_path=cfg,
+                    repo_root=Path(tmpdir),
+                )
+
     def test_script_quality_422_is_definitive_non_mutation(self) -> None:
         state, category = podcaster_handoff._http_error_receipt(422)
         self.assertEqual(state, podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED)
