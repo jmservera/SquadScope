@@ -1,0 +1,1305 @@
+{
+  "schema_version": 2,
+  "week": "2026-W45",
+  "source": "external_news",
+  "crawled_at": "2026-11-02T05:48:46.222568Z",
+  "crawl_window": {
+    "since": "2026-10-26T00:00:00Z",
+    "until": "2026-11-02T00:00:00Z"
+  },
+  "articles": [
+    {
+      "source": "techcrunch",
+      "title": "OpenAI might rebrand its data centers as ‘AI compute campuses’",
+      "url": "https://techcrunch.com/2026/11/01/openai-might-rebrand-its-data-centers-as-ai-compute-campuses/",
+      "published_at": "2026-11-01T21:55:23Z",
+      "categories": [
+        "AI",
+        "Government & Policy",
+        "Chris Lehane",
+        "OpenAI"
+      ],
+      "summary": "Data centers are deeply unpopular. But what if we called them something else?",
+      "github_links": [],
+      "entities": [
+        "OpenAI",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "Game Off 2026: The theme is SHIFT",
+      "url": "https://github.blog/open-source/gaming/game-off-2026-the-theme-is-shift/",
+      "published_at": "2026-11-01T21:36:00Z",
+      "categories": [
+        "Gaming",
+        "Open Source",
+        "GitHub Game Off"
+      ],
+      "summary": "GitHub’s annual month-long game jam is back for its 14th year! This November, make a game inspired by the theme SHIFT. Change gears, swap perspectives, bend reality, or just press a certain key.\nThe post Game Off 2026: The theme is SHIFT appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/orgs/community"
+      ],
+      "entities": [
+        "Game",
+        "Off",
+        "SHIFT"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "AI can make tech CEOs’ lives easier. What about everyone else?",
+      "url": "https://techcrunch.com/2026/11/01/ai-can-make-tech-ceos-lives-easier-what-about-everyone-else/",
+      "published_at": "2026-11-01T20:57:58Z",
+      "categories": [
+        "AI",
+        "Marissa Mayer",
+        "Mark Zuckerberg",
+        "sam altman",
+        "Whitney Wolfe Herd"
+      ],
+      "summary": "On Equity, we discuss why tech CEO statements can seem so tone deaf.",
+      "github_links": [],
+      "entities": [
+        "AI",
+        "CEOs"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "TechCrunch Mobility: A new, bigger AV boom is here",
+      "url": "https://techcrunch.com/2026/11/01/techcrunch-mobility-a-new-bigger-av-boom-is-here/",
+      "published_at": "2026-11-01T17:04:00Z",
+      "categories": [
+        "Transportation",
+        "Robotics",
+        "avs",
+        "Trucks VC"
+      ],
+      "summary": "Welcome back to TechCrunch Mobility, your hub for the future of transportation and now, more than ever, the role AI is playing in it.",
+      "github_links": [],
+      "entities": [
+        "TechCrunch",
+        "Mobility",
+        "AV"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Binance resumes withdrawals following $6.3 billion breach",
+      "url": "https://techcrunch.com/2026/11/01/binance-resumes-withdrawals-following-6-3-billion-breach/",
+      "published_at": "2026-11-01T16:20:10Z",
+      "categories": [
+        "Crypto",
+        "Binance"
+      ],
+      "summary": "The cryptocurrency exchange said it's now covered 95% of the stolen assets.",
+      "github_links": [],
+      "entities": [
+        "Binance"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Pixel 11 Pro Fold: Sturdy rectangle in a wide wide world",
+      "url": "https://techcrunch.com/2026/11/01/pixel-11-pro-fold-sturdy-rectengale-in-a-wide-wide-world/",
+      "published_at": "2026-11-01T15:00:00Z",
+      "categories": [
+        "Gadgets",
+        "TC",
+        "Google",
+        "PIXEL"
+      ],
+      "summary": "Google made a sturdy phone, but there is increasing competition in the foldable world.",
+      "github_links": [],
+      "entities": [
+        "Pixel",
+        "Pro",
+        "Fold",
+        "Sturdy"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Here’s what ‘renoa’ — the first new fiber in 25 years — feels like",
+      "url": "https://techcrunch.com/2026/11/01/heres-what-renoa-the-first-new-fiber-in-25-years-feels-like/",
+      "published_at": "2026-11-01T14:00:00Z",
+      "categories": [
+        "Climate",
+        "Exclusive",
+        "material science"
+      ],
+      "summary": "Startup Everbloom's new material, renoa, is the first new fiber in 25 years, and it feels very familiar.",
+      "github_links": [],
+      "entities": [],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Data centers are now a midterm issue, even in Brooklyn",
+      "url": "https://techcrunch.com/2026/10/31/data-centers-are-now-a-midterm-issue-even-in-brooklyn/",
+      "published_at": "2026-11-01T02:22:10Z",
+      "categories": [
+        "Government & Policy",
+        "Media & Entertainment",
+        "AI",
+        "data centers"
+      ],
+      "summary": "At a Brooklyn midterm party five days before Election Day, every conversation, from a council member’s fireside chat to a debate about the Democratic Party, kept circling back to AI and data centers.",
+      "github_links": [],
+      "entities": [
+        "Data",
+        "Brooklyn"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Apple CEO says the company doesn’t ‘want to ship AI for AI’s sake’",
+      "url": "https://techcrunch.com/2026/10/31/apple-ceo-says-the-company-doesnt-want-to-ship-ai-for-ais-sake/",
+      "published_at": "2026-10-31T21:41:00Z",
+      "categories": [
+        "AI",
+        "Apple",
+        "John Ternus"
+      ],
+      "summary": "Apple's new CEO defended the company's current position in the AI landscape.",
+      "github_links": [],
+      "entities": [
+        "Apple",
+        "CEO",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "4 days left: How TechCrunch Founder Summit helps you make more useful connections to scale",
+      "url": "https://techcrunch.com/2026/10/31/4-days-left-how-techcrunch-founder-summit-helps-you-make-more-useful-connections-to-scale/",
+      "published_at": "2026-10-31T21:36:07Z",
+      "categories": [
+        "AI",
+        "Biotech & Health",
+        "Climate",
+        "Fintech",
+        "Fundraising",
+        "Startups",
+        "TC",
+        "Venture",
+        "TechCrunch Founder Summit 2026"
+      ],
+      "summary": "On November 4 at Boston’s SoWa Power Station, get ready for a full day packed with meaningful networking opportunities, actionable insights, and connections that could change the trajectory of your idea and startup. Register before all prices go up at the door.",
+      "github_links": [],
+      "entities": [
+        "TechCrunch",
+        "Founder",
+        "Summit"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Judge allows NAACP lawsuit over xAI data center pollution to move forward",
+      "url": "https://techcrunch.com/2026/10/31/judge-allows-naacp-lawsuit-over-xai-data-center-pollution-to-move-forward/",
+      "published_at": "2026-10-31T21:17:03Z",
+      "categories": [
+        "AI",
+        "Government & Policy",
+        "SpaceX",
+        "xAI"
+      ],
+      "summary": "An NAACP lawsuit accuses the SpaceX-owned AI company of violating the Clean Air Act.",
+      "github_links": [],
+      "entities": [
+        "Judge",
+        "NAACP"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "OpenAI reportedly lowers funding target for new round",
+      "url": "https://techcrunch.com/2026/10/31/openai-reportedly-lowers-funding-target-for-new-round/",
+      "published_at": "2026-10-31T16:12:55Z",
+      "categories": [
+        "AI",
+        "Fundraising",
+        "OpenAI"
+      ],
+      "summary": "OpenAI’s latest funding round doesn't seem to be living up to expectations.",
+      "github_links": [],
+      "entities": [
+        "OpenAI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "From restaurant guides to payments, here’s how TikTok is building a super app",
+      "url": "https://techcrunch.com/2026/10/31/tiktoks-road-to-becoming-a-super-app/",
+      "published_at": "2026-10-31T15:41:57Z",
+      "categories": [
+        "Apps",
+        "Social",
+        "evergeen",
+        "evergreens",
+        "super app",
+        "TikTok"
+      ],
+      "summary": "TikTok may be working to become the app that people use for most of their digital activities.",
+      "github_links": [],
+      "entities": [
+        "TikTok"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "I took two iPhones on vacation. The Duo won me over.",
+      "url": "https://techcrunch.com/2026/10/31/i-took-two-iphones-on-vacation-the-duo-won-me-over/",
+      "published_at": "2026-10-31T14:00:00Z",
+      "categories": [
+        "TC",
+        "Hardware",
+        "Apple",
+        "iPhone",
+        "foldable iphone"
+      ],
+      "summary": "The iPhone Duo has its frustrations, but it’s also fun and engaging enough that I didn’t want to switch back to my Pro Max.",
+      "github_links": [],
+      "entities": [
+        "Duo"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Pile-ins, payouts, and pacing pressure: the investors behind the VCs open up",
+      "url": "https://techcrunch.com/2026/10/30/pile-ins-payouts-and-pacing-pressure-the-investors-behind-the-vcs-open-up/",
+      "published_at": "2026-10-31T04:16:50Z",
+      "categories": [
+        "TC",
+        "Venture"
+      ],
+      "summary": "The money behind the money is thrilled, mostly.",
+      "github_links": [],
+      "entities": [
+        "Pile",
+        "VCs"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Nvidia weighs playing the cosigner for Nscale’s AI data center in West Virginia",
+      "url": "https://techcrunch.com/2026/10/30/nvidia-weighs-playing-the-cosigner-for-nscales-ai-data-center-in-west-virginia/",
+      "published_at": "2026-10-31T01:20:05Z",
+      "categories": [
+        "AI",
+        "TC"
+      ],
+      "summary": "When investors get nervous about AI spending, it helps to have the chipmaker that sells the chips offer to cosign the loan.",
+      "github_links": [],
+      "entities": [
+        "Nvidia",
+        "Nscale",
+        "AI",
+        "West",
+        "Virginia"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Salesforce’s M&A spree continues with a reported $375M deal for defense tech startup Rune",
+      "url": "https://techcrunch.com/2026/10/30/salesforces-ma-spree-continues-with-a-reported-375m-deal-for-defense-tech-startup-rune/",
+      "published_at": "2026-10-30T23:21:23Z",
+      "categories": [
+        "Enterprise",
+        "Startups",
+        "defense tech",
+        "In Brief",
+        "Mergers and Acquisitions",
+        "Rune technologies",
+        "Salesforce"
+      ],
+      "summary": "The AI logistics startup will bolster the CRM giant's Missionforce defense platform.",
+      "github_links": [],
+      "entities": [
+        "Salesforce",
+        "Rune"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Ollie, a privacy-focused AI assistant, is shutting down",
+      "url": "https://techcrunch.com/2026/10/30/ollie-a-privacy-focused-ai-assistant-is-shutting-down/",
+      "published_at": "2026-10-30T22:56:13Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "Startups",
+        "AI assistant",
+        "ollie"
+      ],
+      "summary": "As an increasing number of AI assistants flood the market, the founder of Ollie, an assistant that respected its users' privacy, says it will be shutting down in a week.",
+      "github_links": [],
+      "entities": [
+        "Ollie",
+        "AI"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Intel’s stock crashes, knocking $12B from government’s stake",
+      "url": "https://techcrunch.com/2026/10/30/intels-stock-crashes-knocking-12b-from-governments-stake/",
+      "published_at": "2026-10-30T21:54:34Z",
+      "categories": [
+        "AI",
+        "Enterprise",
+        "TC",
+        "Intel"
+      ],
+      "summary": "Intel is being hurt by PC sales as the AI industry gobbles memory and other components causing PC prices to rise.",
+      "github_links": [],
+      "entities": [
+        "Intel"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Anthropic expected to receive high ‘junk’ rating from credit agencies following IPO, FT report says",
+      "url": "https://techcrunch.com/2026/10/30/anthropic-expected-to-receive-high-junk-rating-from-credit-agencies-following-ipo-report-says/",
+      "published_at": "2026-10-30T21:52:03Z",
+      "categories": [
+        "AI",
+        "Anthropic",
+        "In Brief",
+        "IPO"
+      ],
+      "summary": "Blackstone's forecast is just a prediction, but naturally, a high junk rating would make it more difficult and costlier for Anthropic to raise the money to keep funding its massive spending that has undergirded its business.",
+      "github_links": [],
+      "entities": [
+        "Anthropic",
+        "IPO",
+        "FT"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "nemotron-halloween",
+      "url": "https://huggingface.co/blog/nvidia/nemotron-halloween",
+      "published_at": "2026-10-30T17:57:24Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [],
+      "relevance_score": 0.0,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Things That Go Beep in the Night: Agentic AI Joins the Search for Extraterrestrial Signals",
+      "url": "https://blogs.nvidia.com/blog/ai-joins-the-search-for-extraterrestrial-signals/",
+      "published_at": "2026-10-30T15:00:10Z",
+      "categories": [
+        "AI",
+        "Artificial Intelligence",
+        "Nemotron",
+        "NVIDIA Holoscan",
+        "Science"
+      ],
+      "summary": "While science fiction lore tells us that humans will meet extraterrestrial life in the form of little green men, the detail that should raise hairs this Halloween is this: the search for extraterrestrial intelligence took a major leap forward with AI, and it increasingly focuses on AI agents built by humans listening for AI agents [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "Things",
+        "Go",
+        "Beep",
+        "Night",
+        "Agentic",
+        "AI",
+        "Joins",
+        "Search",
+        "Extraterrestrial",
+        "Signals"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: GLP-1s and eating disorders, self-aware cities, and forever chemicals",
+      "url": "https://www.technologyreview.com/2026/10/30/1147843/the-download-glp-1s-eating-disorders-forever-chemicals/",
+      "published_at": "2026-10-30T11:30:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. Eating disorders are on the rise. GLP-1s could make things worse. GLP-1 weight-loss drugs are one of the biggest biotech breakthroughs of the last decade. But to some clinicians, they can&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "GLP"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Eating disorders are on the rise. GLP-1s could make things worse.",
+      "url": "https://www.technologyreview.com/2026/10/30/1147838/eating-disorders-rise-glp-1s-weight-loss-drugs/",
+      "published_at": "2026-10-30T09:00:00Z",
+      "categories": [
+        "Biotechnology and health",
+        "App",
+        "Summary",
+        "The Checkup"
+      ],
+      "summary": "GLP-1 weight-loss drugs are one of the biggest biotech breakthroughs of the last decade. But to some clinical psychologists, they can represent something more sinister—a potential trigger for eating disorders. A new report suggests that the global incidence of anorexia nervosa and bulimia nervosa shot up between 1990 and 2023—by a whopping 71%. By 2023,&#8230;",
+      "github_links": [],
+      "entities": [
+        "Eating",
+        "GLP"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Into the Omniverse: How Developers Turn Ideas Into Simulations With Frontier AI Agents",
+      "url": "https://blogs.nvidia.com/blog/developers-simulation-frontier-ai-agents/",
+      "published_at": "2026-10-29T16:00:35Z",
+      "categories": [
+        "Robotics",
+        "Agentic AI",
+        "Into the Omniverse",
+        "NVIDIA Isaac Sim",
+        "Omniverse",
+        "OpenUSD",
+        "Physical AI",
+        "Simulation"
+      ],
+      "summary": "Turning a simulation idea into a working application means assembling assets, connecting physics and rendering, and checking that the scene behaves as intended. Developers are combining frontier AI models with NVIDIA Omniverse libraries to help carry out that work — building applications for exploring scenarios, investigating failures and improving designs. Developers direct AI agents through [&#8230;]",
+      "github_links": [
+        "https://github.com/NVIDIA-Omniverse/ovrtx",
+        "https://github.com/nvidia-omniverse/ovstage",
+        "https://github.com/NVIDIA-Omniverse/PhysX",
+        "https://github.com/NVIDIA-omniverse/ovui",
+        "https://github.com/nvidia/simready-foundation",
+        "https://github.com/NVIDIA/skills",
+        "https://github.com/NVIDIA-Omniverse/usd-content-agents"
+      ],
+      "entities": [
+        "Omniverse",
+        "Developers",
+        "Turn",
+        "Ideas",
+        "Simulations",
+        "Frontier",
+        "AI",
+        "Agents"
+      ],
+      "relevance_score": 1.0,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Granite Switch 4.1.1 — Update models like you update software",
+      "url": "https://huggingface.co/blog/ibm-granite/granite-switch-4-1-1",
+      "published_at": "2026-10-29T13:37:07Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Granite",
+        "Switch",
+        "Update"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Slice Into GFN Thursday: ‘Phantom Blade Zero’ Launches on GeForce NOW",
+      "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-phantom-blade-zero/",
+      "published_at": "2026-10-29T13:00:16Z",
+      "categories": [
+        "Gaming",
+        "Cloud Gaming",
+        "GeForce NOW"
+      ],
+      "summary": "This Halloween week, GFN Thursday is delivering a fresh batch of gaming treats. Something wicked this blade comes. S-GAME’s Phantom Blade Zero launches on GeForce NOW today, bringing a scarily good blend of martial arts and punk fantasy to the cloud. There’s also something on the horizon for adventurers: World of Warcraft: Forever arrives Wednesday, [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "Slice",
+        "GFN",
+        "Thursday",
+        "Phantom",
+        "Blade",
+        "Zero",
+        "GeForce"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: AI agent tracking and climate feedback loops",
+      "url": "https://www.technologyreview.com/2026/10/29/1147830/the-download-monitoring-ai-agents-climate-feedback-loops/",
+      "published_at": "2026-10-29T12:10:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. Opinion: We urgently need to monitor AI agents’ actions in real time —Madhulika Srikumar and Claire Leibowicz from the Partnership on AI, a nonprofit advancing best practices in AI governance. AI&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "AI"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "We urgently need to monitor AI agents’ actions in real time",
+      "url": "https://www.technologyreview.com/2026/10/29/1147824/monitor-ai-agents-actions-real-time/",
+      "published_at": "2026-10-29T10:11:12Z",
+      "categories": [
+        "Artificial intelligence",
+        "App",
+        "artificial intelligence",
+        "Opinion"
+      ],
+      "summary": "This summer, hundreds of OpenAI agents tried to cheat on a cybersecurity test. They broke out of their test environment and successfully hacked Hugging Face, a site that they believed held clues about how they’d be graded. Around the same time, another OpenAI agent accessed private files from an Australian government website. It’s a problem&#8230;",
+      "github_links": [],
+      "entities": [
+        "We",
+        "AI"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Our climate models have a big, dangerous blind spot",
+      "url": "https://www.technologyreview.com/2026/10/29/1147735/climate-models-blind-spot/",
+      "published_at": "2026-10-29T10:00:00Z",
+      "categories": [
+        "Climate change and energy",
+        "App",
+        "Summary",
+        "The Spark"
+      ],
+      "summary": "Climate change itself is increasingly fueling climate change. Rising concentrations of greenhouse gases are driving up global temperatures, setting off dangerous feedback loops that we have not fully accounted for in our climate models—or our emissions-reduction goals. Scientists have long warned that warming would propel further warming in various ways, but a growing number of&#8230;",
+      "github_links": [],
+      "entities": [
+        "Our"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Welcome Le Chonk: Mistral Large 4 on Hugging Face",
+      "url": "https://huggingface.co/blog/mistral-large4",
+      "published_at": "2026-10-29T00:00:00Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Welcome",
+        "Le",
+        "Chonk",
+        "Mistral",
+        "Large",
+        "Hugging",
+        "Face"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Introducing AnySpeechRecognizer and AnyDecisionModel: Open Models for Speech and Decisions on Apple Platforms",
+      "url": "https://huggingface.co/blog/anydecisionmodel",
+      "published_at": "2026-10-29T00:00:00Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Introducing",
+        "AnySpeechRecognizer",
+        "AnyDecisionModel",
+        "Open",
+        "Models",
+        "Speech",
+        "Decisions",
+        "Apple",
+        "Platforms"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Announcing Project ProtoStar: Making Publicly Funded Science AI-Ready",
+      "url": "https://huggingface.co/blog/announcing-project-protostar",
+      "published_at": "2026-10-29T00:00:00Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Announcing",
+        "Project",
+        "ProtoStar",
+        "Making",
+        "Publicly",
+        "Funded",
+        "Science",
+        "AI",
+        "Ready"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Creating AI value with enterprise context",
+      "url": "https://www.technologyreview.com/2026/10/28/1147709/creating-ai-value-with-enterprise-context/",
+      "published_at": "2026-10-28T20:32:02Z",
+      "categories": [
+        "Artificial intelligence",
+        "sponsored"
+      ],
+      "summary": "Across a business, any number of AI platforms, systems, and tools may be at work simultaneously—for example, AI-powered customer platforms, conversational assistants, and workflow and process automation tools. Each one is sophisticated, advanced, and quick to respond. But, when set to work, the outcomes and actions that emerge may be wrong, confused, or lacking a&#8230;",
+      "github_links": [],
+      "entities": [
+        "Creating",
+        "AI"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "GitHub Universe 2026: Evolving every layer of the stack",
+      "url": "https://github.blog/news-insights/company-news/github-universe-2026-evolving-every-layer-of-the-stack/",
+      "published_at": "2026-10-28T16:09:28Z",
+      "categories": [
+        "Company news",
+        "News & insights",
+        "GitHub Copilot",
+        "GitHub Copilot app",
+        "GitHub Universe"
+      ],
+      "summary": "Today, we laid out our vision for GitHub as the most comprehensive, end-to-end software delivery system in the world.\nThe post GitHub Universe 2026: Evolving every layer of the stack appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/events/universe",
+        "https://github.com/features/ai",
+        "https://github.com/enterprise/contact"
+      ],
+      "entities": [
+        "GitHub",
+        "Universe",
+        "Evolving"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "Octoverse: Commits, pushes, reach new highs in 2026 as developers build with agents",
+      "url": "https://github.blog/news-insights/octoverse/octoverse-commits-pushes-reach-new-highs-in-2026-as-developers-build-with-agents/",
+      "published_at": "2026-10-28T16:07:40Z",
+      "categories": [
+        "News & insights",
+        "Octoverse"
+      ],
+      "summary": "See how a record year of growth reached every industry, every field, and every kind of builder in the 2026 Octoverse report.\nThe post Octoverse: Commits, pushes, reach new highs in 2026 as developers build with agents appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/nirajbhusal/rasuwa-flood-bulletin",
+        "https://github.com/nirajbhusal/gati-alerts",
+        "https://github.com/nasa/spacewasm",
+        "https://github.com/crosspoint-reader/crosspoint-reader",
+        "https://github.com/evcc-io/evcc",
+        "https://github.com/tracefinity/tracefinity",
+        "https://github.com/rendeirolab/wsidata",
+        "https://github.com/sbhattlab/PlayClass",
+        "https://github.com/waikato-ahuora-smart-energy-systems/OpenPinch",
+        "https://github.com/midt-bg/sigma",
+        "https://github.com/hughhowey/neo",
+        "https://github.com/google-deepmind/alphafold",
+        "https://github.com/tensorflow/tensor2tensor",
+        "https://github.com/dylanhmorris/sars-cov-2-stability",
+        "https://github.com/achael/eht-imaging",
+        "https://github.com/gem/oq-engine",
+        "https://github.com/opentermsarchive/engine",
+        "https://github.com/JuliusBrussee/caveman"
+      ],
+      "entities": [
+        "Octoverse",
+        "Commits"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Thin, Light and Built for Everything: NVIDIA RTX Spark Windows Laptops Gain New Models, Agent Tools and Games",
+      "url": "https://blogs.nvidia.com/blog/local-ai-rtx-spark-laptops-updates-models-agents-games/",
+      "published_at": "2026-10-28T15:00:46Z",
+      "categories": [
+        "AI",
+        "Agentic AI",
+        "Artificial Intelligence",
+        "Gaming",
+        "GeForce",
+        "Local AI",
+        "NVIDIA RTX",
+        "Open Source",
+        "RTX Spark"
+      ],
+      "summary": "NVIDIA RTX Spark powers thin and light laptops built for everything that developers, creators and gamers do. RTX Spark laptops are now available from ASUS, Dell, HP, Lenovo, Microsoft and MSI. These powerful systems combine an NVIDIA Blackwell RTX GPU and an NVIDIA Grace CPU in a single superchip with up to 128GB of unified [&#8230;]",
+      "github_links": [
+        "https://github.com/NVIDIAGameWorks/rtx-remix-minecraft",
+        "https://github.com/NVIDIA-NeMo/Automodel"
+      ],
+      "entities": [
+        "Thin",
+        "Light",
+        "Built",
+        "Everything",
+        "NVIDIA",
+        "RTX",
+        "Spark",
+        "Windows",
+        "Laptops",
+        "Gain",
+        "Models",
+        "Agent",
+        "Tools",
+        "Games"
+      ],
+      "relevance_score": 1.0,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: dead startups fueling AI and interspecies communication",
+      "url": "https://www.technologyreview.com/2026/10/28/1147767/the-download-dead-startups-fueling-ai-interspecies-communication/",
+      "published_at": "2026-10-28T12:10:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. AI labs are buying data from dead startups to train their models When Keelan Miskell began winding down his crypto startup, he didn’t think its data was worth much. But he’s&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "AI"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Pairing industrial AI autonomy and human control",
+      "url": "https://www.technologyreview.com/2026/10/28/1147637/pairing-industrial-ai-autonomy-and-human-control/",
+      "published_at": "2026-10-28T12:00:00Z",
+      "categories": [
+        "Artificial intelligence",
+        "sponsored"
+      ],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Pairing",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Build specialized multimodal models with LFM3",
+      "url": "https://huggingface.co/blog/LiquidAI/lfm3",
+      "published_at": "2026-10-27T17:16:52Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Build",
+        "LFM3"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Can we trust LLMs to judge whether a research idea is novel?",
+      "url": "https://huggingface.co/blog/allenai/novelty-bench",
+      "published_at": "2026-10-27T16:12:42Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "LLMs"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "How AI Is Changing the Pace of Discovery for Millions Living With Dementia",
+      "url": "https://blogs.nvidia.com/blog/open-source-ai-tools-cbrain-dementia/",
+      "published_at": "2026-10-27T15:00:20Z",
+      "categories": [
+        "AI",
+        "Agentic AI",
+        "AI for Good",
+        "Healthcare and Life Sciences",
+        "Open Source"
+      ],
+      "summary": "There are 57 million people worldwide living with dementia today. For the researchers working to help them, the obstacle isn’t a lack of effort — it’s too much data, too few experts to synthesize it and a pace of discovery that can’t keep up with the disease.  The Consortium for Biomedical Research and AI in [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "AI",
+        "Changing",
+        "Pace",
+        "Discovery",
+        "Millions",
+        "Living",
+        "Dementia"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: Anthropic’s IPO, smarter power grids, and exercise pills",
+      "url": "https://www.technologyreview.com/2026/10/27/1147693/the-download-anthropic-ipo-smarter-power-grids-exercise-pills/",
+      "published_at": "2026-10-27T12:10:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. Will the real Anthropic please stand up? After weeks of frenzied speculation, Anthropic has filed its IPO prospectus. The 335-page document (100 pages or so are focused on risks) lays out&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "Anthropic",
+        "IPO"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Industrial Intelligence: The next growth opportunity for manufacturing",
+      "url": "https://www.technologyreview.com/2026/10/27/1147142/industrial-intelligence-the-next-growth-opportunity-for-manufacturing/",
+      "published_at": "2026-10-27T11:19:18Z",
+      "categories": [
+        "Artificial intelligence",
+        "sponsored"
+      ],
+      "summary": "Every manufacturer has its own industrial intelligence. Some is documented, and some resides in the knowledge of experienced workers. Consider an experienced operator preparing to restart a line after a changeover. The machine settings matter, but so does knowing how a particular material behaves, what happened during the previous shift, and when an apparently minor&#8230;",
+      "github_links": [],
+      "entities": [
+        "Industrial",
+        "Intelligence"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "mit_technology_review"
+      ]
+    }
+  ],
+  "metadata": {
+    "run_id": "41395629030",
+    "source_count": 5,
+    "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+    "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+    "sources_requested": [
+      "github_blog",
+      "hugging_face_blog",
+      "mit_technology_review",
+      "nvidia_blog",
+      "techcrunch"
+    ],
+    "sources_succeeded": [
+      "github_blog",
+      "hugging_face_blog",
+      "mit_technology_review",
+      "nvidia_blog",
+      "techcrunch"
+    ],
+    "sources_failed": [],
+    "source_status": [
+      {
+        "source": "github_blog",
+        "host": "github.blog",
+        "started_at": "2026-11-02T05:48:46.245948Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 3,
+        "relevant_articles": 3,
+        "github_links_found": 22,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-11-02T05:48:46.866930Z",
+        "duration_seconds": 0.621
+      },
+      {
+        "source": "hugging_face_blog",
+        "host": "huggingface.co",
+        "started_at": "2026-11-02T05:48:46.241369Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 7,
+        "relevant_articles": 1,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-11-02T05:48:46.901633Z",
+        "duration_seconds": 0.66
+      },
+      {
+        "source": "mit_technology_review",
+        "host": "www.technologyreview.com",
+        "started_at": "2026-11-02T05:48:46.242324Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 10,
+        "relevant_articles": 5,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-11-02T05:48:46.501265Z",
+        "duration_seconds": 0.259
+      },
+      {
+        "source": "nvidia_blog",
+        "host": "blogs.nvidia.com",
+        "started_at": "2026-11-02T05:48:46.240813Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 5,
+        "relevant_articles": 4,
+        "github_links_found": 9,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-11-02T05:48:46.973259Z",
+        "duration_seconds": 0.732
+      },
+      {
+        "source": "techcrunch",
+        "host": "techcrunch.com",
+        "started_at": "2026-11-02T05:48:46.240004Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 19,
+        "relevant_articles": 3,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-11-02T05:48:46.387054Z",
+        "duration_seconds": 0.147
+      }
+    ],
+    "source_reuse_summary": [
+      {
+        "source": "github_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "hugging_face_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "mit_technology_review",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "nvidia_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "techcrunch",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      }
+    ],
+    "source_artifact_provenance": [
+      {
+        "source_id": "github_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W45-external-news.json",
+        "original_run_id": "41395629030",
+        "original_crawled_at": "2026-11-02T05:48:46.222568Z",
+        "evaluated_at": "2026-11-02T05:48:46.222568Z",
+        "date": "2026-11-02",
+        "week": "2026-W45",
+        "crawl_window": {
+          "since": "2026-10-26T00:00:00Z",
+          "until": "2026-11-02T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "9add3764b7b17dd9682dcae71cb095c1c1c70322294f6260c2110d93d16717ad",
+        "content_checksum": "aeadb341710d79aeb314c22611f7d81e710df938c7b118c210379aa56ba7c06a",
+        "reasons": []
+      },
+      {
+        "source_id": "hugging_face_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W45-external-news.json",
+        "original_run_id": "41395629030",
+        "original_crawled_at": "2026-11-02T05:48:46.222568Z",
+        "evaluated_at": "2026-11-02T05:48:46.222568Z",
+        "date": "2026-11-02",
+        "week": "2026-W45",
+        "crawl_window": {
+          "since": "2026-10-26T00:00:00Z",
+          "until": "2026-11-02T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "9add3764b7b17dd9682dcae71cb095c1c1c70322294f6260c2110d93d16717ad",
+        "content_checksum": "8cf649466c9ab93cbc6c382c4dd715fe1069d8dabb1f245adaa76367f75bd65a",
+        "reasons": []
+      },
+      {
+        "source_id": "mit_technology_review",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W45-external-news.json",
+        "original_run_id": "41395629030",
+        "original_crawled_at": "2026-11-02T05:48:46.222568Z",
+        "evaluated_at": "2026-11-02T05:48:46.222568Z",
+        "date": "2026-11-02",
+        "week": "2026-W45",
+        "crawl_window": {
+          "since": "2026-10-26T00:00:00Z",
+          "until": "2026-11-02T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "9add3764b7b17dd9682dcae71cb095c1c1c70322294f6260c2110d93d16717ad",
+        "content_checksum": "ff8540bc2546086530e5022dea53811986062ef1d64c823144388009c208ad6e",
+        "reasons": []
+      },
+      {
+        "source_id": "nvidia_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W45-external-news.json",
+        "original_run_id": "41395629030",
+        "original_crawled_at": "2026-11-02T05:48:46.222568Z",
+        "evaluated_at": "2026-11-02T05:48:46.222568Z",
+        "date": "2026-11-02",
+        "week": "2026-W45",
+        "crawl_window": {
+          "since": "2026-10-26T00:00:00Z",
+          "until": "2026-11-02T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "9add3764b7b17dd9682dcae71cb095c1c1c70322294f6260c2110d93d16717ad",
+        "content_checksum": "cce7f8484088809f96e488fd2743af41d3c1776d40f572b288e906ee49eddeb8",
+        "reasons": []
+      },
+      {
+        "source_id": "techcrunch",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W45-external-news.json",
+        "original_run_id": "41395629030",
+        "original_crawled_at": "2026-11-02T05:48:46.222568Z",
+        "evaluated_at": "2026-11-02T05:48:46.222568Z",
+        "date": "2026-11-02",
+        "week": "2026-W45",
+        "crawl_window": {
+          "since": "2026-10-26T00:00:00Z",
+          "until": "2026-11-02T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "9add3764b7b17dd9682dcae71cb095c1c1c70322294f6260c2110d93d16717ad",
+        "content_checksum": "8ab395dfc621a4485f2b0e9723c0843a63978ae8ee4e4f642d556ebdf5cfe04f",
+        "reasons": []
+      }
+    ],
+    "sources_with_articles": {
+      "github_blog": 3,
+      "hugging_face_blog": 7,
+      "mit_technology_review": 10,
+      "nvidia_blog": 5,
+      "techcrunch": 19
+    },
+    "total_articles": 44,
+    "relevant_articles": 16,
+    "github_links_found": 31,
+    "dedupe_count": 0,
+    "errors": [],
+    "artifact_checksum": "cb80ca14952639eafefdb626f34b0f74fc95ba995d9a941e5347c8ec14538bb6",
+    "same_day_reuse": "not_reused",
+    "source_refresh_policy": "reuse-same-day",
+    "source_reuse_decisions": [
+      {
+        "source": "github_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "hugging_face_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "mit_technology_review",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "nvidia_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "techcrunch",
+        "decision": "refresh",
+        "reasons": []
+      }
+    ],
+    "crawler_code_sha": "bf098e5f1a01d6cd3bbcda3f235f7265fbeeac22e1d064a19a330e463509ad10"
+  }
+}
