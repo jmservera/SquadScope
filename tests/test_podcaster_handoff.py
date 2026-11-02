@@ -62,6 +62,28 @@ class _BalancedHtmlParser(HTMLParser):
 
 
 class PodcasterHandoffTests(unittest.TestCase):
+    def test_week_word_range_override_is_config_driven(self) -> None:
+        directions = {"episode_style": {"format": "Two hosts, 1200-1700 words."}}
+        overrides = {"2026-W50": {"min": 1001, "max": 1700}}
+        patched = podcaster_handoff._apply_week_word_range(directions, overrides, "2026-W50")
+        self.assertEqual(patched["episode_style"]["format"], "Two hosts, 1001-1700 spoken words.")
+        self.assertIn("1200-1700", directions["episode_style"]["format"])
+        self.assertIs(
+            podcaster_handoff._apply_week_word_range(directions, overrides, "2026-W51"), directions
+        )
+        for bad in ({"min": 0, "max": 5}, {"min": 9, "max": 5}, {"min": "1", "max": 5}):
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
+                podcaster_handoff._apply_week_word_range(directions, {"2026-W50": bad}, "2026-W50")
+
+    def test_script_quality_422_is_definitive_non_mutation(self) -> None:
+        state, category = podcaster_handoff._http_error_receipt(422)
+        self.assertEqual(state, podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED)
+        self.assertEqual(category, "http_rejected_pre_acceptance")
+        self.assertEqual(
+            podcaster_handoff._http_error_receipt(502)[0],
+            podcaster_handoff.RECEIPT_STATE_SUBMISSION_UNKNOWN,
+        )
+
     def test_cli_direct_execution_loads_security_module(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
         result = subprocess.run(
