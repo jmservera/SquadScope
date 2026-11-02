@@ -1,0 +1,1942 @@
+{
+  "captured_at": "2026-08-10",
+  "counts": {
+    "http_200": 264,
+    "http_404": 10,
+    "http_other_or_unavailable": 0,
+    "local_urls": 274,
+    "production_only": 0,
+    "sitemap_urls": 264
+  },
+  "production_only_urls": [],
+  "records": [
+    {
+      "canonical_url": "/repo/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/",
+      "url_type": "index"
+    },
+    {
+      "canonical_url": "/repo/1c7-chinese-independent-developer/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/1c7-chinese-independent-developer/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/2dust-v2rayn/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/2dust-v2rayn/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/2dust-v2rayng/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/2dust-v2rayng/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/3b1b-manim/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/3b1b-manim/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/abi-screenshot-to-code/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/abi-screenshot-to-code/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/addyosmani-agent-skills/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/addyosmani-agent-skills/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/affaan-m-ecc/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/affaan-m-ecc/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/affaan-m-ecc/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/affaan-m-everything-claude-code/",
+      "url_type": "alias"
+    },
+    {
+      "canonical_url": "/repo/alacritty-alacritty/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/alacritty-alacritty/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/anduin2017-howtocook/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/anduin2017-howtocook/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/angular-angular/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/angular-angular/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/anomalyco-opencode/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/anomalyco-opencode/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ansible-ansible/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ansible-ansible/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ant-design-ant-design/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ant-design-ant-design/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/anthropics-claude-code/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/anthropics-claude-code/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/anthropics-skills/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/anthropics-skills/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/apache-echarts/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/apache-echarts/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/apache-superset/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/apache-superset/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/appflowy-io-appflowy/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/appflowy-io-appflowy/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/appwrite-appwrite/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/appwrite-appwrite/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/asgeirtj-system-prompts-leaks/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/asgeirtj-system-prompts-leaks/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/astral-sh-uv/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/astral-sh-uv/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/avelino-awesome-go/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/avelino-awesome-go/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/awesome-selfhosted-awesome-selfhosted/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/awesome-selfhosted-awesome-selfhosted/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/awesomedata-awesome-public-datasets/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/awesomedata-awesome-public-datasets/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/axios-axios/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/axios-axios/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/base-node/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/base-node/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/bitcoin-bitcoin/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/bitcoin-bitcoin/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/browser-use-browser-use/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/browser-use-browser-use/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/burntsushi-ripgrep/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/burntsushi-ripgrep/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/bytedance-deer-flow/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/bytedance-deer-flow/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/caddyserver-caddy/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/caddyserver-caddy/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/chalarangelo-30-seconds-of-code/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/chalarangelo-30-seconds-of-code/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/christitustech-winutil/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/christitustech-winutil/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/clash-verge-rev-clash-verge-rev/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/clash-verge-rev-clash-verge-rev/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/cline-cline/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/cline-cline/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/code-yeongyu-oh-my-openagent/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/code-yeongyu-oh-my-openagent/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/coder-code-server/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/coder-code-server/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/colbymchenry-codegraph/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/colbymchenry-codegraph/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/comfy-org-comfyui/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/comfy-org-comfyui/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/commaai-openpilot/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/commaai-openpilot/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/coollabsio-coolify/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/coollabsio-coolify/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/crewaiinc-crewai/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/crewaiinc-crewai/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/d4vinci-scrapling/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/d4vinci-scrapling/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/dani-garcia-vaultwarden/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/dani-garcia-vaultwarden/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/danielmiessler-seclists/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/danielmiessler-seclists/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/daytonaio-daytona/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/daytonaio-daytona/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/deepfakes-faceswap/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/deepfakes-faceswap/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/denoland-deno/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/denoland-deno/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/dietrichgebert-ponytail/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/dietrichgebert-ponytail/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/docling-project-docling/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/docling-project-docling/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/earendil-works-pi/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/earendil-works-pi/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ebookfoundation-free-programming-books/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ebookfoundation-free-programming-books/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/egonex-ai-understand-anything/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/egonex-ai-understand-anything/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/elastic-elasticsearch/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/elastic-elasticsearch/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/electron-electron/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/electron-electron/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/eugeny-tabby/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/eugeny-tabby/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/excalidraw-excalidraw/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/excalidraw-excalidraw/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/expressjs-express/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/expressjs-express/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/f-prompts-chat/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/f-prompts-chat/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/facebook-docusaurus/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/facebook-docusaurus/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/react-react-native/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/facebook-react-native/",
+      "url_type": "alias"
+    },
+    {
+      "canonical_url": "/repo/react-react/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/facebook-react/",
+      "url_type": "alias"
+    },
+    {
+      "canonical_url": "/repo/farion1231-cc-switch/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/farion1231-cc-switch/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/fastapi-fastapi/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/fastapi-fastapi/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/fatedier-frp/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/fatedier-frp/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/fffaraz-awesome-cpp/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/fffaraz-awesome-cpp/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ffmpeg-ffmpeg/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ffmpeg-ffmpeg/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/firecrawl-firecrawl/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/firecrawl-firecrawl/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/fission-ai-openspec/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/fission-ai-openspec/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/flowiseai-flowise/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/flowiseai-flowise/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/flutter-flutter/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/flutter-flutter/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/freecodecamp-freecodecamp/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/freecodecamp-freecodecamp/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/fuellabs-fuel-core/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/fuellabs-fuel-core/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/fuellabs-sway/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/fuellabs-sway/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/garrytan-gstack/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/garrytan-gstack/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/gatsbyjs-gatsby/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/gatsbyjs-gatsby/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/genymobile-scrcpy/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/genymobile-scrcpy/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ggml-org-llama-cpp/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ggml-org-llama-cpp/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ghostty-org-ghostty/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ghostty-org-ghostty/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/gin-gonic-gin/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/gin-gonic-gin/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/git-git/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/git-git/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/github-spec-kit/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/github-spec-kit/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/go-gitea-gitea/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/go-gitea-gitea/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/godotengine-godot/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/godotengine-godot/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/gohugoio-hugo/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/gohugoio-hugo/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/golang-go/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/golang-go/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/google-gemini-gemini-cli/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/google-gemini-gemini-cli/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/gorhill-ublock/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/gorhill-ublock/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/grafana-grafana/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/grafana-grafana/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/graphify-labs-graphify/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/graphify-labs-graphify/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/hacksider-deep-live-cam/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/hacksider-deep-live-cam/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/harry0703-moneyprinterturbo/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/harry0703-moneyprinterturbo/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/headroomlabs-ai-headroom/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/headroomlabs-ai-headroom/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/hiyouga-llamafactory/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/hiyouga-llamafactory/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/home-assistant-core/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/home-assistant-core/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/hoppscotch-hoppscotch/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/hoppscotch-hoppscotch/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/huggingface-transformers/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/huggingface-transformers/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/iluwatar-java-design-patterns/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/iluwatar-java-design-patterns/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/immich-app-immich/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/immich-app-immich/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/infiniflow-ragflow/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/infiniflow-ragflow/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/iptv-org-iptv/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/iptv-org-iptv/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/jaywcjlove-awesome-mac/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/jaywcjlove-awesome-mac/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/jesseduffield-lazygit/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/jesseduffield-lazygit/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/jgraph-drawio-desktop/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/jgraph-drawio-desktop/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/josephmisiti-awesome-machine-learning/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/josephmisiti-awesome-machine-learning/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/jquery-jquery/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/jquery-jquery/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/juliusbrussee-caveman/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/juliusbrussee-caveman/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/junegunn-fzf/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/junegunn-fzf/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/keras-team-keras/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/keras-team-keras/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/koala73-worldmonitor/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/koala73-worldmonitor/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/kubernetes-kubernetes/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/kubernetes-kubernetes/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ladybirdbrowser-ladybird/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ladybirdbrowser-ladybird/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/langchain-ai-langchain/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/langchain-ai-langchain/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/langflow-ai-langflow/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/langflow-ai-langflow/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/langgenius-dify/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/langgenius-dify/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/laravel-laravel/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/laravel-laravel/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/laurent22-joplin/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/laurent22-joplin/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/leonxlnx-taste-skill/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/leonxlnx-taste-skill/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/lobehub-lobehub/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/lobehub-lobehub/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/localsend-localsend/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/localsend-localsend/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/louislam-uptime-kuma/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/louislam-uptime-kuma/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/egonex-ai-understand-anything/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/lum1104-understand-anything/",
+      "url_type": "alias"
+    },
+    {
+      "canonical_url": "/repo/marktext-marktext/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/marktext-marktext/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/mattpocock-skills/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/mattpocock-skills/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/meilisearch-meilisearch/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/meilisearch-meilisearch/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/mem0ai-mem0/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/mem0ai-mem0/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/mempalace-mempalace/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/mempalace-mempalace/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/mermaid-js-mermaid/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/mermaid-js-mermaid/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-ai-agents-for-beginners/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-ai-agents-for-beginners/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-generative-ai-for-beginners/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-generative-ai-for-beginners/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-markitdown/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-markitdown/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-ml-for-beginners/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-ml-for-beginners/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-playwright/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-playwright/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-powertoys/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-powertoys/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-terminal/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-terminal/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-typescript/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-typescript/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/microsoft-vscode/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/microsoft-vscode/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/mintplex-labs-anything-llm/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/mintplex-labs-anything-llm/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/moby-moby/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/moby-moby/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/modelcontextprotocol-servers/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/modelcontextprotocol-servers/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/mrdoob-three-js/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/mrdoob-three-js/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/msitarzewski-agency-agents/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/msitarzewski-agency-agents/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/mui-material-ui/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/mui-material-ui/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/n8n-io-n8n/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/n8n-io-n8n/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nanmicoder-mediacrawler/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/nanmicoder-mediacrawler/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nationalsecurityagency-ghidra/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nationalsecurityagency-ghidra/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nektos-act/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nektos-act/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/neovim-neovim/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/neovim-neovim/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nestjs-nest/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nestjs-nest/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/netdata-netdata/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/netdata-netdata/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nextlevelbuilder-ui-ux-pro-max-skill/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nextlevelbuilder-ui-ux-pro-max-skill/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nexu-io-open-design/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nexu-io-open-design/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ngosang-trackerslist/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ngosang-trackerslist/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nilbuild-developer-roadmap/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nilbuild-developer-roadmap/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nocodb-nocodb/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nocodb-nocodb/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nodejs-node/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nodejs-node/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nousresearch-hermes-agent/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nousresearch-hermes-agent/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nuxt-nuxt/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nuxt-nuxt/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/nvm-sh-nvm/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/nvm-sh-nvm/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/obra-superpowers/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/obra-superpowers/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/obsproject-obs-studio/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/obsproject-obs-studio/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ocornut-imgui/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ocornut-imgui/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/odysseus-dev-odysseus/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/odysseus-dev-odysseus/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ohmyzsh-ohmyzsh/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ohmyzsh-ohmyzsh/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ollama-ollama/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ollama-ollama/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/open-webui-open-webui/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/open-webui-open-webui/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/openai-codex/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/openai-codex/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/openbb-finance-openbb/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/openbb-finance-openbb/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/openclaw-openclaw/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/openclaw-openclaw/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/opencut-app-opencut/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/opencut-app-opencut/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/opencv-opencv/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/opencv-opencv/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/opendatalab-mineru/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/opendatalab-mineru/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/openhands-openhands/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/openhands-openhands/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/openinterpreter-openinterpreter/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/openinterpreter-open-interpreter/",
+      "url_type": "alias"
+    },
+    {
+      "canonical_url": "/repo/openinterpreter-openinterpreter/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/openinterpreter-openinterpreter/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/oven-sh-bun/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/oven-sh-bun/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/paddlepaddle-paddleocr/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/paddlepaddle-paddleocr/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/pallets-flask/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/pallets-flask/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/paperclipai-paperclip/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/paperclipai-paperclip/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/pathwaycom-pathway/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/pathwaycom-pathway/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/odysseus-dev-odysseus/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/pewdiepie-archdaemon-odysseus/",
+      "url_type": "alias"
+    },
+    {
+      "canonical_url": "/repo/pi-hole-pi-hole/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/pi-hole-pi-hole/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/pmndrs-zustand/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/pmndrs-zustand/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/pocketbase-pocketbase/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/pocketbase-pocketbase/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/powershell-powershell/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/powershell-powershell/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/prometheus-prometheus/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/prometheus-prometheus/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/protocolbuffers-protobuf/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/protocolbuffers-protobuf/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/psf-requests/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/psf-requests/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/public-apis-public-apis/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/public-apis-public-apis/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/punkpeye-awesome-mcp-servers/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/punkpeye-awesome-mcp-servers/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/puppeteer-puppeteer/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/puppeteer-puppeteer/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/python-cpython/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/python-cpython/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/pytorch-pytorch/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/pytorch-pytorch/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/rails-rails/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/rails-rails/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/rclone-rclone/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/rclone-rclone/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/react-react-native/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/react-react-native/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/react-react/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/react-react/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/redis-redis/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/redis-redis/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/reduxjs-redux/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/reduxjs-redux/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/remix-run-react-router/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/remix-run-react-router/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ripienaar-free-for-dev/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ripienaar-free-for-dev/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/rtk-ai-rtk/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/rtk-ai-rtk/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ruanyf-weekly/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ruanyf-weekly/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/rust-lang-rust/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/rust-lang-rust/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/rust-unofficial-awesome-rust/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/rust-unofficial-awesome-rust/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/rustdesk-rustdesk/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/rustdesk-rustdesk/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ruvnet-ruflo/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ruvnet-ruflo/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ruvnet-ruview/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ruvnet-ruview/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/graphify-labs-graphify/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/safishamsi-graphify/",
+      "url_type": "alias"
+    },
+    {
+      "canonical_url": "/repo/santifer-career-ops/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/santifer-career-ops/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/scikit-learn-scikit-learn/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/scikit-learn-scikit-learn/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/scrapy-scrapy/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/scrapy-scrapy/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/shadcn-ui-ui/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/shadcn-ui-ui/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/sharkdp-bat/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/sharkdp-bat/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/sherlock-project-sherlock/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/sherlock-project-sherlock/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/shubhamsaboo-awesome-llm-apps/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/shubhamsaboo-awesome-llm-apps/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/significant-gravitas-autogpt/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/significant-gravitas-autogpt/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/snailclimb-javaguide/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/snailclimb-javaguide/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/socketio-socket-io/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/socketio-socket-io/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/spring-projects-spring-boot/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/spring-projects-spring-boot/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/spring-projects-spring-framework/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/spring-projects-spring-framework/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/starship-starship/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/starship-starship/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/stirling-tools-stirling-pdf/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/stirling-tools-stirling-pdf/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/strapi-strapi/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/strapi-strapi/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/swiftlang-swift/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/swiftlang-swift/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/swisskyrepo-payloadsallthethings/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/swisskyrepo-payloadsallthethings/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/syncthing-syncthing/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/syncthing-syncthing/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/tailwindlabs-tailwindcss/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/tailwindlabs-tailwindcss/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/tauri-apps-tauri/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/tauri-apps-tauri/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/tauricresearch-tradingagents/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/tauricresearch-tradingagents/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/tensorflow-tensorflow/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/tensorflow-tensorflow/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/termux-termux-app/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/termux-termux-app/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/tesseract-ocr-tesseract/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/tesseract-ocr-tesseract/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/thealgorithms-java/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/thealgorithms-java/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/thealgorithms-python/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/thealgorithms-python/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/thedotmack-claude-mem/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/thedotmack-claude-mem/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/toeverything-affine/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/toeverything-affine/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/topjohnwu-magisk/",
+      "http_status": 404,
+      "in_sitemap": false,
+      "url": "/repo/topjohnwu-magisk/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/torvalds-linux/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/torvalds-linux/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/traefik-traefik/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/traefik-traefik/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/trekhleb-javascript-algorithms/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/trekhleb-javascript-algorithms/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/tryghost-ghost/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/tryghost-ghost/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/tw93-mole/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/tw93-mole/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/tw93-pake/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/tw93-pake/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/twbs-bootstrap/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/twbs-bootstrap/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/typst-typst/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/typst-typst/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ultralytics-ultralytics/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ultralytics-ultralytics/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ultralytics-yolov5/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ultralytics-yolov5/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/ultraworkers-claw-code/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/ultraworkers-claw-code/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/unclecode-crawl4ai/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/unclecode-crawl4ai/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/unionlabs-union/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/unionlabs-union/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/unslothai-unsloth/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/unslothai-unsloth/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/upstash-context7/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/upstash-context7/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/usememos-memos/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/usememos-memos/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/vercel-next-js/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/vercel-next-js/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/vinta-awesome-python/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/vinta-awesome-python/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/virattt-ai-hedge-fund/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/virattt-ai-hedge-fund/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/vitejs-vite/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/vitejs-vite/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/vllm-project-vllm/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/vllm-project-vllm/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/voltagent-awesome-design-md/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/voltagent-awesome-design-md/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/vuejs-awesome-vue/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/vuejs-awesome-vue/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/vuejs-core/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/vuejs-core/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/warpdotdev-warp/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/warpdotdev-warp/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/webpack-webpack/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/webpack-webpack/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/werwolv-imhex/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/werwolv-imhex/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/withastro-astro/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/withastro-astro/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/x1xhlol-system-prompts-and-models-of-ai-tools/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/x1xhlol-system-prompts-and-models-of-ai-tools/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/xtekky-gpt4free/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/xtekky-gpt4free/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/yt-dlp-yt-dlp/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/yt-dlp-yt-dlp/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/zed-industries-zed/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/zed-industries-zed/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/zhulinsen-daily-stock-analysis/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/zhulinsen-daily-stock-analysis/",
+      "url_type": "canonical"
+    },
+    {
+      "canonical_url": "/repo/zylon-ai-private-gpt/",
+      "http_status": 200,
+      "in_sitemap": true,
+      "url": "/repo/zylon-ai-private-gpt/",
+      "url_type": "canonical"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "site_origin": "https://claracle.com",
+  "sources": {
+    "first_party_referrals": "not_collected",
+    "http_method": "HEAD",
+    "sampled_links": "not_collected",
+    "search_analytics": "not_collected",
+    "sitemap": "https://claracle.com/sitemap.xml",
+    "url_inspection": "not_collected"
+  }
+}
