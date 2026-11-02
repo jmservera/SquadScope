@@ -120,7 +120,7 @@ manifest identity, and requires the article on the default branch to match the
 manifest digest before contacting Podcaster.
 
 Per-week spoken-word ranges are configured in `config/podcast.json` under
-`week_word_range_overrides` (`{"2026-W44": {"min": 1001, "max": 1700}}`). The handoff
+`week_word_range_overrides` (currently `2026-W44` and `2026-W45`, each `{"min": 1001, "max": 1700}`). The handoff
 rewrites the single `N-M words` range in `episode_style.format` for that week only;
 Podcaster uses the same format for prompt guidance and final canonical speech
 validation. Weeks without an entry use the default range. Grounding, section, review,

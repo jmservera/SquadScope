@@ -110,6 +110,28 @@ class PodcasterHandoffTests(unittest.TestCase):
                     repo_root=Path(tmpdir),
                 )
 
+    def test_shipped_config_applies_w44_and_w45_overrides_to_payload(self) -> None:
+        repo_root = Path(__file__).resolve().parents[1]
+        tests_root = Path(__file__).resolve().parent
+        for week, num in (("2026-W44", "44"), ("2026-W45", "45")):
+            with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+                manifest = self._write_manifest(Path(tmpdir))
+                data = json.loads(manifest.read_text(encoding="utf-8"))
+                data["week"] = week
+                manifest.write_text(json.dumps(data), encoding="utf-8")
+                payload = podcaster_handoff.build_payload(
+                    week=week,
+                    article_url=f"https://jmservera.github.io/SquadScope/weekly/2026/w{num}/",
+                    article_path=f"content/weekly/2026/W{num}.md",
+                    publish_run_id="123456789",
+                    publish_mode="normal",
+                    manifest_path=manifest,
+                    podcast_config_path=repo_root / "config" / "podcast.json",
+                    repo_root=Path(tmpdir),
+                )
+                fmt = payload["script_directions"]["episode_style"]["format"]
+                self.assertIn("1001-1700", fmt)
+
     def test_script_quality_422_is_definitive_non_mutation(self) -> None:
         state, category = podcaster_handoff._http_error_receipt(422)
         self.assertEqual(state, podcaster_handoff.RECEIPT_STATE_SUBMISSION_REJECTED)

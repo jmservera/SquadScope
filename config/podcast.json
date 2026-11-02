@@ -25,7 +25,8 @@
     }
   },
   "week_word_range_overrides": {
-    "2026-W44": {"min": 1001, "max": 1700}
+    "2026-W44": {"min": 1001, "max": 1700},
+    "2026-W45": {"min": 1001, "max": 1700}
   },
   "script_directions": {
     "opening_cues": {
