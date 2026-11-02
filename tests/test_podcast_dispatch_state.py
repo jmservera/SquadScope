@@ -44,6 +44,28 @@ class PodcastDispatchStateTests(unittest.TestCase):
             verified,
         )
 
+    def test_derive_status_endpoint_from_submission_origin(self) -> None:
+        self.assertEqual(
+            state.derive_status_endpoint("https://api.example.invalid/api/generate"),
+            "https://api.example.invalid/api/publication-status",
+        )
+        self.assertEqual(state.derive_status_endpoint(""), "")
+        self.assertEqual(state.derive_status_endpoint("https://[::1/x"), "")
+        self.assertEqual(state.derive_status_endpoint("not-a-url"), "")
+
+    def test_422_rejection_receipt_is_retryable_non_mutation(self) -> None:
+        receipt = state.DispatchReceipt(
+            identity=self.identity,
+            receipt_id="r1",
+            created_at="2026-11-02T00:00:00Z",
+            dispatch_run_id="1",
+            attempt_id="1",
+            receipt_state="submission_rejected",
+            api_status=422,
+            api_status_category="http_rejected_pre_acceptance",
+        )
+        self.assertEqual(state.receipt_retry_classification([receipt]), "retryable_non_mutation")
+
     def test_identity_key_uses_manifest_digest(self) -> None:
         other = state.CanonicalPublicationIdentity(
             self.identity.week,
