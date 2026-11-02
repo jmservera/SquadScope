@@ -1,17 +1,17 @@
 {
   "artifact_type": "ranking",
   "covered_period": {
-    "end": "2026-10-26",
-    "label": "2026-W44",
+    "end": "2026-11-02",
+    "label": "2026-W45",
     "start": "2026-05-18"
   },
-  "generated_at": "2026-10-26T04:26:24Z",
+  "generated_at": "2026-11-02T05:43:16Z",
   "metric_definition": "Latest absolute GitHub stars for repositories with MCP or Model Context Protocol signals.",
   "metric_label": "Stars",
   "provenance": {
     "generator": "scripts/generate_ranking_artifacts.py",
     "methodology_url": "/methodology/",
-    "source_checksum": "723665ed1559809703ac7628b8be9faa044d7828c55a8881527e766cb63ea0fc",
+    "source_checksum": "7b72304bee91a7b561cf34e9cef9432068ce109fb7170f6369e748b4318da108",
     "source_paths": [
       "data/archive/recovered-W23-W29/2026-W23/2026-W23.json",
       "data/archive/recovered-W23-W29/2026-W24/2026-W24.json",
@@ -36,7 +36,8 @@
       "data/raw/2026-W41.json",
       "data/raw/2026-W42.json",
       "data/raw/2026-W43.json",
-      "data/raw/2026-W44.json"
+      "data/raw/2026-W44.json",
+      "data/raw/2026-W45.json"
     ]
   },
   "ranking_id": "most-starred-mcp-projects",
@@ -50,8 +51,8 @@
       "github_url": "https://github.com/morluto/rea",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "385,700 stars",
-      "metric_value": 385700,
+      "metric_label": "419,665 stars",
+      "metric_value": 419665,
       "rank": 1,
       "repository_id": "morluto-rea"
     },
@@ -64,8 +65,8 @@
       "github_url": "https://github.com/affaan-m/ECC",
       "language": "JavaScript",
       "metric_key": "stars",
-      "metric_label": "288,959 stars",
-      "metric_value": 288959,
+      "metric_label": "294,941 stars",
+      "metric_value": 294941,
       "rank": 2,
       "repository_id": "affaan-m-ecc"
     },
@@ -78,8 +79,8 @@
       "github_url": "https://github.com/n8n-io/n8n",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "208,604 stars",
-      "metric_value": 208604,
+      "metric_label": "209,319 stars",
+      "metric_value": 209319,
       "rank": 3,
       "repository_id": "n8n-io-n8n"
     },
@@ -106,8 +107,8 @@
       "github_url": "https://github.com/langgenius/dify",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "159,542 stars",
-      "metric_value": 159542,
+      "metric_label": "160,189 stars",
+      "metric_value": 160189,
       "rank": 5,
       "repository_id": "langgenius-dify"
     },
@@ -134,22 +135,22 @@
       "github_url": "https://github.com/open-webui/open-webui",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "156,765 stars",
-      "metric_value": 156765,
+      "metric_label": "157,501 stars",
+      "metric_value": 157501,
       "rank": 7,
       "repository_id": "open-webui-open-webui"
     },
     {
       "comparison_label": null,
       "comparison_value": null,
-      "context_accessible_text": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io",
-      "context_summary": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io",
+      "context_accessible_text": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode,DeepSeek Harness and more. Only official website: ccswitch.io",
+      "context_summary": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode,DeepSeek Harness and more. Only official website: ccswitch.io",
       "full_name": "farion1231/cc-switch",
       "github_url": "https://github.com/farion1231/cc-switch",
       "language": "Rust",
       "metric_key": "stars",
-      "metric_label": "148,688 stars",
-      "metric_value": 148688,
+      "metric_label": "150,997 stars",
+      "metric_value": 150997,
       "rank": 8,
       "repository_id": "farion1231-cc-switch"
     },
@@ -162,8 +163,8 @@
       "github_url": "https://github.com/Graphify-Labs/graphify",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "135,411 stars",
-      "metric_value": 135411,
+      "metric_label": "140,668 stars",
+      "metric_value": 140668,
       "rank": 9,
       "repository_id": "graphify-labs-graphify"
     },
@@ -176,8 +177,8 @@
       "github_url": "https://github.com/browser-use/browser-use",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "119,141 stars",
-      "metric_value": 119141,
+      "metric_label": "119,789 stars",
+      "metric_value": 119789,
       "rank": 10,
       "repository_id": "browser-use-browser-use"
     },
@@ -190,8 +191,8 @@
       "github_url": "https://github.com/paperclipai/paperclip",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "107,354 stars",
-      "metric_value": 107354,
+      "metric_label": "109,997 stars",
+      "metric_value": 109997,
       "rank": 11,
       "repository_id": "paperclipai-paperclip"
     },
@@ -204,8 +205,8 @@
       "github_url": "https://github.com/Panniantong/Agent-Reach",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "102,579 stars",
-      "metric_value": 102579,
+      "metric_label": "107,742 stars",
+      "metric_value": 107742,
       "rank": 12,
       "repository_id": "panniantong-agent-reach"
     },
@@ -218,10 +219,24 @@
       "github_url": "https://github.com/punkpeye/awesome-mcp-servers",
       "language": "Unknown",
       "metric_key": "stars",
-      "metric_label": "96,872 stars",
-      "metric_value": 96872,
+      "metric_label": "97,178 stars",
+      "metric_value": 97178,
       "rank": 13,
       "repository_id": "punkpeye-awesome-mcp-servers"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "\ud83d\udd77\ufe0f The BEST Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ and follow here for daily tips and tricks: https://x.com/Scrapling_dev",
+      "context_summary": "\ud83d\udd77\ufe0f The BEST Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here\u2026",
+      "full_name": "D4Vinci/Scrapling",
+      "github_url": "https://github.com/D4Vinci/Scrapling",
+      "language": "Python",
+      "metric_key": "stars",
+      "metric_label": "91,907 stars",
+      "metric_value": 91907,
+      "rank": 14,
+      "repository_id": "d4vinci-scrapling"
     },
     {
       "comparison_label": null,
@@ -232,24 +247,10 @@
       "github_url": "https://github.com/modelcontextprotocol/servers",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "91,564 stars",
-      "metric_value": 91564,
-      "rank": 14,
-      "repository_id": "modelcontextprotocol-servers"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "\ud83d\udd77\ufe0f A Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ and follow here for daily tips and tricks: https://x.com/Scrapling_dev",
-      "context_summary": "\ud83d\udd77\ufe0f A Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ and\u2026",
-      "full_name": "D4Vinci/Scrapling",
-      "github_url": "https://github.com/D4Vinci/Scrapling",
-      "language": "Python",
-      "metric_key": "stars",
-      "metric_label": "89,727 stars",
-      "metric_value": 89727,
+      "metric_label": "91,744 stars",
+      "metric_value": 91744,
       "rank": 15,
-      "repository_id": "d4vinci-scrapling"
+      "repository_id": "modelcontextprotocol-servers"
     },
     {
       "comparison_label": null,
@@ -260,8 +261,8 @@
       "github_url": "https://github.com/koala73/worldmonitor",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "89,532 stars",
-      "metric_value": 89532,
+      "metric_label": "89,963 stars",
+      "metric_value": 89963,
       "rank": 16,
       "repository_id": "koala73-worldmonitor"
     },
@@ -274,8 +275,8 @@
       "github_url": "https://github.com/unclecode/crawl4ai",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "86,274 stars",
-      "metric_value": 86274,
+      "metric_label": "86,740 stars",
+      "metric_value": 86740,
       "rank": 17,
       "repository_id": "unclecode-crawl4ai"
     },
@@ -288,8 +289,8 @@
       "github_url": "https://github.com/lobehub/lobehub",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "83,494 stars",
-      "metric_value": 83494,
+      "metric_label": "83,687 stars",
+      "metric_value": 83687,
       "rank": 18,
       "repository_id": "lobehub-lobehub"
     },
@@ -302,8 +303,8 @@
       "github_url": "https://github.com/cheaper-inference/OmniRoute",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "81,193 stars",
-      "metric_value": 81193,
+      "metric_label": "83,684 stars",
+      "metric_value": 83684,
       "rank": 19,
       "repository_id": "cheaper-inference-omniroute"
     },
@@ -316,8 +317,8 @@
       "github_url": "https://github.com/netdata/netdata",
       "language": "Go",
       "metric_key": "stars",
-      "metric_label": "81,132 stars",
-      "metric_value": 81132,
+      "metric_label": "81,247 stars",
+      "metric_value": 81247,
       "rank": 20,
       "repository_id": "netdata-netdata"
     },
@@ -330,10 +331,24 @@
       "github_url": "https://github.com/headroomlabs-ai/headroom",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "77,829 stars",
-      "metric_value": 77829,
+      "metric_label": "78,586 stars",
+      "metric_value": 78586,
       "rank": 21,
       "repository_id": "headroomlabs-ai-headroom"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
+      "context_accessible_text": "Write HTML. Render video. Built for agents.",
+      "context_summary": "Write HTML. Render video. Built for agents.",
+      "full_name": "heygen-com/hyperframes",
+      "github_url": "https://github.com/heygen-com/hyperframes",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "77,247 stars",
+      "metric_value": 77247,
+      "rank": 22,
+      "repository_id": "heygen-com-hyperframes"
     },
     {
       "comparison_label": null,
@@ -346,22 +361,8 @@
       "metric_key": "stars",
       "metric_label": "75,407 stars",
       "metric_value": 75407,
-      "rank": 22,
-      "repository_id": "composiohq-awesome-claude-skills"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Write HTML. Render video. Built for agents.",
-      "context_summary": "Write HTML. Render video. Built for agents.",
-      "full_name": "heygen-com/hyperframes",
-      "github_url": "https://github.com/heygen-com/hyperframes",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "72,301 stars",
-      "metric_value": 72301,
       "rank": 23,
-      "repository_id": "heygen-com-hyperframes"
+      "repository_id": "composiohq-awesome-claude-skills"
     },
     {
       "comparison_label": null,
@@ -372,8 +373,8 @@
       "github_url": "https://github.com/upstash/context7",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "63,686 stars",
-      "metric_value": 63686,
+      "metric_label": "64,060 stars",
+      "metric_value": 64060,
       "rank": 24,
       "repository_id": "upstash-context7"
     },
@@ -1010,6 +1011,20 @@
     {
       "comparison_label": null,
       "comparison_value": null,
+      "context_accessible_text": "50x your Claude usage with cheap-ag. Opus plans, a dirt-cheap model writes every line, and tests decide what ships. Your $20 plan stops hitting limits. One MCP server for Claude Code.",
+      "context_summary": "50x your Claude usage with cheap-ag. Opus plans, a dirt-cheap model writes every line, and tests decide what ships. Your $20 plan stops hitting limits. One\u2026",
+      "full_name": "muaaz9329/cheap-ag",
+      "github_url": "https://github.com/muaaz9329/cheap-ag",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "207 stars",
+      "metric_value": 207,
+      "rank": 70,
+      "repository_id": "muaaz9329-cheap-ag"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
       "context_accessible_text": "McReplay\uff08\u9ea6\u56de\u653e\uff09\u2014 Structural snapshots, change reports, and local MCP replay for McDonald's China integrations.",
       "context_summary": "McReplay\uff08\u9ea6\u56de\u653e\uff09\u2014 Structural snapshots, change reports, and local MCP replay for McDonald's China integrations.",
       "full_name": "YoyoLin008/mcreplay",
@@ -1018,7 +1033,7 @@
       "metric_key": "stars",
       "metric_label": "204 stars",
       "metric_value": 204,
-      "rank": 70,
+      "rank": 71,
       "repository_id": "yoyolin008-mcreplay"
     },
     {
@@ -1032,7 +1047,7 @@
       "metric_key": "stars",
       "metric_label": "202 stars",
       "metric_value": 202,
-      "rank": 71,
+      "rank": 72,
       "repository_id": "lingcore-winshun"
     },
     {
@@ -1046,7 +1061,7 @@
       "metric_key": "stars",
       "metric_label": "201 stars",
       "metric_value": 201,
-      "rank": 72,
+      "rank": 73,
       "repository_id": "vaderchen-yourdesk"
     },
     {
@@ -1060,7 +1075,7 @@
       "metric_key": "stars",
       "metric_label": "199 stars",
       "metric_value": 199,
-      "rank": 73,
+      "rank": 74,
       "repository_id": "risa-labs-inc-bossconsole"
     },
     {
@@ -1074,7 +1089,7 @@
       "metric_key": "stars",
       "metric_label": "192 stars",
       "metric_value": 192,
-      "rank": 74,
+      "rank": 75,
       "repository_id": "punkpeye-awesome-remote-mcp-servers"
     },
     {
@@ -1088,7 +1103,7 @@
       "metric_key": "stars",
       "metric_label": "191 stars",
       "metric_value": 191,
-      "rank": 75,
+      "rank": 76,
       "repository_id": "hevnsnt-cvengine"
     },
     {
@@ -1102,7 +1117,7 @@
       "metric_key": "stars",
       "metric_label": "186 stars",
       "metric_value": 186,
-      "rank": 76,
+      "rank": 77,
       "repository_id": "niazmorshed2007-jev-review"
     },
     {
@@ -1116,7 +1131,7 @@
       "metric_key": "stars",
       "metric_label": "180 stars",
       "metric_value": 180,
-      "rank": 77,
+      "rank": 78,
       "repository_id": "yolfinance-yolfi-agent"
     },
     {
@@ -1130,7 +1145,7 @@
       "metric_key": "stars",
       "metric_label": "175 stars",
       "metric_value": 175,
-      "rank": 78,
+      "rank": 79,
       "repository_id": "0xwilliamortiz-openclaude-improved"
     },
     {
@@ -1144,7 +1159,7 @@
       "metric_key": "stars",
       "metric_label": "175 stars",
       "metric_value": 175,
-      "rank": 79,
+      "rank": 80,
       "repository_id": "jkudish-jev-mcp"
     },
     {
@@ -1158,7 +1173,7 @@
       "metric_key": "stars",
       "metric_label": "173 stars",
       "metric_value": 173,
-      "rank": 80,
+      "rank": 81,
       "repository_id": "ayzzz123-mcd-coupon-strategist"
     },
     {
@@ -1172,7 +1187,7 @@
       "metric_key": "stars",
       "metric_label": "172 stars",
       "metric_value": 172,
-      "rank": 81,
+      "rank": 82,
       "repository_id": "sandbaseai-managed-agents"
     },
     {
@@ -1186,7 +1201,7 @@
       "metric_key": "stars",
       "metric_label": "172 stars",
       "metric_value": 172,
-      "rank": 82,
+      "rank": 83,
       "repository_id": "xiaopuouo-openchatx-mcp"
     },
     {
@@ -1200,7 +1215,7 @@
       "metric_key": "stars",
       "metric_label": "169 stars",
       "metric_value": 169,
-      "rank": 83,
+      "rank": 84,
       "repository_id": "oft3r-agentic-trading-desk"
     },
     {
@@ -1214,7 +1229,7 @@
       "metric_key": "stars",
       "metric_label": "168 stars",
       "metric_value": 168,
-      "rank": 84,
+      "rank": 85,
       "repository_id": "squall01337-mixamo-llm-mocap"
     },
     {
@@ -1228,7 +1243,7 @@
       "metric_key": "stars",
       "metric_label": "165 stars",
       "metric_value": 165,
-      "rank": 85,
+      "rank": 86,
       "repository_id": "kgoedecke-doop"
     },
     {
@@ -1242,7 +1257,7 @@
       "metric_key": "stars",
       "metric_label": "158 stars",
       "metric_value": 158,
-      "rank": 86,
+      "rank": 87,
       "repository_id": "vxcn-mcd-kcal-picker"
     },
     {
@@ -1256,7 +1271,7 @@
       "metric_key": "stars",
       "metric_label": "157 stars",
       "metric_value": 157,
-      "rank": 87,
+      "rank": 88,
       "repository_id": "ai4s-research-open-science"
     },
     {
@@ -1270,7 +1285,7 @@
       "metric_key": "stars",
       "metric_label": "157 stars",
       "metric_value": 157,
-      "rank": 88,
+      "rank": 89,
       "repository_id": "headmaster247-mcvalue-mate"
     },
     {
@@ -1284,7 +1299,7 @@
       "metric_key": "stars",
       "metric_label": "157 stars",
       "metric_value": 157,
-      "rank": 89,
+      "rank": 90,
       "repository_id": "xkx121029-mcd-vibe-commit"
     },
     {
@@ -1298,7 +1313,7 @@
       "metric_key": "stars",
       "metric_label": "155 stars",
       "metric_value": 155,
-      "rank": 90,
+      "rank": 91,
       "repository_id": "morluto-awesome-reverse-engineering"
     },
     {
@@ -1312,7 +1327,7 @@
       "metric_key": "stars",
       "metric_label": "151 stars",
       "metric_value": 151,
-      "rank": 91,
+      "rank": 92,
       "repository_id": "itsmostafa-typesafe-mcp"
     },
     {
@@ -1326,7 +1341,7 @@
       "metric_key": "stars",
       "metric_label": "149 stars",
       "metric_value": 149,
-      "rank": 92,
+      "rank": 93,
       "repository_id": "dk23lhl-termius-mcp"
     },
     {
@@ -1340,7 +1355,7 @@
       "metric_key": "stars",
       "metric_label": "149 stars",
       "metric_value": 149,
-      "rank": 93,
+      "rank": 94,
       "repository_id": "wildernotrack-mcd-calorie-butler"
     },
     {
@@ -1354,7 +1369,7 @@
       "metric_key": "stars",
       "metric_label": "142 stars",
       "metric_value": 142,
-      "rank": 94,
+      "rank": 95,
       "repository_id": "admte-orc-claude-plugin"
     },
     {
@@ -1368,7 +1383,7 @@
       "metric_key": "stars",
       "metric_label": "140 stars",
       "metric_value": 140,
-      "rank": 95,
+      "rank": 96,
       "repository_id": "yuatemycat-superghidra"
     },
     {
@@ -1382,7 +1397,7 @@
       "metric_key": "stars",
       "metric_label": "138 stars",
       "metric_value": 138,
-      "rank": 96,
+      "rank": 97,
       "repository_id": "ronglecat-grok-go"
     },
     {
@@ -1396,7 +1411,7 @@
       "metric_key": "stars",
       "metric_label": "134 stars",
       "metric_value": 134,
-      "rank": 97,
+      "rank": 98,
       "repository_id": "hanmoy-mcsmart-butler"
     },
     {
@@ -1410,7 +1425,7 @@
       "metric_key": "stars",
       "metric_label": "133 stars",
       "metric_value": 133,
-      "rank": 98,
+      "rank": 99,
       "repository_id": "pueschel88-tradingview-mcp"
     },
     {
@@ -1424,22 +1439,8 @@
       "metric_key": "stars",
       "metric_label": "132 stars",
       "metric_value": 132,
-      "rank": 99,
-      "repository_id": "fzn0x-idx"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "MCPX \u662f\u8fd0\u884c\u5728\u5f00\u53d1\u73af\u5883\u4e2d\u7684 MCP Runtime\uff08\u7f51\u5173\uff09\u3002ChatGPT\u3001Claude\u3001Cursor\u3001Grok \u53ca\u5176\u4ed6\u652f\u6301 Streamable HTTP \u7684 MCP \u5ba2\u6237\u7aef\uff0c\u53ef\u4ee5\u901a\u8fc7\u7edf\u4e00\u5de5\u5177\u9762\u7406\u89e3\u9879\u76ee\u3001\u67e5\u770b Unified Diff\u3001\u4fee\u6539\u6e90\u7801\u3001\u8fd0\u884c\u4efb\u52a1\u3001\u91c7\u96c6\u73af\u5883\u4fe1\u606f\uff0c\u5e76\u8c03\u7528\u672c\u5730 MCP \u4e0e Skill\u3002",
-      "context_summary": "MCPX \u662f\u8fd0\u884c\u5728\u5f00\u53d1\u73af\u5883\u4e2d\u7684 MCP Runtime\uff08\u7f51\u5173\uff09\u3002ChatGPT\u3001Claude\u3001Cursor\u3001Grok \u53ca\u5176\u4ed6\u652f\u6301 Streamable HTTP \u7684 MCP \u5ba2\u6237\u7aef\uff0c\u53ef\u4ee5\u901a\u8fc7\u7edf\u4e00\u5de5\u5177\u9762\u7406\u89e3\u9879\u76ee\u3001\u67e5\u770b Unified Diff\u3001\u4fee\u6539\u6e90\u7801\u3001\u8fd0\u884c\u4efb\u52a1\u3001\u91c7\u96c6\u73af\u5883\u4fe1\u606f\uff0c\u5e76\u8c03\u7528\u672c\u5730 MCP \u4e0e Skill\u3002",
-      "full_name": "opentokenz/mcpx",
-      "github_url": "https://github.com/opentokenz/mcpx",
-      "language": "Go",
-      "metric_key": "stars",
-      "metric_label": "132 stars",
-      "metric_value": 132,
       "rank": 100,
-      "repository_id": "opentokenz-mcpx"
+      "repository_id": "fzn0x-idx"
     }
   ],
   "schema_version": "1.0.0"
