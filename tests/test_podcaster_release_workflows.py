@@ -276,10 +276,9 @@ def test_real_wrappers_prepare_hydrate_and_dispatch_same_exact_release(release, 
     expected_directions = json.loads((REPO_ROOT / "config/podcast.json").read_text())[
         "script_directions"
     ]
-    if wrapper == "manual":
-        expected_directions["episode_style"]["format"] = expected_directions["episode_style"][
-            "format"
-        ].replace("1200-1700 words.", "1001-1700 spoken words.")
+    expected_directions["episode_style"]["format"] = expected_directions["episode_style"][
+        "format"
+    ].replace("1200-1700 words.", "1001-1700 spoken words.")
     assert payload["script_directions"] == expected_directions
 
 
@@ -311,10 +310,9 @@ def test_manual_length_override_does_not_apply_to_other_weeks(release, receiver,
         receiver[0][2]["script_directions"]
         == json.loads((REPO_ROOT / "config/podcast.json").read_text())["script_directions"]
     )
-    assert not (release.root / "config/podcast-2026-W44.json").exists()
 
 
-def test_manual_w44_rejects_changed_length_baseline_before_submission(release, receiver):
+def test_w44_override_rejects_changed_length_baseline_before_submission(release, receiver):
     result, _ = release.prepare("manual")
     assert result.returncode == 0, result.stdout + result.stderr
     path = release.root / "config/podcast.json"
@@ -323,7 +321,7 @@ def test_manual_w44_rejects_changed_length_baseline_before_submission(release, r
     path.write_text(json.dumps(config))
     result, _ = release.run_step("manual", "handoff")
     assert result.returncode != 0
-    assert "W44 caller length baseline changed" in result.stdout + result.stderr
+    assert "exactly one 'N-M words' range" in result.stdout + result.stderr
     assert receiver == []
 
 

@@ -332,6 +332,35 @@ def _load_podcast_config(path: Path | None) -> dict[str, Any]:
     return payload
 
 
+_WORD_RANGE_PATTERN = re.compile(r"(?<![\d,.])\d+\s*-\s*\d+ (?:spoken )?words\b")
+
+
+def _apply_week_word_range(directions: dict[str, Any], overrides: Any, week: str) -> dict[str, Any]:
+    """Rewrite the spoken-word range in episode_style.format for a configured week."""
+    if overrides is None:
+        return directions
+    if not isinstance(overrides, dict):
+        raise PodcasterHandoffError("week_word_range_overrides must be a JSON object")
+    if week not in overrides:
+        return directions
+    if not isinstance(overrides[week], dict):
+        raise PodcasterHandoffError("week_word_range_overrides must map weeks to objects")
+    bounds = overrides[week]
+    low, high = bounds.get("min"), bounds.get("max")
+    if type(low) is not int or type(high) is not int or not 0 < low <= high:
+        raise PodcasterHandoffError(
+            f"week_word_range_overrides[{week}] requires integer 0 < min <= max"
+        )
+    style = directions.get("episode_style")
+    text = style.get("format") if isinstance(style, dict) else None
+    if not isinstance(text, str) or len(_WORD_RANGE_PATTERN.findall(text)) != 1:
+        raise PodcasterHandoffError(
+            "episode_style.format must contain exactly one 'N-M words' range to override"
+        )
+    patched = _WORD_RANGE_PATTERN.sub(f"{low}-{high} spoken words", text)
+    return {**directions, "episode_style": {**style, "format": patched}}
+
+
 def _source_artifact_refs(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     def _string_list(value: Any) -> list[str] | None:
         if not isinstance(value, list):
@@ -1094,7 +1123,12 @@ def build_payload(
         val = podcast_cfg["script_directions"]
         if not isinstance(val, dict):
             raise PodcasterHandoffError("script_directions must be a JSON object")
-        payload["script_directions"] = val
+        payload["script_directions"] = _apply_week_word_range(
+            val, podcast_cfg.get("week_word_range_overrides"), week
+        )
+    else:
+        # An active override must not be silently dropped when directions are absent.
+        _apply_week_word_range({}, podcast_cfg.get("week_word_range_overrides"), week)
     historical_context = _read_historical_context(week, root)
     if historical_context:
         if "script_directions" not in payload:
