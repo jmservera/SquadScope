@@ -735,6 +735,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
           PODCASTER_STATUS_ENDPOINT: ${{ vars.PODCASTER_STATUS_ENDPOINT }}
+          PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
         run: |
           python3 scripts/podcast_dispatch_state.py monitor \
             --receipt podcast-dispatch-authoritative-receipt.json \

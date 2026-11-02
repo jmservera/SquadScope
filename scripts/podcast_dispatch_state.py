@@ -655,6 +655,14 @@ def has_prior_non_green_attempt(
     return False
 
 
+def derive_status_endpoint(submission_endpoint: str) -> str:
+    """Derive the publication-status URL from the PODCASTER_ENDPOINT origin; empty if unusable."""
+    parsed = parse.urlparse(submission_endpoint)
+    if parsed.scheme not in {"https", "http"} or not parsed.netloc:
+        return ""
+    return f"{parsed.scheme}://{parsed.netloc}/api/publication-status"
+
+
 def fetch_terminal_status(
     endpoint: str,
     token: str,
@@ -1203,7 +1211,10 @@ def main(argv: list[str] | None = None) -> int:
                     f"{type(exc).__name__}"
                 )
 
-    result = monitor_terminal_outcome(parsed, args.endpoint, api_key, warning=warn)
+    status_endpoint = args.endpoint or derive_status_endpoint(
+        os.environ.get("PODCASTER_ENDPOINT", "")
+    )
+    result = monitor_terminal_outcome(parsed, status_endpoint, api_key, warning=warn)
     cleanup_deadline = _bounded_incident_deadline(result.cleanup_budget_seconds)
     prior_non_green_attempt = False
     prior_attempt_history_available = False
