@@ -50,6 +50,7 @@ class PodcastDispatchStateTests(unittest.TestCase):
             "https://api.example.invalid/api/publication-status",
         )
         self.assertEqual(state.derive_status_endpoint(""), "")
+        self.assertEqual(state.derive_status_endpoint("https://[::1/x"), "")
         self.assertEqual(state.derive_status_endpoint("not-a-url"), "")
 
     def test_422_rejection_receipt_is_retryable_non_mutation(self) -> None:

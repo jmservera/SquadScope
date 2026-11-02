@@ -657,7 +657,10 @@ def has_prior_non_green_attempt(
 
 def derive_status_endpoint(submission_endpoint: str) -> str:
     """Derive the publication-status URL from the PODCASTER_ENDPOINT origin; empty if unusable."""
-    parsed = parse.urlparse(submission_endpoint)
+    try:
+        parsed = parse.urlparse(submission_endpoint)
+    except ValueError:
+        return ""
     if parsed.scheme not in {"https", "http"} or not parsed.netloc:
         return ""
     return f"{parsed.scheme}://{parsed.netloc}/api/publication-status"
