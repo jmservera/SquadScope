@@ -679,11 +679,39 @@
       "source_id": "SRC-2026-W44",
       "status": "resolved",
       "text": "Watch whether consumer-control projects converge on reusable ADB, rollback, and compatibility infrastructure rather than remaining isolated hacks. The PHP wave should be judged by patch guidance and scanner maintenance after exploit attention fades. Agent skills will keep specializing, but the next meaningful advance will be verifiable packaging and behavior testing, not another directory of instructions. Inference tools with narrow claims are better positioned to persist than broad autonomous-agent promises."
+    },
+    {
+      "claim_id": "CLM-2026-W45-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W45",
+      "status": "resolved",
+      "text": "Agent skills moved into phones, design, and reverse engineering, but evaluation and real-time oversight still lagged behind autonomy."
+    },
+    {
+      "claim_id": "CLM-2026-W45-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W45",
+      "status": "resolved",
+      "text": "The credible signal is clustered, bounded work. Android agents appear in independent implementations, skill packaging spans several concrete outputs, and reverse-engineering tools target code, animation, and machines rather than an undefined universal assistant. [OpenBMB/MiniCPM-OCR](https://github.com/OpenBMB/MiniCPM-OCR) is especially legible: it names a constrained task and includes correctness assessment in its scope. The top-topic counts reinforce a broader base in developer tools and automation, while AI and agent topics remain a substantial but smaller subset. Attention metrics deserve skepticism. [deepseek-ai/dsh-superagent-prototype](https://github.com/deepseek-ai/dsh-superagent-prototype) reached 9,326 stars within roughly two days, an extraordinary launch that proves attention but not retention or technical maturity. [aschmelyun/print-my-profile-pic](https://github.com/aschmelyun/print-my-profile-pic) explicitly converts stars into a physical novelty and has only six forks, making it engagement theater rather than an engineering trend. The three pose-and-clothing galleries show genuine demand, but shared counts and overlapping assets weaken the claim of independent innovation. Trending repositories provide only lifetime stars because `stars_gained` is absent, so enormous totals for agent frameworks indicate ecosystem gravity, not weekly momentum. No clear star-farm or fork-inflation cluster matches the learned manipulation thresholds in the visible new cohort, but several launch curves still warrant follow-up."
+    },
+    {
+      "claim_id": "CLM-2026-W45-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W45",
+      "status": "resolved",
+      "text": "Agent observability is the largest absence: there is no visible new cluster for action logs, permission boundaries, rollback, or behavioral testing, despite both press concern and increasingly consequential mobile access. Provenance is also thin. Creative skills and reference galleries can generate or transform assets, yet licensing, source lineage, and output attribution are not a visible technical theme. The sample also underrepresents robotics and scientific tooling relative to industry coverage, and shows little new work on energy or cost measurement for autonomous workflows. Finally, local-first assistants are appearing, but interoperable identity and policy controls across models and devices are not. Those missing layers will determine whether portable skills become dependable infrastructure or merely convenient demos."
+    },
+    {
+      "claim_id": "CLM-2026-W45-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W45",
+      "status": "resolved",
+      "text": "Watch whether Android agents develop explicit permission models and reproducible task evaluations rather than accumulating integrations alone. The creative-skill wave should separate durable tools from prompt packaging as users demand measurable fidelity, provenance, and repeatability. Reverse-engineering interfaces are likely to keep expanding, but trust will depend on showing how conclusions were derived. November's next phase should be judged by whether oversight begins catching up with reach."
     }
   ],
   "counts": {
-    "claims": 97,
-    "sources": 24
+    "claims": 101,
+    "sources": 25
   },
   "months_covered": [
     "2026-05",
@@ -691,7 +719,8 @@
     "2026-07",
     "2026-08",
     "2026-09",
-    "2026-10"
+    "2026-10",
+    "2026-11"
   ],
   "schema_version": "1.0.0",
   "sources": [
@@ -1059,6 +1088,21 @@
       "title": "Developers Reclaim the Machines Beneath the Agents",
       "top_repo": "pengchujin/aerial-tv",
       "week": "2026-W44"
+    },
+    {
+      "month": "2026-11",
+      "source_id": "SRC-2026-W45",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "mobile",
+        "developer-tools",
+        "local-first",
+        "creative-tools"
+      ],
+      "title": "Agent Skills Leave the Coding Sandbox",
+      "top_repo": "deepseek-ai/dsh-superagent-prototype",
+      "week": "2026-W45"
     }
   ],
   "year": 2026
