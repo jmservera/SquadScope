@@ -22,7 +22,7 @@ except ModuleNotFoundError:  # pragma: no cover - script execution path
     from scripts.analysis_content_security import downstream_directive_errors
 
 AUTH_HEADER = "x-podcaster-api-key"
-DEFAULT_TIMEOUT_SECONDS = 180
+DEFAULT_TIMEOUT_SECONDS = 235  # synchronous generation may use grounding repairs (~190s); Container Apps ingress caps at 240s
 DEFAULT_PODCAST_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MAX_ARTICLE_CONTENT_CHARS = 50_000
