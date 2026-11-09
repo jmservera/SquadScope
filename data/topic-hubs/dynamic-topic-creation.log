@@ -37,3 +37,6 @@ dynamic-topic-check enabled=true threshold=4 lookback_days=62 current_date=2026-
 dynamic-topic-summary created=0 skipped=6282
 dynamic-topic-check enabled=true threshold=4 lookback_days=62 current_date=2026-11-02 allowlist=['local-first']
 dynamic-topic-summary created=0 skipped=6257
+dynamic-topic-check enabled=true threshold=4 lookback_days=62 current_date=2026-11-09 allowlist=['local-first']
+{"assigned_paths": ["content/weekly/2026/W46.md"], "event": "assign-promoted-topics"}
+dynamic-topic-summary created=0 skipped=6564
