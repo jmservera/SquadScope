@@ -707,11 +707,39 @@
       "source_id": "SRC-2026-W45",
       "status": "resolved",
       "text": "Watch whether Android agents develop explicit permission models and reproducible task evaluations rather than accumulating integrations alone. The creative-skill wave should separate durable tools from prompt packaging as users demand measurable fidelity, provenance, and repeatability. Reverse-engineering interfaces are likely to keep expanding, but trust will depend on showing how conclusions were derived. November's next phase should be judged by whether oversight begins catching up with reach."
+    },
+    {
+      "claim_id": "CLM-2026-W46-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W46",
+      "status": "resolved",
+      "text": "Agents moved into phones and creative production, while runtime controls and trustworthy adoption metrics remained conspicuously thin."
+    },
+    {
+      "claim_id": "CLM-2026-W46-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W46",
+      "status": "resolved",
+      "text": "The strongest signal comes from independent projects converging on bounded action. Phone operation appears in two new implementations, and agent-oriented media production spans 3D modeling, rendering, film, avatars, and GIFs. These are more credible than claims of general autonomy because practitioners can inspect the device action or rendered artifact. [janestreet/agent_skills](https://github.com/janestreet/agent_skills) also indicates that the skills pattern persists, but its sparse crawl metadata is insufficient to infer enterprise adoption. Topic counts support a broader foundation in developer tools and automation\u2014179 and 165 occurrences respectively\u2014while AI, LLM, and agent topics are smaller at 41, 33, and 31. Several launches deserve skepticism. [worldonlyu/Google_AI_Pro_2Year_ZeroCost_Auto](https://github.com/worldonlyu/Google_AI_Pro_2Year_ZeroCost_Auto) combines a promotional entitlement claim, no license, and 3,288 stars with 1,208 forks; that is attention, not evidence of durable engineering value. [Minireel/HGhub](https://github.com/Minireel/HGhub) amassed 3,899 stars and 1,544 forks around a vaguely described third-party media client, leaving substance difficult to assess from the crawl. Neither matches the learned fork-inflation threshold, and the visible cohort shows no three-repository near-identical star cluster with negligible forks, so coordinated manipulation should not be asserted. Trending entries lack `stars_gained`; their enormous lifetime totals establish ecosystem gravity, not this week's momentum."
+    },
+    {
+      "claim_id": "CLM-2026-W46-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W46",
+      "status": "resolved",
+      "text": "Agent permissions remain the largest absence. The crawl shows tools that can run persistently and operate phones, but not a corresponding wave of policy engines, tamper-evident action logs, revocation controls, or standardized evaluations. That gap matters more as agents leave the coding sandbox. Energy-aware inference and memory efficiency are also missing despite heavy press attention to data-center constraints and full-stack codesign. Accessibility is another disconnect: GitHub elevated repository-level accessibility statements, yet no visible new-project cluster tackles accessible agent interfaces or adaptive creative tooling. Finally, industrial domains highlighted in the press\u20146G, semiconductor fabs, public infrastructure, and robotics\u2014have little representation beyond early simulation-oriented tools."
+    },
+    {
+      "claim_id": "CLM-2026-W46-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W46",
+      "status": "resolved",
+      "text": "Watch whether background agents acquire explicit approval policies and audit trails, rather than only more integrations. Mobile control is likely to keep expanding, but projects that make interruption and recovery first-class will be more consequential than another device wrapper. Agent-native creative systems have not peaked; their next test is interoperability among structured scenes, rendering engines, and review workflows. Native recompilation also merits attention if the cluster produces reusable tooling rather than isolated game ports."
     }
   ],
   "counts": {
-    "claims": 101,
-    "sources": 25
+    "claims": 105,
+    "sources": 26
   },
   "months_covered": [
     "2026-05",
@@ -1103,6 +1131,21 @@
       "title": "Agent Skills Leave the Coding Sandbox",
       "top_repo": "deepseek-ai/dsh-superagent-prototype",
       "week": "2026-W45"
+    },
+    {
+      "month": "2026-11",
+      "source_id": "SRC-2026-W46",
+      "tags": [
+        "ai-agents",
+        "mobile-automation",
+        "creative-tools",
+        "native-recompilation",
+        "developer-tools",
+        "governance"
+      ],
+      "title": "Agents Leave the Screen, but Guardrails Stay Behind",
+      "top_repo": "KKKKhazix/agent-autoloop",
+      "week": "2026-W46"
     }
   ],
   "year": 2026
